@@ -8,7 +8,9 @@ const docs = (await getCollection("docs")).sort(
 const entry = docs[0];
 
 if (!entry) {
-  return Astro.redirect("/404");
+  throw new Error(
+    "Docs collection is empty. Try `pnpm exec astro sync --force` and restart `pnpm dev`.",
+  );
 }
 
 const { Content } = await render(entry);
