@@ -3,9 +3,9 @@ import { getCollection } from "astro:content";
 
 const legalPages = await getCollection("legal");
 const footerLinks = [
-  { href: "/docs/", label: "Docs" },
+  { href: "/docs", label: "Docs" },
   ...legalPages.map((page) => ({
-    href: `/legal/${page.id}/`,
+    href: `/legal/${page.id}`,
     label: page.data.title.replace(" Policy", "").replace(" of Service", ""),
   })),
 ];

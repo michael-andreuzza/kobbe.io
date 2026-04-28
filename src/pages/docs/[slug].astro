@@ -1,0 +1,30 @@
+---
+import { getCollection, render } from "astro:content";
+import DocsLayout from "@/layouts/DocsLayout.astro";
+
+export async function getStaticPaths() {
+  const docs = await getCollection("docs");
+
+  return docs
+    .filter((entry) => entry.id !== "overview")
+    .map((entry) => ({
+      params: { slug: entry.id },
+      props: { entry },
+      trailingSlash: false,
+    }));
+}
+
+const { entry } = Astro.props;
+const docs = (await getCollection("docs")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const { Content } = await render(entry);
+---
+
+<DocsLayout
+  title={`${entry.data.title} — Kobbe Docs`}
+  description={entry.data.description}
+  navItems={docs}
+>
+  <Content />
+</DocsLayout>

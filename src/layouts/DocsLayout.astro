@@ -20,7 +20,7 @@ const { title, description, navItems } = Astro.props;
         {
           navItems.map((item) => (
             <a
-              href={item.id === "overview" ? "/docs/" : `/docs/${item.id}/`}
+              href={item.id === "overview" ? "/docs" : `/docs/${item.id}`}
               class:list={[
                 "rounded-lg px-3 py-1.5 text-sm transition-colors",
                 Astro.url.pathname.replace(/\/$/, "") ===
