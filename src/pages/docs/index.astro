@@ -8,7 +8,7 @@ const docs = (await getCollection("docs")).sort(
 const entry = docs[0];
 
 if (!entry) {
-  throw new Error("Missing docs content entries");
+  return Astro.redirect("/404");
 }
 
 const { Content } = await render(entry);
