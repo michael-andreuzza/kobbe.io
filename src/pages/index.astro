@@ -1,21 +1,25 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro"
-import { Button } from "@/components/ui/button"
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Button } from "@/components/ui/button";
 ---
 
 <BaseLayout>
   <section class="mx-auto max-w-6xl px-6 py-20 lg:py-32">
     <div class="mx-auto max-w-2xl text-center">
-      <p class="text-sm font-medium tracking-wide text-muted-foreground uppercase">
+      <p
+        class="text-muted-foreground text-sm font-medium tracking-wide uppercase"
+      >
         Privacy-first analytics
       </p>
-      <h1 class="mt-4 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+      <h1
+        class="text-foreground mt-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
+      >
         Know your traffic.<br />Respect your visitors.
       </h1>
-      <p class="mt-6 text-lg leading-relaxed text-muted-foreground">
+      <p class="text-muted-foreground mt-6 text-lg leading-relaxed">
         Lightweight, cookie-free website analytics you can self-host on
-        Cloudflare. No personal data collected, no cookie banners needed,
-        full GDPR compliance out of the box.
+        Cloudflare. No personal data collected, no cookie banners needed, full
+        GDPR compliance out of the box.
       </p>
       <div class="mt-10 flex items-center justify-center gap-3">
         <Button client:load size="lg">
@@ -35,61 +39,65 @@ import { Button } from "@/components/ui/button"
     </div>
   </section>
 
-  <section class="border-t border-border/60">
-    <div class="mx-auto grid max-w-6xl gap-8 px-6 py-20 sm:grid-cols-2 lg:grid-cols-3 lg:py-24">
+  <section class="border-border/60 border-t">
+    <div
+      class="mx-auto grid max-w-6xl gap-8 px-6 py-20 sm:grid-cols-2 lg:grid-cols-3 lg:py-24"
+    >
       <div>
-        <h3 class="font-medium text-foreground">No cookies, no banners</h3>
-        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Kobbe uses no cookies, localStorage, or persistent identifiers.
-          You don't need a cookie consent banner.
+        <h3 class="text-foreground font-medium">No cookies, no banners</h3>
+        <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
+          Kobbe uses no cookies, localStorage, or persistent identifiers. You
+          don't need a cookie consent banner.
         </p>
       </div>
       <div>
-        <h3 class="font-medium text-foreground">Built-in bot filtering</h3>
-        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
+        <h3 class="text-foreground font-medium">Built-in bot filtering</h3>
+        <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
           Bots, referrer spam, and data center traffic are automatically
           excluded so your stats reflect real human visits.
         </p>
       </div>
       <div>
-        <h3 class="font-medium text-foreground">AI traffic monitoring</h3>
-        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
+        <h3 class="text-foreground font-medium">AI traffic monitoring</h3>
+        <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
           See which AI tools like ChatGPT, Perplexity, or Claude send you
           traffic and which pages attract AI visitors.
         </p>
       </div>
       <div>
-        <h3 class="font-medium text-foreground">Lightweight script</h3>
-        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-          The tracker script is under 1 KB. It loads asynchronously and
-          never slows down your site.
+        <h3 class="text-foreground font-medium">Lightweight script</h3>
+        <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
+          The tracker script is under 1 KB. It loads asynchronously and never
+          slows down your site.
         </p>
       </div>
       <div>
-        <h3 class="font-medium text-foreground">Self-hosted on Cloudflare</h3>
-        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Runs on Cloudflare Workers + D1. Your data stays in your own
-          account — no third-party analytics provider.
+        <h3 class="text-foreground font-medium">Self-hosted on Cloudflare</h3>
+        <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
+          Runs on Cloudflare Workers + D1. Your data stays in your own account —
+          no third-party analytics provider.
         </p>
       </div>
       <div>
-        <h3 class="font-medium text-foreground">Shareable dashboards</h3>
-        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Generate public, read-only dashboard links for clients or
-          teammates — manage access from site settings.
+        <h3 class="text-foreground font-medium">Shareable dashboards</h3>
+        <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
+          Generate public, read-only dashboard links for clients or teammates —
+          manage access from site settings.
         </p>
       </div>
     </div>
   </section>
 
-  <section class="border-t border-border/60 bg-surface">
+  <section class="border-border/60 bg-surface border-t">
     <div class="mx-auto max-w-6xl px-6 py-20 text-center lg:py-24">
-      <h2 class="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+      <h2
+        class="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl"
+      >
         Ready to take control of your analytics?
       </h2>
-      <p class="mx-auto mt-4 max-w-lg text-muted-foreground">
-        Get started in minutes. Deploy to your own Cloudflare account and
-        start tracking your sites — privacy included.
+      <p class="text-muted-foreground mx-auto mt-4 max-w-lg">
+        Get started in minutes. Deploy to your own Cloudflare account and start
+        tracking your sites — privacy included.
       </p>
       <div class="mt-8">
         <Button client:load size="lg">

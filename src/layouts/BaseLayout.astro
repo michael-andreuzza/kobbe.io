@@ -1,13 +1,13 @@
 ---
-import "@/styles/global.css"
-import Navigation from "@/components/global/Navigation.astro"
-import Footer from "@/components/global/Footer.astro"
+import "@/styles/global.css";
+import Navigation from "@/components/global/Navigation.astro";
+import Footer from "@/components/global/Footer.astro";
 
 interface Props {
-  title?: string
-  description?: string
-  hideNavigation?: boolean
-  hideFooter?: boolean
+  title?: string;
+  description?: string;
+  hideNavigation?: boolean;
+  hideFooter?: boolean;
 }
 
 const {
@@ -15,7 +15,7 @@ const {
   description = "Simple, lightweight, cookie-free analytics. Own your data, respect your visitors.",
   hideNavigation = false,
   hideFooter = false,
-} = Astro.props
+} = Astro.props;
 ---
 
 <html lang="en">
@@ -29,13 +29,13 @@ const {
     <meta property="og:description" content={description} />
     <meta name="twitter:card" content="summary_large_image" />
     <script is:inline>
-      ;(function () {
+      (function () {
         try {
-          var dark = window.matchMedia("(prefers-color-scheme: dark)").matches
-          document.documentElement.classList.toggle("dark", dark)
-          document.documentElement.style.colorScheme = dark ? "dark" : "light"
+          var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          document.documentElement.classList.toggle("dark", dark);
+          document.documentElement.style.colorScheme = dark ? "dark" : "light";
         } catch (e) {}
-      })()
+      })();
     </script>
   </head>
   <body class="flex min-h-svh flex-col">

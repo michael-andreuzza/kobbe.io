@@ -1,42 +1,43 @@
 ---
-import BaseLayout from "./BaseLayout.astro"
+import BaseLayout from "./BaseLayout.astro";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  title?: string
-  description?: string
+  title?: string;
+  description?: string;
+  navItems: CollectionEntry<"docs">[];
 }
 
-const { title, description } = Astro.props
-
-const navItems = [
-  { href: "/docs", label: "Overview" },
-  { href: "/docs/installation", label: "Installation" },
-  { href: "/docs/script-options", label: "Script options" },
-  { href: "/docs/custom-events", label: "Custom events" },
-  { href: "/docs/shared-dashboards", label: "Shared dashboards" },
-]
+const { title, description, navItems } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
-  <div class="mx-auto flex w-full max-w-6xl gap-0 px-6 py-12 lg:gap-10 lg:py-16">
+  <div
+    class="mx-auto flex w-full max-w-6xl gap-0 px-6 py-12 lg:gap-10 lg:py-16"
+  >
     <aside class="hidden w-52 shrink-0 lg:block">
       <nav class="sticky top-20 flex flex-col gap-1">
-        {navItems.map((item) => (
-          <a
-            href={item.href}
-            class:list={[
-              "rounded-lg px-3 py-1.5 text-sm transition-colors",
-              Astro.url.pathname === item.href
-                ? "bg-secondary font-medium text-foreground"
-                : "text-muted-foreground hover:text-foreground",
-            ]}
-          >
-            {item.label}
-          </a>
-        ))}
+        {
+          navItems.map((item) => (
+            <a
+              href={item.id === "overview" ? "/docs/" : `/docs/${item.id}/`}
+              class:list={[
+                "rounded-lg px-3 py-1.5 text-sm transition-colors",
+                Astro.url.pathname.replace(/\/$/, "") ===
+                (item.id === "overview" ? "/docs" : `/docs/${item.id}`)
+                  ? "bg-secondary text-foreground font-medium"
+                  : "text-muted-foreground hover:text-foreground",
+              ]}
+            >
+              {item.data.navLabel ?? item.data.title}
+            </a>
+          ))
+        }
       </nav>
     </aside>
-    <article class="prose prose-neutral dark:prose-invert min-w-0 max-w-none flex-1">
+    <article
+      class="prose prose-neutral dark:prose-invert max-w-none min-w-0 flex-1"
+    >
       <slot />
     </article>
   </div>

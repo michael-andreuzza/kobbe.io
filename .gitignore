@@ -9,4 +9,3 @@ node_modules/
 *.swp
 *.tmp
 Thumbs.db
-.wrangler/

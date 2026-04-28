@@ -1,25 +1,34 @@
 ---
+import { getCollection } from "astro:content";
+
+const legalPages = await getCollection("legal");
 const footerLinks = [
-  { href: "/docs", label: "Docs" },
-  { href: "/legal/privacy", label: "Privacy" },
-  { href: "/legal/terms", label: "Terms" },
-]
+  { href: "/docs/", label: "Docs" },
+  ...legalPages.map((page) => ({
+    href: `/legal/${page.id}/`,
+    label: page.data.title.replace(" Policy", "").replace(" of Service", ""),
+  })),
+];
 ---
 
-<footer class="border-t border-border/60">
-  <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
-    <p class="text-sm text-muted-foreground">
+<footer class="border-border/60 border-t">
+  <div
+    class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row"
+  >
+    <p class="text-muted-foreground text-sm">
       &copy; {new Date().getFullYear()} Kobbe. All rights reserved.
     </p>
     <nav class="flex items-center gap-5">
-      {footerLinks.map((link) => (
-        <a
-          href={link.href}
-          class="text-sm text-muted-foreground transition-colors hover:text-foreground"
-        >
-          {link.label}
-        </a>
-      ))}
+      {
+        footerLinks.map((link) => (
+          <a
+            href={link.href}
+            class="text-muted-foreground hover:text-foreground text-sm transition-colors"
+          >
+            {link.label}
+          </a>
+        ))
+      }
     </nav>
   </div>
 </footer>
