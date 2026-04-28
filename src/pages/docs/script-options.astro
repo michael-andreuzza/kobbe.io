@@ -1,0 +1,38 @@
+---
+import DocsLayout from "@/layouts/DocsLayout.astro"
+---
+
+<DocsLayout title="Script options — Kobbe" description="Configure the Kobbe tracker script.">
+  <h1>Script options</h1>
+  <p>
+    The tracker script accepts configuration through <code>data-*</code>
+    attributes on the <code>&lt;script&gt;</code> tag.
+  </p>
+
+  <h2>Required</h2>
+  <table>
+    <thead>
+      <tr><th>Attribute</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>data-api</code></td>
+        <td>The full URL to the collect endpoint, e.g. <code>https://analytics.example.com/api/collect</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Example</h2>
+  <pre><code>&lt;script
+  defer
+  data-api="https://analytics.example.com/api/collect"
+  src="https://analytics.example.com/tracker.js"
+&gt;&lt;/script&gt;</code></pre>
+
+  <h2>How it works</h2>
+  <ul>
+    <li>The script fires a pageview on load and on SPA navigation (History API).</li>
+    <li>No cookies, localStorage, or fingerprinting are used.</li>
+    <li>The script is under 1 KB gzipped and loads asynchronously.</li>
+  </ul>
+</DocsLayout>

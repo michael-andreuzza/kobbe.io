@@ -1,0 +1,25 @@
+---
+const footerLinks = [
+  { href: "/docs", label: "Docs" },
+  { href: "/legal/privacy", label: "Privacy" },
+  { href: "/legal/terms", label: "Terms" },
+]
+---
+
+<footer class="border-t border-border/60">
+  <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
+    <p class="text-sm text-muted-foreground">
+      &copy; {new Date().getFullYear()} Kobbe. All rights reserved.
+    </p>
+    <nav class="flex items-center gap-5">
+      {footerLinks.map((link) => (
+        <a
+          href={link.href}
+          class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</footer>

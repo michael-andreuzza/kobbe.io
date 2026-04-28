@@ -1,0 +1,38 @@
+---
+import DocsLayout from "@/layouts/DocsLayout.astro"
+---
+
+<DocsLayout title="Shared dashboards — Kobbe" description="Share read-only dashboards with clients and teammates.">
+  <h1>Shared dashboards</h1>
+  <p>
+    Kobbe lets you create public, read-only dashboard links that anyone
+    can access without logging in. Useful for sharing traffic data with
+    clients, teammates, or stakeholders.
+  </p>
+
+  <h2>How to enable</h2>
+  <ol>
+    <li>Go to the <strong>Settings</strong> page of a site.</li>
+    <li>In the <strong>Public dashboard</strong> section, click <strong>Enable</strong>.</li>
+    <li>A unique shareable URL is generated. Copy and send it to anyone who needs access.</li>
+  </ol>
+
+  <h2>Managing access</h2>
+  <ul>
+    <li>
+      <strong>Regenerate</strong> — click the regenerate button to create a
+      new URL and invalidate the old one.
+    </li>
+    <li>
+      <strong>Revoke</strong> — click <strong>Revoke</strong> to disable
+      public access entirely.
+    </li>
+  </ul>
+
+  <h2>Security</h2>
+  <p>
+    Share tokens are stored as SHA-256 hashes. Revoking or regenerating a
+    link immediately invalidates the previous token. The public dashboard
+    is read-only and cannot be used to modify site settings.
+  </p>
+</DocsLayout>
