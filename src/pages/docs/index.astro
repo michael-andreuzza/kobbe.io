@@ -5,10 +5,10 @@ import DocsLayout from "@/layouts/DocsLayout.astro";
 const docs = (await getCollection("docs")).sort(
   (a, b) => a.data.order - b.data.order,
 );
-const entry = docs.find((page) => page.id === "overview");
+const entry = docs[0];
 
 if (!entry) {
-  throw new Error("Missing docs overview content entry");
+  throw new Error("Missing docs content entries");
 }
 
 const { Content } = await render(entry);
