@@ -2,6 +2,7 @@
 title: Custom events
 description: Track custom events with Kobbe.
 order: 4
+navLabel: Custom events
 ---
 
 Track button clicks, form submissions, and other interactions without writing JavaScript.
@@ -39,9 +40,20 @@ window.kobbe?.track("Purchase completed", { plan: "pro" })
 
 Use the JavaScript API when the event is not a simple click, such as after a payment succeeds, after an API request completes, or after a form validates.
 
+## Limits
+
+| Constraint | Limit |
+| --- | --- |
+| Event name length | 64 characters |
+| Properties per event | 16 keys |
+| Property key length | 48 characters |
+| Property value length | 200 characters |
+
+Events or properties that exceed these limits are truncated or dropped by the server.
+
 ## Do not send personal data
 
-Do not include emails, names, user IDs, phone numbers, addresses, or other personal data in event names or properties.
+Do not include emails, names, user IDs, phone numbers, addresses, or other personal data in event names or properties. As a safety net, the server automatically strips keys that look like common PII fields (e.g. `email`, `password`, `phone`, `ssn`).
 
 Good:
 

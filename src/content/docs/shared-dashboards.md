@@ -2,6 +2,7 @@
 title: Shared dashboards
 description: Share read-only dashboards with clients and teammates.
 order: 5
+navLabel: Shared dashboards
 ---
 
 Kobbe lets you create public, read-only dashboard links that anyone can access without logging in. Useful for sharing traffic data with clients, teammates, or stakeholders.

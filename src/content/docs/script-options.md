@@ -18,10 +18,25 @@ The tracker script accepts configuration through `data-*` attributes on the `<sc
 <script defer data-token="YOUR_SITE_TOKEN" src="https://app.kobbe.io/tracker.js"></script>
 ```
 
+## Optional
+
+| Attribute | Description |
+| --- | --- |
+| `data-endpoint` | Override the URL where analytics data is sent. By default the tracker sends events to `/api/collect` on the same origin as the script. Use this when the tracker is loaded from a different domain or you want to point at a staging Worker. |
+
+```html
+<script
+  defer
+  data-token="YOUR_SITE_TOKEN"
+  data-endpoint="https://my-worker.example.com/api/collect"
+  src="https://app.kobbe.io/tracker.js"
+></script>
+```
+
 ## How it works
 
 - The script sends a pageview when the page loads.
 - The current path is sent without query strings or hashes.
 - The referrer is reduced to the origin, so search queries and private URL data are not collected.
-- No cookies, localStorage, sessionStorage, or fingerprinting are used.
+- No cookies, localStorage, sessionStorage, or browser fingerprinting techniques are used.
 - Custom events use the same tracker script and the same site token.

@@ -27,4 +27,8 @@ Kobbe is a privacy-friendly analytics dashboard for understanding your website t
 
 ## Privacy by default
 
-Kobbe does not use cookies, localStorage, sessionStorage, or fingerprinting. The tracker strips query strings from URLs and only sends the referrer origin, so search queries, tokens, and other sensitive URL data are not collected.
+Kobbe does not use cookies, localStorage, sessionStorage, or browser fingerprinting techniques (canvas, WebGL, font enumeration, etc.). There is no persistent client-side identifier and no cross-session tracking.
+
+To count same-day unique visitors, the server computes a short-lived anonymous hash from the request metadata and a daily-rotating secret. The hash cannot be reversed, is never shared across days, and raw IP addresses are never stored in the database.
+
+The tracker strips query strings from URLs and only sends the referrer origin, so search queries, tokens, and other sensitive URL data are not collected.

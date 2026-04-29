@@ -1,7 +1,7 @@
 ---
 title: Privacy Policy
 description: How Kobbe handles analytics data and visitor privacy.
-updatedAt: 2026-04-28
+updatedAt: 2026-04-29
 ---
 
 Kobbe is built with privacy at its core. We collect only the minimum information necessary to operate the service. This policy explains what we collect, how it's used, and the choices you have.
@@ -9,9 +9,12 @@ Kobbe is built with privacy at its core. We collect only the minimum information
 ## What Kobbe does not collect
 
 - No cookies or localStorage identifiers
-- No raw IP addresses (IPs are never stored)
+- No raw IP addresses (IPs are never stored in the database)
 - No personal profiles or cross-session tracking
-- No fingerprinting
+- No browser fingerprinting (canvas, WebGL, font enumeration, installed plugins, etc.)
+- No persistent client-side identifier
+
+To count same-day unique visitors and compute session metrics, the server derives a short-lived anonymous hash from the request metadata and a daily-rotating secret. The hash is not reversible, is never shared across days, and cannot be used to identify or track a person.
 
 ## Information we collect
 
@@ -20,7 +23,7 @@ When you visit a site that uses Kobbe, the following anonymous, aggregated data 
 - Page URL (path only, no query parameters with personal data)
 - Referrer domain (not the full URL)
 - Browser and device type
-- Country (derived from request metadata, not IP geolocation databases)
+- Country (inferred by the edge network from the incoming connection; the raw IP address is not stored in Kobbe's database)
 - Custom event names (if configured by the site owner)
 
 ## How we use your data

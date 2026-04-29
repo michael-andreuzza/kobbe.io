@@ -1,0 +1,134 @@
+---
+/** Polar-backed tiers; amounts are marketing copy (check app for source of truth). */
+const appSignup = "https://app.kobbe.io/signup";
+const plans = [
+  {
+    name: "Starter",
+    price: "9",
+    description: "Everything you need to understand one site or a focused side project.",
+    features: [
+      "Up to 1 website per workspace",
+      "50,000 included analytics events per workspace per month (UTC) — ingestion stops when exceeded",
+      "Cookie-free visitor analytics — no consent banners required",
+      "Traffic overview: visitors, views, and trends over time",
+      "Top pages, entry pages, and exit pages",
+      "Referrers and channels (direct, search, social, links)",
+      "Countries, regions, and cities without storing IP addresses",
+      "Browsers, operating systems, and device categories",
+      "Real-time view: who’s on-site now and what they’re reading",
+      "Custom events for sign-ups, clicks, and funnel steps",
+      "Built-in bot, referrer spam, and datacenter filtering",
+      "AI traffic insights (e.g. ChatGPT, Perplexity, Claude referrals)",
+      "Shareable, revocable read-only dashboard links",
+      "Tracker under 1 KB, loads async, won’t hurt Core Web Vitals",
+    ],
+    cta: "Get started",
+    emphasis: false,
+  },
+  {
+    name: "Growth",
+    price: "20",
+    description: "Same product with more room for multiple sites and heavier traffic.",
+    features: [
+      "Everything in Starter — same dashboard, tracker, and privacy story",
+      "Up to 10 websites per workspace",
+      "500,000 included analytics events per workspace per month (UTC) — ingestion stops when exceeded",
+      "Built for several properties, client builds, or side projects at once",
+      "One workspace to switch between sites without juggling accounts",
+      "Same bot filtering, AI-referrer visibility, and share links — at scale",
+      "Same cookie-free model: no personal data stored, no fingerprinting",
+      "Upgrade or downgrade without exporting data — billing follows your plan",
+    ],
+    cta: "Get started",
+    emphasis: true,
+  },
+] as const;
+---
+
+<section class="border-border/60 bg-surface border-t" id="pricing" aria-labelledby="pricing-heading">
+  <div class="mx-auto max-w-6xl px-6 py-20 lg:py-24">
+    <p
+      class="text-muted-foreground text-sm font-medium tracking-wide uppercase"
+    >
+      Pricing
+    </p>
+    <h2
+      id="pricing-heading"
+      class="text-foreground mt-3 max-w-[40ch] text-2xl font-semibold tracking-tight sm:text-3xl"
+    >
+      Simple plans. No free tier.
+    </h2>
+    <p class="text-muted-foreground mt-4 max-w-[60ch] text-base/7">
+      Pay monthly, cancel any time. Subscriptions are handled securely at
+      checkout; you will use the same email for your Kobbe account. Usage caps
+      are enforced in the product—they may be raised over time as Kobbe grows.
+    </p>
+
+    <div
+      class="mt-12 grid gap-6 lg:mt-16 lg:grid-cols-2 lg:gap-8"
+    >
+      {
+        plans.map((plan) => (
+          <div
+            class:list={[
+              "border-border/80 bg-card flex flex-col rounded-xl border p-6 shadow-xs lg:p-8",
+              plan.emphasis &&
+                "ring-primary/25 border-primary/30 relative ring-2",
+            ]}
+          >
+            {plan.emphasis ? (
+              <p class="text-primary absolute -top-3 left-6 rounded-md bg-surface px-2 text-xs font-medium">
+                Most popular
+              </p>
+            ) : null}
+            <div class="flex items-baseline justify-between gap-4">
+              <h3 class="text-foreground text-lg font-semibold">{plan.name}</h3>
+              <p class="text-foreground text-2xl font-semibold tabular-nums">
+                <span class="text-muted-foreground text-base font-normal">
+                  $
+                </span>
+                {plan.price}
+                <span class="text-muted-foreground text-sm font-normal">
+                  {" "}
+                  / month
+                </span>
+              </p>
+            </div>
+            <p class="text-muted-foreground mt-3 text-sm/6">{plan.description}</p>
+            <ul
+              class="text-muted-foreground mt-6 flex flex-1 list-inside list-disc flex-col gap-1.5 text-sm/[1.45] marker:text-foreground/45 sm:gap-2 sm:text-sm/6"
+            >
+              {plan.features.map((line) => (
+                <li>
+                  <span class="-ml-0.5">{line}</span>
+                </li>
+              ))}
+            </ul>
+            <a
+              href={appSignup}
+              class:list={[
+                "mt-8 inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium shadow-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                plan.emphasis
+                  ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                  : "bg-secondary text-secondary-foreground hover:bg-secondary/90 border-border border",
+              ]}
+            >
+              {plan.cta}
+            </a>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="text-muted-foreground mx-auto mt-10 max-w-[52ch] text-center text-sm/6">
+      Prices shown in USD. Need more than Growth?{" "}
+      <a
+        href="mailto:support@kobbe.io"
+        class="text-foreground underline-offset-4 hover:underline"
+      >
+        Contact us
+      </a>
+      {" "}for volume or teams.
+    </p>
+  </div>
+</section>

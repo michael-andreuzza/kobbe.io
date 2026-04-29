@@ -1,0 +1,22 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Pricing from "@/components/sections/Pricing.astro";
+---
+
+<BaseLayout
+  title="Pricing — Kobbe"
+  description="Starter and Growth plans for privacy-friendly web analytics. Cookie-free dashboard, simple monthly pricing."
+>
+  <section class="mx-auto max-w-6xl px-6 pt-16 lg:pt-24">
+    <h1
+      class="text-foreground max-w-[28ch] text-3xl font-semibold tracking-tight text-balance sm:text-4xl"
+    >
+      Pricing
+    </h1>
+    <p class="text-muted-foreground mt-4 max-w-[52ch] text-base/7">
+      Choose Starter or Growth when you create your workspace at checkout.
+      Same product experience — limits scale with your plan.
+    </p>
+  </section>
+  <Pricing />
+</BaseLayout>
