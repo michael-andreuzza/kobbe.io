@@ -1,0 +1,78 @@
+<script type="module">
+  import KeenSlider from "https://cdn.jsdelivr.net/npm/keen-slider@6.8.6/+esm";
+
+  const baseConfig = {
+    loop: true,
+    slides: {
+      origin: "auto",
+      perView: 1.2,
+      spacing: 8,
+    },
+    breakpoints: {
+      "(min-width: 1024px)": {
+        slides: {
+          origin: "auto",
+          perView: 3.8,
+          spacing: 2,
+        },
+      },
+      "(min-width: 1536px)": {
+        slides: {
+          origin: "auto",
+          perView: 4.2,
+          spacing: 8,
+        },
+      },
+    },
+  };
+
+  // Store slider instances globally so tabs can access them
+  window.keenBenefitSliders = window.keenBenefitSliders || {};
+
+  const sliders = Array.from(
+    document.querySelectorAll("[data-keen-slider='benefits']")
+  );
+
+  sliders.forEach((el) => {
+    // Skip hidden elements - they'll be initialized when shown
+    if (el.classList.contains("hidden")) {
+      // Store config for lazy init
+      el._keenConfig = baseConfig;
+      el._keenPrev = el.dataset.prev;
+      el._keenNext = el.dataset.next;
+      return;
+    }
+
+    const slider = new KeenSlider(el, baseConfig);
+    const prev = el.dataset.prev
+      ? document.querySelector(el.dataset.prev)
+      : null;
+    const next = el.dataset.next
+      ? document.querySelector(el.dataset.next)
+      : null;
+
+    // Store reference
+    if (el.id) {
+      window.keenBenefitSliders[el.id] = { slider, prev, next };
+    }
+
+    if (prev) prev.addEventListener("click", () => slider.prev());
+    if (next) next.addEventListener("click", () => slider.next());
+  });
+
+  // Function to initialize a previously hidden slider
+  window.initKeenBenefitSlider = function (el) {
+    if (!el || window.keenBenefitSliders[el.id]?.slider) return;
+
+    const config = el._keenConfig || baseConfig;
+    const slider = new KeenSlider(el, config);
+    const prev = el._keenPrev ? document.querySelector(el._keenPrev) : null;
+    const next = el._keenNext ? document.querySelector(el._keenNext) : null;
+
+    if (el.id) {
+      window.keenBenefitSliders[el.id] = { slider, prev, next };
+    }
+
+    return slider;
+  };
+</script>

@@ -1,0 +1,47 @@
+<script type="module">
+  const tocList = document.getElementById("toc-list");
+  const headings = document.querySelectorAll(".prose h2, .prose h3");
+
+  // Extract year from heading text (e.g., "January 3, 2026 — Update" -> "2026")
+  function extractYear(text) {
+    const match = text.match(/\b(20\d{2})\b/);
+    return match ? match[1] : null;
+  }
+
+  let currentYear = null;
+
+  headings.forEach((heading) => {
+    // Skip headings inside the auto-generated TOC nav
+    if (heading.closest('nav[aria-label="Table of contents"]')) return;
+
+    if (!heading.id) {
+      heading.id = heading.textContent
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[?!:,]/g, "");
+    }
+
+    const headingText = heading.textContent;
+    const year = extractYear(headingText);
+
+    // If we found a year and it's different from current, add a year header
+    if (year && year !== currentYear) {
+      currentYear = year;
+      const yearHeader = document.createElement("li");
+      yearHeader.className = "py-4 mt-4 border-t border-border ";
+      yearHeader.innerHTML = `<span class="text-xs font-semibold text-foreground ">${year}</span>`;
+      tocList.appendChild(yearHeader);
+    }
+
+    const link = document.createElement("a");
+    link.href = `#${heading.id}`;
+    // Remove year from display text for cleaner look
+    link.textContent = headingText.replace(/,\s*\d{4}/, "");
+    link.className =
+      "text-xs font-medium text-muted-foreground hover:text-accent-600 flex";
+    const li = document.createElement("li");
+    li.className = "pl-4";
+    li.appendChild(link);
+    tocList.appendChild(li);
+  });
+</script>

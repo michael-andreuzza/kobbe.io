@@ -3,6 +3,7 @@ node_modules/
 .astro/
 .env
 .env.production
+.cursor/mcp.json
 .DS_Store
 .vscode/
 .idea/

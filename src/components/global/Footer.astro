@@ -4,6 +4,7 @@ import { getCollection } from "astro:content";
 const legalPages = await getCollection("legal");
 const footerLinks = [
   { href: "/docs", label: "Docs" },
+  { href: "/pricing", label: "Pricing" },
   ...legalPages.map((page) => ({
     href: `/legal/${page.id}`,
     label: page.data.title.replace(" Policy", "").replace(" of Service", ""),
@@ -18,7 +19,7 @@ const footerLinks = [
     <p class="text-muted-foreground text-sm">
       &copy; {new Date().getFullYear()} Kobbe. All rights reserved.
     </p>
-    <nav class="flex items-center gap-5">
+    <nav class="flex items-center gap-5" role="list">
       {
         footerLinks.map((link) => (
           <a

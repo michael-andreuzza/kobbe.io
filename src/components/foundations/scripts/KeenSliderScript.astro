@@ -1,0 +1,37 @@
+<script type="module">
+  import KeenSlider from "https://cdn.jsdelivr.net/npm/keen-slider@6.8.6/+esm";
+
+  const keenSlider = new KeenSlider("#keen-slider", {
+    loop: true,
+    slides: {
+      origin: "center",
+      perView: 1.2,
+      spacing: 8,
+    },
+    breakpoints: {
+      "(min-width: 1024px)": {
+        slides: {
+          origin: "center",
+          perView: 3.3,
+          spacing: 12,
+        },
+      },
+      "(min-width: 1536px)": {
+        slides: {
+          origin: "center",
+          perView: 3.2,
+          spacing: 16,
+        },
+      },
+    },
+  });
+
+  // Previous / Next buttons
+  document.getElementById("keen-prev").addEventListener("click", () => {
+    keenSlider.prev();
+  });
+
+  document.getElementById("keen-next").addEventListener("click", () => {
+    keenSlider.next();
+  });
+</script>

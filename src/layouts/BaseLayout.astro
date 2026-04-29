@@ -11,8 +11,8 @@ interface Props {
 }
 
 const {
-  title = "Kobbe — Privacy-first analytics",
-  description = "Simple, lightweight, cookie-free analytics. Own your data, respect your visitors.",
+  title = "Kobbe — Web analytics that respect your visitors",
+  description = "Privacy-friendly, cookie-free website analytics. See your traffic, top pages, referrers, locations, and devices in a clean dashboard.",
   hideNavigation = false,
   hideFooter = false,
 } = Astro.props;
@@ -38,9 +38,9 @@ const {
       })();
     </script>
   </head>
-  <body class="flex min-h-svh flex-col">
+  <body class="flex min-h-svh flex-col antialiased">
     {!hideNavigation && <Navigation />}
-    <main class="grow">
+    <main class="isolate grow">
       <slot />
     </main>
     {!hideFooter && <Footer />}

@@ -1,0 +1,44 @@
+<script type="module">
+  import KeenSlider from "https://cdn.jsdelivr.net/npm/keen-slider@6.8.6/+esm";
+
+  const sliders = Array.from(
+    document.querySelectorAll("[data-keen-slider='image-grid']")
+  );
+
+  const baseConfig = {
+    loop: true,
+    slides: {
+      origin: "auto",
+      perView: 1.2,
+      spacing: 8,
+    },
+    breakpoints: {
+      "(min-width: 1024px)": {
+        slides: {
+          origin: "auto",
+          perView: 4.2,
+          spacing: 2,
+        },
+      },
+      "(min-width: 1536px)": {
+        slides: {
+          origin: "auto",
+          perView: 5.2,
+          spacing: 8,
+        },
+      },
+    },
+  };
+
+  sliders.forEach((el) => {
+    const slider = new KeenSlider(el, baseConfig);
+    const prev = el.dataset.prev
+      ? document.querySelector(el.dataset.prev)
+      : null;
+    const next = el.dataset.next
+      ? document.querySelector(el.dataset.next)
+      : null;
+    if (prev) prev.addEventListener("click", () => slider.prev());
+    if (next) next.addEventListener("click", () => slider.next());
+  });
+</script>

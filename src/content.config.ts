@@ -1,11 +1,16 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
+import { fileURLToPath } from "node:url";
 import { z } from "zod";
+
+// Resolve paths relative to this file — `./src/...` against cwd can miss files in dev.
+const docsDir = fileURLToPath(new URL("./content/docs", import.meta.url));
+const legalDir = fileURLToPath(new URL("./content/legal", import.meta.url));
 
 const docs = defineCollection({
   loader: glob({
-    pattern: "**/[^_]*.{md,mdx}",
-    base: "./src/content/docs",
+    pattern: "**/*.{md,mdx}",
+    base: docsDir,
   }),
   schema: z.object({
     title: z.string(),
@@ -17,8 +22,8 @@ const docs = defineCollection({
 
 const legal = defineCollection({
   loader: glob({
-    pattern: "**/[^_]*.{md,mdx}",
-    base: "./src/content/legal",
+    pattern: "**/*.{md,mdx}",
+    base: legalDir,
   }),
   schema: z.object({
     title: z.string(),

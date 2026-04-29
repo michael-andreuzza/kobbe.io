@@ -10,20 +10,18 @@ The tracker script accepts configuration through `data-*` attributes on the `<sc
 
 | Attribute | Description |
 | --- | --- |
-| `data-api` | The full URL to the collect endpoint, e.g. `https://analytics.example.com/api/collect`. |
+| `data-token` | Your site token from Kobbe. The token tells Kobbe which site should receive the pageview or event. |
 
 ## Example
 
 ```html
-<script
-  defer
-  data-api="https://analytics.example.com/api/collect"
-  src="https://analytics.example.com/tracker.js"
-></script>
+<script defer data-token="YOUR_SITE_TOKEN" src="https://app.kobbe.io/tracker.js"></script>
 ```
 
 ## How it works
 
-- The script fires a pageview on load and on SPA navigation (History API).
-- No cookies, localStorage, or fingerprinting are used.
-- The script is under 1 KB gzipped and loads asynchronously.
+- The script sends a pageview when the page loads.
+- The current path is sent without query strings or hashes.
+- The referrer is reduced to the origin, so search queries and private URL data are not collected.
+- No cookies, localStorage, sessionStorage, or fingerprinting are used.
+- Custom events use the same tracker script and the same site token.

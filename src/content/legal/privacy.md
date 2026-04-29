@@ -37,7 +37,7 @@ We do not sell data. Analytics data is only visible to the site owner (and anyon
 
 ## Data storage
 
-Data is stored on Cloudflare infrastructure in the site owner's own account. Retention policies are configured by the site owner.
+Analytics data is stored and processed by Kobbe to provide the dashboard, reports, and shared dashboard links. We keep analytics data only for as long as needed to provide the service and operate the product.
 
 ## Your rights
 

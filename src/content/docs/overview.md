@@ -1,23 +1,30 @@
 ---
 title: Kobbe documentation
-description: Get started with Kobbe, privacy-first analytics on Cloudflare.
+description: Learn how to add Kobbe to your site and use the privacy-friendly analytics dashboard.
 order: 1
 navLabel: Overview
 ---
 
-Kobbe is a self-hosted, privacy-first analytics platform that runs on Cloudflare Workers + D1. It collects no personal data, sets no cookies, and requires no cookie banners.
+Kobbe is a privacy-friendly analytics dashboard for understanding your website traffic. It collects pageviews and custom events without cookies, persistent identifiers, or personal data.
 
 ## Quick start
 
-1. [Deploy Kobbe](/docs/installation) to your Cloudflare account
-2. Add the tracker script to your site
-3. Visit your dashboard to see traffic
+1. Add your website in Kobbe.
+2. Copy the tracker script from your site settings.
+3. Paste the script into your website.
+4. Open your dashboard to see visitors, visits, views, sources, locations, devices, and events.
 
-## Features
+## What you can see
 
-- **Cookie-free tracking** — no cookies, localStorage, or persistent identifiers
-- **Bot filtering** — bots, referrer spam, and data center traffic filtered automatically
-- **AI traffic** — see visits from ChatGPT, Perplexity, Claude, and more
-- **Custom events** — track button clicks, form submissions, and conversions
-- **Shareable dashboards** — public, read-only links for clients and stakeholders
-- **Dark mode** — automatic, based on system preference
+- **Visitors, visits, and views** — understand how much traffic your site receives.
+- **Top pages** — see which pages people enter, view, and leave from.
+- **Referrers and channels** — know where traffic comes from, including search, social, direct, and other websites.
+- **Locations** — view countries, regions, and cities without storing personal data.
+- **Devices** — compare browsers, operating systems, and device types.
+- **Custom events** — track clicks, signups, purchases, downloads, and other important actions.
+- **AI traffic** — see referrals from tools like ChatGPT, Perplexity, Claude, and more.
+- **Shared dashboards** — create read-only links for clients, teammates, or stakeholders.
+
+## Privacy by default
+
+Kobbe does not use cookies, localStorage, sessionStorage, or fingerprinting. The tracker strips query strings from URLs and only sends the referrer origin, so search queries, tokens, and other sensitive URL data are not collected.

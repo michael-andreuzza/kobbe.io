@@ -1,111 +1,385 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { Button } from "@/components/ui/button";
 ---
 
-<BaseLayout>
-  <section class="mx-auto max-w-6xl px-6 py-20 lg:py-32">
-    <div class="mx-auto max-w-2xl text-center">
+<BaseLayout
+  title="Kobbe — Web analytics that respect your visitors"
+  description="Privacy-friendly, cookie-free website analytics. See your traffic, top pages, referrers, locations, and devices in a clean dashboard — no cookie banners required."
+>
+  <!-- Hero -->
+  <section class="mx-auto max-w-6xl px-6 pt-20 lg:pt-28">
+    <div class="max-w-2xl">
       <p
         class="text-muted-foreground text-sm font-medium tracking-wide uppercase"
       >
-        Privacy-first analytics
+        Privacy-friendly analytics
       </p>
       <h1
-        class="text-foreground mt-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
+        class="text-foreground mt-4 max-w-[24ch] text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl"
       >
-        Know your traffic.<br />Respect your visitors.
+        Know your traffic. Respect your visitors.
       </h1>
-      <p class="text-muted-foreground mt-6 text-lg leading-relaxed">
-        Lightweight, cookie-free website analytics you can self-host on
-        Cloudflare. No personal data collected, no cookie banners needed, full
-        GDPR compliance out of the box.
+      <p
+        class="text-muted-foreground mt-6 max-w-[48ch] text-lg/7 text-pretty sm:text-base/7"
+      >
+        Lightweight, cookie-free website analytics with a clean dashboard. See
+        visitors, top pages, referrers, locations, and devices without
+        compromising privacy.
       </p>
-      <div class="mt-10 flex items-center justify-center gap-3">
-        <Button client:load size="lg">
-          <a href="/docs" class="text-inherit no-underline">Get started</a>
-        </Button>
-        <Button client:load variant="outline" size="lg">
-          <a
-            href="https://github.com/michael-andreuzza/kobbe.io"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-inherit no-underline"
-          >
-            View on GitHub
-          </a>
-        </Button>
-      </div>
     </div>
-  </section>
 
-  <section class="border-border/60 border-t">
     <div
-      class="mx-auto grid max-w-6xl gap-8 px-6 py-20 sm:grid-cols-2 lg:grid-cols-3 lg:py-24"
+      class="border-border/70 bg-card mt-12 overflow-hidden rounded-xl border shadow-xs lg:mt-16"
     >
-      <div>
-        <h3 class="text-foreground font-medium">No cookies, no banners</h3>
-        <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
-          Kobbe uses no cookies, localStorage, or persistent identifiers. You
-          don't need a cookie consent banner.
+      <div
+        class="border-border/70 flex items-center gap-2 border-b px-4 py-2.5"
+      >
+        <span class="bg-border size-3 rounded-full"></span>
+        <span class="bg-border size-3 rounded-full"></span>
+        <span class="bg-border size-3 rounded-full"></span>
+        <span
+          class="text-muted-foreground ml-3 flex-1 truncate text-xs tabular-nums"
+          >app.kobbe.io</span
+        >
+      </div>
+      <iframe
+        src="https://app.kobbe.io/s/site_99ad97c63282c020?range=today"
+        title="Live Kobbe dashboard demo"
+        loading="lazy"
+        class="h-[32rem] w-full lg:h-[40rem]"
+        sandbox="allow-scripts allow-same-origin"></iframe>
+    </div>
+  </section>
+
+  <!-- Metrics strip -->
+  <section class="border-border/60 mt-24 border-t lg:mt-32">
+    <div
+      class="mx-auto grid max-w-6xl grid-cols-2 gap-px px-6 py-16 sm:grid-cols-4 lg:py-20"
+    >
+      <div class="pr-6 sm:pr-8">
+        <p class="text-muted-foreground text-sm">Tracker size</p>
+        <p class="text-foreground mt-1 text-2xl font-semibold tabular-nums">
+          &lt; 1 KB
         </p>
       </div>
-      <div>
-        <h3 class="text-foreground font-medium">Built-in bot filtering</h3>
-        <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
-          Bots, referrer spam, and data center traffic are automatically
-          excluded so your stats reflect real human visits.
+      <div class="pl-6 sm:border-border/60 sm:border-l sm:pl-8">
+        <p class="text-muted-foreground text-sm">Cookies used</p>
+        <p class="text-foreground mt-1 text-2xl font-semibold tabular-nums">
+          0
         </p>
       </div>
-      <div>
-        <h3 class="text-foreground font-medium">AI traffic monitoring</h3>
-        <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
-          See which AI tools like ChatGPT, Perplexity, or Claude send you
-          traffic and which pages attract AI visitors.
+      <div
+        class="border-border/60 mt-8 border-t pt-8 sm:mt-0 sm:border-t-0 sm:border-l sm:pt-0 sm:pl-8"
+      >
+        <p class="text-muted-foreground text-sm">Personal data</p>
+        <p class="text-foreground mt-1 text-2xl font-semibold tabular-nums">
+          None
         </p>
       </div>
-      <div>
-        <h3 class="text-foreground font-medium">Lightweight script</h3>
-        <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
-          The tracker script is under 1 KB. It loads asynchronously and never
-          slows down your site.
-        </p>
-      </div>
-      <div>
-        <h3 class="text-foreground font-medium">Self-hosted on Cloudflare</h3>
-        <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
-          Runs on Cloudflare Workers + D1. Your data stays in your own account —
-          no third-party analytics provider.
-        </p>
-      </div>
-      <div>
-        <h3 class="text-foreground font-medium">Shareable dashboards</h3>
-        <p class="text-muted-foreground mt-2 text-sm leading-relaxed">
-          Generate public, read-only dashboard links for clients or teammates —
-          manage access from site settings.
+      <div
+        class="border-border/60 mt-8 border-t pt-8 pl-6 sm:mt-0 sm:border-t-0 sm:border-l sm:pt-0 sm:pl-8"
+      >
+        <p class="text-muted-foreground text-sm">GDPR compliant</p>
+        <p class="text-foreground mt-1 text-2xl font-semibold tabular-nums">
+          Yes
         </p>
       </div>
     </div>
   </section>
 
+  <!-- Dashboard capabilities -->
+  <section class="border-border/60 border-t">
+    <div class="mx-auto max-w-6xl px-6 py-20 lg:py-24">
+      <p
+        class="text-muted-foreground text-sm font-medium tracking-wide uppercase"
+      >
+        Your dashboard
+      </p>
+      <h2
+        class="text-foreground mt-3 max-w-[35ch] text-2xl font-semibold tracking-tight sm:text-3xl"
+      >
+        Everything you need to understand your audience.
+      </h2>
+      <p class="text-muted-foreground mt-4 max-w-[56ch] text-base/7">
+        A single, focused dashboard gives you the full picture of who visits
+        your sites, where they come from, and what they look at.
+      </p>
+
+      <dl
+        class="mt-12 grid gap-8 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-10"
+      >
+        <div>
+          <dt class="text-foreground text-sm font-medium">
+            Real-time visitors
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            See who is on your site right now with a live counter and active
+            page list.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-foreground text-sm font-medium">
+            Pages and entry/exit paths
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            Top pages, entry pages, and exit pages so you know what content
+            attracts and retains visitors.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-foreground text-sm font-medium">
+            Referrers and channels
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            Traffic sources broken down by referrer, search engine, social
+            network, and direct visits.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-foreground text-sm font-medium">
+            Countries, regions, and cities
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            Geographic breakdown of your audience without collecting IP
+            addresses or personal data.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-foreground text-sm font-medium">
+            Browsers, OS, and devices
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            Know which browsers and devices your visitors use so you can
+            prioritize what to support.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-foreground text-sm font-medium">Custom events</dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            Track sign-ups, clicks, form submissions, or any interaction that
+            matters to your business.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-foreground text-sm font-medium">
+            Built-in bot filtering
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            Bots, referrer spam, and data-center traffic are automatically
+            excluded so your stats reflect real humans.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-foreground text-sm font-medium">
+            AI traffic monitoring
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            See which AI tools like ChatGPT, Perplexity, or Claude send you
+            traffic and which pages they visit.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-foreground text-sm font-medium">
+            Shareable dashboard links
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            Generate public, read-only links for clients or teammates and
+            manage access from site settings.
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="border-border/60 bg-surface border-t">
+    <div class="mx-auto max-w-6xl px-6 py-20 lg:py-24">
+      <p
+        class="text-muted-foreground text-sm font-medium tracking-wide uppercase"
+      >
+        How it works
+      </p>
+      <h2
+        class="text-foreground mt-3 max-w-[35ch] text-2xl font-semibold tracking-tight sm:text-3xl"
+      >
+        Three steps to better insights.
+      </h2>
+
+      <dl class="mt-12 grid gap-8 sm:grid-cols-3 lg:mt-16 lg:gap-12">
+        <div>
+          <dt class="text-foreground text-sm font-medium">
+            <span
+              class="text-muted-foreground mr-2 inline-flex size-6 items-center justify-center rounded-full border text-xs tabular-nums"
+              >1</span
+            >
+            Add the script
+          </dt>
+          <dd class="text-muted-foreground mt-3 text-sm/6">
+            Drop a single, lightweight script tag on your site. It loads
+            asynchronously and never slows down your pages.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-foreground text-sm font-medium">
+            <span
+              class="text-muted-foreground mr-2 inline-flex size-6 items-center justify-center rounded-full border text-xs tabular-nums"
+              >2</span
+            >
+            Collect visits and events
+          </dt>
+          <dd class="text-muted-foreground mt-3 text-sm/6">
+            Page views, custom events, referrers, and device data start flowing
+            in immediately — no cookies or consent banners needed.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-foreground text-sm font-medium">
+            <span
+              class="text-muted-foreground mr-2 inline-flex size-6 items-center justify-center rounded-full border text-xs tabular-nums"
+              >3</span
+            >
+            Read your dashboard
+          </dt>
+          <dd class="text-muted-foreground mt-3 text-sm/6">
+            Open your Kobbe dashboard to see real-time stats, traffic trends,
+            top pages, sources, and locations at a glance.
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Privacy and performance -->
+  <section class="border-border/60 border-t">
+    <div class="mx-auto max-w-6xl px-6 py-20 lg:py-24">
+      <p
+        class="text-muted-foreground text-sm font-medium tracking-wide uppercase"
+      >
+        Privacy and performance
+      </p>
+      <h2
+        class="text-foreground mt-3 max-w-[35ch] text-2xl font-semibold tracking-tight sm:text-3xl"
+      >
+        Analytics without the trade-offs.
+      </h2>
+      <p class="text-muted-foreground mt-4 max-w-[56ch] text-base/7">
+        No cookies, no personal data, no consent banners. Kobbe gives you
+        accurate traffic insights while keeping your visitors' privacy intact.
+      </p>
+
+      <dl
+        class="mt-12 grid gap-8 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-10"
+      >
+        <div>
+          <dt class="text-foreground text-sm font-medium">Cookie-free</dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            No cookies, localStorage, or persistent identifiers. No consent
+            banner required, ever.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-foreground text-sm font-medium">
+            Lightweight tracker
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            The script is under 1 KB, loads async, and has zero impact on your
+            Lighthouse scores.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-foreground text-sm font-medium">GDPR compliant</dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            No personal data is collected or stored. Fully compliant with GDPR,
+            CCPA, and PECR out of the box.
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Pricing teaser -->
   <section class="border-border/60 bg-surface border-t">
     <div class="mx-auto max-w-6xl px-6 py-20 text-center lg:py-24">
       <h2
-        class="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl"
+        class="text-foreground mx-auto max-w-[30ch] text-2xl font-semibold tracking-tight sm:text-3xl"
       >
-        Ready to take control of your analytics?
+        Simple, transparent pricing.
       </h2>
-      <p class="text-muted-foreground mx-auto mt-4 max-w-lg">
-        Get started in minutes. Deploy to your own Cloudflare account and start
-        tracking your sites — privacy included.
+      <p class="text-muted-foreground mx-auto mt-4 max-w-[48ch] text-base/7">
+        Start free, upgrade when you need more. No surprise fees, no per-seat
+        charges.
       </p>
       <div class="mt-8">
-        <Button client:load size="lg">
-          <a href="/docs/installation" class="text-inherit no-underline">
-            Read the docs
-          </a>
-        </Button>
+        <a
+          href="/pricing"
+          class="bg-primary text-primary-foreground inline-flex items-center rounded-lg px-4 py-2.5 text-sm font-medium shadow-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        >
+          View pricing
+        </a>
       </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="border-border/60 border-t">
+    <div class="mx-auto max-w-6xl px-6 py-20 lg:py-24">
+      <h2
+        class="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl"
+      >
+        Frequently asked questions.
+      </h2>
+
+      <dl
+        class="border-border/60 mt-12 divide-y lg:mt-16"
+        style="--tw-divide-opacity: 0.6"
+      >
+        <div class="py-6 first:pt-0 last:pb-0">
+          <dt class="text-foreground text-sm font-medium">
+            Do I need a cookie banner?
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            No. Kobbe uses no cookies, localStorage, or any persistent
+            identifiers. You can remove your cookie consent banner entirely.
+          </dd>
+        </div>
+        <div class="py-6 first:pt-0 last:pb-0">
+          <dt class="text-foreground text-sm font-medium">
+            How does Kobbe count unique visitors without cookies?
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            Kobbe uses a privacy-safe hashing method that generates a daily,
+            non-reversible identifier from anonymized request data. It cannot
+            track individuals across days or sites.
+          </dd>
+        </div>
+        <div class="py-6 first:pt-0 last:pb-0">
+          <dt class="text-foreground text-sm font-medium">
+            Are bots counted in my stats?
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            No. Kobbe has built-in bot filtering that excludes crawlers,
+            referrer spam, and data-center traffic automatically.
+          </dd>
+        </div>
+        <div class="py-6 first:pt-0 last:pb-0">
+          <dt class="text-foreground text-sm font-medium">
+            Can I share my dashboard with clients?
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            Yes. You can generate public, read-only dashboard links from your
+            site settings and revoke them at any time.
+          </dd>
+        </div>
+        <div class="py-6 first:pt-0 last:pb-0">
+          <dt class="text-foreground text-sm font-medium">
+            Will the script slow down my site?
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            No. The tracker is under 1 KB, loads asynchronously, and has no
+            impact on your Core Web Vitals or Lighthouse scores.
+          </dd>
+        </div>
+      </dl>
     </div>
   </section>
 </BaseLayout>
