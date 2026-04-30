@@ -24,6 +24,7 @@ Kobbe is a privacy-friendly analytics dashboard for understanding your website t
 - **Custom events** — track clicks, signups, purchases, downloads, and other important actions.
 - **AI traffic** — see referrals from tools like ChatGPT, Perplexity, Claude, and more.
 - **Shared dashboards** — create read-only links for clients, teammates, or stakeholders.
+- **Data export** — download site analytics as CSV for reports, backups, or spreadsheet analysis.
 
 ## Privacy by default
 
