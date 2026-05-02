@@ -1,7 +1,7 @@
 ---
 title: Track across subdomains
 description: Count traffic from www, app, blog, and other subdomains in one Kobbe site.
-order: 4
+order: 5
 category: Tracking
 navLabel: Subdomains
 ---

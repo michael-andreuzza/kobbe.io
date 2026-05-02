@@ -1,7 +1,7 @@
 ---
 title: Funnels
 description: Measure where visitors continue or drop off across important paths and events.
-order: 8
+order: 9
 category: Analyze
 navLabel: Funnels
 ---

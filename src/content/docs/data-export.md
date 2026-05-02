@@ -1,7 +1,7 @@
 ---
 title: Data export
 description: Export your Kobbe analytics data as a CSV file.
-order: 9
+order: 10
 category: Analyze
 navLabel: Data export
 ---

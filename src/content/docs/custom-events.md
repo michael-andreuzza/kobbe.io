@@ -1,7 +1,7 @@
 ---
 title: Custom events
 description: Track custom events with Kobbe.
-order: 6
+order: 7
 category: Tracking
 navLabel: Custom events
 ---

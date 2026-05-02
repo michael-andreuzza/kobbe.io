@@ -6,7 +6,7 @@ category: Tracking
 navLabel: Script
 ---
 
-The tracker script accepts configuration through `data-*` attributes on the `<script>` tag. For click-based and JavaScript custom events, see [Custom events](/docs/custom-events). To roll `www`, `app`, and other hosts into one site, see [Track across subdomains](/docs/track-subdomains). To ignore your own traffic or add server-side filters, see [Exclude visits](/docs/exclude-visits).
+The tracker script accepts configuration through `data-*` attributes on the `<script>` tag. For click-based and JavaScript custom events, see [Custom events](/docs/custom-events). For hash-based SPAs and section routes, see [Hash page paths](/docs/hash-page-paths). To roll `www`, `app`, and other hosts into one site, see [Track across subdomains](/docs/track-subdomains). To ignore your own traffic or add server-side filters, see [Exclude visits](/docs/exclude-visits).
 
 ## Required
 
@@ -26,9 +26,10 @@ The tracker script accepts configuration through `data-*` attributes on the `<sc
 
 ## Optional
 
-| Attribute       | Description                                                                                                                                                                                                                                               |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `data-endpoint` | Override the **full URL** of the collect API. By default the tracker posts to `/api/collect` on the **same origin as `tracker.js`**. Use a first-party proxy, a Worker, or another absolute URL when the script tag and your API live on different hosts. |
+| Attribute          | Description                                                                                                                                                                                                                                                                                                                                                           |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data-endpoint`    | Override the **full URL** of the collect API. By default the tracker posts to `/api/collect` on the **same origin as `tracker.js`**. Use a first-party proxy, a Worker, or another absolute URL when the script tag and your API live on different hosts.                                                                                                              |
+| `data-track-hash`  | Set to `true` to include `location.hash` in page paths and record **extra pageviews when the hash changes** (hash routers). **Query strings are never collected.** Use only when hashes represent real routes—anchor-heavy pages can inflate counts. See [Hash page paths](/docs/hash-page-paths).                                                                         |
 
 ```html
 <script
@@ -39,7 +40,7 @@ The tracker script accepts configuration through `data-*` attributes on the `<sc
 ></script>
 ```
 
-When injecting the script from JavaScript, set `script.dataset.token` and optionally `script.dataset.endpoint` (for `data-endpoint`) before appending the element.
+When injecting the script from JavaScript, set `script.dataset.token` and optionally `script.dataset.endpoint` (for `data-endpoint`) or `script.dataset.trackHash = "true"` (for `data-track-hash`) before appending the element.
 
 ## Bot filtering and exclusions
 
@@ -53,8 +54,8 @@ There is no separate “localhost toggle”: if your dev site loads the snippet 
 
 ## How it works
 
-- The script sends a pageview when the page loads.
-- The current path is sent without query strings or hashes.
+- The script sends a pageview when the page loads (and on `hashchange` when [`data-track-hash`](/docs/hash-page-paths) is enabled).
+- The current path is sent **without query strings**. Hash fragments are omitted by default and included only with `data-track-hash="true"`.
 - The page hostname is stored on each event and powers the **Hostnames** breakdown (and hostname exclusions when collect is proxied).
 - The referrer is reduced to the origin, so search queries and private URL data are not collected.
 - No cookies or persistent identifiers: optional `localStorage.kobbe_ignore === "true"` stops this browser from sending events (see [Exclude visits](/docs/exclude-visits)).

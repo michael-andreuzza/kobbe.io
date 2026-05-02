@@ -1,7 +1,7 @@
 ---
 title: Exclude visits
 description: Ignore your own traffic and filter events by path, host, IP, or country.
-order: 5
+order: 6
 category: Tracking
 navLabel: Exclude visits
 ---
@@ -31,7 +31,7 @@ The tracker checks this flag before any network request. It does not use cookies
 - **Exact path** — e.g. `/admin` matches only that path.
 - **Prefix with `/*`** — e.g. `/admin/*` matches `/admin/users` but not `/admin` itself.
 
-Paths are matched on the pathname without query string or hash (same as what the [tracker](/docs/script-options) sends).
+Paths are matched against the same normalized path Kobbe stores for events: **pathname only** by default, or **pathname + hash** when the tracker uses [`data-track-hash`](/docs/hash-page-paths). Query strings are never part of the path.
 
 ## Hostname rules
 
