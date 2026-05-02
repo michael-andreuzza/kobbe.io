@@ -1,7 +1,7 @@
 ---
 title: Exclude visits
 description: Ignore your own traffic and filter events by path, host, IP, or country.
-order: 6
+order: 7
 category: Tracking
 navLabel: Exclude visits
 ---
@@ -9,6 +9,8 @@ navLabel: Exclude visits
 You can drop pageviews and custom events **before** they count toward quotas or appear in the dashboard. This is separate from Kobbe’s automatic bot filtering (see [Script options](/docs/script-options#bot-filtering-and-exclusions)): bots are filtered first; exclusions are rules you configure per site.
 
 Configure exclusions on the **Traffic exclusions** page for each site in the Kobbe app (`/websites/<site-id>/exclusions`), or open **Exclusions** from the sidebar when you’re viewing that site. You can still reach it from **Site settings** via the “Traffic exclusions” link.
+
+For practical examples of lowering event volume without losing important conversion data, see [Reduce usage](/docs/reduce-usage).
 
 ## Ignore your browser (localStorage)
 
@@ -51,3 +53,4 @@ Enter the client IPv4 or IPv6 you want to exclude. The address is compared **onl
 
 - Install and options: [Add the tracker](/docs/add-the-tracker), [Script options](/docs/script-options).
 - Custom events use the same collect pipeline: [Custom events](/docs/custom-events).
+- Usage tips: [Reduce usage](/docs/reduce-usage).

@@ -24,11 +24,12 @@ Under **Sources**, open the **Hostnames** tab to see distinct visitors per hostn
 
 Hostname exclusion rules apply to this value. See [Exclude visits](/docs/exclude-visits).
 
-## Cross-domain (different root domains)
+## Different root domains
 
-Kobbe does **not** support merging traffic or visitor continuity across unrelated domains (for example `example.com` and `other-brand.io`) with URL handoff. That would require a persistent cross-site identifier. If you need separate sites, create another site in Kobbe and use its token on the other domain.
+Different root domains (for example `example.com` and `other-brand.io`) need explicit opt-in because they require a URL handoff to link the journey. See [Cross-domain tracking](/docs/cross-domain-tracking).
 
 ## Related
 
 - [Add the tracker](/docs/add-the-tracker)
 - [Script options](/docs/script-options)
+- [Cross-domain tracking](/docs/cross-domain-tracking)

@@ -1,7 +1,7 @@
 ---
 title: Funnels
 description: Measure where visitors continue or drop off across important paths and events.
-order: 9
+order: 11
 category: Analyze
 navLabel: Funnels
 ---
@@ -42,7 +42,7 @@ For example, if 1,000 visitors viewed `/pricing` and 120 completed `Signup compl
 
 ## Use page paths
 
-Page path steps match the path Kobbe stores for pageviews. Query strings and hashes are removed for privacy, so use paths like:
+Page path steps match the path Kobbe stores for pageviews. Query strings are removed for privacy, and hashes are included only when [hash page paths](/docs/hash-page-paths) are enabled, so use paths like:
 
 ```text
 /pricing
@@ -50,7 +50,7 @@ Page path steps match the path Kobbe stores for pageviews. Query strings and has
 /checkout/success
 ```
 
-Do not include full URLs, query strings, or fragments.
+Do not include full URLs or query strings. Include fragments only if the site uses `data-track-hash`.
 
 ## Use custom events
 
@@ -66,7 +66,13 @@ You can also use `data-kobbe-event` attributes for click-based steps:
 <button data-kobbe-event="Checkout started">Start checkout</button>
 ```
 
+For section engagement, you can use [scroll tracking](/docs/scroll-tracking). Scroll events are normal custom events, so `viewed_pricing` can become a funnel step before `Checkout started`.
+
+If your funnel crosses different root domains, use [Cross-domain tracking](/docs/cross-domain-tracking) only after updating your consent flow and privacy notice as needed.
+
 Do not send personal data in event names or event properties.
+
+Do not exclude pages or events that are part of a funnel. See [Reduce usage](/docs/reduce-usage) for safer ways to lower event volume.
 
 ## Privacy
 

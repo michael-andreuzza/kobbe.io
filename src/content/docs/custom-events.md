@@ -1,7 +1,7 @@
 ---
 title: Custom events
 description: Track custom events with Kobbe.
-order: 7
+order: 8
 category: Tracking
 navLabel: Custom events
 ---
@@ -30,6 +30,18 @@ Add `data-kobbe-event` to any element. Clicks on that element will be tracked as
 | `data-kobbe-event-*` | Optional properties sent as key-value pairs. For example, `data-kobbe-event-source="footer"` sends `{ source: "footer" }`. Hyphenated suffixes become camelCase keys (`data-kobbe-event-plan-id` → `planId`). |
 
 Use short, consistent event names. For example, use `Newsletter signup` everywhere instead of mixing `Newsletter signup`, `newsletter-signup`, and `Subscribe clicked`.
+
+## Scroll visibility events
+
+Scroll tracking is off by default. To track when a visitor reaches an important section, add `data-kobbe-scroll` to that element:
+
+```html
+<section data-kobbe-scroll="viewed_pricing">
+  <h2>Pricing</h2>
+</section>
+```
+
+The tracker sends the custom event once when the section becomes visible. Use short, non-personal event names such as `viewed_pricing` or `read_testimonials`. See [Scroll tracking](/docs/scroll-tracking) for thresholds, delays, and GDPR-friendly default guidance.
 
 ## JavaScript API
 
