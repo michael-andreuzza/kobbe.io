@@ -1,7 +1,8 @@
 ---
 title: Funnels
 description: Measure where visitors continue or drop off across important paths and events.
-order: 6
+order: 8
+category: Analyze
 navLabel: Funnels
 ---
 
@@ -21,9 +22,9 @@ Open your site in Kobbe, go to **Funnels**, and create a funnel with at least tw
 
 Each step can be one of two types:
 
-| Step type | Use it for | Example |
-| --- | --- | --- |
-| Page path | A pageview on a specific path | `/pricing` |
+| Step type    | Use it for                          | Example            |
+| ------------ | ----------------------------------- | ------------------ |
+| Page path    | A pageview on a specific path       | `/pricing`         |
 | Custom event | An action tracked with Kobbe events | `Signup completed` |
 
 Keep step names consistent. If your site sends a custom event called `Signup completed`, use that exact event name in the funnel step.
@@ -56,7 +57,7 @@ Do not include full URLs, query strings, or fragments.
 Custom event steps are useful when the important action does not have its own page. For example:
 
 ```js
-window.kobbe?.track("Signup completed", { plan: "starter" })
+window.kobbe?.track("Signup completed", { plan: "starter" });
 ```
 
 You can also use `data-kobbe-event` attributes for click-based steps:

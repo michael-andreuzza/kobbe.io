@@ -2,6 +2,7 @@
 title: Kobbe documentation
 description: Learn how to add Kobbe to your site and use the privacy-friendly analytics dashboard.
 order: 1
+category: Get started
 navLabel: Overview
 ---
 
@@ -13,6 +14,8 @@ Kobbe is a privacy-friendly analytics dashboard for understanding your website t
 2. Copy the tracker script from your site settings.
 3. Paste the script into your website.
 4. Open your dashboard to see visitors, visits, views, sources, locations, devices, and events.
+
+Guides: [Add the tracker](/docs/add-the-tracker), [Script options](/docs/script-options), [Track across subdomains](/docs/track-subdomains), [Exclude visits](/docs/exclude-visits), [Custom events](/docs/custom-events).
 
 ## What you can see
 

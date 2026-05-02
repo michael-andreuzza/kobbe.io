@@ -2,6 +2,7 @@
 title: Add the tracker
 description: Add the Kobbe tracker to your website.
 order: 2
+category: Get started
 navLabel: Add the tracker
 ---
 
@@ -18,10 +19,18 @@ After the site is created, Kobbe shows a site token. Copy it before leaving the 
 Paste this script on every page you want to track. Replace `YOUR_SITE_TOKEN` with the token from your site settings.
 
 ```html
-<script defer data-token="YOUR_SITE_TOKEN" src="https://app.kobbe.io/tracker.js"></script>
+<script
+  defer
+  data-token="YOUR_SITE_TOKEN"
+  src="https://app.kobbe.io/tracker.js"
+></script>
 ```
 
 The script automatically records a pageview when the page loads.
+
+Use the **same snippet** on each subdomain you want in this site (for example `www`, `app`, or `blog`). See [Track across subdomains](/docs/track-subdomains).
+
+Optional settings such as a custom collect URL (`data-endpoint`) are described in [Script options](/docs/script-options). To drop your own visits or filter by path, hostname, country, or IP, see [Exclude visits](/docs/exclude-visits).
 
 ## 3. Verify tracking
 
