@@ -1,7 +1,7 @@
 ---
 title: Install on Replit
 description: Add the Kobbe tracker to a Replit-hosted web app.
-order: 38
+order: 24
 category: Installation guides
 navLabel: Replit
 ---

@@ -1,7 +1,7 @@
 ---
 title: Cross-domain tracking
 description: Link visitor journeys across different root domains with explicit opt-in.
-order: 6
+order: 29
 category: Tracking
 navLabel: Cross-domain
 ---

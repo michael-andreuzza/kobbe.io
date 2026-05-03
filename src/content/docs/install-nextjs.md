@@ -1,7 +1,7 @@
 ---
 title: Install on Next.js
 description: Add the Kobbe tracker to a Next.js App Router or Pages Router site.
-order: 17
+order: 3
 category: Installation guides
 navLabel: Next.js
 ---

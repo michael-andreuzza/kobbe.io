@@ -1,7 +1,7 @@
 ---
 title: Add the tracker
 description: Add the Kobbe tracker to your website.
-order: 2
+order: 25
 category: Get started
 navLabel: Add the tracker
 ---

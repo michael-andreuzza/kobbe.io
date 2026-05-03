@@ -1,7 +1,7 @@
 ---
 title: Install on Bolt
 description: Add the Kobbe tracker to a Bolt.new / StackBlitz-style exported project.
-order: 36
+order: 22
 category: Installation guides
 navLabel: Bolt
 ---

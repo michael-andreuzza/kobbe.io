@@ -1,7 +1,7 @@
 ---
 title: Install on React Router
 description: Add the Kobbe tracker to a React Router (v7 / Remix-style) app.
-order: 18
+order: 4
 category: Installation guides
 navLabel: React Router
 ---

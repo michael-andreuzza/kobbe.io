@@ -1,7 +1,7 @@
 ---
 title: Exclude visits
 description: Ignore your own traffic and filter events by path, host, IP, or country.
-order: 7
+order: 30
 category: Tracking
 navLabel: Exclude visits
 ---

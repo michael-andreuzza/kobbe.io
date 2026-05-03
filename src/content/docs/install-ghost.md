@@ -1,7 +1,7 @@
 ---
 title: Install on Ghost
 description: Add the Kobbe tracker with Ghost code injection.
-order: 29
+order: 15
 category: Installation guides
 navLabel: Ghost
 ---

@@ -1,7 +1,7 @@
 ---
 title: Script options
 description: Configure the Kobbe tracker script.
-order: 3
+order: 26
 category: Tracking
 navLabel: Script
 ---

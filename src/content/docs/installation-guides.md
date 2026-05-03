@@ -1,7 +1,7 @@
 ---
 title: Installation guides
 description: Install the Kobbe tracker on your framework, CMS, or no-code builder.
-order: 16
+order: 2
 category: Installation guides
 navLabel: All guides
 ---

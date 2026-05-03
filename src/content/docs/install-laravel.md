@@ -1,7 +1,7 @@
 ---
 title: Install on Laravel
 description: Add the Kobbe tracker to Laravel Blade layouts.
-order: 21
+order: 7
 category: Installation guides
 navLabel: Laravel
 ---

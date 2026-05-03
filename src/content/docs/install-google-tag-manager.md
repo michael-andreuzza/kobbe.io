@@ -1,7 +1,7 @@
 ---
 title: Install with Google Tag Manager
 description: Load the Kobbe tracker through Google Tag Manager.
-order: 26
+order: 12
 category: Installation guides
 navLabel: Google Tag Manager
 ---

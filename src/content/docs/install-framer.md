@@ -1,7 +1,7 @@
 ---
 title: Install on Framer
 description: Add the Kobbe tracker to a Framer site with custom code.
-order: 25
+order: 11
 category: Installation guides
 navLabel: Framer
 ---

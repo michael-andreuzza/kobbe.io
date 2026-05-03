@@ -1,7 +1,7 @@
 ---
 title: Scroll tracking
 description: Track when visitors reach important page sections without collecting raw scroll behavior.
-order: 9
+order: 32
 category: Tracking
 navLabel: Scroll tracking
 ---

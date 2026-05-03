@@ -1,7 +1,7 @@
 ---
 title: Reduce usage
 description: Keep analytics useful by excluding low-value traffic and avoiding unnecessary events.
-order: 13
+order: 36
 category: Manage
 navLabel: Reduce usage
 ---

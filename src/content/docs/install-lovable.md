@@ -1,7 +1,7 @@
 ---
 title: Install on Lovable
 description: Add the Kobbe tracker to a Lovable-generated web app.
-order: 35
+order: 21
 category: Installation guides
 navLabel: Lovable
 ---

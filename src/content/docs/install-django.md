@@ -1,7 +1,7 @@
 ---
 title: Install on Django
 description: Add the Kobbe tracker to Django templates.
-order: 22
+order: 8
 category: Installation guides
 navLabel: Django
 ---

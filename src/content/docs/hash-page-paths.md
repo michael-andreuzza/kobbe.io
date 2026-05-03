@@ -1,7 +1,7 @@
 ---
 title: Hash page paths
 description: Track SPAs and section links that use the URL hash as the route.
-order: 4
+order: 27
 category: Tracking
 navLabel: Hash paths
 ---

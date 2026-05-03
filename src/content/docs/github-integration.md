@@ -1,7 +1,7 @@
 ---
 title: GitHub integration
 description: Connect a repository to show commit markers on your site analytics charts.
-order: 15
+order: 38
 category: Analyze
 navLabel: GitHub
 ---

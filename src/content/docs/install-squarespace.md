@@ -1,7 +1,7 @@
 ---
 title: Install on Squarespace
 description: Add the Kobbe tracker via Squarespace Code Injection.
-order: 34
+order: 20
 category: Installation guides
 navLabel: Squarespace
 ---

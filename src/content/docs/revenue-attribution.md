@@ -1,7 +1,7 @@
 ---
 title: Revenue attribution
 description: Attribute payment provider webhooks to private Kobbe journeys.
-order: 14
+order: 37
 category: Tracking
 navLabel: Revenue
 ---

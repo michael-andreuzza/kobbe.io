@@ -1,7 +1,7 @@
 ---
 title: Install on WordPress
 description: Add the Kobbe tracker to WordPress (theme, child theme, or header plugin).
-order: 23
+order: 9
 category: Installation guides
 navLabel: WordPress
 ---

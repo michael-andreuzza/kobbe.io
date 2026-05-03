@@ -1,7 +1,7 @@
 ---
 title: Install on WooCommerce
 description: Add the Kobbe tracker to WordPress when running WooCommerce.
-order: 28
+order: 14
 category: Installation guides
 navLabel: WooCommerce
 ---

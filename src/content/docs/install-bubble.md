@@ -1,7 +1,7 @@
 ---
 title: Install on Bubble
 description: Add the Kobbe tracker to a Bubble.io app.
-order: 30
+order: 16
 category: Installation guides
 navLabel: Bubble
 ---

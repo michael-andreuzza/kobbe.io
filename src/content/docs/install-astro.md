@@ -1,7 +1,7 @@
 ---
 title: Install on Astro
 description: Add the Kobbe tracker to an Astro site (static or SSR).
-order: 19
+order: 5
 category: Installation guides
 navLabel: Astro
 ---

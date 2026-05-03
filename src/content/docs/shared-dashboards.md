@@ -1,7 +1,7 @@
 ---
 title: Shared dashboards
 description: Share read-only dashboards with clients and teammates.
-order: 10
+order: 33
 category: Sharing
 navLabel: Shared dashboards
 ---

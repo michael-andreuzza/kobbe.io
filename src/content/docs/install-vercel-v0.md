@@ -1,7 +1,7 @@
 ---
 title: Install on Vercel v0
 description: Add the Kobbe tracker to a Vercel v0 generated Next.js app.
-order: 37
+order: 23
 category: Installation guides
 navLabel: Vercel v0
 ---

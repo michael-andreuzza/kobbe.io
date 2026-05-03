@@ -1,7 +1,7 @@
 ---
 title: Install on Podia
 description: Add the Kobbe tracker to Podia site or product pages.
-order: 31
+order: 17
 category: Installation guides
 navLabel: Podia
 ---

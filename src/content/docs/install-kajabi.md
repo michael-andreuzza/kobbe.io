@@ -1,7 +1,7 @@
 ---
 title: Install on Kajabi
 description: Add the Kobbe tracker to Kajabi site-wide scripts.
-order: 32
+order: 18
 category: Installation guides
 navLabel: Kajabi
 ---

@@ -1,7 +1,7 @@
 ---
 title: Install on Vue.js
 description: Add the Kobbe tracker to a Vue 3 (Vite) or Vue CLI app.
-order: 20
+order: 6
 category: Installation guides
 navLabel: Vue.js
 ---

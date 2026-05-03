@@ -1,7 +1,7 @@
 ---
 title: Install on Wix
 description: Add the Kobbe tracker to a Wix site with custom code.
-order: 33
+order: 19
 category: Installation guides
 navLabel: Wix
 ---

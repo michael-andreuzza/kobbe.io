@@ -1,7 +1,7 @@
 ---
 title: Install on Shopify
 description: Add the Kobbe tracker to a Shopify Online Store theme.
-order: 27
+order: 13
 category: Installation guides
 navLabel: Shopify
 ---

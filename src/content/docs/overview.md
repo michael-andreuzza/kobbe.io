@@ -15,7 +15,7 @@ Kobbe is a privacy-friendly analytics dashboard for understanding your website t
 3. Paste the script into your website.
 4. Open your dashboard to see visitors, visits, views, sources, locations, devices, and events.
 
-Guides: [Add the tracker](/docs/add-the-tracker), [Installation guides](/docs/installation-guides), [Script options](/docs/script-options), [Hash page paths](/docs/hash-page-paths), [Track across subdomains](/docs/track-subdomains), [Cross-domain tracking](/docs/cross-domain-tracking), [Exclude visits](/docs/exclude-visits), [Custom events](/docs/custom-events), [Scroll tracking](/docs/scroll-tracking), [Reduce usage](/docs/reduce-usage).
+Guides: [Installation guides](/docs/installation-guides), [Add the tracker](/docs/add-the-tracker), [Script options](/docs/script-options), [Hash page paths](/docs/hash-page-paths), [Track across subdomains](/docs/track-subdomains), [Cross-domain tracking](/docs/cross-domain-tracking), [Exclude visits](/docs/exclude-visits), [Custom events](/docs/custom-events), [Scroll tracking](/docs/scroll-tracking), [Reduce usage](/docs/reduce-usage).
 
 ## What you can see
 

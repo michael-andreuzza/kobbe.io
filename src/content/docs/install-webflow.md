@@ -1,7 +1,7 @@
 ---
 title: Install on Webflow
 description: Add the Kobbe tracker via Webflow site-wide custom code.
-order: 24
+order: 10
 category: Installation guides
 navLabel: Webflow
 ---
