@@ -8,14 +8,14 @@ navLabel: Revenue
 
 Revenue attribution is an advanced opt-in feature. It is off by default because it uses `sessionStorage` and payment metadata to connect a browser journey with a later payment webhook.
 
-Enable it only after updating your privacy notice or consent banner. Kobbe does not collect customer emails for attribution.
+Enable it only after reviewing your privacy notice or consent setup. Kobbe does not collect customer emails for attribution. For the broader privacy posture, see [Privacy and cookieless tracking](/docs/privacy-and-cookieless-tracking).
 
 ## How it works
 
 1. Enable a revenue source in **Site settings → Revenue attribution**.
 2. Paste the provider webhook signing secret in Kobbe.
 3. Add `data-revenue-attribution="true"` to the tracker script.
-4. Pass `window.kobbe.attributionId` as payment metadata using the key `kobbe_attribution_id`.
+4. Pass `window.kobbe.getAttributionId()` or `window.kobbe.attributionId` as payment metadata using the key `kobbe_attribution_id`.
 5. Add the generated webhook URL to Stripe, Polar, Paddle, or Creem.
 
 The browser ID is a random tab-scoped value stored in `sessionStorage`. The collect API and revenue webhook hash that value server-side before storing it, so the raw attribution ID is never stored in D1.
@@ -34,7 +34,7 @@ The browser ID is a random tab-scoped value stored in `sessionStorage`. The coll
 When creating a checkout, include the attribution ID if it exists:
 
 ```js
-const attributionId = window.kobbe?.attributionId
+const attributionId = window.kobbe?.getAttributionId?.() ?? window.kobbe?.attributionId
 
 // Use this metadata object with your provider SDK/API.
 const metadata = attributionId
@@ -66,4 +66,4 @@ Kobbe’s default tracker remains cookieless and does not create persistent IDs.
 - It stores payment amount, currency, provider event IDs, and a hashed attribution key.
 - It does not store customer email, name, or raw attribution ID.
 
-For many sites this requires a privacy notice update and may require consent before loading the revenue attribution tracker option.
+For many sites this requires a privacy notice update and may require consent before loading the revenue attribution tracker option. Avoid absolute claims such as "no consent required" when revenue attribution is enabled; the right wording depends on your site, payment flow, and jurisdiction.

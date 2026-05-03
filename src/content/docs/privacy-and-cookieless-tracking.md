@@ -1,0 +1,60 @@
+---
+title: Privacy and cookieless tracking
+description: How Kobbe tracks visits without cookies, and how optional revenue attribution changes the privacy posture.
+order: 11
+category: Get started
+navLabel: Privacy
+---
+
+Kobbe is designed to be privacy-friendly by default. The standard tracker does not use cookies, localStorage, sessionStorage, or persistent browser identifiers to count pageviews.
+
+This page describes Kobbe's technical behavior. It is not legal advice. Your privacy notice, consent rules, and lawful basis depend on your site, jurisdiction, and how you configure optional features.
+
+## Default tracker
+
+The default Kobbe tracker collects pageviews and custom events without creating long-lived visitor profiles:
+
+- No analytics cookies.
+- No persistent browser storage.
+- No raw IP addresses stored in the database.
+- No full URLs with query strings.
+- No customer emails, names, or account identifiers unless you send them yourself, which you should avoid.
+- No browser fingerprinting techniques such as canvas, WebGL, or font enumeration.
+
+To count same-day unique visitors, Kobbe computes a short-lived anonymous hash on the server from request metadata and a daily-rotating secret. The hash is not reversible, is scoped to the site, and is not shared across days as a long-term profile.
+
+## What this means for accuracy
+
+Cookieless analytics are intentionally less invasive than cookie or user-profile based analytics. That also means Kobbe does not try to recognize the same browser across long periods by default.
+
+For normal traffic reporting, this is usually a good tradeoff: you can still see visits, views, pages, sources, locations, devices, events, and funnels without building personal profiles.
+
+For long sales cycles, attribution can be less complete than systems that use long-lived cookies or identified users. That limitation is part of the privacy posture.
+
+## Optional revenue attribution
+
+Revenue attribution is off by default. When enabled, it connects an analytics journey to a later payment webhook so Kobbe can show which pages, sources, locations, and devices contributed to revenue.
+
+This changes the privacy posture:
+
+- It uses `sessionStorage` for a tab-scoped attribution ID.
+- The raw attribution ID is hashed server-side before storage.
+- Kobbe stores payment amount, currency, provider event IDs, and the hashed attribution key.
+- Kobbe does not need customer emails or names for attribution.
+- Attribution may still be considered personal data depending on your setup and jurisdiction.
+
+Enable revenue attribution only when it fits your privacy notice, consent setup, and payment provider configuration.
+
+## What to tell your visitors
+
+If you use Kobbe, your privacy policy should describe analytics in plain language. If you enable revenue attribution, also disclose that payment events may be connected to analytics activity in a pseudonymous way.
+
+Avoid sending personal data in custom event names, event properties, URLs, or payment metadata. Kobbe is built for aggregate analytics, not user profiling.
+
+## Related docs
+
+- [Add the tracker](/docs/add-the-tracker)
+- [Script options](/docs/script-options)
+- [Performance and Web Vitals](/docs/performance-web-vitals)
+- [Revenue attribution](/docs/revenue-attribution)
+- [Cross-domain tracking](/docs/cross-domain-tracking)

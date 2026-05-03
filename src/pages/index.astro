@@ -5,7 +5,7 @@ import Pricing from "@/components/sections/Pricing.astro";
 
 <BaseLayout
   title="Kobbe — Web analytics that respect your visitors"
-  description="Privacy-friendly, cookie-free website analytics. See your traffic, top pages, referrers, locations, and devices in a clean dashboard — no cookie banners required."
+  description="Privacy-friendly, cookie-free website analytics. See your traffic, top pages, referrers, locations, and devices in a clean dashboard without building invasive visitor profiles."
 >
   <!-- Hero -->
   <section class="mx-auto max-w-6xl px-6 pt-20 lg:pt-28">
@@ -26,6 +26,10 @@ import Pricing from "@/components/sections/Pricing.astro";
         Lightweight, cookie-free website analytics with a clean dashboard. See
         visitors, top pages, referrers, locations, and devices without
         compromising privacy.
+      </p>
+      <p class="text-muted-foreground mt-4 max-w-[52ch] text-sm/6 text-pretty">
+        Revenue attribution is available as an opt-in setup, designed around
+        pseudonymous attribution keys instead of invasive visitor profiles.
       </p>
     </div>
 
@@ -72,17 +76,17 @@ import Pricing from "@/components/sections/Pricing.astro";
       <div
         class="border-border/60 mt-8 border-t pt-8 sm:mt-0 sm:border-t-0 sm:border-l sm:pt-0 sm:pl-8"
       >
-        <p class="text-muted-foreground text-sm">Personal data</p>
+        <p class="text-muted-foreground text-sm">Raw IPs stored</p>
         <p class="text-foreground mt-1 text-2xl font-semibold tabular-nums">
-          None
+          0
         </p>
       </div>
       <div
         class="border-border/60 mt-8 border-t pt-8 pl-6 sm:mt-0 sm:border-t-0 sm:border-l sm:pt-0 sm:pl-8"
       >
-        <p class="text-muted-foreground text-sm">GDPR compliant</p>
+        <p class="text-muted-foreground text-sm">Privacy posture</p>
         <p class="text-foreground mt-1 text-2xl font-semibold tabular-nums">
-          Yes
+          Minimal
         </p>
       </div>
     </div>
@@ -188,6 +192,22 @@ import Pricing from "@/components/sections/Pricing.astro";
             manage access from site settings.
           </dd>
         </div>
+        <div>
+          <dt class="text-foreground text-sm font-medium">
+            Funnels and revenue
+          </dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            Measure conversion steps and optionally connect payment webhooks to
+            see which traffic turns into revenue.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-foreground text-sm font-medium">CSV export</dt>
+          <dd class="text-muted-foreground mt-2 text-sm/6">
+            Download your site events for reporting, backups, or analysis in a
+            spreadsheet.
+          </dd>
+        </div>
       </dl>
     </div>
   </section>
@@ -217,7 +237,7 @@ import Pricing from "@/components/sections/Pricing.astro";
           </dt>
           <dd class="text-muted-foreground mt-3 text-sm/6">
             Drop a single, lightweight script tag on your site. It loads
-            asynchronously and never slows down your pages.
+            asynchronously and is designed to stay out of the critical path.
           </dd>
         </div>
         <div>
@@ -230,7 +250,8 @@ import Pricing from "@/components/sections/Pricing.astro";
           </dt>
           <dd class="text-muted-foreground mt-3 text-sm/6">
             Page views, custom events, referrers, and device data start flowing
-            in immediately — no cookies or consent banners needed.
+            in immediately with no analytics cookies. Consent requirements still
+            depend on your setup and jurisdiction.
           </dd>
         </div>
         <div>
@@ -264,8 +285,9 @@ import Pricing from "@/components/sections/Pricing.astro";
         Analytics without the trade-offs.
       </h2>
       <p class="text-muted-foreground mt-4 max-w-[56ch] text-base/7">
-        No cookies, no personal data, no consent banners. Kobbe gives you
-        accurate traffic insights while keeping your visitors' privacy intact.
+        No cookies, no persistent visitor profiles, and no raw IP storage.
+        Kobbe gives you useful traffic insights while keeping your visitors'
+        privacy intact.
       </p>
 
       <dl
@@ -274,8 +296,8 @@ import Pricing from "@/components/sections/Pricing.astro";
         <div>
           <dt class="text-foreground text-sm font-medium">Cookie-free</dt>
           <dd class="text-muted-foreground mt-2 text-sm/6">
-            No cookies, localStorage, or persistent identifiers. No consent
-            banner required, ever.
+            The default tracker uses no cookies, localStorage, or persistent
+            browser identifiers.
           </dd>
         </div>
         <div>
@@ -283,15 +305,18 @@ import Pricing from "@/components/sections/Pricing.astro";
             Lightweight tracker
           </dt>
           <dd class="text-muted-foreground mt-2 text-sm/6">
-            The script is under 1 KB, loads async, and has zero impact on your
-            Lighthouse scores.
+            The script is under 1 KB, loads async, and is designed to stay out
+            of the critical rendering path.
           </dd>
         </div>
         <div>
-          <dt class="text-foreground text-sm font-medium">GDPR compliant</dt>
+          <dt class="text-foreground text-sm font-medium">
+            Privacy-aware attribution
+          </dt>
           <dd class="text-muted-foreground mt-2 text-sm/6">
-            No personal data is collected or stored. Fully compliant with GDPR,
-            CCPA, and PECR out of the box.
+            Optional revenue attribution uses session-scoped, pseudonymous
+            keys. You stay in control of when to enable it and how to disclose
+            it.
           </dd>
         </div>
       </dl>
@@ -318,8 +343,10 @@ import Pricing from "@/components/sections/Pricing.astro";
             Do I need a cookie banner?
           </dt>
           <dd class="text-muted-foreground mt-2 text-sm/6">
-            No. Kobbe uses no cookies, localStorage, or any persistent
-            identifiers. You can remove your cookie consent banner entirely.
+            Kobbe's default tracker does not use cookies or persistent browser
+            identifiers. Consent rules still depend on your jurisdiction,
+            configuration, and whether you enable optional features such as
+            revenue attribution.
           </dd>
         </div>
         <div class="py-6 first:pt-0 last:pb-0">
@@ -355,8 +382,8 @@ import Pricing from "@/components/sections/Pricing.astro";
             Will the script slow down my site?
           </dt>
           <dd class="text-muted-foreground mt-2 text-sm/6">
-            No. The tracker is under 1 KB, loads asynchronously, and has no
-            impact on your Core Web Vitals or Lighthouse scores.
+            It is designed not to. The tracker is under 1 KB, loads
+            asynchronously, and avoids blocking the critical rendering path.
           </dd>
         </div>
       </dl>
