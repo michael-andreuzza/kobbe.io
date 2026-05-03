@@ -1,11 +1,18 @@
 ---
 /** Polar-backed tiers; amounts are marketing copy (check app for source of truth). */
-const appSignup = "https://app.kobbe.io/signup";
 const plans = [
   {
     name: "Starter",
-    price: "9",
+    monthlyPrice: "9",
+    yearlyPrice: "90",
+    yearlyMonthlyEquivalent: "7.50",
     description: "Everything you need to understand one site or a focused side project.",
+    checkouts: {
+      monthly:
+        "https://buy.polar.sh/polar_cl_xxRB88wwzrN4RQaeo7hyJ11ecalyuLbeoTTLt1KIgo1",
+      yearly:
+        "https://buy.polar.sh/polar_cl_LqxdB8lO9anLqYIfVadxDDw4tp1sK0J5Y98Dy2NCe07",
+    },
     features: [
       "Up to 1 website per workspace",
       "50,000 included analytics events per workspace per month (UTC) — ingestion stops when exceeded",
@@ -27,8 +34,16 @@ const plans = [
   },
   {
     name: "Growth",
-    price: "20",
+    monthlyPrice: "19",
+    yearlyPrice: "190",
+    yearlyMonthlyEquivalent: "15.83",
     description: "Same product with more room for multiple sites and heavier traffic.",
+    checkouts: {
+      monthly:
+        "https://buy.polar.sh/polar_cl_hnt46OFzo4f9t3GLjTBhPR3aPcIrWNg6ZMSDQ3Y6Z99",
+      yearly:
+        "https://buy.polar.sh/polar_cl_IvnnLzyVd1Z1oHxVFWClZciXTrNeQH9ZjsRTN2dfIlT",
+    },
     features: [
       "Everything in Starter — same dashboard, tracker, and privacy story",
       "Up to 10 websites per workspace",
@@ -58,13 +73,43 @@ const plans = [
     >
       Simple plans. No free tier.
     </h2>
-    <p class="text-muted-foreground mt-4 max-w-[60ch] text-base/7">
-      Pay monthly, cancel any time. Subscriptions are handled securely at
-      checkout; you will use the same email for your Kobbe account. Usage caps
-      are enforced in the product—they may be raised over time as Kobbe grows.
-    </p>
+    <div
+      class="mt-4 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"
+    >
+      <p class="text-muted-foreground max-w-[60ch] text-base/7">
+        Pay monthly, or choose yearly and get two months free. Subscriptions are
+        handled securely by Polar at checkout; use the same email for your Kobbe
+        account.
+      </p>
+
+      <div
+        class="border-border/70 bg-card inline-flex w-fit rounded-lg border p-1 shadow-xs"
+        role="group"
+        aria-label="Billing period"
+      >
+        <button
+          type="button"
+          class="bg-foreground text-background rounded-md px-3 py-1.5 text-sm font-medium shadow-xs transition-colors"
+          data-billing-toggle="monthly"
+          aria-pressed="true"
+        >
+          Monthly
+        </button>
+        <button
+          type="button"
+          class="text-muted-foreground hover:text-foreground rounded-md px-3 py-1.5 text-sm font-medium transition-colors"
+          data-billing-toggle="yearly"
+          aria-pressed="false"
+        >
+          Yearly
+          <span class="ml-1 text-xs">2 months free</span>
+        </button>
+      </div>
+    </div>
 
     <div
+      data-pricing-section
+      data-billing-period="monthly"
       class="mt-12 grid gap-6 lg:mt-16 lg:grid-cols-2 lg:gap-8"
     >
       {
@@ -83,16 +128,40 @@ const plans = [
             ) : null}
             <div class="flex items-baseline justify-between gap-4">
               <h3 class="text-foreground text-lg font-semibold">{plan.name}</h3>
-              <p class="text-foreground text-2xl font-semibold tabular-nums">
-                <span class="text-muted-foreground text-base font-normal">
-                  $
-                </span>
-                {plan.price}
-                <span class="text-muted-foreground text-sm font-normal">
-                  {" "}
-                  / month
-                </span>
-              </p>
+              <div class="text-right">
+                <p
+                  class="text-foreground text-2xl font-semibold tabular-nums"
+                  data-period="monthly"
+                >
+                  <span class="text-muted-foreground text-base font-normal">
+                    $
+                  </span>
+                  {plan.monthlyPrice}
+                  <span class="text-muted-foreground text-sm font-normal">
+                    {" "}
+                    / month
+                  </span>
+                </p>
+                <p
+                  class="text-foreground text-2xl font-semibold tabular-nums"
+                  data-period="yearly"
+                >
+                  <span class="text-muted-foreground text-base font-normal">
+                    $
+                  </span>
+                  {plan.yearlyPrice}
+                  <span class="text-muted-foreground text-sm font-normal">
+                    {" "}
+                    / year
+                  </span>
+                </p>
+                <p
+                  class="text-muted-foreground mt-1 text-xs tabular-nums"
+                  data-period="yearly"
+                >
+                  ${plan.yearlyMonthlyEquivalent}/mo, billed yearly
+                </p>
+              </div>
             </div>
             <p class="text-muted-foreground mt-3 text-sm/6">{plan.description}</p>
             <ul
@@ -105,7 +174,9 @@ const plans = [
               ))}
             </ul>
             <a
-              href={appSignup}
+              href={plan.checkouts.monthly}
+              data-checkout-monthly={plan.checkouts.monthly}
+              data-checkout-yearly={plan.checkouts.yearly}
               class:list={[
                 "mt-8 inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium shadow-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
                 plan.emphasis
@@ -121,7 +192,8 @@ const plans = [
     </div>
 
     <p class="text-muted-foreground mx-auto mt-10 max-w-[52ch] text-center text-sm/6">
-      Prices shown in USD. Need more than Growth?{" "}
+      Prices shown in USD. Yearly plans are billed upfront. Need more than
+      Growth?{" "}
       <a
         href="mailto:support@kobbe.io"
         class="text-foreground underline-offset-4 hover:underline"
@@ -132,3 +204,55 @@ const plans = [
     </p>
   </div>
 </section>
+
+<style>
+  [data-pricing-section][data-billing-period="monthly"]
+    [data-period="yearly"],
+  [data-pricing-section][data-billing-period="yearly"]
+    [data-period="monthly"] {
+    display: none;
+  }
+</style>
+
+<script>
+  const pricingSection = document.querySelector("[data-pricing-section]");
+  const billingToggles = Array.from(
+    document.querySelectorAll("[data-billing-toggle]"),
+  );
+
+  function setBillingPeriod(period: "monthly" | "yearly") {
+    if (!pricingSection) return;
+
+    pricingSection.setAttribute("data-billing-period", period);
+
+    for (const toggle of billingToggles) {
+      const active = toggle.getAttribute("data-billing-toggle") === period;
+      toggle.setAttribute("aria-pressed", String(active));
+      toggle.classList.toggle("bg-foreground", active);
+      toggle.classList.toggle("text-background", active);
+      toggle.classList.toggle("shadow-xs", active);
+      toggle.classList.toggle("text-muted-foreground", !active);
+      toggle.classList.toggle("hover:text-foreground", !active);
+    }
+
+    for (const link of pricingSection.querySelectorAll("[data-checkout-monthly]")) {
+      const href =
+        period === "yearly"
+          ? link.getAttribute("data-checkout-yearly")
+          : link.getAttribute("data-checkout-monthly");
+
+      if (href) {
+        link.setAttribute("href", href);
+      }
+    }
+  }
+
+  for (const toggle of billingToggles) {
+    toggle.addEventListener("click", () => {
+      const period = toggle.getAttribute("data-billing-toggle");
+      if (period === "monthly" || period === "yearly") {
+        setBillingPeriod(period);
+      }
+    });
+  }
+</script>
