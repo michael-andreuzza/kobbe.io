@@ -8,6 +8,8 @@ navLabel: Add the tracker
 
 Add Kobbe to your site by copying the tracker script from your dashboard and pasting it into your website.
 
+For framework and builder-specific steps, see [Installation guides](/docs/installation-guides).
+
 ## 1. Create a site
 
 Sign in to Kobbe, create a site, and enter the domain you want to track.
