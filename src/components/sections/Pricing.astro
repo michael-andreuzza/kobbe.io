@@ -231,7 +231,7 @@ const plans = [
 
     try {
       const url = new URL(href, window.location.href);
-      url.searchParams.set("reference_id", attributionId);
+      url.searchParams.set("kobbe_attribution_id", attributionId);
       return url.toString();
     } catch {
       return href;
