@@ -1,12 +1,49 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Pricing from "@/components/sections/Pricing.astro";
+
+const showFullLanding = false;
 ---
 
 <BaseLayout
   title="Kobbe — Web analytics that respect your visitors"
   description="Privacy-friendly, cookie-free website analytics. See your traffic, top pages, referrers, locations, and devices in a clean dashboard without building invasive visitor profiles."
 >
+  <section class="mx-auto flex min-h-[calc(100svh-9rem)] max-w-6xl items-center px-6 py-20 lg:py-28">
+    <div class="max-w-2xl">
+      <p class="text-muted-foreground text-sm font-medium tracking-wide uppercase">
+        Coming soon
+      </p>
+      <h1
+        class="text-foreground mt-4 max-w-[18ch] text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl"
+      >
+        Kobbe is getting ready to launch.
+      </h1>
+      <p class="text-muted-foreground mt-6 max-w-[46ch] text-lg/7 text-pretty sm:text-base/7">
+        Privacy-friendly analytics for people who want clear traffic insights
+        without invasive visitor tracking. We are polishing the product before
+        opening access.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a
+          href="mailto:support@kobbe.io"
+          class="bg-foreground text-background hover:bg-foreground/90 inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium shadow-xs transition-colors"
+        >
+          Contact us
+        </a>
+        <a
+          href="/docs"
+          class="border-border bg-card text-foreground hover:bg-accent inline-flex items-center justify-center rounded-lg border px-4 py-2.5 text-sm font-medium shadow-xs transition-colors"
+        >
+          Read the docs
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {
+    showFullLanding ? (
+      <>
   <!-- Hero -->
   <section class="mx-auto max-w-6xl px-6 pt-20 lg:pt-28">
     <div class="max-w-2xl">
@@ -389,4 +426,7 @@ import Pricing from "@/components/sections/Pricing.astro";
       </dl>
     </div>
   </section>
+      </>
+    ) : null
+  }
 </BaseLayout>
