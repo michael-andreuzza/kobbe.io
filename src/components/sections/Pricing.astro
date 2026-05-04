@@ -6,7 +6,7 @@ const plans = [
     monthlyPrice: "9",
     yearlyPrice: "90",
     yearlyMonthlyEquivalent: "7.50",
-    description: "Everything you need to understand one site or a focused side project.",
+    description: "For one site or a focused side project.",
     checkouts: {
       monthly:
         "https://buy.polar.sh/polar_cl_xxRB88wwzrN4RQaeo7hyJ11ecalyuLbeoTTLt1KIgo1",
@@ -14,20 +14,14 @@ const plans = [
         "https://buy.polar.sh/polar_cl_LqxdB8lO9anLqYIfVadxDDw4tp1sK0J5Y98Dy2NCe07",
     },
     features: [
-      "Up to 1 website per workspace",
-      "50,000 included analytics events per workspace per month (UTC) — ingestion stops when exceeded",
-      "Cookie-free visitor analytics with a privacy-friendly default",
-      "Traffic overview: visitors, views, and trends over time",
-      "Top pages, entry pages, and exit pages",
-      "Referrers and channels (direct, search, social, links)",
-      "Countries, regions, and cities without storing IP addresses",
-      "Browsers, operating systems, and device categories",
-      "Real-time view: who’s on-site now and what they’re reading",
-      "Custom events for sign-ups, clicks, and funnel steps",
-      "Built-in bot, referrer spam, and datacenter filtering",
-      "AI traffic insights (e.g. ChatGPT, Perplexity, Claude referrals)",
-      "Shareable, revocable read-only dashboard links",
-      "Tracker under 1 KB, loads async, designed to stay out of the critical path",
+      "1 website",
+      "50k monthly events",
+      "180 days data retention",
+      "Cookie-free analytics",
+      "Realtime dashboard",
+      "Events, funnels, and revenue attribution",
+      "Shareable dashboard links",
+      "CSV export",
     ],
     cta: "Get started",
     emphasis: false,
@@ -37,7 +31,7 @@ const plans = [
     monthlyPrice: "19",
     yearlyPrice: "190",
     yearlyMonthlyEquivalent: "15.83",
-    description: "Same product with more room for multiple sites and heavier traffic.",
+    description: "For multiple sites and growing traffic.",
     checkouts: {
       monthly:
         "https://buy.polar.sh/polar_cl_hnt46OFzo4f9t3GLjTBhPR3aPcIrWNg6ZMSDQ3Y6Z99",
@@ -45,14 +39,14 @@ const plans = [
         "https://buy.polar.sh/polar_cl_IvnnLzyVd1Z1oHxVFWClZciXTrNeQH9ZjsRTN2dfIlT",
     },
     features: [
-      "Everything in Starter — same dashboard, tracker, and privacy story",
-      "Up to 10 websites per workspace",
-      "500,000 included analytics events per workspace per month (UTC) — ingestion stops when exceeded",
-      "Built for several properties, client builds, or side projects at once",
-      "One workspace to switch between sites without juggling accounts",
-      "Same bot filtering, AI-referrer visibility, and share links — at scale",
-      "Same cookie-free model: no raw IP storage or persistent visitor profiles",
-      "Upgrade or downgrade without exporting data — billing follows your plan",
+      "Everything in Starter",
+      "10 websites",
+      "500k monthly events",
+      "180 days data retention",
+      "One workspace for all sites",
+      "AI referrer insights",
+      "Bot and spam filtering",
+      "Priority room to grow",
     ],
     cta: "Get started",
     emphasis: true,
@@ -77,9 +71,8 @@ const plans = [
       class="mt-4 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"
     >
       <p class="text-muted-foreground max-w-[60ch] text-base/7">
-        Pay monthly, or choose yearly and get two months free. Subscriptions are
-        handled securely by Polar at checkout; use the same email for your Kobbe
-        account.
+        Pay monthly, or choose yearly and get two months free. Checkout is
+        handled securely by Polar.
       </p>
 
       <div
@@ -215,10 +208,46 @@ const plans = [
 </style>
 
 <script>
+  type BillingPeriod = "monthly" | "yearly";
+  type KobbeWindow = Window &
+    typeof globalThis & {
+      kobbe?: {
+        attributionId?: string;
+        getAttributionId?: () => string | undefined;
+      };
+    };
+
   const pricingSection = document.querySelector("[data-pricing-section]");
   const billingToggles = Array.from(
     document.querySelectorAll("[data-billing-toggle]"),
   );
+
+  function checkoutHrefWithAttribution(href: string) {
+    const kobbe = (window as KobbeWindow).kobbe;
+    const attributionId =
+      kobbe?.getAttributionId?.() ?? kobbe?.attributionId;
+
+    if (!attributionId) return href;
+
+    try {
+      const url = new URL(href, window.location.href);
+      url.searchParams.set("reference_id", attributionId);
+      return url.toString();
+    } catch {
+      return href;
+    }
+  }
+
+  function updateCheckoutHref(link: Element, period: BillingPeriod) {
+    const href =
+      period === "yearly"
+        ? link.getAttribute("data-checkout-yearly")
+        : link.getAttribute("data-checkout-monthly");
+
+    if (href) {
+      link.setAttribute("href", checkoutHrefWithAttribution(href));
+    }
+  }
 
   function setBillingPeriod(period: "monthly" | "yearly") {
     if (!pricingSection) return;
@@ -236,14 +265,7 @@ const plans = [
     }
 
     for (const link of pricingSection.querySelectorAll("[data-checkout-monthly]")) {
-      const href =
-        period === "yearly"
-          ? link.getAttribute("data-checkout-yearly")
-          : link.getAttribute("data-checkout-monthly");
-
-      if (href) {
-        link.setAttribute("href", href);
-      }
+      updateCheckoutHref(link, period);
     }
   }
 
@@ -254,5 +276,23 @@ const plans = [
         setBillingPeriod(period);
       }
     });
+  }
+
+  if (pricingSection) {
+    const initialPeriod =
+      pricingSection.getAttribute("data-billing-period") === "yearly"
+        ? "yearly"
+        : "monthly";
+
+    for (const link of pricingSection.querySelectorAll("[data-checkout-monthly]")) {
+      updateCheckoutHref(link, initialPeriod);
+      link.addEventListener("click", () => {
+        const period =
+          pricingSection.getAttribute("data-billing-period") === "yearly"
+            ? "yearly"
+            : "monthly";
+        updateCheckoutHref(link, period);
+      });
+    }
   }
 </script>

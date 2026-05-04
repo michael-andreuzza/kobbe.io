@@ -1,22 +1,30 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import PricingSection from "@/components/sections/Pricing.astro";
 ---
 
 <BaseLayout
   title="Pricing — Kobbe"
-  description="Starter and Growth plans for privacy-friendly web analytics. Cookie-free dashboard, monthly and yearly pricing."
+  description="Kobbe pricing now lives on the homepage."
 >
-  <section class="mx-auto max-w-6xl px-6 pt-16 lg:pt-24">
+  <section class="mx-auto max-w-3xl px-6 py-20 text-center lg:py-28">
     <h1
-      class="text-foreground max-w-[28ch] text-3xl font-semibold tracking-tight text-balance sm:text-4xl"
+      class="text-foreground text-3xl font-semibold tracking-tight text-balance sm:text-4xl"
     >
-      Pricing
+      Pricing moved to the homepage
     </h1>
-    <p class="text-muted-foreground mt-4 max-w-[52ch] text-base/7">
-      Choose Starter or Growth when you create your workspace at checkout.
-      Same product experience — limits scale with your plan.
+    <p class="text-muted-foreground mx-auto mt-4 max-w-[44ch] text-base/7">
+      We keep the pricing table on the landing page now, so the product story
+      and plans stay in one place.
     </p>
+    <a
+      href="/#pricing"
+      class="bg-foreground text-background hover:bg-foreground/90 mt-8 inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium shadow-xs transition-colors"
+    >
+      View pricing
+    </a>
   </section>
-  <PricingSection />
 </BaseLayout>
+
+<script is:inline>
+  window.location.replace("/#pricing");
+</script>

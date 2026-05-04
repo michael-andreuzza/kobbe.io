@@ -25,6 +25,8 @@ const legal = defineCollection({
     title: z.string(),
     description: z.string().optional(),
     updatedAt: z.coerce.date().optional(),
+    /** Short label for footer / compact nav (optional) */
+    footerLabel: z.string().optional(),
   }),
 });
 

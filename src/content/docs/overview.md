@@ -33,10 +33,14 @@ Guides: [Installation guides](/docs/installation-guides), [Add the tracker](/doc
 
 ## Privacy by default
 
-Kobbe's default tracker does not use cookies, localStorage, sessionStorage, or browser fingerprinting techniques (canvas, WebGL, font enumeration, etc.). There is no persistent client-side identifier and no cross-session tracking.
+Kobbe's default tracker does not use cookies or browser fingerprinting techniques (canvas, WebGL, font enumeration, etc.). It does not use `localStorage` or `sessionStorage` **to count pageviews or build visitor profiles**.
+
+**Visitor opt-out:** If someone sets `localStorage.kobbe_ignore` (see [Exclude visits](/docs/exclude-visits)), the script stops sending events from that browser. That stores a **preference**, not a persistent analytics identifier.
+
+In the default configuration there is no client-side storage used for cross-session tracking.
 
 To count same-day unique visitors, the server computes a short-lived anonymous hash from the request metadata and a daily-rotating secret. The hash cannot be reversed, is never shared across days, and raw IP addresses are never stored in the database.
 
 The tracker strips query strings from URLs and only sends the referrer origin, so search queries, tokens, and other sensitive URL data are not collected.
 
-Optional features such as hash page paths, scroll tracking, and cross-domain tracking are off by default. Enable them only when they fit your site, legal basis, and privacy notice. Cross-domain tracking is consent-sensitive and uses sessionStorage only after you explicitly enable it.
+Optional features such as hash page paths, scroll tracking, [cross-domain tracking](/docs/cross-domain-tracking), and [revenue attribution](/docs/revenue-attribution) are off by default. Enable them only when they fit your site, legal basis, and privacy notice. Cross-domain handoff and revenue attribution can use `sessionStorage` in the tab **after** you explicitly enable them; cross-domain especially is consent-sensitive.

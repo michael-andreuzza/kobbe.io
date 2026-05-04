@@ -1,8 +1,10 @@
 ---
 title: Privacy Policy
 description: How Kobbe handles analytics data and visitor privacy.
-updatedAt: 2026-04-29
+updatedAt: 2026-05-04
 ---
+
+Kobbe is operated by **Michael Alexandert Web Agency, trading as Kobbe**, Riåkervägen 2, Sviby, Åland Islands, Finland.
 
 Kobbe is built with privacy at its core. We collect only the minimum information necessary to operate the service. This policy explains what we collect, how it's used, and the choices you have.
 
@@ -40,7 +42,7 @@ We do not sell data. Analytics data is only visible to the site owner (and anyon
 
 ## Data storage
 
-Analytics data is stored and processed by Kobbe to provide the dashboard, reports, and shared dashboard links. We keep analytics data only for as long as needed to provide the service and operate the product.
+Analytics data is stored and processed by Kobbe to provide the dashboard, reports, and shared dashboard links. The default retention period for analytics event rows is **180 days**. Account, billing, subscription, and operational records may be kept for as long as needed to provide the service, comply with legal obligations, resolve disputes, and operate the product.
 
 ## Your rights
 
@@ -49,6 +51,10 @@ Because Kobbe does not collect personal data or use cookies, GDPR consent banner
 ## Changes
 
 We may update this policy from time to time. The most recent revision date will be noted at the top of this page.
+
+## Data processing addendum (organizations)
+
+If you need a processor agreement (GDPR-style DPA) for the **hosted** Kobbe service, see the [Data Processing Addendum](/legal/dpa). It is part of our [Terms of Service](/legal/terms); **using the hosted service** accepts the current DPA, and you can **download a PDF copy** from that page for your files. Organizations should have **their own counsel** review if required for their procurement or jurisdiction.
 
 ## Contact
 
