@@ -15,7 +15,7 @@ Kobbe is a privacy-friendly analytics dashboard for understanding your website t
 3. Paste the script into your website.
 4. Open your dashboard to see visitors, visits, views, sources, locations, devices, and events.
 
-Guides: [Installation guides](/docs/installation-guides), [Add the tracker](/docs/add-the-tracker), [Dashboard overview](/docs/dashboard-overview), [Realtime visitors](/docs/realtime-visitors), [Performance and Web Vitals](/docs/performance-web-vitals), [Privacy and cookieless tracking](/docs/privacy-and-cookieless-tracking), [Script options](/docs/script-options), [Hash page paths](/docs/hash-page-paths), [Track across subdomains](/docs/track-subdomains), [Cross-domain tracking](/docs/cross-domain-tracking), [Exclude visits](/docs/exclude-visits), [Custom events](/docs/custom-events), [Scroll tracking](/docs/scroll-tracking), [Team access](/docs/team-access), [Billing and usage limits](/docs/billing-and-usage-limits), [Reduce usage](/docs/reduce-usage).
+Guides: [Installation guides](/docs/installation-guides), [Add the tracker](/docs/add-the-tracker), [Dashboard overview](/docs/dashboard-overview), [Realtime visitors](/docs/realtime-visitors), [Performance and Web Vitals](/docs/performance-web-vitals), [Google Search Console](/docs/search-console), [Privacy and cookieless tracking](/docs/privacy-and-cookieless-tracking), [Script options](/docs/script-options), [Hash page paths](/docs/hash-page-paths), [Track across subdomains](/docs/track-subdomains), [Cross-domain tracking](/docs/cross-domain-tracking), [Exclude visits](/docs/exclude-visits), [Custom events](/docs/custom-events), [Scroll tracking](/docs/scroll-tracking), [Team access](/docs/team-access), [Billing and usage limits](/docs/billing-and-usage-limits), [Reduce usage](/docs/reduce-usage).
 
 ## What you can see
 
@@ -27,6 +27,7 @@ Guides: [Installation guides](/docs/installation-guides), [Add the tracker](/doc
 - **Custom events** — track clicks, section visibility, signups, purchases, downloads, and other important actions.
 - **Funnels** — measure conversion and drop-off across page paths and custom events.
 - **Performance** — opt in to real-user Web Vitals and inspect slow pages, browsers, devices, and countries.
+- **Search Console** — connect Google Search Console to review organic queries, landing pages, clicks, impressions, and rankings next to your analytics.
 - **AI traffic** — see referrals from tools like ChatGPT, Perplexity, Claude, and more.
 - **Shared dashboards** — create read-only links for clients, teammates, or stakeholders.
 - **Team access** — invite teammates to view one project dashboard without giving them workspace settings access.
