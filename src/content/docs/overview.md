@@ -29,6 +29,7 @@ Guides: [Installation guides](/docs/installation-guides), [Add the tracker](/doc
 - **Performance** — opt in to real-user Web Vitals and inspect slow pages, browsers, devices, and countries.
 - **AI traffic** — see referrals from tools like ChatGPT, Perplexity, Claude, and more.
 - **Shared dashboards** — create read-only links for clients, teammates, or stakeholders.
+- **Team access** — invite teammates to view dashboards without giving them workspace settings access.
 - **Data export** — download site analytics as CSV for reports, backups, or spreadsheet analysis.
 
 ## Privacy by default
