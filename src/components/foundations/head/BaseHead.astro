@@ -2,18 +2,11 @@
 // Foundations
 import "@/styles/global.css";
 import Metatags from "@/components/foundations/head/Metatags.astro";
-import Favicons from "@/components/foundations/head/Favicons.astro";
-import StructuredData from "./StructuredData.astro";
-import Fonts from "@/components/foundations/head/Fonts.astro";
 import type { SEOProps } from "@/components/foundations/head/Metatags.astro";
 export interface Props {
   seo?: SEOProps;
-  structuredData?: Record<string, unknown>;
 }
-const { seo = {}, structuredData = {} } = Astro.props as Props;
+const { seo = {} } = Astro.props as Props;
 ---
 
 <Metatags seo={seo} />
-<Favicons />
-<Fonts />
-<StructuredData data={structuredData} />

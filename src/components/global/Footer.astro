@@ -5,6 +5,7 @@ const legalPages = await getCollection("legal");
 const footerLinks = [
   { href: "/docs", label: "Docs" },
   { href: "/#pricing", label: "Pricing" },
+  { href: "/contact", label: "Support" },
   ...legalPages.map((page) => ({
     href: `/legal/${page.id}`,
     label:

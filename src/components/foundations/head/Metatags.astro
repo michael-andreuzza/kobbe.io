@@ -1,70 +1,48 @@
 ---
+import SiteSeo from "@/components/foundations/head/SiteSeo.astro";
+
 export interface SEOProps {
   title?: string;
   description?: string;
   canonical?: string;
-  robots?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
   openGraph?: {
     image?: string;
     url?: string;
     type?: string;
+    imageAlt?: string;
+    imageHeight?: number;
+    imageWidth?: number;
   };
   twitter?: {
     image?: string;
-    site?: string;
-    creator?: string;
-    card?: string; // "summary_large_image"
   };
+  jsonLdExtra?: Record<string, unknown>[];
 }
 
 const { seo = {} as SEOProps } = Astro.props;
 const {
-  title,
-  description,
+  title = "Kobbe — Web analytics that respect your visitors",
+  description = "Privacy-friendly, cookie-free website analytics. See your traffic, top pages, referrers, locations, and devices in a clean dashboard.",
   canonical,
-  robots = "index, follow",
+  noindex = false,
+  nofollow = false,
   openGraph = {},
-  twitter = {},
+  jsonLdExtra = [],
 } = seo;
-
-// Ensure og:url always matches canonical unless explicitly overridden
-const ogUrl = openGraph.url ?? canonical;
-const siteBase = "https://lexingtonthemes.com";
-const toAbsoluteUrl = (url?: string) => {
-  if (!url) return undefined;
-  if (/^https?:\/\//i.test(url)) return url;
-  return `${siteBase}${url.startsWith("/") ? "" : "/"}${url}`;
-};
-const ogImage = toAbsoluteUrl(openGraph.image);
-const twitterImage = toAbsoluteUrl(twitter.image);
 ---
 
-<meta charset="utf-8" />
-<meta name="robots" content={robots} />
-{title && <title>{title}</title>}
-{description && <meta name="description" content={description} />}
-{canonical && <link rel="canonical" href={canonical} />}
-
-<!-- Open Graph -->
-<meta property="og:type" content={openGraph.type ?? "website"} />
-{ogUrl && <meta property="og:url" content={ogUrl} />}
-{title && <meta property="og:title" content={title} />}
-{description && <meta property="og:description" content={description} />}
-{ogImage && <meta property="og:image" content={ogImage} />}
-
-<!-- Twitter -->
-<meta name="twitter:card" content={twitter.card ?? "summary_large_image"} />
-{twitter.site && <meta name="twitter:site" content={twitter.site} />}
-{twitter.creator && <meta name="twitter:creator" content={twitter.creator} />}
-{title && <meta name="twitter:title" content={title} />}
-{description && <meta name="twitter:description" content={description} />}
-{twitterImage && <meta name="twitter:image" content={twitterImage} />}
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="author" content="Michael Andreuzza" />
-<meta
-  name="keywords"
-  content="Astro templates, Astro website templates, Astro Tailwind CSS templates, Premium Astro templates, Free Astro templates, Responsive Astro themes, SEO-friendly Astro templates, Astro Tailwind SaaS templates, Astro Tailwind portfolio templates, Astro blog templates, Astro documentation templates, Astro eCommerce templates, Astro starter themes, Astro UI kits, Fast Astro websites, Web development with Astro and Tailwind CSS"
+<SiteSeo
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogImage={openGraph.image}
+  ogImageAlt={openGraph.imageAlt}
+  ogImageHeight={openGraph.imageHeight}
+  ogImageWidth={openGraph.imageWidth}
+  ogType={openGraph.type}
+  noindex={noindex}
+  nofollow={nofollow}
+  jsonLdExtra={jsonLdExtra}
 />
-
-<meta name="theme-color" content="#ffffff" />
-<meta name="msapplication-TileColor" content="#ffffff" />

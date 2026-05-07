@@ -1,0 +1,119 @@
+---
+import { AstroSeo } from "@lexingtonthemes/seo";
+import { buildSiteJsonLdGraph } from "@/lib/seo/json-ld";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  ogImageHeight?: number;
+  ogImageWidth?: number;
+  ogType?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
+  jsonLdExtra?: Record<string, unknown>[];
+}
+
+const site = Astro.site?.toString().replace(/\/$/, "") || "https://kobbe.io";
+const pathname = Astro.url?.pathname || "/";
+const canonicalPathname =
+  pathname === "/"
+    ? "/"
+    : pathname.replace(/\/index\.html$/, "/").replace(/\.html$/, "");
+
+const {
+  title,
+  description,
+  canonical = new URL(canonicalPathname, site).toString(),
+  ogImage = new URL(
+    "/images/favicons/android-chrome-512x512.png",
+    site,
+  ).toString(),
+  ogImageAlt = "Kobbe",
+  ogImageHeight = 512,
+  ogImageWidth = 512,
+  ogType = "website",
+  noindex = false,
+  nofollow = false,
+  jsonLdExtra = [],
+} = Astro.props;
+
+const robotsProps = {
+  maxSnippet: -1,
+  maxImagePreview: "large" as const,
+  maxVideoPreview: -1,
+};
+
+const jsonLd = buildSiteJsonLdGraph({
+  site,
+  pathname: canonicalPathname,
+  title,
+  description,
+  extraGraphNodes: jsonLdExtra,
+});
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+<AstroSeo
+  title={title}
+  description={description}
+  canonical={canonical}
+  noindex={noindex}
+  nofollow={nofollow}
+  robotsProps={robotsProps}
+  openGraph={{
+    type: ogType,
+    url: canonical,
+    title,
+    description,
+    site_name: "Kobbe",
+    locale: "en_US",
+    images: [
+      {
+        url: ogImage,
+        width: ogImageWidth,
+        height: ogImageHeight,
+        alt: ogImageAlt,
+      },
+    ],
+  }}
+  twitter={{
+    cardType: "summary",
+    handle: "@Mike_Andreuzza",
+  }}
+  additionalMetaTags={[
+    { name: "author", content: "Kobbe" },
+    { name: "theme-color", content: "#ffffff" },
+    { name: "msapplication-TileColor", content: "#ffffff" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: ogImage },
+  ]}
+  additionalLinkTags={[
+    { rel: "icon", href: "/images/favicons/favicon.ico", sizes: "any" },
+    {
+      rel: "apple-touch-icon",
+      sizes: "180x180",
+      href: "/images/favicons/apple-touch-icon.png",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "32x32",
+      href: "/images/favicons/favicon-32x32.png",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "16x16",
+      href: "/images/favicons/favicon-16x16.png",
+    },
+    { rel: "manifest", href: "/images/favicons/site.webmanifest" },
+    { rel: "sitemap", href: "/sitemap-index.xml" },
+  ]}
+  jsonLd={jsonLd}
+/>
