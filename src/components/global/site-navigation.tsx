@@ -12,6 +12,7 @@ export type SiteNavigationProps = {
   docsNavGroups?: NavGroup[];
 };
 export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
+  const hasDocsNavigation = Boolean(docsNavGroups?.length);
   const linkClassName = cn(buttonVariants({ variant: "ghost", size: "sm" }));
   const signInClassName = cn(
     buttonVariants({ variant: "secondary", size: "sm" }),
@@ -25,14 +26,16 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
               Docs
             </NavigationMenuLink>
           </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink
-              href="/docs/support-faq"
-              className={linkClassName}
-            >
-              FAQ
-            </NavigationMenuLink>
-          </NavigationMenuItem>
+          {!hasDocsNavigation ? (
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                href="/docs/support-faq"
+                className={linkClassName}
+              >
+                FAQ
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          ) : null}
           <NavigationMenuItem>
             <NavigationMenuLink href="/pricing" className={linkClassName}>
               Pricing
@@ -50,7 +53,7 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      {docsNavGroups && docsNavGroups.length > 0 ? (
+      {hasDocsNavigation ? (
         <DocsMobileNavDialog groups={docsNavGroups} />
       ) : null}
     </div>
