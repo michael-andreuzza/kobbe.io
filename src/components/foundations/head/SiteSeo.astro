@@ -1,6 +1,9 @@
 ---
 import { AstroSeo } from "@lexingtonthemes/seo";
-import { buildSiteJsonLdGraph } from "@/lib/seo/json-ld";
+import {
+  buildSiteJsonLdGraph,
+  type JsonLdBreadcrumb,
+} from "@/lib/seo/json-ld";
 
 interface Props {
   title: string;
@@ -14,6 +17,7 @@ interface Props {
   ogType?: string;
   noindex?: boolean;
   nofollow?: boolean;
+  jsonLdBreadcrumbs?: JsonLdBreadcrumb[];
   jsonLdExtra?: Record<string, unknown>[];
 }
 
@@ -39,6 +43,7 @@ const {
   ogType = "website",
   noindex = false,
   nofollow = false,
+  jsonLdBreadcrumbs,
   jsonLdExtra = [],
 } = Astro.props;
 
@@ -53,6 +58,7 @@ const jsonLd = buildSiteJsonLdGraph({
   pathname: canonicalPathname,
   title,
   description,
+  breadcrumbs: jsonLdBreadcrumbs,
   extraGraphNodes: jsonLdExtra,
 });
 ---

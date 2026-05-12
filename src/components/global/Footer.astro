@@ -5,13 +5,27 @@ import Text from "@/components/foundations/elements/Text.astro";
 import Logo from "@/components/assets/Logo.astro";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-const footerLinkGroups = [
+
+type FooterLink = {
+  href: string;
+  label: string;
+  target?: string;
+  rel?: string;
+};
+
+type FooterLinkGroup = {
+  title: string;
+  links: FooterLink[];
+};
+
+const footerLinkGroups: FooterLinkGroup[] = [
   {
     title: "Product",
     links: [
       { href: "/features", label: "Features" },
       { href: "/pricing", label: "Pricing" },
       { href: "/docs", label: "Docs" },
+      { href: "/llms.txt", label: "llms.txt" },
     ],
   },
   {
@@ -29,6 +43,17 @@ const footerLinkGroups = [
       { href: "/docs/legal-privacy", label: "Privacy" },
       { href: "/docs/legal-gdpr-compliance", label: "GDPR" },
       { href: "/docs/legal-dpa", label: "DPA" },
+    ],
+  },
+  {
+    title: "More",
+    links: [
+      {
+        href: "http://lexingtonthemes.com/",
+        label: "Astro Website templates",
+        target: "_blank",
+        rel: "noopener noreferrer",
+      },
     ],
   },
 ];
@@ -57,7 +82,7 @@ const footerLinkGroups = [
         <Text
           tag="p"
           variant="textBase"
-          class="text-muted-foreground text-balance"
+          class="text-muted-foreground mt-4 text-balance"
         >
           Privacy-friendly analytics for teams that want clear numbers without
           extra tracking work.
@@ -99,7 +124,7 @@ const footerLinkGroups = [
           aria-label="Homepage"
           class="text-foreground flex min-w-0 items-center gap-2 font-medium tracking-tight"
         >
-          <Logo class="h-6" />
+          <Logo class="h-6 rounded" />
           Kobbe
         </a>
         <Text
@@ -114,7 +139,9 @@ const footerLinkGroups = [
           &copy; {new Date().getFullYear()} Kobbe. All rights reserved.
         </p>
       </div>
-      <nav class="grid grid-cols-1 gap-8 text-sm sm:grid-cols-3 lg:col-start-4">
+      <nav
+        class="grid grid-cols-1 gap-8 text-sm sm:grid-cols-4 lg:col-span-2 lg:col-start-3"
+      >
         {
           footerLinkGroups.map((group) => (
             <div class="space-y-3">
@@ -130,6 +157,8 @@ const footerLinkGroups = [
                   <li>
                     <a
                       href={link.href}
+                      target={link.target}
+                      rel={link.rel}
                       class="text-muted-foreground hover:text-foreground font-medium transition-colors"
                     >
                       {link.label}

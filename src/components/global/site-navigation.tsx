@@ -53,7 +53,7 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      {hasDocsNavigation ? (
+      {hasDocsNavigation && docsNavGroups ? (
         <DocsMobileNavDialog groups={docsNavGroups} />
       ) : null}
     </div>

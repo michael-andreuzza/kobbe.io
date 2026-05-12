@@ -3,6 +3,7 @@ import "@/styles/global.css";
 import Navigation from "@/components/global/Navigation.astro";
 import Footer from "@/components/global/Footer.astro";
 import SiteSeo from "@/components/foundations/head/SiteSeo.astro";
+import type { JsonLdBreadcrumb } from "@/lib/seo/json-ld";
 
 interface Props {
   title?: string;
@@ -16,6 +17,7 @@ interface Props {
   ogType?: string;
   noindex?: boolean;
   nofollow?: boolean;
+  jsonLdBreadcrumbs?: JsonLdBreadcrumb[];
   jsonLdExtra?: Record<string, unknown>[];
   hideNavigation?: boolean;
   hideFooter?: boolean;
@@ -37,6 +39,7 @@ const {
   ogType,
   noindex,
   nofollow,
+  jsonLdBreadcrumbs,
   jsonLdExtra,
   hideNavigation = false,
   hideFooter = false,
@@ -58,6 +61,7 @@ const {
       ogType={ogType}
       noindex={noindex}
       nofollow={nofollow}
+      jsonLdBreadcrumbs={jsonLdBreadcrumbs}
       jsonLdExtra={jsonLdExtra}
     />
     <script

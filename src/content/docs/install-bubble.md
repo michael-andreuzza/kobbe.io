@@ -1,6 +1,6 @@
 ---
 title: Install on Bubble
-description: Add the Kobbe tracker to a Bubble.io app.
+description: Add the Kobbe tracker to Bubble apps through SEO, metatag, or script settings.
 order: 16
 category: Installation guides
 navLabel: Bubble

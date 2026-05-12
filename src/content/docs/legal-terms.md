@@ -1,6 +1,6 @@
 ---
 title: Terms of Service
-description: Terms for using Kobbe.
+description: Read the terms that govern Kobbe accounts, subscriptions, acceptable use, and service access.
 order: 80
 category: Legal
 navLabel: Terms

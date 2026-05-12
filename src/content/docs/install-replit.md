@@ -1,6 +1,6 @@
 ---
 title: Install on Replit
-description: Add the Kobbe tracker to a Replit-hosted web app.
+description: Add the Kobbe tracker to Replit-hosted static, Express, React, or Vite web apps.
 order: 24
 category: Installation guides
 navLabel: Replit

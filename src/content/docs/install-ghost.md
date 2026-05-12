@@ -1,6 +1,6 @@
 ---
 title: Install on Ghost
-description: Add the Kobbe tracker with Ghost code injection.
+description: Add the Kobbe tracker to Ghost with global code injection for site-wide analytics.
 order: 15
 category: Installation guides
 navLabel: Ghost

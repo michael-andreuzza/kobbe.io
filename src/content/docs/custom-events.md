@@ -1,6 +1,6 @@
 ---
 title: Custom events
-description: Track custom events with Kobbe.
+description: Track clicks, signups, downloads, purchases, and other custom events with Kobbe.
 order: 31
 category: Tracking
 navLabel: Custom events

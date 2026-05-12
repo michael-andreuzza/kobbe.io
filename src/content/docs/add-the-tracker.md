@@ -1,6 +1,6 @@
 ---
 title: Add the tracker
-description: Add the Kobbe tracker to your website.
+description: Add the Kobbe tracker script to your website and verify that pageviews appear in real time.
 order: 25
 category: Get started
 navLabel: Add the tracker

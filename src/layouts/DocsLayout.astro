@@ -6,6 +6,7 @@ import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import type { CollectionEntry } from "astro:content";
 import ToCScript from "@/components/foundations/scripts/ToCScript.astro";
 import TableOfContents from "@/components/foundations/navigation/TableOfContents.astro";
+import type { JsonLdBreadcrumb } from "@/lib/seo/json-ld";
 
 interface Props {
   title?: string;
@@ -38,6 +39,17 @@ const groupedNavLinks = resolvedNavLinks.reduce(
   },
   [] as { category: string; items: typeof resolvedNavLinks }[],
 );
+const currentNavLink = resolvedNavLinks.find((item) => item.isActive);
+const jsonLdBreadcrumbs: JsonLdBreadcrumb[] =
+  currentPath === "/docs"
+    ? [{ name: "Docs", item: "/docs" }]
+    : [
+        { name: "Docs", item: "/docs" },
+        {
+          name: currentNavLink?.label ?? displayTitle ?? "Docs",
+          item: currentNavLink?.href ?? currentPath,
+        },
+      ];
 
 /** Stable sidebar order so Dashboard stats sits under Get started (not after long guide groups). */
 const NAV_GROUP_ORDER = [
@@ -70,6 +82,7 @@ groupedNavLinks.sort((a, b) => {
 <BaseLayout
   title={title}
   description={description}
+  jsonLdBreadcrumbs={jsonLdBreadcrumbs}
   docsNavGroups={groupedNavLinks}
 >
   <Wrapper variant="default">
@@ -84,7 +97,7 @@ groupedNavLinks.sort((a, b) => {
       >
         {
           displayTitle && (
-            <header class="not-prose flex max-w-2xl items-start justify-between gap-4">
+            <header class="not-prose flex w-full max-w-2xl items-start justify-between gap-4">
               <div class="min-w-0">
                 <Text
                   tag="h1"
@@ -103,7 +116,7 @@ groupedNavLinks.sort((a, b) => {
                   </Text>
                 )}
               </div>
-              <div class="mt-1 shrink-0">
+              <div class="mt-1 ml-auto w-fit shrink-0">
                 <slot name="header-actions" />
               </div>
             </header>

@@ -1,6 +1,6 @@
 ---
 title: Install on Django
-description: Add the Kobbe tracker to Django templates.
+description: Add the Kobbe tracker to Django base templates for site-wide privacy-friendly analytics.
 order: 8
 category: Installation guides
 navLabel: Django

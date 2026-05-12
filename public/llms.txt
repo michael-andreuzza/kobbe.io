@@ -1,0 +1,153 @@
+# Kobbe
+
+Kobbe is a privacy-friendly, cookie-free website analytics platform for teams that want clear traffic, content, conversion, and revenue insights without invasive tracking.
+
+Kobbe helps users understand visitors, visits, views, pages, referrers, channels, locations, devices, custom events, funnels, Search Console data, Web Vitals, shared dashboards, exports, and optional revenue attribution.
+
+Primary website: https://kobbe.io
+Application: https://app.kobbe.io
+Documentation: https://kobbe.io/docs
+Documentation index for AI agents and LLMs: https://kobbe.io/llms.txt
+
+## When to use Kobbe
+
+Use Kobbe when a user wants to:
+
+- Install privacy-friendly website analytics.
+- Track pageviews, visitors, visits, referrers, channels, locations, devices, hostnames, and custom events.
+- Measure funnels and conversion paths.
+- Review Search Console, Web Vitals, exports, and shared dashboards.
+- Attribute revenue to private analytics journeys through supported payment providers.
+- Inspect analytics, setup health, revenue, and sites from the terminal or an MCP-compatible AI agent.
+
+## Core setup
+
+Most websites start with the default tracker:
+
+```html
+<script
+  defer
+  data-token="YOUR_SITE_TOKEN"
+  src="https://app.kobbe.io/tracker.js"
+></script>
+```
+
+Useful setup docs:
+
+- Get started: https://kobbe.io/docs
+- Add the tracker: https://kobbe.io/docs/add-the-tracker
+- Installation guides: https://kobbe.io/docs/installation-guides
+- Script options: https://kobbe.io/docs/script-options
+- Custom events: https://kobbe.io/docs/custom-events
+- Funnels: https://kobbe.io/docs/funnels
+- Privacy and cookieless tracking: https://kobbe.io/docs/privacy-and-cookieless-tracking
+- Exclude visits: https://kobbe.io/docs/exclude-visits
+- Reduce usage: https://kobbe.io/docs/reduce-usage
+
+Use `tracker.full.js` only when enabling advanced options such as scroll tracking, cross-domain tracking, revenue attribution, or Web Vitals collection.
+
+Advanced tracking docs:
+
+- Scroll tracking: https://kobbe.io/docs/scroll-tracking
+- Hash page paths: https://kobbe.io/docs/hash-page-paths
+- Track subdomains: https://kobbe.io/docs/track-subdomains
+- Cross-domain tracking: https://kobbe.io/docs/cross-domain-tracking
+- Performance and Web Vitals: https://kobbe.io/docs/performance-web-vitals
+
+## Revenue attribution
+
+Revenue attribution is optional. It connects a visit to a later payment webhook so Kobbe can show which pages, sources, locations, and devices contributed to revenue.
+
+Start here:
+
+- Revenue attribution overview: https://kobbe.io/docs/revenue-attribution
+- Stripe: https://kobbe.io/docs/revenue-attribution-stripe
+- Polar: https://kobbe.io/docs/revenue-attribution-polar
+- Paddle: https://kobbe.io/docs/revenue-attribution-paddle
+- Creem: https://kobbe.io/docs/revenue-attribution-creem
+
+Revenue attribution requires the full tracker:
+
+```html
+<script
+  defer
+  data-token="YOUR_SITE_TOKEN"
+  data-revenue-attribution="true"
+  src="https://app.kobbe.io/tracker.full.js"
+></script>
+```
+
+Privacy note: revenue attribution uses a tab-scoped attribution ID in `sessionStorage`, hashes the raw attribution ID before storage, and does not require customer emails or names.
+
+## CLI and AI agents
+
+Kobbe provides a CLI and MCP server through the `@kobbe/cli` package. Use it when a human user wants an agent to inspect analytics, review revenue, check setup health, or manage sites from the user's own terminal.
+
+CLI docs: https://kobbe.io/docs/cli
+AI agent docs: https://kobbe.io/docs/ai-agents
+
+Install:
+
+```sh
+npm install -g @kobbe/cli
+```
+
+Authenticate with an API token created in Kobbe under Settings -> Account -> Agent access:
+
+```sh
+kobbe login --token kbpat_YOUR_TOKEN
+```
+
+Run MCP mode:
+
+```sh
+kobbe mcp
+```
+
+Common commands:
+
+```sh
+kobbe sites
+kobbe overview --site site_123 --range today
+kobbe revenue --site site_123 --range 7d
+kobbe next --site site_123 --range today
+kobbe setup-health --site site_123
+```
+
+MCP tools include:
+
+- `list_sites`
+- `get_overview`
+- `get_revenue`
+- `get_top_pages`
+- `get_sources`
+- `get_setup_health`
+- `get_next_actions`
+- `create_site`
+- `update_site`
+- `rotate_site_token`
+- `delete_site`
+- `reset_site_stats`
+
+## Agent guidance
+
+When helping a human user with Kobbe:
+
+1. Prefer the CLI or MCP server for tasks about the user's own Kobbe account or analytics.
+2. Do not ask users to paste API tokens, tracker tokens, or secrets into chat.
+3. Prefer `kobbe login`, local environment variables, or the user's existing shell/session for authentication.
+4. Treat `kbpat_` API tokens as management credentials.
+5. Use the smallest token scope set that works.
+6. Do not delete sites, reset analytics data, or rotate tracker tokens unless the user explicitly asks.
+7. Avoid sending personal data in custom event names, event properties, URLs, or payment metadata.
+8. For privacy questions, point users to the privacy docs and remind them that legal obligations depend on their site, audience, region, and configuration.
+
+## Support, billing, and legal
+
+- Contact support: https://kobbe.io/docs/support-contact
+- FAQ: https://kobbe.io/docs/support-faq
+- Charges on your statement: https://kobbe.io/docs/support-charges
+- Terms: https://kobbe.io/docs/legal-terms
+- Privacy: https://kobbe.io/docs/legal-privacy
+- GDPR compliance: https://kobbe.io/docs/legal-gdpr-compliance
+- DPA: https://kobbe.io/docs/legal-dpa

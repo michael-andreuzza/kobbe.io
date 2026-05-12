@@ -1,6 +1,6 @@
 ---
 title: Script options
-description: Configure the Kobbe tracker script.
+description: Configure Kobbe tracker options for endpoints, hash routes, attribution, Web Vitals, and debugging.
 order: 26
 category: Tracking
 navLabel: Script

@@ -1,6 +1,6 @@
 ---
 title: Install on Laravel
-description: Add the Kobbe tracker to Laravel Blade layouts.
+description: Add the Kobbe tracker to Laravel Blade layouts so every page sends analytics.
 order: 7
 category: Installation guides
 navLabel: Laravel
