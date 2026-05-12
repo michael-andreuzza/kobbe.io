@@ -110,9 +110,14 @@ function checkoutPickerHref(period: "monthly" | "yearly") {
 }
 ---
 
-<section id="pricing" aria-labelledby="pricing-heading">
+<section
+  id="pricing"
+  aria-labelledby="pricing-heading"
+  data-pricing-section
+  data-billing-period="monthly"
+>
   <Wrapper variant="default" class="relative pt-20 pb-20 lg:pt-28">
-    <div data-pricing-section data-billing-period="monthly" class="space-y-10">
+    <div class="space-y-10">
       <div class="mx-auto max-w-3xl text-center text-balance">
         <Text
           id="pricing-heading"

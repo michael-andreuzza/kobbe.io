@@ -19,7 +19,6 @@ Use Polar when your checkout links or hosted product checkouts run through Polar
 4. In Polar, select the `order.paid` event schema.
 5. Keep the webhook payload format set to **raw**.
 6. Copy Polar's webhook secret into Kobbe.
-7. Pass `kobbe_attribution_id` into the checkout.
 
 Kobbe records revenue from Polar's paid order events. If `order.paid` is not selected, Kobbe will not receive the checkout event it expects.
 
@@ -46,22 +45,6 @@ Load the tracker with revenue attribution before a visitor clicks a Polar checko
   src="https://app.kobbe.io/tracker.full.js"
 ></script>
 ```
-
-## Checkout links
-
-For Polar-hosted links, append the attribution ID as a query parameter:
-
-```js
-const attributionId =
-  window.kobbe?.getAttributionId?.() ?? window.kobbe?.attributionId;
-
-if (attributionId) {
-  const url = new URL(polarCheckoutUrl);
-  url.searchParams.set("kobbe_attribution_id", attributionId);
-}
-```
-
-If you create Polar checkouts through an API, send the same value in metadata when the API supports it.
 
 ## Webhook
 
