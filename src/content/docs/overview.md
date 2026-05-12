@@ -26,9 +26,9 @@ Optional Web Vitals and Search Console data help you review slow pages, browsers
 
 Create read-only dashboards for clients or teammates, invite team viewers without giving them workspace settings access, and export site analytics as CSV when you need reports or backups.
 
-### CLI and AI agents
+### CLI, Raycast, and AI agents
 
-Use the [CLI](/docs/cli) or [AI agents](/docs/ai-agents) to inspect analytics, review revenue, check setup health, and manage sites from your terminal or MCP-compatible tools.
+Use the [CLI](/docs/cli), [Raycast extension](/docs/raycast), or [AI agents](/docs/ai-agents) to inspect analytics, review revenue, check setup health, and manage sites from your terminal, Raycast, or MCP-compatible tools.
 
 ## Privacy by default
 

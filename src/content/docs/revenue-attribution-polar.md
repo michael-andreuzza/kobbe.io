@@ -16,8 +16,23 @@ Use Polar when your checkout links or hosted product checkouts run through Polar
 1. Enable **Polar** in **Site settings → Revenue attribution**.
 2. Copy the Kobbe webhook URL.
 3. Add it as a Polar webhook endpoint.
-4. Copy Polar's webhook secret into Kobbe.
-5. Pass `kobbe_attribution_id` into the checkout.
+4. In Polar, select the `order.paid` event schema.
+5. Keep the webhook payload format set to **raw**.
+6. Copy Polar's webhook secret into Kobbe.
+7. Pass `kobbe_attribution_id` into the checkout.
+
+Kobbe records revenue from Polar's paid order events. If `order.paid` is not selected, Kobbe will not receive the checkout event it expects.
+
+## Polar webhook settings
+
+When you create the Polar webhook endpoint:
+
+- Use the webhook URL copied from Kobbe.
+- Select the `order.paid` event schema.
+- Set the payload format to **raw**.
+- Copy the webhook secret from Polar and save it in Kobbe.
+
+Do not paste the site tracker token into Polar. The webhook secret is separate and is only used to verify signed webhook requests.
 
 ## Tracker
 
