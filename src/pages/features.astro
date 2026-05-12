@@ -4,13 +4,10 @@ import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import Text from "@/components/foundations/elements/Text.astro";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 const featureGroups = [
   {
     category: "Analytics dashboard",
@@ -165,16 +162,16 @@ const featureGroups = [
         href: "/docs/script-options",
       },
       {
+        title: "Privacy signals",
+        description:
+          "Global Privacy Control and Do Not Track stop the tracker before any analytics request is sent.",
+        href: "/docs/privacy-and-cookieless-tracking",
+      },
+      {
         title: "Data export",
         description:
           "Export analytics data when you need to archive, report, or analyze it elsewhere.",
         href: "/docs/data-export",
-      },
-      {
-        title: "Forever retention while active",
-        description:
-          "Analytics history is kept while the workspace stays active unless you delete it.",
-        href: "/docs/billing-and-usage-limits",
       },
       {
         title: "Legal docs and DPA",
@@ -260,6 +257,7 @@ const featureGroups = [
   },
 ] as const;
 ---
+
 <BaseLayout
   title="Features — Kobbe"
   description="Explore Kobbe features for privacy-friendly analytics, events, funnels, revenue attribution, shared dashboards, CLI access, and AI agents."

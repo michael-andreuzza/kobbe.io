@@ -10,7 +10,7 @@ navLabel: FAQ
 
 ### Do I need a cookie banner for Kobbe?
 
-Kobbe's default tracker does not use analytics cookies or persistent browser identifiers. Consent requirements still depend on your jurisdiction, site configuration, and whether you enable optional features such as revenue attribution.
+Kobbe's default tracker does not use analytics cookies or persistent browser identifiers, and it sends no analytics request when Global Privacy Control or Do Not Track is enabled. Consent requirements still depend on your jurisdiction, site configuration, and whether you enable optional features such as revenue attribution.
 
 ### How does Kobbe count unique visitors without cookies?
 

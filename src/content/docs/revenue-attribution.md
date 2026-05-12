@@ -8,12 +8,14 @@ navLabel: Overview
 
 Revenue attribution connects a visit to a later payment webhook. Pick your provider first, then follow the shared setup below.
 
+Revenue attribution is off by default. Enable it only on the pages that send visitors toward checkout, and review your privacy notice or consent setup before using it.
+
 ## How it works
 
 1. Enable a revenue source in **Site settings → Revenue attribution**.
 2. Load the full tracker with `data-revenue-attribution="true"`.
-3. Pass `kobbe_attribution_id` to your checkout.
-4. Add Kobbe’s webhook URL and the provider signing secret.
+3. For providers or custom checkouts that support metadata, pass `kobbe_attribution_id` to checkout.
+4. Add Kobbe's webhook URL and the provider signing secret.
 
 Kobbe hashes the tab-scoped attribution ID before storing it, so the raw value is never stored in D1.
 
@@ -38,7 +40,7 @@ const attributionId =
 const metadata = attributionId ? { kobbe_attribution_id: attributionId } : {};
 ```
 
-Provider pages show where this belongs for Stripe, Polar, Paddle, and Creem.
+Provider pages show whether this belongs in your checkout flow. Some hosted checkout flows do not expose a place for customers to add metadata manually.
 
 ## Webhooks
 
@@ -57,3 +59,4 @@ Kobbe rejects webhooks when the signing secret is missing, wrong, or outside the
 - It links analytics events to payment events.
 - It stores payment amount, currency, provider event IDs, and a hashed attribution key.
 - It does not store customer email, name, or raw attribution ID.
+- It may require additional privacy notice or consent depending on your jurisdiction, audience, and checkout setup.

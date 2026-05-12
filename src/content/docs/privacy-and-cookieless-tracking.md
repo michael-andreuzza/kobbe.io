@@ -18,6 +18,7 @@ The default Kobbe tracker collects pageviews and custom events without creating 
 - No full URLs with query strings.
 - No customer emails, names, or account identifiers unless you send them yourself, which you should avoid.
 - No browser fingerprinting techniques such as canvas, WebGL, or font enumeration.
+- No analytics request is sent when the visitor's browser has Global Privacy Control or Do Not Track enabled.
 
 ## Visitor opt-out
 

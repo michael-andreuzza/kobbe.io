@@ -26,6 +26,7 @@ The default Kobbe tracker is designed around minimization:
 - No raw user agent strings stored in the application database.
 - No personal visitor profiles or cross-site visitor profiles.
 - No browser fingerprinting techniques such as canvas, WebGL, font enumeration, or installed plugin detection.
+- Global Privacy Control and Do Not Track browser signals are respected by not sending analytics requests when either signal is enabled.
 
 To count same-day unique visitors and sessions, Kobbe derives a daily-rotating pseudonymous identifier from minimized request metadata and a daily secret. The identifier is scoped to the site, changes each day, is not reversible, and is not used to build a long-term visitor profile.
 
