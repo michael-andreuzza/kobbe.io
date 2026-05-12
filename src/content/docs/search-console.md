@@ -6,9 +6,7 @@ category: Analyze
 navLabel: Search Console
 ---
 
-Connect Google Search Console to see organic search terms beside your Kobbe analytics. Kobbe imports query and page performance so you can compare search demand with visits, events, and revenue attribution in the same dashboard.
-
-Search Console data is delayed by Google, so new clicks and rankings often appear 1–3 days after they happen.
+Connect Google Search Console to import queries, clicks, and landing-page data next to your Kobbe analytics. Numbers are usually delayed **1–3 days** by Google.
 
 ## What Kobbe imports
 

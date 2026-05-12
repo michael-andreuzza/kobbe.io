@@ -4,6 +4,9 @@ description: Add the Kobbe tracker via Squarespace Code Injection.
 order: 20
 category: Installation guides
 navLabel: Squarespace
+brandLogo:
+  url: ../../images/brands/squarespace.svg
+  alt: Squarespace logo
 ---
 
 Squarespace **Code Injection** is the right place for site-wide analytics. Token: [Add the tracker](/docs/add-the-tracker).

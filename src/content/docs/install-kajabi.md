@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to Kajabi site-wide scripts.
 order: 18
 category: Installation guides
 navLabel: Kajabi
+brandLogo:
+  url: ../../images/brands/kajabi.svg
+  alt: Kajabi logo
 ---
 
 Kajabi allows **site-wide tracking scripts** in Settings. Token: [Add the tracker](/docs/add-the-tracker).

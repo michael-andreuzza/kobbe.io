@@ -1,0 +1,40 @@
+:root {
+  /* Astro / Shiki `theme: "css-variables"` mapped to Kobbe light-mode tokens. */
+  --color-syntax-surface: color-mix(
+    in oklch,
+    var(--muted) 72%,
+    var(--background)
+  );
+  --color-syntax-foreground: var(--foreground);
+  --color-syntax-muted: var(--muted-foreground);
+  --color-syntax-comment: color-mix(
+    in oklch,
+    var(--muted-foreground) 78%,
+    var(--foreground)
+  );
+  --color-syntax-string: var(--chart-2);
+  --color-syntax-string-expression: var(--chart-6);
+  --color-syntax-keyword: var(--chart-5);
+  --color-syntax-function: var(--chart-1);
+  --color-syntax-constant: var(--chart-3);
+  --color-syntax-parameter: var(--chart-4);
+  --color-syntax-punctuation: var(--muted-foreground);
+  --color-syntax-link: var(--brand);
+
+  --astro-code-color-text: var(--color-syntax-foreground);
+  --astro-code-token-link: var(--color-syntax-link);
+  --astro-code-token-comment: var(--color-syntax-comment);
+  --astro-code-token-string: var(--color-syntax-string);
+  --astro-code-token-constant: var(--color-syntax-constant);
+  --astro-code-background: var(--color-syntax-surface);
+  --astro-code-token-keyword: var(--color-syntax-keyword);
+  --astro-code-token-function: var(--color-syntax-function);
+  --astro-code-foreground: var(--color-syntax-foreground);
+  --astro-code-token-parameter: var(--color-syntax-parameter);
+  --astro-code-token-punctuation: var(--color-syntax-punctuation);
+  --astro-code-token-string-expression: var(--color-syntax-string-expression);
+  --astro-code-token-bold: inherit;
+  --astro-code-token-italic: italic;
+  --astro-code-token-underline: underline;
+}
+

@@ -4,6 +4,9 @@ description: Add the Kobbe tracker with Ghost code injection.
 order: 15
 category: Installation guides
 navLabel: Ghost
+brandLogo:
+  url: ../../images/brands/ghost.png
+  alt: Ghost logo
 ---
 
 Ghost supports **Global header / footer** code injection per site. Token: [Add the tracker](/docs/add-the-tracker).

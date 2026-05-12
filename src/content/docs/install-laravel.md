@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to Laravel Blade layouts.
 order: 7
 category: Installation guides
 navLabel: Laravel
+brandLogo:
+  url: ../../images/brands/laravel.svg
+  alt: Laravel logo
 ---
 
 Add the script to a **Blade layout** every response uses (for example `resources/views/layouts/app.blade.php`). Token: [Add the tracker](/docs/add-the-tracker).

@@ -7,27 +7,20 @@ const docs = defineCollection({
     pattern: "**/*.{md,mdx}",
     base: "./src/content/docs",
   }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    order: z.number(),
-    category: z.string().optional(),
-    navLabel: z.string().optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      order: z.number(),
+      category: z.string().optional(),
+      navLabel: z.string().optional(),
+      brandLogo: z
+        .object({
+          url: image(),
+          alt: z.string(),
+        })
+        .optional(),
+    }),
 });
 
-const legal = defineCollection({
-  loader: glob({
-    pattern: "**/*.{md,mdx}",
-    base: "./src/content/legal",
-  }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string().optional(),
-    updatedAt: z.coerce.date().optional(),
-    /** Short label for footer / compact nav (optional) */
-    footerLabel: z.string().optional(),
-  }),
-});
-
-export const collections = { docs, legal };
+export const collections = { docs };

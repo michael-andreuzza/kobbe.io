@@ -1,0 +1,196 @@
+---
+import { Code } from "astro:components";
+
+type McpExample = {
+  id: string;
+  label: string;
+  lang: "json" | "bash" | "toml";
+  code: string;
+};
+
+const examples: McpExample[] = [
+  {
+    id: "cursor",
+    label: "Cursor",
+    lang: "json",
+    code: `{
+  "mcpServers": {
+    "kobbe": {
+      "command": "npx",
+      "args": ["-y", "@kobbe/cli@latest", "mcp"],
+      "env": {
+        "KOBBE_TOKEN": "kbpat_YOUR_TOKEN"
+      }
+    }
+  }
+}`,
+  },
+  {
+    id: "vscode",
+    label: "VS Code",
+    lang: "json",
+    code: `{
+  "servers": {
+    "kobbe": {
+      "command": "npx",
+      "args": ["-y", "@kobbe/cli@latest", "mcp"]
+    }
+  }
+}`,
+  },
+  {
+    id: "claude-desktop",
+    label: "Claude Desktop",
+    lang: "json",
+    code: `{
+  "mcpServers": {
+    "kobbe": {
+      "command": "npx",
+      "args": ["-y", "@kobbe/cli@latest", "mcp"]
+    }
+  }
+}`,
+  },
+  {
+    id: "claude-code",
+    label: "Claude Code",
+    lang: "json",
+    code: `{
+  "mcpServers": {
+    "kobbe": {
+      "command": "npx",
+      "args": ["-y", "@kobbe/cli@latest", "mcp"]
+    }
+  }
+}`,
+  },
+  {
+    id: "codex",
+    label: "Codex",
+    lang: "toml",
+    code: `[mcp_servers.kobbe]
+command = "npx"
+args = ["-y", "@kobbe/cli@latest", "mcp"]`,
+  },
+];
+---
+
+<section class="not-prose mt-8" data-docs-code-tabs>
+  <h2 class="text-foreground text-xl font-semibold tracking-tight">
+    MCP client examples
+  </h2>
+  <p class="text-muted-foreground mt-2 text-sm leading-6">
+    Pick the client you use. These examples assume you already ran <code
+      class="bg-muted text-foreground rounded px-1 py-0.5 font-mono text-xs"
+      >kobbe login</code
+    >, so the CLI can read the saved token.
+  </p>
+
+  <div class="mt-4 flex flex-col gap-3">
+    <div
+      role="tablist"
+      aria-label="MCP client examples"
+      data-docs-tablist
+      class="bg-muted text-muted-foreground relative inline-flex h-9 w-fit max-w-full items-center justify-start gap-1 overflow-x-auto rounded-lg p-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    >
+      <span
+        aria-hidden="true"
+        data-docs-tab-highlight
+        class="bg-foreground/8 pointer-events-none absolute top-1 bottom-1 left-0 rounded-md transition-[transform,width] duration-200 ease-out"
+        style="width: 0px; transform: translateX(0px);"></span>
+      {
+        examples.map((example, index) => (
+          <button
+            type="button"
+            role="tab"
+            id={`mcp-tab-${example.id}`}
+            aria-controls={`mcp-panel-${example.id}`}
+            aria-selected={index === 0 ? "true" : "false"}
+            tabindex={index === 0 ? "0" : "-1"}
+            data-docs-tab-trigger
+            data-value={example.id}
+            data-active={index === 0 ? "" : undefined}
+            class="data-active:text-foreground text-muted-foreground hover:text-foreground focus-visible:ring-ring/50 relative z-10 inline-flex h-7 shrink-0 items-center justify-center rounded-md px-2.5 text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:ring-3"
+          >
+            {example.label}
+          </button>
+        ))
+      }
+    </div>
+
+    {
+      examples.map((example, index) => (
+        <div
+          role="tabpanel"
+          id={`mcp-panel-${example.id}`}
+          aria-labelledby={`mcp-tab-${example.id}`}
+          data-docs-tab-panel
+          data-value={example.id}
+          class="[&_pre]:rounded-lg [&_pre]:p-4"
+          hidden={index !== 0}
+        >
+          <Code code={example.code} lang={example.lang} theme="css-variables" />
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  for (const root of document.querySelectorAll("[data-docs-code-tabs]")) {
+    const tablist = root.querySelector<HTMLElement>("[data-docs-tablist]");
+    const highlight = tablist?.querySelector<HTMLElement>(
+      "[data-docs-tab-highlight]",
+    );
+    const triggers = Array.from(
+      root.querySelectorAll<HTMLButtonElement>("[data-docs-tab-trigger]"),
+    );
+    const panels = Array.from(
+      root.querySelectorAll<HTMLElement>("[data-docs-tab-panel]"),
+    );
+
+    function activeTrigger(): HTMLButtonElement | null {
+      return triggers.find((t) => t.hasAttribute("data-active")) ?? null;
+    }
+
+    function syncHighlight() {
+      if (!tablist || !highlight) {
+        return;
+      }
+      const tab = activeTrigger();
+      if (!tab) {
+        return;
+      }
+      highlight.style.width = `${tab.offsetWidth}px`;
+      highlight.style.transform = `translateX(${tab.offsetLeft}px)`;
+    }
+
+    function selectTab(value: string) {
+      for (const trigger of triggers) {
+        const isActive = trigger.dataset.value === value;
+        trigger.toggleAttribute("data-active", isActive);
+        trigger.setAttribute("aria-selected", String(isActive));
+        trigger.tabIndex = isActive ? 0 : -1;
+      }
+
+      for (const panel of panels) {
+        panel.hidden = panel.dataset.value !== value;
+      }
+
+      requestAnimationFrame(() => {
+        syncHighlight();
+      });
+    }
+
+    syncHighlight();
+    window.addEventListener("resize", syncHighlight);
+
+    for (const trigger of triggers) {
+      trigger.addEventListener("click", () => {
+        if (trigger.dataset.value) {
+          selectTab(trigger.dataset.value);
+        }
+      });
+    }
+  }
+</script>

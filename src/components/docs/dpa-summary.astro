@@ -1,0 +1,82 @@
+---
+import { Card, CardContent } from "@/components/ui/card";
+
+interface Props {
+  effectiveDateDefault: string;
+}
+
+const { effectiveDateDefault } = Astro.props;
+---
+
+<Card className="not-prose bg-surface mt-8">
+  <CardContent className="text-foreground space-y-3 text-sm leading-relaxed">
+    <p
+      class="text-muted-foreground text-xs font-medium tracking-wide uppercase"
+    >
+      Kobbe — data processing addendum
+    </p>
+    <p>
+      <strong>How this DPA applies:</strong> It is part of Kobbe’s
+      <a href="/docs/legal-terms">Terms of Service</a>. Using the hosted Service
+      at
+      <a href="https://app.kobbe.io">app.kobbe.io</a> after this version is published
+      typically
+      <strong>accepts</strong> this DPA online, as described in Section 18. The fields
+      you complete below are for
+      <strong>identification and PDF records</strong>; they do not replace the
+      Terms.
+    </p>
+    <p>
+      <strong>Your legal review:</strong> Organizations may involve their own counsel
+      for procurement or regulatory review. Kobbe may update schedules in this document
+      (for example sub-processors or retention); the version at this URL is controlling
+      unless you have a separate written agreement with Kobbe.
+    </p>
+    <p>
+      <strong>Scope:</strong> Vendor-hosted Kobbe only. Self-hosted deployments should
+      use a different agreement.
+    </p>
+    <p>
+      This Data Processing Addendum (&quot;DPA&quot;) is entered into between <strong
+        >Kobbe</strong
+      >
+      (&quot;Company&quot;), operated by <strong
+        >Michael Alexander Web Agency, trading as Kobbe</strong
+      >, as processor for the hosted analytics service at <a
+        href="https://app.kobbe.io">app.kobbe.io</a
+      >, and <span id="dpa-out-company" class="font-medium"
+        >____________________________</span
+      >
+      (&quot;Customer&quot;) for use of the Kobbe analytics platform (&quot;Service&quot;).
+    </p>
+    <ul class="list-inside list-disc space-y-1 text-sm">
+      <li>
+        <span class="text-muted-foreground">Signatory:</span>
+        <span id="dpa-out-name" class="font-medium"
+          >____________________________</span
+        >
+        <span class="text-muted-foreground">,</span>
+        <span id="dpa-out-title" class="font-medium"
+          >____________________________</span
+        >
+      </li>
+      <li>
+        <span class="text-muted-foreground">Country / region:</span>
+        <span id="dpa-out-country" class="font-medium"
+          >____________________________</span
+        >
+      </li>
+      <li>
+        <span class="text-muted-foreground">Address:</span>
+        <span id="dpa-out-address" class="font-medium whitespace-pre-wrap"
+          >____________________________</span
+        >
+      </li>
+      <li>
+        <span class="text-muted-foreground">Effective date:</span>
+        <span id="dpa-out-date" class="font-medium">{effectiveDateDefault}</span
+        >
+      </li>
+    </ul>
+  </CardContent>
+</Card>

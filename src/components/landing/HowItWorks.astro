@@ -1,0 +1,155 @@
+---
+import Text from "@/components/foundations/elements/Text.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import astroLogo from "@/images/brands/astro.svg";
+import boltLogo from "@/images/brands/bolt.svg";
+import bubbleLogo from "@/images/brands/buble.svg";
+import djangoLogo from "@/images/brands/django.svg";
+import framerLogo from "@/images/brands/framer.svg";
+import ghostLogo from "@/images/brands/ghost.png";
+import googleTagManagerLogo from "@/images/brands/gtag manager.svg";
+import kajabiLogo from "@/images/brands/kajabi.svg";
+import laravelLogo from "@/images/brands/laravel.svg";
+import lovableLogo from "@/images/brands/lovable.svg";
+import nextjsLogo from "@/images/brands/nextjs.svg";
+import podiaLogo from "@/images/brands/podia.svg";
+import reactRouterLogo from "@/images/brands/reactrouter.svg";
+import replitLogo from "@/images/brands/replit.svg";
+import shopifyLogo from "@/images/brands/shopify.svg";
+import squarespaceLogo from "@/images/brands/squarespace.svg";
+import v0Logo from "@/images/brands/v0.svg";
+import vueLogo from "@/images/brands/vue.svg";
+import webflowLogo from "@/images/brands/webflow.svg";
+import wixLogo from "@/images/brands/wix.svg";
+import wordpressLogo from "@/images/brands/wordpress.svg";
+import wooCommerceLogo from "@/images/brands/woo.svg";
+
+const steps = [
+  {
+    number: "01",
+    title: "Add the script",
+    description:
+      "Drop a lightweight async tracker on your site. No analytics cookies, no raw IP storage, and no persistent visitor profiles.",
+  },
+  {
+    number: "02",
+    title: "Collect visits and events",
+    description:
+      "Page views, events, sources, devices, locations, and attribution signals start flowing into one scoped analytics dataset.",
+  },
+  {
+    number: "03",
+    title: "Read the dashboard",
+    description:
+      "Open Kobbe to see traffic trends, realtime visitors, top pages, sources, locations, and revenue in context.",
+  },
+] as const;
+
+const installationPlatforms = [
+  { name: "Next.js", logo: nextjsLogo },
+  { name: "React Router", logo: reactRouterLogo },
+  { name: "Astro", logo: astroLogo },
+  { name: "Vue", logo: vueLogo },
+  { name: "Laravel", logo: laravelLogo },
+  { name: "Django", logo: djangoLogo },
+  { name: "WordPress", logo: wordpressLogo },
+  { name: "Webflow", logo: webflowLogo },
+  { name: "Framer", logo: framerLogo },
+  { name: "Ghost", logo: ghostLogo },
+  { name: "Shopify", logo: shopifyLogo },
+  { name: "WooCommerce", logo: wooCommerceLogo },
+  { name: "Bubble", logo: bubbleLogo },
+  { name: "Podia", logo: podiaLogo },
+  { name: "Kajabi", logo: kajabiLogo },
+  { name: "Wix", logo: wixLogo },
+  { name: "Squarespace", logo: squarespaceLogo },
+  { name: "Lovable", logo: lovableLogo },
+  { name: "Bolt", logo: boltLogo },
+  { name: "Vercel v0", logo: v0Logo },
+  { name: "Replit", logo: replitLogo },
+  { name: "Google Tag Manager", logo: googleTagManagerLogo },
+] as const;
+---
+
+<section>
+  <Wrapper class="py-20 text-center">
+    <div class="mx-auto max-w-3xl text-balance 2xl:max-w-7xl">
+      <Text
+        tag="h2"
+        variant="displayLG"
+        class="text-foreground font-display font-medium tracking-tight"
+      >
+        From one script tag to a dashboard you can actually read.
+      </Text>
+      <Text tag="p" variant="textBase" class="text-muted-foreground mt-2">
+        Install Kobbe once, let privacy-friendly analytics signals flow in, then
+        use the dashboard to understand traffic, events, and revenue without
+        building visitor profiles.
+      </Text>
+    </div>
+
+    <dl class="mt-12 grid gap-y-10 sm:grid-cols-3">
+      {
+        steps.map((step, index) => (
+          <div
+            class:list={[
+              "px-6",
+              index > 0 && "sm:border-border/60 sm:border-l",
+            ]}
+          >
+            <dt>
+              <Text
+                tag="p"
+                variant="displaySM"
+                class="text-foreground font-display leading-none tracking-tight italic tabular-nums"
+              >
+                {step.number}
+              </Text>
+              <Text
+                tag="p"
+                variant="textBase"
+                class="text-foreground mt-5 font-medium"
+              >
+                {step.title}
+              </Text>
+            </dt>
+            <dd>
+              <Text
+                tag="p"
+                variant="textSM"
+                class="text-muted-foreground mt-3 text-pretty"
+              >
+                {step.description}
+              </Text>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="mx-auto mt-12">
+      <Text tag="p" variant="textSM" class="text-muted-foreground font-medium">
+        Works with
+      </Text>
+      <div
+        class="mt-4 grid grid-cols-4 place-items-center gap-x-6 gap-y-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-11"
+        aria-label="Supported installation platforms"
+      >
+        {
+          installationPlatforms.map((platform) => (
+            <div class="flex size-6 items-center justify-center">
+              <img
+                src={platform.logo.src}
+                alt={`${platform.name} logo`}
+                class="size-6 rounded object-contain"
+                loading="lazy"
+                width="24"
+                height="24"
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Wrapper>
+</section>

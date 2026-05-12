@@ -6,7 +6,7 @@ category: Get started
 navLabel: Dashboard
 ---
 
-The site dashboard is the main place to understand traffic for one website. It combines headline KPIs, a trend chart, revenue cards when configured, and breakdown cards for pages, sources, locations, and devices.
+The site dashboard is the main place to understand traffic for one website. It combines headline KPIs, a trend chart, optional revenue, and breakdown cards for pages, sources, locations, devices, Search Console, and events.
 
 ## Time range and filters
 
@@ -16,46 +16,32 @@ If your workspace has a default time range or timezone configured, Kobbe uses th
 
 ## KPI strip
 
-The top strip shows:
-
-- **Visitors** — unique anonymous visitor keys for the selected range.
-- **Visits** — session-like groups based on activity.
-- **Views** — pageviews.
-- **Bounce rate** — visits with one pageview.
-- **Session time** — average time between first and last pageview in a visit.
-
-Click a KPI to change the main chart metric. Period comparisons appear when the selected range supports a meaningful previous window.
+The headline metrics (visitors, visits, views, bounce rate, session time, and revenue when available) are described in [Dashboard KPIs](/docs/dashboard-stats-kpis).
 
 ## Traffic chart
 
 The main chart shows the selected KPI over time. Hover a point to inspect that bucket. Click a point to pin it while you move around the chart, then click the same point again to unpin.
 
-When revenue attribution is configured and the selected metric is visitors or visits, Kobbe overlays revenue bars on the same chart. The revenue amount appears in the tooltip.
-
-## Revenue cards
-
-When paid events exist for the selected range, the dashboard shows:
-
-- **Revenue** — total revenue received from configured payment webhooks.
-- **Attributed revenue** — revenue that matched an analytics journey.
-- **Paid events** — number of payment events.
-
-Attributed revenue can also appear directly on rows in Pages, Sources, Locations, and Devices. Rows without revenue stay blank rather than showing zero.
+When revenue attribution is configured and the selected metric is visitors or visits, Kobbe overlays revenue on the same chart. Details: [Revenue on the dashboard](/docs/dashboard-stats-revenue).
 
 ## Breakdown cards
 
-The dashboard cards answer common questions:
+Each card has a dedicated reference page under **Dashboard stats** in the sidebar:
 
-- **Pages** — top pages, entry pages, and exit pages.
-- **Sources** — referrers, hostnames, traffic channels, and AI tools.
-- **Locations** — countries, regions, and cities.
-- **Devices** — browsers, operating systems, and device categories.
+| Card               | Doc                                                                     |
+| ------------------ | ----------------------------------------------------------------------- |
+| **Pages**          | [Pages on the dashboard](/docs/dashboard-stats-pages)                   |
+| **Sources**        | [Sources on the dashboard](/docs/dashboard-stats-sources)               |
+| **Locations**      | [Locations on the dashboard](/docs/dashboard-stats-locations)           |
+| **Devices**        | [Devices on the dashboard](/docs/dashboard-stats-devices)               |
+| **Search Console** | [Search Console on the dashboard](/docs/dashboard-stats-search-console) |
+| **Events**         | [Events on the dashboard](/docs/dashboard-stats-events)                 |
 
-Cards show a small preview. If a revenue-attributed row falls outside the top preview, Kobbe still keeps that row visible so you can see where the conversion was credited. Use the expand button when available to open the full list.
+Cards show a small preview. If a revenue-attributed row falls outside the top preview, Kobbe can still surface that row so you see where the conversion was credited. Use the expand control when available to open the full list.
 
 ## Page drill-down
 
-Click a page row to inspect a single path. The page drill-down uses the same dashboard patterns, filtered to that path, so you can understand traffic, sources, events, and exits for one page.
+Click a page row to inspect a single path. See [Pages on the dashboard](/docs/dashboard-stats-pages).
 
 ## Related docs
 

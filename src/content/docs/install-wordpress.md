@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to WordPress (theme, child theme, or header p
 order: 9
 category: Installation guides
 navLabel: WordPress
+brandLogo:
+  url: ../../images/brands/wordpress.svg
+  alt: WordPress logo
 ---
 
 WordPress needs the script on **every front-end page**. Token: [Add the tracker](/docs/add-the-tracker).

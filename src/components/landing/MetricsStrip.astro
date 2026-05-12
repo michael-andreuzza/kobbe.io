@@ -1,0 +1,147 @@
+---
+import Text from "@/components/foundations/elements/Text.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+
+const metrics = [
+  {
+    value: 1.8,
+    prefix: "",
+    suffix: "KB",
+    description: "default tracker gzip",
+  },
+  {
+    value: 0,
+    prefix: "",
+    suffix: "",
+    description: "analytics cookies",
+  },
+  {
+    value: 0,
+    prefix: "",
+    suffix: "",
+    description: "raw IPs stored",
+  },
+] as const;
+---
+
+<section>
+  <Wrapper class="py-20 text-center ">
+    <Text
+      tag="h2"
+      variant="displayLG"
+      class="text-foreground font-display mx-auto max-w-5xl tracking-tight"
+    >
+      Privacy-friendly analytics that shows what matters without cookies, raw
+      IPs, or persistent visitor profiles.
+    </Text>
+
+    <div
+      class="border-border/60 mx-auto mt-14 grid max-w-4xl gap-y-8 sm:grid-cols-3 lg:mt-16"
+    >
+      {
+        metrics.map((metric, index) => (
+          <article
+            class:list={[
+              "px-6",
+              index > 0 && "sm:border-border/60 sm:border-l",
+            ]}
+          >
+            <Text
+              tag="p"
+              variant="displayLG"
+              class="text-foreground font-display leading-none tracking-tight italic tabular-nums"
+            >
+              <span
+                class="inline-block translate-y-2 opacity-0 blur-sm transition-[opacity,filter,transform] duration-700 ease-out motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:blur-none"
+                data-stat-number
+                data-stat-index={index}
+                data-stat-value={metric.value}
+                data-stat-prefix={metric.prefix}
+                data-stat-suffix={metric.suffix}
+              >
+                {metric.prefix}0{metric.suffix}
+              </span>
+            </Text>
+            <Text
+              tag="p"
+              variant="textXS"
+              class="text-muted-foreground mt-2 font-medium"
+            >
+              {metric.description}
+            </Text>
+          </article>
+        ))
+      }
+    </div>
+  </Wrapper>
+</section>
+
+<script>
+  const statNumbers = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-stat-number]"),
+  );
+
+  const formatStatValue = (element: HTMLElement, value: number) => {
+    const prefix = element.dataset.statPrefix ?? "";
+    const suffix = element.dataset.statSuffix ?? "";
+    element.textContent = `${prefix}${Math.round(value).toLocaleString()}${suffix}`;
+  };
+
+  const revealStat = (element: HTMLElement) => {
+    element.classList.remove("translate-y-2", "opacity-0", "blur-sm");
+    element.classList.add("translate-y-0", "opacity-100", "blur-none");
+  };
+
+  const animateStat = (element: HTMLElement) => {
+    const target = Number(element.dataset.statValue ?? 0);
+    const delay = Number(element.dataset.statIndex ?? 0) * 120;
+
+    window.setTimeout(() => {
+      revealStat(element);
+
+      if (
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        target === 0
+      ) {
+        formatStatValue(element, target);
+        return;
+      }
+
+      const duration = 900;
+      const startedAt = performance.now();
+
+      const tick = (now: number) => {
+        const progress = Math.min((now - startedAt) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        formatStatValue(element, target * eased);
+
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        }
+      };
+
+      requestAnimationFrame(tick);
+    }, delay);
+  };
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          animateStat(entry.target as HTMLElement);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.35 },
+    );
+
+    for (const number of statNumbers) {
+      observer.observe(number);
+    }
+  } else {
+    for (const number of statNumbers) {
+      animateStat(number);
+    }
+  }
+</script>

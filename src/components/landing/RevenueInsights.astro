@@ -1,0 +1,63 @@
+---
+import Text from "@/components/foundations/elements/Text.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import RevenueInsightsPreview from "@/components/landing/dashboard/revenue-insights-preview";
+import { Image } from "astro:assets";
+import creemLogo from "@/images/brands/creem.svg";
+import paddleLogo from "@/images/brands/paddle.svg";
+import polarLogo from "@/images/brands/polar.svg";
+import stripeLogo from "@/images/brands/stripe.svg";
+
+const revenueProviders = [
+  { name: "Stripe", logo: stripeLogo },
+  { name: "Polar", logo: polarLogo },
+  { name: "Paddle", logo: paddleLogo },
+  { name: "Creem", logo: creemLogo },
+];
+---
+
+<section>
+  <Wrapper class="py-20 lg:py-24">
+    <div class="grid grid-cols-1 gap-y-4 lg:grid-cols-2 lg:items-end">
+      <Text
+        tag="h2"
+        variant="displayMD"
+        class="text-foreground font-display mtracking-tight text-balance"
+      >
+        Attribute revenue without turning Kobbe into a CRM.
+      </Text>
+      <Text
+        tag="p"
+        variant="textBase"
+        class="text-muted-foreground  text-balance"
+      >
+        Add a payment source, pass Kobbe's session attribution through checkout,
+        and revenue appears beside the same pages, sources, and campaigns you
+        already use to understand traffic.
+      </Text>
+      <div
+        class="text-muted-foreground mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium"
+        aria-label="Supported revenue providers"
+      >
+        <span>Works with:</span>
+        {
+          revenueProviders.map((provider) => (
+            <span >
+              <Image
+                src={provider.logo}
+                alt={`${provider.name} logo`}
+                class="size-6 object-contain rounded"
+                loading="lazy"
+              />
+              <span class="sr-only">{provider.name}</span>
+            </span>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="mt-12 lg:mt-16">
+      <RevenueInsightsPreview client:visible />
+    </div>
+  </Wrapper>
+</section>

@@ -1,4 +1,4 @@
-/* Semantic palette + chart tokens; mirrors app.kobbe.io/app/styles/colors.css */
+/* Semantic palette + chart tokens; mirrors app.kobbe.io/app/styles/colors.css. */
 
 @theme inline {
   --color-sidebar-ring: var(--sidebar-ring);
@@ -9,10 +9,6 @@
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
-  --color-chart-10: var(--chart-10);
-  --color-chart-9: var(--chart-9);
-  --color-chart-8: var(--chart-8);
-  --color-chart-7: var(--chart-7);
   --color-chart-6: var(--chart-6);
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
@@ -25,7 +21,9 @@
   --color-destructive: var(--destructive);
   --color-success: var(--success);
   --color-warning: var(--warning);
+  --color-warning-on-inverted: var(--warning-on-inverted);
   --color-info: var(--info);
+  --color-brand: var(--brand);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -61,23 +59,21 @@
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
+  --brand: oklch(0.294 0.048 225.005);
   --success: oklch(0.565 0.11 164.584);
   --destructive: oklch(0.566 0.197 12.263);
   --warning: oklch(0.661 0.121 71.707);
+  --warning-on-inverted: var(--warning);
   --info: oklch(0.565 0.098 243.005);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.298 0.054 177.325);
-  --chart-2: oklch(0.719 0.149 19.466);
-  --chart-3: oklch(0.668 0.131 113.993);
-  --chart-4: oklch(0.595 0.045 287.99);
-  --chart-5: oklch(0.712 0.037 173.633);
-  --chart-6: oklch(0.68 0.112 88.124);
-  --chart-7: oklch(0.619 0.124 58.38);
-  --chart-8: oklch(0.573 0.112 21.875);
-  --chart-9: oklch(0.591 0.075 242.575);
-  --chart-10: oklch(0.491 0.202 345.568);
+  --chart-1: oklch(0.365 0.147 269.559);
+  --chart-2: oklch(0.369 0.064 225.926);
+  --chart-3: oklch(0.572 0.138 45.547);
+  --chart-4: oklch(0.665 0.125 78.294);
+  --chart-5: oklch(0.485 0.184 4.021);
+  --chart-6: oklch(0.293 0.089 145.909);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -109,20 +105,18 @@
   --destructive: oklch(0.637 0.237 25.331);
   --success: oklch(0.65 0.15 160);
   --warning: oklch(0.8 0.12 90);
+  --warning-on-inverted: oklch(0.54 0.13 82);
   --info: oklch(0.65 0.12 250);
   --border: oklch(0.6 0 0 / 0.1);
   --input: oklch(1 0 0 / 0.12);
   --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.449 0.094 163.296);
-  --chart-2: oklch(0.817 0.094 351.447);
-  --chart-3: oklch(0.873 0.099 111.436);
-  --chart-4: oklch(0.816 0.032 287.662);
-  --chart-5: oklch(0.818 0.029 174.328);
-  --chart-6: oklch(0.874 0.075 89.572);
-  --chart-7: oklch(0.803 0.092 65.87);
-  --chart-8: oklch(0.575 0.111 21.807);
-  --chart-9: oklch(0.84 0.05 242.822);
-  --chart-10: oklch(0.873 0.064 327.777);
+  --brand: oklch(0.932 0.009 52.096);
+  --chart-1: oklch(0.528 0.12 273.722);
+  --chart-2: oklch(0.575 0.062 223.853);
+  --chart-3: oklch(0.672 0.098 48.418);
+  --chart-4: oklch(0.683 0.091 82.397);
+  --chart-5: oklch(0.559 0.128 356.364);
+  --chart-6: oklch(0.43 0.045 150.314);
   --sidebar: oklch(0.18 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.985 0 0);

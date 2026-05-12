@@ -1,0 +1,184 @@
+---
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+
+interface Props {
+  effectiveDateDefault: string;
+}
+
+const { effectiveDateDefault } = Astro.props;
+---
+
+<Card className="not-prose no-print bg-surface mt-4">
+  <CardContent className="space-y-6">
+    <p class="text-muted-foreground text-sm leading-relaxed">
+      Part of our <a
+        href="/docs/legal-terms"
+        class="text-foreground underline decoration-border underline-offset-2 hover:decoration-foreground"
+        >Terms</a
+      >. Using the hosted service at
+      <a
+        href="https://app.kobbe.io"
+        class="text-foreground underline decoration-border underline-offset-2 hover:decoration-foreground"
+        >app.kobbe.io</a
+      >
+      accepts this DPA as posted here. Optionally add your details and use <strong>Download PDF</strong> → Save as
+      PDF for records only.
+    </p>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      <label class="block space-y-1.5 sm:col-span-2">
+        <span class="text-foreground text-xs font-medium">Customer legal name</span>
+        <Input
+          id="dpa-in-company"
+          type="text"
+          autoComplete="organization"
+          placeholder="Example Corp Oy"
+        />
+      </label>
+      <label class="block space-y-1.5">
+        <span class="text-foreground text-xs font-medium">Signatory name</span>
+        <Input
+          id="dpa-in-name"
+          type="text"
+          autoComplete="name"
+          placeholder="Jane Doe"
+        />
+      </label>
+      <label class="block space-y-1.5">
+        <span class="text-foreground text-xs font-medium">Signatory title</span>
+        <Input
+          id="dpa-in-title"
+          type="text"
+          autoComplete="organization-title"
+          placeholder="Founder"
+        />
+      </label>
+      <label class="block space-y-1.5 sm:col-span-2">
+        <span class="text-foreground text-xs font-medium">Country / region</span>
+        <Input
+          id="dpa-in-country"
+          type="text"
+          autoComplete="country-name"
+          placeholder="Finland"
+        />
+      </label>
+      <label class="block space-y-1.5 sm:col-span-2">
+        <span class="text-foreground text-xs font-medium">Address</span>
+        <Textarea
+          id="dpa-in-address"
+          rows={2}
+          autoComplete="street-address"
+          placeholder="Street, city, postal code"
+        />
+      </label>
+      <label class="block space-y-1.5">
+        <span class="text-foreground text-xs font-medium">Effective date</span>
+        <Input id="dpa-in-date" type="date" value={effectiveDateDefault} />
+      </label>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-3">
+      <button
+        type="button"
+        id="dpa-print-btn"
+        class={cn(buttonVariants({ variant: "default", size: "lg" }))}
+      >
+        Download PDF
+      </button>
+      <p class="text-muted-foreground text-xs">
+        PDF is optional (for records or procurement). Involve your counsel for enterprise reviews if needed.
+      </p>
+    </div>
+  </CardContent>
+</Card>
+
+<style is:global>
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    header[class*="sticky"],
+    header.sticky,
+    body > footer {
+      display: none !important;
+    }
+    main {
+      display: block !important;
+    }
+    body {
+      background: white !important;
+    }
+    :global(.dark) body {
+      background: white !important;
+    }
+    #dpa-printable {
+      color: #111 !important;
+    }
+    #dpa-printable a {
+      color: #111 !important;
+      text-decoration: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const placeholder = "____________________________";
+
+    function read(id) {
+      var el = document.getElementById(id);
+      return el && "value" in el ? String(el.value || "").trim() : "";
+    }
+
+    function setText(id, value, usePlaceholder) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var t = value || (usePlaceholder ? placeholder : "—");
+      el.textContent = t;
+    }
+
+    function sync() {
+      setText("dpa-out-company", read("dpa-in-company"), true);
+      setText("dpa-out-name", read("dpa-in-name"), true);
+      setText("dpa-out-title", read("dpa-in-title"), true);
+      setText("dpa-out-country", read("dpa-in-country"), true);
+      setText("dpa-out-address", read("dpa-in-address"), true);
+      var dateVal = read("dpa-in-date");
+      setText("dpa-out-date", dateVal, false);
+    }
+
+    function init() {
+      var inputs = [
+        "dpa-in-company",
+        "dpa-in-name",
+        "dpa-in-title",
+        "dpa-in-country",
+        "dpa-in-address",
+        "dpa-in-date",
+      ];
+      for (var i = 0; i < inputs.length; i++) {
+        var node = document.getElementById(inputs[i]);
+        if (!node) continue;
+        node.addEventListener("input", sync);
+        node.addEventListener("change", sync);
+      }
+      var btn = document.getElementById("dpa-print-btn");
+      if (btn)
+        btn.addEventListener("click", function () {
+          sync();
+          window.print();
+        });
+      sync();
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
+  })();
+</script>

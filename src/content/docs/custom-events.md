@@ -6,9 +6,9 @@ category: Tracking
 navLabel: Custom events
 ---
 
-Track button clicks, form submissions, and other interactions without writing JavaScript.
+Track button clicks, form submissions, and other interactions without JavaScript.
 
-Custom events appear in your site's dashboard alongside pageviews. Use them for actions that matter to your product or business, such as newsletter signups, checkout clicks, form submissions, downloads, outbound links, or pricing page actions.
+Events appear next to pageviews in the dashboard—keep names short and consistent (signups, outbound links, pricing clicks, etc.).
 
 ## HTML attributes
 
@@ -24,16 +24,27 @@ Add `data-kobbe-event` to any element. Clicks on that element will be tracked as
 </button>
 ```
 
-| Attribute            | Description                                                                                                                                                                                                   |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `data-kobbe-event`   | The event name (required).                                                                                                                                                                                    |
-| `data-kobbe-event-*` | Optional properties sent as key-value pairs. For example, `data-kobbe-event-source="footer"` sends `{ source: "footer" }`. Hyphenated suffixes become camelCase keys (`data-kobbe-event-plan-id` → `planId`). |
+### Event name
+
+The event name. Required.
+
+```html
+data-kobbe-event="Newsletter signup"
+```
+
+### Event properties
+
+Optional properties sent as key-value pairs. For example, `data-kobbe-event-source="footer"` sends `{ source: "footer" }`.
+
+```html
+data-kobbe-event-source="footer"
+```
 
 Use short, consistent event names. For example, use `Newsletter signup` everywhere instead of mixing `Newsletter signup`, `newsletter-signup`, and `Subscribe clicked`.
 
 ## Scroll visibility events
 
-Scroll tracking is off by default. To track when a visitor reaches an important section, add `data-kobbe-scroll` to that element:
+Scroll tracking is off by default and requires `tracker.full.js`. To track when a visitor reaches an important section, use the full tracker and add `data-kobbe-scroll` to that element:
 
 ```html
 <section data-kobbe-scroll="viewed_pricing">
@@ -64,9 +75,7 @@ Use the JavaScript API when the event is not a simple click, such as after a pay
 
 Events or properties that exceed these limits are truncated or dropped by the server.
 
-## Do not send personal data
-
-Do not include emails, names, user IDs, phone numbers, addresses, or other personal data in event names or properties. As a safety net, the server automatically strips keys that look like common PII fields (e.g. `email`, `password`, `phone`, `ssn`).
+## Examples
 
 Good:
 

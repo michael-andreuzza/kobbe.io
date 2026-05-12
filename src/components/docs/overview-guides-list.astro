@@ -1,0 +1,81 @@
+---
+import type { CollectionEntry } from "astro:content";
+import DocsLinkList from "@/components/docs/docs-link-list.astro";
+
+interface Props {
+  docs: CollectionEntry<"docs">[];
+}
+
+const { docs } = Astro.props;
+
+const docById = new Map(docs.map((doc) => [doc.id, doc]));
+
+const sections = [
+  {
+    title: "Start here",
+    ids: [
+      "installation-guides",
+      "add-the-tracker",
+      "dashboard-overview",
+      "cli",
+      "ai-agents",
+    ],
+  },
+  {
+    title: "Analyze",
+    ids: [
+      "realtime-visitors",
+      "performance-web-vitals",
+      "search-console",
+      "billing-and-usage-limits",
+      "reduce-usage",
+    ],
+  },
+  {
+    title: "Tracking",
+    ids: [
+      "script-options",
+      "hash-page-paths",
+      "track-subdomains",
+      "cross-domain-tracking",
+      "exclude-visits",
+      "custom-events",
+      "scroll-tracking",
+    ],
+  },
+  {
+    title: "Access and privacy",
+    ids: ["team-access", "privacy-and-cookieless-tracking"],
+  },
+].map((section) => ({
+  ...section,
+  items: section.ids
+    .map((id) => docById.get(id))
+    .filter((doc): doc is CollectionEntry<"docs"> => Boolean(doc))
+    .map((doc) => ({
+      title: doc.data.navLabel ?? doc.data.title,
+      href: `/docs/${doc.id === "overview" ? "" : doc.id}`,
+    })),
+}));
+---
+
+<div class="not-prose mt-8 space-y-8">
+  <section>
+    <h2 class="text-foreground text-xl font-semibold tracking-tight">
+      Quick start
+    </h2>
+    <ol
+      class="text-muted-foreground mt-3 list-decimal space-y-1 pl-5 text-sm leading-6"
+    >
+      <li>Add your website in Kobbe.</li>
+      <li>Copy the tracker script from your site settings.</li>
+      <li>Paste the script into your website.</li>
+      <li>
+        Open your dashboard to see visitors, visits, views, sources, locations,
+        devices, and events.
+      </li>
+    </ol>
+  </section>
+
+  <DocsLinkList sections={sections} className="" />
+</div>

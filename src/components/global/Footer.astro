@@ -1,38 +1,160 @@
 ---
-import { getCollection } from "astro:content";
-
-const legalPages = await getCollection("legal");
-const footerLinks = [
-  { href: "/docs", label: "Docs" },
-  { href: "/#pricing", label: "Pricing" },
-  { href: "/contact", label: "Support" },
-  ...legalPages.map((page) => ({
-    href: `/legal/${page.id}`,
-    label:
-      page.data.footerLabel ??
-      page.data.title.replace(" Policy", "").replace(" of Service", ""),
-  })),
+import BrandStripes from "@/components/foundations/brand/BrandStripes.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import Text from "@/components/foundations/elements/Text.astro";
+import Logo from "@/components/assets/Logo.astro";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+const footerLinkGroups = [
+  {
+    title: "Product",
+    links: [
+      { href: "/features", label: "Features" },
+      { href: "/pricing", label: "Pricing" },
+      { href: "/docs", label: "Docs" },
+    ],
+  },
+  {
+    title: "Support",
+    links: [
+      { href: "/docs/support-contact", label: "Contact" },
+      { href: "/docs/support-faq", label: "FAQ" },
+      { href: "/docs/support-charges", label: "Charges" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { href: "/docs/legal-terms", label: "Terms" },
+      { href: "/docs/legal-privacy", label: "Privacy" },
+      { href: "/docs/legal-gdpr-compliance", label: "GDPR" },
+      { href: "/docs/legal-dpa", label: "DPA" },
+    ],
+  },
 ];
 ---
 
-<footer class="border-border/60 border-t">
-  <div
-    class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row"
-  >
-    <p class="text-muted-foreground text-sm">
-      &copy; {new Date().getFullYear()} Kobbe. All rights reserved.
-    </p>
-    <nav class="flex items-center gap-5" role="list">
-      {
-        footerLinks.map((link) => (
-          <a
-            href={link.href}
-            class="text-muted-foreground hover:text-foreground text-sm transition-colors"
+<footer class="">
+  <Wrapper variant="default" class="mt-20 pb-8">
+    <BrandStripes
+      stripeClass="h-8 lg:h-12 "
+      class="overflow-hidden rounded-xl"
+    />
+    <div
+      class="bg-background s relative z-10 mx-4 -mt-28 grid grid-cols-1 gap-y-4 rounded-xl p-8 lg:mx-12 lg:-mt-42 lg:grid-cols-3 lg:items-end lg:p-12"
+    >
+      <div class="text-balance lg:col-span-2">
+        <Text
+          tag="h2"
+          variant="displayLG"
+          class="text-foreground font-display font-medium tracking-tight"
+        >
+          Set up in 5 minutes.
+          <span class="block"
+            >Back to marketing by <span data-setup-time>soon</span>.</span
           >
-            {link.label}
-          </a>
-        ))
-      }
-    </nav>
-  </div>
+        </Text>
+        <Text
+          tag="p"
+          variant="textBase"
+          class="text-muted-foreground text-balance"
+        >
+          Privacy-friendly analytics for teams that want clear numbers without
+          extra tracking work.
+        </Text>
+      </div>
+      <div class="mt-8 flex w-fit flex-wrap gap-2 lg:ml-auto lg:justify-end">
+        <a
+          href="/pricing"
+          data-kobbe-event="Footer CTA — start free trial"
+          class={cn(
+            buttonVariants({ variant: "default", size: "lg" }),
+            "bg-brand hover:bg-brand/90 lg:w-fit",
+          )}
+        >
+          Start a free trial
+        </a>
+        <a
+          href="https://app.kobbe.io/demo/kobbe-studio"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-kobbe-event="Footer CTA — see demo"
+          class={cn(
+            buttonVariants({ variant: "secondary", size: "lg" }),
+            "lg:w-fit",
+          )}
+        >
+          See the demo
+        </a>
+      </div>
+    </div>
+  </Wrapper>
+  <Wrapper class="pb-12">
+    <div
+      class="border-border/60 grid gap-8 border-t pt-8 lg:grid-cols-4 lg:items-start"
+    >
+      <div class="space-y-3 lg:col-span-2">
+        <a
+          href="/"
+          aria-label="Homepage"
+          class="text-foreground flex min-w-0 items-center gap-2 font-medium tracking-tight"
+        >
+          <Logo class="h-6" />
+          Kobbe
+        </a>
+        <Text
+          tag="p"
+          variant="textXS"
+          class="text-muted-foreground text-balance"
+        >
+          Privacy-friendly, cookie-free website analytics for teams that want
+          useful data without invasive tracking.
+        </Text>
+        <p class="text-muted-foreground text-xs">
+          &copy; {new Date().getFullYear()} Kobbe. All rights reserved.
+        </p>
+      </div>
+      <nav class="grid grid-cols-1 gap-8 text-sm sm:grid-cols-3 lg:col-start-4">
+        {
+          footerLinkGroups.map((group) => (
+            <div class="space-y-3">
+              <Text
+                tag="p"
+                variant="textSM"
+                class="text-foreground font-medium"
+              >
+                {group.title}
+              </Text>
+              <ul class="space-y-1">
+                {group.links.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      class="text-muted-foreground hover:text-foreground font-medium transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </nav>
+    </div>
+  </Wrapper>
+  <script is:inline>
+    const setupTimes = document.querySelectorAll("[data-setup-time]");
+    const setupTime = new Date(Date.now() + 5 * 60 * 1000);
+    const formattedSetupTime = new Intl.DateTimeFormat([], {
+      hour: "numeric",
+      minute: "2-digit",
+    })
+      .format(setupTime)
+      .replace(/\s/g, "")
+      .toLowerCase();
+    setupTimes.forEach((node) => {
+      node.textContent = formattedSetupTime;
+    });
+  </script>
 </footer>

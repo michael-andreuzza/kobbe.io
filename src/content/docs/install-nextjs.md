@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to a Next.js App Router or Pages Router site.
 order: 3
 category: Installation guides
 navLabel: Next.js
+brandLogo:
+  url: ../../images/brands/nextjs.svg
+  alt: Next.js logo
 ---
 
 Use the site token from Kobbe ([Add the tracker](/docs/add-the-tracker)). Load the script in the **document `<head>`** on every route you want to measure.
@@ -29,7 +32,11 @@ Example using `next/script`:
 ```tsx
 import Script from "next/script";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>

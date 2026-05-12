@@ -6,13 +6,11 @@ category: Tracking
 navLabel: Exclude visits
 ---
 
-You can drop pageviews and custom events **before** they count toward quotas or appear in the dashboard. This is separate from Kobbe’s automatic bot filtering (see [Script options](/docs/script-options#bot-filtering-and-exclusions)): bots are filtered first; exclusions are rules you configure per site.
+Drop pageviews and custom events **before** they count toward quotas or appear in the dashboard. This is separate from [bot filtering](/docs/script-options#bot-filtering-and-exclusions)—bots are handled first; exclusions are rules you set per site.
 
-Configure exclusions on the **Traffic exclusions** page for each site in the Kobbe app (`/websites/<site-id>/exclusions`), or open **Exclusions** from the sidebar when you’re viewing that site. You can still reach it from **Site settings** via the “Traffic exclusions” link.
+Open **Traffic exclusions** for the site (`/websites/<site-id>/exclusions`), or **Exclusions** from the site sidebar. For volume tips, see [Reduce usage](/docs/reduce-usage).
 
-For practical examples of lowering event volume without losing important conversion data, see [Reduce usage](/docs/reduce-usage).
-
-## Ignore your browser (localStorage)
+## Ignore your browser
 
 For your own machine only, open the site in the browser, then the devtools console and run:
 
@@ -30,8 +28,10 @@ The tracker checks this flag before any network request. It does not use cookies
 
 ## Path rules
 
-- **Exact path** — e.g. `/admin` matches only that path.
-- **Prefix with `/*`** — e.g. `/admin/*` matches `/admin/users` but not `/admin` itself.
+| Rule                 | Matches                                                         |
+| -------------------- | --------------------------------------------------------------- |
+| **Exact path**       | e.g. `/admin` matches only that path.                           |
+| **Prefix with `/*`** | e.g. `/admin/*` matches `/admin/users` but not `/admin` itself. |
 
 Paths are matched against the same normalized path Kobbe stores for events: **pathname only** by default, or **pathname + hash** when the tracker uses [`data-track-hash`](/docs/hash-page-paths). Query strings are never part of the path.
 

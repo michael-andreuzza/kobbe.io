@@ -33,5 +33,3 @@ The export uses the same privacy rules as the dashboard. Kobbe does not include 
 ## When to use exports
 
 Use CSV exports for customer reports, internal analysis, long-term backups, or moving data into another tool.
-
-If you share an export outside your team, review it first. Custom event properties are sanitized by Kobbe, but you should still avoid sending personal data in event names or properties.

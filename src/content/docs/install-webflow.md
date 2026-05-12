@@ -4,6 +4,9 @@ description: Add the Kobbe tracker via Webflow site-wide custom code.
 order: 10
 category: Installation guides
 navLabel: Webflow
+brandLogo:
+  url: ../../images/brands/webflow.svg
+  alt: Webflow logo
 ---
 
 Webflow injects **site-wide** scripts from Project settings. Token: [Add the tracker](/docs/add-the-tracker).

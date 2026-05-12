@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to a Lovable-generated web app.
 order: 21
 category: Installation guides
 navLabel: Lovable
+brandLogo:
+  url: ../../images/brands/lovable.svg
+  alt: Lovable logo
 ---
 
 Export or open your project’s **`index.html`** (or root layout) and inject the tracker in `<head>`. Token: [Add the tracker](/docs/add-the-tracker).

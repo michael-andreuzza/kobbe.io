@@ -6,7 +6,7 @@ category: Tracking
 navLabel: Subdomains
 ---
 
-Kobbe rolls **marketing pages, app, and blog** into one site when you use the **same site token** on every host. Each pageview stores the visitor’s page hostname so you can see traffic per subdomain in the dashboard **Hostnames** tab under Sources.
+Use the **same site token** on every subdomain you want rolled into one site. Each pageview records the hostname so you can split traffic under **Sources → Hostnames**.
 
 ## Setup
 
@@ -14,7 +14,7 @@ Kobbe rolls **marketing pages, app, and blog** into one site when you use the **
 2. Add the snippet to every subdomain you want tracked, for example `example.com`, `www.example.com`, `app.example.com`, and `blog.example.com`.
 3. No extra attributes are required: the tracker sends the current page hostname automatically.
 
-Unlike some tools, Kobbe does **not** use cookies or cross-domain URL parameters to stitch visitors. Same-day “visitor” counts use the same privacy model as single-host installs (short-lived server-side fingerprint). Subdomains simply share one site and one token.
+Kobbe does **not** rely on cookies or cross-domain URL parameters for this—same-day visitor logic matches single-host installs.
 
 ## Dashboard
 

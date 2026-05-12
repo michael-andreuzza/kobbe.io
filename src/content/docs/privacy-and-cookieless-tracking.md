@@ -8,8 +8,6 @@ navLabel: Privacy
 
 Kobbe is designed to be privacy-friendly by default. The standard tracker does not use cookies or browser storage **to count pageviews or build visitor profiles**.
 
-This page describes Kobbe's technical behavior. It is not legal advice. Your privacy notice, consent rules, and lawful basis depend on your site, jurisdiction, and how you configure optional features.
-
 ## Default tracker
 
 The default Kobbe tracker collects pageviews and custom events without creating long-lived visitor profiles:
@@ -21,7 +19,7 @@ The default Kobbe tracker collects pageviews and custom events without creating 
 - No customer emails, names, or account identifiers unless you send them yourself, which you should avoid.
 - No browser fingerprinting techniques such as canvas, WebGL, or font enumeration.
 
-## Visitor opt-out (`localStorage`)
+## Visitor opt-out
 
 Visitors can stop the tracker from sending events by setting `localStorage.kobbe_ignore = "true"` (see [Exclude visits](/docs/exclude-visits)). That flag is a **do-not-send preference**, not an analytics ID: it does not identify a person or join sessions across sites. Mention it in your privacy notice if you document how people can opt out.
 
@@ -37,7 +35,7 @@ For long sales cycles, attribution can be less complete than systems that use lo
 
 ## Optional cross-domain tracking
 
-[Cross-domain tracking](/docs/cross-domain-tracking) is off by default. When you enable it for allowlisted hostnames, the tracker may use `sessionStorage` in the current tab to tie same-day navigation across root domains. This is consent-sensitive: disclose it where required and only turn it on when it matches your legal basis.
+[Cross-domain tracking](/docs/cross-domain-tracking) is off by default. When you enable it for allowlisted hostnames, the tracker may use `sessionStorage` in the current tab to tie same-day navigation across root domains. This is consent-sensitive: disclose it where required and only turn it on when it matches the rules that apply to your country, region, audience, and legal basis.
 
 ## Optional revenue attribution
 
@@ -49,9 +47,9 @@ This changes the privacy posture:
 - The raw attribution ID is hashed server-side before storage.
 - Kobbe stores payment amount, currency, provider event IDs, and the hashed attribution key.
 - Kobbe does not need customer emails or names for attribution.
-- Attribution may still be considered personal data depending on your setup and jurisdiction.
+- Attribution may still be considered personal data depending on your setup and the rules that apply to your country, region, and audience.
 
-Enable revenue attribution only when it fits your privacy notice, consent setup, and payment provider configuration.
+Enable revenue attribution only when it fits your privacy notice, consent setup, payment provider configuration, and applicable country or regional rules.
 
 ## What to tell your visitors
 

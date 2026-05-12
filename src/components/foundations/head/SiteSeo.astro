@@ -10,6 +10,7 @@ interface Props {
   ogImageAlt?: string;
   ogImageHeight?: number;
   ogImageWidth?: number;
+  twitterImage?: string;
   ogType?: string;
   noindex?: boolean;
   nofollow?: boolean;
@@ -28,12 +29,13 @@ const {
   description,
   canonical = new URL(canonicalPathname, site).toString(),
   ogImage = new URL(
-    "/images/favicons/android-chrome-512x512.png",
+    "/images/opengraph/facebook.png",
     site,
   ).toString(),
   ogImageAlt = "Kobbe",
-  ogImageHeight = 512,
-  ogImageWidth = 512,
+  ogImageHeight = 630,
+  ogImageWidth = 1600,
+  twitterImage = new URL("/images/opengraph/x.png", site).toString(),
   ogType = "website",
   noindex = false,
   nofollow = false,
@@ -82,7 +84,7 @@ const jsonLd = buildSiteJsonLdGraph({
     ],
   }}
   twitter={{
-    cardType: "summary",
+    cardType: "summary_large_image",
     handle: "@Mike_Andreuzza",
   }}
   additionalMetaTags={[
@@ -91,7 +93,8 @@ const jsonLd = buildSiteJsonLdGraph({
     { name: "msapplication-TileColor", content: "#ffffff" },
     { name: "twitter:title", content: title },
     { name: "twitter:description", content: description },
-    { name: "twitter:image", content: ogImage },
+    { name: "twitter:image", content: twitterImage },
+    { name: "twitter:image:alt", content: ogImageAlt },
   ]}
   additionalLinkTags={[
     { rel: "icon", href: "/images/favicons/favicon.ico", sizes: "any" },

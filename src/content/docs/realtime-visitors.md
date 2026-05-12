@@ -12,12 +12,14 @@ Realtime shows active traffic for one site. Use it when you want to confirm an i
 
 The realtime page can include:
 
-- Active visitor count.
-- Current pages being viewed.
-- Recent activity.
-- Referrer/source context.
-- Country or region hints when available.
-- A live map for online visitors.
+| Signal                  | What you see                                     |
+| ----------------------- | ------------------------------------------------ |
+| **Active visitors**     | Approximate count of visitors online right now.  |
+| **Current pages**       | Paths visitors are viewing.                      |
+| **Recent activity**     | Latest actions in the live window.               |
+| **Referrers / sources** | Where active traffic is coming from.             |
+| **Locations**           | Country or region hints when available.          |
+| **Live map**            | Online visitors on a map when data is available. |
 
 Realtime uses the same privacy model as the rest of Kobbe. It does not expose raw IP addresses, customer names, or personal profiles.
 
@@ -35,9 +37,11 @@ The map uses coarse location signals from the request edge when available. Missi
 
 Public dashboard links can optionally include realtime access. Choose the shared dashboard scope from site settings:
 
-- **Overview + realtime** — viewers can see both the main dashboard and realtime page.
-- **Overview only** — viewers cannot open realtime.
-- **Realtime only** — viewers see only the realtime page.
+| Scope                   | Access                                                         |
+| ----------------------- | -------------------------------------------------------------- |
+| **Overview + realtime** | Viewers can see both the main dashboard and the realtime page. |
+| **Overview only**       | Viewers cannot open realtime.                                  |
+| **Realtime only**       | Viewers see only the realtime page.                            |
 
 Shared realtime is read-only. Viewers cannot change settings, export data, rotate tokens, or manage share links.
 

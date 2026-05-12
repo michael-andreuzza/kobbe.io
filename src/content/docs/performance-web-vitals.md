@@ -12,14 +12,14 @@ Performance collection is off by default.
 
 ## Enable performance tracking
 
-Add `data-performance="true"` to your tracker snippet:
+Use the full tracker and add `data-performance="true"` to your snippet:
 
 ```html
 <script
   defer
   data-token="YOUR_SITE_TOKEN"
   data-performance="true"
-  src="https://app.kobbe.io/tracker.js"
+  src="https://app.kobbe.io/tracker.full.js"
 ></script>
 ```
 
@@ -29,11 +29,13 @@ After visitors generate enough samples, open the site's **Performance** page fro
 
 Kobbe can collect:
 
-- **LCP** — Largest Contentful Paint.
-- **INP** — Interaction to Next Paint.
-- **CLS** — Cumulative Layout Shift.
-- **FCP** — First Contentful Paint.
-- **TTFB** — Time to First Byte.
+| Metric   | Meaning                    |
+| -------- | -------------------------- |
+| **LCP**  | Largest Contentful Paint.  |
+| **INP**  | Interaction to Next Paint. |
+| **CLS**  | Cumulative Layout Shift.   |
+| **FCP**  | First Contentful Paint.    |
+| **TTFB** | Time to First Byte.        |
 
 Availability depends on browser support and the page lifecycle. Some browsers or visits may not produce every metric.
 
@@ -51,9 +53,9 @@ p75 means the 75th percentile. If a page has p75 LCP of `2.5s`, 75% of collected
 
 ## Privacy
 
-Performance samples are separate from custom events. They are collected only when `data-performance="true"` is present and are not shown in the Events feed.
+Performance samples are separate from custom events. They are collected only when `tracker.full.js` is loaded with `data-performance="true"`, are not shown in the Events feed, and count as one accepted performance payload toward monthly usage.
 
-Performance payloads include the current page path, browser/device/location hints already used for analytics breakdowns, and the metric values. Do not enable performance collection unless it fits your privacy notice and legal basis.
+Performance payloads include the current page path, browser/device/location hints already used for analytics breakdowns, and the metric values. Do not enable performance collection unless it fits your privacy notice and the rules that apply to your country, region, audience, and legal basis.
 
 ## Related docs
 

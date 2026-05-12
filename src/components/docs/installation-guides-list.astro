@@ -1,0 +1,93 @@
+---
+import type { CollectionEntry } from "astro:content";
+import DocsLinkList from "@/components/docs/docs-link-list.astro";
+
+type Guide = CollectionEntry<"docs"> & {
+  data: CollectionEntry<"docs">["data"] & {
+    brandLogo?: {
+      url: { src: string };
+      alt: string;
+    };
+  };
+};
+
+interface Props {
+  guides: Guide[];
+}
+
+const { guides } = Astro.props;
+
+const guideById = new Map(guides.map((guide) => [guide.id, guide]));
+
+const sections = [
+  {
+    title: "Frameworks and apps",
+    ids: [
+      "install-nextjs",
+      "install-react-router",
+      "install-astro",
+      "install-vue",
+      "install-laravel",
+      "install-django",
+    ],
+  },
+  {
+    title: "CMS and site builders",
+    ids: [
+      "install-wordpress",
+      "install-webflow",
+      "install-framer",
+      "install-ghost",
+      "install-shopify",
+      "install-woocommerce",
+    ],
+  },
+  {
+    title: "No-code and hosted tools",
+    ids: [
+      "install-bubble",
+      "install-podia",
+      "install-kajabi",
+      "install-wix",
+      "install-squarespace",
+      "install-lovable",
+      "install-bolt",
+      "install-vercel-v0",
+      "install-replit",
+    ],
+  },
+  {
+    title: "Tag managers",
+    ids: ["install-google-tag-manager"],
+  },
+].map((section) => ({
+  ...section,
+  items: section.ids
+    .map((id) => guideById.get(id))
+    .filter((guide): guide is Guide => Boolean(guide))
+    .map((guide) => {
+      const logo = guide.data.brandLogo;
+
+      return {
+        title: guide.data.navLabel ?? guide.data.title,
+        href: `/docs/${guide.id}`,
+        logo: logo
+          ? {
+              src: logo.url.src,
+              alt: logo.alt,
+            }
+          : undefined,
+      };
+    }),
+}));
+---
+
+<DocsLinkList sections={sections} showLogos />
+
+<p>
+  Something missing? Extend your setup with <a href="/docs/custom-events"
+    >Custom events</a
+  >, <a href="/docs/track-subdomains">Track across subdomains</a>, or <a
+    href="/docs/revenue-attribution">Revenue attribution</a
+  > when you connect payments.
+</p>

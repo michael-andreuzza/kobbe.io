@@ -8,7 +8,7 @@ navLabel: Hash paths
 
 Some sites use `location.hash` as the app route (for example `/#/dashboard` or `/#pricing`). The default Kobbe tracker only sends the **pathname**, so hash-only navigations do not create new pageviews.
 
-## Opt in with `data-track-hash`
+## Opt in to hash paths
 
 Add **`data-track-hash="true"`** on the same `<script>` tag as the tracker:
 
@@ -30,10 +30,6 @@ When enabled:
 ## Raw API
 
 Server-side or CLI sends can set **`"trackHash": true`** on the JSON body alongside `path` if the path includes a `#fragment` that should be stored. This must match what you send from the browser tracker for consistent behavior.
-
-## Anchor-heavy pages
-
-Many marketing pages use hashes only for **in-page anchors** (table of contents, tabs). Turning on hash paths there can **inflate pageview counts**, because each anchor click changes the hash. Enable **`data-track-hash` only when hashes represent real screens or routes** in your app.
 
 ## Related
 

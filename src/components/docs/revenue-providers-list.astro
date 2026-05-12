@@ -1,0 +1,55 @@
+---
+import type { CollectionEntry } from "astro:content";
+import DocsLinkList from "@/components/docs/docs-link-list.astro";
+
+type Provider = CollectionEntry<"docs"> & {
+  data: CollectionEntry<"docs">["data"] & {
+    brandLogo?: {
+      url: { src: string };
+      alt: string;
+    };
+  };
+};
+
+interface Props {
+  providers: Provider[];
+}
+
+const { providers } = Astro.props;
+
+const providerIds = [
+  "revenue-attribution-stripe",
+  "revenue-attribution-polar",
+  "revenue-attribution-paddle",
+  "revenue-attribution-creem",
+];
+
+const providerById = new Map(
+  providers.map((provider) => [provider.id, provider]),
+);
+const orderedProviders = providerIds
+  .map((id) => providerById.get(id))
+  .filter((provider): provider is Provider => Boolean(provider));
+
+const sections = [
+  {
+    title: "Provider guides",
+    items: orderedProviders.map((provider) => {
+      const logo = provider.data.brandLogo;
+
+      return {
+        title: provider.data.navLabel ?? provider.data.title,
+        href: `/docs/${provider.id}`,
+        logo: logo
+          ? {
+              src: logo.url.src,
+              alt: logo.alt,
+            }
+          : undefined,
+      };
+    }),
+  },
+];
+---
+
+<DocsLinkList sections={sections} showLogos />

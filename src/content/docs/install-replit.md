@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to a Replit-hosted web app.
 order: 24
 category: Installation guides
 navLabel: Replit
+brandLogo:
+  url: ../../images/brands/replit.svg
+  alt: Replit logo
 ---
 
 Replit templates vary (static HTML, Express, React/Vite, etc.). Put Kobbe in the **HTML head** your server sends, or in `index.html` for SPA stacks. Token: [Add the tracker](/docs/add-the-tracker).

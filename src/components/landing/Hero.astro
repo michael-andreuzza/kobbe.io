@@ -1,0 +1,57 @@
+---
+import Text from "@/components/foundations/elements/Text.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import DashboardPreview from "@/components/landing/dashboard/dashboard-preview";
+import BrandStripes from "@/components/foundations/brand/BrandStripes.astro";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+---
+
+<section>
+  <Wrapper variant="default" class="pt-20 pb-20 lg:pt-28">
+    <div class="mx-auto max-w-3xl text-center text-balance 2xl:max-w-7xl">
+      <Text
+        tag="h1"
+        variant="displayLG"
+        class="text-foreground font-display font-medium tracking-tight"
+      >
+        Privacy-friendly and cookieless analytics for your website.
+      </Text>
+      <Text tag="p" variant="textBase" class="text-muted-foreground mt-2">
+        See traffic, pages, referrers, locations, devices, funnels, and revenue
+        without cookies, raw IP storage, or invasive tracking. Manage with CLI
+        or AI agents. <br /> — Set up in seconds.
+      </Text>
+      <div class="flex flex-wrap w-fit mx-auto gap-2 mt-8">
+        <a
+          href="/pricing"
+          data-kobbe-event="Hero — start free trial"
+          class={cn(
+            buttonVariants({ variant: "default", size: "lg" }),
+            "bg-brand hover:bg-brand/90 lg:w-fit",
+          )}
+        >
+          Start a free trial
+        </a>
+        <a
+          href="https://app.kobbe.io/demo/kobbe-studio"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-kobbe-event="Hero — see demo"
+          class={cn(
+            buttonVariants({ variant: "secondary", size: "lg" }),
+            "lg:w-fit",
+          )}
+        >
+          See the demo
+        </a>
+      </div>
+    </div>
+  </Wrapper>
+</section>
+<section class="relative">
+  <BrandStripes class="absolute top-20" />
+  <Wrapper variant="wide" class="relative">
+    <DashboardPreview client:visible />
+  </Wrapper>
+</section>

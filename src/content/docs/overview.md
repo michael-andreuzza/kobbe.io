@@ -8,30 +8,27 @@ navLabel: Overview
 
 Kobbe is a privacy-friendly analytics dashboard for understanding your website traffic. Its defaults collect pageviews and custom events without cookies, persistent identifiers, or personal data.
 
-## Quick start
-
-1. Add your website in Kobbe.
-2. Copy the tracker script from your site settings.
-3. Paste the script into your website.
-4. Open your dashboard to see visitors, visits, views, sources, locations, devices, and events.
-
-Guides: [Installation guides](/docs/installation-guides), [Add the tracker](/docs/add-the-tracker), [Dashboard overview](/docs/dashboard-overview), [Realtime visitors](/docs/realtime-visitors), [Performance and Web Vitals](/docs/performance-web-vitals), [Google Search Console](/docs/search-console), [Privacy and cookieless tracking](/docs/privacy-and-cookieless-tracking), [Script options](/docs/script-options), [Hash page paths](/docs/hash-page-paths), [Track across subdomains](/docs/track-subdomains), [Cross-domain tracking](/docs/cross-domain-tracking), [Exclude visits](/docs/exclude-visits), [Custom events](/docs/custom-events), [Scroll tracking](/docs/scroll-tracking), [Team access](/docs/team-access), [Billing and usage limits](/docs/billing-and-usage-limits), [Reduce usage](/docs/reduce-usage).
-
 ## What you can see
 
-- **Visitors, visits, and views** — understand how much traffic your site receives.
-- **Top pages** — see which pages people enter, view, and leave from.
-- **Referrers and channels** — know where traffic comes from, including search, social, direct, and other websites.
-- **Locations** — view countries, regions, and cities without storing personal data.
-- **Devices** — compare browsers, operating systems, and device types.
-- **Custom events** — track clicks, section visibility, signups, purchases, downloads, and other important actions.
-- **Funnels** — measure conversion and drop-off across page paths and custom events.
-- **Performance** — opt in to real-user Web Vitals and inspect slow pages, browsers, devices, and countries.
-- **Search Console** — connect Google Search Console to review organic queries, landing pages, clicks, impressions, and rankings next to your analytics.
-- **AI traffic** — see referrals from tools like ChatGPT, Perplexity, Claude, and more.
-- **Shared dashboards** — create read-only links for clients, teammates, or stakeholders.
-- **Team access** — invite teammates to view one project dashboard without giving them workspace settings access.
-- **Data export** — download site analytics as CSV for reports, backups, or spreadsheet analysis.
+### Traffic overview
+
+Kobbe shows visitors, visits, views, top pages, referrers, channels, locations, and devices so you can understand where traffic comes from and what people view.
+
+### Events and conversions
+
+Track custom events for clicks, signups, purchases, downloads, and important sections. Funnels help you measure drop-off across page paths and events.
+
+### Connected insights
+
+Optional Web Vitals and Search Console data help you review slow pages, browsers, devices, organic queries, landing pages, clicks, impressions, and rankings next to your analytics. AI traffic referrals are shown alongside other sources.
+
+### Sharing and exports
+
+Create read-only dashboards for clients or teammates, invite team viewers without giving them workspace settings access, and export site analytics as CSV when you need reports or backups.
+
+### CLI and AI agents
+
+Use the [CLI](/docs/cli) or [AI agents](/docs/ai-agents) to inspect analytics, review revenue, check setup health, and manage sites from your terminal or MCP-compatible tools.
 
 ## Privacy by default
 
@@ -44,5 +41,3 @@ In the default configuration there is no client-side storage used for cross-sess
 To count same-day unique visitors, the server computes a short-lived anonymous hash from the request metadata and a daily-rotating secret. The hash cannot be reversed, is never shared across days, and raw IP addresses are never stored in the database.
 
 The tracker strips query strings from URLs and only sends the referrer origin, so search queries, tokens, and other sensitive URL data are not collected.
-
-Optional features such as hash page paths, scroll tracking, [cross-domain tracking](/docs/cross-domain-tracking), and [revenue attribution](/docs/revenue-attribution) are off by default. Enable them only when they fit your site, legal basis, and privacy notice. Cross-domain handoff and revenue attribution can use `sessionStorage` in the tab **after** you explicitly enable them; cross-domain especially is consent-sensitive.

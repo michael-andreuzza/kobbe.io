@@ -1,40 +1,16 @@
 ---
 interface Props {
-  variant?:
-    | "nav"
-    | "tags"
-    | "aside"
-    | "prose"
-    | "narrow"
-    | "content"
-    | "default"
-    | "flexedDesktop"
-    | "defaultPaddingLessDesktop"
-    | "carousel"
-    | "viewport"
-    | "themeGrid"
-    | "standardWide"
-    | "standardWidePaddingless";
+  variant?: "nav" | "prose" | "default" | "wide";
   class?: string; // Optional prop for additional classes
   id?: string; // Optional prop for an id
 }
-const { variant = "standard", class: extraClass = "", id } = Astro.props;
+const { variant = "default", class: extraClass = "", id } = Astro.props;
 // Map each variant to its specific classes
-const variantClasses = {
-  // Utility
-  narrow: "max-w-2xl ",
-  nav: "mx-auto  max-w-[70rem] lg:max-w-7xl 2xl:max-w-[130rem]",
-  viewport: "mx-auto   max-w-7xl ",
-  carousel: "max-w-7xl mx-auto w-full 2xl:max-w-[130rem]",
-  tags: "relative flex flex-wrap lg:flex-col gap-y-2 gap-x-4 lg:gap-y-2",
-  // Sections
-  standardWide: "mx-auto max-w-7xl 2xl:max-w-[130rem]",
+const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
+  nav: "mx-auto max-w-6xl px-8 lg:px-12 ",
   // Grids
-  default: "mx-auto  max-w-7xl px-8 lg:px-12  2xl:max-w-[120rem]",
-  defaultPaddingLessDesktop:
-    "mx-auto  max-w-7xl px-8 lg:px-12 2xl:max-w-[100rem]",
-  themeGrid:
-    "relative grid w-full grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3  2xl:grid-cols-3",
+  default: "mx-auto max-w-6xl px-8 lg:px-12 2xl:max-w-400",
+  wide: "mx-auto  px-8 lg:px-12 2xl:max-w-500",
 
   prose: [
     // Base
@@ -42,7 +18,7 @@ const variantClasses = {
     "text-sm",
     "2xl:text-base",
     "max-w-none",
-    "text-foreground",
+    "text-muted-foreground",
     // Headings
     "prose-headings:font-semibold",
     "prose-headings:text-foreground",
@@ -55,7 +31,6 @@ const variantClasses = {
     "prose-blockquote:tracking-normal",
     // Links
     "prose-a:text-foreground",
-    "prose-a:hover:text-accent-dark",
     "prose-a:duration-200",
     // Images
     "prose-img:border",
@@ -65,11 +40,7 @@ const variantClasses = {
     // Code & Pre
     "prose-code:font-medium",
     "prose-strong:font-semibold",
-    "prose-pre:bg-muted-surface",
-    "prose-pre:rounded-lg",
-    "prose-pre:border-none",
-    "prose-pre:scrollbar-hide",
-    "prose-pre:selection:bg-accent-dark",
+    "prose-pre:scrollbar-hide prose-pre:border-none",
   ].join(" "),
 };
 // Combine the classes for the specified variant with any extra classes

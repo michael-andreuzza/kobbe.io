@@ -6,18 +6,17 @@ category: Manage
 navLabel: Billing and limits
 ---
 
-Kobbe plans include a monthly event allowance per workspace. Pageviews, custom events, and other analytics hits count toward usage according to the active plan.
+Kobbe plans are based on a monthly event allowance per workspace. Pageviews, custom events, scroll visibility events, and accepted Web Vitals/performance payloads count toward usage according to the active tier.
 
 Plans and limits can change over time. The billing page in the app is the source of truth for your current workspace.
 
 ## Plans
 
-Kobbe currently offers:
+Kobbe currently offers event tiers from **100,000 monthly events** up to **25,000,000 monthly events**. Every paid tier includes the same product features; the tier mainly changes monthly event allowance and billing amount.
 
-- **Starter** — for one website or a focused side project.
-- **Growth** — for multiple websites or heavier traffic.
+Yearly billing gives one month free at every tier. For traffic above the published tiers, contact support so we can help with a higher-volume plan.
 
-You can manage billing from the app's billing settings. Checkout and subscription management are handled by the billing provider.
+You can manage billing from the app's billing settings. Checkout and subscription management are handled by the billing provider, and the app billing page is the source of truth for the workspace's active tier.
 
 ## Monthly event caps
 
@@ -36,9 +35,10 @@ Typical usage includes:
 - Pageviews.
 - Custom events.
 - Scroll visibility events.
-- Funnel step events because they are based on pageviews and custom events.
+- One accepted Web Vitals/performance collect payload when performance tracking is enabled.
+- Funnel steps because they are based on pageviews and custom events already collected by the tracker.
 
-Revenue webhooks and performance samples may have separate handling internally, but you should still treat optional features as traffic you intentionally enable.
+Revenue webhooks and attribution metadata are handled separately from the monthly event counter, but you should still enable optional features intentionally and avoid sending personal data.
 
 ## What happens when usage is blocked
 

@@ -1,0 +1,86 @@
+---
+import type { CollectionEntry } from "astro:content";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
+interface Props {
+  docs: CollectionEntry<"docs">[];
+  currentId: string;
+  variant?: "full" | "compact";
+}
+
+const { docs, currentId, variant = "full" } = Astro.props;
+const currentIndex = docs.findIndex((doc) => doc.id === currentId);
+const previousDoc = currentIndex > 0 ? docs[currentIndex - 1] : undefined;
+const nextDoc =
+  currentIndex >= 0 && currentIndex < docs.length - 1
+    ? docs[currentIndex + 1]
+    : undefined;
+
+const getHref = (doc: CollectionEntry<"docs">) =>
+  doc.id === "overview" ? "/docs" : `/docs/${doc.id}`;
+---
+
+{
+  (previousDoc || nextDoc) && (
+    <Pagination
+      className={
+        variant === "compact"
+          ? "not-prose w-auto justify-end"
+          : "not-prose border-border mt-10 border-t pt-6"
+      }
+    >
+      <PaginationContent className="w-full justify-between">
+        <PaginationItem>
+          {previousDoc ? (
+            variant === "compact" ? (
+              <PaginationPrevious
+                href={getHref(previousDoc)}
+                size="icon"
+                className="bg-secondary text-secondary-foreground hover:bg-secondary/80 gap-0 p-0"
+                aria-label={`Previous: ${previousDoc.data.navLabel ?? previousDoc.data.title}`}
+              >
+                {""}
+              </PaginationPrevious>
+            ) : (
+              <PaginationPrevious href={getHref(previousDoc)} size="default">
+                {previousDoc.data.navLabel ?? previousDoc.data.title}
+              </PaginationPrevious>
+            )
+          ) : variant === "compact" ? (
+            <span class="block size-8" aria-hidden="true" />
+          ) : (
+            <span />
+          )}
+        </PaginationItem>
+        <PaginationItem>
+          {nextDoc ? (
+            variant === "compact" ? (
+              <PaginationNext
+                href={getHref(nextDoc)}
+                size="icon"
+                className="bg-secondary text-secondary-foreground hover:bg-secondary/80 gap-0 p-0"
+                aria-label={`Next: ${nextDoc.data.navLabel ?? nextDoc.data.title}`}
+              >
+                {""}
+              </PaginationNext>
+            ) : (
+              <PaginationNext href={getHref(nextDoc)} size="default">
+                {nextDoc.data.navLabel ?? nextDoc.data.title}
+              </PaginationNext>
+            )
+          ) : variant === "compact" ? (
+            <span class="block size-8" aria-hidden="true" />
+          ) : (
+            <span />
+          )}
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  )
+}

@@ -1,8 +1,11 @@
 ---
+import Text from "@/components/foundations/elements/Text.astro";
 import BaseLayout from "./BaseLayout.astro";
+import Sidebar from "@/components/ui/sidebar";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import type { CollectionEntry } from "astro:content";
-import CopyAsMarkdown from "@/components/foundations/scripts/CopyAsMarkdown.astro";
 import ToCScript from "@/components/foundations/scripts/ToCScript.astro";
+import TableOfContents from "@/components/foundations/navigation/TableOfContents.astro";
 
 interface Props {
   title?: string;
@@ -11,11 +14,16 @@ interface Props {
 }
 
 const { title, description, navItems } = Astro.props;
+const currentPath = Astro.url.pathname.replace(/\/$/, "");
+const displayTitle = title?.replace(/\s+— Kobbe Docs$/, "");
 
 const resolvedNavLinks = navItems.map((item) => ({
   href: item.id === "overview" ? "/docs" : `/docs/${item.id}`,
   label: item.data.navLabel ?? item.data.title,
   category: item.data.category ?? "Docs",
+  isActive:
+    currentPath ===
+    (item.id === "overview" ? "/docs" : `/docs/${item.id}`).replace(/\/$/, ""),
 }));
 
 const groupedNavLinks = resolvedNavLinks.reduce(
@@ -30,106 +38,81 @@ const groupedNavLinks = resolvedNavLinks.reduce(
   },
   [] as { category: string; items: typeof resolvedNavLinks }[],
 );
+
+/** Stable sidebar order so Dashboard stats sits under Get started (not after long guide groups). */
+const NAV_GROUP_ORDER = [
+  "Get started",
+  "Dashboard stats",
+  "Installation guides",
+  "Tracking",
+  "Analyze",
+  "Sharing",
+  "Revenue attribution",
+  "Manage",
+  "Support",
+  "Legal",
+  "Docs",
+] as const;
+
+groupedNavLinks.sort((a, b) => {
+  const ai = NAV_GROUP_ORDER.indexOf(
+    a.category as (typeof NAV_GROUP_ORDER)[number],
+  );
+  const bi = NAV_GROUP_ORDER.indexOf(
+    b.category as (typeof NAV_GROUP_ORDER)[number],
+  );
+  const ar = ai === -1 ? NAV_GROUP_ORDER.length : ai;
+  const br = bi === -1 ? NAV_GROUP_ORDER.length : bi;
+  return ar - br || a.category.localeCompare(b.category);
+});
 ---
 
-<BaseLayout title={title} description={description}>
-  <div
-    class="mx-auto grid w-full max-w-7xl grid-cols-1 gap-10 px-6 py-12 lg:grid-cols-[13rem_minmax(0,1fr)] lg:py-16 xl:grid-cols-[13rem_minmax(0,1fr)_14rem]"
-  >
-    <aside class="hidden w-52 shrink-0 lg:block">
-      <nav class="sticky top-20 flex flex-col gap-5">
-        {
-          groupedNavLinks.map((group) => (
-            <div>
-              <p class="text-muted-foreground px-3 text-xs font-medium tracking-wide uppercase">
-                {group.category}
-              </p>
-              <div class="mt-2 flex flex-col gap-1">
-                {group.items.map((item) => (
-                  <a
-                    href={item.href}
-                    class:list={[
-                      "rounded-lg px-3 py-1.5 text-sm transition-colors",
-                      Astro.url.pathname.replace(/\/$/, "") ===
-                      item.href.replace(/\/$/, "")
-                        ? "bg-secondary text-foreground"
-                        : "text-muted-foreground hover:text-foreground",
-                    ]}
-                  >
-                    {item.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-          ))
-        }
-      </nav>
-    </aside>
-    <div class="space-y-8 xl:hidden">
-      <div class="flex flex-wrap gap-2">
-        <button
-          data-copy-markdown
-          type="button"
-          class="border-border bg-background text-foreground hover:bg-secondary rounded-lg border px-3 py-1.5 text-sm transition-colors"
-        >
-          Copy page as Markdown
-        </button>
-      </div>
-      <nav
-        aria-label="Table of contents"
-        class="border-border rounded-lg border p-4"
-      >
-        <p
-          class="text-muted-foreground text-xs font-medium tracking-wide uppercase"
-        >
-          On this page
-        </p>
-        <ol data-toc-list role="list" class="mt-3 flex flex-col gap-2">
-          <li data-toc-empty class="text-muted-foreground text-xs/5">
-            No sections on this page.
-          </li>
-        </ol>
-      </nav>
-    </div>
-    <article
-      id="markdown-content"
-      class="prose prose-neutral dark:prose-invert max-w-none min-w-0 flex-1"
+<BaseLayout
+  title={title}
+  description={description}
+  docsNavGroups={groupedNavLinks}
+>
+  <Wrapper variant="default">
+    <div
+      class="grid w-full grid-cols-1 gap-10 py-12 lg:grid-cols-[16rem_minmax(0,1fr)] xl:grid-cols-[16rem_minmax(0,1fr)_14rem]"
     >
-      <slot />
-    </article>
-    <aside class="hidden xl:block">
-      <div class="sticky top-20 space-y-8">
-        <div>
-          <p
-            class="text-muted-foreground px-3 text-xs font-medium tracking-wide uppercase"
-          >
-            Actions
-          </p>
-          <div class="mt-2 flex flex-col gap-2">
-            <button
-              data-copy-markdown
-              type="button"
-              class="border-border bg-background text-foreground hover:bg-secondary rounded-lg border px-3 py-1.5 text-left text-sm transition-colors"
-            >
-              Copy page as Markdown
-            </button>
-          </div>
-        </div>
-        <nav aria-label="Table of contents">
-          <p
-            class="text-muted-foreground px-3 text-xs font-medium tracking-wide uppercase"
-          >
-            On this page
-          </p>
-          <ol data-toc-list role="list" class="mt-3 flex flex-col gap-2 px-3">
-            <li data-toc-empty class="text-muted-foreground text-xs/5">
-              No sections on this page.
-            </li>
-          </ol>
-        </nav>
-      </div>
-    </aside>
-  </div>
-  <CopyAsMarkdown />
+      <Sidebar client:load groups={groupedNavLinks} />
+      <Wrapper
+        variant="prose"
+        id="markdown-content"
+        class="max-w-none min-w-0 flex-1"
+      >
+        {
+          displayTitle && (
+            <header class="not-prose flex max-w-2xl items-start justify-between gap-4">
+              <div class="min-w-0">
+                <Text
+                  tag="h1"
+                  variant="displayXS"
+                  class="text-foreground font-medium tracking-tight"
+                >
+                  {displayTitle}
+                </Text>
+                {description && (
+                  <Text
+                    tag="h1"
+                    variant="textBase"
+                    class="text-muted-foreground mt-2"
+                  >
+                    {description}
+                  </Text>
+                )}
+              </div>
+              <div class="mt-1 shrink-0">
+                <slot name="header-actions" />
+              </div>
+            </header>
+          )
+        }
+        <slot />
+      </Wrapper>
+      <TableOfContents />
+    </div>
+  </Wrapper>
   <ToCScript />
 </BaseLayout>

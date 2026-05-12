@@ -6,7 +6,7 @@ category: Manage
 navLabel: Reduce usage
 ---
 
-If your event volume is higher than expected, first check whether all tracked traffic is actually useful. Kobbe can drop low-value traffic **before it counts toward quotas** with [traffic exclusions](/docs/exclude-visits).
+If event volume is high, cut noise with [traffic exclusions](/docs/exclude-visits) so unwanted hits never count toward quotas.
 
 ## Start with low-value traffic
 
@@ -37,6 +37,7 @@ Optional features can increase event volume:
 
 - [Hash page paths](/docs/hash-page-paths) can add pageviews on `hashchange`.
 - [Scroll tracking](/docs/scroll-tracking) adds one custom event per marked section per page visit.
+- [Performance and Web Vitals](/docs/performance-web-vitals) adds one performance payload per page visit when enabled.
 - [Cross-domain tracking](/docs/cross-domain-tracking) can make more of a multi-domain journey visible in one site.
 
 These are useful when configured intentionally. Keep event names and marked sections focused on decisions you actually make.

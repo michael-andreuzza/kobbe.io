@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to a React Router (v7 / Remix-style) app.
 order: 4
 category: Installation guides
 navLabel: React Router
+brandLogo:
+  url: ../../images/brands/reactrouter.svg
+  alt: React Router logo
 ---
 
 Emit the tracker on **every document shell** so first paint and hard navigations both count. Use the token from [Add the tracker](/docs/add-the-tracker).

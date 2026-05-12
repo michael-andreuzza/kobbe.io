@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to a Bolt.new / StackBlitz-style exported pro
 order: 22
 category: Installation guides
 navLabel: Bolt
+brandLogo:
+  url: ../../images/brands/bolt.svg
+  alt: Bolt logo
 ---
 
 After export, inject the script in the **root HTML shell** or framework root layout. Token: [Add the tracker](/docs/add-the-tracker).

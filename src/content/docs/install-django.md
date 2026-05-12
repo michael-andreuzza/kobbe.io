@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to Django templates.
 order: 8
 category: Installation guides
 navLabel: Django
+brandLogo:
+  url: ../../images/brands/django.svg
+  alt: Django logo
 ---
 
 Put the tracker in your **base template** (`templates/base.html` or equivalent). Token: [Add the tracker](/docs/add-the-tracker).

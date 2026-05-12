@@ -67,11 +67,6 @@ const {
 const baseClasses = textStyles[variant] || textStyles.textMD; // Default to textMD if not found
 // Combine base classes with any additional custom classes
 const combinedClasses = `${baseClasses} ${className}`.trim();
-// Adjust the tag based on the level for headings
-let resolvedTag: string = Tag; // Ensure resolvedTag is a string
-if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(Tag)) {
-  resolvedTag = `h${Math.min(Math.max(level, 1), 6)}`; // Enforce level to be between 1 and 6
-}
 ---
 
 <Tag class={combinedClasses} {...rest}>

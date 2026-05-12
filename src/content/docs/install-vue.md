@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to a Vue 3 (Vite) or Vue CLI app.
 order: 6
 category: Installation guides
 navLabel: Vue.js
+brandLogo:
+  url: ../../images/brands/vue.svg
+  alt: Vue.js logo
 ---
 
 Prefer **`index.html`** so the script loads with the shell. Token: [Add the tracker](/docs/add-the-tracker).

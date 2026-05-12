@@ -1,0 +1,332 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import Text from "@/components/foundations/elements/Text.astro";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+const featureGroups = [
+  {
+    category: "Analytics dashboard",
+    description:
+      "Understand traffic quality, page performance, sources, locations, and live activity without digging through separate tools.",
+    features: [
+      {
+        title: "Traffic overview",
+        description:
+          "Visitors, visits, views, bounce rate, session time, and trend changes in one dashboard.",
+        href: "/docs/dashboard-stats-kpis",
+      },
+      {
+        title: "Pages and paths",
+        description:
+          "Top pages, entry pages, exit pages, revenue by page, and page-level drilldowns.",
+        href: "/docs/dashboard-stats-pages",
+      },
+      {
+        title: "Sources, channels, and AI traffic",
+        description:
+          "Referrers, campaign channels, hostnames, and AI tools grouped into readable source cards.",
+        href: "/docs/dashboard-stats-sources",
+      },
+      {
+        title: "Realtime visitors",
+        description:
+          "See current activity, recent events, and what is happening on the site right now.",
+        href: "/docs/realtime-visitors",
+      },
+      {
+        title: "Locations and devices",
+        description:
+          "Countries, regions, cities, browsers, operating systems, and device categories.",
+        href: "/docs/dashboard-stats-locations",
+      },
+      {
+        title: "Search Console insights",
+        description:
+          "Bring organic search queries, clicks, impressions, and ranking data into Kobbe.",
+        href: "/docs/search-console",
+      },
+    ],
+  },
+  {
+    category: "Conversion and events",
+    description:
+      "Measure the actions that matter while keeping event names focused and privacy-conscious.",
+    features: [
+      {
+        title: "Custom events",
+        description:
+          "Track clicks, signups, downloads, purchases, form completions, and JavaScript goals.",
+        href: "/docs/custom-events",
+      },
+      {
+        title: "Funnels",
+        description:
+          "Build ordered flows from pageviews and custom events to see where visitors drop off.",
+        href: "/docs/funnels",
+      },
+      {
+        title: "Scroll visibility events",
+        description:
+          "Measure when visitors reach important sections such as pricing, testimonials, or docs.",
+        href: "/docs/scroll-tracking",
+      },
+      {
+        title: "Hash routes",
+        description:
+          "Track SPAs that use URL fragments as routes without storing query strings by default.",
+        href: "/docs/hash-page-paths",
+      },
+      {
+        title: "Traffic exclusions",
+        description:
+          "Drop internal, staging, path, country, hostname, IP, or browser-level noise before it counts.",
+        href: "/docs/exclude-visits",
+      },
+      {
+        title: "Usage controls",
+        description:
+          "Keep event volume useful with bot filtering, exclusions, and focused optional tracking.",
+        href: "/docs/reduce-usage",
+      },
+    ],
+  },
+  {
+    category: "Revenue and attribution",
+    description:
+      "Connect payment activity to the same pages, sources, and journeys you use to understand traffic.",
+    features: [
+      {
+        title: "Revenue dashboard",
+        description:
+          "Attributed revenue, paid orders, conversion context, and revenue rows beside analytics cards.",
+        href: "/docs/dashboard-stats-revenue",
+      },
+      {
+        title: "Checkout attribution",
+        description:
+          "Pass Kobbe attribution through checkout without cookies or long-lived visitor profiles.",
+        href: "/docs/revenue-attribution",
+      },
+      {
+        title: "Stripe",
+        description:
+          "Attribute Stripe checkout and payment events to privacy-friendly analytics sessions.",
+        href: "/docs/revenue-attribution-stripe",
+      },
+      {
+        title: "Polar",
+        description:
+          "Send Kobbe attribution through Polar checkout and reconcile revenue back into reports.",
+        href: "/docs/revenue-attribution-polar",
+      },
+      {
+        title: "Paddle",
+        description:
+          "Connect Paddle revenue events so sales can appear next to pages and sources.",
+        href: "/docs/revenue-attribution-paddle",
+      },
+      {
+        title: "Creem",
+        description:
+          "Use Creem checkout metadata and webhooks with Kobbe revenue attribution.",
+        href: "/docs/revenue-attribution-creem",
+      },
+    ],
+  },
+  {
+    category: "Privacy and control",
+    description:
+      "Kobbe is designed for useful analytics without invasive browser tracking or visitor profiles.",
+    features: [
+      {
+        title: "Cookieless by default",
+        description:
+          "No analytics cookies and no persistent browser-side visitor identifiers for normal tracking.",
+        href: "/docs/privacy-and-cookieless-tracking",
+      },
+      {
+        title: "No raw IP storage",
+        description:
+          "Visitor IPs are minimized at collection time and are not stored raw in the app database.",
+        href: "/docs/legal-gdpr-compliance",
+      },
+      {
+        title: "Bot filtering",
+        description:
+          "Common crawlers, spam, and suspicious automated traffic are filtered before reporting.",
+        href: "/docs/script-options",
+      },
+      {
+        title: "Data export",
+        description:
+          "Export analytics data when you need to archive, report, or analyze it elsewhere.",
+        href: "/docs/data-export",
+      },
+      {
+        title: "Forever retention while active",
+        description:
+          "Analytics history is kept while the workspace stays active unless you delete it.",
+        href: "/docs/billing-and-usage-limits",
+      },
+      {
+        title: "Legal docs and DPA",
+        description:
+          "Privacy, GDPR information, terms, and a hosted-service DPA are available in docs.",
+        href: "/docs/legal-gdpr-compliance",
+      },
+    ],
+  },
+  {
+    category: "Team and sharing",
+    description:
+      "Share the dashboard with teammates and clients while keeping sensitive settings private.",
+    features: [
+      {
+        title: "Team access",
+        description:
+          "Invite teammates to view project dashboards with scoped access.",
+        href: "/docs/team-access",
+      },
+      {
+        title: "Shared dashboards",
+        description:
+          "Create public, read-only dashboard links for clients, teams, or stakeholders.",
+        href: "/docs/shared-dashboards",
+      },
+      {
+        title: "Client reporting",
+        description:
+          "Use clean dashboards, exports, and shared links for recurring reporting workflows.",
+        href: "/docs/shared-dashboards",
+      },
+      {
+        title: "Site-level settings",
+        description:
+          "Keep setup, tokens, exclusions, integrations, and reporting scoped per site.",
+        href: "/docs/dashboard-overview",
+      },
+    ],
+  },
+  {
+    category: "Developer and operations",
+    description:
+      "Install once, automate common checks, and inspect analytics from your terminal or agent tools.",
+    features: [
+      {
+        title: "Lightweight tracker",
+        description:
+          "Use the small default tracker for pageviews and custom events, or full tracker for advanced features.",
+        href: "/docs/add-the-tracker",
+      },
+      {
+        title: "Script options",
+        description:
+          "Configure custom endpoints, hash routes, debug logging, full-tracker features, and more.",
+        href: "/docs/script-options",
+      },
+      {
+        title: "Performance and Web Vitals",
+        description:
+          "Collect real-user LCP, INP, CLS, FCP, and TTFB when performance tracking is enabled.",
+        href: "/docs/performance-web-vitals",
+      },
+      {
+        title: "CLI",
+        description:
+          "Inspect sites, traffic, revenue, setup health, and site settings from the terminal.",
+        href: "/docs/cli",
+      },
+      {
+        title: "AI agents and MCP",
+        description:
+          "Use the same CLI package in MCP mode so AI tools can inspect Kobbe context.",
+        href: "/docs/ai-agents",
+      },
+      {
+        title: "Install guides",
+        description:
+          "Step-by-step setup for Astro, Next.js, React Router, WordPress, Shopify, Webflow, and more.",
+        href: "/docs/installation-guides",
+      },
+    ],
+  },
+] as const;
+---
+<BaseLayout
+  title="Features — Kobbe"
+  description="Explore Kobbe features for privacy-friendly analytics, events, funnels, revenue attribution, shared dashboards, CLI access, and AI agents."
+  canonical="https://kobbe.io/features"
+>
+  <section>
+    <Wrapper variant="default" class="pt-20 pb-12 lg:pt-28">
+      <div class="max-w-3xl text-balance 2xl:max-w-7xl">
+        <Text
+          tag="h1"
+          variant="displayLG"
+          class="text-foreground font-display font-medium tracking-tight"
+        >
+          Everything you need to understand your website.
+        </Text>
+        <Text tag="p" variant="textBase" class="text-muted-foreground mt-3">
+          Kobbe combines privacy-friendly analytics, events, funnels, revenue
+          attribution, shared dashboards, CLI access, and AI-agent context in
+          one focused product.
+        </Text>
+      </div>
+      <div class="mt-24 space-y-12 lg:space-y-24">
+        {
+          featureGroups.map((group) => (
+            <section
+              aria-labelledby={`features-${group.category.toLowerCase().replaceAll(" ", "-")}`}
+            >
+              <div class="grid gap-4 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,2fr)]">
+                <div class="text-balance">
+                  <Text
+                    id={`features-${group.category.toLowerCase().replaceAll(" ", "-")}`}
+                    tag="h2"
+                    variant="displayXS"
+                    class="text-foreground fontdisplay font-medium tracking-tight"
+                  >
+                    {group.category}
+                  </Text>
+                  <Text
+                    tag="p"
+                    variant="textBase"
+                    class="text-muted-foreground mt-3"
+                  >
+                    {group.description}
+                  </Text>
+                </div>
+                <div class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
+                  {group.features.map((feature) => (
+                    <Card className="rounded-lg p-0 group bg-transparent">
+                      <CardHeader>
+                        <CardTitle className="text-foreground text-lg font-medium">
+                          <a
+                            href={feature.href}
+                            class="outline-none group-hover:underline focus-visible:underline"
+                          >
+                            {feature.title}
+                          </a>
+                        </CardTitle>
+                        <CardDescription>{feature.description}</CardDescription>
+                      </CardHeader>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </section>
+          ))
+        }
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout>

@@ -12,12 +12,17 @@ interface Props {
   ogImageAlt?: string;
   ogImageHeight?: number;
   ogImageWidth?: number;
+  twitterImage?: string;
   ogType?: string;
   noindex?: boolean;
   nofollow?: boolean;
   jsonLdExtra?: Record<string, unknown>[];
   hideNavigation?: boolean;
   hideFooter?: boolean;
+  docsNavGroups?: {
+    category: string;
+    items: { href: string; label: string; isActive: boolean }[];
+  }[];
 }
 
 const {
@@ -28,12 +33,14 @@ const {
   ogImageAlt,
   ogImageHeight,
   ogImageWidth,
+  twitterImage,
   ogType,
   noindex,
   nofollow,
   jsonLdExtra,
   hideNavigation = false,
   hideFooter = false,
+  docsNavGroups,
 } = Astro.props;
 ---
 
@@ -47,6 +54,7 @@ const {
       ogImageAlt={ogImageAlt}
       ogImageHeight={ogImageHeight}
       ogImageWidth={ogImageWidth}
+      twitterImage={twitterImage}
       ogType={ogType}
       noindex={noindex}
       nofollow={nofollow}
@@ -54,23 +62,14 @@ const {
     />
     <script
       is:inline
-      src="https://app.kobbe.io/tracker.js"
+      src="https://app.kobbe.io/tracker.full.js"
       data-token="996f51cb.0EZHVIaNsKiNLpfqBR_RmtZ0jj_obT4O"
       data-revenue-attribution="true"
       data-performance="true"
       defer></script>
-    <script is:inline>
-      (function () {
-        try {
-          var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-          document.documentElement.classList.toggle("dark", dark);
-          document.documentElement.style.colorScheme = dark ? "dark" : "light";
-        } catch (e) {}
-      })();
-    </script>
   </head>
-  <body class="flex min-h-svh flex-col antialiased">
-    {!hideNavigation && <Navigation />}
+  <body class="bg-background flex min-h-svh flex-col antialiased">
+    {!hideNavigation && <Navigation docsNavGroups={docsNavGroups} />}
     <main class="isolate grow">
       <slot />
     </main>

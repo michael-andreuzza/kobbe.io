@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to a Framer site with custom code.
 order: 11
 category: Installation guides
 navLabel: Framer
+brandLogo:
+  url: ../../images/brands/framer.svg
+  alt: Framer logo
 ---
 
 Framer can run a global script from **Site settings**. Token: [Add the tracker](/docs/add-the-tracker).

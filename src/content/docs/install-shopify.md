@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to a Shopify Online Store theme.
 order: 13
 category: Installation guides
 navLabel: Shopify
+brandLogo:
+  url: ../../images/brands/shopify.svg
+  alt: Shopify logo
 ---
 
 Shopify themes render **`theme.liquid`**. Add the snippet in the `<head>` (or before `</body>`) of your live theme’s layout. Token: [Add the tracker](/docs/add-the-tracker).

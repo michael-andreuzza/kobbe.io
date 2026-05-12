@@ -1,0 +1,13 @@
+---
+description: Marketing site design and content conventions
+alwaysApply: true
+---
+
+# Design And Content Standards
+
+- Prefer existing shadcn/Base UI components in `src/components/ui`, foundation components in `src/components/foundations`, and nearby feature components before creating new primitives.
+- Use semantic design tokens such as `text-foreground`, `text-muted-foreground`, `bg-background`, `bg-surface`, `bg-muted`, and `border-border`. Avoid raw Tailwind palette classes like `blue-500`, `slate-200`, or `gray-900`.
+- Avoid `mb-*` for page-level vertical spacing. Prefer `mt-*`, `gap-*`, or `space-y-*`.
+- Use `Text.astro` for page-level titles and descriptions in shared layouts.
+- Keep docs, legal, and support copy in content collections under `src/content/*`; render them through Astro pages/layouts instead of hardcoding copy in route files.
+- Avoid unrelated redesigns, formatting sweeps, or refactors when making focused content or UI changes.

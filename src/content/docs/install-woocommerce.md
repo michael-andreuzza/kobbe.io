@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to WordPress when running WooCommerce.
 order: 14
 category: Installation guides
 navLabel: WooCommerce
+brandLogo:
+  url: ../../images/brands/woo.svg
+  alt: WooCommerce logo
 ---
 
 WooCommerce runs on WordPress — use the same global snippet as [WordPress](/docs/install-wordpress). Token: [Add the tracker](/docs/add-the-tracker).

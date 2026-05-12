@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to a Vercel v0 generated Next.js app.
 order: 23
 category: Installation guides
 navLabel: Vercel v0
+brandLogo:
+  url: ../../images/brands/v0.svg
+  alt: Vercel v0 logo
 ---
 
 v0 outputs Next.js most of the time — use the **root layout** pattern. Token: [Add the tracker](/docs/add-the-tracker).

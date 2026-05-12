@@ -6,9 +6,9 @@ category: Sharing
 navLabel: Team access
 ---
 
-Kobbe lets workspace owners invite teammates so they can sign in and view a single project dashboard. Team members are dashboard viewers only: they can inspect analytics for the project they were invited to, but they cannot manage sites, billing, exports, agent access, tokens, exclusions, or workspace settings.
+Invite teammates as **read-only** dashboard viewers for one project. They cannot change sites, billing, exports, tokens, exclusions, or workspace settings.
 
-Use team access when someone needs ongoing dashboard visibility for a project with their own login. Use [Shared dashboards](/docs/shared-dashboards) when you only need to send a public read-only link.
+Need a one-off share link instead? Use [Shared dashboards](/docs/shared-dashboards).
 
 ## Invite a teammate
 

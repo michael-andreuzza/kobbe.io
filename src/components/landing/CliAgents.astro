@@ -1,0 +1,79 @@
+---
+import Text from "@/components/foundations/elements/Text.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import CliAgentsPanel from "@/components/landing/cli-agents-panel";
+import { Image } from "astro:assets";
+import claudeLogo from "@/images/brands/claude.svg";
+import codexLogo from "@/images/brands/codex.svg";
+import copilotLogo from "@/images/brands/copilot.svg";
+import cursorLogo from "@/images/brands/cursor.svg";
+import opencodeLogo from "@/images/brands/opencode.svg";
+import rooCodeLogo from "@/images/brands/roo code.svg";
+import windsurfLogo from "@/images/brands/windsurf.svg";
+import zedLogo from "@/images/brands/zed.svg";
+
+const codeEditors = [
+  { name: "Cursor", logo: cursorLogo },
+  { name: "Claude Code", logo: claudeLogo },
+  { name: "Codex", logo: codexLogo },
+  { name: "GitHub Copilot", logo: copilotLogo },
+  { name: "Zed", logo: zedLogo },
+  { name: "OpenCode", logo: opencodeLogo },
+  { name: "Roo Code", logo: rooCodeLogo },
+  { name: "Windsurf", logo: windsurfLogo },
+];
+---
+
+<section>
+  <Wrapper class="py-20">
+    <div class="grid grid-cols-1 items-center gap-y-8 lg:grid-cols-2">
+      <div class="text-balance flex flex-col h-full justify-between">
+      <div>
+          <Text
+            tag="h2"
+            variant="displayXL"
+            class="text-foreground font-display font-medium tracking-tight"
+          >
+            CLI access, with MCP built in.
+          </Text>
+          <Text tag="p" variant="textBase" class="text-muted-foreground mt-2">
+            Install one CLI to inspect analytics from your terminal, then run the
+            same package in MCP mode so compatible editors and agents can query
+            Kobbe for you.
+          </Text>
+          <div
+            class="text-foreground mt-7 flex w-fit max-w-full items-center gap-3 font-mono text-sm font-semibold"
+          >
+            <span class="text-muted-foreground">$</span>
+            <code class="truncate">npm install -g @kobbe/cli</code>
+          </div>
+      </div>
+        <div class="mt-8">
+          <span class="text-muted-foreground text-xs font-medium"
+            >Works with MCP-compatible tools, including:</span
+          >
+          <div
+            class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2"
+            aria-label="Supported code editors and agents"
+          >
+            {
+              codeEditors.map((editor) => (
+                <span>
+                  <Image
+                    src={editor.logo}
+                    alt={`${editor.name} logo`}
+                    class="size-6 rounded object-contain"
+                    loading="lazy"
+                  />
+                  <span class="sr-only">{editor.name}</span>
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <CliAgentsPanel client:visible />
+    </div>
+  </Wrapper>
+</section>

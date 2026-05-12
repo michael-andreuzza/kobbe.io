@@ -10,11 +10,7 @@ Cross-domain tracking is an **advanced opt-in** feature for sites that need to c
 
 By default, Kobbe does **not** link visitors across different root domains.
 
-## Consent-sensitive feature
-
-Cross-domain tracking links the same visitor journey across separate domains. Depending on your jurisdiction and legal basis, you may need prior consent, a consent banner, and/or an updated privacy notice before enabling it.
-
-Kobbe stays privacy-friendly by default; this feature only runs when you explicitly add `data-allowed-hostnames`.
+Kobbe stays privacy-friendly by default; this feature only runs when you use `tracker.full.js` and explicitly add `data-allowed-hostnames`.
 
 ## Setup
 
@@ -25,7 +21,7 @@ Install the same Kobbe tracker token on each domain you want to measure as one s
   defer
   data-token="YOUR_SITE_TOKEN"
   data-allowed-hostnames="app.example.com,shop.example.net"
-  src="https://app.kobbe.io/tracker.js"
+  src="https://app.kobbe.io/tracker.full.js"
 ></script>
 ```
 

@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to an Astro site (static or SSR).
 order: 5
 category: Installation guides
 navLabel: Astro
+brandLogo:
+  url: ../../images/brands/astro.svg
+  alt: Astro logo
 ---
 
 Add the tracker once in your **base layout** so all pages include it. Token: [Add the tracker](/docs/add-the-tracker).
@@ -24,9 +27,12 @@ In `src/layouts/Layout.astro` (or your root layout), include the script in `<hea
 
 ```astro
 ---
-interface Props { title: string }
+interface Props {
+  title: string;
+}
 const { title } = Astro.props;
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -35,8 +41,7 @@ const { title } = Astro.props;
     <script
       defer
       data-token="YOUR_SITE_TOKEN"
-      src="https://app.kobbe.io/tracker.js"
-    ></script>
+      src="https://app.kobbe.io/tracker.js"></script>
   </head>
   <body>
     <slot />

@@ -32,7 +32,7 @@ The script automatically records a pageview when the page loads.
 
 Use the **same snippet** on each subdomain you want in this site (for example `www`, `app`, or `blog`). See [Track across subdomains](/docs/track-subdomains).
 
-Optional settings such as a custom collect URL (`data-endpoint`) or hash routes (`data-track-hash`) are described in [Script options](/docs/script-options); see [Hash page paths](/docs/hash-page-paths) for SPAs that use the URL hash as the route. Optional section visibility events are covered in [Scroll tracking](/docs/scroll-tracking). Different root domains require explicit [Cross-domain tracking](/docs/cross-domain-tracking), which may require consent or a banner. To drop your own visits or filter by path, hostname, country, or IP, see [Exclude visits](/docs/exclude-visits).
+Optional settings such as a custom collect URL (`data-endpoint`) or hash routes (`data-track-hash`) are described in [Script options](/docs/script-options); see [Hash page paths](/docs/hash-page-paths) for SPAs that use the URL hash as the route. Keep the default `tracker.js` for normal pageviews and custom events. Use `tracker.full.js` only when you enable advanced options such as [Scroll tracking](/docs/scroll-tracking), [Cross-domain tracking](/docs/cross-domain-tracking), [Revenue attribution](/docs/revenue-attribution), or [Performance and Web Vitals](/docs/performance-web-vitals). To drop your own visits or filter by path, hostname, country, or IP, see [Exclude visits](/docs/exclude-visits).
 
 ## 3. Verify tracking
 

@@ -6,13 +6,21 @@ category: Tracking
 navLabel: Script
 ---
 
-The tracker script accepts configuration through `data-*` attributes on the `<script>` tag. For click-based, JavaScript, and scroll visibility events, see [Custom events](/docs/custom-events) and [Scroll tracking](/docs/scroll-tracking). For hash-based SPAs and section routes, see [Hash page paths](/docs/hash-page-paths). To roll `www`, `app`, and other hosts into one site, see [Track across subdomains](/docs/track-subdomains); different root domains require [Cross-domain tracking](/docs/cross-domain-tracking). Payment webhook attribution is covered in [Revenue attribution](/docs/revenue-attribution), and optional real-user performance samples are covered in [Performance and Web Vitals](/docs/performance-web-vitals). To ignore your own traffic or add server-side filters, see [Exclude visits](/docs/exclude-visits).
+Use `data-*` attributes on the `<script>` tag to configure the tracker.
+
+The default `tracker.js` is lightweight and covers pageviews, custom events, custom endpoints, hash routes, and debug logging. Advanced features such as cross-domain tracking, revenue attribution, performance collection, and scroll tracking use `tracker.full.js`.
+
+**See also:** [Custom events](/docs/custom-events) · [Scroll tracking](/docs/scroll-tracking) · [Hash page paths](/docs/hash-page-paths) · [Subdomains](/docs/track-subdomains) · [Cross-domain tracking](/docs/cross-domain-tracking) · [Revenue attribution](/docs/revenue-attribution) · [Performance and Web Vitals](/docs/performance-web-vitals) · [Exclude visits](/docs/exclude-visits)
 
 ## Required
 
-| Attribute    | Description                                                                                        |
-| ------------ | -------------------------------------------------------------------------------------------------- |
-| `data-token` | Your site token from Kobbe. The token tells Kobbe which site should receive the pageview or event. |
+### Site token
+
+Your site token from Kobbe. It tells Kobbe which site should receive the pageview or event.
+
+```html
+data-token="YOUR_SITE_TOKEN"
+```
 
 ## Example
 
@@ -26,14 +34,53 @@ The tracker script accepts configuration through `data-*` attributes on the `<sc
 
 ## Optional
 
-| Attribute                 | Description                                                                                                                                                                                                                                                                                                                                                           |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `data-endpoint`           | Override the **full URL** of the collect API. By default the tracker posts to `/api/collect` on the **same origin as `tracker.js`**. Use a first-party proxy, a Worker, or another absolute URL when the script tag and your API live on different hosts.                                                                                                              |
-| `data-track-hash`         | Set to `true` to include `location.hash` in page paths and record **extra pageviews when the hash changes** (hash routers). **Query strings are never collected.** Use only when hashes represent real routes—anchor-heavy pages can inflate counts. See [Hash page paths](/docs/hash-page-paths).                                                                         |
-| `data-allowed-hostnames`  | Advanced opt-in for different root domains. Comma-separated hostnames get a short URL handoff so Kobbe can link a same-day journey across domains. This may require consent, a banner, and/or privacy notice updates. See [Cross-domain tracking](/docs/cross-domain-tracking).                              |
-| `data-revenue-attribution` | Advanced opt-in for payment attribution. Set to `true` to create a tab-scoped `sessionStorage` ID exposed as `window.kobbe.attributionId` for checkout metadata. Revenue webhooks require provider signature secrets in site settings. This may require consent, a banner, and/or privacy notice updates. See [Revenue attribution](/docs/revenue-attribution). |
-| `data-performance`        | Optional real-user performance collection. Set to `true` to send Web Vitals samples (`LCP`, `INP`, `CLS`, `FCP`, `TTFB`) to the Performance dashboard. See [Performance and Web Vitals](/docs/performance-web-vitals). |
-| `data-analytics-debug`    | Set to `true` while troubleshooting to log failed collect responses in the browser console. Remove after debugging. |
+### Custom collect endpoint
+
+Override the full collect API URL. By default, the tracker posts to `/api/collect` on the same origin as `tracker.js`.
+
+```html
+data-endpoint="https://my-worker.example.com/api/collect"
+```
+
+### Hash-based routes
+
+Set to `true` to include `location.hash` in page paths. Use only when hashes represent real routes. See [Hash page paths](/docs/hash-page-paths).
+
+```html
+data-track-hash="true"
+```
+
+### Cross-domain hostnames
+
+Allow cross-domain tracking for specific hostnames. Requires `tracker.full.js`. See [Cross-domain tracking](/docs/cross-domain-tracking).
+
+```html
+data-allowed-hostnames="app.example.com,shop.example.net"
+```
+
+### Revenue attribution
+
+Set to `true` to create a tab-scoped attribution ID for checkout metadata. Requires `tracker.full.js`. See [Revenue attribution](/docs/revenue-attribution).
+
+```html
+data-revenue-attribution="true"
+```
+
+### Web Vitals collection
+
+Set to `true` to send Web Vitals samples (`LCP`, `INP`, `CLS`, `FCP`, `TTFB`). Requires `tracker.full.js`. See [Performance and Web Vitals](/docs/performance-web-vitals).
+
+```html
+data-performance="true"
+```
+
+### Debug logging
+
+Set to `true` while troubleshooting to log failed collect responses in the browser console. Remove after debugging.
+
+```html
+data-analytics-debug="true"
+```
 
 ```html
 <script
@@ -41,7 +88,7 @@ The tracker script accepts configuration through `data-*` attributes on the `<sc
   data-token="YOUR_SITE_TOKEN"
   data-endpoint="https://my-worker.example.com/api/collect"
   data-allowed-hostnames="app.example.com,shop.example.net"
-  src="https://app.kobbe.io/tracker.js"
+  src="https://app.kobbe.io/tracker.full.js"
 ></script>
 ```
 
@@ -51,12 +98,39 @@ When injecting the script from JavaScript, set `script.dataset.token` and option
 
 The tracker also supports opt-in attributes on your page elements:
 
-| Attribute                     | Description                                                                                                                                       |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `data-kobbe-event`            | Sends a custom event when the element is clicked. Optional `data-kobbe-event-*` attributes become primitive string props.                         |
-| `data-kobbe-scroll`           | Sends a one-time section visibility event when the element enters the viewport. Scroll tracking is off unless you add this attribute.             |
-| `data-kobbe-scroll-threshold` | Optional visibility threshold for `data-kobbe-scroll`; default `0.5`, allowed range `0.1` to `1`.                                                 |
-| `data-kobbe-scroll-delay`     | Optional delay in milliseconds before a scroll event is sent; default `0`, maximum `10000`. The event is not sent if the element leaves first.    |
+### Click events
+
+Sends a custom event when the element is clicked. Optional `data-kobbe-event-*` attributes become string props.
+
+```html
+data-kobbe-event="Newsletter signup"
+```
+
+### Section visibility events
+
+Sends a one-time section visibility event when the element enters the viewport.
+
+Requires `tracker.full.js`.
+
+```html
+data-kobbe-scroll="viewed_pricing"
+```
+
+### Visibility threshold
+
+Visibility threshold for `data-kobbe-scroll`. Default: `0.5`. Allowed range: `0.1` to `1`.
+
+```html
+data-kobbe-scroll-threshold="0.75"
+```
+
+### Visibility delay
+
+Delay in milliseconds before a scroll event is sent. Default: `0`. Maximum: `10000`.
+
+```html
+data-kobbe-scroll-delay="500"
+```
 
 See [Scroll tracking](/docs/scroll-tracking) for privacy guidance and examples.
 
@@ -74,9 +148,9 @@ There is no separate “localhost toggle”: if your dev site loads the snippet 
 
 - The script sends a pageview when the page loads (and on `hashchange` when [`data-track-hash`](/docs/hash-page-paths) is enabled).
 - The current path is sent **without query strings**. Hash fragments are omitted by default and included only with `data-track-hash="true"`.
-- Scroll tracking is off by default; marked elements send one custom event when they become visible (see [Scroll tracking](/docs/scroll-tracking)).
-- Cross-domain tracking is off by default; when enabled, allowlisted links receive a short handoff parameter that is cleaned from the destination URL and kept in sessionStorage for the current tab (see [Cross-domain tracking](/docs/cross-domain-tracking)).
-- Performance collection is off by default; when enabled, Web Vitals samples are stored separately from custom events (see [Performance and Web Vitals](/docs/performance-web-vitals)).
+- Scroll tracking is off by default and requires `tracker.full.js`; marked elements send one custom event when they become visible (see [Scroll tracking](/docs/scroll-tracking)).
+- Cross-domain tracking is off by default and requires `tracker.full.js`; when enabled, allowlisted links receive a short handoff parameter that is cleaned from the destination URL and kept in sessionStorage for the current tab (see [Cross-domain tracking](/docs/cross-domain-tracking)).
+- Performance collection is off by default and requires `tracker.full.js`; when enabled, Web Vitals samples are stored separately from custom events and one accepted performance payload counts toward usage (see [Performance and Web Vitals](/docs/performance-web-vitals)).
 - The page hostname is stored on each event and powers the **Hostnames** breakdown (and hostname exclusions when collect is proxied).
 - The referrer is reduced to the origin, so search queries and private URL data are not collected.
 - No cookies or persistent identifiers: optional `localStorage.kobbe_ignore === "true"` stops this browser from sending events (see [Exclude visits](/docs/exclude-visits)).

@@ -1,0 +1,29 @@
+---
+interface Props {
+  class?: string;
+  stripeClass?: string;
+  opacityClass?: string;
+}
+
+const {
+  class: className = "",
+  stripeClass = "p-8 2xl:p-18",
+  opacityClass = "",
+} = Astro.props;
+
+const stripes = [
+  "bg-chart-2",
+  "bg-chart-3",
+  "bg-chart-4",
+  "bg-chart-5",
+  "bg-chart-6",
+];
+---
+
+<div class={`pointer-events-none flex w-full flex-col ${className}`.trim()} aria-hidden="true">
+  {
+    stripes.map((stripe) => (
+      <span class={`${stripe} ${stripeClass} ${opacityClass}`.trim()} />
+    ))
+  }
+</div>

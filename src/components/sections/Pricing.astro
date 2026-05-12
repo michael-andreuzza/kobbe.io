@@ -1,218 +1,275 @@
 ---
-/** Polar-backed tiers; amounts are marketing copy (check app for source of truth). */
-const plans = [
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { buttonVariants } from "@/components/ui/button";
+import { AnimatedStartingPrice } from "@/components/sections/animated-starting-price";
+import { BillingPeriodTabs } from "@/components/sections/billing-period-tabs";
+import Text from "@/components/foundations/elements/Text.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import { cn } from "@/lib/utils";
+const appBaseUrl = "https://app.kobbe.io";
+const tiers = [
   {
-    name: "Starter",
-    monthlyPrice: "9",
-    yearlyPrice: "90",
-    yearlyMonthlyEquivalent: "7.50",
-    description: "For one site or a focused side project.",
-    checkouts: {
-      monthly:
-        "https://buy.polar.sh/polar_cl_xxRB88wwzrN4RQaeo7hyJ11ecalyuLbeoTTLt1KIgo1",
-      yearly:
-        "https://buy.polar.sh/polar_cl_LqxdB8lO9anLqYIfVadxDDw4tp1sK0J5Y98Dy2NCe07",
-    },
-    features: [
-      "1 website",
-      "50k monthly events",
-      "180 days data retention",
-      "Cookie-free analytics",
-      "Realtime dashboard",
-      "Events, funnels, and revenue attribution",
-      "Shareable dashboard links",
-      "CSV export",
-    ],
-    cta: "Get started",
-    emphasis: false,
+    key: "events_100k",
+    limit: "100,000",
+    monthly: 15,
+    yearly: 165,
+    recommended: true,
   },
   {
-    name: "Growth",
-    monthlyPrice: "19",
-    yearlyPrice: "190",
-    yearlyMonthlyEquivalent: "15.83",
-    description: "For multiple sites and growing traffic.",
-    checkouts: {
-      monthly:
-        "https://buy.polar.sh/polar_cl_hnt46OFzo4f9t3GLjTBhPR3aPcIrWNg6ZMSDQ3Y6Z99",
-      yearly:
-        "https://buy.polar.sh/polar_cl_IvnnLzyVd1Z1oHxVFWClZciXTrNeQH9ZjsRTN2dfIlT",
-    },
-    features: [
-      "Everything in Starter",
-      "10 websites",
-      "500k monthly events",
-      "180 days data retention",
-      "One workspace for all sites",
-      "AI referrer insights",
-      "Bot and spam filtering",
-      "Priority room to grow",
-    ],
-    cta: "Get started",
-    emphasis: true,
+    key: "events_200k",
+    limit: "200,000",
+    monthly: 25,
+    yearly: 275,
+    recommended: false,
+  },
+  {
+    key: "events_500k",
+    limit: "500,000",
+    monthly: 45,
+    yearly: 495,
+    recommended: false,
+  },
+  {
+    key: "events_1m",
+    limit: "1,000,000",
+    monthly: 60,
+    yearly: 660,
+    recommended: false,
+  },
+  {
+    key: "events_2m",
+    limit: "2,000,000",
+    monthly: 100,
+    yearly: 1100,
+    recommended: false,
+  },
+  {
+    key: "events_5m",
+    limit: "5,000,000",
+    monthly: 140,
+    yearly: 1540,
+    recommended: false,
+  },
+  {
+    key: "events_10m",
+    limit: "10,000,000",
+    monthly: 200,
+    yearly: 2200,
+    recommended: false,
+  },
+  {
+    key: "events_15m",
+    limit: "15,000,000",
+    monthly: 290,
+    yearly: 3190,
+    recommended: false,
+  },
+  {
+    key: "events_20m",
+    limit: "20,000,000",
+    monthly: 380,
+    yearly: 4180,
+    recommended: false,
+  },
+  {
+    key: "events_25m",
+    limit: "25,000,000",
+    monthly: 470,
+    yearly: 5170,
+    recommended: false,
   },
 ] as const;
+const included = [
+  "50 sites per workspace",
+  "Long-term data history",
+  "Pageviews, events, funnels, and revenue tracking",
+  "Realtime dashboards",
+  "Share links and CSV exports",
+  "Cookie-free tracking",
+] as const;
+function formatCurrency(amount: number) {
+  return new Intl.NumberFormat("en-US").format(amount);
+}
+function checkoutPickerHref(period: "monthly" | "yearly") {
+  const returnTo = `/checkout?period=${period}`;
+  return `${appBaseUrl}/signup?returnTo=${encodeURIComponent(returnTo)}`;
+}
 ---
 
-<section
-  class="border-border/60 bg-surface border-t"
-  id="pricing"
-  aria-labelledby="pricing-heading"
->
-  <div class="mx-auto max-w-6xl px-6 py-20 lg:py-24">
-    <p
-      class="text-muted-foreground text-sm font-medium tracking-wide uppercase"
-    >
-      Pricing
-    </p>
-    <h2
-      id="pricing-heading"
-      class="text-foreground mt-3 max-w-[40ch] text-2xl font-semibold tracking-tight sm:text-3xl"
-    >
-      Simple plans. No free tier.
-    </h2>
-    <div
-      class="mt-4 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"
-    >
-      <p class="text-muted-foreground max-w-[60ch] text-base/7">
-        Pay monthly, or choose yearly and get two months free. Checkout is
-        handled securely by Polar.
-      </p>
-
-      <div
-        class="border-border/70 bg-card inline-flex w-fit rounded-lg border p-1 shadow-xs"
-        role="group"
-        aria-label="Billing period"
-      >
-        <button
-          type="button"
-          class="bg-foreground text-background rounded-md px-3 py-1.5 text-sm font-medium shadow-xs transition-colors"
-          data-billing-toggle="monthly"
-          aria-pressed="true"
+<section id="pricing" aria-labelledby="pricing-heading">
+  <Wrapper variant="default" class="relative pt-20 pb-20 lg:pt-28">
+    <div data-pricing-section data-billing-period="monthly" class="space-y-10">
+      <div class="mx-auto max-w-3xl text-center text-balance">
+        <Text
+          id="pricing-heading"
+          tag="h1"
+          variant="displayLG"
+          class="text-foreground font-display font-medium tracking-tight"
         >
-          Monthly
-        </button>
-        <button
-          type="button"
-          class="text-muted-foreground hover:text-foreground rounded-md px-3 py-1.5 text-sm font-medium transition-colors"
-          data-billing-toggle="yearly"
-          aria-pressed="false"
-        >
-          Yearly
-          <span class="ml-1 text-xs">2 months free</span>
-        </button>
+          Pricing that scales with traffic
+        </Text>
+        <Text tag="p" variant="textBase" class="text-muted-foreground mt-2">
+          Pick the event volume you need. Every paid plan includes the same
+          analytics features, with no cookies and no feature gates.
+        </Text>
       </div>
     </div>
-
-    <div
-      data-pricing-section
-      data-billing-period="monthly"
-      class="mt-12 grid gap-6 lg:mt-16 lg:grid-cols-2 lg:gap-8"
-    >
-      {
-        plans.map((plan) => (
-          <div
-            class:list={[
-              "border-border/80 bg-card flex flex-col rounded-xl border p-6 shadow-xs lg:p-8",
-              plan.emphasis &&
-                "ring-primary/25 border-primary/30 relative ring-2",
-            ]}
-          >
-            {plan.emphasis ? (
-              <p class="text-primary bg-surface absolute -top-3 left-6 rounded-md px-2 text-xs font-medium">
-                Most popular
-              </p>
-            ) : null}
-            <div class="flex items-baseline justify-between gap-4">
-              <h3 class="text-foreground text-lg font-semibold">{plan.name}</h3>
-              <div class="text-right">
-                <p
-                  class="text-foreground text-2xl font-semibold tabular-nums"
-                  data-period="monthly"
-                >
-                  <span class="text-muted-foreground text-base font-normal">
-                    $
-                  </span>
-                  {plan.monthlyPrice}
-                  <span class="text-muted-foreground text-sm font-normal">
-                    {" "}
-                    / month
-                  </span>
-                </p>
-                <p
-                  class="text-foreground text-2xl font-semibold tabular-nums"
-                  data-period="yearly"
-                >
-                  <span class="text-muted-foreground text-base font-normal">
-                    $
-                  </span>
-                  {plan.yearlyPrice}
-                  <span class="text-muted-foreground text-sm font-normal">
-                    {" "}
-                    / year
-                  </span>
-                </p>
-                <p
-                  class="text-muted-foreground mt-1 text-xs tabular-nums"
-                  data-period="yearly"
-                >
-                  ${plan.yearlyMonthlyEquivalent}/mo, billed yearly
-                </p>
-              </div>
+  </Wrapper>
+  <section class="relative">
+    <Wrapper>
+      <div class="relative grid gap-2 lg:grid-cols-2">
+        <Card variant="muted" className="rounded-xl  lg:p-16">
+          <CardHeader>
+            <div>
+              <BillingPeriodTabs className="mt-4" client:load />
+              <AnimatedStartingPrice className="mt-8" client:load />
+              <Text tag="p" variant="textSM" class="text-muted-foreground mt-3">
+                100,000 events included. <br /> One month free with yearly billing.
+              </Text>
             </div>
-            <p class="text-muted-foreground mt-3 text-sm/6">
-              {plan.description}
-            </p>
-            <ul class="text-muted-foreground marker:text-foreground/45 mt-6 flex flex-1 list-inside list-disc flex-col gap-1.5 text-sm/[1.45] sm:gap-2 sm:text-sm/6">
-              {plan.features.map((line) => (
-                <li>
-                  <span class="-ml-0.5">{line}</span>
-                </li>
-              ))}
-            </ul>
-            <a
-              href={plan.checkouts.monthly}
-              data-checkout-monthly={plan.checkouts.monthly}
-              data-checkout-yearly={plan.checkouts.yearly}
-              class:list={[
-                "focus-visible:outline-ring mt-8 inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium shadow-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-2",
-                plan.emphasis
-                  ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                  : "bg-secondary text-secondary-foreground hover:bg-secondary/90 border-border border",
-              ]}
-            >
-              {plan.cta}
-            </a>
-          </div>
-        ))
-      }
-    </div>
-
-    <p
-      class="text-muted-foreground mx-auto mt-10 max-w-[52ch] text-center text-sm/6"
-    >
-      Prices shown in USD. Yearly plans are billed upfront. Need more than
-      Growth?{" "}
-      <a
-        href="/contact"
-        class="text-foreground underline-offset-4 hover:underline"
-      >
-        Contact us
-      </a>
-      {" "}for volume or teams.
-    </p>
-  </div>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <p class="text-foreground text-sm font-medium">
+                Included in every plan
+              </p>
+              <ul class="text-foreground mt-3 grid gap-y-2 text-xs" role="list">
+                {
+                  included.map((item) => (
+                    <li class="flex items-start gap-2">
+                      <svg
+                        class="mt-1 size-3 shrink-0"
+                        viewBox="0 0 542 542"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M295.5 246.25V0H246.25V246.25H0V295.5H246.25V541.75H295.5V295.5H541.75V246.25H295.5Z"
+                          fill="#0A0A0A"
+                        />
+                        <rect
+                          width="63"
+                          height="63"
+                          transform="translate(239.875 239.875)"
+                          fill="#FBFBFB"
+                        />
+                      </svg>
+                      <span>{item}</span>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+            <div class="flex flex-col gap-2 lg:flex-row lg:items-center">
+              <a
+                href={checkoutPickerHref("monthly")}
+                data-checkout-monthly={checkoutPickerHref("monthly")}
+                data-checkout-yearly={checkoutPickerHref("yearly")}
+                data-kobbe-event="Pricing — start trial monthly"
+                class={cn(
+                  buttonVariants({ variant: "brand", size: "lg" }),
+                  "w-full sm:w-fit",
+                )}
+              >
+                Start a 3-day trial
+              </a>
+              <Text tag="p" variant="textXS" class="text-muted-foreground">
+                No credit card required.
+                <br /> Cancel anytime.
+              </Text>
+            </div>
+          </CardContent>
+        </Card>
+        <Card variant="muted" className="rounded-xl  lg:p-16">
+          <CardHeader>
+            <CardTitle className="text-foreground text-xl tracking-tight">
+              Event tiers
+            </CardTitle>
+            <CardDescription>
+              Prices update when you switch billing period.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow className="border-0 hover:bg-transparent">
+                  <TableHead className="text-foreground h-6 px-0 text-xs">
+                    Events
+                  </TableHead>
+                  <TableHead
+                    className="text-foreground h-6 px-0 text-right text-xs"
+                  >
+                    Price
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {
+                  tiers.map((tier) => (
+                    <TableRow className="border-border hover:bg-transparent">
+                      <TableCell className="px-0 py-1.5">
+                        <p class="text-foreground text-xs font-medium">
+                          {tier.limit}
+                        </p>
+                      </TableCell>
+                      <TableCell className="px-0 py-1.5 text-right text-xs font-semibold tabular-nums">
+                        <span data-period="monthly">
+                          ${formatCurrency(tier.monthly)}/mo
+                        </span>
+                        <span data-period="yearly">
+                          ${formatCurrency(tier.yearly)}/yr
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                }
+                <TableRow className="border-border/60 hover:bg-transparent">
+                  <TableCell className="px-0 py-1.5">
+                    <p class="text-foreground text-xs font-medium">25M+</p>
+                  </TableCell>
+                  <TableCell
+                    className="px-0 py-1.5 text-right text-xs font-semibold"
+                  >
+                    <a
+                      href="/docs/support-contact"
+                      data-kobbe-event="Pricing — contact high volume"
+                      class="text-foreground underline-offset-4 hover:underline"
+                    >
+                      Contact us
+                    </a>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
+    </Wrapper>
+  </section>
 </section>
-
 <style>
   [data-pricing-section][data-billing-period="monthly"] [data-period="yearly"],
   [data-pricing-section][data-billing-period="yearly"] [data-period="monthly"] {
     display: none;
   }
 </style>
-
 <script>
   type BillingPeriod = "monthly" | "yearly";
+  type BillingPeriodChangeEvent = CustomEvent<{ period?: unknown }>;
   type KobbeWindow = Window &
     typeof globalThis & {
       kobbe?: {
@@ -220,18 +277,11 @@ const plans = [
         getAttributionId?: () => string | undefined;
       };
     };
-
   const pricingSection = document.querySelector("[data-pricing-section]");
-  const billingToggles = Array.from(
-    document.querySelectorAll("[data-billing-toggle]"),
-  );
-
   function checkoutHrefWithAttribution(href: string) {
     const kobbe = (window as KobbeWindow).kobbe;
     const attributionId = kobbe?.getAttributionId?.() ?? kobbe?.attributionId;
-
     if (!attributionId) return href;
-
     try {
       const url = new URL(href, window.location.href);
       url.searchParams.set("kobbe_attribution_id", attributionId);
@@ -240,55 +290,53 @@ const plans = [
       return href;
     }
   }
-
   function updateCheckoutHref(link: Element, period: BillingPeriod) {
+    link.setAttribute("data-kobbe-event", `Pricing — start trial ${period}`);
     const href =
       period === "yearly"
         ? link.getAttribute("data-checkout-yearly")
         : link.getAttribute("data-checkout-monthly");
-
     if (href) {
       link.setAttribute("href", checkoutHrefWithAttribution(href));
     }
   }
-
-  function setBillingPeriod(period: "monthly" | "yearly") {
-    if (!pricingSection) return;
-
-    pricingSection.setAttribute("data-billing-period", period);
-
-    for (const toggle of billingToggles) {
+  function syncBillingToggles(period: BillingPeriod) {
+    for (const toggle of document.querySelectorAll("[data-billing-toggle]")) {
       const active = toggle.getAttribute("data-billing-toggle") === period;
       toggle.setAttribute("aria-pressed", String(active));
-      toggle.classList.toggle("bg-foreground", active);
-      toggle.classList.toggle("text-background", active);
-      toggle.classList.toggle("shadow-xs", active);
-      toggle.classList.toggle("text-muted-foreground", !active);
-      toggle.classList.toggle("hover:text-foreground", !active);
+      toggle.toggleAttribute("data-active", active);
     }
-
+  }
+  function setBillingPeriod(period: "monthly" | "yearly") {
+    if (!pricingSection) return;
+    pricingSection.setAttribute("data-billing-period", period);
+    syncBillingToggles(period);
     for (const link of pricingSection.querySelectorAll(
       "[data-checkout-monthly]",
     )) {
       updateCheckoutHref(link, period);
     }
   }
-
-  for (const toggle of billingToggles) {
-    toggle.addEventListener("click", () => {
-      const period = toggle.getAttribute("data-billing-toggle");
-      if (period === "monthly" || period === "yearly") {
-        setBillingPeriod(period);
-      }
-    });
-  }
-
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const toggle = target.closest("[data-billing-toggle]");
+    const period = toggle?.getAttribute("data-billing-toggle");
+    if (period === "monthly" || period === "yearly") {
+      setBillingPeriod(period);
+    }
+  });
+  window.addEventListener("kobbe:billing-period-change", (event) => {
+    const period = (event as BillingPeriodChangeEvent).detail?.period;
+    if (period === "monthly" || period === "yearly") {
+      setBillingPeriod(period);
+    }
+  });
   if (pricingSection) {
     const initialPeriod =
       pricingSection.getAttribute("data-billing-period") === "yearly"
         ? "yearly"
         : "monthly";
-
     for (const link of pricingSection.querySelectorAll(
       "[data-checkout-monthly]",
     )) {
@@ -301,5 +349,6 @@ const plans = [
         updateCheckoutHref(link, period);
       });
     }
+    syncBillingToggles(initialPeriod);
   }
 </script>

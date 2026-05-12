@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to a Wix site with custom code.
 order: 19
 category: Installation guides
 navLabel: Wix
+brandLogo:
+  url: ../../images/brands/wix.svg
+  alt: Wix logo
 ---
 
 Wix can inject global scripts from **Settings → Custom code** (requires a plan that supports it). Token: [Add the tracker](/docs/add-the-tracker).

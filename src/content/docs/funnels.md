@@ -68,7 +68,7 @@ You can also use `data-kobbe-event` attributes for click-based steps:
 
 For section engagement, you can use [scroll tracking](/docs/scroll-tracking). Scroll events are normal custom events, so `viewed_pricing` can become a funnel step before `Checkout started`.
 
-If your funnel crosses different root domains, use [Cross-domain tracking](/docs/cross-domain-tracking) only after updating your consent flow and privacy notice as needed.
+If your funnel crosses different root domains, use [Cross-domain tracking](/docs/cross-domain-tracking) only after checking the privacy and consent rules that apply to your country, region, audience, and legal basis.
 
 Do not send personal data in event names or event properties.
 

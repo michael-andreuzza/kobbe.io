@@ -29,17 +29,22 @@ Shared dashboard links are useful for client reporting, public project stats, te
 
 Shared links expose only the selected read-only surface:
 
-- **Overview** includes the main dashboard cards, trend chart, and breakdowns for the selected site.
-- **Realtime** includes the live visitor view and online activity.
-- Settings, billing, token management, exports, exclusions, funnel editing, and revenue source configuration are never available from a shared link.
+| Surface      | What it includes                                                         |
+| ------------ | ------------------------------------------------------------------------ |
+| **Overview** | Main dashboard cards, trend chart, and breakdowns for the selected site. |
+| **Realtime** | Live visitor view and online activity.                                   |
+
+Settings, billing, token management, exports, exclusions, funnel editing, and revenue source configuration are never available from a shared link.
 
 If revenue cards or attributed revenue rows are visible on the shared overview, they are read-only summaries. Viewers cannot access payment provider secrets, webhook URLs, or site settings.
 
 ## Managing access
 
-- **Regenerate** — create a new URL and invalidate the old one.
-- **Save** — update what the current link can show or when it expires.
-- **Revoke** — disable public access entirely.
+| Action         | What it does                                              |
+| -------------- | --------------------------------------------------------- |
+| **Regenerate** | Create a new URL and invalidate the old one.              |
+| **Save**       | Update what the current link can show or when it expires. |
+| **Revoke**     | Disable public access entirely.                           |
 
 ## Security
 

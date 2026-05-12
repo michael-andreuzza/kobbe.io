@@ -1,0 +1,27 @@
+---
+import Text from "@/components/foundations/elements/Text.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import DashboardCapabilityGrid from "@/components/landing/dashboard/dashboard-capability-grid";
+---
+
+<section>
+  <Wrapper class="py-20">
+    <div class="mx-auto max-w-3xl text-center text-balance 2xl:max-w-7xl">
+      <Text
+        tag="h2"
+        variant="displayLG"
+        class="text-foreground font-display font-medium tracking-tight"
+      >
+        One dashboard for the signals that matter.
+      </Text>
+      <Text tag="p" variant="textBase" class="text-muted-foreground mt-2">
+        Kobbe brings traffic, sources, geography, devices, events, funnels, and
+        search performance into focused cards you can scan without digging
+        through fourteen separate reports.
+      </Text>
+    </div>
+
+    <DashboardCapabilityGrid client:visible />
+    <a href="/features" class="flex mt-12 w-fit mx-auto font-medium text-foreground"> See all features</a> 
+  </Wrapper>
+</section>

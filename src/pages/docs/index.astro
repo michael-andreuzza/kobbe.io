@@ -1,6 +1,9 @@
 ---
 import { getCollection, render } from "astro:content";
+import DocsPageNavigation from "@/components/docs/docs-page-navigation.astro";
 import DocsLayout from "@/layouts/DocsLayout.astro";
+import OverviewGuidesList from "@/components/docs/overview-guides-list.astro";
+import { NotificationCard } from "@/components/ui/notification-card";
 
 const docs = (await getCollection("docs")).sort(
   (a, b) => a.data.order - b.data.order,
@@ -21,5 +24,24 @@ const { Content } = await render(entry);
   description={entry.data.description}
   navItems={docs}
 >
+  <DocsPageNavigation
+    slot="header-actions"
+    docs={docs}
+    currentId={entry.id}
+    variant="compact"
+  />
+  <OverviewGuidesList docs={docs} />
   <Content />
+  <NotificationCard
+    state="info"
+    title="Optional features are off by default"
+    className="mt-6"
+  >
+    Hash page paths, scroll tracking, cross-domain tracking, and revenue
+    attribution only run after you enable them. Use them only when they fit your
+    site, privacy notice, and the rules that apply to your country, region,
+    audience, and legal basis. Cross-domain handoff and revenue attribution can
+    use <code>sessionStorage</code> in the tab after you explicitly enable them.
+  </NotificationCard>
+  <DocsPageNavigation docs={docs} currentId={entry.id} />
 </DocsLayout>

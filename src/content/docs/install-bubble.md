@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to a Bubble.io app.
 order: 16
 category: Installation guides
 navLabel: Bubble
+brandLogo:
+  url: ../../images/brands/buble.svg
+  alt: Bubble logo
 ---
 
 Bubble runs as a single-page app. Use **Settings → SEO / metatags** or the dedicated **Script/meta tags** area your plan exposes. Token: [Add the tracker](/docs/add-the-tracker).

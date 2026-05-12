@@ -6,11 +6,19 @@ category: Tracking
 navLabel: Scroll tracking
 ---
 
-Scroll tracking is **off by default**. Enable it only on the sections you care about by adding `data-kobbe-scroll` to the element.
+Scroll tracking is **off by default** and requires the full tracker. Enable it only on the sections you care about by loading `tracker.full.js` and adding `data-kobbe-scroll` to the element.
 
 Kobbe tracks a one-time **section visibility event**, not continuous scroll depth, raw pixels, viewport size, mouse movement, DOM text, or user identity.
 
 ## Basic setup
+
+```html
+<script
+  defer
+  data-token="YOUR_SITE_TOKEN"
+  src="https://app.kobbe.io/tracker.full.js"
+></script>
+```
 
 ```html
 <section data-kobbe-scroll="viewed_pricing">
@@ -52,14 +60,15 @@ You can tune when the event fires:
 
 ## GDPR-friendly defaults
 
-Kobbe is privacy-friendly by default, but GDPR compliance also depends on your legal basis, privacy notice, and how you configure tracking on your site.
+Kobbe is privacy-friendly by default, but compliance also depends on the rules that apply to your country, region, audience, legal basis, privacy notice, and tracking setup.
 
 For scroll tracking:
 
-- The default tracker records no scroll events.
+- The lightweight default tracker records no scroll events.
+- The full tracker only records scroll events for elements you mark.
 - You explicitly choose which sections to track.
 - Kobbe stores a named event, not raw scroll telemetry.
-- You should mention section visibility analytics in your privacy notice when required.
+- Mention section visibility analytics in your privacy notice when required by the rules that apply to your country, region, audience, or legal basis.
 
 Because scroll tracking adds custom events, keep it focused on sections that answer a real product or marketing question. See [Reduce usage](/docs/reduce-usage) for event-volume tips.
 

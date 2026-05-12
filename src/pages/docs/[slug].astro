@@ -1,6 +1,13 @@
 ---
 import { getCollection, render } from "astro:content";
+import DocsPageNavigation from "@/components/docs/docs-page-navigation.astro";
 import DocsLayout from "@/layouts/DocsLayout.astro";
+import InstallationGuidesList from "@/components/docs/installation-guides-list.astro";
+import McpClientTabs from "@/components/docs/mcp-client-tabs.astro";
+import RevenueProvidersList from "@/components/docs/revenue-providers-list.astro";
+import DpaControls from "@/components/docs/dpa-controls.astro";
+import DpaSummary from "@/components/docs/dpa-summary.astro";
+import { NotificationCard } from "@/components/ui/notification-card";
 
 export async function getStaticPaths() {
   const docs = await getCollection("docs");
@@ -18,7 +25,82 @@ const { entry } = Astro.props;
 const docs = (await getCollection("docs")).sort(
   (a, b) => a.data.order - b.data.order,
 );
+const installationGuides = docs.filter((doc) => doc.id.startsWith("install-"));
+const revenueProviders = docs.filter((doc) =>
+  doc.id.startsWith("revenue-attribution-"),
+);
 const { Content } = await render(entry);
+
+const topNotificationsById = {
+  "revenue-attribution": [
+    {
+      state: "warning",
+      title: "Review your privacy setup",
+      body: "Enable revenue attribution only after checking the privacy and consent rules that apply to your country, region, audience, and legal basis. Kobbe does not collect customer emails for attribution.",
+      linkHref: "/docs/privacy-and-cookieless-tracking",
+      linkLabel: "Privacy and cookieless tracking",
+    },
+  ],
+  "privacy-and-cookieless-tracking": [
+    {
+      state: "info",
+      title: "Not legal advice",
+      body: "This page describes Kobbe's technical behavior. Your privacy notice, consent rules, and lawful basis depend on your site, country, region, audience, and configuration.",
+    },
+  ],
+  "cross-domain-tracking": [
+    {
+      state: "warning",
+      title: "Consent-sensitive feature",
+      body: "Cross-domain tracking can link a journey across separate root domains. Check the privacy and consent rules that apply to your country, region, audience, and legal basis before enabling it.",
+    },
+  ],
+  "custom-events": [
+    {
+      state: "destructive",
+      title: "Do not send personal data",
+      body: "Do not include emails, names, user IDs, phone numbers, addresses, or other personal data in event names or properties.",
+    },
+  ],
+  "hash-page-paths": [
+    {
+      state: "warning",
+      title: "Use only for real routes",
+      body: "Hash paths can inflate pageviews on anchor-heavy pages because every anchor click changes the hash. Enable this only when hashes represent real screens or routes.",
+    },
+  ],
+  "ai-agents": [
+    {
+      state: "destructive",
+      title: "Limit dangerous permissions",
+      body: "Only give danger:write to agents you fully trust. That scope can delete sites or reset analytics data.",
+    },
+  ],
+} as const;
+
+const bottomNotificationsById = {
+  "revenue-attribution": [
+    {
+      state: "warning",
+      title: "Review consent and privacy wording",
+      body: "For many sites this requires a privacy notice update and may require consent before loading the revenue attribution tracker option. Check the rules that apply to your country, region, audience, and payment flow before making absolute claims such as “no consent required.”",
+    },
+  ],
+  "data-export": [
+    {
+      state: "warning",
+      title: "Review exports before sharing",
+      body: "Custom event properties are sanitized by Kobbe, but you should still avoid sending personal data in event names or properties.",
+    },
+  ],
+} as const;
+
+const topNotifications =
+  topNotificationsById[entry.id as keyof typeof topNotificationsById] ?? [];
+const bottomNotifications =
+  bottomNotificationsById[entry.id as keyof typeof bottomNotificationsById] ??
+  [];
+const effectiveDateDefault = new Date().toISOString().slice(0, 10);
 ---
 
 <DocsLayout
@@ -26,5 +108,75 @@ const { Content } = await render(entry);
   description={entry.data.description}
   navItems={docs}
 >
-  <Content />
+  <DocsPageNavigation
+    slot="header-actions"
+    docs={docs}
+    currentId={entry.id}
+    variant="compact"
+  />
+  {
+    topNotifications.length > 0 && (
+      <div class="space-y-3">
+        {topNotifications.map((notification) => (
+          <NotificationCard
+            state={notification.state}
+            title={notification.title}
+            className="mt-6"
+          >
+            {notification.body}
+            {"linkHref" in notification && notification.linkHref ? (
+              <>
+                {" "}
+                <a
+                  class="underline underline-offset-4"
+                  href={notification.linkHref}
+                >
+                  {notification.linkLabel}
+                </a>
+                .
+              </>
+            ) : null}
+          </NotificationCard>
+        ))}
+      </div>
+    )
+  }
+  {
+    entry.id === "revenue-attribution" && (
+      <RevenueProvidersList providers={revenueProviders} />
+    )
+  }
+  {entry.id === "legal-dpa" && <DpaControls effectiveDateDefault={effectiveDateDefault} />}
+  {
+    entry.id === "legal-dpa" ? (
+      <div id="dpa-printable">
+        <DpaSummary effectiveDateDefault={effectiveDateDefault} />
+        <Content />
+      </div>
+    ) : (
+      <Content />
+    )
+  }
+  {entry.id === "ai-agents" && <McpClientTabs />}
+  {
+    entry.id === "installation-guides" && (
+      <InstallationGuidesList guides={installationGuides} />
+    )
+  }
+  {
+    bottomNotifications.length > 0 && (
+      <div class="space-y-3">
+        {bottomNotifications.map((notification) => (
+          <NotificationCard
+            state={notification.state}
+            title={notification.title}
+            className="mt-6"
+          >
+            {notification.body}
+          </NotificationCard>
+        ))}
+      </div>
+    )
+  }
+  <DocsPageNavigation docs={docs} currentId={entry.id} />
 </DocsLayout>

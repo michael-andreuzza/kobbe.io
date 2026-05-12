@@ -4,6 +4,9 @@ description: Add the Kobbe tracker to Podia site or product pages.
 order: 17
 category: Installation guides
 navLabel: Podia
+brandLogo:
+  url: ../../images/brands/podia.svg
+  alt: Podia logo
 ---
 
 Podia exposes **custom JavaScript** in site settings for sales pages and storefronts (availability depends on plan). Token: [Add the tracker](/docs/add-the-tracker).
