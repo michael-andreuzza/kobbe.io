@@ -97,7 +97,7 @@ export default function Sidebar({ groups }: SidebarProps) {
     <aside className="hidden w-64 shrink-0 lg:block">
       <nav
         aria-label="Docs navigation"
-        className="!scrollbar-hide text-sidebar-foreground sticky top-32 flex max-h-[calc(100svh-6rem)] flex-col overflow-y-auto pr-5"
+        className="!scrollbar-none text-sidebar-foreground sticky top-32 flex max-h-[calc(100svh-6rem)] flex-col overflow-y-auto pr-5"
       >
         <SidebarGroups groups={groups} />
       </nav>

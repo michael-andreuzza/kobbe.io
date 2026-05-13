@@ -7,12 +7,7 @@ import { PagesCard } from "./cards/pages-card";
 import { SearchKeywordsCard } from "./cards/search-keywords-card";
 import { SourcesCard } from "./cards/sources-card";
 import { DashboardKpiStrip } from "./dashboard-kpi-strip";
-import {
-  dashboardPreviewData,
-  dashboardPreviewSites,
-  type DashboardRangeKey,
-} from "./dashboard-preview-data";
-import { DashboardTopBar } from "./dashboard-top-bar";
+import { dashboardPreviewData } from "./dashboard-preview-data";
 import { DashboardTrafficChart } from "./dashboard-traffic-chart";
 import type { TrafficChartMetric } from "./traffic-line-chart";
 
@@ -26,21 +21,13 @@ const trafficChartMetricLabels = {
 } satisfies Record<TrafficChartMetric, string>;
 
 export function DashboardPreview() {
-  const [range, setRange] = useState<DashboardRangeKey>("7d");
-  const [siteId, setSiteId] = useState(dashboardPreviewSites[0]!.id);
   const [chartMetric, setChartMetric] =
     useState<TrafficChartMetric>("visitors");
-  const data = dashboardPreviewData[range];
+  const data = dashboardPreviewData["7d"];
 
   return (
-    <div className="bg-muted relative w-full rounded-lg p-8">
+    <div className="bg-muted relative w-full rounded-lg p-4 pt-2 shadow">
       <div className="relative min-w-0">
-        <DashboardTopBar
-          range={range}
-          onRangeChange={setRange}
-          siteId={siteId}
-          onSiteChange={setSiteId}
-        />
         <DashboardKpiStrip
           showComparison={data.kpi.showComparison}
           visitors={data.kpi.visitors}

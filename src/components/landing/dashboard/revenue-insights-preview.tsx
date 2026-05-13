@@ -35,7 +35,7 @@ export function RevenueInsightsPreview() {
           }
         }
       `}</style>
-      <Card className="bg-muted gap-0 overflow-hidden p-0">
+      <Card className="bg-card shadow gap-0 overflow-hidden p-0">
         <CardHeader className="px-4 pt-4 pb-0 sm:px-5 sm:pt-5">
           <CardTitle className="text-foreground font-sans text-sm font-semibold">
             Revenue
@@ -76,7 +76,7 @@ export function RevenueInsightsPreview() {
 
 function RevenueNote(props: { title: string; description: string }) {
   return (
-    <Card className="bg-transfarent gap-0 p-0 text-center">
+    <Card className="bg-transparent gap-0 p-0 text-center">
       <CardHeader className="p-0">
         <CardTitle className="text-foreground font-base font-medium">
           {props.title}

@@ -4,8 +4,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { DocsMobileNavDialog } from "@/components/global/docs-mobile-nav-dialog";
 import type { NavGroup } from "@/components/ui/sidebar";
 export type SiteNavigationProps = {
@@ -13,14 +11,12 @@ export type SiteNavigationProps = {
 };
 export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
   const hasDocsNavigation = Boolean(docsNavGroups?.length);
-  const linkClassName = cn(buttonVariants({ variant: "ghost", size: "sm" }));
-  const signInClassName = cn(
-    buttonVariants({ variant: "secondary", size: "sm" }),
-  );
+  const linkClassName =
+    "rounded-none bg-transparent p-0 text-sm font-medium text-muted-foreground transition-colors hover:bg-transparent hover:text-foreground focus:bg-transparent data-active:bg-transparent data-active:hover:bg-transparent data-active:focus:bg-transparent";
   return (
     <div className="flex items-center gap-2 sm:gap-3">
       <NavigationMenu className="max-w-none">
-        <NavigationMenuList className="flex flex-wrap justify-end gap-0">
+        <NavigationMenuList className="flex flex-wrap justify-end gap-4">
           <NavigationMenuItem>
             <NavigationMenuLink href="/docs" className={linkClassName}>
               Docs
@@ -38,7 +34,7 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
           ) : null}
           <NavigationMenuItem>
             <NavigationMenuLink href="/pricing" className={linkClassName}>
-              Pricing
+              Free trial
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
@@ -46,7 +42,7 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
               href="https://app.kobbe.io"
               target="_blank"
               rel="noopener noreferrer"
-              className={signInClassName}
+              className={linkClassName}
             >
               Sign in
             </NavigationMenuLink>

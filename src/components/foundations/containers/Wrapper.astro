@@ -7,10 +7,10 @@ interface Props {
 const { variant = "default", class: extraClass = "", id } = Astro.props;
 // Map each variant to its specific classes
 const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
-  nav: "mx-auto max-w-6xl px-8 lg:px-12 ",
+  nav: "mx-auto max-w-6xl px-8  ",
   // Grids
-  default: "mx-auto max-w-6xl px-8 lg:px-12 2xl:max-w-400",
-  wide: "mx-auto  px-8 lg:px-12 2xl:max-w-500",
+  default: "mx-auto max-w-6xl px-8  2xl:max-w-400",
+  wide: "mx-auto  px-8  2xl:max-w-500",
 
   prose: [
     // Base

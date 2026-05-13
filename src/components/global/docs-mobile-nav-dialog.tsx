@@ -44,7 +44,7 @@ export function DocsMobileNavDialog({ groups }: DocsMobileNavDialogProps) {
             </div>
             <nav
               aria-label="Docs navigation"
-              className="!scrollbar-hide text-sidebar-foreground mt-5 min-h-0 flex-1 overflow-y-auto pr-1"
+              className="!scrollbar-none text-sidebar-foreground mt-5 min-h-0 flex-1 overflow-y-auto pr-1"
             >
               <SidebarGroups groups={groups} />
             </nav>

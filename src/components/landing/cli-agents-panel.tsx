@@ -62,7 +62,7 @@ export function CliAgentsPanel() {
   }, [phase, typedText]);
 
   return (
-    <div className="bg-surface text-foreground border-border/60 flex h-135 flex-col overflow-hidden rounded-lg border">
+    <div className="bg-surface text-foreground border-border/60 flex h-135 flex-col overflow-hidden rounded-lg shadow">
       <style>{`
         @keyframes kobbe-agent-caret {
           0%, 48% { opacity: 1; }
@@ -81,7 +81,7 @@ export function CliAgentsPanel() {
 
       <div className="border-border/60 bg-background flex min-h-0 flex-1 items-stretch justify-center border-t px-4 py-4">
         <div className="flex min-h-0 w-full flex-col">
-          <div className="!scrollbar-hide min-h-0 flex-1 overflow-y-auto p-4">
+          <div className=" min-h-0 flex-1 overflow-y-auto p-4">
             <div className="space-y-4">
               <div className="bg-muted rounded-lg px-3 py-2.5 text-xs leading-5">
                 {typedText}
@@ -111,7 +111,7 @@ export function CliAgentsPanel() {
           </div>
           <div className="shrink-0 p-4">
             <div className="bg-background border-border/50 rounded-lg border p-3 shadow-xs">
-              <p className="text-foreground min-h-10 text-sm leading-6">
+              <p className="text-muted-foreground min-h-10 text-sm leading-6">
                 Ask about traffic, revenue, sources...
               </p>
               <div className="mt-4 flex items-center justify-between gap-3">

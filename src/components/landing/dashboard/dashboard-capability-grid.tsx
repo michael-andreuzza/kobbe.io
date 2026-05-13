@@ -175,7 +175,7 @@ function PreviewFrame(props: {
   mockupClassName?: string;
 }) {
   return (
-    <div className="bg-card border-border/60 relative h-72 overflow-hidden rounded-tl-xl border-t border-l ">
+    <div className="bg-card relative h-72 overflow-hidden rounded-tl-xl  shadow">
       <div
         className={cn(
           "kobbe-capability-mockup pointer-events-none absolute top-2 left-2 origin-top-left **:data-dashboard-metric-tile:bg-transparent **:data-[slot=card]:bg-transparent",
