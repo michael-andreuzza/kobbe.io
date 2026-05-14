@@ -24,7 +24,7 @@ export function DashboardTrafficChart(props: Props) {
       <Card className={cn(dashboardCardRootClass, props.className)}>
         <CardContent className="min-w-0 p-0 pt-4">
           {props.children ? (
-            <div className="pb-1 pl-2 text-sm font-semibold text-foreground ">
+            <div className="text-foreground pb-1 pl-6 text-sm font-semibold">
               {props.children}
             </div>
           ) : null}
@@ -33,7 +33,7 @@ export function DashboardTrafficChart(props: Props) {
             bucket="day"
             variant="hero"
             metric={props.metric}
-          spotlightIndex={props.spotlightIndex}
+            spotlightIndex={props.spotlightIndex}
             displayTimeZone="UTC"
             revenueCurrency="USD"
           />
@@ -42,4 +42,3 @@ export function DashboardTrafficChart(props: Props) {
     </section>
   );
 }
-
