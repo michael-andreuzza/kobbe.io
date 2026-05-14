@@ -57,7 +57,7 @@ export function BillingPeriodTabs({
   return (
     <div
       className={cn(
-        " relative inline-flex h-7 w-fit justify-self-start overflow-hidden rounded-md  p-0.5",
+        "relative inline-flex h-7 w-fit justify-self-start overflow-hidden rounded-md p-0.5",
         className,
       )}
       role="group"
@@ -79,7 +79,7 @@ export function BillingPeriodTabs({
         aria-pressed={period === "monthly"}
         onClick={() => selectPeriod("monthly")}
         className={cn(
-          "relative z-10 h-6 rounded-sm bg-transparent px-2 text-xs transition-colors",
+          "relative z-10 h-6 rounded-sm bg-transparent px-2 text-xs font-medium transition-colors",
           period === "monthly"
             ? "text-foreground"
             : "text-muted-foreground hover:text-foreground",
@@ -95,13 +95,16 @@ export function BillingPeriodTabs({
         aria-pressed={period === "yearly"}
         onClick={() => selectPeriod("yearly")}
         className={cn(
-          "relative z-10 h-6 rounded-sm bg-transparent px-2 text-xs transition-colors",
+          "relative z-10 h-6 rounded-sm bg-transparent px-2 text-xs font-medium transition-colors",
           period === "yearly"
             ? "text-foreground"
             : "text-muted-foreground hover:text-foreground",
         )}
       >
-        Yearly <span className="ml-1 text-brand">{yearlyLabel}</span>
+        Yearly{" "}
+        <span className="text-foreground ml-1 font-semibold uppercase">
+          {yearlyLabel}
+        </span>
       </button>
     </div>
   );

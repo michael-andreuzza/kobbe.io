@@ -32,7 +32,7 @@ export type StackedChartPoint = {
 const chartConfig = {
   visitors: {
     label: "Visitors",
-    color: "var(--chart-1)",
+    color: "var(--brand)",
   },
   visits: {
     label: "Visits",

@@ -55,7 +55,9 @@ function Tabs({
   );
 
   return (
-    <TabsContext.Provider value={{ indicatorId, value: currentValue, setValue }}>
+    <TabsContext.Provider
+      value={{ indicatorId, value: currentValue, setValue }}
+    >
       <div
         data-slot="tabs"
         className={cn("flex w-full flex-col", className)}
@@ -71,7 +73,7 @@ function TabsList({ className, ...props }: TabsListProps) {
       data-slot="tabs-list"
       role="tablist"
       className={cn(
-        "border-border flex max-w-full flex-wrap items-center gap-x-6 gap-y-2 border-b",
+        "border-border flex max-w-full flex-wrap items-center gap-x-6 gap-y-2 lg:border-b",
         className,
       )}
       {...props}
@@ -98,7 +100,7 @@ function TabsTrigger({
       aria-selected={active}
       data-active={active ? "" : undefined}
       className={cn(
-        "text-muted-foreground hover:text-foreground relative -mb-px inline-flex shrink-0 items-center justify-center py-3 text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:text-foreground disabled:pointer-events-none disabled:opacity-50",
+        "text-muted-foreground hover:text-foreground focus-visible:text-foreground relative -mb-px inline-flex shrink-0 items-center justify-center py-3 text-sm font-medium whitespace-nowrap transition-colors outline-none disabled:pointer-events-none disabled:opacity-50",
         active && "text-foreground",
         className,
       )}

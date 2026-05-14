@@ -79,14 +79,14 @@ function FeatureGroupPanel({ group }: { group: FeatureGroup }) {
   return (
     <section aria-labelledby={headingId}>
       <div className="grid gap-8 lg:grid-cols-2">
-        <div className="text-balance">
+        <div className="max-w-lg text-balance">
           <h2
             id={headingId}
             className="text-foreground text-base font-semibold tracking-tight uppercase"
           >
             {group.category}
           </h2>
-          <p className="text-muted-foreground mt-3 text-sm">
+          <p className="text-muted-foreground mt-2 text-sm">
             {group.description}
           </p>
         </div>
@@ -97,7 +97,7 @@ function FeatureGroupPanel({ group }: { group: FeatureGroup }) {
               key={feature.href}
               className="group rounded-lg bg-transparent p-0"
             >
-              <CardHeader>
+              <CardHeader className="p-0">
                 <CardTitle className="text-foreground text-sm font-semibold uppercase">
                   <a
                     href={feature.href}

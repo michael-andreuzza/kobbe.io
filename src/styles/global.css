@@ -9,7 +9,6 @@
 @import "./fonts.css";
 @plugin "@tailwindcss/typography";
 
-@custom-variant dark (&:is(.dark *));
 @theme inline {
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -29,7 +28,7 @@
 }
 @layer base {
   :root {
-    color-scheme: light;
+    color-scheme: light dark;
   }
   * {
     @apply border-border outline-ring/50;

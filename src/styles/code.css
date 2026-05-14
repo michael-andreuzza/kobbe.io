@@ -1,5 +1,5 @@
 :root {
-  /* Astro / Shiki `theme: "css-variables"` mapped to Kobbe light-mode tokens. */
+  /* Astro / Shiki `theme: "css-variables"` mapped to semantic grayscale tokens. */
   --color-syntax-surface: color-mix(
     in oklch,
     var(--muted) 72%,
@@ -9,17 +9,29 @@
   --color-syntax-muted: var(--muted-foreground);
   --color-syntax-comment: color-mix(
     in oklch,
-    var(--muted-foreground) 78%,
-    var(--foreground)
+    var(--muted-foreground) 84%,
+    var(--background)
   );
-  --color-syntax-string: var(--chart-2);
-  --color-syntax-string-expression: var(--chart-6);
-  --color-syntax-keyword: var(--chart-5);
-  --color-syntax-function: var(--chart-1);
-  --color-syntax-constant: var(--chart-3);
-  --color-syntax-parameter: var(--chart-4);
+  --color-syntax-string: color-mix(
+    in oklch,
+    var(--foreground) 78%,
+    var(--muted-foreground)
+  );
+  --color-syntax-string-expression: var(--color-syntax-string);
+  --color-syntax-keyword: var(--foreground);
+  --color-syntax-function: color-mix(
+    in oklch,
+    var(--foreground) 88%,
+    var(--muted-foreground)
+  );
+  --color-syntax-constant: color-mix(
+    in oklch,
+    var(--foreground) 72%,
+    var(--muted-foreground)
+  );
+  --color-syntax-parameter: var(--muted-foreground);
   --color-syntax-punctuation: var(--muted-foreground);
-  --color-syntax-link: var(--brand);
+  --color-syntax-link: var(--foreground);
 
   --astro-code-color-text: var(--color-syntax-foreground);
   --astro-code-token-link: var(--color-syntax-link);

@@ -153,7 +153,7 @@ function TrafficMetric(props: { label: string; value: string }) {
 
 function CapabilityCard(props: CapabilityCardProps) {
   return (
-    <Card className="group bg-card min-w-0 gap-0 overflow-hidden p-0 ">
+    <Card className="group bg-transaprent min-w-0 gap-0 overflow-hidden p-0 ">
       <CardHeader className="px-0 pt-4 sm:pt-5">
         <CardTitle className="text-foreground text-base font-semibold tracking-tight uppercase">
           {props.title}

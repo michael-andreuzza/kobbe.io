@@ -5,6 +5,7 @@ import { AnimatedStartingPrice } from "@/components/sections/animated-starting-p
 import { BillingPeriodTabs } from "@/components/sections/billing-period-tabs";
 import PricingIncludedEvents from "@/components/sections/pricing-included-events";
 import PricingEventRange from "@/components/sections/pricing-event-range";
+import { PricingBreakdownAccordion } from "@/components/sections/pricing-breakdown-accordion";
 import Text from "@/components/foundations/elements/Text.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { cn } from "@/lib/utils";
@@ -54,8 +55,11 @@ function checkoutPickerHref(period: "monthly" | "yearly") {
       </div>
 
       <div class="bg-muted relative mt-8 p-8 lg:p-32">
-        <Card variant="default" className="bg-card max-w-xl mx-auto p-8 ">
-          <CardHeader>
+        <Card
+          variant="default"
+          className="bg-card mx-auto max-w-xl gap-0 p-0 py-0"
+        >
+          <CardHeader className="px-8 pt-8 pb-0">
             <div>
               <AnimatedStartingPrice className="mt-8" client:load />
               <PricingIncludedEvents client:load />
@@ -63,7 +67,7 @@ function checkoutPickerHref(period: "monthly" | "yearly") {
               <PricingEventRange className="mt-6" client:load />
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-8 pt-4 pb-8">
             <div>
               <p class="text-foreground text-sm font-semibold uppercase">
                 Included in every plan
@@ -100,6 +104,7 @@ function checkoutPickerHref(period: "monthly" | "yearly") {
               </Text>
             </div>
           </CardContent>
+          <PricingBreakdownAccordion client:load />
         </Card>
       </div>
     </Wrapper>
