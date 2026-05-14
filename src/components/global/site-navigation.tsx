@@ -78,8 +78,8 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
                 "whitespace-nowrap px-3 sm:px-4",
               )}
             >
-              <span className="sm:hidden">Free trial</span>
-              <span className="hidden sm:inline">Start 3-day free trial</span>
+
+              <span className="inline">Start 3-day free trial</span>
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
