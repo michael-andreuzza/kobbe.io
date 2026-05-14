@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  ArrowDown01Icon,
-  ArrowUp01Icon,
-  Image01Icon,
-} from "@hugeicons/core-free-icons";
+import { ArrowUp01Icon, Image01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useEffect, useState } from "react";
 
@@ -148,21 +144,6 @@ export function CliAgentsPanel() {
         </div>
       </div>
     </div>
-  );
-}
-
-function ComposerChip(props: { label: string; detail: string }) {
-  return (
-    <span className="text-muted-foreground inline-flex items-center gap-1 rounded-full text-xs">
-      <span className="text-muted-foreground">{props.label}</span>
-      <span>{props.detail}</span>
-      <HugeiconsIcon
-        icon={ArrowDown01Icon}
-        strokeWidth={1.7}
-        className="text-muted-foreground size-4"
-        aria-hidden="true"
-      />
-    </span>
   );
 }
 

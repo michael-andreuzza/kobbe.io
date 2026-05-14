@@ -17,21 +17,24 @@ const { effectiveDateDefault } = Astro.props;
     <p class="text-muted-foreground text-sm leading-relaxed">
       Part of our <a
         href="/docs/legal-terms"
-        class="text-foreground underline decoration-border underline-offset-2 hover:decoration-foreground"
+        class="text-foreground decoration-border hover:decoration-foreground underline underline-offset-2"
         >Terms</a
       >. Using the hosted service at
       <a
         href="https://app.kobbe.io"
-        class="text-foreground underline decoration-border underline-offset-2 hover:decoration-foreground"
+        class="text-foreground decoration-border hover:decoration-foreground underline underline-offset-2"
         >app.kobbe.io</a
       >
-      accepts this DPA as posted here. Optionally add your details and use <strong>Download PDF</strong> → Save as
-      PDF for records only.
+      accepts this DPA as posted here. Optionally add your details and use <strong
+        >Download PDF</strong
+      > → Save as PDF for records only.
     </p>
 
     <div class="grid gap-4 sm:grid-cols-2">
       <label class="block space-y-1.5 sm:col-span-2">
-        <span class="text-foreground text-xs font-medium">Customer legal name</span>
+        <span class="text-foreground text-xs font-medium"
+          >Customer legal name</span
+        >
         <Input
           id="dpa-in-company"
           type="text"
@@ -58,7 +61,8 @@ const { effectiveDateDefault } = Astro.props;
         />
       </label>
       <label class="block space-y-1.5 sm:col-span-2">
-        <span class="text-foreground text-xs font-medium">Country / region</span>
+        <span class="text-foreground text-xs font-medium">Country / region</span
+        >
         <Input
           id="dpa-in-country"
           type="text"
@@ -90,7 +94,8 @@ const { effectiveDateDefault } = Astro.props;
         Download PDF
       </button>
       <p class="text-muted-foreground text-xs">
-        PDF is optional (for records or procurement). Involve your counsel for enterprise reviews if needed.
+        PDF is optional (for records or procurement). Involve your counsel for
+        enterprise reviews if needed.
       </p>
     </div>
   </CardContent>

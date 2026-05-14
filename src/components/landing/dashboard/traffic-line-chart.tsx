@@ -32,7 +32,7 @@ export type StackedChartPoint = {
 const chartConfig = {
   visitors: {
     label: "Visitors",
-    color: "var(--brand)",
+    color: "var(--chart-1)",
   },
   visits: {
     label: "Visits",
@@ -92,13 +92,17 @@ export function TrafficLineChart(props: {
   } = props;
   const hero = variant === "hero";
   const chartRootRef = useRef<HTMLDivElement>(null);
-  const [pinnedTooltip, setPinnedTooltip] = useState<PinnedTooltipState | null>(null);
+  const [pinnedTooltip, setPinnedTooltip] = useState<PinnedTooltipState | null>(
+    null,
+  );
   const compactBarRadius = useCompactChartBarRadius();
   const prefersReducedMotion = usePrefersReducedMotion();
 
   if (points.length === 0) {
     return (
-      <div className={`flex w-full min-w-0 items-center justify-center rounded-xl border border-dashed border-border/80 bg-muted/15 text-sm text-muted-foreground ${hero ? "h-64 sm:h-72" : "h-52"}`}>
+      <div
+        className={`border-border/80 bg-muted/15 text-muted-foreground flex w-full min-w-0 items-center justify-center rounded-xl border border-dashed text-sm ${hero ? "h-64 sm:h-72" : "h-52"}`}
+      >
         No pageviews in this range yet
       </div>
     );
@@ -127,7 +131,8 @@ export function TrafficLineChart(props: {
       : metric === "sessionTime" || metric === "revenue"
         ? chartCountAxisUpperBound(Math.ceil(maxMetric))
         : chartCountAxisUpperBound(maxMetric);
-  const yAxisWidth = metric === "revenue" ? 60 : metric === "sessionTime" ? 44 : 40;
+  const yAxisWidth =
+    metric === "revenue" ? 60 : metric === "sessionTime" ? 44 : 40;
   const maxBarSize = trafficChartMaxBarSize({
     bucket,
     pointCount: data.length,
@@ -139,22 +144,39 @@ export function TrafficLineChart(props: {
       ? data[pinnedIndex]
       : null;
   const spotlightPoint =
-    spotlightIndex != null && spotlightIndex >= 0 && spotlightIndex < data.length
+    spotlightIndex != null &&
+    spotlightIndex >= 0 &&
+    spotlightIndex < data.length
       ? data[spotlightIndex]
       : null;
   const displayPoint = pinnedPoint ?? spotlightPoint;
   const displayMetricValue = displayPoint ? displayPoint[metricKey] : null;
   const displayMetricNumber =
-    typeof displayMetricValue === "number" && Number.isFinite(displayMetricValue)
+    typeof displayMetricValue === "number" &&
+    Number.isFinite(displayMetricValue)
       ? displayMetricValue
       : null;
   const displayDotValue =
-    displayMetricNumber != null ? Math.max(displayMetricNumber, trafficYMax * 0.025) : null;
+    displayMetricNumber != null
+      ? Math.max(displayMetricNumber, trafficYMax * 0.025)
+      : null;
   const pinnedPayload = pinnedPoint
-    ? [{ dataKey: metricKey, value: pinnedPoint[metricKey], payload: pinnedPoint }]
+    ? [
+        {
+          dataKey: metricKey,
+          value: pinnedPoint[metricKey],
+          payload: pinnedPoint,
+        },
+      ]
     : [];
   const spotlightPayload = spotlightPoint
-    ? [{ dataKey: metricKey, value: spotlightPoint[metricKey], payload: spotlightPoint }]
+    ? [
+        {
+          dataKey: metricKey,
+          value: spotlightPoint[metricKey],
+          payload: spotlightPoint,
+        },
+      ]
     : [];
   const spotlightCursor =
     hero && spotlightIndex != null && spotlightPoint && displayDotValue != null
@@ -165,7 +187,7 @@ export function TrafficLineChart(props: {
       : null;
 
   return (
-    <div ref={chartRootRef} className="relative w-full min-w-0 text-primary">
+    <div ref={chartRootRef} className="text-primary relative w-full min-w-0">
       <style>{`
         @keyframes kobbeHeroCursorClick {
           0%, 56%, 100% {
@@ -185,7 +207,8 @@ export function TrafficLineChart(props: {
       <ChartContainer
         config={chartConfig}
         className={
-          (hero ? "h-64 w-full sm:h-72" : "h-52 w-full") + " min-w-0 [&_.recharts-label-list]:hidden"
+          (hero ? "h-64 w-full sm:h-72" : "h-52 w-full") +
+          " min-w-0 [&_.recharts-label-list]:hidden"
         }
       >
         <ComposedChart
@@ -211,8 +234,14 @@ export function TrafficLineChart(props: {
               const chartHeight = bounds?.height ?? 0;
               return {
                 index: nextIndex,
-                x: typeof coordinate?.x === "number" ? coordinate.x : chartWidth / 2,
-                y: typeof coordinate?.y === "number" ? coordinate.y : chartHeight / 2,
+                x:
+                  typeof coordinate?.x === "number"
+                    ? coordinate.x
+                    : chartWidth / 2,
+                y:
+                  typeof coordinate?.y === "number"
+                    ? coordinate.y
+                    : chartHeight / 2,
                 chartWidth,
                 chartHeight,
               };
@@ -220,8 +249,18 @@ export function TrafficLineChart(props: {
           }}
           margin={
             hero
-              ? { top: 16, right: 12, left: metric === "revenue" ? 8 : 4, bottom: 4 }
-              : { top: 14, right: 8, left: metric === "revenue" ? 8 : 4, bottom: 4 }
+              ? {
+                  top: 16,
+                  right: 12,
+                  left: metric === "revenue" ? 8 : 4,
+                  bottom: 4,
+                }
+              : {
+                  top: 14,
+                  right: 8,
+                  left: metric === "revenue" ? 8 : 4,
+                  bottom: 4,
+                }
           }
         >
           <CartesianGrid
@@ -264,7 +303,11 @@ export function TrafficLineChart(props: {
                 revenueCurrency={revenueCurrency}
               />
             }
-            cursor={{ stroke: "var(--border)", strokeWidth: 1, strokeOpacity: 0.9 }}
+            cursor={{
+              stroke: "var(--border)",
+              strokeWidth: 1,
+              strokeOpacity: 0.9,
+            }}
           />
           <Bar
             key={metricKey}
@@ -325,10 +368,10 @@ export function TrafficLineChart(props: {
         >
           <span
             key={`spotlight-click-${metricKey}-${spotlightIndex}`}
-            className="absolute size-8 rounded-full border border-foreground/40"
+            className="border-foreground/40 absolute size-8 rounded-full border"
             style={{ animation: "kobbeHeroCursorClick 1.2s ease-out both" }}
           />
-          <span className="relative block h-5 w-4 -translate-x-1 -translate-y-1 rotate-[-18deg] text-foreground drop-shadow-sm">
+          <span className="text-foreground relative block h-5 w-4 -translate-x-1 -translate-y-1 rotate-[-18deg] drop-shadow-sm">
             <svg
               viewBox="0 0 18 22"
               fill="none"
@@ -415,19 +458,19 @@ function TrafficChartTooltip({
   const metricRow = payload.find((row) => String(row.dataKey) === metricKey);
 
   return (
-    <div className="grid max-w-xs min-w-44 gap-1.5 rounded-lg border border-background/10 bg-foreground px-2.5 py-1.5 text-xs text-background shadow-md">
+    <div className="border-background/10 bg-foreground text-background grid max-w-xs min-w-44 gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-md">
       {pinned ? (
-        <div className="text-[10px] font-medium tracking-wide text-background/70 uppercase">
+        <div className="text-background/70 text-[10px] font-medium tracking-wide uppercase">
           Pinned
         </div>
       ) : null}
-      <div className="font-medium text-background">{title}</div>
+      <div className="text-background font-medium">{title}</div>
       <div className="flex w-full flex-wrap items-center gap-2">
         <div className="flex flex-1 items-center justify-between gap-4 leading-none">
           <span className="text-background/70">
             {getMetricLabel(metricKey) ?? metricKey}
           </span>
-          <span className="font-mono font-medium text-background tabular-nums">
+          <span className="text-background font-mono font-medium tabular-nums">
             {formatMetricValue(metric, metricRow?.value, revenueCurrency)}
           </span>
         </div>
@@ -455,7 +498,10 @@ function pinnedTooltipStyle(pinned: PinnedTooltipState): CSSProperties {
   };
 }
 
-function spotlightTooltipStyle(cursor: { x: number; y: number }): CSSProperties {
+function spotlightTooltipStyle(cursor: {
+  x: number;
+  y: number;
+}): CSSProperties {
   const alignRight = cursor.x > 72;
   const placeBelow = cursor.y < 28;
 
@@ -560,13 +606,7 @@ function chartCountAxisUpperBound(maxValue: number) {
   const magnitude = 10 ** Math.floor(Math.log10(maxValue));
   const normalized = maxValue / magnitude;
   const nice =
-    normalized <= 1
-      ? 1
-      : normalized <= 2
-        ? 2
-        : normalized <= 5
-          ? 5
-          : 10;
+    normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 5 ? 5 : 10;
   return nice * magnitude;
 }
 
@@ -589,11 +629,15 @@ function formatMetricValue(
   revenueCurrency?: string | null,
 ): string {
   if (value == null) {
-    return metric === "revenue" ? formatMinorForTooltip(0, revenueCurrency ?? null) : "0";
+    return metric === "revenue"
+      ? formatMinorForTooltip(0, revenueCurrency ?? null)
+      : "0";
   }
   const numericValue = Number(value);
   if (!Number.isFinite(numericValue)) {
-    return metric === "revenue" ? formatMinorForTooltip(0, revenueCurrency ?? null) : "0";
+    return metric === "revenue"
+      ? formatMinorForTooltip(0, revenueCurrency ?? null)
+      : "0";
   }
   if (metric === "bounceRate") {
     return `${numericValue.toFixed(1)}%`;
@@ -607,7 +651,10 @@ function formatMetricValue(
   return Math.round(numericValue).toLocaleString();
 }
 
-function formatMinorForAxis(minor: number, currency: string | null | undefined): string {
+function formatMinorForAxis(
+  minor: number,
+  currency: string | null | undefined,
+): string {
   if (!currency) {
     return minor >= 1000 ? `${Math.round(minor / 100)}` : `${minor}`;
   }

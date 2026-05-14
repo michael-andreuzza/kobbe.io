@@ -79,7 +79,7 @@ export function AnimatedStartingPrice({ className }: { className?: string }) {
 
   return (
     <div className={cn("flex items-baseline gap-2", className)}>
-      <p className="text-foreground text-3xl tracking-tight tabular-nums  uppercase font-semibold">
+      <p className="text-foreground text-3xl font-semibold tracking-tight uppercase tabular-nums">
         <span className="sr-only">
           ${formattedPrice} {unit}
         </span>
