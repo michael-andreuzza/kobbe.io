@@ -1,98 +1,14 @@
 ---
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
 import { AnimatedStartingPrice } from "@/components/sections/animated-starting-price";
 import { BillingPeriodTabs } from "@/components/sections/billing-period-tabs";
+import PricingIncludedEvents from "@/components/sections/pricing-included-events";
+import PricingEventRange from "@/components/sections/pricing-event-range";
 import Text from "@/components/foundations/elements/Text.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { cn } from "@/lib/utils";
 const appBaseUrl = "https://app.kobbe.io";
-const tiers = [
-  {
-    key: "events_100k",
-    limit: "100,000",
-    monthly: 15,
-    yearly: 165,
-    recommended: true,
-  },
-  {
-    key: "events_200k",
-    limit: "200,000",
-    monthly: 25,
-    yearly: 275,
-    recommended: false,
-  },
-  {
-    key: "events_500k",
-    limit: "500,000",
-    monthly: 45,
-    yearly: 495,
-    recommended: false,
-  },
-  {
-    key: "events_1m",
-    limit: "1,000,000",
-    monthly: 60,
-    yearly: 660,
-    recommended: false,
-  },
-  {
-    key: "events_2m",
-    limit: "2,000,000",
-    monthly: 100,
-    yearly: 1100,
-    recommended: false,
-  },
-  {
-    key: "events_5m",
-    limit: "5,000,000",
-    monthly: 140,
-    yearly: 1540,
-    recommended: false,
-  },
-  {
-    key: "events_10m",
-    limit: "10,000,000",
-    monthly: 200,
-    yearly: 2200,
-    recommended: false,
-  },
-  {
-    key: "events_15m",
-    limit: "15,000,000",
-    monthly: 290,
-    yearly: 3190,
-    recommended: false,
-  },
-  {
-    key: "events_20m",
-    limit: "20,000,000",
-    monthly: 380,
-    yearly: 4180,
-    recommended: false,
-  },
-  {
-    key: "events_25m",
-    limit: "25,000,000",
-    monthly: 470,
-    yearly: 5170,
-    recommended: false,
-  },
-] as const;
 const included = [
   "50 sites per workspace",
   "Long-term data history",
@@ -102,9 +18,6 @@ const included = [
   "Traffic spike/drop alerts",
   "Cookie-free tracking with privacy signals",
 ] as const;
-function formatCurrency(amount: number) {
-  return new Intl.NumberFormat("en-US").format(amount);
-}
 function checkoutPickerHref(period: "monthly" | "yearly") {
   const returnTo = `/checkout?period=${period}`;
   return `${appBaseUrl}/signup?returnTo=${encodeURIComponent(returnTo)}`;
@@ -125,7 +38,7 @@ function checkoutPickerHref(period: "monthly" | "yearly") {
           variant="displaySM"
           class="text-foreground font-medium tracking-tight"
         >
-          Pricing that scales with traffic
+          Simple and sustainable pricing
         </Text>
         <div class="mt-24 lg:mt-32">
           <Text
@@ -133,25 +46,21 @@ function checkoutPickerHref(period: "monthly" | "yearly") {
             variant="textBase"
             class="text-muted-foreground font-medium"
           >
-            Pick the event volume you need. Every paid plan includes the same
-            analytics features, with no cookies and no feature gates.
+            Get the website insights you need without compromising visitor
+            privacy. Start with a 3-day free trial, then pay a fair monthly or
+            yearly price based on your event volume.
           </Text>
         </div>
       </div>
 
-      <div class="relative mt-8 grid gap-2 lg:grid-cols-2">
-        <Card variant="default" className="bg-muted p-8 lg:p-32">
+      <div class="bg-muted relative mt-8 p-8 lg:p-32">
+        <Card variant="default" className="bg-card max-w-xl mx-auto p-8 ">
           <CardHeader>
             <div>
-              <BillingPeriodTabs className="mt-4" client:load />
               <AnimatedStartingPrice className="mt-8" client:load />
-              <Text
-                tag="p"
-                variant="textSM"
-                class="text-muted-foreground mt-3 font-medium"
-              >
-                100,000 events included.
-              </Text>
+              <PricingIncludedEvents client:load />
+              <BillingPeriodTabs className="mt-6" client:load />
+              <PricingEventRange className="mt-6" client:load />
             </div>
           </CardHeader>
           <CardContent>
@@ -190,72 +99,6 @@ function checkoutPickerHref(period: "monthly" | "yearly") {
                 <br /> Cancel anytime.
               </Text>
             </div>
-          </CardContent>
-        </Card>
-        <Card variant="default" className="bg-muted p-8 lg:p-32">
-          <CardHeader>
-            <CardTitle
-              className="text-foreground text-base font-semibold tracking-tight uppercase"
-            >
-              Tiers.
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow className="border-0 hover:bg-transparent">
-                  <TableHead
-                    className="text-foreground h-6 px-0 text-sm font-semibold uppercase"
-                  >
-                    Events
-                  </TableHead>
-                  <TableHead
-                    className="text-foreground h-6 px-0 text-right text-sm font-semibold uppercase"
-                  >
-                    Price
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {
-                  tiers.map((tier) => (
-                    <TableRow className="border-border hover:bg-transparent">
-                      <TableCell className="px-0 py-1.5">
-                        <p class="text-foreground text-sm font-semibold uppercase">
-                          {tier.limit}
-                        </p>
-                      </TableCell>
-                      <TableCell className="px-0 py-1.5 text-right text-sm font-semibold uppercase tabular-nums">
-                        <span data-period="monthly">
-                          ${formatCurrency(tier.monthly)}/mo
-                        </span>
-                        <span data-period="yearly">
-                          ${formatCurrency(tier.yearly)}/yr
-                        </span>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                }
-                <TableRow className="border-border/60 hover:bg-transparent">
-                  <TableCell className="px-0 py-1.5">
-                    <p class="text-foreground text-sm font-semibold uppercase">
-                      25M+
-                    </p>
-                  </TableCell>
-                  <TableCell
-                    className="px-0 py-1.5 text-right text-sm font-semibold uppercase"
-                  >
-                    <a
-                      href="/docs/support-contact"
-                      data-kobbe-event="Pricing — contact high volume"
-                      class="text-foreground underline-offset-4 hover:underline"
-                    >
-                      Contact us
-                    </a>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
           </CardContent>
         </Card>
       </div>

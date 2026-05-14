@@ -1,39 +1,48 @@
 import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
+import {
+  billingPeriodEvent,
+  defaultPricingTierIndex,
+  formatPricingCurrency,
+  isBillingPeriod,
+  pricingTierEvent,
+  pricingTiers,
+  type BillingPeriod,
+} from "./pricing-tiers";
 
-type BillingPeriod = "monthly" | "yearly";
+function DigitReel({ character }: { character: string }) {
+  const digit = Number(character);
+  const isDigit = !Number.isNaN(digit);
 
-const billingPeriodEvent = "kobbe:billing-period-change";
-
-function isBillingPeriod(value: unknown): value is BillingPeriod {
-  return value === "monthly" || value === "yearly";
-}
-
-function DigitReel({ digit }: { digit: number | null }) {
   return (
     <span
       className={cn(
         "inline-block h-[1em] overflow-hidden align-[-0.06em] transition-[width,opacity] duration-300 ease-out motion-reduce:transition-none",
-        digit === null ? "w-0 opacity-0" : "w-[0.62em] opacity-100",
+        isDigit ? "w-[0.62em] opacity-100" : "w-[0.3em] opacity-100",
       )}
     >
-      <span
-        className="flex flex-col transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
-        style={{ transform: `translateY(-${digit ?? 0}em)` }}
-      >
-        {Array.from({ length: 10 }, (_, index) => (
-          <span key={index} className="h-[1em] text-center leading-[1em]">
-            {index}
-          </span>
-        ))}
-      </span>
+      {isDigit ? (
+        <span
+          className="flex flex-col transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+          style={{ transform: `translateY(-${digit}em)` }}
+        >
+          {Array.from({ length: 10 }, (_, index) => (
+            <span key={index} className="h-[1em] text-center leading-[1em]">
+              {index}
+            </span>
+          ))}
+        </span>
+      ) : (
+        <span className="block h-[1em] leading-[1em]">{character}</span>
+      )}
     </span>
   );
 }
 
 export function AnimatedStartingPrice({ className }: { className?: string }) {
   const [period, setPeriod] = useState<BillingPeriod>("monthly");
+  const [tierIndex, setTierIndex] = useState(defaultPricingTierIndex);
 
   useEffect(() => {
     function handlePeriodChange(event: Event) {
@@ -42,24 +51,42 @@ export function AnimatedStartingPrice({ className }: { className?: string }) {
         setPeriod(next);
       }
     }
+    function handleTierChange(event: Event) {
+      const next = (event as CustomEvent<{ tierIndex?: unknown }>).detail
+        ?.tierIndex;
+
+      if (
+        typeof next === "number" &&
+        Number.isInteger(next) &&
+        pricingTiers[next]
+      ) {
+        setTierIndex(next);
+      }
+    }
 
     window.addEventListener(billingPeriodEvent, handlePeriodChange);
-    return () =>
+    window.addEventListener(pricingTierEvent, handleTierChange);
+    return () => {
       window.removeEventListener(billingPeriodEvent, handlePeriodChange);
+      window.removeEventListener(pricingTierEvent, handleTierChange);
+    };
   }, []);
 
-  const price = period === "monthly" ? "From $15" : "From $165";
-  const digits = period === "monthly" ? [null, 1, 5] : [1, 6, 5];
+  const tier = pricingTiers[tierIndex] ?? pricingTiers[0];
+  const price = period === "monthly" ? tier.monthly : tier.yearly;
+  const formattedPrice = formatPricingCurrency(price);
   const unit = period === "monthly" ? "/ month" : "/ year";
 
   return (
     <div className={cn("flex items-baseline gap-2", className)}>
       <p className="text-foreground text-3xl tracking-tight tabular-nums  uppercase font-semibold">
-        <span className="sr-only">{price}</span>
-        <span aria-hidden="true">From $</span>
+        <span className="sr-only">
+          ${formattedPrice} {unit}
+        </span>
+        <span aria-hidden="true">$</span>
         <span aria-hidden="true" className="inline-flex">
-          {digits.map((digit, index) => (
-            <DigitReel key={index} digit={digit} />
+          {formattedPrice.split("").map((character, index) => (
+            <DigitReel key={index} character={character} />
           ))}
         </span>
       </p>

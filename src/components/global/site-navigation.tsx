@@ -4,6 +4,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
+import { buttonVariants } from "@/components/ui/button";
 import { DocsMobileNavDialog } from "@/components/global/docs-mobile-nav-dialog";
 import type { NavGroup } from "@/components/ui/sidebar";
 export type SiteNavigationProps = {
@@ -16,7 +17,7 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
   return (
     <div className="flex items-center gap-2 sm:gap-3">
       <NavigationMenu className="max-w-none">
-        <NavigationMenuList className="flex flex-wrap justify-end gap-4">
+        <NavigationMenuList className="flex flex-wrap justify-end gap-2 sm:gap-4">
           <NavigationMenuItem>
             <NavigationMenuLink href="/docs" className={linkClassName}>
               Docs
@@ -33,11 +34,6 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
             </NavigationMenuItem>
           ) : null}
           <NavigationMenuItem>
-            <NavigationMenuLink href="/pricing" className={linkClassName}>
-              Free trial
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
             <NavigationMenuLink
               href="https://app.kobbe.io"
               target="_blank"
@@ -45,6 +41,14 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
               className={linkClassName}
             >
               Sign in
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              href="/pricing"
+              className={buttonVariants({ variant: "default", size: "sm" })}
+            >
+              Start 3-day free trial
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>

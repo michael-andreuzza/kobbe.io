@@ -57,7 +57,7 @@ export function BillingPeriodTabs({
   return (
     <div
       className={cn(
-        "border-border/70 bg-background relative inline-flex h-7 w-fit justify-self-start overflow-hidden rounded-md border p-0.5",
+        " relative inline-flex h-7 w-fit justify-self-start overflow-hidden rounded-md  p-0.5",
         className,
       )}
       role="group"
@@ -65,7 +65,7 @@ export function BillingPeriodTabs({
     >
       <span
         aria-hidden="true"
-        className="bg-brand pointer-events-none absolute top-0.5 bottom-0.5 rounded-sm transition-all duration-200 ease-out"
+        className="bg-muted pointer-events-none absolute top-0.5 bottom-0.5 rounded-sm transition-all duration-200 ease-out"
         style={{
           left: `${sliderStyle.left}px`,
           width: `${sliderStyle.width}px`,
@@ -81,7 +81,7 @@ export function BillingPeriodTabs({
         className={cn(
           "relative z-10 h-6 rounded-sm bg-transparent px-2 text-xs transition-colors",
           period === "monthly"
-            ? "text-background"
+            ? "text-foreground"
             : "text-muted-foreground hover:text-foreground",
         )}
       >
@@ -97,11 +97,11 @@ export function BillingPeriodTabs({
         className={cn(
           "relative z-10 h-6 rounded-sm bg-transparent px-2 text-xs transition-colors",
           period === "yearly"
-            ? "text-background"
+            ? "text-foreground"
             : "text-muted-foreground hover:text-foreground",
         )}
       >
-        Yearly <span className="ml-1">{yearlyLabel}</span>
+        Yearly <span className="ml-1 text-brand">{yearlyLabel}</span>
       </button>
     </div>
   );
