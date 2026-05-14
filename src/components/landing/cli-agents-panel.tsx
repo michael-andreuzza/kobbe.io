@@ -62,7 +62,7 @@ export function CliAgentsPanel() {
   }, [phase, typedText]);
 
   return (
-    <div className="bg-card text-foreground flex h-135 lg:h-172 flex-col overflow-hidden">
+    <div className="bg-card text-foreground flex h-135 flex-col overflow-hidden lg:h-172">
       <style>{`
         @keyframes kobbe-agent-caret {
           0%, 48% { opacity: 1; }
@@ -75,7 +75,7 @@ export function CliAgentsPanel() {
           <span className="bg-chart-3 size-2.5 rounded-full" />
           <span className="bg-chart-4 size-2.5 rounded-full" />
         </div>
-        <span className="text-foreground font-medium font-mono">
+        <span className="text-foreground font-mono font-medium">
           $ npm install -g @kobbe/cli
         </span>
         <span />
@@ -112,42 +112,36 @@ export function CliAgentsPanel() {
             </div>
           </div>
           <div className="shrink-0 p-4">
-            <div className="bg-surface rounded-lg  p-3 ">
+            <div className="bg-surface rounded-lg p-3">
               <p className="text-muted-foreground min-h-10 text-sm leading-6">
                 Ask about traffic, revenue, sources...
               </p>
-              <div className="mt-4 flex items-center justify-between gap-3">
-                <div className="text-muted-foreground flex min-w-0 flex-wrap items-center gap-2 text-xs">
-                  <ComposerChip label="Agent" detail="Kobbe" />
-                  <ComposerChip label="Model" detail="GPT-5.5" />
-                  <ComposerChip label="Context" detail="MCP" />
-                </div>
-                <div className="text-muted-foreground flex shrink-0 items-center gap-2">
-                  <button
-                    type="button"
-                    className="hover:bg-muted grid size-7 place-items-center rounded-md transition-colors"
-                    aria-label="Attach image"
-                  >
-                    <HugeiconsIcon
-                      icon={Image01Icon}
-                      strokeWidth={1.8}
-                      className="size-4"
-                      aria-hidden="true"
-                    />
-                  </button>
-                  <button
-                    type="button"
-                    className="bg-foreground text-background grid size-7 place-items-center rounded-full transition-opacity hover:opacity-90"
-                    aria-label="Send message"
-                  >
-                    <HugeiconsIcon
-                      icon={ArrowUp01Icon}
-                      strokeWidth={2}
-                      className="size-4"
-                      aria-hidden="true"
-                    />
-                  </button>
-                </div>
+
+              <div className="text-muted-foreground mt-8 ml-auto flex w-fit shrink-0 items-center gap-2">
+                <button
+                  type="button"
+                  className="hover:bg-muted grid size-7 place-items-center rounded-md transition-colors"
+                  aria-label="Attach image"
+                >
+                  <HugeiconsIcon
+                    icon={Image01Icon}
+                    strokeWidth={1.8}
+                    className="size-4"
+                    aria-hidden="true"
+                  />
+                </button>
+                <button
+                  type="button"
+                  className="bg-foreground text-background grid size-7 place-items-center rounded-full transition-opacity hover:opacity-90"
+                  aria-label="Send message"
+                >
+                  <HugeiconsIcon
+                    icon={ArrowUp01Icon}
+                    strokeWidth={2}
+                    className="size-4"
+                    aria-hidden="true"
+                  />
+                </button>
               </div>
             </div>
           </div>
