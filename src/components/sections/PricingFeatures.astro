@@ -1,8 +1,8 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import Text from "@/components/foundations/elements/Text.astro";
 import FeatureTabs from "@/components/features/feature-tabs";
+
 const featureGroups = [
   {
     category: "Dashboard",
@@ -273,34 +273,28 @@ const featureGroups = [
 ] as const;
 ---
 
-<BaseLayout
-  title="Features — Kobbe"
-  description="Explore Kobbe features for privacy-friendly analytics, events, funnels, revenue attribution, shared dashboards, CLI access, and AI agents."
-  canonical="https://kobbe.io/features"
->
-  <section>
-    <Wrapper variant="default" class="pt-20 pb-12 lg:pt-28">
-      <div class="max-w-xl text-balance">
-        <Text
-          tag="h1"
-          variant="displaySM"
-          class="text-foreground font-medium tracking-tight"
-        >
-          Everything you need to understand your website.
-        </Text>
-        <Text
-          tag="p"
-          variant="textBase"
-          class="text-muted-foreground mt-24 lg:mt-32"
-        >
-          Kobbe combines privacy-friendly analytics, events, funnels, revenue
-          attribution, shared dashboards, CLI access, and AI-agent context in
-          one focused product.
-        </Text>
-      </div>
-      <div class="mt-8">
-        <FeatureTabs client:load groups={featureGroups} />
-      </div>
-    </Wrapper>
-  </section>
-</BaseLayout>
+<section id="benefits">
+  <Wrapper variant="default" class="py-20">
+    <div class="max-w-xl text-balance">
+      <Text
+        tag="h2"
+        variant="textBase"
+        class="text-foreground font-semibold tracking-tight text-balance uppercase"
+      >
+        Everything you need to understand your website.
+      </Text>
+      <Text
+        tag="p"
+        variant="textBase"
+        class="text-muted-foreground font-medium text-balance"
+      >
+        Kobbe combines privacy-friendly analytics, events, funnels, revenue
+        attribution, shared dashboards, CLI access, and AI-agent context in one
+        focused product.
+      </Text>
+    </div>
+    <div class="mt-8">
+      <FeatureTabs client:load groups={featureGroups} />
+    </div>
+  </Wrapper>
+</section>

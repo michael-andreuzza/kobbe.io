@@ -11,7 +11,7 @@ export function TabsChrome(props: {
   const baseId = useId();
   return (
     <div
-      className="flex items-center gap-3 text-xs font-medium sm:text-xs"
+      className="flex max-w-full flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium sm:text-xs"
       role="tablist"
       aria-label={props.label}
     >

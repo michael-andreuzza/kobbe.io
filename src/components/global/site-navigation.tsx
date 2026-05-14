@@ -19,6 +19,14 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
       <NavigationMenu className="max-w-none">
         <NavigationMenuList className="flex flex-wrap justify-end gap-2 sm:gap-4">
           <NavigationMenuItem>
+            <NavigationMenuLink
+              href="/pricing#benefits"
+              className={linkClassName}
+            >
+              All Features
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
             <NavigationMenuLink href="/docs" className={linkClassName}>
               Docs
             </NavigationMenuLink>

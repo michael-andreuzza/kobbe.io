@@ -53,7 +53,7 @@ export function DashboardTabbedCardHeaderContent(props: {
       >
         {props.title}
       </CardTitle>
-      <div className="flex max-w-full min-w-0 flex-wrap items-center justify-end gap-3 self-start pt-0.5">
+      <div className="flex max-w-full min-w-0 flex-wrap items-center justify-start gap-3 self-start pt-0.5 sm:justify-end">
         <TabsChrome
           label={props.tabs.label}
           tabs={props.tabs.tabs}

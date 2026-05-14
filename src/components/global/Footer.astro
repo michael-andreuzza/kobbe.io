@@ -1,10 +1,6 @@
 ---
-import BrandStripes from "@/components/foundations/brand/BrandStripes.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import Text from "@/components/foundations/elements/Text.astro";
-import Logo from "@/components/assets/Logo.astro";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 type FooterLink = {
   href: string;
@@ -22,7 +18,7 @@ const footerLinkGroups: FooterLinkGroup[] = [
   {
     title: "Product",
     links: [
-      { href: "/features", label: "Features" },
+      { href: "/pricing#benefits", label: "Features" },
       { href: "/pricing", label: "Pricing" },
       { href: "/docs", label: "Docs" },
       { href: "/llms.txt", label: "llms.txt" },
