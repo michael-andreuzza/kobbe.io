@@ -1,6 +1,7 @@
 ---
 import Text from "@/components/foundations/elements/Text.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import InstallationPlatformGrid from "@/components/landing/installation-platform-grid";
 import astroLogo from "@/images/brands/astro.svg";
 import boltLogo from "@/images/brands/bolt.svg";
 import bubbleLogo from "@/images/brands/buble.svg";
@@ -69,55 +70,59 @@ const installationPlatforms = [
   { name: "Replit", logo: replitLogo },
   { name: "Google Tag Manager", logo: googleTagManagerLogo },
 ] as const;
+
+const installationPlatformItems = installationPlatforms.map((platform) => ({
+  name: platform.name,
+  logoSrc: platform.logo.src,
+}));
 ---
 
 <section>
-  <Wrapper class="py-20 text-center">
-    <div class="mx-auto max-w-3xl text-balance 2xl:max-w-7xl">
+  <Wrapper class="py-20">
+    <div class="max-w-xl">
       <Text
         tag="h2"
-        variant="displayLG"
-        class="text-foreground font-display font-medium tracking-tight"
+        variant="textBase"
+        class="text-foreground font-semibold tracking-tight text-balance uppercase"
       >
         From one script tag to a dashboard you can actually read.
       </Text>
-      <Text tag="p" variant="textBase" class="text-muted-foreground mt-2">
+      <Text
+        tag="p"
+        variant="textBase"
+        class="text-muted-foreground font-medium text-balance"
+      >
         Install Kobbe once, let privacy-friendly analytics signals flow in, then
         use the dashboard to understand traffic, events, and revenue without
         building visitor profiles.
       </Text>
     </div>
 
-    <dl class="mt-12 grid gap-y-10 sm:grid-cols-3">
+    <div class="mt-8">
+      <InstallationPlatformGrid
+        client:load
+        platforms={installationPlatformItems}
+      />
+    </div>
+    <dl class="mt-8 grid gap-y-8 sm:grid-cols-3">
       {
         steps.map((step, index) => (
-          <div
-            class:list={[
-              "px-6",
-              index > 0 && "sm:border-border/60 sm:border-l",
-            ]}
-          >
+          <div>
             <dt>
               <Text
                 tag="p"
-                variant="displaySM"
-                class="text-foreground font-display leading-none tracking-tight italic tabular-nums"
-              >
-                {step.number}
-              </Text>
-              <Text
-                tag="p"
                 variant="textBase"
-                class="text-foreground mt-5 font-medium"
+                class="text-foreground font-semibold uppercase"
               >
+                {step.number}.-
                 {step.title}
               </Text>
             </dt>
             <dd>
               <Text
                 tag="p"
-                variant="textSM"
-                class="text-muted-foreground mt-3 text-pretty"
+                variant="textBase"
+                class="text-muted-foreground mt-3 font-medium text-pretty"
               >
                 {step.description}
               </Text>
@@ -126,30 +131,5 @@ const installationPlatforms = [
         ))
       }
     </dl>
-
-    <div class="mx-auto mt-12">
-      <Text tag="p" variant="textSM" class="text-muted-foreground font-medium">
-        Works with
-      </Text>
-      <div
-        class="mt-4 grid grid-cols-4 place-items-center gap-x-6 gap-y-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-11"
-        aria-label="Supported installation platforms"
-      >
-        {
-          installationPlatforms.map((platform) => (
-            <div class="flex size-6 items-center justify-center">
-              <img
-                src={platform.logo.src}
-                alt={`${platform.name} logo`}
-                class="size-6 rounded object-contain"
-                loading="lazy"
-                width="24"
-                height="24"
-              />
-            </div>
-          ))
-        }
-      </div>
-    </div>
   </Wrapper>
 </section>

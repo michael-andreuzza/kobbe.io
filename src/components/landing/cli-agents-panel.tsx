@@ -62,7 +62,7 @@ export function CliAgentsPanel() {
   }, [phase, typedText]);
 
   return (
-    <div className="bg-surface text-foreground border-border/60 flex h-135 flex-col overflow-hidden rounded-lg shadow">
+    <div className="bg-card text-foreground flex h-135 lg:h-172 flex-col overflow-hidden">
       <style>{`
         @keyframes kobbe-agent-caret {
           0%, 48% { opacity: 1; }
@@ -75,13 +75,15 @@ export function CliAgentsPanel() {
           <span className="bg-chart-3 size-2.5 rounded-full" />
           <span className="bg-chart-4 size-2.5 rounded-full" />
         </div>
-        <span className="text-foreground font-medium">Ask Kobbe</span>
+        <span className="text-foreground font-medium font-mono">
+          $ npm install -g @kobbe/cli
+        </span>
         <span />
       </div>
 
       <div className="border-border/60 bg-background flex min-h-0 flex-1 items-stretch justify-center border-t px-4 py-4">
         <div className="flex min-h-0 w-full flex-col">
-          <div className=" min-h-0 flex-1 overflow-y-auto p-4">
+          <div className="min-h-0 flex-1 overflow-y-auto p-4">
             <div className="space-y-4">
               <div className="bg-muted rounded-lg px-3 py-2.5 text-xs leading-5">
                 {typedText}
@@ -110,7 +112,7 @@ export function CliAgentsPanel() {
             </div>
           </div>
           <div className="shrink-0 p-4">
-            <div className="bg-background border-border/50 rounded-lg border p-3 shadow-xs">
+            <div className="bg-surface rounded-lg  p-3 ">
               <p className="text-muted-foreground min-h-10 text-sm leading-6">
                 Ask about traffic, revenue, sources...
               </p>

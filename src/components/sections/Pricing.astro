@@ -117,77 +117,69 @@ function checkoutPickerHref(period: "monthly" | "yearly") {
   data-pricing-section
   data-billing-period="monthly"
 >
-  <Wrapper variant="default" class="relative pt-20 pb-20 lg:pt-28">
-    <div class="space-y-10">
-      <div class="mx-auto max-w-3xl text-center text-balance">
+  <section class="relative">
+    <Wrapper variant="default" class="relative pt-20 pb-20 lg:pt-28">
+      <div class="max-w-xl text-balance">
         <Text
-          id="pricing-heading"
           tag="h1"
-          variant="displayLG"
-          class="text-foreground font-display font-medium tracking-tight"
+          variant="displaySM"
+          class="text-foreground font-medium tracking-tight"
         >
           Pricing that scales with traffic
         </Text>
-        <Text tag="p" variant="textBase" class="text-muted-foreground mt-2">
-          Pick the event volume you need. Every paid plan includes the same
-          analytics features, with no cookies and no feature gates.
-        </Text>
+        <div class="mt-24 lg:mt-32">
+          <Text
+            tag="p"
+            variant="textBase"
+            class="text-muted-foreground font-medium"
+          >
+            Pick the event volume you need. Every paid plan includes the same
+            analytics features, with no cookies and no feature gates.
+          </Text>
+        </div>
       </div>
-    </div>
-  </Wrapper>
-  <section class="relative">
-    <Wrapper>
-      <div class="relative grid gap-2 lg:grid-cols-2">
-        <Card variant="default" className="rounded-xl shadow lg:p-16">
+
+      <div class="relative mt-8 grid gap-2 lg:grid-cols-2">
+        <Card variant="default" className="bg-muted p-8 lg:p-32">
           <CardHeader>
             <div>
               <BillingPeriodTabs className="mt-4" client:load />
               <AnimatedStartingPrice className="mt-8" client:load />
-              <Text tag="p" variant="textSM" class="text-muted-foreground mt-3">
-                100,000 events included. <br /> One month free with yearly billing.
+              <Text
+                tag="p"
+                variant="textSM"
+                class="text-muted-foreground mt-3 font-medium"
+              >
+                100,000 events included.
               </Text>
             </div>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent>
             <div>
-              <p class="text-foreground text-sm font-medium">
+              <p class="text-foreground text-sm font-semibold uppercase">
                 Included in every plan
               </p>
-              <ul class="text-foreground mt-3 grid gap-y-2 text-xs" role="list">
+              <ul
+                class="text.muted-foreground mt-3 grid gap-y-1 text-base"
+                role="list"
+              >
                 {
                   included.map((item) => (
                     <li class="flex items-start gap-2">
-                      <svg
-                        class="mt-1 size-3 shrink-0"
-                        viewBox="0 0 542 542"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M295.5 246.25V0H246.25V246.25H0V295.5H246.25V541.75H295.5V295.5H541.75V246.25H295.5Z"
-                          fill="#0A0A0A"
-                        />
-                        <rect
-                          width="63"
-                          height="63"
-                          transform="translate(239.875 239.875)"
-                          fill="#FBFBFB"
-                        />
-                      </svg>
-                      <span>{item}</span>
+                      —<span>{item}</span>
                     </li>
                   ))
                 }
               </ul>
             </div>
-            <div class="flex flex-col gap-2 lg:flex-row lg:items-center">
+            <div class="mt-8 flex flex-col gap-2 lg:flex-row lg:items-center">
               <a
                 href={checkoutPickerHref("monthly")}
                 data-checkout-monthly={checkoutPickerHref("monthly")}
                 data-checkout-yearly={checkoutPickerHref("yearly")}
                 data-kobbe-event="Pricing — start trial monthly"
                 class={cn(
-                  buttonVariants({ variant: "brand", size: "lg" }),
+                  buttonVariants({ variant: "default", size: "lg" }),
                   "w-full sm:w-fit",
                 )}
               >
@@ -200,24 +192,25 @@ function checkoutPickerHref(period: "monthly" | "yearly") {
             </div>
           </CardContent>
         </Card>
-        <Card variant="default" className="rounded-xl shadow lg:p-16">
+        <Card variant="default" className="bg-muted p-8 lg:p-32">
           <CardHeader>
-            <CardTitle className="text-foreground text-xl tracking-tight">
-              Event tiers
+            <CardTitle
+              className="text-foreground text-base font-semibold tracking-tight uppercase"
+            >
+              Tiers.
             </CardTitle>
-            <CardDescription>
-              Prices update when you switch billing period.
-            </CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow className="border-0 hover:bg-transparent">
-                  <TableHead className="text-foreground h-6 px-0 text-xs">
+                  <TableHead
+                    className="text-foreground h-6 px-0 text-sm font-semibold uppercase"
+                  >
                     Events
                   </TableHead>
                   <TableHead
-                    className="text-foreground h-6 px-0 text-right text-xs"
+                    className="text-foreground h-6 px-0 text-right text-sm font-semibold uppercase"
                   >
                     Price
                   </TableHead>
@@ -228,11 +221,11 @@ function checkoutPickerHref(period: "monthly" | "yearly") {
                   tiers.map((tier) => (
                     <TableRow className="border-border hover:bg-transparent">
                       <TableCell className="px-0 py-1.5">
-                        <p class="text-foreground text-xs font-medium">
+                        <p class="text-foreground text-sm font-semibold uppercase">
                           {tier.limit}
                         </p>
                       </TableCell>
-                      <TableCell className="px-0 py-1.5 text-right text-xs font-semibold tabular-nums">
+                      <TableCell className="px-0 py-1.5 text-right text-sm font-semibold uppercase tabular-nums">
                         <span data-period="monthly">
                           ${formatCurrency(tier.monthly)}/mo
                         </span>
@@ -245,10 +238,12 @@ function checkoutPickerHref(period: "monthly" | "yearly") {
                 }
                 <TableRow className="border-border/60 hover:bg-transparent">
                   <TableCell className="px-0 py-1.5">
-                    <p class="text-foreground text-xs font-medium">25M+</p>
+                    <p class="text-foreground text-sm font-semibold uppercase">
+                      25M+
+                    </p>
                   </TableCell>
                   <TableCell
-                    className="px-0 py-1.5 text-right text-xs font-semibold"
+                    className="px-0 py-1.5 text-right text-sm font-semibold uppercase"
                   >
                     <a
                       href="/docs/support-contact"

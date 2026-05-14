@@ -15,6 +15,7 @@ type Props = {
   rangeLabel: string;
   children?: ReactNode;
   className?: string;
+  spotlightIndex?: number;
 };
 
 export function DashboardTrafficChart(props: Props) {
@@ -32,6 +33,7 @@ export function DashboardTrafficChart(props: Props) {
             bucket="day"
             variant="hero"
             metric={props.metric}
+          spotlightIndex={props.spotlightIndex}
             displayTimeZone="UTC"
             revenueCurrency="USD"
           />

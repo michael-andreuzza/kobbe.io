@@ -1,10 +1,32 @@
+import { useEffect, useState } from "react";
+import { useReducedMotion } from "motion/react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { dashboardPreviewData } from "./dashboard-preview-data";
 import { DashboardTrafficChart } from "./dashboard-traffic-chart";
 
 const data = dashboardPreviewData["30d"];
+const revenueSpotlightIndexes = [8, 15, 23] as const;
 
 export function RevenueInsightsPreview() {
+  const shouldReduceMotion = useReducedMotion();
+  const [spotlightStep, setSpotlightStep] = useState(0);
+  const spotlightIndex = shouldReduceMotion
+    ? undefined
+    : revenueSpotlightIndexes[spotlightStep];
+
+  useEffect(() => {
+    if (shouldReduceMotion || spotlightStep >= revenueSpotlightIndexes.length - 1) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setSpotlightStep((currentStep) => currentStep + 1);
+    }, 2200);
+
+    return () => window.clearTimeout(timeout);
+  }, [shouldReduceMotion, spotlightStep]);
+
   return (
     <div className="grid gap-8 gap-x-12">
       <style>{`
@@ -35,20 +57,16 @@ export function RevenueInsightsPreview() {
           }
         }
       `}</style>
-      <Card className="bg-card shadow gap-0 overflow-hidden p-0">
-        <CardHeader className="px-4 pt-4 pb-0 sm:px-5 sm:pt-5">
-          <CardTitle className="text-foreground font-sans text-sm font-semibold">
-            Revenue
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-0 py-4">
+      <Card className="bg-muted gap-0 overflow-hidden p-8 lg:p-42">
+        <CardContent className="bg-card p-0 py-4">
           <div className="relative h-80 overflow-hidden rounded-md">
-            <div className="[data-dashboard-metric-tile]]:bg-transparent pointer-events-none absolute top-0 left-0 w-full origin-top-left [&_[data-slot=card]]:bg-transparent">
+            <div className="[data-dashboard-metric-tile]]:bg-transparent pointer-events-none absolute top-0 left-0 w-full origin-top-left **:data-[slot=card]:bg-transparent">
               <div className="kobbe-revenue-chart pointer-events-auto relative z-10">
                 <DashboardTrafficChart
                   points={data.points}
                   metric="revenue"
                   rangeLabel={data.label}
+                  spotlightIndex={spotlightIndex}
                 ></DashboardTrafficChart>
               </div>
             </div>
@@ -76,14 +94,14 @@ export function RevenueInsightsPreview() {
 
 function RevenueNote(props: { title: string; description: string }) {
   return (
-    <Card className="bg-transparent gap-0 p-0 text-center">
+    <Card className="bg-transparent gap-0 p-0 ">
       <CardHeader className="p-0">
-        <CardTitle className="text-foreground font-base font-medium">
+        <CardTitle className="text-foreground font-sm  uppercase font-semibold">
           {props.title}
         </CardTitle>
       </CardHeader>
       <CardContent className="px-0 pt-3 pb-4">
-        <p className="text-muted-foreground text-sm/6">{props.description}</p>
+        <p className="text-muted-foreground text-base font-medium">{props.description}</p>
       </CardContent>
     </Card>
   );

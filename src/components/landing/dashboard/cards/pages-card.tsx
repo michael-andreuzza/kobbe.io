@@ -5,7 +5,11 @@ import { DashboardTabbedBreakdownCard } from "../dashboard-breakdown-card";
 import { PageBreakdownList } from "../dashboard-list-card";
 import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 
-export function PagesCard({ pages }: { pages: DashboardPreviewRangeData["pages"] }) {
+export function PagesCard({
+  pages,
+}: {
+  pages: DashboardPreviewRangeData["pages"];
+}) {
   const [activeTab, setActiveTab] = useState(0);
   const rows =
     activeTab === 0 ? pages.top : activeTab === 1 ? pages.entered : pages.exited;

@@ -16,6 +16,10 @@ const breakdownListClassName = "flex flex-col";
 export type BreakdownRevenueFormat = (minor: number) => string;
 
 const breakdownRowBarFillClass = "bg-foreground/3";
+const breakdownValueClassName =
+  "text-muted-foreground w-12 text-right text-[11px] leading-none tabular-nums sm:w-14";
+const breakdownRevenueClassName =
+  "text-foreground w-14 text-right text-[11px] leading-none font-medium tabular-nums sm:w-16";
 
 export function CardExpandButton(props: {
   onClick: () => void;
@@ -73,13 +77,33 @@ function BreakdownListRow(props: {
         props.className,
       )}
     >
+      <style>{`
+        @keyframes kobbeBreakdownBarGrow {
+          from {
+            transform: scaleX(0);
+          }
+          to {
+            transform: scaleX(1);
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .kobbe-breakdown-row-bar {
+            animation: none !important;
+            transform: scaleX(1);
+          }
+        }
+      `}</style>
       {props.listTotal == null ? null : (
         <div
           className={cn(
-            "pointer-events-none absolute inset-y-1 left-0 min-w-0 origin-left scale-x-0 rounded-sm transition-transform duration-500 ease-out group-hover:scale-x-100",
+            "kobbe-breakdown-row-bar pointer-events-none absolute inset-y-1 left-0 min-w-0 origin-left rounded-sm",
             breakdownRowBarFillClass,
           )}
-          style={{ width: `${widthPercent}%` }}
+          style={{
+            width: `${widthPercent}%`,
+            animation: "kobbeBreakdownBarGrow 720ms ease-out both",
+          }}
           aria-hidden
         />
       )}
@@ -123,13 +147,13 @@ export function PageBreakdownList(props: {
               >
                 {row.path}
               </span>
-              <div className="flex shrink-0 items-baseline justify-end gap-2 text-xs tabular-nums sm:gap-4 sm:text-sm">
+              <div className="flex shrink-0 items-baseline justify-end gap-2 sm:gap-4">
                 {showRev ? (
-                  <p className="text-foreground w-14 text-right font-medium sm:w-16">
+                  <p className={breakdownRevenueClassName}>
                     {revText}
                   </p>
                 ) : null}
-                <p className="text-muted-foreground w-12 text-right sm:w-14">
+                <p className={breakdownValueClassName}>
                   {row.count.toLocaleString()}
                 </p>
               </div>
@@ -208,13 +232,13 @@ export function ReferrerBreakdownList(props: {
                   </span>
                 </div>
               )}
-              <div className="flex shrink-0 items-baseline justify-end gap-2 text-xs tabular-nums sm:gap-4 sm:text-sm">
+              <div className="flex shrink-0 items-baseline justify-end gap-2 sm:gap-4">
                 {props.revenueFormat && rowHasRevenueHit(row.revenueMinor) ? (
-                  <span className="text-foreground w-14 text-right font-medium sm:w-16">
+                  <span className={breakdownRevenueClassName}>
                     {props.revenueFormat(row.revenueMinor ?? 0)}
                   </span>
                 ) : null}
-                <span className="text-muted-foreground w-12 text-right sm:w-14">
+                <span className={breakdownValueClassName}>
                   {row.count.toLocaleString()}
                 </span>
               </div>
@@ -240,11 +264,11 @@ export function TrafficChannelList(props: {
             <span className="text-foreground min-w-0 flex-1 truncate text-xs">
               {row.label}
             </span>
-            <div className="flex shrink-0 items-baseline justify-end gap-2 text-xs tabular-nums sm:gap-4 sm:text-sm">
-              <span className="text-muted-foreground w-12 text-right sm:w-14">
+            <div className="flex shrink-0 items-baseline justify-end gap-2 sm:gap-4">
+              <span className={breakdownValueClassName}>
                 {row.count.toLocaleString()}
               </span>
-              <span className="text-muted-foreground/90 w-12 text-right sm:w-14">
+              <span className="text-muted-foreground/90 w-12 text-right text-[11px] leading-none tabular-nums sm:w-14">
                 {row.percent}%
               </span>
             </div>
@@ -269,13 +293,13 @@ export function DeviceBreakdownList(props: {
             <span className="min-w-0 flex-1 truncate text-xs" title={row.name}>
               {row.name}
             </span>
-            <div className="flex shrink-0 items-baseline justify-end gap-2 text-xs tabular-nums sm:gap-4 sm:text-sm">
+            <div className="flex shrink-0 items-baseline justify-end gap-2 sm:gap-4">
               {props.revenueFormat && rowHasRevenueHit(row.revenueMinor) ? (
-                <span className="text-foreground w-14 text-right font-medium sm:w-16">
+                <span className={breakdownRevenueClassName}>
                   {props.revenueFormat(row.revenueMinor ?? 0)}
                 </span>
               ) : null}
-              <span className="text-muted-foreground w-12 text-right sm:w-14">
+              <span className={breakdownValueClassName}>
                 {row.count.toLocaleString()}
               </span>
             </div>
@@ -321,13 +345,13 @@ export function LocationBreakdownList(props: {
                   {row.label}
                 </span>
               </span>
-              <div className="flex shrink-0 items-baseline justify-end gap-2 text-xs tabular-nums sm:gap-4 sm:text-sm">
+              <div className="flex shrink-0 items-baseline justify-end gap-2 sm:gap-4">
                 {props.revenueFormat && rowHasRevenueHit(row.revenueMinor) ? (
-                  <span className="text-foreground w-14 text-right font-medium sm:w-16">
+                  <span className={breakdownRevenueClassName}>
                     {props.revenueFormat(row.revenueMinor ?? 0)}
                   </span>
                 ) : null}
-                <span className="text-muted-foreground w-12 text-right sm:w-14">
+                <span className={breakdownValueClassName}>
                   {row.count.toLocaleString()}
                 </span>
               </div>
@@ -353,7 +377,7 @@ export function SearchTermsBreakdownList(props: {
             <span className="text-foreground min-w-0 flex-1 truncate text-xs">
               {row.query}
             </span>
-            <span className="text-muted-foreground w-12 shrink-0 text-right text-xs tabular-nums sm:w-14 sm:text-sm">
+            <span className="text-muted-foreground w-12 shrink-0 text-right text-[11px] leading-none tabular-nums sm:w-14">
               {row.clicks.toLocaleString()}
             </span>
           </BreakdownListRow>
@@ -383,11 +407,11 @@ export function EventsSummaryTable(props: {
               <span className="text-foreground min-w-0 flex-1 truncate text-xs">
                 {row.name}
               </span>
-              <div className="flex shrink-0 items-baseline justify-end gap-2 text-xs tabular-nums sm:gap-4 sm:text-sm">
-                <span className="text-muted-foreground w-12 text-right sm:w-14">
+              <div className="flex shrink-0 items-baseline justify-end gap-2 sm:gap-4">
+                <span className={breakdownValueClassName}>
                   {row.visitors.toLocaleString()}
                 </span>
-                <span className="text-muted-foreground w-12 text-right sm:w-14">
+                <span className={breakdownValueClassName}>
                   {value}
                 </span>
               </div>

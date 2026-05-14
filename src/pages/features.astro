@@ -2,15 +2,10 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import Text from "@/components/foundations/elements/Text.astro";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import FeatureTabs from "@/components/features/feature-tabs";
 const featureGroups = [
   {
-    category: "Analytics dashboard",
+    category: "Dashboard",
     description:
       "Understand traffic quality, page performance, sources, locations, and live activity without digging through separate tools.",
     features: [
@@ -53,7 +48,7 @@ const featureGroups = [
     ],
   },
   {
-    category: "Conversion and events",
+    category: "Events",
     description:
       "Measure the actions that matter while keeping event names focused and privacy-conscious.",
     features: [
@@ -96,7 +91,7 @@ const featureGroups = [
     ],
   },
   {
-    category: "Revenue and attribution",
+    category: "Revenue",
     description:
       "Connect payment activity to the same pages, sources, and journeys you use to understand traffic.",
     features: [
@@ -139,7 +134,7 @@ const featureGroups = [
     ],
   },
   {
-    category: "Privacy and control",
+    category: "Privacy",
     description:
       "Kobbe is designed for useful analytics without invasive browser tracking or visitor profiles.",
     features: [
@@ -182,22 +177,10 @@ const featureGroups = [
     ],
   },
   {
-    category: "Reports and sharing",
+    category: "Reports",
     description:
-      "Keep clients and teammates updated without forcing everyone to check dashboards manually.",
+      "Keep teammates and clients updated without forcing everyone to check dashboards manually.",
     features: [
-      {
-        title: "Team access",
-        description:
-          "Invite teammates to view project dashboards with scoped access.",
-        href: "/docs/team-access",
-      },
-      {
-        title: "Shared dashboards",
-        description:
-          "Create public, read-only dashboard links for clients, teams, or stakeholders.",
-        href: "/docs/shared-dashboards",
-      },
       {
         title: "Monthly reports",
         description:
@@ -219,9 +202,28 @@ const featureGroups = [
     ],
   },
   {
-    category: "Developer and operations",
+    category: "Sharing",
     description:
-      "Install once, automate common checks, and inspect analytics from your terminal or agent tools.",
+      "Give teammates, clients, and stakeholders the right view of your analytics without extra reporting work.",
+    features: [
+      {
+        title: "Team access",
+        description:
+          "Invite teammates to view project dashboards with scoped access.",
+        href: "/docs/team-access",
+      },
+      {
+        title: "Shared dashboards",
+        description:
+          "Create public, read-only dashboard links for clients, teams, or stakeholders.",
+        href: "/docs/shared-dashboards",
+      },
+    ],
+  },
+  {
+    category: "Developer",
+    description:
+      "Install Kobbe, configure the tracker, and collect the technical signals your product team needs.",
     features: [
       {
         title: "Lightweight tracker",
@@ -242,6 +244,19 @@ const featureGroups = [
         href: "/docs/performance-web-vitals",
       },
       {
+        title: "Install guides",
+        description:
+          "Step-by-step setup for Astro, Next.js, React Router, WordPress, Shopify, Webflow, and more.",
+        href: "/docs/installation-guides",
+      },
+    ],
+  },
+  {
+    category: "MCP",
+    description:
+      "Inspect analytics from your terminal and give AI tools the Kobbe context they need.",
+    features: [
+      {
         title: "CLI",
         description:
           "Inspect sites, traffic, revenue, setup health, and site settings from the terminal.",
@@ -252,12 +267,6 @@ const featureGroups = [
         description:
           "Use the same CLI package in MCP mode so AI tools can inspect Kobbe context.",
         href: "/docs/ai-agents",
-      },
-      {
-        title: "Install guides",
-        description:
-          "Step-by-step setup for Astro, Next.js, React Router, WordPress, Shopify, Webflow, and more.",
-        href: "/docs/installation-guides",
       },
     ],
   },
@@ -271,65 +280,26 @@ const featureGroups = [
 >
   <section>
     <Wrapper variant="default" class="pt-20 pb-12 lg:pt-28">
-      <div class="max-w-3xl text-balance 2xl:max-w-7xl">
+      <div class="max-w-xl text-balance">
         <Text
           tag="h1"
-          variant="displayLG"
-          class="text-foreground font-display font-medium tracking-tight"
+          variant="displaySM"
+          class="text-foreground font-medium tracking-tight"
         >
           Everything you need to understand your website.
         </Text>
-        <Text tag="p" variant="textBase" class="text-muted-foreground mt-3">
+        <Text
+          tag="p"
+          variant="textBase"
+          class="text-muted-foreground mt-24 lg:mt-32"
+        >
           Kobbe combines privacy-friendly analytics, events, funnels, revenue
           attribution, shared dashboards, CLI access, and AI-agent context in
           one focused product.
         </Text>
       </div>
-      <div class="mt-24 space-y-12 lg:space-y-24">
-        {
-          featureGroups.map((group) => (
-            <section
-              aria-labelledby={`features-${group.category.toLowerCase().replaceAll(" ", "-")}`}
-            >
-              <div class="grid gap-4 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,2fr)]">
-                <div class="text-balance">
-                  <Text
-                    id={`features-${group.category.toLowerCase().replaceAll(" ", "-")}`}
-                    tag="h2"
-                    variant="displayXS"
-                    class="text-foreground fontdisplay font-medium tracking-tight"
-                  >
-                    {group.category}
-                  </Text>
-                  <Text
-                    tag="p"
-                    variant="textBase"
-                    class="text-muted-foreground mt-3"
-                  >
-                    {group.description}
-                  </Text>
-                </div>
-                <div class="grid gap-x-8 gap-y-8 sm:grid-cols-2">
-                  {group.features.map((feature) => (
-                    <Card className="rounded-lg p-0 group bg-transparent">
-                      <CardHeader>
-                        <CardTitle className="text-foreground text-lg font-medium">
-                          <a
-                            href={feature.href}
-                            class="outline-none group-hover:underline focus-visible:underline"
-                          >
-                            {feature.title}
-                          </a>
-                        </CardTitle>
-                        <CardDescription>{feature.description}</CardDescription>
-                      </CardHeader>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            </section>
-          ))
-        }
+      <div class="mt-8">
+        <FeatureTabs client:load groups={featureGroups} />
       </div>
     </Wrapper>
   </section>

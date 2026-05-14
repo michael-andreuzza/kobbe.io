@@ -1,55 +1,50 @@
 ---
 import Text from "@/components/foundations/elements/Text.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import DashboardPreview from "@/components/landing/dashboard/dashboard-preview";
-import BrandStripes from "@/components/foundations/brand/BrandStripes.astro";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import HeroDashboardPreview from "@/components/landing/hero-dashboard-preview";
 ---
 
 <section>
   <Wrapper variant="default" class="pt-20 pb-20 lg:pt-28">
-    <div class="mx-auto max-w-3xl text-center text-balance 2xl:max-w-7xl">
+    <div class="max-w-xl text-balance">
       <Text
         tag="h1"
-        variant="displayLG"
-        class="text-foreground font-display font-medium tracking-tight"
+        variant="displaySM"
+        class="text-foreground font-medium tracking-tight"
       >
-        Privacy-friendly and cookieless analytics for your website.
+        Privacy-friendly and cookie-less analytics for your website.
       </Text>
-      <Text tag="p" variant="textBase" class="text-muted-foreground mt-2">
-        See traffic, pages, referrers, locations, devices, funnels, and revenue
-        without cookies, raw IP storage, or invasive tracking. Manage with CLI
-        or AI agents. <br /> — Set up in seconds.
-      </Text>
-      <div class="mx-auto mt-8 flex w-fit flex-wrap gap-2">
-        <a
-          href="/pricing"
-          data-kobbe-event="Hero — start free trial"
-          class={cn(
-            buttonVariants({ variant: "default", size: "lg" }),
-            "bg-brand hover:bg-brand/90 lg:w-fit",
-          )}
+      <div class="mt-24 lg:mt-32">
+        <Text
+          tag="p"
+          variant="textBase"
+          class="text-muted-foreground mt-2 font-medium"
         >
-          Start a free trial
-        </a>
+          See traffic, pages, referrers, locations, devices, funnels, and
+          revenue without cookies, raw IP storage, or invasive tracking. Manage
+          with CLI or AI agents. <br /> — Set up in seconds.
+        </Text>
+
         <a
           href="https://app.kobbe.io/demo/kobbe-studio"
           target="_blank"
           rel="noopener noreferrer"
           data-kobbe-event="Hero — see demo"
-          class={cn(
-            buttonVariants({ variant: "secondary", size: "lg" }),
-            "lg:w-fit",
-          )}
+          class="text-foreground hover:text-muted-foreground mt-8 flex text-sm font-semibold uppercase"
         >
           See the demo
         </a>
       </div>
-      <Text tag="p" variant="textXS" class="text-muted-foreground mt-1">
-        No credit card required. Cancel anytime.
-      </Text>
     </div>
-   <div class="mt-12"> <DashboardPreview client:visible /></div>
+    <div class="mt-8"><HeroDashboardPreview client:load /></div>
+    <ul
+      class="text-foreground flex flex-wrap gap-2 text-sm font-semibold uppercase mt-8 text-center w-fit mx-auto"
+    >
+      <li>1.8KB default tracker gzip</li>
+
+      — <li>0 analytics cookies</li>
+      —
+      <li>0 raw IPs stored</li>
+    </ul>
   </Wrapper>
 </section>

@@ -5,7 +5,11 @@ import { DashboardTabbedBreakdownCard } from "../dashboard-breakdown-card";
 import { EventsSummaryTable } from "../dashboard-list-card";
 import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 
-export function EventsCard({ rows }: { rows: DashboardPreviewRangeData["events"] }) {
+export function EventsCard({
+  rows,
+}: {
+  rows: DashboardPreviewRangeData["events"];
+}) {
   const [activeTab, setActiveTab] = useState(0);
 
   return (

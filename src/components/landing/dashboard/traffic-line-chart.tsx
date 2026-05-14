@@ -77,6 +77,7 @@ export function TrafficLineChart(props: {
   bucket: TrafficStackBucket;
   variant?: "default" | "hero";
   metric?: TrafficChartMetric;
+  spotlightIndex?: number;
   displayTimeZone?: string;
   revenueCurrency?: string | null;
 }) {
@@ -85,6 +86,7 @@ export function TrafficLineChart(props: {
     bucket,
     variant = "default",
     metric = "visitors",
+    spotlightIndex,
     displayTimeZone = "UTC",
     revenueCurrency = null,
   } = props;
@@ -136,19 +138,50 @@ export function TrafficLineChart(props: {
     pinnedIndex != null && pinnedIndex >= 0 && pinnedIndex < data.length
       ? data[pinnedIndex]
       : null;
-  const pinnedMetricValue = pinnedPoint ? pinnedPoint[metricKey] : null;
-  const pinnedMetricNumber =
-    typeof pinnedMetricValue === "number" && Number.isFinite(pinnedMetricValue)
-      ? pinnedMetricValue
+  const spotlightPoint =
+    spotlightIndex != null && spotlightIndex >= 0 && spotlightIndex < data.length
+      ? data[spotlightIndex]
       : null;
-  const pinnedDotValue =
-    pinnedMetricNumber != null ? Math.max(pinnedMetricNumber, trafficYMax * 0.025) : null;
+  const displayPoint = pinnedPoint ?? spotlightPoint;
+  const displayMetricValue = displayPoint ? displayPoint[metricKey] : null;
+  const displayMetricNumber =
+    typeof displayMetricValue === "number" && Number.isFinite(displayMetricValue)
+      ? displayMetricValue
+      : null;
+  const displayDotValue =
+    displayMetricNumber != null ? Math.max(displayMetricNumber, trafficYMax * 0.025) : null;
   const pinnedPayload = pinnedPoint
-    ? [{ dataKey: metricKey, value: pinnedMetricValue, payload: pinnedPoint }]
+    ? [{ dataKey: metricKey, value: pinnedPoint[metricKey], payload: pinnedPoint }]
     : [];
+  const spotlightPayload = spotlightPoint
+    ? [{ dataKey: metricKey, value: spotlightPoint[metricKey], payload: spotlightPoint }]
+    : [];
+  const spotlightCursor =
+    hero && spotlightIndex != null && spotlightPoint && displayDotValue != null
+      ? {
+          x: chartCursorXPercent(spotlightIndex, data.length),
+          y: chartCursorYPercent(displayDotValue, trafficYMax),
+        }
+      : null;
 
   return (
     <div ref={chartRootRef} className="relative w-full min-w-0 text-primary">
+      <style>{`
+        @keyframes kobbeHeroCursorClick {
+          0%, 56%, 100% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.45);
+          }
+          68% {
+            opacity: 0.42;
+            transform: translate(-50%, -50%) scale(1);
+          }
+          84% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(1.55);
+          }
+        }
+      `}</style>
       <ChartContainer
         config={chartConfig}
         className={
@@ -257,20 +290,22 @@ export function TrafficLineChart(props: {
               strokeWidth: 1,
             }}
           />
-          {pinnedPoint ? (
+          {displayPoint ? (
             <ReferenceLine
+              key={`spotlight-line-${metricKey}-${displayPoint.label}`}
               yAxisId="traffic"
-              x={pinnedPoint.label}
+              x={displayPoint.label}
               stroke="var(--border)"
               strokeWidth={1}
               strokeOpacity={0.9}
             />
           ) : null}
-          {pinnedPoint && pinnedDotValue != null ? (
+          {displayPoint && displayDotValue != null ? (
             <ReferenceDot
+              key={`spotlight-dot-${metricKey}-${displayPoint.label}`}
               yAxisId="traffic"
-              x={pinnedPoint.label}
-              y={pinnedDotValue}
+              x={displayPoint.label}
+              y={displayDotValue}
               r={4}
               fill="var(--background)"
               stroke={metricColor}
@@ -279,6 +314,54 @@ export function TrafficLineChart(props: {
           ) : null}
         </ComposedChart>
       </ChartContainer>
+      {spotlightCursor && !pinnedTooltip ? (
+        <div
+          className="pointer-events-none absolute z-10 transition-[top,left] duration-700 ease-out"
+          style={{
+            left: `${spotlightCursor.x}%`,
+            top: `${spotlightCursor.y}%`,
+          }}
+          aria-hidden="true"
+        >
+          <span
+            key={`spotlight-click-${metricKey}-${spotlightIndex}`}
+            className="absolute size-8 rounded-full border border-foreground/40"
+            style={{ animation: "kobbeHeroCursorClick 1.2s ease-out both" }}
+          />
+          <span className="relative block h-5 w-4 -translate-x-1 -translate-y-1 rotate-[-18deg] text-foreground drop-shadow-sm">
+            <svg
+              viewBox="0 0 18 22"
+              fill="none"
+              className="h-full w-full"
+              aria-hidden="true"
+            >
+              <path
+                d="M3 2.5L15 13.5L9.4 14.1L6.5 19.2L3 2.5Z"
+                fill="var(--background)"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+        </div>
+      ) : null}
+      {spotlightCursor && spotlightPoint && !pinnedTooltip ? (
+        <div
+          className="pointer-events-none absolute z-20 transition-[top,left] duration-700 ease-out"
+          style={spotlightTooltipStyle(spotlightCursor)}
+          aria-hidden="true"
+        >
+          <TrafficChartTooltip
+            active
+            payload={spotlightPayload}
+            bucket={bucket}
+            displayTimeZone={displayTimeZone}
+            metric={metric}
+            revenueCurrency={revenueCurrency}
+          />
+        </div>
+      ) : null}
       {pinnedPoint && pinnedTooltip ? (
         <div
           className="pointer-events-none absolute z-10"
@@ -372,6 +455,19 @@ function pinnedTooltipStyle(pinned: PinnedTooltipState): CSSProperties {
   };
 }
 
+function spotlightTooltipStyle(cursor: { x: number; y: number }): CSSProperties {
+  const alignRight = cursor.x > 72;
+  const placeBelow = cursor.y < 28;
+
+  return {
+    left: `${cursor.x}%`,
+    top: placeBelow ? `${cursor.y + 8}%` : `${cursor.y - 6}%`,
+    transform: `translate(${alignRight ? "-100%" : "12px"}, ${
+      placeBelow ? "0" : "-100%"
+    })`,
+  };
+}
+
 function metricToDataKey(metric: TrafficChartMetric) {
   if (metric === "visitors") return "visitors";
   if (metric === "visits") return "visits";
@@ -410,6 +506,23 @@ function trafficChartMaxBarSize({
     return hero ? 30 : 24;
   }
   return hero ? 22 : 18;
+}
+
+function chartCursorXPercent(index: number, pointCount: number) {
+  if (pointCount <= 1) {
+    return 52;
+  }
+
+  const plotStart = 14;
+  const plotEnd = 92;
+  return plotStart + (index / (pointCount - 1)) * (plotEnd - plotStart);
+}
+
+function chartCursorYPercent(value: number, maxValue: number) {
+  const ratio = maxValue > 0 ? Math.min(Math.max(value / maxValue, 0), 1) : 0;
+  const plotTop = 20;
+  const plotBottom = 72;
+  return plotBottom - ratio * (plotBottom - plotTop);
 }
 
 function useCompactChartBarRadius() {

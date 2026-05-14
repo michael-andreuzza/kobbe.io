@@ -59,88 +59,52 @@ const footerLinkGroups: FooterLinkGroup[] = [
 ];
 ---
 
-<footer class="">
-  <Wrapper variant="default" class="mt-20 pb-8">
-    <BrandStripes
-      stripeClass="h-8 lg:h-12 "
-      class="overflow-hidden rounded-xl"
-    />
-    <div
-      class="bg-background shadow  relative z-10 mx-4 -mt-28 grid grid-cols-1 gap-y-4 rounded-xl p-8 lg:mx-12 lg:-mt-42 lg:grid-cols-3 lg:items-end lg:p-12"
-    >
-      <div class="text-balance lg:col-span-2">
-        <Text
-          tag="h2"
-          variant="displayLG"
-          class="text-foreground font-display font-medium tracking-tight"
-        >
-          Set up in 5 minutes.
-          <span class="block"
-            >Back to marketing by <span data-setup-time>soon</span>.</span
-          >
-        </Text>
-        <Text
-          tag="p"
-          variant="textBase"
-          class="text-muted-foreground mt-4 text-balance"
-        >
-          Privacy-friendly analytics for teams that want clear numbers without
-          extra tracking work.
-        </Text>
-      </div>
-      <div class="mt-8 flex w-fit flex-wrap gap-2 lg:ml-auto lg:justify-end">
-        <a
-          href="/pricing"
-          data-kobbe-event="Footer CTA — start free trial"
-          class={cn(
-            buttonVariants({ variant: "default", size: "lg" }),
-            "bg-brand hover:bg-brand/90 lg:w-fit",
-          )}
-        >
-          Start a free trial
-        </a>
-        <a
-          href="https://app.kobbe.io/demo/kobbe-studio"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-kobbe-event="Footer CTA — see demo"
-          class={cn(
-            buttonVariants({ variant: "secondary", size: "lg" }),
-            "lg:w-fit",
-          )}
-        >
-          See the demo
-        </a>
-      </div>
+<footer class="overflow-hidden">
+  <Wrapper variant="default" class="pt-32 pb-12">
+    <div class="max-w-xl text-balance">
+      <Text
+        tag="h2"
+        variant="textBase"
+        class="text-foreground font-semibold tracking-tight text-balance uppercase"
+      >
+        Set up in 5 minutes. Back to marketing by <span data-setup-time
+          >soon</span
+        >.
+      </Text>
+      <Text
+        tag="p"
+        variant="textBase"
+        class="text-muted-foreground font-medium text-balance"
+      >
+        Privacy-friendly analytics for teams that want clear numbers without
+        extra tracking work.
+      </Text>
     </div>
-  </Wrapper>
-  <Wrapper class="pb-12">
-    <div
-      class="border-border/60 grid gap-8 border-t pt-8 lg:grid-cols-4 lg:items-start"
-    >
-      <div class="space-y-3 lg:col-span-2">
-        <a
-          href="/"
-          aria-label="Homepage"
-          class="text-foreground flex min-w-0 items-center gap-2 font-medium tracking-tight"
-        >
-          <Logo class="h-6 rounded" />
-          Kobbe
-        </a>
-        <Text
-          tag="p"
-          variant="textXS"
-          class="text-muted-foreground text-balance"
-        >
-          Privacy-friendly, cookie-free website analytics for teams that want
-          useful data without invasive tracking.
-        </Text>
-        <p class="text-muted-foreground text-xs">
-          &copy; {new Date().getFullYear()} Kobbe. All rights reserved.
-        </p>
-      </div>
+    <div class="mt-8 flex w-fit flex-wrap justify-center gap-8">
+      <a
+        href="/pricing"
+        data-kobbe-event="Footer CTA — start free trial"
+        class="text-foreground hover:text-muted-foreground text-sm font-semibold uppercase"
+      >
+        Start a free trial
+      </a>
+      <a
+        href="https://app.kobbe.io/demo/kobbe-studio"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-kobbe-event="Footer CTA — see demo"
+        class="text-foreground hover:text-muted-foreground text-sm font-semibold uppercase"
+      >
+        See the demo
+      </a>
+    </div>
+
+    <div class="border-border/60 mt-8 border-t pt-8">
+      <p class="text-foreground uppercase font-semibold text-sm">
+        &copy; {new Date().getFullYear()} Kobbe. All rights reserved.
+      </p>
       <nav
-        class="grid grid-cols-1 gap-8 text-sm sm:grid-cols-4 lg:col-span-2 lg:col-start-3"
+        class="mt-8 grid max-w-xl grid-cols-2 gap-8 text-sm md:grid-cols-4 lg:col-start-3"
       >
         {
           footerLinkGroups.map((group) => (
@@ -148,7 +112,7 @@ const footerLinkGroups: FooterLinkGroup[] = [
               <Text
                 tag="p"
                 variant="textSM"
-                class="text-foreground font-medium"
+                class="text-foreground font-semibold uppercase"
               >
                 {group.title}
               </Text>
@@ -171,6 +135,16 @@ const footerLinkGroups: FooterLinkGroup[] = [
         }
       </nav>
     </div>
+    <svg
+      class="mt-24 -mb-12 lg:mt-32 lg:-mb-32"
+      viewBox="0 0 32 9"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0 8.73047V0H1.54688V4.21289C1.77344 3.94727 2 3.68359 2.22656 3.42188C2.45703 3.16016 2.68555 2.89648 2.91211 2.63086L5.23242 0H7.14258L3.78516 3.7793L7.20117 8.73047H5.39648L2.74219 4.82227L1.54688 6.17578V8.73047H0ZM9.64219 8.87109C9.03281 8.87109 8.49961 8.73633 8.04258 8.4668C7.58555 8.19336 7.22813 7.81445 6.97031 7.33008C6.71641 6.8457 6.58945 6.2832 6.58945 5.64258C6.58945 5.00195 6.71641 4.43945 6.97031 3.95508C7.22813 3.4668 7.58555 3.08594 8.04258 2.8125C8.49961 2.53906 9.03281 2.40234 9.64219 2.40234C10.2477 2.40234 10.7789 2.53906 11.2359 2.8125C11.6969 3.08594 12.0543 3.4668 12.3082 3.95508C12.566 4.43945 12.6949 5.00195 12.6949 5.64258C12.6949 6.2832 12.566 6.8457 12.3082 7.33008C12.0543 7.81445 11.6969 8.19336 11.2359 8.4668C10.7789 8.73633 10.2477 8.87109 9.64219 8.87109ZM9.64219 7.63477C10.1148 7.63477 10.4918 7.45703 10.773 7.10156C11.0543 6.74609 11.1949 6.25977 11.1949 5.64258C11.1949 5.02539 11.0543 4.53711 10.773 4.17773C10.4918 3.81836 10.1148 3.63867 9.64219 3.63867C9.16563 3.63867 8.78672 3.81836 8.50547 4.17773C8.22422 4.5332 8.08359 5.02148 8.08359 5.64258C8.08359 6.25977 8.22422 6.74609 8.50547 7.10156C8.78672 7.45703 9.16563 7.63477 9.64219 7.63477ZM16.4602 8.85352C16.0539 8.85352 15.6867 8.76562 15.3586 8.58984C15.0344 8.41406 14.7766 8.14648 14.5852 7.78711H14.5734V8.73047H13.1203V0H14.5969V3.42188H14.6086C14.8078 3.08203 15.0676 2.83008 15.3879 2.66602C15.7082 2.50195 16.0676 2.41992 16.466 2.41992C16.9973 2.41992 17.4621 2.55664 17.8605 2.83008C18.2629 3.09961 18.5754 3.47656 18.798 3.96094C19.0246 4.44141 19.1379 4.99805 19.1379 5.63086C19.1379 6.27539 19.0266 6.83984 18.8039 7.32422C18.5852 7.80469 18.2746 8.17969 17.8723 8.44922C17.4699 8.71875 16.9992 8.85352 16.4602 8.85352ZM16.1145 7.61719C16.5715 7.61719 16.9406 7.44727 17.2219 7.10742C17.5031 6.76367 17.6438 6.27148 17.6438 5.63086C17.6438 4.99414 17.5031 4.50391 17.2219 4.16016C16.9406 3.81641 16.5715 3.64453 16.1145 3.64453C15.6301 3.64453 15.2414 3.82617 14.9484 4.18945C14.6594 4.54883 14.5148 5.0293 14.5148 5.63086C14.5148 6.23242 14.6594 6.71484 14.9484 7.07812C15.2414 7.4375 15.6301 7.61719 16.1145 7.61719ZM22.9031 8.85352C22.4969 8.85352 22.1297 8.76562 21.8016 8.58984C21.4773 8.41406 21.2195 8.14648 21.0281 7.78711H21.0164V8.73047H19.5633V0H21.0398V3.42188H21.0516C21.2508 3.08203 21.5105 2.83008 21.8309 2.66602C22.1512 2.50195 22.5105 2.41992 22.909 2.41992C23.4402 2.41992 23.9051 2.55664 24.3035 2.83008C24.7059 3.09961 25.0184 3.47656 25.241 3.96094C25.4676 4.44141 25.5809 4.99805 25.5809 5.63086C25.5809 6.27539 25.4695 6.83984 25.2469 7.32422C25.0281 7.80469 24.7176 8.17969 24.3152 8.44922C23.9129 8.71875 23.4422 8.85352 22.9031 8.85352ZM22.5574 7.61719C23.0145 7.61719 23.3836 7.44727 23.6648 7.10742C23.9461 6.76367 24.0867 6.27148 24.0867 5.63086C24.0867 4.99414 23.9461 4.50391 23.6648 4.16016C23.3836 3.81641 23.0145 3.64453 22.5574 3.64453C22.073 3.64453 21.6844 3.82617 21.3914 4.18945C21.1023 4.54883 20.9578 5.0293 20.9578 5.63086C20.9578 6.23242 21.1023 6.71484 21.3914 7.07812C21.6844 7.4375 22.073 7.61719 22.5574 7.61719ZM28.7367 8.87109C28.1195 8.87109 27.5844 8.73242 27.1313 8.45508C26.6781 8.17773 26.3285 7.79688 26.0824 7.3125C25.8402 6.82422 25.7191 6.26758 25.7191 5.64258C25.7191 5.01367 25.8441 4.45703 26.0941 3.97266C26.348 3.48438 26.6977 3.10156 27.143 2.82422C27.5883 2.54297 28.1 2.40234 28.6781 2.40234C29.2719 2.40234 29.7914 2.53906 30.2367 2.8125C30.682 3.08594 31.0277 3.46484 31.2738 3.94922C31.5199 4.42969 31.643 4.98633 31.643 5.61914V6.02344H27.1664C27.1859 6.52734 27.3344 6.93359 27.6117 7.24219C27.8891 7.55078 28.2758 7.70508 28.7719 7.70508C29.143 7.70508 29.4496 7.625 29.6918 7.46484C29.934 7.30078 30.098 7.08594 30.184 6.82031H31.5668C31.4887 7.22266 31.3168 7.57812 31.0512 7.88672C30.7895 8.19531 30.4594 8.4375 30.0609 8.61328C29.6625 8.78516 29.2211 8.87109 28.7367 8.87109ZM27.1781 5.00391H30.225C30.1781 4.5625 30.018 4.21484 29.7445 3.96094C29.475 3.70312 29.1273 3.57422 28.7016 3.57422C28.2719 3.57422 27.9223 3.70312 27.6527 3.96094C27.3871 4.21484 27.2289 4.5625 27.1781 5.00391Z"
+        fill="#353535"></path>
+    </svg>
   </Wrapper>
   <script is:inline>
     const setupTimes = document.querySelectorAll("[data-setup-time]");

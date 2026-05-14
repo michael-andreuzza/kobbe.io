@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { motion, useReducedMotion } from "motion/react";
 
 import {
   Card,
@@ -27,7 +28,7 @@ type CapabilityCardProps = {
 
 export function DashboardCapabilityGrid() {
   return (
-    <div className="relative mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
+    <div className="relative  grid gap-4 md:grid-cols-2 mt-8 lg:grid-cols-2 gap-y-24">
       <style>{`
         @keyframes kobbeCapabilityBarRise {
           from {
@@ -63,48 +64,48 @@ export function DashboardCapabilityGrid() {
       `}</style>
       <CapabilityCard
         title="Traffic overview"
-        description="Visitors, visits, views, engagement, and live trends in one quick scan."
-        mockupClassName="w-[30rem]"
+        description="Understand traffic quality at a glance with visitors, visits, page views, engagement, and recent movement in one compact view."
+        mockupClassName="w-[calc(100%-0.5rem)]"
       >
         <TrafficOverviewPreview />
       </CapabilityCard>
 
       <CapabilityCard
         title="Pages and paths"
-        description="Top pages, entries, and exits show what attracts and retains visitors."
-        mockupClassName="w-[30rem]"
+        description="See which pages bring people in, where they continue browsing, and which paths lead visitors to drop off."
+        mockupClassName="w-[calc(100%-0.5rem)]"
       >
         <PagesCard pages={data.pages} />
       </CapabilityCard>
 
       <CapabilityCard
         title="Sources and AI traffic"
-        description="Referrers, channels, hostnames, and AI tools grouped together."
-        mockupClassName="w-[30rem]"
+        description="Break down referrers, channels, hostnames, and AI tools so you can tell where meaningful traffic is coming from."
+        mockupClassName="w-[calc(100%-0.5rem)]"
       >
         <SourcesCard sources={data.sources} />
       </CapabilityCard>
 
       <CapabilityCard
         title="Audience context"
-        description="Countries, cities, browsers, operating systems, and devices."
-        mockupClassName="w-[30rem]"
+        description="Learn where your audience is, what devices they use, and how browser or operating system trends affect their experience."
+        mockupClassName="w-[calc(100%-0.5rem)]"
       >
         <LocationsCard locations={data.locations} />
       </CapabilityCard>
 
       <CapabilityCard
         title="Events and funnels"
-        description="Track sign-ups, clicks, checkout starts, and conversion steps."
-        mockupClassName="w-[30rem]"
+        description="Measure the actions that matter, from sign-ups and CTA clicks to checkout starts and funnel conversion steps."
+        mockupClassName="w-[calc(100%-0.5rem)]"
       >
         <EventsCard rows={data.events} />
       </CapabilityCard>
 
       <CapabilityCard
         title="Search insights"
-        description="Bring Search Console queries into the same place as traffic data."
-        mockupClassName="w-[30rem]"
+        description="Connect Search Console queries with traffic behavior to understand which searches bring qualified visitors."
+        mockupClassName="w-[calc(100%-0.5rem)]"
       >
         <SearchKeywordsCard rows={data.searchKeywords} />
       </CapabilityCard>
@@ -115,7 +116,7 @@ export function DashboardCapabilityGrid() {
 function TrafficOverviewPreview() {
   return (
     <div className="grid gap-4">
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-3 pr-2">
         <TrafficMetric label="Visitors" value={data.kpi.visitors.display} />
         <TrafficMetric label="Views" value={data.kpi.views.display} />
         <TrafficMetric label="Bounce" value={data.kpi.bounceRate.display} />
@@ -139,7 +140,7 @@ function TrafficOverviewPreview() {
 
 function TrafficMetric(props: { label: string; value: string }) {
   return (
-    <div className="bg-surface rounded-lg p-3">
+    <div className="bg-muted  p-3 rounded-md">
       <p className="text-muted-foreground truncate text-xs font-medium">
         {props.label}
       </p>
@@ -152,16 +153,16 @@ function TrafficMetric(props: { label: string; value: string }) {
 
 function CapabilityCard(props: CapabilityCardProps) {
   return (
-    <Card className="group bg-surface min-w-0 gap-0 overflow-hidden p-0">
-      <CardHeader className="px-4 pt-4 sm:px-5 sm:pt-5">
-        <CardTitle className="text-foreground text-base font-medium tracking-tight">
+    <Card className="group bg-card min-w-0 gap-0 overflow-hidden p-0 ">
+      <CardHeader className="px-0 pt-4 sm:pt-5">
+        <CardTitle className="text-foreground text-base font-semibold tracking-tight uppercase">
           {props.title}
         </CardTitle>
-        <CardDescription className="text-muted-foreground mt-1 text-sm leading-6">
+        <CardDescription className="text-muted-foreground mt-1 text-base leading-6 text-balance">
           {props.description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="min-w-0 pt-5 pr-0 pb-0 pl-4 sm:pl-5">
+      <CardContent className="min-w-0 p-8 lg:p-20 bg-muted mt-8">
         <PreviewFrame mockupClassName={props.mockupClassName}>
           {props.children}
         </PreviewFrame>
@@ -174,16 +175,41 @@ function PreviewFrame(props: {
   children: ReactNode;
   mockupClassName?: string;
 }) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <div className="bg-card relative h-72 overflow-hidden rounded-tl-xl  shadow">
-      <div
+    <div className="bg-card relative h-72 overflow-hidden w-full ">
+      <motion.div
         className={cn(
           "kobbe-capability-mockup pointer-events-none absolute top-2 left-2 origin-top-left **:data-dashboard-metric-tile:bg-transparent **:data-[slot=card]:bg-transparent",
           props.mockupClassName,
         )}
+        initial={
+          shouldReduceMotion
+            ? false
+            : {
+                opacity: 0,
+                y: 10,
+                scale: 0.96,
+                filter: "blur(6px)",
+              }
+        }
+        whileInView={{
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: "blur(0px)",
+        }}
+        viewport={{ once: true, amount: 0.45 }}
+        transition={{
+          type: "spring",
+          visualDuration: 0.8,
+          bounce: 0.12,
+          delay: 0.12,
+        }}
       >
         {props.children}
-      </div>
+      </motion.div>
     </div>
   );
 }
