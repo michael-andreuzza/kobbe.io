@@ -106,7 +106,7 @@ function formatCurrency(amount: number) {
   return new Intl.NumberFormat("en-US").format(amount);
 }
 function checkoutPickerHref(period: "monthly" | "yearly") {
-  const returnTo = `/checkout?tier=events_100k&period=${period}`;
+  const returnTo = `/checkout?period=${period}`;
   return `${appBaseUrl}/signup?returnTo=${encodeURIComponent(returnTo)}`;
 }
 ---
