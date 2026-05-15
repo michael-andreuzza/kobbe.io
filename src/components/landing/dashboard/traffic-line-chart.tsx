@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import {
-  Bar,
+  Area,
   CartesianGrid,
   ComposedChart,
   ReferenceDot,
@@ -32,27 +32,27 @@ export type StackedChartPoint = {
 const chartConfig = {
   visitors: {
     label: "Visitors",
-    color: "var(--chart-1)",
+    color: "var(--foreground)",
   },
   visits: {
     label: "Visits",
-    color: "var(--chart-2)",
+    color: "var(--foreground)",
   },
   pageviews: {
     label: "Views",
-    color: "var(--chart-3)",
+    color: "var(--foreground)",
   },
   bounceRate: {
     label: "Bounce rate",
-    color: "var(--chart-4)",
+    color: "var(--foreground)",
   },
   sessionTime: {
     label: "Session time",
-    color: "var(--chart-5)",
+    color: "var(--foreground)",
   },
   revenue: {
     label: "Revenue",
-    color: "var(--chart-6)",
+    color: "var(--foreground)",
   },
 } satisfies ChartConfig;
 
@@ -92,10 +92,11 @@ export function TrafficLineChart(props: {
   } = props;
   const hero = variant === "hero";
   const chartRootRef = useRef<HTMLDivElement>(null);
+  const rawPatternId = useId();
+  const stripePatternId = `traffic-chart-stripes-${rawPatternId.replace(/:/g, "")}`;
   const [pinnedTooltip, setPinnedTooltip] = useState<PinnedTooltipState | null>(
     null,
   );
-  const compactBarRadius = useCompactChartBarRadius();
   const prefersReducedMotion = usePrefersReducedMotion();
 
   if (points.length === 0) {
@@ -133,11 +134,6 @@ export function TrafficLineChart(props: {
         : chartCountAxisUpperBound(maxMetric);
   const yAxisWidth =
     metric === "revenue" ? 60 : metric === "sessionTime" ? 44 : 40;
-  const maxBarSize = trafficChartMaxBarSize({
-    bucket,
-    pointCount: data.length,
-    hero,
-  });
   const pinnedIndex = pinnedTooltip?.index ?? null;
   const pinnedPoint =
     pinnedIndex != null && pinnedIndex >= 0 && pinnedIndex < data.length
@@ -263,6 +259,25 @@ export function TrafficLineChart(props: {
                 }
           }
         >
+          <defs>
+            <pattern
+              id={stripePatternId}
+              width="5"
+              height="5"
+              patternUnits="userSpaceOnUse"
+              patternTransform="rotate(45)"
+            >
+              <line
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="5"
+                stroke={metricColor}
+                strokeOpacity={0.24}
+                strokeWidth={1.15}
+              />
+            </pattern>
+          </defs>
           <CartesianGrid
             yAxisId="traffic"
             strokeDasharray="4 4"
@@ -304,43 +319,35 @@ export function TrafficLineChart(props: {
               />
             }
             cursor={{
-              stroke: "var(--border)",
+              stroke: metricColor,
               strokeWidth: 1,
-              strokeOpacity: 0.9,
+              strokeOpacity: 0.55,
             }}
           />
-          <Bar
+          <Area
             key={metricKey}
             yAxisId="traffic"
+            type="monotone"
             dataKey={metricKey}
-            fill={metricColor}
+            stroke={metricColor}
+            strokeWidth={2}
+            fill={`url(#${stripePatternId})`}
             fillOpacity={1}
-            radius={[
-              compactBarRadius,
-              compactBarRadius,
-              compactBarRadius,
-              compactBarRadius,
-            ]}
-            maxBarSize={maxBarSize}
+            dot={false}
+            activeDot={false}
+            connectNulls={false}
             isAnimationActive={!prefersReducedMotion}
             animationDuration={260}
             animationEasing="ease-out"
-            label={false}
-            activeBar={{
-              fill: metricColor,
-              fillOpacity: 1,
-              stroke: metricColor,
-              strokeWidth: 1,
-            }}
           />
           {displayPoint ? (
             <ReferenceLine
               key={`spotlight-line-${metricKey}-${displayPoint.label}`}
               yAxisId="traffic"
               x={displayPoint.label}
-              stroke="var(--border)"
+              stroke={metricColor}
               strokeWidth={1}
-              strokeOpacity={0.9}
+              strokeOpacity={0.55}
             />
           ) : null}
           {displayPoint && displayDotValue != null ? (
@@ -530,30 +537,6 @@ function getMetricLabel(key: string) {
   return null;
 }
 
-function trafficChartMaxBarSize({
-  bucket,
-  pointCount,
-  hero,
-}: {
-  bucket: TrafficStackBucket;
-  pointCount: number;
-  hero: boolean;
-}) {
-  if (bucket === "hour") {
-    return hero ? 18 : 14;
-  }
-  if (pointCount <= 8) {
-    return hero ? 56 : 44;
-  }
-  if (pointCount <= 14) {
-    return hero ? 44 : 34;
-  }
-  if (pointCount <= 31) {
-    return hero ? 30 : 24;
-  }
-  return hero ? 22 : 18;
-}
-
 function chartCursorXPercent(index: number, pointCount: number) {
   if (pointCount <= 1) {
     return 52;
@@ -569,20 +552,6 @@ function chartCursorYPercent(value: number, maxValue: number) {
   const plotTop = 20;
   const plotBottom = 72;
   return plotBottom - ratio * (plotBottom - plotTop);
-}
-
-function useCompactChartBarRadius() {
-  const [isCompact, setIsCompact] = useState(false);
-
-  useEffect(() => {
-    const query = window.matchMedia("(max-width: 640px)");
-    const update = () => setIsCompact(query.matches);
-    update();
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
-  }, []);
-
-  return isCompact ? 1 : 3;
 }
 
 function usePrefersReducedMotion() {

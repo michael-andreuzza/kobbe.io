@@ -1,4 +1,4 @@
-export const dashboardCardRootClass = "gap-0 rounded-lg py-0";
+export const dashboardCardRootClass = "gap-0 rounded bg-background py-0";
 export const dashboardCardHeaderClass =
   "px-4 pt-3.5 pb-3 sm:px-5 sm:pt-4 sm:pb-3.5";
 export const dashboardTabbedCardHeaderClass =

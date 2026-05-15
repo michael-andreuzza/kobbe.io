@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 type HugeIcon = typeof SecurityWarningIcon;
 
 const notificationCardVariants = cva(
-  "not-prose flex gap-3 rounded-lg p-4 text-sm leading-6",
+  "not-prose flex gap-3 rounded p-4 text-sm leading-6",
   {
     variants: {
       state: {

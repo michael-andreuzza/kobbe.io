@@ -22,10 +22,12 @@ export function DashboardTrafficChart(props: Props) {
   return (
     <section className="mt-4 sm:mt-5">
       <Card className={cn(dashboardCardRootClass, props.className)}>
-        <CardContent className="min-w-0 p-0 pt-4">
+        <CardContent className="min-w-0 p-0">
           {props.children ? (
-            <div className="text-foreground pb-1 pl-6 text-sm font-semibold">
-              {props.children}
+            <div className="px-4 pt-3.5 pb-1 sm:px-5 sm:pt-4">
+              <h3 className="text-sm leading-snug font-semibold text-foreground sm:text-base">
+                {props.children} over time
+              </h3>
             </div>
           ) : null}
           <TrafficLineChart

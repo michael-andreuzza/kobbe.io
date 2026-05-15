@@ -32,12 +32,24 @@ type DashboardMetricTileProps = {
   activeColor?: string;
   className?: string;
   onClick?: () => void;
+  surface?: "card" | "muted";
 };
 
-const metricTileClass =
-  "relative min-w-0 rounded-md bg-card p-3 text-left text-foreground transition-[background-color,box-shadow,color,transform] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none";
+const metricTileBaseClass =
+  "relative min-w-0 p-3 text-left text-foreground transition-[background-color,box-shadow,color,transform] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none";
+
+const metricTileCardClass = cn(metricTileBaseClass, "rounded-md border bg-card");
+
+const metricTileMutedClass = cn(
+  metricTileBaseClass,
+  "rounded bg-background ring ring-border ring-inset",
+);
+
+const metricTileInteractiveMutedClass = "cursor-pointer hover:bg-muted hover:ring-0";
 
 export function DashboardMetricTile(props: DashboardMetricTileProps) {
+  const surface = props.surface ?? "card";
+  const isInteractive = Boolean(props.onClick);
   const activeStyle =
     props.active && props.activeColor
       ? ({
@@ -45,9 +57,9 @@ export function DashboardMetricTile(props: DashboardMetricTileProps) {
         } as CSSProperties)
       : undefined;
   const className = cn(
-    metricTileClass,
-    props.active &&
-      "bg-[color-mix(in_oklch,var(--metric-active-color,var(--foreground))_15%,transparent)] text-foreground dark:bg-[color-mix(in_oklch,var(--metric-active-color,var(--foreground))_30%,transparent)]",
+    surface === "muted" ? metricTileMutedClass : metricTileCardClass,
+    surface === "muted" && isInteractive && metricTileInteractiveMutedClass,
+    props.active && "bg-muted text-foreground ring-0 invert",
     props.className,
   );
 

@@ -27,7 +27,9 @@ function KpiStripGrid(props: {
   items: KpiTile[];
   ariaLabel: string;
   lgCols: 4 | 5 | 6;
+  tileSurface?: "card" | "muted";
 }) {
+  const tileSurface = props.tileSurface ?? "card";
   return (
     <DashboardMetricStrip ariaLabel={props.ariaLabel} lgCols={props.lgCols}>
       {props.items.map((item) => {
@@ -38,6 +40,7 @@ function KpiStripGrid(props: {
             active={active}
             activeColor={tile.activeColor}
             onClick={onClick}
+            surface={tileSurface}
           >
             <KpiTileBody {...tile} active={active} />
           </DashboardMetricTile>
@@ -66,7 +69,7 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
         >
           {kpi.label}
         </span>
-        {kpi.rightHint != null ? (
+        {kpi.rightHint != null && kpi.rightHint !== "—" ? (
           <span className="relative inline-flex shrink-0 text-xs leading-tight font-medium">
             <span
               className={cn("tabular-nums transition-opacity duration-150", toneClass)}
@@ -92,12 +95,12 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
 }
 
 const chartMetricActiveColor = {
-  visitors: "var(--chart-1)",
-  visits: "var(--chart-2)",
-  views: "var(--chart-3)",
-  bounceRate: "var(--chart-4)",
-  sessionTime: "var(--chart-5)",
-  revenue: "var(--chart-6)",
+  visitors: "var(--foreground)",
+  visits: "var(--foreground)",
+  views: "var(--foreground)",
+  bounceRate: "var(--foreground)",
+  sessionTime: "var(--foreground)",
+  revenue: "var(--foreground)",
 } satisfies Record<TrafficChartMetric, string>;
 
 export function DashboardKpiStrip(props: {
@@ -194,6 +197,7 @@ export function DashboardKpiStrip(props: {
       items={items}
       ariaLabel="Key metrics"
       lgCols={props.revenue ? 6 : 5}
+      tileSurface="muted"
     />
   );
 }
