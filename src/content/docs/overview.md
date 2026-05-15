@@ -12,11 +12,11 @@ Kobbe is a privacy-friendly analytics dashboard for understanding your website t
 
 ### Traffic overview
 
-Kobbe shows visitors, visits, views, top pages, referrers, channels, locations, and devices so you can understand where traffic comes from and what people view.
+Kobbe shows visitors, visits, views, top pages, referrers, channels, locations, devices, and opt-in UTM campaigns so you can understand where traffic comes from and what people view.
 
 ### Events and conversions
 
-Track custom events for clicks, signups, purchases, downloads, and important sections. Funnels help you measure drop-off across page paths and events.
+Track custom events for clicks, signups, purchases, downloads, and important sections. Funnels help you measure drop-off across page paths and events, and [UTM campaigns](/docs/utm-campaigns) can connect marketing links to conversions.
 
 ### Connected insights
 

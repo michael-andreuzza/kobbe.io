@@ -8,9 +8,9 @@ navLabel: Script
 
 Use `data-*` attributes on the `<script>` tag to configure the tracker.
 
-The default `tracker.js` is lightweight and covers pageviews, custom events, custom endpoints, hash routes, and debug logging. Advanced features such as cross-domain tracking, revenue attribution, performance collection, and scroll tracking use `tracker.full.js`.
+The default `tracker.js` is lightweight and covers pageviews, custom events, custom endpoints, hash routes, UTM campaign capture, and debug logging. Advanced features such as cross-domain tracking, revenue attribution, performance collection, and scroll tracking use `tracker.full.js`.
 
-**See also:** [Custom events](/docs/custom-events) · [Scroll tracking](/docs/scroll-tracking) · [Hash page paths](/docs/hash-page-paths) · [Subdomains](/docs/track-subdomains) · [Cross-domain tracking](/docs/cross-domain-tracking) · [Revenue attribution](/docs/revenue-attribution) · [Performance and Web Vitals](/docs/performance-web-vitals) · [Exclude visits](/docs/exclude-visits)
+**See also:** [Custom events](/docs/custom-events) · [Scroll tracking](/docs/scroll-tracking) · [Hash page paths](/docs/hash-page-paths) · [UTM campaigns](/docs/utm-campaigns) · [Subdomains](/docs/track-subdomains) · [Cross-domain tracking](/docs/cross-domain-tracking) · [Revenue attribution](/docs/revenue-attribution) · [Performance and Web Vitals](/docs/performance-web-vitals) · [Exclude visits](/docs/exclude-visits)
 
 ## Required
 
@@ -48,6 +48,14 @@ Set to `true` to include `location.hash` in page paths. Use only when hashes rep
 
 ```html
 data-track-hash="true"
+```
+
+### UTM campaigns
+
+Set to `true` to capture only allowlisted UTM fields (`utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`). Query strings are still stripped from stored paths. See [UTM campaigns](/docs/utm-campaigns).
+
+```html
+data-campaigns="true"
 ```
 
 ### Cross-domain hostnames
@@ -148,6 +156,7 @@ There is no separate “localhost toggle”: if your dev site loads the snippet 
 
 - The script sends a pageview when the page loads (and on `hashchange` when [`data-track-hash`](/docs/hash-page-paths) is enabled).
 - The current path is sent **without query strings**. Hash fragments are omitted by default and included only with `data-track-hash="true"`.
+- Campaign tracking is off by default; when `data-campaigns="true"` is enabled, only known UTM fields are extracted from the query string.
 - Scroll tracking is off by default and requires `tracker.full.js`; marked elements send one custom event when they become visible (see [Scroll tracking](/docs/scroll-tracking)).
 - Cross-domain tracking is off by default and requires `tracker.full.js`; when enabled, allowlisted links receive a short handoff parameter that is cleaned from the destination URL and kept in sessionStorage for the current tab (see [Cross-domain tracking](/docs/cross-domain-tracking)).
 - Performance collection is off by default and requires `tracker.full.js`; when enabled, Web Vitals samples are stored separately from custom events and one accepted performance payload counts toward usage (see [Performance and Web Vitals](/docs/performance-web-vitals)).

@@ -28,7 +28,7 @@ type CapabilityCardProps = {
 
 export function DashboardCapabilityGrid() {
   return (
-    <div className="relative  grid gap-4 md:grid-cols-2 mt-8 lg:grid-cols-2 gap-y-24">
+    <div className="relative mt-8 grid gap-4 gap-y-24 md:grid-cols-2 lg:grid-cols-2">
       <style>{`
         @keyframes kobbeCapabilityBarRise {
           from {
@@ -79,8 +79,8 @@ export function DashboardCapabilityGrid() {
       </CapabilityCard>
 
       <CapabilityCard
-        title="Sources and AI traffic"
-        description="Break down referrers, channels, hostnames, and AI tools so you can tell where meaningful traffic is coming from."
+        title="Sources, campaigns, and AI traffic"
+        description="Break down referrers, UTM campaigns, channels, hostnames, and AI tools so you can tell where meaningful traffic is coming from."
         mockupClassName="w-[calc(100%-0.5rem)]"
       >
         <SourcesCard sources={data.sources} />
@@ -140,7 +140,7 @@ function TrafficOverviewPreview() {
 
 function TrafficMetric(props: { label: string; value: string }) {
   return (
-    <div className="bg-muted  p-3 rounded-md">
+    <div className="bg-muted rounded-md p-3">
       <p className="text-muted-foreground truncate text-xs font-medium">
         {props.label}
       </p>
@@ -153,7 +153,7 @@ function TrafficMetric(props: { label: string; value: string }) {
 
 function CapabilityCard(props: CapabilityCardProps) {
   return (
-    <Card className="group bg-transaprent min-w-0 gap-0 overflow-hidden p-0 ">
+    <Card className="group bg-transaprent min-w-0 gap-0 overflow-hidden p-0">
       <CardHeader className="px-0 pt-4 sm:pt-5">
         <CardTitle className="text-foreground text-base font-semibold tracking-tight uppercase">
           {props.title}
@@ -162,7 +162,7 @@ function CapabilityCard(props: CapabilityCardProps) {
           {props.description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="min-w-0 p-8 lg:p-20 bg-muted mt-8">
+      <CardContent className="bg-muted mt-8 min-w-0 p-8 lg:p-20">
         <PreviewFrame mockupClassName={props.mockupClassName}>
           {props.children}
         </PreviewFrame>
@@ -178,7 +178,7 @@ function PreviewFrame(props: {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="bg-card relative h-72 overflow-hidden w-full ">
+    <div className="bg-card relative h-72 w-full overflow-hidden">
       <motion.div
         className={cn(
           "kobbe-capability-mockup pointer-events-none absolute top-2 left-2 origin-top-left **:data-dashboard-metric-tile:bg-transparent **:data-[slot=card]:bg-transparent",
