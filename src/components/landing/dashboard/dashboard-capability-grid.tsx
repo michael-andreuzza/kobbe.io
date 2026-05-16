@@ -140,7 +140,7 @@ function TrafficOverviewPreview() {
 
 function TrafficMetric(props: { label: string; value: string }) {
   return (
-    <div className="bg-muted rounded-md p-3">
+    <div className="bg-background rounded-xl p-3">
       <p className="text-muted-foreground truncate text-xs font-medium">
         {props.label}
       </p>
@@ -153,7 +153,7 @@ function TrafficMetric(props: { label: string; value: string }) {
 
 function CapabilityCard(props: CapabilityCardProps) {
   return (
-    <Card className="group bg-transaprent min-w-0 gap-0 overflow-hidden p-0">
+    <Card className="group min-w-0 gap-0 overflow-hidden bg-transparent p-0">
       <CardHeader className="px-0 pt-4 sm:pt-5">
         <CardTitle className="text-foreground text-base font-semibold tracking-tight uppercase">
           {props.title}
@@ -162,7 +162,7 @@ function CapabilityCard(props: CapabilityCardProps) {
           {props.description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="bg-muted mt-8 min-w-0 p-8 lg:p-20">
+      <CardContent className="bg-muted mt-8 min-w-0 rounded-xl p-8 lg:p-20">
         <PreviewFrame mockupClassName={props.mockupClassName}>
           {props.children}
         </PreviewFrame>
@@ -178,10 +178,10 @@ function PreviewFrame(props: {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="bg-card relative h-72 w-full overflow-hidden">
+    <div className="bg-muted relative h-72 w-full overflow-hidden rounded-xl">
       <motion.div
         className={cn(
-          "kobbe-capability-mockup pointer-events-none absolute top-2 left-2 origin-top-left **:data-dashboard-metric-tile:bg-transparent **:data-[slot=card]:bg-transparent",
+          "kobbe-capability-mockup pointer-events-none absolute top-2 left-2 origin-top-left",
           props.mockupClassName,
         )}
         initial={

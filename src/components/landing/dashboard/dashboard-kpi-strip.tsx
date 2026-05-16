@@ -52,7 +52,7 @@ function KpiStripGrid(props: {
 
 function KpiTileBody(kpi: KpiTileBodyProps) {
   const toneClass = kpi.active
-    ? "text-foreground/70"
+    ? "text-background/70"
     : kpi.rightHintTone === "good"
       ? "text-success"
       : kpi.rightHintTone === "bad"
@@ -64,7 +64,7 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
         <span
           className={cn(
             "truncate text-xs leading-tight font-medium",
-            kpi.active ? "text-foreground/70" : "text-muted-foreground",
+            kpi.active ? "text-background/70" : "text-muted-foreground",
           )}
         >
           {kpi.label}
@@ -83,7 +83,8 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
       <div className="mt-auto min-w-0">
         <span
           className={cn(
-            "text-lg leading-tight font-semibold tracking-tight text-foreground tabular-nums sm:text-xl",
+            "text-lg leading-tight font-medium tracking-tight tabular-nums sm:text-xl",
+            kpi.active ? "text-background" : "text-foreground",
             kpi.valueClassName,
           )}
         >
