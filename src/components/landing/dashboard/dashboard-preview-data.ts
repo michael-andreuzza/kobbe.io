@@ -68,6 +68,19 @@ export type DashboardPreviewRangeData = {
     total: number;
     rows: { name: string; visitors: number; count: number }[];
   };
+  funnels: {
+    name: string;
+    completed: number;
+    conversionRate: number;
+    steps: { label: string; visitors: number; conversionRate: number; dropoffRate?: number }[];
+  };
+  campaigns: {
+    rows: { name: string; source: string; medium: string; visitors: number; conversions: number }[];
+  };
+  webVitals: {
+    metrics: { name: "LCP" | "INP" | "CLS" | "TTFB" | "FCP"; value: string; rating: "Good" | "Needs work" | "Poor"; sampleCount: number }[];
+    environments: { name: string; count: number }[];
+  };
 };
 
 const basePoints: StackedChartPoint[] = [
@@ -228,6 +241,43 @@ const devices = {
   ],
 };
 
+const funnels = {
+  name: "Trial signup",
+  completed: 236,
+  conversionRate: 0.38,
+  steps: [
+    { label: "Visited pricing", visitors: 1840, conversionRate: 1 },
+    { label: "Opened signup", visitors: 902, conversionRate: 0.49, dropoffRate: 0.51 },
+    { label: "Created workspace", visitors: 418, conversionRate: 0.46, dropoffRate: 0.54 },
+    { label: "Installed tracker", visitors: 236, conversionRate: 0.56, dropoffRate: 0.44 },
+  ],
+};
+
+const campaigns = {
+  rows: [
+    { name: "launch-week", source: "producthunt", medium: "referral", visitors: 1842, conversions: 126 },
+    { name: "docs-retargeting", source: "google", medium: "cpc", visitors: 1134, conversions: 88 },
+    { name: "ai-builders", source: "newsletter", medium: "email", visitors: 826, conversions: 62 },
+    { name: "founder-social", source: "x", medium: "social", visitors: 604, conversions: 31 },
+  ],
+};
+
+const webVitals = {
+  metrics: [
+    { name: "LCP" as const, value: "1.8s", rating: "Good" as const, sampleCount: 1284 },
+    { name: "INP" as const, value: "92ms", rating: "Good" as const, sampleCount: 1172 },
+    { name: "CLS" as const, value: "0.03", rating: "Good" as const, sampleCount: 1218 },
+    { name: "TTFB" as const, value: "420ms", rating: "Needs work" as const, sampleCount: 984 },
+    { name: "FCP" as const, value: "1.1s", rating: "Good" as const, sampleCount: 1246 },
+  ],
+  environments: [
+    { name: "Chrome desktop", count: 624 },
+    { name: "Safari mobile", count: 318 },
+    { name: "Firefox desktop", count: 144 },
+    { name: "Edge desktop", count: 96 },
+  ],
+};
+
 export const dashboardPreviewData = {
   "7d": {
     label: "Last 7 days",
@@ -252,6 +302,9 @@ export const dashboardPreviewData = {
         { name: "Connected revenue source", visitors: 61, count: 74 },
       ],
     },
+    funnels,
+    campaigns,
+    webVitals,
   },
   "14d": {
     label: "Last 14 days",
@@ -276,6 +329,9 @@ export const dashboardPreviewData = {
         { name: "Connected revenue source", visitors: 112, count: 132 },
       ],
     },
+    funnels,
+    campaigns,
+    webVitals,
   },
   "30d": {
     label: "Last 30 days",
@@ -300,6 +356,9 @@ export const dashboardPreviewData = {
         { name: "Connected revenue source", visitors: 228, count: 284 },
       ],
     },
+    funnels,
+    campaigns,
+    webVitals,
   },
 } satisfies Record<DashboardRangeKey, DashboardPreviewRangeData>;
 

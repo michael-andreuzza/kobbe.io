@@ -1,0 +1,60 @@
+---
+import Text from "@/components/foundations/elements/Text.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
+import PerformanceDashboardPreview from "@/components/landing/dashboard/performance-dashboard-preview";
+
+type PerformancePreview = {
+  metrics: {
+    name: "LCP" | "INP" | "CLS" | "TTFB" | "FCP";
+    value: string;
+    rating: "Good" | "Needs work" | "Poor";
+    sampleCount: number;
+  }[];
+  environments: { name: string; count: number }[];
+};
+
+const performancePreview: PerformancePreview = {
+  metrics: [
+    { name: "LCP", value: "1.8s", rating: "Good", sampleCount: 1284 },
+    { name: "INP", value: "92ms", rating: "Good", sampleCount: 1172 },
+    { name: "CLS", value: "0.03", rating: "Good", sampleCount: 1218 },
+    { name: "TTFB", value: "420ms", rating: "Needs work", sampleCount: 984 },
+    { name: "FCP", value: "1.1s", rating: "Good", sampleCount: 1246 },
+  ],
+  environments: [
+    { name: "Chrome desktop", count: 624 },
+    { name: "Safari mobile", count: 318 },
+    { name: "Firefox desktop", count: 144 },
+    { name: "Edge desktop", count: 96 },
+  ],
+};
+---
+
+<section>
+  <Wrapper class="py-20">
+    <div class="max-w-xl">
+      <Text
+        tag="h2"
+        variant="textBase"
+        class="text-foreground font-semibold uppercase tracking-tight text-balance"
+      >
+        Keep performance beside your traffic.
+      </Text>
+      <Text
+        tag="p"
+        variant="textBase"
+        class="text-muted-foreground font-medium text-balance"
+      >
+        Track Core Web Vitals with the same dashboard language: p75 metrics,
+        trend lines, slow pages, and environment breakdowns.
+      </Text>
+    </div>
+
+    <div class="mt-8">
+      <AnimatedPanelReveal client:load>
+        <PerformanceDashboardPreview client:load webVitals={performancePreview} />
+      </AnimatedPanelReveal>
+    </div>
+  </Wrapper>
+</section>

@@ -1,0 +1,46 @@
+---
+import Text from "@/components/foundations/elements/Text.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
+import FunnelsDashboardPreview from "@/components/landing/dashboard/funnels-dashboard-preview";
+
+const funnelPreview = {
+  name: "Trial signup",
+  completed: 236,
+  conversionRate: 0.38,
+  steps: [
+    { label: "Visited pricing", visitors: 1840, conversionRate: 1 },
+    { label: "Opened signup", visitors: 902, conversionRate: 0.49, dropoffRate: 0.51 },
+    { label: "Created workspace", visitors: 418, conversionRate: 0.46, dropoffRate: 0.54 },
+    { label: "Installed tracker", visitors: 236, conversionRate: 0.56, dropoffRate: 0.44 },
+  ],
+};
+---
+
+<section>
+  <Wrapper class="py-20">
+    <div class="max-w-xl">
+      <Text
+        tag="h2"
+        variant="textBase"
+        class="text-foreground font-semibold uppercase tracking-tight text-balance"
+      >
+        See where visitors continue or drop off.
+      </Text>
+      <Text
+        tag="p"
+        variant="textBase"
+        class="text-muted-foreground font-medium text-balance"
+      >
+        Build funnels from pages and custom events, then inspect conversion,
+        drop-off, and step-level detail with the same app dashboard view.
+      </Text>
+    </div>
+
+    <div class="mt-8">
+      <AnimatedPanelReveal client:load>
+        <FunnelsDashboardPreview client:load funnel={funnelPreview} />
+      </AnimatedPanelReveal>
+    </div>
+  </Wrapper>
+</section>

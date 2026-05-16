@@ -14,8 +14,8 @@ import { LocationsCard } from "./cards/locations-card";
 import { PagesCard } from "./cards/pages-card";
 import { SearchKeywordsCard } from "./cards/search-keywords-card";
 import { SourcesCard } from "./cards/sources-card";
+import { DashboardMetricTile } from "./dashboard-metric-strip";
 import { dashboardPreviewData } from "./dashboard-preview-data";
-import { DashboardTrafficChart } from "./dashboard-traffic-chart";
 
 const data = dashboardPreviewData["14d"];
 
@@ -79,8 +79,8 @@ export function DashboardCapabilityGrid() {
       </CapabilityCard>
 
       <CapabilityCard
-        title="Sources, campaigns, and AI traffic"
-        description="Break down referrers, UTM campaigns, channels, hostnames, and AI tools so you can tell where meaningful traffic is coming from."
+        title="Sources and AI traffic"
+        description="Break down referrers, channels, hostnames, and AI tools so you can tell where meaningful traffic is coming from."
         mockupClassName="w-[calc(100%-0.5rem)]"
       >
         <SourcesCard sources={data.sources} />
@@ -95,8 +95,8 @@ export function DashboardCapabilityGrid() {
       </CapabilityCard>
 
       <CapabilityCard
-        title="Events and funnels"
-        description="Measure the actions that matter, from sign-ups and CTA clicks to checkout starts and funnel conversion steps."
+        title="Custom events"
+        description="Measure the actions that matter, from sign-ups and CTA clicks to checkout starts and product interactions."
         mockupClassName="w-[calc(100%-0.5rem)]"
       >
         <EventsCard rows={data.events} />
@@ -115,39 +115,73 @@ export function DashboardCapabilityGrid() {
 
 function TrafficOverviewPreview() {
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-3">
       <div className="grid grid-cols-3 gap-3 pr-2">
-        <TrafficMetric label="Visitors" value={data.kpi.visitors.display} />
-        <TrafficMetric label="Views" value={data.kpi.views.display} />
-        <TrafficMetric label="Bounce" value={data.kpi.bounceRate.display} />
-      </div>
-      {/*
-        PreviewFrame uses pointer-events-none so buried links don't steal clicks.
-        Re-enable events on the chart only so hover + pinned tooltip work like the app.
-      */}
-      <div className="pointer-events-auto relative z-20">
-        <DashboardTrafficChart
-          points={data.points}
-          metric="visitors"
-          rangeLabel={data.label}
-        >
-          Visitors
-        </DashboardTrafficChart>
+        <TrafficKpi
+          label="Visitors"
+          value={data.kpi.visitors.display}
+          hint="+18.4%"
+          active
+        />
+        <TrafficKpi
+          label="Visits"
+          value={data.kpi.visits.display}
+          hint="+15.2%"
+        />
+        <TrafficKpi
+          label="Views"
+          value={data.kpi.views.display}
+          hint="+22.1%"
+        />
       </div>
     </div>
   );
 }
 
-function TrafficMetric(props: { label: string; value: string }) {
+function TrafficKpi(props: {
+  label: string;
+  value: string;
+  hint: string;
+  active?: boolean;
+}) {
   return (
-    <div className="bg-background rounded-xl p-3">
-      <p className="text-muted-foreground truncate text-xs font-medium">
-        {props.label}
-      </p>
-      <p className="text-foreground mt-2 text-xl font-semibold tracking-tight tabular-nums">
-        {props.value}
-      </p>
-    </div>
+    <DashboardMetricTile
+      active={props.active}
+      activeColor="var(--foreground)"
+      surface="muted"
+      className="aspect-auto min-h-28"
+    >
+      <div className="flex h-full min-w-0 flex-col gap-1">
+        <div className="flex w-full min-w-0 items-baseline justify-between gap-2">
+          <span
+            className={cn(
+              "truncate text-xs leading-tight font-medium",
+              props.active ? "text-background/70" : "text-muted-foreground",
+            )}
+          >
+            {props.label}
+          </span>
+          <span
+            className={cn(
+              "relative inline-flex shrink-0 text-xs leading-tight font-medium tabular-nums",
+              props.active ? "text-background/70" : "text-success",
+            )}
+          >
+            {props.hint}
+          </span>
+        </div>
+        <div className="mt-auto min-w-0">
+          <span
+            className={cn(
+              "text-lg leading-tight font-medium tracking-tight tabular-nums sm:text-xl",
+              props.active ? "text-background" : "text-foreground",
+            )}
+          >
+            {props.value}
+          </span>
+        </div>
+      </div>
+    </DashboardMetricTile>
   );
 }
 
@@ -178,10 +212,10 @@ function PreviewFrame(props: {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="bg-muted relative h-72 w-full overflow-hidden rounded-xl">
+    <div className="bg-muted relative flex h-72 w-full items-center justify-center overflow-hidden rounded-xl">
       <motion.div
         className={cn(
-          "kobbe-capability-mockup pointer-events-none absolute top-2 left-2 origin-top-left",
+          "kobbe-capability-mockup pointer-events-none relative origin-center",
           props.mockupClassName,
         )}
         initial={

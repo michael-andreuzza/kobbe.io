@@ -1,0 +1,52 @@
+---
+import Text from "@/components/foundations/elements/Text.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
+import CampaignsDashboardPreview from "@/components/landing/dashboard/campaigns-dashboard-preview";
+
+const campaignsPreview = {
+  summary: {
+    campaigns: 5,
+    visitors: 80,
+    views: 282,
+    conversions: 44,
+    orders: 0,
+    revenue: "0",
+  },
+  rows: [
+    { name: "founder-post", source: "x", medium: "social", visitors: 42, views: 76, conversions: 8, orders: 0, revenue: "0" },
+    { name: "privacy-analytics", source: "google", medium: "organic", visitors: 37, views: 59, conversions: 10, orders: 0, revenue: "0" },
+    { name: "launch-week", source: "producthunt", medium: "referral", visitors: 35, views: 55, conversions: 7, orders: 0, revenue: "0" },
+    { name: "agency-bundle", source: "newsletter", medium: "email", visitors: 33, views: 49, conversions: 14, orders: 0, revenue: "0" },
+    { name: "launch-day", source: "x", medium: "social", visitors: 34, views: 43, conversions: 5, orders: 0, revenue: "0" },
+  ],
+};
+---
+
+<section>
+  <Wrapper class="py-20">
+    <div class="max-w-xl">
+      <Text
+        tag="h2"
+        variant="textBase"
+        class="text-foreground font-semibold uppercase tracking-tight text-balance"
+      >
+        Trace every UTM campaign back to real actions.
+      </Text>
+      <Text
+        tag="p"
+        variant="textBase"
+        class="text-muted-foreground font-medium text-balance"
+      >
+        See campaign visitors, conversions, sources, mediums, and custom events
+        in the same dashboard language as the rest of your traffic reports.
+      </Text>
+    </div>
+
+    <div class="mt-8">
+      <AnimatedPanelReveal client:load>
+        <CampaignsDashboardPreview client:load campaigns={campaignsPreview} />
+      </AnimatedPanelReveal>
+    </div>
+  </Wrapper>
+</section>
