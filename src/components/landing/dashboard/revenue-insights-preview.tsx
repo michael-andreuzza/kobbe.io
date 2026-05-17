@@ -16,13 +16,15 @@ export function RevenueInsightsPreview() {
     : revenueSpotlightIndexes[spotlightStep];
 
   useEffect(() => {
-    if (shouldReduceMotion || spotlightStep >= revenueSpotlightIndexes.length - 1) {
+    if (shouldReduceMotion) {
       return;
     }
 
     const timeout = window.setTimeout(() => {
-      setSpotlightStep((currentStep) => currentStep + 1);
-    }, 2200);
+      setSpotlightStep(
+        (currentStep) => (currentStep + 1) % revenueSpotlightIndexes.length,
+      );
+    }, 2400);
 
     return () => window.clearTimeout(timeout);
   }, [shouldReduceMotion, spotlightStep]);
@@ -78,30 +80,45 @@ export function RevenueInsightsPreview() {
         <RevenueNote
           title="Connect a source"
           description="Use Stripe, Polar, Paddle, or Creem webhooks from site settings."
+          active={!shouldReduceMotion && spotlightStep === 0}
         />
         <RevenueNote
           title="Keep attribution scoped"
           description="Pass Kobbe's session attribution through checkout instead of profiling visitors."
+          active={!shouldReduceMotion && spotlightStep === 1}
         />
         <RevenueNote
           title="Read it in context"
           description="Revenue shows up beside traffic KPIs, pages, and sources."
+          active={!shouldReduceMotion && spotlightStep === 2}
         />
       </div>
     </div>
   );
 }
 
-function RevenueNote(props: { title: string; description: string }) {
+function RevenueNote(props: {
+  title: string;
+  description: string;
+  active?: boolean;
+}) {
   return (
-    <Card className="bg-transparent gap-0 p-0 ">
+    <Card className="gap-0 bg-transparent p-0">
       <CardHeader className="p-0">
-        <CardTitle className="text-foreground font-sm  uppercase font-semibold">
+        <CardTitle className="text-foreground font-sm font-semibold uppercase">
           {props.title}
         </CardTitle>
       </CardHeader>
       <CardContent className="px-0 pt-3 pb-4">
-        <p className="text-muted-foreground text-base font-medium">{props.description}</p>
+        <p
+          className={
+            props.active
+              ? "text-foreground text-base font-medium transition-colors duration-500"
+              : "text-muted-foreground text-base font-medium transition-colors duration-500"
+          }
+        >
+          {props.description}
+        </p>
       </CardContent>
     </Card>
   );

@@ -1,6 +1,13 @@
 import { useState } from "react";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 import {
   dashboardCardHeaderClass,
@@ -11,13 +18,14 @@ import { TabsChrome } from "../dashboard-tabs-chrome";
 
 type Props = {
   funnel: DashboardPreviewRangeData["funnels"];
+  activeStep?: number;
 };
 
 function formatPercent(value: number): string {
   return `${Math.round(value * 100)}%`;
 }
 
-export function FunnelsCard({ funnel }: Props) {
+export function FunnelsCard({ funnel, activeStep }: Props) {
   const [reportTab, setReportTab] = useState(0);
 
   return (
@@ -29,7 +37,8 @@ export function FunnelsCard({ funnel }: Props) {
               {funnel.name}
             </CardTitle>
             <CardDescription>
-              {funnel.completed.toLocaleString()} completed, {formatPercent(funnel.conversionRate)} total conversion
+              {funnel.completed.toLocaleString()} completed,{" "}
+              {formatPercent(funnel.conversionRate)} total conversion
             </CardDescription>
           </div>
           <TabsChrome
@@ -42,7 +51,7 @@ export function FunnelsCard({ funnel }: Props) {
       </CardHeader>
       <CardContent className="min-w-0 p-0 pt-2">
         {reportTab === 0 ? (
-          <MarketingFunnelChart steps={funnel.steps} />
+          <MarketingFunnelChart steps={funnel.steps} activeStep={activeStep} />
         ) : (
           <MarketingFunnelTrend steps={funnel.steps} />
         )}
@@ -51,16 +60,34 @@ export function FunnelsCard({ funnel }: Props) {
   );
 }
 
-function MarketingFunnelChart(props: { steps: DashboardPreviewRangeData["funnels"]["steps"] }) {
+function MarketingFunnelChart(props: {
+  steps: DashboardPreviewRangeData["funnels"]["steps"];
+  activeStep?: number;
+}) {
   if (props.steps.length === 0) {
     return null;
   }
 
   const maxVisitors = Math.max(1, ...props.steps.map((step) => step.visitors));
   const geometry = buildFunnelFlowGeometry(props.steps, maxVisitors);
+  const filledSegmentCount =
+    props.activeStep == null
+      ? geometry.segments.length
+      : Math.max(1, Math.min(geometry.segments.length, props.activeStep + 1));
 
   return (
     <div className="relative h-80 w-full min-w-0 overflow-hidden rounded-b-xl sm:h-88">
+      <style>{`
+        @media (prefers-reduced-motion: no-preference) {
+          .kobbe-funnel-flow {
+            transition:
+              opacity 460ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 460ms cubic-bezier(0.16, 1, 0.3, 1);
+            transform-box: fill-box;
+            transform-origin: left center;
+          }
+        }
+      `}</style>
       <div
         className="absolute inset-0 grid"
         style={{
@@ -71,7 +98,7 @@ function MarketingFunnelChart(props: { steps: DashboardPreviewRangeData["funnels
         {props.steps.map((step) => (
           <div
             key={step.label}
-            className="border-r border-border/40 last:border-r-0 even:bg-muted/15"
+            className="border-border/40 even:bg-muted/15 border-r last:border-r-0"
           />
         ))}
       </div>
@@ -92,18 +119,44 @@ function MarketingFunnelChart(props: { steps: DashboardPreviewRangeData["funnels
               x2="1"
               y2="0"
             >
-              <stop offset="0%" stopColor="var(--foreground)" stopOpacity="0.14" />
-              <stop offset="100%" stopColor="var(--foreground)" stopOpacity="0.58" />
+              <stop
+                offset="0%"
+                stopColor="var(--foreground)"
+                stopOpacity="0.14"
+              />
+              <stop
+                offset="100%"
+                stopColor="var(--foreground)"
+                stopOpacity="0.58"
+              />
             </linearGradient>
           ))}
         </defs>
         {geometry.segments.map((segment) => (
           <path
-            key={segment.index}
+            key={`base-${segment.index}`}
             d={segment.path}
             fill={`url(#marketing-funnel-flow-fill-${segment.index})`}
+            opacity={0.1}
           />
         ))}
+        {geometry.segments.map((segment) => {
+          const filled = segment.index < filledSegmentCount;
+
+          return (
+            <path
+              key={segment.index}
+              className="kobbe-funnel-flow"
+              d={segment.path}
+              fill={`url(#marketing-funnel-flow-fill-${segment.index})`}
+              opacity={filled ? 1 : 0}
+              style={{
+                transform: filled ? "scaleX(1)" : "scaleX(0.04)",
+                transitionDelay: filled ? `${segment.index * 70}ms` : "0ms",
+              }}
+            />
+          );
+        })}
       </svg>
       {props.steps.slice(1).map((step, index) => {
         const previous = props.steps[index];
@@ -115,7 +168,10 @@ function MarketingFunnelChart(props: { steps: DashboardPreviewRangeData["funnels
         return (
           <span
             key={`${step.label}-dropoff`}
-            className="absolute top-0 z-10 -translate-x-1/2 rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground"
+            className={cn(
+              "bg-muted text-muted-foreground absolute top-0 z-10 -translate-x-1/2 rounded-md px-2 py-0.5 text-xs font-medium transition-colors duration-500",
+              props.activeStep === index + 1 && "text-foreground",
+            )}
             style={{ left }}
           >
             -{formatPercent(Math.max(0, dropoff))}
@@ -123,24 +179,33 @@ function MarketingFunnelChart(props: { steps: DashboardPreviewRangeData["funnels
         );
       })}
       <div
-        className="absolute inset-x-0 bottom-0 grid border-t border-border/50"
+        className="border-border/50 absolute inset-x-0 bottom-0 grid border-t"
         style={{
           gridTemplateColumns: `repeat(${props.steps.length}, minmax(0, 1fr))`,
         }}
       >
-        {props.steps.map((step) => (
+        {props.steps.map((step, index) => (
           <div
             key={step.label}
-            className="min-w-0 border-r border-border/40 px-4 py-3 last:border-r-0"
+            className={cn(
+              "border-border/40 min-w-0 border-r px-4 py-3 transition-colors duration-500 last:border-r-0",
+              props.activeStep === index && "bg-muted/35",
+            )}
           >
             <div className="flex min-w-0 items-center gap-2">
-              <span className="size-2 shrink-0 rounded-full bg-foreground" aria-hidden />
-              <div className="truncate text-sm font-semibold text-foreground">
+              <span
+                className={cn(
+                  "bg-foreground size-2 shrink-0 rounded-full transition-transform duration-500",
+                  props.activeStep === index && "scale-125",
+                )}
+                aria-hidden
+              />
+              <div className="text-foreground truncate text-sm font-semibold">
                 {step.visitors.toLocaleString()} visitors
               </div>
             </div>
             <div
-              className="mt-1 truncate text-xs text-muted-foreground"
+              className="text-muted-foreground mt-1 truncate text-xs"
               title={step.label}
             >
               {step.label}
@@ -152,10 +217,13 @@ function MarketingFunnelChart(props: { steps: DashboardPreviewRangeData["funnels
   );
 }
 
-function MarketingFunnelTrend(props: { steps: DashboardPreviewRangeData["funnels"]["steps"] }) {
+function MarketingFunnelTrend(props: {
+  steps: DashboardPreviewRangeData["funnels"]["steps"];
+}) {
   return (
-    <div className="flex h-80 min-w-0 items-center justify-center rounded-b-xl border-t border-border/50 bg-background text-sm text-muted-foreground sm:h-88">
-      {props.steps.length.toLocaleString()} steps grouped by when each step was reached
+    <div className="border-border/50 bg-background text-muted-foreground flex h-80 min-w-0 items-center justify-center rounded-b-xl border-t text-sm sm:h-88">
+      {props.steps.length.toLocaleString()} steps grouped by when each step was
+      reached
     </div>
   );
 }

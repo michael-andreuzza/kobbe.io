@@ -1,7 +1,14 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useReducedMotion } from "motion/react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   ChartContainer,
   ChartTooltip,
@@ -20,20 +27,72 @@ import {
   dashboardCardRootClass,
   dashboardCardTitleClass,
 } from "./dashboard-card-layout";
-import { DeviceBreakdownList, LocationBreakdownList } from "./dashboard-list-card";
+import {
+  DeviceBreakdownList,
+  LocationBreakdownList,
+} from "./dashboard-list-card";
 
 type Props = {
   webVitals: DashboardPreviewRangeData["webVitals"];
 };
 
 const trendPoints = [
-  { t: Date.UTC(2026, 4, 4), label: "May 4", p50: 1180, p75: 2200, p95: 3380, n: 164 },
-  { t: Date.UTC(2026, 4, 5), label: "May 5", p50: 1080, p75: 2000, p95: 3120, n: 188 },
-  { t: Date.UTC(2026, 4, 6), label: "May 6", p50: 1020, p75: 1900, p95: 2860, n: 176 },
-  { t: Date.UTC(2026, 4, 7), label: "May 7", p50: 960, p75: 1800, p95: 2680, n: 204 },
-  { t: Date.UTC(2026, 4, 8), label: "May 8", p50: 920, p75: 1700, p95: 2520, n: 216 },
-  { t: Date.UTC(2026, 4, 9), label: "May 9", p50: 1010, p75: 1900, p95: 2740, n: 198 },
-  { t: Date.UTC(2026, 4, 10), label: "May 10", p50: 940, p75: 1800, p95: 2600, n: 224 },
+  {
+    t: Date.UTC(2026, 4, 4),
+    label: "May 4",
+    p50: 1180,
+    p75: 2200,
+    p95: 3380,
+    n: 164,
+  },
+  {
+    t: Date.UTC(2026, 4, 5),
+    label: "May 5",
+    p50: 1080,
+    p75: 2000,
+    p95: 3120,
+    n: 188,
+  },
+  {
+    t: Date.UTC(2026, 4, 6),
+    label: "May 6",
+    p50: 1020,
+    p75: 1900,
+    p95: 2860,
+    n: 176,
+  },
+  {
+    t: Date.UTC(2026, 4, 7),
+    label: "May 7",
+    p50: 960,
+    p75: 1800,
+    p95: 2680,
+    n: 204,
+  },
+  {
+    t: Date.UTC(2026, 4, 8),
+    label: "May 8",
+    p50: 920,
+    p75: 1700,
+    p95: 2520,
+    n: 216,
+  },
+  {
+    t: Date.UTC(2026, 4, 9),
+    label: "May 9",
+    p50: 1010,
+    p75: 1900,
+    p95: 2740,
+    n: 198,
+  },
+  {
+    t: Date.UTC(2026, 4, 10),
+    label: "May 10",
+    p50: 940,
+    p75: 1800,
+    p95: 2600,
+    n: 224,
+  },
 ];
 
 const attentionRows = [
@@ -57,10 +116,12 @@ const countryRows = [
   { key: "es", label: "Spain", count: 121, countryCode: "ES" },
 ];
 
-function ratingClassName(rating: DashboardPreviewRangeData["webVitals"]["metrics"][number]["rating"]) {
+function ratingClassName(
+  rating: DashboardPreviewRangeData["webVitals"]["metrics"][number]["rating"],
+) {
   return rating === "Good"
     ? "text-success"
-    : rating === "Needs work"
+    : rating === "Watch"
       ? "text-warning"
       : "text-destructive";
 }
@@ -70,6 +131,20 @@ const performanceChartConfig = {
   p75: { label: "p75", color: "var(--foreground)" },
   p95: { label: "p95", color: "var(--foreground)" },
 } satisfies ChartConfig;
+
+const performanceMetricSequence = [0, 1, 2, 3, 4] as const;
+
+const performancePercentileLabels = {
+  p50: "Median (p50)",
+  p75: "p75",
+  p95: "p95",
+} as const;
+
+const performancePercentileFillOpacity = {
+  p50: 0.42,
+  p75: 0.82,
+  p95: 0.58,
+} as const;
 
 function linearYTicksMs(max: number, targetSteps: number): number[] {
   if (!Number.isFinite(max) || max <= 0) {
@@ -103,15 +178,46 @@ function formatAxisTick(v: number): string {
   return rounded.toLocaleString();
 }
 
+function formatMsValue(value: number | string | null | undefined): string {
+  const numeric = typeof value === "number" ? value : Number(value);
+  if (!Number.isFinite(numeric)) return "0 ms";
+  return `${Math.round(numeric).toLocaleString()} ms`;
+}
+
 export function PerformanceDashboardPreview({ webVitals }: Props) {
+  const shouldReduceMotion = useReducedMotion();
   const metrics = webVitals.metrics.slice(0, 5);
+  const [activeMetricIndex, setActiveMetricIndex] = useState(0);
+
+  useEffect(() => {
+    if (shouldReduceMotion || metrics.length <= 1) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setActiveMetricIndex((currentIndex) => {
+        const currentSequenceIndex = performanceMetricSequence.indexOf(
+          currentIndex as (typeof performanceMetricSequence)[number],
+        );
+        const nextSequenceIndex =
+          (Math.max(0, currentSequenceIndex) + 1) %
+          performanceMetricSequence.length;
+        return Math.min(
+          performanceMetricSequence[nextSequenceIndex] ?? 0,
+          metrics.length - 1,
+        );
+      });
+    }, 2200);
+
+    return () => window.clearTimeout(timeout);
+  }, [activeMetricIndex, metrics.length, shouldReduceMotion]);
 
   return (
     <div className="bg-muted p-8 lg:p-42">
       <div className="relative min-w-0">
-        <DashboardMetricStrip ariaLabel="Performance metrics" lgCols={5}>
+        <DashboardMetricStrip ariaLabel="Web Vitals metrics" lgCols={5}>
           {metrics.map((metric, index) => {
-            const active = index === 0;
+            const active = index === activeMetricIndex;
             return (
               <DashboardMetricTile
                 key={metric.name}
@@ -151,7 +257,9 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
                       <span
                         className={cn(
                           "font-medium",
-                          active ? "text-background/70" : ratingClassName(metric.rating),
+                          active
+                            ? "text-background/70"
+                            : ratingClassName(metric.rating),
                         )}
                       >
                         {metric.rating}
@@ -186,22 +294,29 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
             </CardDescription>
           </CardHeader>
           <CardContent className={dashboardCardContentTableClass}>
-            <div className="grid grid-cols-[minmax(0,1fr)_4rem_4rem] gap-2 px-2 pb-2 text-[11px] font-medium text-muted-foreground sm:px-2.5">
+            <div className="text-muted-foreground grid grid-cols-[minmax(0,1fr)_4rem_4rem] gap-2 px-2 pb-2 text-[11px] font-medium sm:px-2.5">
               <span>Page</span>
               <span className="text-right">p75</span>
               <span className="text-right">Samples</span>
             </div>
             <ul className="flex flex-col">
-              {attentionRows.map((row) => (
+              {attentionRows.map((row, index) => (
                 <li key={row.path} className="list-none">
-                  <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_4rem_4rem] items-center gap-2 rounded-md px-2 py-2 text-xs sm:px-2.5">
-                    <span className="min-w-0 truncate font-medium text-foreground">
+                  <div
+                    className={cn(
+                      "grid min-w-0 grid-cols-[minmax(0,1fr)_4rem_4rem] items-center gap-2 rounded-md px-2 py-2 text-xs transition-colors duration-500 sm:px-2.5",
+                      !shouldReduceMotion &&
+                        index === activeMetricIndex % attentionRows.length &&
+                        "bg-muted/45",
+                    )}
+                  >
+                    <span className="text-foreground min-w-0 truncate font-medium">
                       {row.path}
                     </span>
-                    <span className="text-right text-muted-foreground tabular-nums">
+                    <span className="text-muted-foreground text-right tabular-nums">
                       {row.value}
                     </span>
-                    <span className="text-right text-muted-foreground tabular-nums">
+                    <span className="text-muted-foreground text-right tabular-nums">
                       {row.samples.toLocaleString()}
                     </span>
                   </div>
@@ -212,13 +327,22 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
         </Card>
 
         <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
-          <PerformanceBreakdownCard title="Device" description="Slowest dimensions by p75 · LCP">
+          <PerformanceBreakdownCard
+            title="Device"
+            description="Slowest dimensions by p75 · LCP"
+          >
             <DeviceBreakdownList rows={webVitals.environments} />
           </PerformanceBreakdownCard>
-          <PerformanceBreakdownCard title="Browser" description="Slowest dimensions by p75 · LCP">
+          <PerformanceBreakdownCard
+            title="Browser"
+            description="Slowest dimensions by p75 · LCP"
+          >
             <DeviceBreakdownList rows={browserRows} />
           </PerformanceBreakdownCard>
-          <PerformanceBreakdownCard title="Country" description="Slowest dimensions by p75 · LCP">
+          <PerformanceBreakdownCard
+            title="Country"
+            description="Slowest dimensions by p75 · LCP"
+          >
             <LocationBreakdownList rows={countryRows} />
           </PerformanceBreakdownCard>
         </div>
@@ -228,15 +352,45 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
 }
 
 function PerformanceTrendPreview(props: { points: typeof trendPoints }) {
+  const shouldReduceMotion = useReducedMotion();
   const [showP50, setShowP50] = useState(false);
   const [showP75, setShowP75] = useState(true);
   const [showP95, setShowP95] = useState(false);
+  const [userSelectedMetric, setUserSelectedMetric] = useState(false);
+
+  useEffect(() => {
+    if (shouldReduceMotion || userSelectedMetric) {
+      return;
+    }
+
+    const sequence = [
+      { p50: false, p75: true, p95: false },
+      { p50: true, p75: true, p95: false },
+      { p50: true, p75: true, p95: true },
+      { p50: false, p75: true, p95: true },
+    ];
+    const timeout = window.setTimeout(() => {
+      const currentIndex = sequence.findIndex(
+        (item) =>
+          item.p50 === showP50 && item.p75 === showP75 && item.p95 === showP95,
+      );
+      const next = sequence[(Math.max(0, currentIndex) + 1) % sequence.length]!;
+      setShowP50(next.p50);
+      setShowP75(next.p75);
+      setShowP95(next.p95);
+    }, 2100);
+
+    return () => window.clearTimeout(timeout);
+  }, [shouldReduceMotion, showP50, showP75, showP95, userSelectedMetric]);
   const maxY = useMemo(() => {
     let m = 0;
     for (const p of props.points) {
-      if (showP50 && p.p50 != null && Number.isFinite(p.p50)) m = Math.max(m, p.p50);
-      if (showP75 && p.p75 != null && Number.isFinite(p.p75)) m = Math.max(m, p.p75);
-      if (showP95 && p.p95 != null && Number.isFinite(p.p95)) m = Math.max(m, p.p95);
+      if (showP50 && p.p50 != null && Number.isFinite(p.p50))
+        m = Math.max(m, p.p50);
+      if (showP75 && p.p75 != null && Number.isFinite(p.p75))
+        m = Math.max(m, p.p75);
+      if (showP95 && p.p95 != null && Number.isFinite(p.p95))
+        m = Math.max(m, p.p95);
     }
     return m <= 0 ? 1000 : m * 1.12;
   }, [props.points, showP50, showP75, showP95]);
@@ -246,18 +400,39 @@ function PerformanceTrendPreview(props: { points: typeof trendPoints }) {
   return (
     <div className="min-w-0 space-y-3">
       <div className="flex flex-wrap items-center justify-end gap-2 px-1">
-        <span className="mr-auto text-xs text-muted-foreground">Show</span>
-        <PerformanceToggle active={showP50} onClick={() => setShowP50((v) => !v)}>
+        <span className="text-muted-foreground mr-auto text-xs">Show</span>
+        <PerformanceToggle
+          active={showP50}
+          onClick={() => {
+            setUserSelectedMetric(true);
+            setShowP50((v) => !v);
+          }}
+        >
           p50
         </PerformanceToggle>
-        <PerformanceToggle active={showP75} onClick={() => setShowP75((v) => !v)}>
+        <PerformanceToggle
+          active={showP75}
+          onClick={() => {
+            setUserSelectedMetric(true);
+            setShowP75((v) => !v);
+          }}
+        >
           p75
         </PerformanceToggle>
-        <PerformanceToggle active={showP95} onClick={() => setShowP95((v) => !v)}>
+        <PerformanceToggle
+          active={showP95}
+          onClick={() => {
+            setUserSelectedMetric(true);
+            setShowP95((v) => !v);
+          }}
+        >
           p95
         </PerformanceToggle>
       </div>
-      <ChartContainer config={performanceChartConfig} className="h-64 w-full min-w-0 sm:h-72">
+      <ChartContainer
+        config={performanceChartConfig}
+        className="h-64 w-full min-w-0 sm:h-72"
+      >
         <BarChart
           accessibilityLayer
           data={props.points}
@@ -291,22 +466,95 @@ function PerformanceTrendPreview(props: { points: typeof trendPoints }) {
             tick={{ fontSize: 11, className: "text-muted-foreground" }}
           />
           <ChartTooltip
-            cursor={{ stroke: "var(--border)", strokeWidth: 1, strokeOpacity: 0.9 }}
+            cursor={{
+              fill: "var(--muted)",
+              fillOpacity: 0.45,
+            }}
+            content={<PerformanceChartTooltip />}
           />
           {showP50 ? (
-            <Bar dataKey="p50" fill="var(--foreground)" fillOpacity={0.42} radius={0} isAnimationActive={false} />
+            <Bar
+              dataKey="p50"
+              fill="var(--foreground)"
+              fillOpacity={performancePercentileFillOpacity.p50}
+              radius={0}
+              isAnimationActive={!shouldReduceMotion}
+              animationDuration={480}
+              animationEasing="ease-out"
+            />
           ) : null}
           {showP75 ? (
-            <Bar dataKey="p75" fill="var(--foreground)" fillOpacity={0.82} radius={0} isAnimationActive={false} />
+            <Bar
+              dataKey="p75"
+              fill="var(--foreground)"
+              fillOpacity={performancePercentileFillOpacity.p75}
+              radius={0}
+              isAnimationActive={!shouldReduceMotion}
+              animationDuration={480}
+              animationEasing="ease-out"
+            />
           ) : null}
           {showP95 ? (
-            <Bar dataKey="p95" fill="var(--foreground)" fillOpacity={0.58} radius={0} isAnimationActive={false} />
+            <Bar
+              dataKey="p95"
+              fill="var(--foreground)"
+              fillOpacity={performancePercentileFillOpacity.p95}
+              radius={0}
+              isAnimationActive={!shouldReduceMotion}
+              animationDuration={480}
+              animationEasing="ease-out"
+            />
           ) : null}
         </BarChart>
       </ChartContainer>
-      <p className="px-1 text-[0.6875rem] leading-relaxed text-muted-foreground">
+      <p className="text-muted-foreground px-1 text-[0.6875rem] leading-relaxed">
         Bucket: day (UTC)
       </p>
+    </div>
+  );
+}
+
+function PerformanceChartTooltip({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload?: Array<{
+    dataKey?: string | number;
+    value?: number | string | null;
+    payload?: { label?: string };
+  }>;
+}) {
+  if (!active || !payload?.length) {
+    return null;
+  }
+
+  const title = String(payload[0]?.payload?.label ?? "");
+
+  return (
+    <div className="border-background/10 bg-foreground text-background grid max-w-xs min-w-44 gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-md">
+      <div className="text-background font-medium">{title}</div>
+      <div className="grid gap-1">
+        {payload.map((row) => {
+          const key = String(row.dataKey ?? "");
+          const label =
+            performancePercentileLabels[
+              key as keyof typeof performancePercentileLabels
+            ] ?? key;
+
+          return (
+            <div
+              key={key}
+              className="flex items-center justify-between gap-4 leading-none"
+            >
+              <span className="text-background/70">{label}</span>
+              <span className="text-background font-mono font-medium tabular-nums">
+                {formatMsValue(row.value)}
+              </span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -341,9 +589,7 @@ function PerformanceBreakdownCard(props: {
   return (
     <Card className={dashboardCardRootClass}>
       <CardHeader className={dashboardCardHeaderClass}>
-        <CardTitle className={dashboardCardTitleClass}>
-          {props.title}
-        </CardTitle>
+        <CardTitle className={dashboardCardTitleClass}>{props.title}</CardTitle>
         <CardDescription>{props.description}</CardDescription>
       </CardHeader>
       <CardContent className={dashboardCardContentListClass}>
