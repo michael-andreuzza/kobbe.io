@@ -21,7 +21,9 @@ The KPI strip summarizes traffic for the **selected time range** and filters. Cl
 
 ## Period comparisons
 
-When the selected range supports a clear “previous” window, Kobbe can show comparison hints with the KPIs (for example vs. the prior period).
+When the selected range supports a clear comparison window, Kobbe can show KPI deltas against the previous period, previous week, previous month, previous quarter, previous year, or a custom comparison range. The same comparison also appears as a dashed line on the main overview chart.
+
+Use **No comparison** when you want to inspect the current range without deltas. All-time ranges do not show comparison hints because there is no clear previous window.
 
 ## Chart metric
 

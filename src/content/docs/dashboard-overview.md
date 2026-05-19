@@ -14,6 +14,12 @@ Use the range control at the top of the dashboard to switch between presets, tod
 
 If your workspace has a default time range or timezone configured, Kobbe uses that preference when building dashboard links.
 
+## Comparisons
+
+Use **Add comparison** to compare the active overview range against a previous period, week, month, quarter, year, or a custom comparison range. The comparison updates the KPI deltas and adds a dashed line to the main traffic chart so you can see the current trend against the comparison window.
+
+Choosing **No comparison** hides the KPI deltas and comparison chart line. All-time ranges do not show comparisons because there is no clear previous window.
+
 ## KPI strip
 
 The headline metrics (visitors, visits, views, bounce rate, session time, and revenue when available) are described in [Dashboard KPIs](/docs/dashboard-stats-kpis).
