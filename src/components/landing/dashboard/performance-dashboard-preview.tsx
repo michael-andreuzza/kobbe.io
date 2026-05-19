@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useReducedMotion } from "motion/react";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
 
 import {
   Card,
@@ -14,6 +14,13 @@ import {
   ChartTooltip,
   type ChartConfig,
 } from "@/components/ui/chart";
+import { buttonVariants } from "@/components/ui/button";
+import {
+  ratingColorForValue,
+  ratingLabelForValue,
+  formatPerfTooltipValue,
+  type WebVitalName,
+} from "@/lib/performance-metrics";
 import { cn } from "@/lib/utils";
 import type { DashboardPreviewRangeData } from "./dashboard-preview-data";
 import {
@@ -140,12 +147,6 @@ const performancePercentileLabels = {
   p95: "p95",
 } as const;
 
-const performancePercentileFillOpacity = {
-  p50: 0.42,
-  p75: 0.82,
-  p95: 0.58,
-} as const;
-
 function linearYTicksMs(max: number, targetSteps: number): number[] {
   if (!Number.isFinite(max) || max <= 0) {
     return [0, 250, 500, 750, 1000];
@@ -178,16 +179,11 @@ function formatAxisTick(v: number): string {
   return rounded.toLocaleString();
 }
 
-function formatMsValue(value: number | string | null | undefined): string {
-  const numeric = typeof value === "number" ? value : Number(value);
-  if (!Number.isFinite(numeric)) return "0 ms";
-  return `${Math.round(numeric).toLocaleString()} ms`;
-}
-
 export function PerformanceDashboardPreview({ webVitals }: Props) {
   const shouldReduceMotion = useReducedMotion();
   const metrics = webVitals.metrics.slice(0, 5);
   const [activeMetricIndex, setActiveMetricIndex] = useState(0);
+  const activeMetric = (metrics[activeMetricIndex]?.name ?? "LCP") as WebVitalName;
 
   useEffect(() => {
     if (shouldReduceMotion || metrics.length <= 1) {
@@ -275,12 +271,12 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
         <Card className={cn("mt-4 sm:mt-5", dashboardCardRootClass)}>
           <CardHeader className={dashboardCardHeaderClass}>
             <CardTitle className={dashboardCardTitleClass}>
-              LCP over time
+              {activeMetric} over time
             </CardTitle>
             <CardDescription>Last 7 days</CardDescription>
           </CardHeader>
           <CardContent className="min-w-0 px-3 pb-4 sm:px-4">
-            <PerformanceTrendPreview points={trendPoints} />
+            <PerformanceTrendPreview metric={activeMetric} points={trendPoints} />
           </CardContent>
         </Card>
 
@@ -351,7 +347,11 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
   );
 }
 
-function PerformanceTrendPreview(props: { points: typeof trendPoints }) {
+function PerformanceTrendPreview(props: {
+  metric: WebVitalName;
+  points: typeof trendPoints;
+}) {
+  const { metric } = props;
   const shouldReduceMotion = useReducedMotion();
   const [showP50, setShowP50] = useState(false);
   const [showP75, setShowP75] = useState(true);
@@ -397,37 +397,50 @@ function PerformanceTrendPreview(props: { points: typeof trendPoints }) {
   const yTicks = useMemo(() => linearYTicksMs(maxY, 6), [maxY]);
   const yMax = yTicks[yTicks.length - 1] ?? maxY;
 
+  const toggleClass = (on: boolean) =>
+    cn(
+      buttonVariants({ variant: on ? "secondary" : "ghost", size: "sm" }),
+      "h-8 rounded-md px-2.5 text-xs",
+      !on ? "text-muted-foreground" : "",
+    );
+
   return (
     <div className="min-w-0 space-y-3">
       <div className="flex flex-wrap items-center justify-end gap-2 px-1">
         <span className="text-muted-foreground mr-auto text-xs">Show</span>
-        <PerformanceToggle
-          active={showP50}
+        <button
+          type="button"
+          className={toggleClass(showP50)}
           onClick={() => {
             setUserSelectedMetric(true);
             setShowP50((v) => !v);
           }}
+          aria-pressed={showP50}
         >
           p50
-        </PerformanceToggle>
-        <PerformanceToggle
-          active={showP75}
+        </button>
+        <button
+          type="button"
+          className={toggleClass(showP75)}
           onClick={() => {
             setUserSelectedMetric(true);
             setShowP75((v) => !v);
           }}
+          aria-pressed={showP75}
         >
           p75
-        </PerformanceToggle>
-        <PerformanceToggle
-          active={showP95}
+        </button>
+        <button
+          type="button"
+          className={toggleClass(showP95)}
           onClick={() => {
             setUserSelectedMetric(true);
             setShowP95((v) => !v);
           }}
+          aria-pressed={showP95}
         >
           p95
-        </PerformanceToggle>
+        </button>
       </div>
       <ChartContainer
         config={performanceChartConfig}
@@ -467,62 +480,89 @@ function PerformanceTrendPreview(props: { points: typeof trendPoints }) {
           />
           <ChartTooltip
             cursor={{
-              fill: "var(--muted)",
-              fillOpacity: 0.45,
+              stroke: "var(--border)",
+              strokeWidth: 1,
+              strokeOpacity: 0.9,
             }}
-            content={<PerformanceChartTooltip />}
+            content={<PerformanceChartTooltip metric={metric} />}
           />
           {showP50 ? (
             <Bar
               dataKey="p50"
               fill="var(--foreground)"
-              fillOpacity={performancePercentileFillOpacity.p50}
               radius={0}
-              isAnimationActive={!shouldReduceMotion}
-              animationDuration={480}
-              animationEasing="ease-out"
-            />
+              isAnimationActive={false}
+            >
+              {props.points.map((point) => (
+                <Cell
+                  key={`p50-${point.t}`}
+                  fill={ratingColorForValue(metric, point.p50)}
+                />
+              ))}
+            </Bar>
           ) : null}
           {showP75 ? (
             <Bar
               dataKey="p75"
               fill="var(--foreground)"
-              fillOpacity={performancePercentileFillOpacity.p75}
               radius={0}
-              isAnimationActive={!shouldReduceMotion}
-              animationDuration={480}
-              animationEasing="ease-out"
-            />
+              isAnimationActive={false}
+            >
+              {props.points.map((point) => (
+                <Cell
+                  key={`p75-${point.t}`}
+                  fill={ratingColorForValue(metric, point.p75)}
+                />
+              ))}
+            </Bar>
           ) : null}
           {showP95 ? (
             <Bar
               dataKey="p95"
               fill="var(--foreground)"
-              fillOpacity={performancePercentileFillOpacity.p95}
               radius={0}
-              isAnimationActive={!shouldReduceMotion}
-              animationDuration={480}
-              animationEasing="ease-out"
-            />
+              isAnimationActive={false}
+            >
+              {props.points.map((point) => (
+                <Cell
+                  key={`p95-${point.t}`}
+                  fill={ratingColorForValue(metric, point.p95)}
+                />
+              ))}
+            </Bar>
           ) : null}
         </BarChart>
       </ChartContainer>
-      <p className="text-muted-foreground px-1 text-[0.6875rem] leading-relaxed">
-        Bucket: day (UTC)
-      </p>
+      <div className="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-1 px-1 text-[0.6875rem] leading-relaxed">
+        <span>Bucket: day (UTC)</span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="bg-success size-2 rounded-[2px]" aria-hidden />
+          Good
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="bg-warning size-2 rounded-[2px]" aria-hidden />
+          Watch
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="bg-destructive size-2 rounded-[2px]" aria-hidden />
+          Poor
+        </span>
+      </div>
     </div>
   );
 }
 
 function PerformanceChartTooltip({
+  metric,
   active,
   payload,
 }: {
+  metric: WebVitalName;
   active?: boolean;
   payload?: Array<{
     dataKey?: string | number;
     value?: number | string | null;
-    payload?: { label?: string };
+    payload?: Record<string, unknown> & { label?: string };
   }>;
 }) {
   if (!active || !payload?.length) {
@@ -532,7 +572,7 @@ function PerformanceChartTooltip({
   const title = String(payload[0]?.payload?.label ?? "");
 
   return (
-    <div className="border-background/10 bg-foreground text-background grid max-w-xs min-w-44 gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-md">
+    <div className="border-background/10 bg-foreground text-background grid min-w-48 max-w-xs gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-md">
       <div className="text-background font-medium">{title}</div>
       <div className="grid gap-1">
         {payload.map((row) => {
@@ -541,43 +581,38 @@ function PerformanceChartTooltip({
             performancePercentileLabels[
               key as keyof typeof performancePercentileLabels
             ] ?? key;
+          const metricValue =
+            typeof row.value === "number" && Number.isFinite(row.value)
+              ? row.value
+              : null;
+          const color = ratingColorForValue(metric, metricValue);
+          const rating = ratingLabelForValue(metric, metricValue);
+          const raw =
+            row.payload?.[key] != null ? row.payload[key] : row.value;
 
           return (
-            <div
-              key={key}
-              className="flex items-center justify-between gap-4 leading-none"
-            >
-              <span className="text-background/70">{label}</span>
-              <span className="text-background font-mono font-medium tabular-nums">
-                {formatMsValue(row.value)}
-              </span>
+            <div key={key} className="flex items-center gap-2 leading-none">
+              <div
+                className="h-2.5 w-2.5 shrink-0 rounded-[2px]"
+                style={{ backgroundColor: color }}
+                aria-hidden
+              />
+              <div className="flex flex-1 items-baseline justify-between gap-4 leading-none">
+                <span className="text-background/70">{label}</span>
+                <span className="flex items-baseline gap-2">
+                  <span className="text-background/60 text-[0.6875rem] font-medium">
+                    {rating}
+                  </span>
+                  <span className="text-background font-mono font-medium tabular-nums">
+                    {formatPerfTooltipValue(metric, raw)}
+                  </span>
+                </span>
+              </div>
             </div>
           );
         })}
       </div>
     </div>
-  );
-}
-
-function PerformanceToggle(props: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      className={cn(
-        "inline-flex h-8 items-center justify-center rounded-md px-2.5 text-xs font-medium transition-colors",
-        props.active
-          ? "bg-muted text-foreground"
-          : "text-muted-foreground hover:text-foreground",
-      )}
-      onClick={props.onClick}
-      aria-pressed={props.active}
-    >
-      {props.children}
-    </button>
   );
 }
 

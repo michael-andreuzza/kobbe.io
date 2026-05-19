@@ -1,45 +1,22 @@
 ---
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { buttonVariants } from "@/components/ui/button";
-import { AnimatedStartingPrice } from "@/components/sections/pricing/animated-starting-price";
-import { BillingPeriodTabs } from "@/components/sections/pricing/billing-period-tabs";
-import PricingIncludedEvents from "@/components/sections/pricing/pricing-included-events";
-import PricingEventRange from "@/components/sections/pricing/pricing-event-range";
-import { PricingBreakdownAccordion } from "@/components/sections/pricing/pricing-breakdown-accordion";
+import { PricingPlanCard } from "@/components/sections/pricing/pricing-plan-card";
 import Text from "@/components/foundations/elements/Text.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import { cn } from "@/lib/utils";
+
 const appBaseUrl = "https://app.kobbe.io";
-const included = [
-  "50 sites per workspace",
-  "Long-term data history",
-  "Pageviews, events, funnels, UTM campaigns, and revenue tracking",
-  "Realtime dashboards",
-  "Share links, CSV exports, and monthly reports",
-  "Traffic spike/drop alerts",
-  "Cookie-free tracking with privacy signals",
-] as const;
-function checkoutPickerHref(period: "monthly" | "yearly") {
-  const returnTo = `/checkout?period=${period}`;
-  return `${appBaseUrl}/signup?returnTo=${encodeURIComponent(returnTo)}`;
-}
 ---
 
-<section
-  id="pricing"
-  aria-labelledby="pricing-heading"
-  data-pricing-section
-  data-billing-period="monthly"
->
+<section id="pricing" aria-labelledby="pricing-heading">
   <section class="relative">
     <Wrapper variant="default" class="relative pt-20 pb-20 lg:pt-28">
       <div class="max-w-xl text-balance">
         <Text
           tag="h1"
+          id="pricing-heading"
           variant="displaySM"
           class="text-foreground font-medium tracking-tight"
         >
-          Simple and sustainable pricing
+          Event-based pricing that scales with you
         </Text>
         <div class="mt-24 lg:mt-32">
           <Text
@@ -47,157 +24,17 @@ function checkoutPickerHref(period: "monthly" | "yearly") {
             variant="textBase"
             class="text-muted-foreground font-medium"
           >
-            Get the website insights you need without compromising visitor
-            privacy. Start with a 3-day free trial, then pay a fair monthly or
-            yearly price based on your event volume.
+            Start with a 3-day free trial. No credit card required.
           </Text>
         </div>
       </div>
 
       <div class="bg-muted relative mt-8 p-8 lg:p-32">
-        <Card
-          variant="default"
-          className="bg-card mx-auto max-w-xl gap-0 p-0 py-0"
-        >
-          <CardHeader className="px-8 pt-8 pb-0">
-            <div>
-              <AnimatedStartingPrice className="mt-8" client:load />
-              <PricingIncludedEvents client:load />
-              <BillingPeriodTabs className="mt-6" client:load />
-              <PricingEventRange className="mt-6" client:load />
-            </div>
-          </CardHeader>
-          <CardContent className="px-8 pt-4 pb-8">
-            <div>
-              <p class="text-foreground text-sm font-semibold uppercase">
-                Included in every plan
-              </p>
-              <ul
-                class="text.muted-foreground mt-3 grid gap-y-1 text-base"
-                role="list"
-              >
-                {
-                  included.map((item) => (
-                    <li class="flex items-start gap-2">
-                      —<span>{item}</span>
-                    </li>
-                  ))
-                }
-              </ul>
-            </div>
-            <div class="mt-8 flex flex-col gap-2 lg:flex-row lg:items-center">
-              <a
-                href={checkoutPickerHref("monthly")}
-                data-checkout-monthly={checkoutPickerHref("monthly")}
-                data-checkout-yearly={checkoutPickerHref("yearly")}
-                data-kobbe-event="Pricing — start trial monthly"
-                class={cn(
-                  buttonVariants({ variant: "default", size: "lg" }),
-                  "w-full sm:w-fit",
-                )}
-              >
-                Start 3-day free trial
-              </a>
-              <Text tag="p" variant="textXS" class="text-muted-foreground">
-                No credit card required.
-                <br /> Cancel anytime.
-              </Text>
-            </div>
-          </CardContent>
-          <PricingBreakdownAccordion client:load />
-        </Card>
+        <PricingPlanCard
+          client:load
+          appBaseUrl={appBaseUrl}
+        />
       </div>
     </Wrapper>
   </section>
 </section>
-<style>
-  [data-pricing-section][data-billing-period="monthly"] [data-period="yearly"],
-  [data-pricing-section][data-billing-period="yearly"] [data-period="monthly"] {
-    display: none;
-  }
-</style>
-<script>
-  type BillingPeriod = "monthly" | "yearly";
-  type BillingPeriodChangeEvent = CustomEvent<{ period?: unknown }>;
-  type KobbeWindow = Window &
-    typeof globalThis & {
-      kobbe?: {
-        attributionId?: string;
-        getAttributionId?: () => string | undefined;
-      };
-    };
-  const pricingSection = document.querySelector("[data-pricing-section]");
-  function checkoutHrefWithAttribution(href: string) {
-    const kobbe = (window as KobbeWindow).kobbe;
-    const attributionId = kobbe?.getAttributionId?.() ?? kobbe?.attributionId;
-    if (!attributionId) return href;
-    try {
-      const url = new URL(href, window.location.href);
-      url.searchParams.set("kobbe_attribution_id", attributionId);
-      return url.toString();
-    } catch {
-      return href;
-    }
-  }
-  function updateCheckoutHref(link: Element, period: BillingPeriod) {
-    link.setAttribute("data-kobbe-event", `Pricing — start trial ${period}`);
-    const href =
-      period === "yearly"
-        ? link.getAttribute("data-checkout-yearly")
-        : link.getAttribute("data-checkout-monthly");
-    if (href) {
-      link.setAttribute("href", checkoutHrefWithAttribution(href));
-    }
-  }
-  function syncBillingToggles(period: BillingPeriod) {
-    for (const toggle of document.querySelectorAll("[data-billing-toggle]")) {
-      const active = toggle.getAttribute("data-billing-toggle") === period;
-      toggle.setAttribute("aria-pressed", String(active));
-      toggle.toggleAttribute("data-active", active);
-    }
-  }
-  function setBillingPeriod(period: "monthly" | "yearly") {
-    if (!pricingSection) return;
-    pricingSection.setAttribute("data-billing-period", period);
-    syncBillingToggles(period);
-    for (const link of pricingSection.querySelectorAll(
-      "[data-checkout-monthly]",
-    )) {
-      updateCheckoutHref(link, period);
-    }
-  }
-  document.addEventListener("click", (event) => {
-    const target = event.target;
-    if (!(target instanceof Element)) return;
-    const toggle = target.closest("[data-billing-toggle]");
-    const period = toggle?.getAttribute("data-billing-toggle");
-    if (period === "monthly" || period === "yearly") {
-      setBillingPeriod(period);
-    }
-  });
-  window.addEventListener("kobbe:billing-period-change", (event) => {
-    const period = (event as BillingPeriodChangeEvent).detail?.period;
-    if (period === "monthly" || period === "yearly") {
-      setBillingPeriod(period);
-    }
-  });
-  if (pricingSection) {
-    const initialPeriod =
-      pricingSection.getAttribute("data-billing-period") === "yearly"
-        ? "yearly"
-        : "monthly";
-    for (const link of pricingSection.querySelectorAll(
-      "[data-checkout-monthly]",
-    )) {
-      updateCheckoutHref(link, initialPeriod);
-      link.addEventListener("click", () => {
-        const period =
-          pricingSection.getAttribute("data-billing-period") === "yearly"
-            ? "yearly"
-            : "monthly";
-        updateCheckoutHref(link, period);
-      });
-    }
-    syncBillingToggles(initialPeriod);
-  }
-</script>

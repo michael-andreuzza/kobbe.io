@@ -2,12 +2,43 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PricingSection from "@/components/sections/pricing/Pricing.astro";
 import PricingFeatures from "@/components/sections/pricing/PricingFeatures.astro";
+import {
+  buildPricingJsonLdOffers,
+  pricingTiers,
+} from "@/components/sections/pricing/pricing-tiers";
+
+const pricingTitle = "Website Analytics Pricing — Kobbe";
+const pricingDescription =
+  "Website analytics pricing from $15/month. Event-based plans with cookie-free tracking, privacy-friendly insights, and every feature included.";
+const canonical = "https://kobbe.io/pricing";
+const pricingJsonLd = [
+  {
+    "@type": "SoftwareApplication",
+    "@id": "https://kobbe.io/#software",
+    name: "Kobbe",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    url: "https://kobbe.io",
+    description: pricingDescription,
+    offers: {
+      "@type": "AggregateOffer",
+      lowPrice: "15",
+      highPrice: "470",
+      priceCurrency: "USD",
+      offerCount: String(pricingTiers.length),
+      url: canonical,
+      offers: buildPricingJsonLdOffers(canonical),
+    },
+    publisher: { "@id": "https://kobbe.io/#organization" },
+  },
+];
 ---
 
 <BaseLayout
-  title="Pricing — Kobbe"
-  description="Simple event-based pricing for privacy-friendly analytics. Start at $15/month."
-  canonical="https://kobbe.io/pricing"
+  title={pricingTitle}
+  description={pricingDescription}
+  canonical={canonical}
+  jsonLdExtra={pricingJsonLd}
 >
   <PricingSection />
   <PricingFeatures />

@@ -1,0 +1,105 @@
+import { useMemo, useState } from "react";
+
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import {
+  formatPricingCurrency,
+  formatTierLimitLabel,
+  popularPricingTierIndices,
+  pricingTiers,
+  type BillingPeriod,
+} from "./pricing-tiers";
+
+type PricingTierSelectorsProps = {
+  period: BillingPeriod;
+  tierIndex: number;
+  onTierIndexChange: (index: number) => void;
+  className?: string;
+};
+
+function formatTierPrice(
+  tier: (typeof pricingTiers)[number],
+  period: BillingPeriod,
+) {
+  const amount = period === "monthly" ? tier.monthly : tier.yearly;
+  const suffix = period === "monthly" ? "month" : "year";
+  return `$${formatPricingCurrency(amount)}/${suffix}`;
+}
+
+export function PricingTierSelectors({
+  period,
+  tierIndex,
+  onTierIndexChange,
+  className,
+}: PricingTierSelectorsProps) {
+  const [showAll, setShowAll] = useState(false);
+
+  const visibleIndices = useMemo(() => {
+    if (showAll) {
+      return pricingTiers.map((_tier, index) => index);
+    }
+
+    return [...popularPricingTierIndices].sort((a, b) => a - b);
+  }, [showAll]);
+
+  return (
+    <div className={cn("space-y-3", className)}>
+      <div
+        className="grid gap-2"
+        role="radiogroup"
+        aria-label="Monthly event volume"
+      >
+        {visibleIndices.map((index) => {
+          const tier = pricingTiers[index] ?? pricingTiers[0];
+          const selected = index === tierIndex;
+
+          return (
+            <button
+              key={tier.key}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              onClick={() => onTierIndexChange(index)}
+              className={cn(
+                "border-border bg-background flex w-full flex-col justify-between gap-x-4 gap-y-2 border px-3 py-3 text-left text-sm transition-colors lg:flex-row lg:items-center",
+                selected
+                  ? "border-foreground text-foreground"
+                  : "text-muted-foreground hover:bg-muted/35 hover:text-foreground",
+              )}
+            >
+              <span
+                className={cn(
+                  "font-medium tabular-nums",
+                  selected ? "text-foreground" : "text-muted-foreground",
+                )}
+              >
+                {formatTierPrice(tier, period)}
+              </span>
+              <span
+                className={cn(
+                  "text-xs sm:text-sm lg:text-right",
+                  selected ? "text-foreground" : "text-muted-foreground",
+                )}
+              >
+                {formatTierLimitLabel(tier.events)}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <button
+        type="button"
+        className={cn(
+          buttonVariants({ variant: "ghost", size: "sm" }),
+          "text-muted-foreground px-0 hover:bg-transparent",
+        )}
+        onClick={() => setShowAll((value) => !value)}
+      >
+        {showAll ? "Show fewer plans" : "Show all plans"}
+      </button>
+    </div>
+  );
+}
+
+export default PricingTierSelectors;

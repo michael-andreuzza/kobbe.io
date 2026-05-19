@@ -1,46 +1,24 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
+import type { BillingPeriod } from "./pricing-tiers";
 
-type BillingPeriod = "monthly" | "yearly";
-
-const billingPeriodEvent = "kobbe:billing-period-change";
-
-function isBillingPeriod(value: unknown): value is BillingPeriod {
-  return value === "monthly" || value === "yearly";
-}
-
-export function BillingPeriodTabs({
-  className,
-  yearlyLabel = "1 month free",
-}: {
+type BillingPeriodTabsProps = {
+  period: BillingPeriod;
+  onPeriodChange: (period: BillingPeriod) => void;
   className?: string;
   yearlyLabel?: string;
-}) {
-  const [period, setPeriod] = useState<BillingPeriod>("monthly");
+};
+
+export function BillingPeriodTabs({
+  period,
+  onPeriodChange,
+  className,
+  yearlyLabel = "1 month free",
+}: BillingPeriodTabsProps) {
   const monthlyRef = useRef<HTMLButtonElement>(null);
   const yearlyRef = useRef<HTMLButtonElement>(null);
   const [sliderStyle, setSliderStyle] = useState({ left: 2, width: 0 });
-
-  useEffect(() => {
-    function handlePeriodChange(event: Event) {
-      const next = (event as CustomEvent<{ period?: unknown }>).detail?.period;
-      if (isBillingPeriod(next)) {
-        setPeriod(next);
-      }
-    }
-
-    window.addEventListener(billingPeriodEvent, handlePeriodChange);
-    return () =>
-      window.removeEventListener(billingPeriodEvent, handlePeriodChange);
-  }, []);
-
-  function selectPeriod(value: BillingPeriod) {
-    setPeriod(value);
-    window.dispatchEvent(
-      new CustomEvent(billingPeriodEvent, { detail: { period: value } }),
-    );
-  }
 
   useLayoutEffect(() => {
     const activeButton =
@@ -57,7 +35,7 @@ export function BillingPeriodTabs({
   return (
     <div
       className={cn(
-        "relative inline-flex h-7 w-fit justify-self-start overflow-hidden rounded-md p-0.5",
+        "relative inline-flex h-7 w-fit shrink-0 justify-self-start overflow-hidden rounded-md p-0.5",
         className,
       )}
       role="group"
@@ -74,10 +52,8 @@ export function BillingPeriodTabs({
       <button
         ref={monthlyRef}
         type="button"
-        data-billing-toggle="monthly"
-        data-active={period === "monthly" ? "" : undefined}
         aria-pressed={period === "monthly"}
-        onClick={() => selectPeriod("monthly")}
+        onClick={() => onPeriodChange("monthly")}
         className={cn(
           "relative z-10 h-6 rounded-sm bg-transparent px-2 text-xs font-medium transition-colors",
           period === "monthly"
@@ -90,10 +66,8 @@ export function BillingPeriodTabs({
       <button
         ref={yearlyRef}
         type="button"
-        data-billing-toggle="yearly"
-        data-active={period === "yearly" ? "" : undefined}
         aria-pressed={period === "yearly"}
-        onClick={() => selectPeriod("yearly")}
+        onClick={() => onPeriodChange("yearly")}
         className={cn(
           "relative z-10 h-6 rounded-sm bg-transparent px-2 text-xs font-medium transition-colors",
           period === "yearly"
@@ -109,3 +83,5 @@ export function BillingPeriodTabs({
     </div>
   );
 }
+
+export default BillingPeriodTabs;
