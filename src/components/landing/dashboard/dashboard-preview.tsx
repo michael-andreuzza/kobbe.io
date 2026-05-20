@@ -27,7 +27,7 @@ const heroMetricSequence = [
   "revenue",
 ] satisfies TrafficChartMetric[];
 
-const heroSpotlightIndexes = [4, 2, 5, 3] as const;
+const heroSpotlightIndexes = [18, 22, 25, 27] as const;
 
 export function DashboardPreview() {
   const [chartMetric, setChartMetric] =
@@ -35,7 +35,7 @@ export function DashboardPreview() {
   const [autoplayStep, setAutoplayStep] = useState(0);
   const [autoplayPaused, setAutoplayPaused] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
-  const data = dashboardPreviewData["7d"];
+  const data = dashboardPreviewData["30d"];
   const spotlightIndex =
     autoplayPaused || prefersReducedMotion
       ? undefined

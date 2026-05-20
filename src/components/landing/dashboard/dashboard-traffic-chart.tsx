@@ -40,7 +40,7 @@ export function DashboardTrafficChart(props: Props) {
             <CardDescription>{props.rangeLabel}</CardDescription>
           </CardHeader>
         ) : null}
-        <CardContent className="min-w-0 px-0 pt-0 pb-4">
+        <CardContent className="min-w-0 px-4 pt-0 pb-4 sm:px-5">
           <TrafficLineChart
             points={props.points}
             bucket="day"

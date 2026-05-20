@@ -1,10 +1,9 @@
 import type { CSSProperties } from "react";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-  Area,
-  CartesianGrid,
+  Bar,
+  Cell,
   ComposedChart,
-  ReferenceDot,
   ReferenceLine,
   XAxis,
   YAxis,
@@ -64,6 +63,65 @@ type PinnedTooltipState = {
   chartHeight: number;
 };
 
+type LollipopShapeProps = {
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  fill?: string;
+  active?: boolean;
+  background?: { y?: number; height?: number };
+};
+
+function LollipopBarShape(props: LollipopShapeProps) {
+  const x = Number(props.x) || 0;
+  const y = Number(props.y) || 0;
+  const width = Number(props.width) || 0;
+  const height = Number(props.height) || 0;
+  const fill = props.active
+    ? "var(--brand)"
+    : (props.fill ?? "var(--foreground)");
+  const cx = x + width / 2;
+  const railTop = typeof props.background?.y === "number" ? props.background.y : y;
+  const railBottom =
+    typeof props.background?.height === "number"
+      ? railTop + props.background.height
+      : y + height;
+  const stemOpacity = props.active ? 0.9 : 0.7;
+  const railOpacity = props.active ? 0.18 : 0.1;
+
+  return (
+    <g>
+      <line
+        x1={cx}
+        y1={railTop}
+        x2={cx}
+        y2={railBottom}
+        stroke={fill}
+        strokeOpacity={railOpacity}
+        strokeWidth={1}
+        strokeLinecap="round"
+      />
+      {height > 0 ? (
+        <line
+          x1={cx}
+          y1={y}
+          x2={cx}
+          y2={railBottom}
+          stroke={fill}
+          strokeOpacity={stemOpacity}
+          strokeWidth={1.5}
+          strokeLinecap="round"
+        />
+      ) : null}
+    </g>
+  );
+}
+
+function BrandActiveLollipopBarShape(props: LollipopShapeProps) {
+  return <LollipopBarShape {...props} active fill="var(--brand)" />;
+}
+
 export type TrafficChartMetric =
   | "views"
   | "visitors"
@@ -92,8 +150,6 @@ export function TrafficLineChart(props: {
   } = props;
   const hero = variant === "hero";
   const chartRootRef = useRef<HTMLDivElement>(null);
-  const rawPatternId = useId();
-  const stripePatternId = `traffic-chart-stripes-${rawPatternId.replace(/:/g, "")}`;
   const [pinnedTooltip, setPinnedTooltip] = useState<PinnedTooltipState | null>(
     null,
   );
@@ -134,6 +190,8 @@ export function TrafficLineChart(props: {
         : chartCountAxisUpperBound(maxMetric);
   const yAxisWidth =
     metric === "revenue" ? 60 : metric === "sessionTime" ? 44 : 40;
+  const barMaxSize = chartBarMaxSize(data.length);
+  const barCategoryGap = chartBarCategoryGap(data.length);
   const pinnedIndex = pinnedTooltip?.index ?? null;
   const pinnedPoint =
     pinnedIndex != null && pinnedIndex >= 0 && pinnedIndex < data.length
@@ -210,8 +268,7 @@ export function TrafficLineChart(props: {
         <ComposedChart
           accessibilityLayer={false}
           data={data}
-          barCategoryGap="10%"
-          barGap={1}
+          barCategoryGap={barCategoryGap}
           onClick={(nextState) => {
             const nextIndex = Number(nextState.activeTooltipIndex);
             if (!Number.isInteger(nextIndex) || nextIndex < 0) {
@@ -246,67 +303,47 @@ export function TrafficLineChart(props: {
           margin={
             hero
               ? {
-                  top: 16,
+                  top: 20,
                   right: 12,
-                  left: metric === "revenue" ? 8 : 4,
-                  bottom: 4,
+                  left: 0,
+                  bottom: 16,
                 }
               : {
-                  top: 14,
+                  top: 18,
                   right: 8,
-                  left: metric === "revenue" ? 8 : 4,
-                  bottom: 4,
+                  left: 0,
+                  bottom: 16,
                 }
           }
         >
-          <defs>
-            <pattern
-              id={stripePatternId}
-              width="5"
-              height="5"
-              patternUnits="userSpaceOnUse"
-              patternTransform="rotate(45)"
-            >
-              <line
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="5"
-                stroke={metricColor}
-                strokeOpacity={0.24}
-                strokeWidth={1.15}
-              />
-            </pattern>
-          </defs>
-          <CartesianGrid
-            yAxisId="traffic"
-            strokeDasharray="4 4"
-            vertical={false}
-            stroke="var(--foreground)"
-            strokeOpacity={0.18}
-            strokeWidth={1}
-            syncWithTicks
-          />
           <XAxis
             dataKey="label"
             tickLine={false}
             axisLine={false}
-            tickMargin={10}
+            tickMargin={12}
             interval="preserveStartEnd"
-            minTickGap={hero ? 22 : 18}
-            tick={{ fontSize: 11, className: "text-muted-foreground" }}
+            minTickGap={hero ? 28 : 22}
+            tick={{
+              fontSize: 10.5,
+              className: "fill-muted-foreground/80 font-medium",
+            }}
           />
           <YAxis
             yAxisId="traffic"
+            orientation="right"
             tickLine={false}
             axisLine={false}
             width={yAxisWidth}
             allowDecimals={false}
-            tickCount={6}
+            tickCount={3}
+            tickMargin={4}
             tickFormatter={(value) =>
               formatTrafficYAxisTick(metric, Number(value), revenueCurrency)
             }
-            tick={{ fontSize: 11, className: "text-muted-foreground" }}
+            tick={{
+              fontSize: 10.5,
+              className: "fill-muted-foreground/70 font-medium tabular-nums",
+            }}
             domain={[0, trafficYMax]}
           />
           <ChartTooltip
@@ -318,48 +355,40 @@ export function TrafficLineChart(props: {
                 revenueCurrency={revenueCurrency}
               />
             }
-            cursor={{
-              stroke: metricColor,
-              strokeWidth: 1,
-              strokeOpacity: 0.55,
-            }}
+            cursor={false}
           />
-          <Area
+          <Bar
             key={metricKey}
             yAxisId="traffic"
-            type="monotone"
             dataKey={metricKey}
-            stroke={metricColor}
-            strokeWidth={2}
-            fill={`url(#${stripePatternId})`}
-            fillOpacity={1}
-            dot={false}
-            activeDot={false}
-            connectNulls={false}
+            fill={metricColor}
+            maxBarSize={barMaxSize}
+            shape={<LollipopBarShape />}
+            activeBar={<BrandActiveLollipopBarShape />}
             isAnimationActive={!prefersReducedMotion}
-            animationDuration={260}
+            animationDuration={320}
             animationEasing="ease-out"
-          />
+          >
+            {data.map((point, index) => (
+              <Cell
+                key={`${point.t}-${metricKey}`}
+                fill={
+                  index === pinnedIndex || index === spotlightIndex
+                    ? "var(--brand)"
+                    : metricColor
+                }
+              />
+            ))}
+          </Bar>
           {displayPoint ? (
             <ReferenceLine
               key={`spotlight-line-${metricKey}-${displayPoint.label}`}
               yAxisId="traffic"
               x={displayPoint.label}
-              stroke={metricColor}
+              stroke="var(--brand)"
               strokeWidth={1}
-              strokeOpacity={0.55}
-            />
-          ) : null}
-          {displayPoint && displayDotValue != null ? (
-            <ReferenceDot
-              key={`spotlight-dot-${metricKey}-${displayPoint.label}`}
-              yAxisId="traffic"
-              x={displayPoint.label}
-              y={displayDotValue}
-              r={4}
-              fill="var(--background)"
-              stroke={metricColor}
-              strokeWidth={2}
+              strokeOpacity={0.45}
+              strokeDasharray="3 3"
             />
           ) : null}
         </ComposedChart>
@@ -566,6 +595,22 @@ function usePrefersReducedMotion() {
   }, []);
 
   return reducedMotion;
+}
+
+function chartBarMaxSize(pointCount: number): number {
+  if (pointCount <= 7) return 64;
+  if (pointCount <= 14) return 48;
+  if (pointCount <= 30) return 32;
+  if (pointCount <= 60) return 22;
+  if (pointCount <= 120) return 14;
+  return 10;
+}
+
+function chartBarCategoryGap(pointCount: number): string | number {
+  if (pointCount <= 7) return "12%";
+  if (pointCount <= 30) return "10%";
+  if (pointCount <= 90) return "6%";
+  return "2%";
 }
 
 function chartCountAxisUpperBound(maxValue: number) {

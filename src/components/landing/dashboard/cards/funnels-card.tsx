@@ -69,149 +69,76 @@ function MarketingFunnelChart(props: {
   }
 
   const maxVisitors = Math.max(1, ...props.steps.map((step) => step.visitors));
-  const geometry = buildFunnelFlowGeometry(props.steps, maxVisitors);
-  const filledSegmentCount =
-    props.activeStep == null
-      ? geometry.segments.length
-      : Math.max(1, Math.min(geometry.segments.length, props.activeStep + 1));
 
   return (
-    <div className="relative h-80 w-full min-w-0 overflow-hidden rounded-b-xl sm:h-88">
-      <style>{`
-        @media (prefers-reduced-motion: no-preference) {
-          .kobbe-funnel-flow {
-            transition:
-              opacity 460ms cubic-bezier(0.16, 1, 0.3, 1),
-              transform 460ms cubic-bezier(0.16, 1, 0.3, 1);
-            transform-box: fill-box;
-            transform-origin: left center;
-          }
-        }
-      `}</style>
+    <div className="w-full min-w-0 px-4 pt-2 pb-4 sm:px-5">
       <div
-        className="absolute inset-0 grid"
+        className="grid min-w-0 gap-3"
         style={{
           gridTemplateColumns: `repeat(${props.steps.length}, minmax(0, 1fr))`,
         }}
-        aria-hidden
       >
-        {props.steps.map((step) => (
-          <div
-            key={step.label}
-            className="border-border/40 even:bg-muted/15 border-r last:border-r-0"
-          />
-        ))}
-      </div>
-      <svg
-        viewBox="0 0 1000 280"
-        preserveAspectRatio="none"
-        className="absolute inset-x-0 top-0 h-60 w-full sm:h-64"
-        role="img"
-        aria-label="Funnel conversion flow"
-      >
-        <defs>
-          {geometry.segments.map((segment) => (
-            <linearGradient
-              key={`funnel-flow-fill-${segment.index}`}
-              id={`marketing-funnel-flow-fill-${segment.index}`}
-              x1="0"
-              y1="0"
-              x2="1"
-              y2="0"
-            >
-              <stop
-                offset="0%"
-                stopColor="var(--foreground)"
-                stopOpacity="0.14"
-              />
-              <stop
-                offset="100%"
-                stopColor="var(--foreground)"
-                stopOpacity="0.58"
-              />
-            </linearGradient>
-          ))}
-        </defs>
-        {geometry.segments.map((segment) => (
-          <path
-            key={`base-${segment.index}`}
-            d={segment.path}
-            fill={`url(#marketing-funnel-flow-fill-${segment.index})`}
-            opacity={0.1}
-          />
-        ))}
-        {geometry.segments.map((segment) => {
-          const filled = segment.index < filledSegmentCount;
-
+        {props.steps.map((step, index) => {
+          const previous = props.steps[index - 1];
+          const dropoff =
+            previous && previous.visitors > 0
+              ? 1 - step.visitors / previous.visitors
+              : 0;
+          const ratio = Math.max(0, Math.min(1, step.visitors / maxVisitors));
+          const stemHeight = 44 + ratio * 132;
+          const active = props.activeStep === index;
           return (
-            <path
-              key={segment.index}
-              className="kobbe-funnel-flow"
-              d={segment.path}
-              fill={`url(#marketing-funnel-flow-fill-${segment.index})`}
-              opacity={filled ? 1 : 0}
-              style={{
-                transform: filled ? "scaleX(1)" : "scaleX(0.04)",
-                transitionDelay: filled ? `${segment.index * 70}ms` : "0ms",
-              }}
-            />
-          );
-        })}
-      </svg>
-      {props.steps.slice(1).map((step, index) => {
-        const previous = props.steps[index];
-        const dropoff =
-          previous && previous.visitors > 0
-            ? 1 - step.visitors / previous.visitors
-            : 0;
-        const left = `${((index + 1) / props.steps.length) * 100}%`;
-        return (
-          <span
-            key={`${step.label}-dropoff`}
-            className={cn(
-              "bg-muted text-muted-foreground absolute top-0 z-10 -translate-x-1/2 rounded-md px-2 py-0.5 text-xs font-medium transition-colors duration-500",
-              props.activeStep === index + 1 && "text-foreground",
-            )}
-            style={{ left }}
-          >
-            -{formatPercent(Math.max(0, dropoff))}
-          </span>
-        );
-      })}
-      <div
-        className="border-border/50 absolute inset-x-0 bottom-0 grid border-t"
-        style={{
-          gridTemplateColumns: `repeat(${props.steps.length}, minmax(0, 1fr))`,
-        }}
-      >
-        {props.steps.map((step, index) => (
-          <div
-            key={step.label}
-            className={cn(
-              "border-border/40 min-w-0 border-r px-4 py-3 transition-colors duration-500 last:border-r-0",
-              props.activeStep === index && "bg-muted/35",
-            )}
-          >
-            <div className="flex min-w-0 items-center gap-2">
-              <span
+            <div
+              key={step.label}
+              className="group relative flex min-w-0 flex-col items-center"
+              aria-label={`${step.label}: ${step.visitors.toLocaleString()} visitors, ${formatPercent(step.conversionRate)} conversion`}
+            >
+              {index > 0 ? (
+                <span
+                  className={cn(
+                    "bg-background text-muted-foreground ring-border/50 absolute top-2 left-0 z-10 -translate-x-1/2 rounded-md px-1.5 py-0.5 text-[11px] font-medium ring-1 transition-colors duration-500",
+                    active && "text-foreground",
+                  )}
+                  title={`${formatPercent(Math.max(0, dropoff))} drop-off`}
+                >
+                  -{formatPercent(Math.max(0, dropoff))}
+                </span>
+              ) : null}
+              <div className="flex h-48 w-full items-end justify-center">
+                <div className="relative flex h-full items-end justify-center">
+                  <div className="bg-foreground/10 absolute inset-y-0 left-1/2 w-px -translate-x-1/2 rounded-full" />
+                  <div
+                    className={cn(
+                      "bg-foreground relative w-0.5 rounded-full transition-[height,background-color,transform] duration-500",
+                      active && "bg-brand scale-y-105",
+                    )}
+                    style={{ height: `${stemHeight}px` }}
+                    aria-hidden
+                  />
+                </div>
+              </div>
+              <div
                 className={cn(
-                  "bg-foreground size-2 shrink-0 rounded-full transition-transform duration-500",
-                  props.activeStep === index && "scale-125",
+                  "border-border/50 mt-3 w-full min-w-0 border-t pt-3 text-center transition-colors duration-500",
+                  active && "border-brand/40",
                 )}
-                aria-hidden
-              />
-              <div className="text-foreground truncate text-sm font-semibold">
-                {step.visitors.toLocaleString()} visitors
+              >
+                <div className="text-foreground truncate text-sm font-semibold">
+                  {step.visitors.toLocaleString()} visitors
+                </div>
+                <div
+                  className="text-muted-foreground mt-1 truncate text-xs"
+                  title={step.label}
+                >
+                  {step.label}
+                </div>
+                <div className="text-muted-foreground/80 mt-1 text-xs">
+                  {formatPercent(step.conversionRate)} conv.
+                </div>
               </div>
             </div>
-            <div
-              className="text-muted-foreground mt-1 truncate text-xs"
-              title={step.label}
-            >
-              {step.label}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
@@ -220,70 +147,72 @@ function MarketingFunnelChart(props: {
 function MarketingFunnelTrend(props: {
   steps: DashboardPreviewRangeData["funnels"]["steps"];
 }) {
+  const entrants = props.steps[0]?.visitors ?? 0;
+  const completed = props.steps.at(-1)?.visitors ?? 0;
+  const points = buildMarketingFunnelTrend(entrants);
+  const maxVisitors = Math.max(1, ...points.map((point) => point.visitors));
+  const completedRate = entrants > 0 ? completed / entrants : 0;
+
   return (
-    <div className="border-border/50 bg-background text-muted-foreground flex h-80 min-w-0 items-center justify-center rounded-b-xl border-t text-sm sm:h-88">
-      {props.steps.length.toLocaleString()} steps grouped by when each step was
-      reached
+    <div className="w-full min-w-0 px-4 pt-2 pb-4 sm:px-5">
+      <div className="flex h-48 min-w-0 items-end gap-2">
+        {points.map((point, index) => {
+          const ratio = Math.max(0, Math.min(1, point.visitors / maxVisitors));
+          const stemHeight = 28 + ratio * 132;
+          return (
+            <div
+              key={`${point.label}-${index}`}
+              className="group flex min-w-0 flex-1 flex-col items-center justify-end"
+              title={`${point.label}: ${point.visitors.toLocaleString()} entrants`}
+            >
+              <div className="relative flex h-full items-end justify-center">
+                <div className="bg-foreground/10 absolute inset-y-0 left-1/2 w-px -translate-x-1/2 rounded-full" />
+                <div
+                  className="bg-foreground group-hover:bg-brand relative w-0.5 rounded-full transition-[height,background-color] duration-300"
+                  style={{ height: `${stemHeight}px` }}
+                  aria-hidden
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div className="border-border/50 mt-3 grid grid-cols-3 gap-3 border-t pt-3 text-xs">
+        <div className="min-w-0">
+          <div className="text-muted-foreground">Entrants</div>
+          <div className="text-foreground mt-0.5 font-semibold tabular-nums">
+            {entrants.toLocaleString()}
+          </div>
+        </div>
+        <div className="min-w-0 text-center">
+          <div className="text-muted-foreground">Completed</div>
+          <div className="text-foreground mt-0.5 font-semibold tabular-nums">
+            {completed.toLocaleString()}
+          </div>
+        </div>
+        <div className="min-w-0 text-right">
+          <div className="text-muted-foreground">Conversion</div>
+          <div className="text-foreground mt-0.5 font-semibold tabular-nums">
+            {formatPercent(completedRate)}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-function buildFunnelFlowGeometry(
-  steps: DashboardPreviewRangeData["funnels"]["steps"],
-  maxVisitors: number,
-): { segments: { index: number; path: string }[] } {
-  const width = 1000;
-  const centerY = 136;
-  const maxHalfHeight = 92;
-  const minHalfHeight = 20;
-  const count = steps.length;
-  const points = steps.map((step, index) => {
-    const x = count === 1 ? width / 2 : (index / (count - 1)) * width;
-    const ratio = Math.max(0, Math.min(1, step.visitors / maxVisitors));
-    const halfHeight = Math.max(
-      minHalfHeight,
-      maxHalfHeight * Math.pow(ratio, 0.72),
-    );
-    return {
-      x,
-      top: centerY - halfHeight,
-      bottom: centerY + halfHeight,
-    };
-  });
+function buildMarketingFunnelTrend(entrants: number) {
+  const weights = [
+    0.42, 0.58, 0.34, 0.66, 0.52, 0.74, 0.4, 0.62, 0.8, 0.56, 0.7, 0.48,
+    0.76, 0.6,
+  ];
+  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+  const perWeight = entrants / Math.max(1, totalWeight);
 
-  if (points.length === 1) {
-    const p = points[0]!;
-    return {
-      segments: [
-        {
-          index: 0,
-          path: `M 0 ${p.top} L ${width} ${p.top} L ${width} ${p.bottom} L 0 ${p.bottom} Z`,
-        },
-      ],
-    };
-  }
-
-  return {
-    segments: points.slice(0, -1).map((point, index) => ({
-      index,
-      path: segmentPath(point, points[index + 1]!),
-    })),
-  };
-}
-
-function segmentPath(
-  start: { x: number; top: number; bottom: number },
-  end: { x: number; top: number; bottom: number },
-): string {
-  const cp1x = start.x + (end.x - start.x) * 0.45;
-  const cp2x = start.x + (end.x - start.x) * 0.55;
-  return [
-    `M ${start.x} ${start.top}`,
-    `C ${cp1x} ${start.top}, ${cp2x} ${end.top}, ${end.x} ${end.top}`,
-    `L ${end.x} ${end.bottom}`,
-    `C ${cp2x} ${end.bottom}, ${cp1x} ${start.bottom}, ${start.x} ${start.bottom}`,
-    "Z",
-  ].join(" ");
+  return weights.map((weight, index) => ({
+    label: `Day ${index + 1}`,
+    visitors: Math.max(1, Math.round(perWeight * weight)),
+  }));
 }
 
 export default FunnelsCard;
