@@ -189,17 +189,19 @@ function CapabilityCard(props: CapabilityCardProps) {
   return (
     <Card className="group min-w-0 gap-0 overflow-hidden bg-transparent p-0">
       <CardHeader className="px-0 pt-4 sm:pt-5">
-        <CardTitle className="text-foreground text-base font-semibold tracking-tight uppercase">
+        <CardTitle className="text-foreground text-lg font-medium">
           {props.title}
         </CardTitle>
         <CardDescription className="text-muted-foreground mt-1 text-base leading-6 text-balance">
           {props.description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="bg-muted mt-8 min-w-0 rounded-xl p-8 lg:p-20">
-        <PreviewFrame mockupClassName={props.mockupClassName}>
-          {props.children}
-        </PreviewFrame>
+      <CardContent className="bg-muted mt-8 min-w-0 overflow-hidden p-8 pb-0 lg:p-20 lg:pb-0">
+        <div className="-mb-20">
+          <PreviewFrame mockupClassName={props.mockupClassName}>
+            {props.children}
+          </PreviewFrame>
+        </div>
       </CardContent>
     </Card>
   );

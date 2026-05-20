@@ -6,39 +6,37 @@ import HeroDashboardPreview from "@/components/landing/hero-dashboard-preview";
 
 <section>
   <Wrapper variant="default" class="pt-20 pb-20 lg:pt-28">
-    <div class="max-w-xl text-balance">
+    <div class="mx-auto max-w-xl text-center text-balance">
       <Text
         tag="h1"
-        variant="displaySM"
-        class="text-foreground font-medium tracking-tight"
+        variant="textXL"
+        class="text-foreground font-medium text-balance"
       >
         Privacy-friendly and cookie-less analytics for your website.
       </Text>
-      <div class="mt-24 lg:mt-32">
-        <Text
-          tag="p"
-          variant="textBase"
-          class="text-muted-foreground mt-2 font-medium"
-        >
-          See traffic, pages, referrers, locations, devices, funnels, and
-          revenue without cookies, raw IP storage, or invasive tracking. Manage
-          with CLI or AI agents. <br /> — Set up in seconds.
-        </Text>
+      <Text
+        tag="p"
+        variant="textBase"
+        class="text-muted-foreground mt-4 font-medium"
+      >
+        See traffic, pages, referrers, locations, devices, funnels, and revenue
+        without cookies, raw IP storage, or invasive tracking. Manage with CLI
+        or AI agents. <br /> — Set up in seconds.
+      </Text>
 
-        <a
-          href="https://app.kobbe.io/demo/kobbe-studio"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-kobbe-event="Hero — see demo"
-          class="text-foreground hover:text-muted-foreground mt-8 flex text-sm font-semibold uppercase"
-        >
-          See the demo
-        </a>
-      </div>
+      <a
+        href="https://app.kobbe.io/demo/kobbe-studio"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-kobbe-event="Hero — see demo"
+        class="text-foreground hover:text-muted-foreground mx-auto mt-8 flex w-fit text-sm font-semibold uppercase"
+      >
+        See the demo
+      </a>
     </div>
     <div class="mt-8"><HeroDashboardPreview client:load /></div>
     <ul
-      class="text-foreground flex flex-wrap gap-2 text-sm font-semibold uppercase mt-8 text-center w-fit mx-auto"
+      class="text-foreground mx-auto mt-8 flex w-fit flex-wrap gap-2 text-center text-sm font-semibold uppercase"
     >
       <li>1.8KB default tracker gzip</li>
 

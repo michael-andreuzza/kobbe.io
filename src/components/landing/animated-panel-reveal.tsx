@@ -11,7 +11,7 @@ type AnimatedPanelRevealProps = {
 export function AnimatedPanelReveal({
   children,
   className,
-  delay = 0.2,
+  delay = 0.1,
   trigger = "view",
 }: AnimatedPanelRevealProps) {
   const shouldReduceMotion = useReducedMotion();
@@ -33,7 +33,7 @@ export function AnimatedPanelReveal({
       }
       animate={trigger === "mount" ? visibleState : undefined}
       whileInView={trigger === "view" ? visibleState : undefined}
-      viewport={trigger === "view" ? { once: true, amount: 0.35 } : undefined}
+      viewport={trigger === "view" ? { once: true, amount: 0.18 } : undefined}
       transition={{
         type: "spring",
         visualDuration: 1,

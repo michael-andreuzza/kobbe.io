@@ -9,31 +9,25 @@ const appBaseUrl = "https://app.kobbe.io";
 <section id="pricing" aria-labelledby="pricing-heading">
   <section class="relative">
     <Wrapper variant="default" class="relative pt-20 pb-20 lg:pt-28">
-      <div class="max-w-xl text-balance">
+      <div class="max-w-lg">
         <Text
           tag="h1"
-          id="pricing-heading"
-          variant="displaySM"
-          class="text-foreground font-medium tracking-tight"
+          variant="textXL"
+          class="text-foreground font-medium text-balance"
         >
           Event-based pricing that scales with you
         </Text>
-        <div class="mt-24 lg:mt-32">
-          <Text
-            tag="p"
-            variant="textBase"
-            class="text-muted-foreground font-medium"
-          >
-            Start with a 3-day free trial. No credit card required.
-          </Text>
-        </div>
+        <Text
+          tag="p"
+          variant="textBase"
+          class="text-muted-foreground mt-4 font-medium"
+        >
+          Start with a 3-day free trial. No credit card required.
+        </Text>
       </div>
 
       <div class="bg-muted relative mt-8 p-8 lg:p-32">
-        <PricingPlanCard
-          client:load
-          appBaseUrl={appBaseUrl}
-        />
+        <PricingPlanCard client:load appBaseUrl={appBaseUrl} />
       </div>
     </Wrapper>
   </section>

@@ -79,22 +79,18 @@ const installationPlatformItems = installationPlatforms.map((platform) => ({
 
 <section>
   <Wrapper class="py-20">
-    <div class="max-w-xl">
+    <div class="max-w-lg">
       <Text
         tag="h2"
-        variant="textBase"
-        class="text-foreground font-semibold tracking-tight text-balance uppercase"
+        variant="textXL"
+        class="text-foreground font-medium "
       >
         From one script tag to a dashboard you can actually read.
-      </Text>
-      <Text
-        tag="p"
-        variant="textBase"
-        class="text-muted-foreground font-medium text-balance"
-      >
-        Install Kobbe once, let privacy-friendly analytics signals flow in, then
-        use the dashboard to understand traffic, events, and revenue without
-        building visitor profiles.
+        <span class="text-muted-foreground font-normal">
+          Install Kobbe once, let privacy-friendly analytics signals flow in,
+          then use the dashboard to understand traffic, events, and revenue
+          without building visitor profiles.
+        </span>
       </Text>
     </div>
 
@@ -109,11 +105,7 @@ const installationPlatformItems = installationPlatforms.map((platform) => ({
         steps.map((step) => (
           <div>
             <dt>
-              <Text
-                tag="p"
-                variant="textBase"
-                class="text-foreground font-semibold uppercase"
-              >
+              <Text tag="p" variant="textBase" class="text-foreground text-lg">
                 {step.number}.-
                 {step.title}
               </Text>

@@ -62,8 +62,8 @@ export function DashboardPreview() {
   };
 
   return (
-    <div className="bg-muted relative w-full  p-8 lg:p-42">
-      <div className="relative min-w-0">
+    <div className="bg-muted relative w-full overflow-hidden p-8 pb-0 lg:p-32 lg:pb-0">
+      <div className="relative mx-auto -mb-10 min-w-0 lg:max-w-4xl">
         <DashboardKpiStrip
           showComparison={data.kpi.showComparison}
           visitors={data.kpi.visitors}

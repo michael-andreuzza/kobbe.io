@@ -98,7 +98,7 @@ function FeatureGroupPanel({ group }: { group: FeatureGroup }) {
               className="group rounded-lg bg-transparent p-0"
             >
               <CardHeader className="p-0">
-                <CardTitle className="text-foreground text-sm font-semibold uppercase">
+                <CardTitle className="text-foreground text-lg font-medium">
                   <a
                     href={feature.href}
                     className="outline-none group-hover:underline focus-visible:underline"

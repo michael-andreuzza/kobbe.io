@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useReducedMotion } from "motion/react";
-import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
+import { Bar, Cell, ComposedChart, XAxis, YAxis } from "recharts";
 
 import {
   Card,
@@ -139,6 +139,68 @@ const performanceChartConfig = {
   p95: { label: "p95", color: "var(--foreground)" },
 } satisfies ChartConfig;
 
+type LollipopShapeProps = {
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  fill?: string;
+  fillOpacity?: number;
+  active?: boolean;
+  background?: { y?: number; height?: number };
+};
+
+function LollipopBarShape(props: LollipopShapeProps) {
+  const x = Number(props.x) || 0;
+  const y = Number(props.y) || 0;
+  const width = Number(props.width) || 0;
+  const height = Number(props.height) || 0;
+  const fill = props.active
+    ? "var(--brand)"
+    : (props.fill ?? "var(--foreground)");
+  const fillOpacity = props.fillOpacity ?? 1;
+  const cx = x + width / 2;
+  const railTop =
+    typeof props.background?.y === "number" ? props.background.y : y;
+  const railBottom =
+    typeof props.background?.height === "number"
+      ? railTop + props.background.height
+      : y + height;
+  const stemOpacity = (props.active ? 0.9 : 0.7) * fillOpacity;
+  const railOpacity = (props.active ? 0.18 : 0.1) * fillOpacity;
+
+  return (
+    <g>
+      <line
+        x1={cx}
+        y1={railTop}
+        x2={cx}
+        y2={railBottom}
+        stroke={fill}
+        strokeOpacity={railOpacity}
+        strokeWidth={1}
+        strokeLinecap="round"
+      />
+      {height > 0 ? (
+        <line
+          x1={cx}
+          y1={y}
+          x2={cx}
+          y2={railBottom}
+          stroke={fill}
+          strokeOpacity={stemOpacity}
+          strokeWidth={1.5}
+          strokeLinecap="round"
+        />
+      ) : null}
+    </g>
+  );
+}
+
+function BrandActiveLollipopBarShape(props: LollipopShapeProps) {
+  return <LollipopBarShape {...props} active fill="var(--brand)" />;
+}
+
 const performanceMetricSequence = [0, 1, 2, 3, 4] as const;
 
 const performancePercentileLabels = {
@@ -183,7 +245,8 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
   const shouldReduceMotion = useReducedMotion();
   const metrics = webVitals.metrics.slice(0, 5);
   const [activeMetricIndex, setActiveMetricIndex] = useState(0);
-  const activeMetric = (metrics[activeMetricIndex]?.name ?? "LCP") as WebVitalName;
+  const activeMetric = (metrics[activeMetricIndex]?.name ??
+    "LCP") as WebVitalName;
 
   useEffect(() => {
     if (shouldReduceMotion || metrics.length <= 1) {
@@ -209,8 +272,8 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
   }, [activeMetricIndex, metrics.length, shouldReduceMotion]);
 
   return (
-    <div className="bg-muted p-8 lg:p-42">
-      <div className="relative min-w-0">
+    <div className="bg-muted overflow-hidden p-8 pb-0 lg:p-42 lg:pb-0">
+      <div className="relative mx-auto -mb-10 min-w-0 lg:max-w-4xl">
         <DashboardMetricStrip ariaLabel="Web Vitals metrics" lgCols={5}>
           {metrics.map((metric, index) => {
             const active = index === activeMetricIndex;
@@ -276,7 +339,10 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
             <CardDescription>Last 7 days</CardDescription>
           </CardHeader>
           <CardContent className="min-w-0 px-3 pb-4 sm:px-4">
-            <PerformanceTrendPreview metric={activeMetric} points={trendPoints} />
+            <PerformanceTrendPreview
+              metric={activeMetric}
+              points={trendPoints}
+            />
           </CardContent>
         </Card>
 
@@ -396,11 +462,25 @@ function PerformanceTrendPreview(props: {
   }, [props.points, showP50, showP75, showP95]);
   const yTicks = useMemo(() => linearYTicksMs(maxY, 6), [maxY]);
   const yMax = yTicks[yTicks.length - 1] ?? maxY;
+  const visibleSeries = useMemo(() => {
+    const keys: Array<keyof typeof performanceChartConfig> = [];
+    if (showP50) keys.push("p50");
+    if (showP75) keys.push("p75");
+    if (showP95) keys.push("p95");
+    return keys;
+  }, [showP50, showP75, showP95]);
+  const barMaxSize = Math.min(
+    24,
+    Math.floor(
+      chartBarMaxSize(props.points.length) / Math.max(1, visibleSeries.length),
+    ),
+  );
+  const barCategoryGap = chartBarCategoryGap(props.points.length);
 
   const toggleClass = (on: boolean) =>
     cn(
       buttonVariants({ variant: on ? "secondary" : "ghost", size: "sm" }),
-      "h-8 rounded-md px-2.5 text-xs",
+      "h-8 rounded-lg px-2.5 text-xs",
       !on ? "text-muted-foreground" : "",
     );
 
@@ -444,97 +524,68 @@ function PerformanceTrendPreview(props: {
       </div>
       <ChartContainer
         config={performanceChartConfig}
-        className="h-64 w-full min-w-0 sm:h-72"
+        className="h-64 w-full min-w-0 sm:h-72 [&_.recharts-label-list]:hidden"
       >
-        <BarChart
+        <ComposedChart
           accessibilityLayer
           data={props.points}
-          margin={{ top: 12, right: 8, left: 4, bottom: 4 }}
-          barGap={3}
-          barCategoryGap="25%"
+          margin={{ top: 20, right: 12, left: 0, bottom: 16 }}
+          barCategoryGap={barCategoryGap}
+          barGap={visibleSeries.length > 1 ? 2 : 0}
         >
-          <CartesianGrid
-            strokeDasharray="4 4"
-            vertical={false}
-            stroke="var(--foreground)"
-            strokeOpacity={0.18}
-            strokeWidth={1}
-          />
           <XAxis
             dataKey="label"
             tickLine={false}
             axisLine={false}
-            tickMargin={10}
+            tickMargin={12}
             interval="preserveStartEnd"
-            minTickGap={18}
-            tick={{ fontSize: 11, className: "text-muted-foreground" }}
+            minTickGap={28}
+            tick={{
+              fontSize: 10.5,
+              className: "fill-muted-foreground/80 font-medium",
+            }}
           />
           <YAxis
+            orientation="right"
             tickLine={false}
             axisLine={false}
-            width={52}
+            width={48}
             domain={[0, yMax]}
             ticks={yTicks}
+            tickCount={3}
+            tickMargin={4}
             tickFormatter={(v) => formatAxisTick(Number(v))}
-            tick={{ fontSize: 11, className: "text-muted-foreground" }}
+            tick={{
+              fontSize: 10.5,
+              className: "fill-muted-foreground/70 font-medium tabular-nums",
+            }}
           />
           <ChartTooltip
-            cursor={{
-              stroke: "var(--border)",
-              strokeWidth: 1,
-              strokeOpacity: 0.9,
-            }}
+            cursor={false}
             content={<PerformanceChartTooltip metric={metric} />}
           />
-          {showP50 ? (
+          {visibleSeries.map((key) => (
             <Bar
-              dataKey="p50"
+              key={key}
+              dataKey={key}
               fill="var(--foreground)"
-              radius={0}
+              maxBarSize={barMaxSize}
+              shape={<LollipopBarShape />}
+              activeBar={<BrandActiveLollipopBarShape />}
               isAnimationActive={false}
             >
               {props.points.map((point) => (
                 <Cell
-                  key={`p50-${point.t}`}
-                  fill={ratingColorForValue(metric, point.p50)}
+                  key={`${key}-${point.t}`}
+                  fill={ratingColorForValue(metric, point[key])}
+                  fillOpacity={0.85}
                 />
               ))}
             </Bar>
-          ) : null}
-          {showP75 ? (
-            <Bar
-              dataKey="p75"
-              fill="var(--foreground)"
-              radius={0}
-              isAnimationActive={false}
-            >
-              {props.points.map((point) => (
-                <Cell
-                  key={`p75-${point.t}`}
-                  fill={ratingColorForValue(metric, point.p75)}
-                />
-              ))}
-            </Bar>
-          ) : null}
-          {showP95 ? (
-            <Bar
-              dataKey="p95"
-              fill="var(--foreground)"
-              radius={0}
-              isAnimationActive={false}
-            >
-              {props.points.map((point) => (
-                <Cell
-                  key={`p95-${point.t}`}
-                  fill={ratingColorForValue(metric, point.p95)}
-                />
-              ))}
-            </Bar>
-          ) : null}
-        </BarChart>
+          ))}
+        </ComposedChart>
       </ChartContainer>
       <div className="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-1 px-1 text-[0.6875rem] leading-relaxed">
-        <span>Bucket: day (UTC)</span>
         <span className="inline-flex items-center gap-1.5">
           <span className="bg-success size-2 rounded-[2px]" aria-hidden />
           Good
@@ -572,7 +623,7 @@ function PerformanceChartTooltip({
   const title = String(payload[0]?.payload?.label ?? "");
 
   return (
-    <div className="border-background/10 bg-foreground text-background grid min-w-48 max-w-xs gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-md">
+    <div className="border-background/10 bg-foreground text-background grid max-w-xs min-w-48 gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-md">
       <div className="text-background font-medium">{title}</div>
       <div className="grid gap-1">
         {payload.map((row) => {
@@ -587,8 +638,7 @@ function PerformanceChartTooltip({
               : null;
           const color = ratingColorForValue(metric, metricValue);
           const rating = ratingLabelForValue(metric, metricValue);
-          const raw =
-            row.payload?.[key] != null ? row.payload[key] : row.value;
+          const raw = row.payload?.[key] != null ? row.payload[key] : row.value;
 
           return (
             <div key={key} className="flex items-center gap-2 leading-none">
@@ -632,6 +682,22 @@ function PerformanceBreakdownCard(props: {
       </CardContent>
     </Card>
   );
+}
+
+function chartBarMaxSize(pointCount: number): number {
+  if (pointCount <= 7) return 64;
+  if (pointCount <= 14) return 48;
+  if (pointCount <= 30) return 32;
+  if (pointCount <= 60) return 22;
+  if (pointCount <= 120) return 14;
+  return 10;
+}
+
+function chartBarCategoryGap(pointCount: number): string | number {
+  if (pointCount <= 7) return "12%";
+  if (pointCount <= 30) return "10%";
+  if (pointCount <= 90) return "6%";
+  return "2%";
 }
 
 export default PerformanceDashboardPreview;

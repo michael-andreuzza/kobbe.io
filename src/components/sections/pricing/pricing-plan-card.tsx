@@ -76,10 +76,13 @@ export function PricingPlanCard({
   return (
     <Card
       variant="default"
-      className={cn("bg-card mx-auto gap-0 p-0 py-0 lg:max-w-1/2", className)}
+      className={cn(
+        "bg-card mx-auto gap-0 rounded-2xl p-0 py-0 lg:max-w-xl",
+        className,
+      )}
     >
-      <CardHeader className="px-8 pt-8 pb-0">
-        <p className="text-foreground text-sm font-semibold text-balance uppercase">
+      <CardHeader className="px-8 pt-8 pb-0 lg:px-12 lg:pt-12">
+        <p className="text-foreground text-base font-medium text-balance">
           Choose your monthly event volume. You can change your plan later.
         </p>
         <BillingPeriodTabs
@@ -95,28 +98,38 @@ export function PricingPlanCard({
         />
       </CardHeader>
 
-      <CardContent className="px-8 pt-4 pb-8">
-        <p className="text-foreground text-sm font-semibold uppercase">
+      <CardContent className="px-8 pt-4 pb-8 lg:px-12 lg:pb-12">
+        <p className="text-foreground text-base font-semibold">
           Included in every plan
         </p>
-        <p className="text-muted-foreground mt-2 text-sm font-medium">
+        <p className="text-muted-foreground mt-2 text-sm font-medium text-balance">
           Every volume tier includes the same features — you only pay for more
           events.
         </p>
         <ul
-          className="text-muted-foreground mt-3 grid gap-y-1 text-base"
+          className="text-muted-foreground mt-4 grid gap-y-1 text-base"
           role="list"
         >
           {includedFeatures.map((feature) => (
             <li key={feature} className="flex items-start gap-2">
-              <HugeiconsIcon
-                icon={Tick02Icon}
-                size={18}
-                strokeWidth={2}
-                className="text-muted-foreground mt-0.5 shrink-0"
-                aria-hidden="true"
-              />
-              <span>{feature}</span>
+              <svg
+                className="mt-1.5 size-3 shrink-0"
+                viewBox="0 0 542 542"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M295.5 246.25V0H246.25V246.25H0V295.5H246.25V541.75H295.5V295.5H541.75V246.25H295.5Z"
+                  fill="#7C7C7C"
+                ></path>{" "}
+                <rect
+                  width="63"
+                  height="63"
+                  transform="translate(239.875 239.875)"
+                  fill="#FFF"
+                ></rect>{" "}
+              </svg>
+              <span className="text-base tracking-tight">{feature}</span>
             </li>
           ))}
         </ul>
