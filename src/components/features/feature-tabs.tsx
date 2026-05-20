@@ -37,8 +37,12 @@ export function FeatureTabs({ groups }: FeatureTabsProps) {
     <Tabs
       value={activeValue}
       onValueChange={(nextValue) => setActiveValue(nextValue)}
+      className="gap-8 lg:grid lg:grid-cols-[13rem_minmax(0,1fr)] lg:items-start"
     >
-      <TabsList aria-label="Feature categories">
+      <TabsList
+        aria-label="Feature categories"
+        className="lg:flex-col lg:items-stretch lg:gap-0 lg:border-b-0 lg:pr-6 lg:[&_[data-slot=tabs-trigger]>span]:hidden"
+      >
         {groups.map((group) => {
           const value = toFeatureGroupValue(group.category);
 
@@ -47,6 +51,7 @@ export function FeatureTabs({ groups }: FeatureTabsProps) {
               key={group.category}
               value={value}
               onClick={() => setActiveValue(value)}
+              className="lg:w-full lg:justify-start  lg:pr-4 lg:text-left"
             >
               {group.category}
             </TabsTrigger>
@@ -55,7 +60,7 @@ export function FeatureTabs({ groups }: FeatureTabsProps) {
       </TabsList>
 
       {activeGroup ? (
-        <TabsContent value={activeValue}>
+        <TabsContent value={activeValue} className="mt-8 lg:mt-0">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={activeValue}
@@ -78,20 +83,17 @@ function FeatureGroupPanel({ group }: { group: FeatureGroup }) {
 
   return (
     <section aria-labelledby={headingId}>
-      <div className="grid gap-8 lg:grid-cols-2">
+      <div>
         <div className="max-w-lg text-balance">
-          <h2
-            id={headingId}
-            className="text-foreground text-base font-semibold tracking-tight uppercase"
-          >
+          <h2 id={headingId} className="text-foreground text-xl font-medium">
             {group.category}
+            <span className="text-muted-foreground font-normal">
+              {group.description}
+            </span>
           </h2>
-          <p className="text-muted-foreground mt-2 text-sm">
-            {group.description}
-          </p>
         </div>
 
-        <div className="grid gap-x-8 gap-y-8 sm:grid-cols-2">
+        <div className="mt-8 grid gap-x-12 gap-y-8 sm:grid-cols-3">
           {group.features.map((feature) => (
             <Card
               key={feature.href}
