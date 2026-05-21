@@ -371,6 +371,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
                         index === activeMetricIndex % attentionRows.length &&
                         "bg-muted/45",
                     )}
+                    data-kobbe-stagger
                   >
                     <span className="text-foreground min-w-0 truncate font-medium">
                       {row.path}

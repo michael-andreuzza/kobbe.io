@@ -57,7 +57,10 @@ function toFiniteCount(value: unknown): number {
 }
 
 function sumCountFromRows(counts: readonly unknown[]): number {
-  return counts.reduce<number>((total, count) => total + toFiniteCount(count), 0);
+  return counts.reduce<number>(
+    (total, count) => total + toFiniteCount(count),
+    0,
+  );
 }
 
 function BreakdownListRow(props: {
@@ -76,6 +79,7 @@ function BreakdownListRow(props: {
         "relative w-full min-w-0 overflow-hidden rounded-md",
         props.className,
       )}
+      data-kobbe-stagger
     >
       <style>{`
         @keyframes kobbeBreakdownBarGrow {
@@ -149,9 +153,7 @@ export function PageBreakdownList(props: {
               </span>
               <div className="flex shrink-0 items-baseline justify-end gap-2 sm:gap-4">
                 {showRev ? (
-                  <p className={breakdownRevenueClassName}>
-                    {revText}
-                  </p>
+                  <p className={breakdownRevenueClassName}>{revText}</p>
                 ) : null}
                 <p className={breakdownValueClassName}>
                   {row.count.toLocaleString()}
@@ -411,9 +413,7 @@ export function EventsSummaryTable(props: {
                 <span className={breakdownValueClassName}>
                   {row.visitors.toLocaleString()}
                 </span>
-                <span className={breakdownValueClassName}>
-                  {value}
-                </span>
+                <span className={breakdownValueClassName}>{value}</span>
               </div>
             </BreakdownListRow>
           </li>

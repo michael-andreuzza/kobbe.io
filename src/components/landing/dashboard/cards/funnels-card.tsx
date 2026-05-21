@@ -92,6 +92,7 @@ function MarketingFunnelChart(props: {
               key={step.label}
               className="group relative flex min-w-0 flex-col items-center"
               aria-label={`${step.label}: ${step.visitors.toLocaleString()} visitors, ${formatPercent(step.conversionRate)} conversion`}
+              data-kobbe-stagger
             >
               {index > 0 ? (
                 <span
@@ -164,6 +165,7 @@ function MarketingFunnelTrend(props: {
               key={`${point.label}-${index}`}
               className="group flex min-w-0 flex-1 flex-col items-center justify-end"
               title={`${point.label}: ${point.visitors.toLocaleString()} entrants`}
+              data-kobbe-stagger
             >
               <div className="relative flex h-full items-end justify-center">
                 <div className="bg-foreground/10 absolute inset-y-0 left-1/2 w-px -translate-x-1/2 rounded-full" />
@@ -178,19 +180,19 @@ function MarketingFunnelTrend(props: {
         })}
       </div>
       <div className="border-border/50 mt-3 grid grid-cols-3 gap-3 border-t pt-3 text-xs">
-        <div className="min-w-0">
+        <div className="min-w-0" data-kobbe-stagger>
           <div className="text-muted-foreground">Entrants</div>
           <div className="text-foreground mt-0.5 font-semibold tabular-nums">
             {entrants.toLocaleString()}
           </div>
         </div>
-        <div className="min-w-0 text-center">
+        <div className="min-w-0 text-center" data-kobbe-stagger>
           <div className="text-muted-foreground">Completed</div>
           <div className="text-foreground mt-0.5 font-semibold tabular-nums">
             {completed.toLocaleString()}
           </div>
         </div>
-        <div className="min-w-0 text-right">
+        <div className="min-w-0 text-right" data-kobbe-stagger>
           <div className="text-muted-foreground">Conversion</div>
           <div className="text-foreground mt-0.5 font-semibold tabular-nums">
             {formatPercent(completedRate)}
@@ -203,8 +205,8 @@ function MarketingFunnelTrend(props: {
 
 function buildMarketingFunnelTrend(entrants: number) {
   const weights = [
-    0.42, 0.58, 0.34, 0.66, 0.52, 0.74, 0.4, 0.62, 0.8, 0.56, 0.7, 0.48,
-    0.76, 0.6,
+    0.42, 0.58, 0.34, 0.66, 0.52, 0.74, 0.4, 0.62, 0.8, 0.56, 0.7, 0.48, 0.76,
+    0.6,
   ];
   const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
   const perWeight = entrants / Math.max(1, totalWeight);

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useIdlePulse } from "@/components/landing/use-idle-pulse";
 import { cn } from "@/lib/utils";
 import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 import { DashboardTabbedCardHeaderContent } from "../dashboard-breakdown-card";
@@ -46,7 +47,15 @@ type CampaignTableRow = {
 };
 
 export function CampaignsCard({ campaigns }: Props) {
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const [activeTab, setActiveTab] = useState(0);
+  useIdlePulse(rootRef, {
+    selector: "[data-dashboard-metric-tile]",
+    interval: 6000,
+    initialDelay: 1400,
+    scaleTo: 1.012,
+    staggerEach: 0.08,
+  });
   const summary = campaigns.summary ?? {
     campaigns: campaigns.rows.length,
     visitors: campaigns.rows.reduce((sum, row) => sum + row.visitors, 0),
@@ -85,7 +94,7 @@ export function CampaignsCard({ campaigns }: Props) {
   const showActions = activeTab === 0;
 
   return (
-    <div className="grid min-w-0 gap-4">
+    <div ref={rootRef} className="grid min-w-0 gap-4">
       <DashboardMetricStrip ariaLabel="Campaign metrics" lgCols={6}>
         <CampaignMetric
           label="Campaigns"

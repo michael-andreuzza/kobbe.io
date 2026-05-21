@@ -34,11 +34,7 @@ const performancePreview: PerformancePreview = {
 <section>
   <Wrapper class="py-20">
     <div class="max-w-lg">
-      <Text
-        tag="h2"
-        variant="textXL"
-        class="text-foreground font-medium "
-      >
+      <Text tag="h2" variant="textXL" class="text-foreground font-medium">
         Keep performance beside your traffic.
         <span class="text-muted-foreground font-normal">
           Track Core Web Vitals with the same dashboard language: percentile
@@ -47,8 +43,13 @@ const performancePreview: PerformancePreview = {
       </Text>
     </div>
 
-    <div class="mt-8">
-      <AnimatedPanelReveal client:load>
+    <div class="group mt-8">
+      <AnimatedPanelReveal
+        client:load
+        trigger="scroll"
+        end="bottom 42%"
+        className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+      >
         <PerformanceDashboardPreview
           client:load
           webVitals={performancePreview}

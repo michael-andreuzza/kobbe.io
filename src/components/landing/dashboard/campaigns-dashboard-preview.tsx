@@ -60,7 +60,10 @@ export function CampaignsDashboardPreview({ campaigns }: Props) {
                   key={`${row.campaign}:${row.eventName}`}
                   className="list-none"
                 >
-                  <div className="border-border/50 grid min-w-0 grid-cols-[minmax(0,1fr)_minmax(0,1fr)_4rem] items-center gap-2 border-t px-2 py-2 text-xs sm:px-2.5">
+                  <div
+                    className="border-border/50 grid min-w-0 grid-cols-[minmax(0,1fr)_minmax(0,1fr)_4rem] items-center gap-2 border-t px-2 py-2 text-xs sm:px-2.5"
+                    data-kobbe-stagger
+                  >
                     <span className="text-foreground min-w-0 truncate font-medium">
                       {row.campaign}
                     </span>

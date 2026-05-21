@@ -19,10 +19,15 @@ export function DashboardMetricStrip(props: DashboardMetricStripProps) {
 
   return (
     <section
-      className={cn("mt-2 -mx-2 p-2", props.className)}
+      className={cn("-mx-2 mt-2 p-2", props.className)}
       aria-label={props.ariaLabel}
     >
-      <div className={cn("relative grid grid-cols-2 gap-3 sm:grid-cols-3", lgColsClass)}>
+      <div
+        className={cn(
+          "relative grid grid-cols-2 gap-3 sm:grid-cols-3",
+          lgColsClass,
+        )}
+      >
         {props.children}
       </div>
     </section>
@@ -41,14 +46,18 @@ type DashboardMetricTileProps = {
 const metricTileBaseClass =
   "relative min-w-0 p-4 lg:aspect-square text-left text-foreground transition-[background-color,box-shadow,color,transform] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none";
 
-const metricTileCardClass = cn(metricTileBaseClass, "rounded-md border bg-card");
+const metricTileCardClass = cn(
+  metricTileBaseClass,
+  "rounded-md border bg-card",
+);
 
 const metricTileMutedClass = cn(
   metricTileBaseClass,
   "rounded-xl bg-background",
 );
 
-const metricTileInteractiveMutedClass = "cursor-pointer hover:bg-surface hover:ring-0";
+const metricTileInteractiveMutedClass =
+  "cursor-pointer hover:bg-surface hover:ring-0";
 
 export function DashboardMetricTile(props: DashboardMetricTileProps) {
   const surface = props.surface ?? "card";
@@ -76,6 +85,7 @@ export function DashboardMetricTile(props: DashboardMetricTileProps) {
         aria-pressed={props.active}
         data-active={props.active ? "true" : "false"}
         data-dashboard-metric-tile
+        data-kobbe-stagger
       >
         {props.children}
       </button>
@@ -88,6 +98,7 @@ export function DashboardMetricTile(props: DashboardMetricTileProps) {
       style={activeStyle}
       data-active={props.active ? "true" : "false"}
       data-dashboard-metric-tile
+      data-kobbe-stagger
     >
       {props.children}
     </div>

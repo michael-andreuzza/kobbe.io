@@ -2,6 +2,7 @@
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import Text from "@/components/foundations/elements/Text.astro";
 import FeatureTabs from "@/components/features/feature-tabs";
+import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
 
 const featureGroups = [
   {
@@ -297,8 +298,8 @@ const featureGroups = [
         </span>
       </Text>
     </div>
-    <div class="mt-12">
+    <AnimatedPanelReveal client:load trigger="view" className="mt-12">
       <FeatureTabs client:load groups={featureGroups} />
-    </div>
+    </AnimatedPanelReveal>
   </Wrapper>
 </section>

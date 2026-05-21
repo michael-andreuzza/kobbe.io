@@ -49,20 +49,24 @@ const revenueProviders = [
       </div>
     </div>
 
-    <div class="mt-8">
-      <AnimatedPanelReveal client:load>
+    <div class="group mt-8">
+      <AnimatedPanelReveal
+        client:load
+        trigger="scroll"
+        className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+      >
         <RevenueInsightsPreview client:load />
       </AnimatedPanelReveal>
     </div>
 
     <div class="mt-8 grid gap-4 text-balance sm:grid-cols-3">
-      <div>
+      <div data-kobbe-stagger>
         <h3 class="text-foreground text-lg font-medium">Connect a source</h3>
         <p class="text-muted-foreground mt-3 text-base font-medium">
           Use Stripe, Polar, Paddle, or Creem webhooks from site settings.
         </p>
       </div>
-      <div>
+      <div data-kobbe-stagger>
         <h3 class="text-foreground text-lg font-medium">
           Keep attribution scoped
         </h3>
@@ -71,7 +75,7 @@ const revenueProviders = [
           visitors.
         </p>
       </div>
-      <div>
+      <div data-kobbe-stagger>
         <h3 class="text-foreground text-lg font-medium">Read it in context</h3>
         <p class="text-muted-foreground mt-3 text-base font-medium">
           Revenue shows up beside traffic KPIs, pages, and sources.

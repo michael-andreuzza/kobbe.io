@@ -74,6 +74,7 @@ export function FunnelsDashboardPreview({ funnel }: Props) {
                         index === activeStep &&
                         "bg-muted/50",
                     )}
+                    data-kobbe-stagger
                   >
                     <span className="text-foreground min-w-0 truncate font-medium">
                       {index + 1}. {step.label}

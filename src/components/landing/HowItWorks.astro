@@ -80,11 +80,7 @@ const installationPlatformItems = installationPlatforms.map((platform) => ({
 <section>
   <Wrapper class="py-20">
     <div class="max-w-lg">
-      <Text
-        tag="h2"
-        variant="textXL"
-        class="text-foreground font-medium "
-      >
+      <Text tag="h2" variant="textXL" class="text-foreground font-medium">
         From one script tag to a dashboard you can actually read.
         <span class="text-muted-foreground font-normal">
           Install Kobbe once, let privacy-friendly analytics signals flow in,
@@ -105,7 +101,11 @@ const installationPlatformItems = installationPlatforms.map((platform) => ({
         steps.map((step) => (
           <div>
             <dt>
-              <Text tag="p" variant="textBase" class="text-foreground text-lg">
+              <Text
+                tag="p"
+                variant="textBase"
+                class="text-foreground text-lg font-medium"
+              >
                 {step.number}.-
                 {step.title}
               </Text>

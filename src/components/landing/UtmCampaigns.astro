@@ -81,8 +81,13 @@ const campaignsPreview = {
       </Text>
     </div>
 
-    <div class="mt-8">
-      <AnimatedPanelReveal client:load>
+    <div class="group mt-8">
+      <AnimatedPanelReveal
+        client:load
+        trigger="scroll"
+        end="bottom 42%"
+        className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+      >
         <CampaignsDashboardPreview client:load campaigns={campaignsPreview} />
       </AnimatedPanelReveal>
     </div>

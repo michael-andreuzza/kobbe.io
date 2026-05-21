@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { useRef } from "react";
 
 import {
   Card,
@@ -9,6 +9,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
+import { useIdlePulse } from "@/components/landing/use-idle-pulse";
 import { EventsCard } from "./cards/events-card";
 import { LocationsCard } from "./cards/locations-card";
 import { PagesCard } from "./cards/pages-card";
@@ -114,8 +116,17 @@ export function DashboardCapabilityGrid() {
 }
 
 function TrafficOverviewPreview() {
+  const rootRef = useRef<HTMLDivElement | null>(null);
+
+  useIdlePulse(rootRef, {
+    selector: '[data-dashboard-metric-tile][data-active="true"]',
+    interval: 5200,
+    initialDelay: 1200,
+    scaleTo: 1.018,
+  });
+
   return (
-    <div className="grid gap-3">
+    <div ref={rootRef} className="grid gap-3">
       <div className="grid grid-cols-3 gap-3 pr-2">
         <TrafficKpi
           label="Visitors"
@@ -196,13 +207,15 @@ function CapabilityCard(props: CapabilityCardProps) {
           {props.description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="bg-muted mt-8 min-w-0 overflow-hidden p-8 pb-0 lg:p-20 lg:pb-0">
-        <div className="-mb-20">
-          <PreviewFrame mockupClassName={props.mockupClassName}>
-            {props.children}
-          </PreviewFrame>
-        </div>
-      </CardContent>
+      <AnimatedPanelReveal trigger="scroll" className="mt-8">
+        <CardContent className="bg-muted min-w-0 overflow-hidden p-8 pb-0 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none lg:p-20 lg:pb-0">
+          <div className="-mb-20">
+            <PreviewFrame mockupClassName={props.mockupClassName}>
+              {props.children}
+            </PreviewFrame>
+          </div>
+        </CardContent>
+      </AnimatedPanelReveal>
     </Card>
   );
 }
@@ -211,41 +224,29 @@ function PreviewFrame(props: {
   children: ReactNode;
   mockupClassName?: string;
 }) {
-  const shouldReduceMotion = useReducedMotion();
+  const frameRef = useRef<HTMLDivElement | null>(null);
+
+  useIdlePulse(frameRef, {
+    selector: "[data-kobbe-stagger]:not([data-dashboard-metric-tile])",
+    interval: 2800,
+    initialDelay: 1800,
+    scaleTo: 1.008,
+    staggerEach: 0.08,
+  });
 
   return (
-    <div className="bg-muted relative flex h-72 w-full items-center justify-center overflow-hidden rounded-xl">
-      <motion.div
+    <div
+      ref={frameRef}
+      className="bg-muted relative flex h-72 w-full items-center justify-center overflow-hidden rounded-xl"
+    >
+      <div
         className={cn(
           "kobbe-capability-mockup pointer-events-none relative origin-center",
           props.mockupClassName,
         )}
-        initial={
-          shouldReduceMotion
-            ? false
-            : {
-                opacity: 0,
-                y: 10,
-                scale: 0.96,
-                filter: "blur(6px)",
-              }
-        }
-        whileInView={{
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          filter: "blur(0px)",
-        }}
-        viewport={{ once: true, amount: 0.45 }}
-        transition={{
-          type: "spring",
-          visualDuration: 0.8,
-          bounce: 0.12,
-          delay: 0.12,
-        }}
       >
         {props.children}
-      </motion.div>
+      </div>
     </div>
   );
 }

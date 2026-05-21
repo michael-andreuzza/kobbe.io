@@ -44,8 +44,13 @@ const funnelPreview = {
       </Text>
     </div>
 
-    <div class="mt-8">
-      <AnimatedPanelReveal client:load>
+    <div class="group mt-8">
+      <AnimatedPanelReveal
+        client:load
+        trigger="scroll"
+        end="bottom 42%"
+        className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+      >
         <FunnelsDashboardPreview client:load funnel={funnelPreview} />
       </AnimatedPanelReveal>
     </div>
