@@ -50,7 +50,7 @@ const metricTileCardClass = cn(
 
 const metricTileMutedClass = cn(
   metricTileBaseClass,
-  "rounded-xl bg-background",
+  "rounded-xl bg-card",
 );
 
 const metricTileInteractiveMutedClass =
@@ -68,7 +68,8 @@ export function DashboardMetricTile(props: DashboardMetricTileProps) {
   const className = cn(
     surface === "muted" ? metricTileMutedClass : metricTileCardClass,
     surface === "muted" && isInteractive && metricTileInteractiveMutedClass,
-    props.active && "bg-foreground text-background ring-0 hover:bg-foreground",
+    props.active &&
+      "bg-[color-mix(in_oklch,var(--metric-active-color)_16%,transparent)] text-foreground ring-0 hover:bg-[color-mix(in_oklch,var(--metric-active-color)_16%,transparent)] dark:bg-[color-mix(in_oklch,var(--metric-active-color)_18%,transparent)] dark:hover:bg-[color-mix(in_oklch,var(--metric-active-color)_18%,transparent)]",
     props.className,
   );
 

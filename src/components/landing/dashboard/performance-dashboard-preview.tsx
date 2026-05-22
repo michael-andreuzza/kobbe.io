@@ -134,9 +134,9 @@ function ratingClassName(
 }
 
 const performanceChartConfig = {
-  p50: { label: "Median (p50)", color: "var(--foreground)" },
-  p75: { label: "p75", color: "var(--foreground)" },
-  p95: { label: "p95", color: "var(--foreground)" },
+  p50: { label: "Median (p50)", color: "var(--chart-1)" },
+  p75: { label: "p75", color: "var(--chart-2)" },
+  p95: { label: "p95", color: "var(--chart-3)" },
 } satisfies ChartConfig;
 
 type LollipopShapeProps = {
@@ -272,7 +272,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
   }, [activeMetricIndex, metrics.length, shouldReduceMotion]);
 
   return (
-    <div className="bg-muted overflow-hiddenp-4 pb-0 lg:p-8 lg:pb-0">
+    <div className="bg-muted overflow-hidden p-4 pb-0 lg:p-8 lg:pb-0">
       <div className="relative mx-auto -mb-10 min-w-0">
         <DashboardMetricStrip ariaLabel="Web Vitals metrics" lgCols={5}>
           {metrics.map((metric, index) => {
@@ -281,7 +281,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
               <DashboardMetricTile
                 key={metric.name}
                 active={active}
-                activeColor="var(--foreground)"
+                activeColor="var(--chart-1)"
                 surface="muted"
               >
                 <div className="flex h-full min-w-0 flex-col gap-1">
@@ -289,7 +289,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
                     <span
                       className={cn(
                         "truncate text-xs leading-tight font-medium",
-                        active ? "text-background/70" : "text-muted-foreground",
+                        "text-muted-foreground",
                       )}
                     >
                       {metric.name}
@@ -297,7 +297,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
                     <span
                       className={cn(
                         "shrink-0 text-xs leading-tight tabular-nums",
-                        active ? "text-background/70" : "text-muted-foreground",
+                        "text-muted-foreground",
                       )}
                     >
                       n={metric.sampleCount.toLocaleString()}
@@ -307,7 +307,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
                     <span
                       className={cn(
                         "text-lg leading-tight font-medium tracking-tight tabular-nums sm:text-xl",
-                        active ? "text-background" : "text-foreground",
+                        "text-foreground",
                       )}
                     >
                       {metric.value}
@@ -316,9 +316,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
                       <span
                         className={cn(
                           "font-medium",
-                          active
-                            ? "text-background/70"
-                            : ratingClassName(metric.rating),
+                          ratingClassName(metric.rating),
                         )}
                       >
                         {metric.rating}

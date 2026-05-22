@@ -77,7 +77,7 @@ export function CliAgentsPanel() {
         <span />
       </div>
 
-      <div className="border-border/60 bg-background flex min-h-0 flex-1 items-stretch justify-center border-t px-4 py-4">
+      <div className="border-border/60 bg-card flex min-h-0 flex-1 items-stretch justify-center border-t px-4 py-4">
         <div className="flex min-h-0 w-full flex-col">
           <div className="min-h-0 flex-1 overflow-y-auto p-4">
             <div className="space-y-4">

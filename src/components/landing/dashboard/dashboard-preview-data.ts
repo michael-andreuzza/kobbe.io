@@ -574,27 +574,27 @@ const devices = {
 
 const funnels = {
   name: "Trial signup",
-  completed: 236,
+  completed: 700,
   conversionRate: 0.38,
   steps: [
     { label: "Visited pricing", visitors: 1840, conversionRate: 1 },
     {
       label: "Opened signup",
-      visitors: 902,
-      conversionRate: 0.49,
-      dropoffRate: 0.51,
+      visitors: 1380,
+      conversionRate: 0.75,
+      dropoffRate: 0.25,
     },
     {
       label: "Created workspace",
-      visitors: 418,
-      conversionRate: 0.46,
-      dropoffRate: 0.54,
+      visitors: 980,
+      conversionRate: 0.71,
+      dropoffRate: 0.29,
     },
     {
       label: "Installed tracker",
-      visitors: 236,
-      conversionRate: 0.56,
-      dropoffRate: 0.44,
+      visitors: 700,
+      conversionRate: 0.71,
+      dropoffRate: 0.29,
     },
   ],
 };

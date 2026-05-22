@@ -52,7 +52,7 @@ function KpiStripGrid(props: {
 
 function KpiTileBody(kpi: KpiTileBodyProps) {
   const toneClass = kpi.active
-    ? "text-background/70"
+    ? "text-muted-foreground"
     : kpi.rightHintTone === "good"
       ? "text-success"
       : kpi.rightHintTone === "bad"
@@ -64,7 +64,7 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
         <span
           className={cn(
             "truncate text-xs leading-tight font-medium",
-            kpi.active ? "text-background/70" : "text-muted-foreground",
+            kpi.active ? "text-muted-foreground" : "text-muted-foreground",
           )}
         >
           {kpi.label}
@@ -84,7 +84,7 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
         <span
           className={cn(
             "text-lg leading-tight font-medium tracking-tight tabular-nums sm:text-xl",
-            kpi.active ? "text-background" : "text-foreground",
+            kpi.active ? "text-foreground" : "text-foreground",
             kpi.valueClassName,
           )}
         >
@@ -96,12 +96,12 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
 }
 
 const chartMetricActiveColor = {
-  visitors: "var(--foreground)",
-  visits: "var(--foreground)",
-  views: "var(--foreground)",
-  bounceRate: "var(--foreground)",
-  sessionTime: "var(--foreground)",
-  revenue: "var(--foreground)",
+  visitors: "var(--chart-1)",
+  visits: "var(--chart-2)",
+  views: "var(--chart-3)",
+  bounceRate: "var(--chart-4)",
+  sessionTime: "var(--chart-5)",
+  revenue: "var(--chart-6)",
 } satisfies Record<TrafficChartMetric, string>;
 
 export function DashboardKpiStrip(props: {

@@ -31,27 +31,27 @@ export type StackedChartPoint = {
 const chartConfig = {
   visitors: {
     label: "Visitors",
-    color: "var(--foreground)",
+    color: "var(--chart-1)",
   },
   visits: {
     label: "Visits",
-    color: "var(--foreground)",
+    color: "var(--chart-2)",
   },
   pageviews: {
     label: "Views",
-    color: "var(--foreground)",
+    color: "var(--chart-3)",
   },
   bounceRate: {
     label: "Bounce rate",
-    color: "var(--foreground)",
+    color: "var(--chart-4)",
   },
   sessionTime: {
     label: "Session time",
-    color: "var(--foreground)",
+    color: "var(--chart-5)",
   },
   revenue: {
     label: "Revenue",
-    color: "var(--foreground)",
+    color: "var(--chart-6)",
   },
 } satisfies ChartConfig;
 

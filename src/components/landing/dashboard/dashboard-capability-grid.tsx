@@ -20,11 +20,12 @@ type CapabilityCardProps = {
   description: string;
   children: ReactNode;
   mockupClassName?: string;
+  unframed?: boolean;
 };
 
 export function DashboardCapabilityGrid() {
   return (
-    <div className="relative mt-8 grid gap-x-8 gap-y-24 md:grid-cols-2 lg:grid-cols-2">
+    <div className="relative mt-8 grid auto-rows-fr gap-x-8 gap-y-24 md:grid-cols-2 lg:grid-cols-2">
       <style>{`
         @keyframes kobbeCapabilityBarRise {
           from {
@@ -61,7 +62,8 @@ export function DashboardCapabilityGrid() {
       <CapabilityCard
         title="Traffic overview"
         description="Understand traffic quality at a glance with visitors, visits, page views, engagement, and recent movement in one compact view."
-        mockupClassName="w-[calc(100%-0.5rem)]"
+        mockupClassName="w-full"
+        unframed
       >
         <TrafficOverviewPreview />
       </CapabilityCard>
@@ -120,26 +122,26 @@ function TrafficOverviewPreview() {
   });
 
   return (
-    <div ref={rootRef} className="grid gap-3">
-      <div className="grid grid-cols-2 gap-3 pr-2 md:grid-cols-3">
-        <TrafficKpi
-          label="Visitors"
-          value={data.kpi.visitors.display}
-          hint="+18.4%"
-          active
-        />
-        <TrafficKpi
-          label="Visits"
-          value={data.kpi.visits.display}
-          hint="+15.2%"
-        />
-        <TrafficKpi
-          label="Views"
-          value={data.kpi.views.display}
-          hint="+22.1%"
-          className="hidden md:block"
-        />
-      </div>
+    <div ref={rootRef} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <TrafficKpi
+        label="Visitors"
+        value={data.kpi.visitors.display}
+        hint="+18.4%"
+        active
+      />
+      <TrafficKpi
+        label="Visits"
+        value={data.kpi.visits.display}
+        hint="+15.2%"
+        activeColor="var(--chart-2)"
+      />
+      <TrafficKpi
+        label="Views"
+        value={data.kpi.views.display}
+        hint="+22.1%"
+        activeColor="var(--chart-3)"
+        className="hidden lg:block"
+      />
     </div>
   );
 }
@@ -149,12 +151,13 @@ function TrafficKpi(props: {
   value: string;
   hint: string;
   active?: boolean;
+  activeColor?: string;
   className?: string;
 }) {
   return (
     <DashboardMetricTile
       active={props.active}
-      activeColor="var(--foreground)"
+      activeColor={props.activeColor ?? "var(--chart-1)"}
       surface="muted"
       className={cn("aspect-auto min-h-28", props.className)}
     >
@@ -163,7 +166,7 @@ function TrafficKpi(props: {
           <span
             className={cn(
               "truncate text-xs leading-tight font-medium",
-              props.active ? "text-background/70" : "text-muted-foreground",
+              "text-muted-foreground",
             )}
           >
             {props.label}
@@ -171,7 +174,7 @@ function TrafficKpi(props: {
           <span
             className={cn(
               "relative inline-flex shrink-0 text-xs leading-tight font-medium tabular-nums",
-              props.active ? "text-background/70" : "text-success",
+              "text-success",
             )}
           >
             {props.hint}
@@ -181,7 +184,7 @@ function TrafficKpi(props: {
           <span
             className={cn(
               "text-lg leading-tight font-medium tracking-tight tabular-nums sm:text-xl",
-              props.active ? "text-background" : "text-foreground",
+              "text-foreground",
             )}
           >
             {props.value}
@@ -194,19 +197,30 @@ function TrafficKpi(props: {
 
 function CapabilityCard(props: CapabilityCardProps) {
   return (
-    <Card className="group min-w-0 gap-0 overflow-hidden bg-transparent p-0">
+    <Card className="group flex h-full min-w-0 flex-col gap-0 overflow-hidden bg-transparent p-0">
       <CardHeader className="p-0">
         <CardTitle className="text-foreground text-base font-medium text-pretty">
           {props.title}.
           <span className="text-muted-foreground"> {props.description}</span>
         </CardTitle>
       </CardHeader>
-      <AnimatedPanelReveal trigger="scroll" className="mt-4">
+      <AnimatedPanelReveal trigger="scroll" className="mt-auto pt-4">
         <CardContent className="bg-muted min-w-0 overflow-hidden p-4 pb-0 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none lg:p-8 lg:pb-0">
           <div className="mx-auto -mb-4 w-full">
-            <PreviewFrame mockupClassName={props.mockupClassName}>
-              {props.children}
-            </PreviewFrame>
+            {props.unframed ? (
+              <div
+                className={cn(
+                  "kobbe-capability-mockup pointer-events-none relative flex h-72 origin-center items-center justify-center",
+                  props.mockupClassName,
+                )}
+              >
+                {props.children}
+              </div>
+            ) : (
+              <PreviewFrame mockupClassName={props.mockupClassName}>
+                {props.children}
+              </PreviewFrame>
+            )}
           </div>
         </CardContent>
       </AnimatedPanelReveal>
@@ -231,7 +245,7 @@ function PreviewFrame(props: {
   return (
     <div
       ref={frameRef}
-      className="bg-muted relative flex h-72 w-full items-center justify-center overflow-hidden rounded-xl"
+      className="bg-card relative flex h-72 w-full items-start justify-center overflow-hidden rounded-xl"
     >
       <div
         className={cn(

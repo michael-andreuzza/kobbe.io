@@ -280,14 +280,14 @@ function CampaignMetric(props: {
   return (
     <DashboardMetricTile
       active={props.active}
-      activeColor="var(--foreground)"
+      activeColor="var(--chart-1)"
       surface="muted"
     >
       <div className="flex h-full min-w-0 flex-col gap-1">
         <span
           className={cn(
             "truncate text-xs leading-tight font-medium",
-            props.active ? "text-background/70" : "text-muted-foreground",
+            "text-muted-foreground",
           )}
         >
           {props.label}
@@ -296,7 +296,7 @@ function CampaignMetric(props: {
           <span
             className={cn(
               "text-lg leading-tight font-semibold tracking-tight tabular-nums sm:text-xl",
-              props.active ? "text-background" : "text-foreground",
+              "text-foreground",
             )}
           >
             {props.value}
@@ -305,7 +305,7 @@ function CampaignMetric(props: {
         <span
           className={cn(
             "truncate text-xs leading-tight",
-            props.active ? "text-background/70" : "text-muted-foreground",
+            "text-muted-foreground",
           )}
         >
           {props.hint}

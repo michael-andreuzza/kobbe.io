@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 
 import {
   Card,
@@ -7,54 +7,54 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 import {
   dashboardCardHeaderClass,
   dashboardCardRootClass,
   dashboardCardTitleClass,
 } from "../dashboard-card-layout";
-import { TabsChrome } from "../dashboard-tabs-chrome";
 
 type Props = {
   funnel: DashboardPreviewRangeData["funnels"];
-  activeStep?: number;
 };
 
 function formatPercent(value: number): string {
   return `${Math.round(value * 100)}%`;
 }
 
-export function FunnelsCard({ funnel, activeStep }: Props) {
-  const [reportTab, setReportTab] = useState(0);
+type MarketingFunnelStep = DashboardPreviewRangeData["funnels"]["steps"][number] & {
+  id: string;
+  dropoff: number;
+  ratio: number;
+};
 
+const funnelLineColors = [
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+  "var(--chart-6)",
+] as const;
+
+const funnelBaselineY = 280;
+
+export function FunnelsCard({ funnel }: Props) {
   return (
     <Card className={dashboardCardRootClass}>
       <CardHeader className={dashboardCardHeaderClass}>
-        <div className="flex min-w-0 flex-wrap items-start justify-between gap-3">
-          <div className="min-w-0">
-            <CardTitle className={dashboardCardTitleClass}>
-              {funnel.name}
-            </CardTitle>
-            <CardDescription>
-              {funnel.completed.toLocaleString()} completed,{" "}
-              {formatPercent(funnel.conversionRate)} total conversion
-            </CardDescription>
-          </div>
-          <TabsChrome
-            tabs={["Steps", "Over time"]}
-            activeIndex={reportTab}
-            onActiveIndexChange={setReportTab}
-            label="Funnel report view"
-          />
+        <div className="min-w-0">
+          <CardTitle className={dashboardCardTitleClass}>
+            {funnel.name}
+          </CardTitle>
+          <CardDescription>
+            {funnel.completed.toLocaleString()} completed,{" "}
+            {formatPercent(funnel.conversionRate)} total conversion
+          </CardDescription>
         </div>
       </CardHeader>
       <CardContent className="min-w-0 p-0 pt-2">
-        {reportTab === 0 ? (
-          <MarketingFunnelChart steps={funnel.steps} activeStep={activeStep} />
-        ) : (
-          <MarketingFunnelTrend steps={funnel.steps} />
-        )}
+        <MarketingFunnelChart steps={funnel.steps} />
       </CardContent>
     </Card>
   );
@@ -62,164 +62,197 @@ export function FunnelsCard({ funnel, activeStep }: Props) {
 
 function MarketingFunnelChart(props: {
   steps: DashboardPreviewRangeData["funnels"]["steps"];
-  activeStep?: number;
 }) {
   if (props.steps.length === 0) {
     return null;
   }
 
   const maxVisitors = Math.max(1, ...props.steps.map((step) => step.visitors));
+  const steps = props.steps.map((step, index) => {
+    const previous = props.steps[index - 1];
+    const dropoff =
+      previous && previous.visitors > 0 ? 1 - step.visitors / previous.visitors : 0;
+    const ratio = Math.max(0, Math.min(1, step.visitors / maxVisitors));
+
+    return {
+      ...step,
+      id: `${index}-${step.label}`,
+      dropoff,
+      ratio,
+    };
+  });
 
   return (
-    <div className="w-full min-w-0 px-4 pt-2 pb-4 sm:px-5">
-      <div
-        className="grid min-w-0 grid-cols-2 gap-3 md:[grid-template-columns:repeat(var(--funnel-step-count),minmax(0,1fr))]"
-        style={
-          {
-            "--funnel-step-count": props.steps.length,
-          } as CSSProperties
-        }
-      >
-        {props.steps.map((step, index) => {
-          const previous = props.steps[index - 1];
-          const dropoff =
-            previous && previous.visitors > 0
-              ? 1 - step.visitors / previous.visitors
-              : 0;
-          const ratio = Math.max(0, Math.min(1, step.visitors / maxVisitors));
-          const stemHeight = 44 + ratio * 132;
-          const active = props.activeStep === index;
+    <div className="w-full min-w-0 px-3 pt-2 pb-4 sm:px-5">
+      <div className="space-y-2 sm:hidden">
+        {steps.map((step, index) => {
+          const lineColor = funnelLineColors[index % funnelLineColors.length];
           return (
             <div
-              key={step.label}
-              className={cn(
-                "group relative min-w-0 flex-col items-center",
-                index > 1 ? "hidden md:flex" : "flex",
-              )}
+              key={step.id}
+              className="group relative overflow-hidden px-1 py-3"
+              style={
+                {
+                  "--funnel-segment-color": lineColor,
+                } as CSSProperties
+              }
               aria-label={`${step.label}: ${step.visitors.toLocaleString()} visitors, ${formatPercent(step.conversionRate)} conversion`}
-              data-kobbe-stagger
             >
-              {index > 0 ? (
-                <span
-                  className={cn(
-                    "bg-background text-muted-foreground ring-border/50 absolute top-2 left-0 z-10 -translate-x-1/2 rounded-md px-1.5 py-0.5 text-[11px] font-medium ring-1 transition-colors duration-500",
-                    active && "text-foreground",
-                  )}
-                  title={`${formatPercent(Math.max(0, dropoff))} drop-off`}
-                >
-                  -{formatPercent(Math.max(0, dropoff))}
-                </span>
-              ) : null}
-              <div className="flex h-48 w-full items-end justify-center">
-                <div className="relative flex h-full items-end justify-center">
-                  <div className="bg-foreground/10 absolute inset-y-0 left-1/2 w-px -translate-x-1/2 rounded-full" />
-                  <div
-                    className={cn(
-                      "bg-foreground relative w-0.5 rounded-full transition-[height,background-color,transform] duration-500",
-                      active && "bg-brand scale-y-105",
-                    )}
-                    style={{ height: `${stemHeight}px` }}
-                    aria-hidden
-                  />
+              <div
+                className="bg-foreground/10 absolute inset-y-3 left-3 w-px rounded-full"
+                aria-hidden
+              >
+                <div
+                  className="absolute bottom-0 left-0 w-px rounded-full bg-(--funnel-segment-color) transition-[height] duration-300"
+                  style={{ height: `${Math.max(12, step.ratio * 100)}%` }}
+                />
+              </div>
+              <div className="min-w-0 pl-4">
+                <div className="flex min-w-0 items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="text-muted-foreground text-[11px] font-medium">
+                      Step {index + 1}
+                    </div>
+                    <div
+                      className="text-foreground mt-1 line-clamp-2 text-sm font-medium"
+                      title={step.label}
+                    >
+                      {step.label}
+                    </div>
+                  </div>
+                  <div className="shrink-0 text-right">
+                    <div className="text-foreground text-sm font-semibold tabular-nums">
+                      {step.visitors.toLocaleString()}
+                    </div>
+                    <div className="text-muted-foreground text-[11px]">visitors</div>
+                  </div>
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-2 pt-3 text-xs">
+                  <div>
+                    <div className="text-muted-foreground">Conversion</div>
+                    <div className="text-foreground mt-0.5 font-medium tabular-nums">
+                      {formatPercent(step.conversionRate)}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-muted-foreground">Drop-off</div>
+                    <div className="text-foreground mt-0.5 font-medium tabular-nums">
+                      {index === 0
+                        ? "—"
+                        : formatPercent(Math.max(0, step.dropoff))}
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div
-                className={cn(
-                  "border-border/50 mt-3 w-full min-w-0 border-t pt-3 text-center transition-colors duration-500",
-                  active && "border-brand/40",
-                )}
-              >
-                <div className="text-foreground truncate text-sm font-semibold">
-                  {step.visitors.toLocaleString()} visitors
+            </div>
+          );
+        })}
+      </div>
+      <MarketingFunnelDesktopFlow steps={steps} />
+    </div>
+  );
+}
+
+function MarketingFunnelDesktopFlow(props: { steps: MarketingFunnelStep[] }) {
+  const segments = funnelFillSegments(props.steps);
+
+  return (
+    <div className="hidden min-w-0 sm:block">
+      <div className="border-border/50 relative min-h-80 overflow-hidden border-x bg-transparent">
+        <svg
+          className="pointer-events-none absolute inset-0 h-full w-full"
+          viewBox="0 0 1000 280"
+          preserveAspectRatio="none"
+          aria-hidden
+        >
+          {segments.map((segment) => (
+            <path
+              key={segment.index}
+              d={segment.path}
+              className="fill-[color-mix(in_oklch,var(--funnel-segment-color)_16%,transparent)] stroke-none dark:fill-[color-mix(in_oklch,var(--funnel-segment-color)_18%,transparent)]"
+              style={
+                {
+                  "--funnel-segment-color":
+                    funnelLineColors[segment.index % funnelLineColors.length],
+                } as CSSProperties
+              }
+            />
+          ))}
+        </svg>
+        <div
+          className="relative z-10 grid min-h-80 min-w-0"
+          style={{
+            gridTemplateColumns: `repeat(${props.steps.length}, minmax(0, 1fr))`,
+          }}
+        >
+          {props.steps.map((step, index) => (
+            <div
+              key={step.id}
+              className="border-border/35 relative flex min-h-80 min-w-0 flex-col border-l px-3 py-5 first:border-l-0 lg:px-5"
+              aria-label={`${step.label}: ${step.visitors.toLocaleString()} visitors, ${formatPercent(step.conversionRate)} conversion`}
+            >
+              <div className="min-w-0 text-left">
+                <div className="text-muted-foreground text-[11px] font-medium tracking-wide">
+                  Step {index + 1}
                 </div>
                 <div
-                  className="text-muted-foreground mt-1 truncate text-xs"
+                  className="text-foreground mt-1 truncate text-xs font-semibold"
                   title={step.label}
                 >
                   {step.label}
                 </div>
-                <div className="text-muted-foreground/80 mt-1 text-xs">
-                  {formatPercent(step.conversionRate)} conv.
+                <div className="text-muted-foreground mt-4 truncate text-xs font-medium tabular-nums">
+                  {step.visitors.toLocaleString()} visitors
+                </div>
+                <div className="text-muted-foreground/80 mt-1 text-[11px] tabular-nums">
+                  {index === 0
+                    ? "— drop-off"
+                    : `${formatPercent(Math.max(0, step.dropoff))} drop-off`}
+                </div>
+              </div>
+              <div className="absolute inset-x-3 bottom-4 text-left lg:inset-x-5">
+                <div className="text-foreground text-lg font-semibold tabular-nums">
+                  {formatPercent(step.conversionRate)}
                 </div>
               </div>
             </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-function MarketingFunnelTrend(props: {
-  steps: DashboardPreviewRangeData["funnels"]["steps"];
-}) {
-  const entrants = props.steps[0]?.visitors ?? 0;
-  const completed = props.steps.at(-1)?.visitors ?? 0;
-  const points = buildMarketingFunnelTrend(entrants);
-  const maxVisitors = Math.max(1, ...points.map((point) => point.visitors));
-  const completedRate = entrants > 0 ? completed / entrants : 0;
-
-  return (
-    <div className="w-full min-w-0 px-4 pt-2 pb-4 sm:px-5">
-      <div className="flex h-48 min-w-0 items-end gap-2">
-        {points.map((point, index) => {
-          const ratio = Math.max(0, Math.min(1, point.visitors / maxVisitors));
-          const stemHeight = 28 + ratio * 132;
-          return (
-            <div
-              key={`${point.label}-${index}`}
-              className="group flex min-w-0 flex-1 flex-col items-center justify-end"
-              title={`${point.label}: ${point.visitors.toLocaleString()} entrants`}
-              data-kobbe-stagger
-            >
-              <div className="relative flex h-full items-end justify-center">
-                <div className="bg-foreground/10 absolute inset-y-0 left-1/2 w-px -translate-x-1/2 rounded-full" />
-                <div
-                  className="bg-foreground group-hover:bg-brand relative w-0.5 rounded-full transition-[height,background-color] duration-300"
-                  style={{ height: `${stemHeight}px` }}
-                  aria-hidden
-                />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      <div className="border-border/50 mt-3 grid grid-cols-3 gap-3 border-t pt-3 text-xs">
-        <div className="min-w-0" data-kobbe-stagger>
-          <div className="text-muted-foreground">Entrants</div>
-          <div className="text-foreground mt-0.5 font-semibold tabular-nums">
-            {entrants.toLocaleString()}
-          </div>
-        </div>
-        <div className="min-w-0 text-center" data-kobbe-stagger>
-          <div className="text-muted-foreground">Completed</div>
-          <div className="text-foreground mt-0.5 font-semibold tabular-nums">
-            {completed.toLocaleString()}
-          </div>
-        </div>
-        <div className="min-w-0 text-right" data-kobbe-stagger>
-          <div className="text-muted-foreground">Conversion</div>
-          <div className="text-foreground mt-0.5 font-semibold tabular-nums">
-            {formatPercent(completedRate)}
-          </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-function buildMarketingFunnelTrend(entrants: number) {
-  const weights = [
-    0.42, 0.58, 0.34, 0.66, 0.52, 0.74, 0.4, 0.62, 0.8, 0.56, 0.7, 0.48, 0.76,
-    0.6,
-  ];
-  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
-  const perWeight = entrants / Math.max(1, totalWeight);
+function funnelStageHeight(ratio: number) {
+  return 36 + ratio * 110;
+}
 
-  return weights.map((weight, index) => ({
-    label: `Day ${index + 1}`,
-    visitors: Math.max(1, Math.round(perWeight * weight)),
-  }));
+function funnelFillSegments(steps: MarketingFunnelStep[]) {
+  const segmentWidth = 1000 / steps.length;
+  const heights = steps.map((step) => funnelStageHeight(step.ratio));
+
+  return steps.map((_, index) => {
+    const leftX = index * segmentWidth;
+    const rightX = (index + 1) * segmentWidth;
+    const leftHeight =
+      index === 0 ? heights[0] : (heights[index - 1] + heights[index]) / 2;
+    const rightHeight =
+      index === steps.length - 1
+        ? heights[index]
+        : (heights[index] + heights[index + 1]) / 2;
+    const midX = (leftX + rightX) / 2;
+    const topLeftY = funnelBaselineY - leftHeight;
+    const topRightY = funnelBaselineY - rightHeight;
+    const path = [
+      `M ${leftX} ${topLeftY}`,
+      `C ${midX} ${topLeftY}, ${midX} ${topRightY}, ${rightX} ${topRightY}`,
+      `L ${rightX} ${funnelBaselineY}`,
+      `L ${leftX} ${funnelBaselineY}`,
+      "Z",
+    ].join(" ");
+
+    return { index, path };
+  });
 }
 
 export default FunnelsCard;
