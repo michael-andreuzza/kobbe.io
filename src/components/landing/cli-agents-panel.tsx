@@ -67,9 +67,9 @@ export function CliAgentsPanel() {
       `}</style>
       <div className="grid h-9 grid-cols-[1fr_auto_1fr] items-center px-4 text-xs">
         <div className="flex items-center gap-1.5">
-          <span className="bg-chart-2 size-2.5 rounded-full" />
-          <span className="bg-chart-3 size-2.5 rounded-full" />
-          <span className="bg-chart-4 size-2.5 rounded-full" />
+          <span className="bg-foreground size-2.5 rounded-full" />
+          <span className="bg-foreground size-2.5 rounded-full" />
+          <span className="bg-foreground size-2.5 rounded-full" />
         </div>
         <span className="text-foreground font-mono font-medium">
           $ npm install -g @kobbe/cli

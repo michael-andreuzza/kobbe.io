@@ -1,5 +1,3 @@
-import { Tick02Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { useMemo, useState } from "react";
 
 import { BillingPeriodTabs } from "@/components/sections/pricing/billing-period-tabs";
@@ -76,20 +74,10 @@ export function PricingPlanCard({
   return (
     <Card
       variant="default"
-      className={cn(
-        "bg-card mx-auto gap-0 rounded-2xl p-0 py-0 lg:max-w-xl",
-        className,
-      )}
+      className={cn("bg-muted mx-auto gap-0 p-0 py-0 lg:max-w-xl", className)}
     >
-      <CardHeader className="px-8 pt-8 pb-0 lg:px-12 lg:pt-12">
-        <p className="text-foreground text-base font-medium text-balance">
-          Choose your monthly event volume. You can change your plan later.
-        </p>
-        <BillingPeriodTabs
-          period={period}
-          onPeriodChange={setPeriod}
-          className="mt-4"
-        />
+      <CardHeader className="pt-0">
+        <BillingPeriodTabs period={period} onPeriodChange={setPeriod} />
         <PricingTierSelectors
           period={period}
           tierIndex={tierIndex}
@@ -98,7 +86,7 @@ export function PricingPlanCard({
         />
       </CardHeader>
 
-      <CardContent className="px-8 pt-4 pb-8 lg:px-12 lg:pb-12">
+      <CardContent className="">
         <p className="text-foreground text-base font-semibold">
           Included in every plan
         </p>

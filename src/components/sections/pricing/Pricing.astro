@@ -3,14 +3,20 @@ import { PricingPlanCard } from "@/components/sections/pricing/pricing-plan-card
 import Text from "@/components/foundations/elements/Text.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 
+interface Props {
+  headingTag?: "h1" | "h2";
+}
+
 const appBaseUrl = "https://app.kobbe.io";
+const { headingTag = "h1" } = Astro.props;
 ---
 
 <section id="pricing" aria-labelledby="pricing-heading">
   <Wrapper variant="default" class="relative pt-20 pb-20 lg:pt-28">
     <div class="mx-auto max-w-lg text-center">
       <Text
-        tag="h1"
+        id="pricing-heading"
+        tag={headingTag}
         variant="textXL"
         class="text-foreground font-medium text-balance"
       >

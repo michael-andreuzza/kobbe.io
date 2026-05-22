@@ -151,11 +151,13 @@ export function CampaignsCard({ campaigns }: Props) {
           >
             <span>{label}</span>
             <span className="text-right">Visitors</span>
-            <span className="text-right">Views</span>
+            <span className="hidden text-right md:block">Views</span>
             <span className="text-right">Conversions</span>
-            <span className="text-right">Orders</span>
-            <span className="text-right">Revenue</span>
-            {showActions ? <span className="text-right">Actions</span> : null}
+            <span className="hidden text-right md:block">Orders</span>
+            <span className="hidden text-right md:block">Revenue</span>
+            {showActions ? (
+              <span className="hidden text-right md:block">Actions</span>
+            ) : null}
           </div>
           <ul className="flex flex-col">
             {tableRows.map((row) => {
@@ -180,20 +182,20 @@ export function CampaignsCard({ campaigns }: Props) {
                     <span className="text-muted-foreground text-right tabular-nums">
                       {row.visitors.toLocaleString()}
                     </span>
-                    <span className="text-muted-foreground text-right tabular-nums">
+                    <span className="text-muted-foreground hidden text-right tabular-nums md:block">
                       {row.views.toLocaleString()}
                     </span>
                     <span className="text-muted-foreground text-right tabular-nums">
                       {row.conversions.toLocaleString()}
                     </span>
-                    <span className="text-muted-foreground text-right tabular-nums">
+                    <span className="text-muted-foreground hidden text-right tabular-nums md:block">
                       {row.orders.toLocaleString()}
                     </span>
-                    <span className="text-muted-foreground text-right tabular-nums">
+                    <span className="text-muted-foreground hidden text-right tabular-nums md:block">
                       {row.revenue}
                     </span>
                     {showActions ? (
-                      <span className="text-destructive text-right text-[11px] font-medium">
+                      <span className="text-destructive hidden text-right text-[11px] font-medium md:block">
                         Delete
                       </span>
                     ) : null}
@@ -263,8 +265,8 @@ function tableGridClass(showActions: boolean, className: string) {
   return [
     "grid gap-2",
     showActions
-      ? "grid-cols-[minmax(0,1.4fr)_4rem_4rem_5rem_4rem_4rem_4rem]"
-      : "grid-cols-[minmax(0,1.4fr)_4rem_4rem_5rem_4rem_4rem]",
+      ? "grid-cols-[minmax(0,1fr)_4rem_5rem] md:grid-cols-[minmax(0,1.4fr)_4rem_4rem_5rem_4rem_4rem_4rem]"
+      : "grid-cols-[minmax(0,1fr)_4rem_5rem] md:grid-cols-[minmax(0,1.4fr)_4rem_4rem_5rem_4rem_4rem]",
     className,
   ].join(" ");
 }

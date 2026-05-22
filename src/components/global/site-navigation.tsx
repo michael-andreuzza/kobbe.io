@@ -16,7 +16,8 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
   const linkClassName =
     "rounded-none bg-transparent p-0 text-sm font-medium text-muted-foreground transition-colors hover:bg-transparent hover:text-foreground focus:bg-transparent data-active:bg-transparent data-active:hover:bg-transparent data-active:focus:bg-transparent";
   const siteLinks = [
-    { href: "/pricing#benefits", label: "All Features" },
+    { href: "/#benefits", label: "All Features" },
+    { href: "/#pricing", label: "Pricing" },
     { href: "/docs", label: "Docs" },
     ...(!hasDocsNavigation
       ? [{ href: "/docs/support-faq", label: "FAQ" }]
@@ -34,11 +35,13 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
       <NavigationMenu className="max-w-none">
         <NavigationMenuList className="flex flex-nowrap justify-end gap-2 sm:gap-4">
           <NavigationMenuItem className="hidden md:block">
-            <NavigationMenuLink
-              href="/pricing#benefits"
-              className={linkClassName}
-            >
+            <NavigationMenuLink href="/#benefits" className={linkClassName}>
               All Features
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem className="hidden md:block">
+            <NavigationMenuLink href="/#pricing" className={linkClassName}>
+              Pricing
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem className="hidden md:block">
@@ -68,10 +71,10 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink
-              href="/pricing"
+              href="/#pricing"
               className={cn(
                 buttonVariants({ variant: "default" }),
-                "px-3 whitespace-nowrap sm:px-4",
+                "whitespace-nowrap",
               )}
             >
               <span className="inline">Start 3-day free trial</span>

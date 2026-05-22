@@ -127,7 +127,7 @@ function TrafficOverviewPreview() {
 
   return (
     <div ref={rootRef} className="grid gap-3">
-      <div className="grid grid-cols-3 gap-3 pr-2">
+      <div className="grid grid-cols-2 gap-3 pr-2 md:grid-cols-3">
         <TrafficKpi
           label="Visitors"
           value={data.kpi.visitors.display}
@@ -143,6 +143,7 @@ function TrafficOverviewPreview() {
           label="Views"
           value={data.kpi.views.display}
           hint="+22.1%"
+          className="hidden md:block"
         />
       </div>
     </div>
@@ -154,13 +155,14 @@ function TrafficKpi(props: {
   value: string;
   hint: string;
   active?: boolean;
+  className?: string;
 }) {
   return (
     <DashboardMetricTile
       active={props.active}
       activeColor="var(--foreground)"
       surface="muted"
-      className="aspect-auto min-h-28"
+      className={cn("aspect-auto min-h-28", props.className)}
     >
       <div className="flex h-full min-w-0 flex-col gap-1">
         <div className="flex w-full min-w-0 items-baseline justify-between gap-2">

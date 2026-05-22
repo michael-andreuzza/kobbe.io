@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 
 import {
   Card,
@@ -73,10 +73,12 @@ function MarketingFunnelChart(props: {
   return (
     <div className="w-full min-w-0 px-4 pt-2 pb-4 sm:px-5">
       <div
-        className="grid min-w-0 gap-3"
-        style={{
-          gridTemplateColumns: `repeat(${props.steps.length}, minmax(0, 1fr))`,
-        }}
+        className="grid min-w-0 grid-cols-2 gap-3 md:[grid-template-columns:repeat(var(--funnel-step-count),minmax(0,1fr))]"
+        style={
+          {
+            "--funnel-step-count": props.steps.length,
+          } as CSSProperties
+        }
       >
         {props.steps.map((step, index) => {
           const previous = props.steps[index - 1];
@@ -90,7 +92,10 @@ function MarketingFunnelChart(props: {
           return (
             <div
               key={step.label}
-              className="group relative flex min-w-0 flex-col items-center"
+              className={cn(
+                "group relative min-w-0 flex-col items-center",
+                index > 1 ? "hidden md:flex" : "flex",
+              )}
               aria-label={`${step.label}: ${step.visitors.toLocaleString()} visitors, ${formatPercent(step.conversionRate)} conversion`}
               data-kobbe-stagger
             >
