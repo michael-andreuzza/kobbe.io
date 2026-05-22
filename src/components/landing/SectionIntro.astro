@@ -1,21 +1,22 @@
 ---
 import Text from "@/components/foundations/elements/Text.astro";
-
 interface Props {
   title: string;
   description: string;
   tag?: "h1" | "h2" | "h3";
   id?: string;
 }
-
 const { title, description, tag = "h2", id } = Astro.props;
 ---
 
-<div class="max-w-xl text-balance">
-  <Text id={id} tag={tag} variant="textLG" class="text-foreground font-medium">
-    {title}
-    <span class="text-muted-foreground font-normal">
-      {description}
-    </span>
-  </Text>
-</div>
+<Text
+  id={id}
+  tag={tag}
+  variant="textLG"
+  class="text-foreground font-medium text-balance lg:max-w-200"
+>
+  {title}
+  <span class="text-muted-foreground font-normal">
+    {description}
+  </span>
+</Text>

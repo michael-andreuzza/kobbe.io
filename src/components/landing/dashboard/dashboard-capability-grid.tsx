@@ -1,13 +1,7 @@
 import type { ReactNode } from "react";
 import { useRef } from "react";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
 import { useIdlePulse } from "@/components/landing/use-idle-pulse";
@@ -30,7 +24,7 @@ type CapabilityCardProps = {
 
 export function DashboardCapabilityGrid() {
   return (
-    <div className="relative mt-8 grid gap-4 gap-y-24 md:grid-cols-2 lg:grid-cols-2">
+    <div className="relative mt-8 grid gap-x-8 gap-y-24 md:grid-cols-2 lg:grid-cols-2">
       <style>{`
         @keyframes kobbeCapabilityBarRise {
           from {
@@ -201,17 +195,15 @@ function TrafficKpi(props: {
 function CapabilityCard(props: CapabilityCardProps) {
   return (
     <Card className="group min-w-0 gap-0 overflow-hidden bg-transparent p-0">
-      <CardHeader className="px-0 pt-4 sm:pt-5">
-        <CardTitle className="text-foreground text-lg font-medium">
-          {props.title}
+      <CardHeader className="p-0">
+        <CardTitle className="text-foreground text-base font-medium text-pretty">
+          {props.title}.
+          <span className="text-muted-foreground"> {props.description}</span>
         </CardTitle>
-        <CardDescription className="text-muted-foreground mt-1 text-base leading-6 text-balance">
-          {props.description}
-        </CardDescription>
       </CardHeader>
-      <AnimatedPanelReveal trigger="scroll" className="mt-8">
-        <CardContent className="bg-muted min-w-0 overflow-hidden p-8 pb-0 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none lg:p-20 lg:pb-0">
-          <div className="-mb-20">
+      <AnimatedPanelReveal trigger="scroll" className="mt-4">
+        <CardContent className="bg-muted min-w-0 overflow-hidden p-4 pb-0 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none lg:p-8 lg:pb-0">
+          <div className="mx-auto -mb-4 w-full">
             <PreviewFrame mockupClassName={props.mockupClassName}>
               {props.children}
             </PreviewFrame>

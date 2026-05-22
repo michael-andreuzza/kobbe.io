@@ -59,8 +59,8 @@ export function RevenueInsightsPreview() {
           }
         }
       `}</style>
-      <Card className="bg-muted gap-0 overflow-hidden border-0 p-8 pb-0 lg:p-42 lg:pb-0">
-        <CardContent className="bg-card -mb-10 rounded-xl p-0 py-4">
+      <Card className="bg-muted gap-0 overflow-hidden border-0 p-4 pb-0 lg:p-8 lg:pb-0">
+        <CardContent className="bg-card -mb-10 rounded-xl">
           <div className="bg-background relative h-80 overflow-hidden rounded-xl">
             <div className="pointer-events-none absolute top-0 left-0 w-full origin-top-left">
               <div className="kobbe-revenue-chart pointer-events-auto relative z-10">

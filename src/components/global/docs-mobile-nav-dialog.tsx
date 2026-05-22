@@ -25,7 +25,7 @@ export function SiteMobileNavDialog({
   return (
     <div className="md:hidden">
       <Dialog.Root>
-        <Dialog.Trigger className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 inline-flex size-8 items-center justify-center rounded-md transition-colors outline-none focus-visible:ring-2">
+        <Dialog.Trigger className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 inline-flex size-8 items-center justify-center transition-colors outline-none focus-visible:ring-2">
           <HugeiconsIcon
             icon={PanelLeftIcon}
             size={18}
@@ -41,7 +41,7 @@ export function SiteMobileNavDialog({
               <Dialog.Title className="text-foreground text-sm font-medium">
                 Navigation
               </Dialog.Title>
-              <Dialog.Close className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 inline-flex size-7 items-center justify-center rounded-md transition-colors outline-none focus-visible:ring-2">
+              <Dialog.Close className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 inline-flex size-7 items-center justify-center transition-colors outline-none focus-visible:ring-2">
                 <HugeiconsIcon
                   icon={PanelLeftCloseIcon}
                   size={18}

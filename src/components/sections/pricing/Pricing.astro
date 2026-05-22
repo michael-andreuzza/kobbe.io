@@ -8,7 +8,7 @@ interface Props {
 }
 
 const appBaseUrl = "https://app.kobbe.io";
-const { headingTag = "h1" } = Astro.props;
+const { headingTag = "h2" } = Astro.props;
 ---
 
 <section id="pricing" aria-labelledby="pricing-heading">
@@ -20,7 +20,7 @@ const { headingTag = "h1" } = Astro.props;
       description="Start with a 3-day free trial. No credit card required."
     />
 
-    <div class="bg-muted relative mt-8 p-8 lg:p-32">
+    <div class="bg-muted relative mt-8 p-4 lg:p-8">
       <PricingPlanCard client:load appBaseUrl={appBaseUrl} />
     </div>
   </Wrapper>

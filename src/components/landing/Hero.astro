@@ -24,15 +24,24 @@ import HeroDashboardPreview from "@/components/landing/hero-dashboard-preview";
         or AI agents. <br /> — Set up in seconds.
       </Text>
 
-      <a
-        href="https://app.kobbe.io/demo/kobbe-studio"
-        target="_blank"
-        rel="noopener noreferrer"
-        data-kobbe-event="Hero — see demo"
-        class="text-foreground hover:text-muted-foreground mx-auto mt-8 flex w-fit text-sm font-semibold uppercase"
-      >
-        See the demo
-      </a>
+      <div class="mx-auto flex w-fit flex-wrap gap-x-8 gap-y-4">
+        <a
+          href="#pricing"
+          data-kobbe-event="Hero — see demo"
+          class="text-brand hover:text-muted-foreground text-sbase mx-auto mt-8 flex w-fit font-medium"
+        >
+          Start a 3-day free trial
+        </a>
+        <a
+          href="https://app.kobbe.io/demo/kobbe-studio"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-kobbe-event="Hero — see demo"
+          class="text-foreground hover:text-muted-foreground text-sbase mx-auto mt-8 flex w-fit font-medium"
+        >
+          See the demo
+        </a>
+      </div>
     </div>
     <div class="mt-8"><HeroDashboardPreview client:load /></div>
     <ul

@@ -113,7 +113,7 @@ export function FeatureTabs({ groups }: FeatureTabsProps) {
     >
       <TabsList
         aria-label="Feature categories"
-        className="lg:flex-col lg:items-stretch lg:gap-0 lg:border-b-0 lg:pr-6 lg:[&_[data-slot=tabs-trigger]>span]:hidden"
+        className="lg:flex-col lg:items-stretch lg:gap-0 lg:border-b-0 lg:pr-6 [&_[data-slot=tabs-trigger]>span]:hidden"
       >
         {groups.map((group) => {
           const value = toFeatureGroupValue(group.category);
@@ -123,7 +123,7 @@ export function FeatureTabs({ groups }: FeatureTabsProps) {
               key={group.category}
               value={value}
               onClick={() => setActiveValue(value)}
-              className="lg:w-full lg:justify-start lg:pr-4 lg:text-left"
+              className="before:bg-foreground before:h-1.5 before:w-0 before:shrink-0 before:opacity-0 before:transition-[width,opacity] before:content-[''] data-active:gap-2 data-active:before:w-1.5 data-active:before:opacity-100 lg:w-full lg:justify-start lg:pr-4 lg:text-left"
               data-kobbe-stagger
             >
               {group.category}
@@ -154,15 +154,15 @@ function FeatureGroupPanel({ group }: { group: FeatureGroup }) {
           data-feature-tab-stagger
           data-kobbe-stagger
         >
-          <h2 id={headingId} className="text-foreground text-xl font-medium">
-            {group.category}
+          <h3 id={headingId} className="text-foreground text-lg font-medium">
+            {group.category}.
             <span className="text-muted-foreground font-normal">
               {group.description}
             </span>
-          </h2>
+          </h3>
         </div>
 
-        <div className="mt-8 grid gap-x-12 gap-y-8 sm:grid-cols-3">
+        <div className="mt-8 grid gap-x-12 gap-y-8 md:grid-cols-2">
           {group.features.map((feature) => (
             <Card
               key={feature.href}
@@ -171,7 +171,7 @@ function FeatureGroupPanel({ group }: { group: FeatureGroup }) {
               data-kobbe-stagger
             >
               <CardHeader className="p-0">
-                <CardTitle className="text-foreground text-lg font-medium">
+                <CardTitle className="text-foreground text-base font-medium">
                   <a
                     href={feature.href}
                     className="outline-none group-hover:underline focus-visible:underline"

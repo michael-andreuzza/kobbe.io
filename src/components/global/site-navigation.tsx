@@ -4,17 +4,15 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { buttonVariants } from "@/components/ui/button";
 import { SiteMobileNavDialog } from "@/components/global/docs-mobile-nav-dialog";
 import type { NavGroup } from "@/components/ui/sidebar";
-import { cn } from "@/lib/utils";
 export type SiteNavigationProps = {
   docsNavGroups?: NavGroup[];
 };
 export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
   const hasDocsNavigation = Boolean(docsNavGroups?.length);
   const linkClassName =
-    "rounded-none bg-transparent p-0 text-sm font-medium text-muted-foreground transition-colors hover:bg-transparent hover:text-foreground focus:bg-transparent data-active:bg-transparent data-active:hover:bg-transparent data-active:focus:bg-transparent";
+    "bg-transparent p-0 text-sm font-medium text-muted-foreground transition-colors hover:bg-transparent hover:text-foreground focus:bg-transparent data-active:bg-transparent data-active:hover:bg-transparent data-active:focus:bg-transparent";
   const siteLinks = [
     { href: "/#benefits", label: "All Features" },
     { href: "/#pricing", label: "Pricing" },
@@ -67,17 +65,6 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
               className={linkClassName}
             >
               Sign in
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink
-              href="/#pricing"
-              className={cn(
-                buttonVariants({ variant: "default" }),
-                "whitespace-nowrap",
-              )}
-            >
-              <span className="inline">Start 3-day free trial</span>
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>

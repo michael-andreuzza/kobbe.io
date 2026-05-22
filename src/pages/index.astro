@@ -9,7 +9,7 @@ import UtmCampaigns from "@/components/landing/UtmCampaigns.astro";
 import PerformanceInsights from "@/components/landing/PerformanceInsights.astro";
 import CliAgents from "@/components/landing/CliAgents.astro";
 import PricingSection from "@/components/sections/pricing/Pricing.astro";
-import PricingFeatures from "@/components/sections/pricing/PricingFeatures.astro";
+import AllFeatures from "@/components/landing/AllFeatures.astro";
 import {
   buildPricingJsonLdOffers,
   pricingTiers,
@@ -46,12 +46,12 @@ const pricingJsonLd = [
 >
   <Hero />
   <DashboardCapabilities />
-  <PricingFeatures />
+  <AllFeatures />
   <RevenueInsights />
   <FunnelInsights />
   <UtmCampaigns />
   <PerformanceInsights />
   <CliAgents />
   <HowItWorks />
-  <PricingSection headingTag="h2" />
+  <PricingSection />
 </BaseLayout>

@@ -292,8 +292,10 @@ const featureGroups = [
       title="Everything you need to understand your website."
       description="Kobbe combines privacy-friendly analytics, events, funnels, revenue attribution, shared dashboards, CLI access, and AI-agent context in one focused product."
     />
-    <AnimatedPanelReveal client:load trigger="view" className="mt-12">
-      <FeatureTabs client:load groups={featureGroups} />
+    <AnimatedPanelReveal client:load trigger="view">
+      <div class="bg-muted mt-8 p-4 lg:p-8">
+        <FeatureTabs client:load groups={featureGroups} />
+      </div>
     </AnimatedPanelReveal>
   </Wrapper>
 </section>

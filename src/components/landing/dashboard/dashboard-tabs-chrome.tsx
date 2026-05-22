@@ -25,7 +25,7 @@ export function TabsChrome(props: {
           aria-selected={index === props.activeIndex}
           onClick={() => props.onActiveIndexChange(index)}
           className={cn(
-            "rounded transition-colors",
+            "transition-colors",
             index === props.activeIndex
               ? "text-foreground"
               : "text-muted-foreground hover:text-foreground/80",

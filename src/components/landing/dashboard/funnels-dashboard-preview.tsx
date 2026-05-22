@@ -43,8 +43,8 @@ export function FunnelsDashboardPreview({ funnel }: Props) {
   }, [activeStep, funnel.steps.length, shouldReduceMotion]);
 
   return (
-    <div className="bg-muted overflow-hidden p-8 pb-0 lg:p-42 lg:pb-0">
-      <div className="relative mx-auto -mb-10 min-w-0 lg:max-w-4xl">
+    <div className="bg-muted overflow-hidden p-4 pb-0 lg:p-8 lg:pb-0">
+      <div className="relative -mb-10 min-w-0">
         <FunnelsCard
           funnel={funnel}
           activeStep={shouldReduceMotion ? undefined : activeStep}

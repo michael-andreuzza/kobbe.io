@@ -43,7 +43,7 @@ const codeEditors = [
               <Image
                 src={editor.logo}
                 alt={`${editor.name} logo`}
-                class="size-6 rounded object-contain grayscale transition-all duration-300 hover:grayscale-0"
+                class="size-6 rounded object-contain"
                 loading="lazy"
               />
               <span class="sr-only">{editor.name}</span>
@@ -59,7 +59,7 @@ const codeEditors = [
         end="bottom 42%"
         className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
       >
-        <div class="bg-muted overflow-hidden p-8 pb-0 lg:p-32 lg:pb-0">
+        <div class="bg-muted overflow-hidden p-4 pb-0 lg:p-8 lg:pb-0">
           <CliAgentsPanel client:load />
         </div>
       </AnimatedPanelReveal>

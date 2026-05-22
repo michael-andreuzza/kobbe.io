@@ -96,12 +96,12 @@ const footerLinkGroups: FooterLinkGroup[] = [
       </div>
     </div>
 
-    <Wrapper class="border-border/60 mt-8 border-t pt-8">
+    <div class="border-border/60 mt-8 w-full border-t pt-8">
       <p class="text-foreground text-sm font-semibold uppercase">
         &copy; {new Date().getFullYear()} Kobbe. All rights reserved.
       </p>
       <nav
-        class="mt-8 grid max-w-xl grid-cols-2 gap-8 text-sm md:grid-cols-4 lg:col-start-3"
+        class="mt-8 grid grid-cols-2 gap-8 text-sm md:grid-cols-4 lg:col-start-3"
       >
         {
           footerLinkGroups.map((group) => (
@@ -131,7 +131,8 @@ const footerLinkGroups: FooterLinkGroup[] = [
           ))
         }
       </nav>
-    </Wrapper>
+    </div>
+
     <FooterLogoReveal
       client:load
       className="mt-24 flex items-end overflow-hidden text-[clamp(10rem,46vw,46rem)]"
@@ -153,7 +154,7 @@ const footerLinkGroups: FooterLinkGroup[] = [
         }
       </p>
     </FooterLogoReveal>
-    </div>
+  </Wrapper>
   <script is:inline>
     const setupTimes = document.querySelectorAll("[data-setup-time]");
     const setupTime = new Date(Date.now() + 5 * 60 * 1000);

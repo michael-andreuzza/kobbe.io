@@ -116,7 +116,7 @@ export function CliAgentsPanel() {
               <div className="text-muted-foreground mt-8 ml-auto flex w-fit shrink-0 items-center gap-2">
                 <button
                   type="button"
-                  className="hover:bg-muted grid size-7 place-items-center rounded-md transition-colors"
+                  className="hover:bg-muted grid size-7 place-items-center transition-colors"
                   aria-label="Attach image"
                 >
                   <HugeiconsIcon
@@ -128,7 +128,7 @@ export function CliAgentsPanel() {
                 </button>
                 <button
                   type="button"
-                  className="bg-foreground text-background grid size-7 place-items-center rounded-full transition-opacity hover:opacity-90"
+                  className="bg-foreground text-background grid size-7 place-items-center transition-opacity hover:opacity-90"
                   aria-label="Send message"
                 >
                   <HugeiconsIcon

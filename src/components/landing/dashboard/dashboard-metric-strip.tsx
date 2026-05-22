@@ -18,10 +18,7 @@ export function DashboardMetricStrip(props: DashboardMetricStripProps) {
         : "lg:grid-cols-4";
 
   return (
-    <section
-      className={cn("-mx-2 mt-2 p-2", props.className)}
-      aria-label={props.ariaLabel}
-    >
+    <section aria-label={props.ariaLabel}>
       <div
         className={cn(
           "relative grid grid-cols-2 gap-3 sm:grid-cols-3",

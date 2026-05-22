@@ -61,16 +61,16 @@ export function PricingTierSelectors({
               aria-checked={selected}
               onClick={() => onTierIndexChange(index)}
               className={cn(
-                "ring-border bg-background flex w-full flex-col justify-between gap-x-4 gap-y-2 rounded-lg border px-3 py-3 text-left text-sm transition-colors duration-300 ease-in lg:flex-row lg:items-center",
+                "ring-border bg-background flex w-full flex-col justify-between gap-x-4 gap-y-2 border border-transparent p-4 text-left text-sm transition-colors duration-300 ease-in lg:flex-row lg:items-center",
                 selected
-                  ? "border-muted text-foreground invert"
+                  ? "text-foreground border-transparent invert"
                   : "text-muted-foreground hover:border-brand hover:text-foreground",
               )}
             >
               <span
                 className={cn(
-                  "font-medium tabular-nums",
-                  selected ? "text-foreground" : "text-muted-foreground",
+                  "font-semibold tabular-nums",
+                  selected ? "text-foreground" : "text-foreground",
                 )}
               >
                 {formatTierPrice(tier, period)}

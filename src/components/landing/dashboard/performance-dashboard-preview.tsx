@@ -272,8 +272,8 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
   }, [activeMetricIndex, metrics.length, shouldReduceMotion]);
 
   return (
-    <div className="bg-muted overflow-hidden p-8 pb-0 lg:p-32 lg:pb-0">
-      <div className="relative mx-auto -mb-10 min-w-0 lg:max-w-4xl">
+    <div className="bg-muted overflow-hiddenp-4 pb-0 lg:p-8 lg:pb-0">
+      <div className="relative mx-auto -mb-10 min-w-0">
         <DashboardMetricStrip ariaLabel="Web Vitals metrics" lgCols={5}>
           {metrics.map((metric, index) => {
             const active = index === activeMetricIndex;
@@ -481,7 +481,7 @@ function PerformanceTrendPreview(props: {
   const toggleClass = (on: boolean) =>
     cn(
       buttonVariants({ variant: on ? "secondary" : "ghost", size: "sm" }),
-      "h-8 rounded-lg px-2.5 text-xs",
+      "h-8 px-2.5 text-xs",
       !on ? "text-muted-foreground" : "",
     );
 
