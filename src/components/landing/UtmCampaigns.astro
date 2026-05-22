@@ -1,8 +1,8 @@
 ---
-import Text from "@/components/foundations/elements/Text.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
 import CampaignsDashboardPreview from "@/components/landing/dashboard/campaigns-dashboard-preview";
+import SectionIntro from "@/components/landing/SectionIntro.astro";
 
 const campaignsPreview = {
   summary: {
@@ -70,16 +70,10 @@ const campaignsPreview = {
 
 <section>
   <Wrapper class="py-20">
-    <div class="max-w-lg">
-      <Text tag="h2" variant="textXL" class="text-foreground font-medium">
-        Trace every UTM campaign back to real actions.
-        <span class="text-muted-foreground font-normal">
-          See campaign visitors, conversions, sources, mediums, and custom
-          events in the same dashboard language as the rest of your traffic
-          reports.
-        </span>
-      </Text>
-    </div>
+    <SectionIntro
+      title="Trace every UTM campaign back to real actions."
+      description="See campaign visitors, conversions, sources, mediums, and custom events in the same dashboard language as the rest of your traffic reports."
+    />
 
     <div class="group mt-8">
       <AnimatedPanelReveal

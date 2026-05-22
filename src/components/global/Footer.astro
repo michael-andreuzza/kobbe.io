@@ -96,7 +96,7 @@ const footerLinkGroups: FooterLinkGroup[] = [
       </div>
     </div>
 
-    <div class="border-border/60 mt-8 border-t pt-8">
+    <Wrapper class="border-border/60 mt-8 border-t pt-8">
       <p class="text-foreground text-sm font-semibold uppercase">
         &copy; {new Date().getFullYear()} Kobbe. All rights reserved.
       </p>
@@ -131,29 +131,29 @@ const footerLinkGroups: FooterLinkGroup[] = [
           ))
         }
       </nav>
-    </div>
-  </Wrapper>
-  <FooterLogoReveal
-    client:load
-    className="mt-24 flex items-end overflow-hidden text-[clamp(10rem,46vw,46rem)]"
-  >
-    <p
-      class="text-foreground relative block translate-y-[0.1em] px-0 text-center leading-[0.78] font-medium tracking-[-0.08em] whitespace-nowrap"
-      aria-label="kobbe"
+    </Wrapper>
+    <FooterLogoReveal
+      client:load
+      className="mt-24 flex items-end overflow-hidden text-[clamp(10rem,46vw,46rem)]"
     >
-      {
-        "kobbe".split("").map((letter) => (
-          <span
-            data-footer-logo-letter
-            class="inline-block will-change-transform"
-            aria-hidden="true"
-          >
-            {letter}
-          </span>
-        ))
-      }
-    </p>
-  </FooterLogoReveal>
+      <p
+        class="text-foreground relative block translate-y-[0.1em] px-0 text-center leading-[0.78] font-medium tracking-[-0.08em] whitespace-nowrap"
+        aria-label="kobbe"
+      >
+        {
+          "kobbe".split("").map((letter) => (
+            <span
+              data-footer-logo-letter
+              class="inline-block will-change-transform"
+              aria-hidden="true"
+            >
+              {letter}
+            </span>
+          ))
+        }
+      </p>
+    </FooterLogoReveal>
+    </div>
   <script is:inline>
     const setupTimes = document.querySelectorAll("[data-setup-time]");
     const setupTime = new Date(Date.now() + 5 * 60 * 1000);

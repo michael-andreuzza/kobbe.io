@@ -1,8 +1,8 @@
 ---
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import Text from "@/components/foundations/elements/Text.astro";
 import FeatureTabs from "@/components/features/feature-tabs";
 import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
+import SectionIntro from "@/components/landing/SectionIntro.astro";
 
 const featureGroups = [
   {
@@ -288,16 +288,10 @@ const featureGroups = [
 
 <section id="benefits">
   <Wrapper variant="default" class="py-20">
-    <div class="max-w-3xl text-balance">
-      <Text tag="h2" variant="textXL" class="text-foreground font-medium">
-        Everything you need to understand your website.
-        <span class="text-muted-foreground font-normal">
-          Kobbe combines privacy-friendly analytics, events, funnels, revenue
-          attribution, shared dashboards, CLI access, and AI-agent context in
-          one focused product.
-        </span>
-      </Text>
-    </div>
+    <SectionIntro
+      title="Everything you need to understand your website."
+      description="Kobbe combines privacy-friendly analytics, events, funnels, revenue attribution, shared dashboards, CLI access, and AI-agent context in one focused product."
+    />
     <AnimatedPanelReveal client:load trigger="view" className="mt-12">
       <FeatureTabs client:load groups={featureGroups} />
     </AnimatedPanelReveal>

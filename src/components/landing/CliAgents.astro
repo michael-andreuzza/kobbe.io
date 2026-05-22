@@ -1,8 +1,8 @@
 ---
-import Text from "@/components/foundations/elements/Text.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
 import CliAgentsPanel from "@/components/landing/cli-agents-panel";
+import SectionIntro from "@/components/landing/SectionIntro.astro";
 import { Image } from "astro:assets";
 import claudeLogo from "@/images/brands/claude.svg";
 import codexLogo from "@/images/brands/codex.svg";
@@ -27,16 +27,10 @@ const codeEditors = [
 
 <section>
   <Wrapper class="py-20">
-    <div class="max-w-lg">
-      <Text tag="h2" variant="textXL" class="text-foreground font-medium">
-        CLI access, with MCP built in.
-        <span class="text-muted-foreground font-normal">
-          Install one CLI to inspect analytics from your terminal, then run the
-          same package in MCP mode so compatible editors and agents can query
-          Kobbe for you.
-        </span>
-      </Text>
-    </div>
+    <SectionIntro
+      title="CLI access, with MCP built in."
+      description="Install one CLI to inspect analytics from your terminal, then run the same package in MCP mode so compatible editors and agents can query Kobbe for you."
+    />
     <div class="mt-8">
       <span class="sr-only">Works with MCP-compatible tools, including:</span>
       <div
@@ -65,7 +59,7 @@ const codeEditors = [
         end="bottom 42%"
         className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
       >
-        <div class="bg-muted overflow-hidden p-8 pb-0 lg:p-42 lg:pb-0">
+        <div class="bg-muted overflow-hidden p-8 pb-0 lg:p-32 lg:pb-0">
           <CliAgentsPanel client:load />
         </div>
       </AnimatedPanelReveal>

@@ -1,8 +1,8 @@
 ---
-import Text from "@/components/foundations/elements/Text.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
 import PerformanceDashboardPreview from "@/components/landing/dashboard/performance-dashboard-preview";
+import SectionIntro from "@/components/landing/SectionIntro.astro";
 
 type PerformancePreview = {
   metrics: {
@@ -33,15 +33,10 @@ const performancePreview: PerformancePreview = {
 
 <section>
   <Wrapper class="py-20">
-    <div class="max-w-lg">
-      <Text tag="h2" variant="textXL" class="text-foreground font-medium">
-        Keep performance beside your traffic.
-        <span class="text-muted-foreground font-normal">
-          Track Core Web Vitals with the same dashboard language: percentile
-          trends, slow pages, and environment breakdowns.
-        </span>
-      </Text>
-    </div>
+    <SectionIntro
+      title="Keep performance beside your traffic."
+      description="Track Core Web Vitals with the same dashboard language: percentile trends, slow pages, and environment breakdowns."
+    />
 
     <div class="group mt-8">
       <AnimatedPanelReveal

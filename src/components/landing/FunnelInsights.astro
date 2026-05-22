@@ -1,8 +1,8 @@
 ---
-import Text from "@/components/foundations/elements/Text.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
 import FunnelsDashboardPreview from "@/components/landing/dashboard/funnels-dashboard-preview";
+import SectionIntro from "@/components/landing/SectionIntro.astro";
 
 const funnelPreview = {
   name: "Trial signup",
@@ -34,15 +34,10 @@ const funnelPreview = {
 
 <section>
   <Wrapper class="py-20">
-    <div class="max-w-lg">
-      <Text tag="h2" variant="textXL" class="text-foreground font-medium">
-        See where visitors continue or drop off.
-        <span class="text-muted-foreground font-normal">
-          Build funnels from pages and custom events, then inspect conversion,
-          drop-off, and step-level detail with the same app dashboard view.
-        </span>
-      </Text>
-    </div>
+    <SectionIntro
+      title="See where visitors continue or drop off."
+      description="Build funnels from pages and custom events, then inspect conversion, drop-off, and step-level detail with the same app dashboard view."
+    />
 
     <div class="group mt-8">
       <AnimatedPanelReveal

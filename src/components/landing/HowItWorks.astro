@@ -1,6 +1,7 @@
 ---
 import Text from "@/components/foundations/elements/Text.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import SectionIntro from "@/components/landing/SectionIntro.astro";
 import InstallationPlatformGrid from "@/components/landing/installation-platform-grid";
 import astroLogo from "@/images/brands/astro.svg";
 import boltLogo from "@/images/brands/bolt.svg";
@@ -79,16 +80,10 @@ const installationPlatformItems = installationPlatforms.map((platform) => ({
 
 <section>
   <Wrapper class="py-20">
-    <div class="max-w-lg">
-      <Text tag="h2" variant="textXL" class="text-foreground font-medium">
-        From one script tag to a dashboard you can actually read.
-        <span class="text-muted-foreground font-normal">
-          Install Kobbe once, let privacy-friendly analytics signals flow in,
-          then use the dashboard to understand traffic, events, and revenue
-          without building visitor profiles.
-        </span>
-      </Text>
-    </div>
+    <SectionIntro
+      title="From one script tag to a dashboard you can actually read."
+      description="Install Kobbe once, let privacy-friendly analytics signals flow in, then use the dashboard to understand traffic, events, and revenue without building visitor profiles."
+    />
 
     <div class="mt-8">
       <InstallationPlatformGrid

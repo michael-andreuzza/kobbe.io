@@ -272,7 +272,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
   }, [activeMetricIndex, metrics.length, shouldReduceMotion]);
 
   return (
-    <div className="bg-muted overflow-hidden p-8 pb-0 lg:p-42 lg:pb-0">
+    <div className="bg-muted overflow-hidden p-8 pb-0 lg:p-32 lg:pb-0">
       <div className="relative mx-auto -mb-10 min-w-0 lg:max-w-4xl">
         <DashboardMetricStrip ariaLabel="Web Vitals metrics" lgCols={5}>
           {metrics.map((metric, index) => {
