@@ -35,11 +35,11 @@ const conversionEvents = [
 
 export function CampaignsDashboardPreview({ campaigns }: Props) {
   return (
-    <div className="bg-muted overflow-hidden p-4 pb-0 lg:p-8 lg:pb-0 rounded-2xl">
-      <div className="relative mx-auto -mb-10 max-w-4xl min-w-0">
+    <div>
+      <div className="relative mx-auto max-w-4xl min-w-0">
         <CampaignsCard campaigns={campaigns} />
 
-        <Card className={`${dashboardCardRootClass} mt-4`}>
+        <Card className={`${dashboardCardRootClass} mt-4 shadow`}>
           <CardHeader className={dashboardCardHeaderClass}>
             <CardTitle className={dashboardCardTitleClass}>
               Conversion events

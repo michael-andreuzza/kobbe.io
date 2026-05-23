@@ -62,37 +62,37 @@ export function DashboardPreview() {
   };
 
   return (
-    <div className="bg-muted relative w-full overflow-hidden p-4 pb-0 lg:p-8 lg:pb-0 rounded-2xl">
-      <div className="relative mx-auto -mb-10 min-w-0 max-w-4xl">
-        <DashboardKpiStrip
-          showComparison={data.kpi.showComparison}
-          visitors={data.kpi.visitors}
-          visits={data.kpi.visits}
-          views={data.kpi.views}
-          bounceRate={data.kpi.bounceRate}
-          sessionTime={data.kpi.sessionTime}
-          revenue={data.kpi.revenue}
-          activeMetric={chartMetric}
-          onMetricClick={handleMetricClick}
-        />
-        <DashboardTrafficChart
-          points={data.points}
-          metric={chartMetric}
-          rangeLabel={data.label}
-          spotlightIndex={spotlightIndex}
-        >
-          {trafficChartMetricLabels[chartMetric]}
-        </DashboardTrafficChart>
-        <div className="mt-4 grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
-          <PagesCard pages={data.pages} />
-          <SourcesCard sources={data.sources} />
-        </div>
-        <div className="mt-4 grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
-          <LocationsCard locations={data.locations} />
-          <DevicesCard devices={data.devices} />
-          <SearchKeywordsCard rows={data.searchKeywords} />
-          <EventsCard rows={data.events} />
-        </div>
+    <div className="relative mx-auto max-w-4xl min-w-0">
+      <DashboardKpiStrip
+        showComparison={data.kpi.showComparison}
+        visitors={data.kpi.visitors}
+        visits={data.kpi.visits}
+        views={data.kpi.views}
+        bounceRate={data.kpi.bounceRate}
+        sessionTime={data.kpi.sessionTime}
+        revenue={data.kpi.revenue}
+        activeMetric={chartMetric}
+        onMetricClick={handleMetricClick}
+        tileClassName="shadow"
+      />
+      <DashboardTrafficChart
+        points={data.points}
+        metric={chartMetric}
+        rangeLabel={data.label}
+        spotlightIndex={spotlightIndex}
+        className="shadow"
+      >
+        {trafficChartMetricLabels[chartMetric]}
+      </DashboardTrafficChart>
+      <div className="mt-4 grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
+        <PagesCard pages={data.pages} className="shadow" />
+        <SourcesCard sources={data.sources} className="shadow" />
+      </div>
+      <div className="mt-4 grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
+        <LocationsCard locations={data.locations} className="shadow" />
+        <DevicesCard devices={data.devices} className="shadow" />
+        <SearchKeywordsCard rows={data.searchKeywords} className="shadow" />
+        <EventsCard rows={data.events} className="shadow" />
       </div>
     </div>
   );

@@ -13,14 +13,16 @@ const { headingTag = "h2" } = Astro.props;
 
 <section id="pricing" aria-labelledby="pricing-heading">
   <Wrapper variant="default" class="relative pt-20 pb-20 lg:pt-28">
-    <SectionIntro
-      id="pricing-heading"
-      tag={headingTag}
-      title="Event-based pricing that scales with you."
-      description="Start with a 3-day free trial. No credit card required."
-    />
+    <div class="mx-auto max-w-lg text-center">
+      <SectionIntro
+        id="pricing-heading"
+        tag={headingTag}
+        title="Event-based pricing that scales with you."
+        description="Start with a 3-day free trial. No credit card required."
+      />
+    </div>
 
-    <div class="bg-muted relative mt-8 p-4 lg:p-8 round<ed-2xl">
+    <div class="mt-8">
       <PricingPlanCard client:load appBaseUrl={appBaseUrl} />
     </div>
   </Wrapper>

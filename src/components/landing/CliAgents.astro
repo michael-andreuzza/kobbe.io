@@ -28,7 +28,6 @@ const codeEditors = [
 <section>
   <Wrapper class="py-20">
     <SectionIntro
-
       title="CLI access, with MCP built in."
       description="Install one CLI to inspect analytics from your terminal, then run the same package in MCP mode so compatible editors and agents can query Kobbe for you."
     />
@@ -57,12 +56,11 @@ const codeEditors = [
       <AnimatedPanelReveal
         client:load
         trigger="scroll"
+        mask={false}
         end="bottom 42%"
         className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
       >
-        <div class="bg-muted overflow-hidden p-4 pb-0 lg:p-8 lg:pb-0 rounded-2xl">
-          <CliAgentsPanel client:load />
-        </div>
+        <CliAgentsPanel client:load />
       </AnimatedPanelReveal>
     </div>
   </Wrapper>

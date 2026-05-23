@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import {
   buildCheckoutReturnPath,
   defaultPricingTierIndex,
+  formatPricingCurrency,
   pricingTiers,
   type BillingPeriod,
   type PricingTierKey,
@@ -65,6 +66,12 @@ export function PricingPlanCard({
 
   const tier = pricingTiers[tierIndex] ?? pricingTiers[0];
 
+  const tierPriceLabel = useMemo(() => {
+    const amount = period === "monthly" ? tier.monthly : tier.yearly;
+    const suffix = period === "monthly" ? "month" : "year";
+    return `$${formatPricingCurrency(amount)}/${suffix}`;
+  }, [period, tier.monthly, tier.yearly]);
+
   const checkoutHref = useMemo(() => {
     const base = buildSignupHref(appBaseUrl, tier.key, period);
     if (typeof window === "undefined") return base;
@@ -74,9 +81,9 @@ export function PricingPlanCard({
   return (
     <Card
       variant="default"
-      className={cn("bg-muted mx-auto w-full gap-0 lg:max-w-lg", className)}
+      className={cn("bg-muted mx-auto w-full gap-0 p-0 lg:max-w-md", className)}
     >
-      <CardHeader className="pt-0">
+      <CardHeader className="p-0">
         <BillingPeriodTabs period={period} onPeriodChange={setPeriod} />
         <PricingTierSelectors
           period={period}
@@ -121,21 +128,19 @@ export function PricingPlanCard({
             </li>
           ))}
         </ul>
-        <div className="mt-8 flex flex-col gap-2 lg:flex-row lg:items-center">
+        <div className="mt-8 flex flex-col gap-2">
           <a
             href={checkoutHref}
             data-kobbe-event={`Pricing — start trial ${period}`}
             className={cn(
               buttonVariants({ variant: "default", size: "lg" }),
-              "w-full sm:w-fit",
+              "w-full",
             )}
           >
-            Start 3-day free trial
+            Start 3-day free trial, then {tierPriceLabel}
           </a>
-          <p className="text-muted-foreground text-xs">
-            No credit card required.
-            <br />
-            Cancel anytime.
+          <p className="text-muted-foreground text-center text-xs">
+            No credit card required. Cancel anytime.
           </p>
         </div>
       </CardContent>

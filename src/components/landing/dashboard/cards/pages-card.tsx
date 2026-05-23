@@ -7,8 +7,10 @@ import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 
 export function PagesCard({
   pages,
+  className,
 }: {
   pages: DashboardPreviewRangeData["pages"];
+  className?: string;
 }) {
   const [activeTab, setActiveTab] = useState(0);
   const rows =
@@ -17,6 +19,7 @@ export function PagesCard({
   return (
     <DashboardTabbedBreakdownCard
       title="Pages"
+      className={className}
       isEmpty={rows.length === 0}
       empty={{ icon: File01Icon, title: "No pages in range" }}
       tabs={{

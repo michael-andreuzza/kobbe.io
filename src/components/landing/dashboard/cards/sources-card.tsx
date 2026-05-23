@@ -11,8 +11,10 @@ import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 
 export function SourcesCard({
   sources,
+  className,
 }: {
   sources: DashboardPreviewRangeData["sources"];
+  className?: string;
 }) {
   const [activeTab, setActiveTab] = useState(0);
   const isEmpty =
@@ -24,6 +26,7 @@ export function SourcesCard({
   return (
     <DashboardTabbedBreakdownCard
       title="Sources"
+      className={className}
       isEmpty={isEmpty}
       empty={{ icon: RouteIcon, title: "No sources in range" }}
       tabs={{

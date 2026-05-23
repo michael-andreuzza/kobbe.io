@@ -6,12 +6,15 @@ import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 
 export function SearchKeywordsCard({
   rows,
+  className,
 }: {
   rows: DashboardPreviewRangeData["searchKeywords"];
+  className?: string;
 }) {
   return (
     <DashboardTabbedBreakdownCard
       title="Google Search"
+      className={className}
       isEmpty={rows.length === 0}
       empty={{ icon: Search01Icon, title: "No search terms in range" }}
       tabs={{

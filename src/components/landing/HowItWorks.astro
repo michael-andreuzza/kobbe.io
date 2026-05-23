@@ -80,11 +80,12 @@ const installationPlatformItems = installationPlatforms.map((platform) => ({
 
 <section>
   <Wrapper class="py-20">
-    <SectionIntro
-
-      title="From one script tag to a dashboard you can actually read."
-      description="Install Kobbe once, let privacy-friendly analytics signals flow in, then use the dashboard to understand traffic, events, and revenue without building visitor profiles."
-    />
+    <div class="lg:mx-auto max-w-lg lg:text-center">
+      <SectionIntro
+        title="From one script tag to a dashboard you can actually read."
+        description="Install Kobbe once, let privacy-friendly analytics signals flow in, then use the dashboard to understand traffic, events, and revenue without building visitor profiles."
+      />
+    </div>
 
     <div class="mt-8">
       <InstallationPlatformGrid
@@ -92,7 +93,7 @@ const installationPlatformItems = installationPlatforms.map((platform) => ({
         platforms={installationPlatformItems}
       />
     </div>
-    <dl class="mt-8 grid gap-8 sm:grid-cols-3">
+    <dl class="mt-8 grid gap-8 sm:grid-cols-3 lg:text-center">
       {
         steps.map((step) => (
           <div>
@@ -100,7 +101,7 @@ const installationPlatformItems = installationPlatforms.map((platform) => ({
               <Text
                 tag="p"
                 variant="textBase"
-                class="text-foreground t font-medium"
+                class="text-foreground font-medium"
               >
                 {step.number}.-
                 {step.title}
@@ -110,7 +111,7 @@ const installationPlatformItems = installationPlatforms.map((platform) => ({
               <Text
                 tag="p"
                 variant="textSM"
-                class="text-muted-foreground mt-3 font-medium text-pretty"
+                class="text-muted-foreground mt-1 font-medium text-pretty"
               >
                 {step.description}
               </Text>

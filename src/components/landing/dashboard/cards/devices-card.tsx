@@ -7,8 +7,10 @@ import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 
 export function DevicesCard({
   devices,
+  className,
 }: {
   devices: DashboardPreviewRangeData["devices"];
+  className?: string;
 }) {
   const [activeTab, setActiveTab] = useState(0);
   const rows =
@@ -21,6 +23,7 @@ export function DevicesCard({
   return (
     <DashboardTabbedBreakdownCard
       title="Devices"
+      className={className}
       isEmpty={rows.length === 0}
       empty={{ icon: ComputerPhoneSyncIcon, title: "No devices in range" }}
       tabs={{

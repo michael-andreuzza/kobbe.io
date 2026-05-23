@@ -128,7 +128,7 @@ export function CampaignsCard({ campaigns }: Props) {
         />
       </DashboardMetricStrip>
 
-      <Card className={dashboardCardRootClass}>
+      <Card className={`${dashboardCardRootClass} shadow`}>
         <CardHeader
           className={`${dashboardCardHeaderClass} ${dashboardTabbedCardHeaderClass}`}
         >
@@ -282,6 +282,7 @@ function CampaignMetric(props: {
       active={props.active}
       activeColor="var(--chart-1)"
       surface="muted"
+      className="shadow"
     >
       <div className="flex h-full min-w-0 flex-col gap-1">
         <span

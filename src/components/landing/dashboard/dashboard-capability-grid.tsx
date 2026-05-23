@@ -58,6 +58,7 @@ export function DashboardCapabilityGrid() {
           }
 
         }
+
       `}</style>
       <CapabilityCard
         title="Traffic overview"
@@ -112,35 +113,20 @@ export function DashboardCapabilityGrid() {
 }
 
 function TrafficOverviewPreview() {
-  const rootRef = useRef<HTMLDivElement | null>(null);
-
-  useIdlePulse(rootRef, {
-    selector: '[data-dashboard-metric-tile][data-active="true"]',
-    interval: 5200,
-    initialDelay: 1200,
-    scaleTo: 1.018,
-  });
-
   return (
-    <div ref={rootRef} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-3 sm:grid-cols-2">
       <TrafficKpi
         label="Visitors"
         value={data.kpi.visitors.display}
         hint="+18.4%"
-        active
+        className="shadow"
       />
       <TrafficKpi
         label="Visits"
         value={data.kpi.visits.display}
         hint="+15.2%"
         activeColor="var(--chart-2)"
-      />
-      <TrafficKpi
-        label="Views"
-        value={data.kpi.views.display}
-        hint="+22.1%"
-        activeColor="var(--chart-3)"
-        className="hidden lg:block"
+        className="shadow"
       />
     </div>
   );
@@ -159,7 +145,7 @@ function TrafficKpi(props: {
       active={props.active}
       activeColor={props.activeColor ?? "var(--chart-1)"}
       surface="muted"
-      className={cn("aspect-auto min-h-28", props.className)}
+      className={cn("aspect-square min-h-28", props.className)}
     >
       <div className="flex h-full min-w-0 flex-col gap-1">
         <div className="flex w-full min-w-0 items-baseline justify-between gap-2">
@@ -197,33 +183,31 @@ function TrafficKpi(props: {
 
 function CapabilityCard(props: CapabilityCardProps) {
   return (
-    <Card className="group flex h-full min-w-0 flex-col gap-0 overflow-hidden bg-transparent p-0">
-      <CardHeader className="p-0">
+    <Card className="group flex h-full min-w-0 flex-col gap-0 overflow-visible bg-transparent p-0">
+      <AnimatedPanelReveal trigger="scroll" mask={false} className="mt-auto">
+        <CardContent className="p-0 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none">
+          {props.unframed ? (
+            <div
+              className={cn(
+                "kobbe-capability-mockup pointer-events-none relative flex h-72 origin-center items-center justify-center",
+                props.mockupClassName,
+              )}
+            >
+              {props.children}
+            </div>
+          ) : (
+            <PreviewFrame mockupClassName={props.mockupClassName}>
+              {props.children}
+            </PreviewFrame>
+          )}
+        </CardContent>
+      </AnimatedPanelReveal>
+      <CardHeader className="mt-4 p-0">
         <CardTitle className="text-foreground text-base font-medium text-pretty">
           {props.title}.
           <span className="text-muted-foreground"> {props.description}</span>
         </CardTitle>
       </CardHeader>
-      <AnimatedPanelReveal trigger="scroll" className="mt-auto pt-4">
-        <CardContent className="bg-muted rounded-xl min-w-0 overflow-hidden p-4 pb-0 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none lg:p-8 lg:pb-0">
-          <div className="mx-auto -mb-4 w-full">
-            {props.unframed ? (
-              <div
-                className={cn(
-                  "kobbe-capability-mockup pointer-events-none relative flex h-72 origin-center items-center justify-center",
-                  props.mockupClassName,
-                )}
-              >
-                {props.children}
-              </div>
-            ) : (
-              <PreviewFrame mockupClassName={props.mockupClassName}>
-                {props.children}
-              </PreviewFrame>
-            )}
-          </div>
-        </CardContent>
-      </AnimatedPanelReveal>
     </Card>
   );
 }
@@ -245,7 +229,7 @@ function PreviewFrame(props: {
   return (
     <div
       ref={frameRef}
-      className="bg-card relative flex h-72 w-full items-start justify-center overflow-hidden rounded-xl"
+      className="bg-card relative flex h-72 w-full items-start justify-center rounded-xl shadow"
     >
       <div
         className={cn(

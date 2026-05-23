@@ -1,18 +1,6 @@
 import type { CSSProperties } from "react";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
-import {
-  dashboardCardHeaderClass,
-  dashboardCardRootClass,
-  dashboardCardTitleClass,
-} from "../dashboard-card-layout";
 
 type Props = {
   funnel: DashboardPreviewRangeData["funnels"];
@@ -22,11 +10,12 @@ function formatPercent(value: number): string {
   return `${Math.round(value * 100)}%`;
 }
 
-type MarketingFunnelStep = DashboardPreviewRangeData["funnels"]["steps"][number] & {
-  id: string;
-  dropoff: number;
-  ratio: number;
-};
+type MarketingFunnelStep =
+  DashboardPreviewRangeData["funnels"]["steps"][number] & {
+    id: string;
+    dropoff: number;
+    ratio: number;
+  };
 
 const funnelLineColors = [
   "var(--chart-1)",
@@ -40,24 +29,7 @@ const funnelLineColors = [
 const funnelBaselineY = 280;
 
 export function FunnelsCard({ funnel }: Props) {
-  return (
-    <Card className={dashboardCardRootClass}>
-      <CardHeader className={dashboardCardHeaderClass}>
-        <div className="min-w-0">
-          <CardTitle className={dashboardCardTitleClass}>
-            {funnel.name}
-          </CardTitle>
-          <CardDescription>
-            {funnel.completed.toLocaleString()} completed,{" "}
-            {formatPercent(funnel.conversionRate)} total conversion
-          </CardDescription>
-        </div>
-      </CardHeader>
-      <CardContent className="min-w-0 p-0 pt-2">
-        <MarketingFunnelChart steps={funnel.steps} />
-      </CardContent>
-    </Card>
-  );
+  return <MarketingFunnelChart steps={funnel.steps} />;
 }
 
 function MarketingFunnelChart(props: {
@@ -71,7 +43,9 @@ function MarketingFunnelChart(props: {
   const steps = props.steps.map((step, index) => {
     const previous = props.steps[index - 1];
     const dropoff =
-      previous && previous.visitors > 0 ? 1 - step.visitors / previous.visitors : 0;
+      previous && previous.visitors > 0
+        ? 1 - step.visitors / previous.visitors
+        : 0;
     const ratio = Math.max(0, Math.min(1, step.visitors / maxVisitors));
 
     return {
@@ -124,7 +98,9 @@ function MarketingFunnelChart(props: {
                     <div className="text-foreground text-sm font-semibold tabular-nums">
                       {step.visitors.toLocaleString()}
                     </div>
-                    <div className="text-muted-foreground text-[11px]">visitors</div>
+                    <div className="text-muted-foreground text-[11px]">
+                      visitors
+                    </div>
                   </div>
                 </div>
                 <div className="mt-3 grid grid-cols-2 gap-2 pt-3 text-xs">
@@ -158,7 +134,7 @@ function MarketingFunnelDesktopFlow(props: { steps: MarketingFunnelStep[] }) {
 
   return (
     <div className="hidden min-w-0 sm:block">
-      <div className="border-border/50 relative min-h-80 overflow-hidden border-x bg-transparent">
+      <div className="border-border/50 relative overflow-hidden border-x bg-transparent">
         <svg
           className="pointer-events-none absolute inset-0 h-full w-full"
           viewBox="0 0 1000 280"

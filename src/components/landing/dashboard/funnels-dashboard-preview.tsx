@@ -1,5 +1,7 @@
-import type { DashboardPreviewRangeData } from "./dashboard-preview-data";
+import { Card, CardContent } from "@/components/ui/card";
+
 import { FunnelsCard } from "./cards/funnels-card";
+import type { DashboardPreviewRangeData } from "./dashboard-preview-data";
 
 type Props = {
   funnel: DashboardPreviewRangeData["funnels"];
@@ -7,11 +9,13 @@ type Props = {
 
 export function FunnelsDashboardPreview({ funnel }: Props) {
   return (
-    <div className="bg-muted overflow-hidden p-4 pb-0 lg:p-8 lg:pb-0 rounded-2xl">
-      <div className="relative mx-auto -mb-10 max-w-4xl min-w-0">
-        <FunnelsCard funnel={funnel} />
-      </div>
-    </div>
+    <Card className="bg-card mx-auto w-full max-w-4xl rounded-xl shadow">
+      <CardContent className="w-full p-0">
+        <div className="kobbe-funnel-chart w-full">
+          <FunnelsCard funnel={funnel} />
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 

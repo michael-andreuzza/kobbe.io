@@ -7,14 +7,17 @@ import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 
 export function EventsCard({
   rows,
+  className,
 }: {
   rows: DashboardPreviewRangeData["events"];
+  className?: string;
 }) {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
     <DashboardTabbedBreakdownCard
       title="Events"
+      className={className}
       isEmpty={rows.total < 1}
       empty={{ icon: MouseLeftClick01Icon, title: "No custom events in range" }}
       tabs={{

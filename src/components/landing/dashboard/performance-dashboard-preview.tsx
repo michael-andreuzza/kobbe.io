@@ -272,141 +272,137 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
   }, [activeMetricIndex, metrics.length, shouldReduceMotion]);
 
   return (
-    <div className="bg-muted overflow-hidden p-4 pb-0 lg:p-8 lg:pb-0 rounded-2xl">
-      <div className="relative mx-auto -mb-10 max-w-4xl min-w-0">
-        <DashboardMetricStrip ariaLabel="Web Vitals metrics" lgCols={5}>
-          {metrics.map((metric, index) => {
-            const active = index === activeMetricIndex;
-            return (
-              <DashboardMetricTile
-                key={metric.name}
-                active={active}
-                activeColor="var(--chart-1)"
-                surface="muted"
-              >
-                <div className="flex h-full min-w-0 flex-col gap-1">
-                  <div className="flex min-w-0 items-baseline justify-between gap-2">
+    <div className="relative mx-auto max-w-4xl min-w-0">
+      <DashboardMetricStrip ariaLabel="Web Vitals metrics" lgCols={5}>
+        {metrics.map((metric, index) => {
+          const active = index === activeMetricIndex;
+          return (
+            <DashboardMetricTile
+              key={metric.name}
+              active={active}
+              activeColor="var(--chart-1)"
+              surface="muted"
+              className="shadow"
+            >
+              <div className="flex h-full min-w-0 flex-col gap-1">
+                <div className="flex min-w-0 items-baseline justify-between gap-2">
+                  <span
+                    className={cn(
+                      "truncate text-xs leading-tight font-medium",
+                      "text-muted-foreground",
+                    )}
+                  >
+                    {metric.name}
+                  </span>
+                  <span
+                    className={cn(
+                      "shrink-0 text-xs leading-tight tabular-nums",
+                      "text-muted-foreground",
+                    )}
+                  >
+                    n={metric.sampleCount.toLocaleString()}
+                  </span>
+                </div>
+                <div className="mt-auto min-w-0">
+                  <span
+                    className={cn(
+                      "text-lg leading-tight font-medium tracking-tight tabular-nums sm:text-xl",
+                      "text-foreground",
+                    )}
+                  >
+                    {metric.value}
+                  </span>
+                  <div className="mt-0.5 text-xs">
                     <span
                       className={cn(
-                        "truncate text-xs leading-tight font-medium",
-                        "text-muted-foreground",
+                        "font-medium",
+                        ratingClassName(metric.rating),
                       )}
                     >
-                      {metric.name}
+                      {metric.rating}
                     </span>
-                    <span
-                      className={cn(
-                        "shrink-0 text-xs leading-tight tabular-nums",
-                        "text-muted-foreground",
-                      )}
-                    >
-                      n={metric.sampleCount.toLocaleString()}
-                    </span>
-                  </div>
-                  <div className="mt-auto min-w-0">
-                    <span
-                      className={cn(
-                        "text-lg leading-tight font-medium tracking-tight tabular-nums sm:text-xl",
-                        "text-foreground",
-                      )}
-                    >
-                      {metric.value}
-                    </span>
-                    <div className="mt-0.5 text-xs">
-                      <span
-                        className={cn(
-                          "font-medium",
-                          ratingClassName(metric.rating),
-                        )}
-                      >
-                        {metric.rating}
-                      </span>
-                    </div>
                   </div>
                 </div>
-              </DashboardMetricTile>
-            );
-          })}
-        </DashboardMetricStrip>
+              </div>
+            </DashboardMetricTile>
+          );
+        })}
+      </DashboardMetricStrip>
 
-        <Card className={cn("mt-4 sm:mt-5", dashboardCardRootClass)}>
-          <CardHeader className={dashboardCardHeaderClass}>
-            <CardTitle className={dashboardCardTitleClass}>
-              {activeMetric} over time
-            </CardTitle>
-            <CardDescription>Last 7 days</CardDescription>
-          </CardHeader>
-          <CardContent className="min-w-0 px-3 pb-4 sm:px-4">
-            <PerformanceTrendPreview
-              metric={activeMetric}
-              points={trendPoints}
-            />
-          </CardContent>
-        </Card>
+      <Card className={cn("mt-4 shadow sm:mt-5", dashboardCardRootClass)}>
+        <CardHeader className={dashboardCardHeaderClass}>
+          <CardTitle className={dashboardCardTitleClass}>
+            {activeMetric} over time
+          </CardTitle>
+          <CardDescription>Last 7 days</CardDescription>
+        </CardHeader>
+        <CardContent className="min-w-0 px-3 pb-4 sm:px-4">
+          <PerformanceTrendPreview metric={activeMetric} points={trendPoints} />
+        </CardContent>
+      </Card>
 
-        <Card className={cn("mt-4", dashboardCardRootClass)}>
-          <CardHeader className={dashboardCardHeaderClass}>
-            <CardTitle className={dashboardCardTitleClass}>
-              Needs attention
-            </CardTitle>
-            <CardDescription>
-              Pages with the highest p75 for LCP (min. 3 samples per path)
-            </CardDescription>
-          </CardHeader>
-          <CardContent className={dashboardCardContentTableClass}>
-            <div className="text-muted-foreground grid grid-cols-[minmax(0,1fr)_4rem_4rem] gap-2 px-2 pb-2 text-[11px] font-medium sm:px-2.5">
-              <span>Page</span>
-              <span className="text-right">p75</span>
-              <span className="text-right">Samples</span>
-            </div>
-            <ul className="flex flex-col">
-              {attentionRows.map((row, index) => (
-                <li key={row.path} className="list-none">
-                  <div
-                    className={cn(
-                      "grid min-w-0 grid-cols-[minmax(0,1fr)_4rem_4rem] items-center gap-2 rounded-md px-2 py-2 text-xs transition-colors duration-500 sm:px-2.5",
-                      !shouldReduceMotion &&
-                        index === activeMetricIndex % attentionRows.length &&
-                        "bg-muted/45",
-                    )}
-                    data-kobbe-stagger
-                  >
-                    <span className="text-foreground min-w-0 truncate font-medium">
-                      {row.path}
-                    </span>
-                    <span className="text-muted-foreground text-right tabular-nums">
-                      {row.value}
-                    </span>
-                    <span className="text-muted-foreground text-right tabular-nums">
-                      {row.samples.toLocaleString()}
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+      <Card className={cn("mt-4 shadow", dashboardCardRootClass)}>
+        <CardHeader className={dashboardCardHeaderClass}>
+          <CardTitle className={dashboardCardTitleClass}>
+            Needs attention
+          </CardTitle>
+          <CardDescription>
+            Pages with the highest p75 for LCP (min. 3 samples per path)
+          </CardDescription>
+        </CardHeader>
+        <CardContent className={dashboardCardContentTableClass}>
+          <div className="text-muted-foreground grid grid-cols-[minmax(0,1fr)_4rem_4rem] gap-2 px-2 pb-2 text-[11px] font-medium sm:px-2.5">
+            <span>Page</span>
+            <span className="text-right">p75</span>
+            <span className="text-right">Samples</span>
+          </div>
+          <ul className="flex flex-col">
+            {attentionRows.map((row, index) => (
+              <li key={row.path} className="list-none">
+                <div
+                  className={cn(
+                    "grid min-w-0 grid-cols-[minmax(0,1fr)_4rem_4rem] items-center gap-2 rounded-md px-2 py-2 text-xs transition-colors duration-500 sm:px-2.5",
+                    !shouldReduceMotion &&
+                      index === activeMetricIndex % attentionRows.length &&
+                      "bg-muted/45",
+                  )}
+                  data-kobbe-stagger
+                >
+                  <span className="text-foreground min-w-0 truncate font-medium">
+                    {row.path}
+                  </span>
+                  <span className="text-muted-foreground text-right tabular-nums">
+                    {row.value}
+                  </span>
+                  <span className="text-muted-foreground text-right tabular-nums">
+                    {row.samples.toLocaleString()}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
 
-        <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
-          <PerformanceBreakdownCard
-            title="Device"
-            description="Slowest dimensions by p75 · LCP"
-          >
-            <DeviceBreakdownList rows={webVitals.environments} />
-          </PerformanceBreakdownCard>
-          <PerformanceBreakdownCard
-            title="Browser"
-            description="Slowest dimensions by p75 · LCP"
-          >
-            <DeviceBreakdownList rows={browserRows} />
-          </PerformanceBreakdownCard>
-          <PerformanceBreakdownCard
-            title="Country"
-            description="Slowest dimensions by p75 · LCP"
-          >
-            <LocationBreakdownList rows={countryRows} />
-          </PerformanceBreakdownCard>
-        </div>
+      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <PerformanceBreakdownCard
+          title="Device"
+          description="Slowest dimensions by p75 · LCP"
+        >
+          <DeviceBreakdownList rows={webVitals.environments} />
+        </PerformanceBreakdownCard>
+        <PerformanceBreakdownCard
+          title="Browser"
+          description="Slowest dimensions by p75 · LCP"
+        >
+          <DeviceBreakdownList rows={browserRows} />
+        </PerformanceBreakdownCard>
+        <PerformanceBreakdownCard
+          title="Country"
+          description="Slowest dimensions by p75 · LCP"
+        >
+          <LocationBreakdownList rows={countryRows} />
+        </PerformanceBreakdownCard>
       </div>
     </div>
   );
@@ -671,7 +667,7 @@ function PerformanceBreakdownCard(props: {
   children: React.ReactNode;
 }) {
   return (
-    <Card className={dashboardCardRootClass}>
+    <Card className={cn(dashboardCardRootClass, "shadow")}>
       <CardHeader className={dashboardCardHeaderClass}>
         <CardTitle className={dashboardCardTitleClass}>{props.title}</CardTitle>
         <CardDescription>{props.description}</CardDescription>

@@ -28,6 +28,7 @@ function KpiStripGrid(props: {
   ariaLabel: string;
   lgCols: 4 | 5 | 6;
   tileSurface?: "card" | "muted";
+  tileClassName?: string;
 }) {
   const tileSurface = props.tileSurface ?? "card";
   return (
@@ -41,6 +42,7 @@ function KpiStripGrid(props: {
             activeColor={tile.activeColor}
             onClick={onClick}
             surface={tileSurface}
+            className={props.tileClassName}
           >
             <KpiTileBody {...tile} active={active} />
           </DashboardMetricTile>
@@ -114,6 +116,7 @@ export function DashboardKpiStrip(props: {
   revenue?: { display: string; rightHint?: string };
   activeMetric?: TrafficChartMetric;
   onMetricClick?: (metric: TrafficChartMetric) => void;
+  tileClassName?: string;
 }) {
   const trendHint = (kpi: TrendKpi): string =>
     formatKpiDeltaLabel(props.showComparison, kpi.deltaPct);
@@ -199,6 +202,7 @@ export function DashboardKpiStrip(props: {
       ariaLabel="Key metrics"
       lgCols={props.revenue ? 6 : 5}
       tileSurface="muted"
+      tileClassName={props.tileClassName}
     />
   );
 }

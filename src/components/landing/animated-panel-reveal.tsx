@@ -7,6 +7,8 @@ type AnimatedPanelRevealProps = {
   className?: string;
   delay?: number;
   trigger?: "mount" | "view" | "scroll";
+  /** When false, scroll reveal uses translate/scale only so shadows are not clipped. */
+  mask?: boolean;
   pin?: boolean;
   start?: string;
   end?: string;
@@ -19,6 +21,7 @@ export function AnimatedPanelReveal({
   className,
   delay = 0.1,
   trigger = "view",
+  mask = true,
   pin = false,
   start,
   end,
@@ -37,9 +40,11 @@ export function AnimatedPanelReveal({
       animationRoot.style.opacity = "1";
       animationRoot.style.filter = "blur(0px)";
       animationRoot.style.transform = "none";
-      animationRoot.style.clipPath = "inset(0% 0% 0% 0%)";
+      animationRoot.style.clipPath = "none";
       return;
     }
+
+    const useScrollMask = trigger === "scroll" && mask;
 
     let mounted = true;
     let cleanup: (() => void) | undefined;
@@ -103,44 +108,58 @@ export function AnimatedPanelReveal({
           gsap.set(animationRoot, {
             autoAlpha: 1,
             filter: "blur(0px)",
-            clipPath: "inset(0% 0% 100% 0%)",
+            clipPath: useScrollMask ? "inset(0% 0% 100% 0%)" : "none",
           });
 
-          gsap
-            .timeline({
-              scrollTrigger: {
-                trigger: animationRoot,
-                start: start ?? "top 96%",
-                end: end ?? "top 18%",
-                scrub: 0.9,
-                invalidateOnRefresh: true,
-              },
-            })
-            .fromTo(
-              animationRoot,
-              { clipPath: "inset(0% 0% 100% 0%)", y: 18, scale: 0.996 },
-              {
+          const scrollTimeline = gsap.timeline({
+            scrollTrigger: {
+              trigger: animationRoot,
+              start: start ?? "top 96%",
+              end: end ?? "top 18%",
+              scrub: 0.9,
+              invalidateOnRefresh: true,
+            },
+          });
+
+          if (useScrollMask) {
+            scrollTimeline
+              .fromTo(
+                animationRoot,
+                { clipPath: "inset(0% 0% 100% 0%)", y: 18, scale: 0.996 },
+                {
+                  clipPath: "inset(0% 0% 18% 0%)",
+                  y: 4,
+                  scale: 0.999,
+                  ease: "none",
+                  duration: 0.45,
+                },
+              )
+              .to(animationRoot, {
                 clipPath: "inset(0% 0% 18% 0%)",
                 y: 4,
                 scale: 0.999,
                 ease: "none",
-                duration: 0.45,
+                duration: 0.18,
+              })
+              .to(animationRoot, {
+                clipPath: "inset(0% 0% 0% 0%)",
+                y: 0,
+                scale: 1,
+                ease: "none",
+                duration: 0.37,
+              });
+          } else {
+            scrollTimeline.fromTo(
+              animationRoot,
+              { y: 18, scale: 0.996 },
+              {
+                y: 0,
+                scale: 1,
+                ease: "none",
+                duration: 1,
               },
-            )
-            .to(animationRoot, {
-              clipPath: "inset(0% 0% 18% 0%)",
-              y: 4,
-              scale: 0.999,
-              ease: "none",
-              duration: 0.18,
-            })
-            .to(animationRoot, {
-              clipPath: "inset(0% 0% 0% 0%)",
-              y: 0,
-              scale: 1,
-              ease: "none",
-              duration: 0.37,
-            });
+            );
+          }
 
           runInnerStagger({
             delay: 0.1,
@@ -186,6 +205,7 @@ export function AnimatedPanelReveal({
   }, [
     delay,
     end,
+    mask,
     pin,
     shouldReduceMotion,
     staggerEach,
@@ -205,8 +225,8 @@ export function AnimatedPanelReveal({
             ? "blur(0px)"
             : "blur(6px)",
         clipPath:
-          shouldReduceMotion || trigger !== "scroll"
-            ? "inset(0% 0% 0% 0%)"
+          shouldReduceMotion || !mask || trigger !== "scroll"
+            ? "none"
             : "inset(0% 0% 100% 0%)",
         transformOrigin: "center top",
       }}

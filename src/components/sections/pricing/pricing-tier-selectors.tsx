@@ -61,7 +61,7 @@ export function PricingTierSelectors({
               aria-checked={selected}
               onClick={() => onTierIndexChange(index)}
               className={cn(
-                "ring-border bg-card flex w-full flex-col justify-between gap-x-4 gap-y-2 rounded-lg border border-transparent p-4 text-left text-sm transition-colors duration-300 ease-in lg:flex-row lg:items-center",
+                "ring-border bg-card flex w-full flex-col justify-between gap-x-4 gap-y-2 rounded-md border border-transparent p-3 text-left text-sm shadow transition-colors duration-300 ease-in lg:flex-row lg:items-center",
                 selected
                   ? "text-foreground border-transparent invert"
                   : "text-muted-foreground hover:border-brand hover:text-foreground",
@@ -87,17 +87,18 @@ export function PricingTierSelectors({
           );
         })}
       </div>
-
-      <button
-        type="button"
-        className={cn(
-          buttonVariants({ variant: "ghost", size: "sm" }),
-          "text-muted-foreground px-0 ring-0 hover:bg-transparent",
-        )}
-        onClick={() => setShowAll((value) => !value)}
-      >
-        {showAll ? "Show fewer plans" : "Show all plans"}
-      </button>
+      <div className="text-center">
+        <button
+          type="button"
+          className={cn(
+            buttonVariants({ variant: "ghost", size: "sm" }),
+            "text-muted-foreground px-0 ring-0 hover:bg-transparent",
+          )}
+          onClick={() => setShowAll((value) => !value)}
+        >
+          {showAll ? "Show fewer plans" : "Show all plans"}
+        </button>
+      </div>
     </div>
   );
 }

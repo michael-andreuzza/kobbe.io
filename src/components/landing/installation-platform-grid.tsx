@@ -16,7 +16,7 @@ export function InstallationPlatformGrid({
 
   return (
     <div
-      className="bg-muted rounded-2xl grid grid-cols-6 place-items-center gap-x-6 gap-y-5 p-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-11 lg:p-40"
+      className="grid grid-cols-6 place-items-center gap-x-6 gap-y-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-11"
       aria-label="Supported installation platforms"
     >
       {platforms.map((platform, index) => (

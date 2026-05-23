@@ -7,8 +7,10 @@ import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 
 export function LocationsCard({
   locations,
+  className,
 }: {
   locations: DashboardPreviewRangeData["locations"];
+  className?: string;
 }) {
   const [activeTab, setActiveTab] = useState(0);
   const rows =
@@ -21,6 +23,7 @@ export function LocationsCard({
   return (
     <DashboardTabbedBreakdownCard
       title="Locations"
+      className={className}
       isEmpty={rows.length === 0}
       empty={{ icon: Globe02Icon, title: "No locations in range" }}
       tabs={{
