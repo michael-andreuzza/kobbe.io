@@ -94,7 +94,7 @@ type SidebarProps = {
 
 export default function Sidebar({ groups }: SidebarProps) {
   return (
-    <aside className="hidden w-64 shrink-0 lg:block">
+    <aside className="hidden w-52 shrink-0 lg:block">
       <nav
         aria-label="Docs navigation"
         className="!scrollbar-none text-sidebar-foreground sticky top-24 flex max-h-[calc(100svh-6rem)] flex-col overflow-y-auto pr-5"

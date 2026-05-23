@@ -205,7 +205,7 @@ function CapabilityCard(props: CapabilityCardProps) {
         </CardTitle>
       </CardHeader>
       <AnimatedPanelReveal trigger="scroll" className="mt-auto pt-4">
-        <CardContent className="bg-muted min-w-0 overflow-hidden p-4 pb-0 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none lg:p-8 lg:pb-0">
+        <CardContent className="bg-muted rounded-xl min-w-0 overflow-hidden p-4 pb-0 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none lg:p-8 lg:pb-0">
           <div className="mx-auto -mb-4 w-full">
             {props.unframed ? (
               <div

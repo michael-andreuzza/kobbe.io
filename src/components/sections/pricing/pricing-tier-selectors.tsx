@@ -61,7 +61,7 @@ export function PricingTierSelectors({
               aria-checked={selected}
               onClick={() => onTierIndexChange(index)}
               className={cn(
-                "ring-border bg-background flex w-full flex-col justify-between gap-x-4 gap-y-2 border border-transparent p-4 text-left text-sm transition-colors duration-300 ease-in lg:flex-row lg:items-center",
+                "ring-border bg-card flex w-full flex-col justify-between gap-x-4 gap-y-2 rounded-lg border border-transparent p-4 text-left text-sm transition-colors duration-300 ease-in lg:flex-row lg:items-center",
                 selected
                   ? "text-foreground border-transparent invert"
                   : "text-muted-foreground hover:border-brand hover:text-foreground",

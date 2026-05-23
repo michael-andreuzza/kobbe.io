@@ -2,6 +2,8 @@
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import Text from "@/components/foundations/elements/Text.astro";
 import FooterLogoReveal from "@/components/global/footer-logo-reveal";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type FooterLink = {
   href: string;
@@ -58,42 +60,37 @@ const footerLinkGroups: FooterLinkGroup[] = [
 
 <footer class="bg-background overflow-x-clip">
   <Wrapper variant="default" class="pt-32">
-    <div class="max-w-lg">
-      <Text
-        tag="h2"
-        variant="textXL"
-        class="text-foreground font-medium text-balance"
-      >
-        Set up in 5 minutes. Back to marketing by <span data-setup-time
-          >soon</span
-        >.
-      </Text>
-      <Text
-        tag="p"
-        variant="textBase"
-        class="text-muted-foreground font-medium text-balance"
-      >
-        Privacy-friendly analytics for teams that want clear numbers without
-        extra tracking work.
-      </Text>
-      <div class="mt-8 flex w-fit flex-wrap gap-8">
-        <a
-          href="/#pricing"
-          data-kobbe-event="Footer CTA — start free trial"
-          class="text-foreground hover:text-foreground text-sm font-semibold uppercase"
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-end">
+      <div class="lg:col-span-2">
+        <Text
+          tag="h2"
+          variant="textXL"
+          class="text-foreground font-medium text-balance"
         >
-          Start a free trial
-        </a>
-        <a
-          href="https://app.kobbe.io/demo/kobbe-studio"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-kobbe-event="Footer CTA — see demo"
-          class="text-foreground hover:text-foreground text-sm font-semibold uppercase"
+          Set up in 5 minutes. <br /> Back to marketing by <span data-setup-time
+            >soon</span
+          >.
+        </Text>
+        <Text
+          tag="p"
+          variant="textBase"
+          class="text-muted-foreground font-medium text-balance"
         >
-          See the demo
-        </a>
+          Privacy-friendly analytics for teams that want clear numbers without
+          extra tracking work.
+        </Text>
       </div>
+
+      <a
+        href="/#pricing"
+        data-kobbe-event="Footer CTA — start free trial"
+        class={cn(
+          buttonVariants({ variant: "default", size: "sm" }),
+          "lg:ml-auto w-fit",
+        )}
+      >
+        Start a free trial
+      </a>
     </div>
 
     <div class="border-border/60 mt-8 w-full border-t pt-8">
@@ -132,29 +129,28 @@ const footerLinkGroups: FooterLinkGroup[] = [
         }
       </nav>
     </div>
-
-    <FooterLogoReveal
-      client:load
-      className="mt-24 flex items-end overflow-hidden text-[clamp(10rem,46vw,46rem)]"
-    >
-      <p
-        class="text-foreground relative block translate-y-[0.1em] px-0 text-center leading-[0.78] font-medium tracking-[-0.08em] whitespace-nowrap"
-        aria-label="kobbe"
-      >
-        {
-          "kobbe".split("").map((letter) => (
-            <span
-              data-footer-logo-letter
-              class="inline-block will-change-transform"
-              aria-hidden="true"
-            >
-              {letter}
-            </span>
-          ))
-        }
-      </p>
-    </FooterLogoReveal>
   </Wrapper>
+  <FooterLogoReveal
+    client:load
+    className="mt-24 flex items-end overflow-hidden text-[clamp(10rem,46vw,46rem)]"
+  >
+    <p
+      class="text-foreground relative block translate-y-[0.1em] px-0 text-center leading-[0.78] font-medium tracking-[-0.08em] whitespace-nowrap"
+      aria-label="kobbe"
+    >
+      {
+        "kobbe".split("").map((letter) => (
+          <span
+            data-footer-logo-letter
+            class="inline-block will-change-transform"
+            aria-hidden="true"
+          >
+            {letter}
+          </span>
+        ))
+      }
+    </p>
+  </FooterLogoReveal>
   <script is:inline>
     const setupTimes = document.querySelectorAll("[data-setup-time]");
     const setupTime = new Date(Date.now() + 5 * 60 * 1000);

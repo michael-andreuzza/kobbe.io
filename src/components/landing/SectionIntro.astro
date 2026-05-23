@@ -1,19 +1,32 @@
 ---
 import Text from "@/components/foundations/elements/Text.astro";
+import { cn } from "@/lib/utils";
+
 interface Props {
   title: string;
   description: string;
   tag?: "h1" | "h2" | "h3";
   id?: string;
+  headingColor?: string;
 }
-const { title, description, tag = "h2", id } = Astro.props;
+
+const {
+  title,
+  description,
+  tag = "h2",
+  id,
+  headingColor,
+} = Astro.props;
 ---
 
 <Text
   id={id}
   tag={tag}
   variant="textLG"
-  class="text-foreground font-medium text-balance lg:max-w-200"
+  class={cn(
+    "text-foreground font-medium text-balance lg:max-w-200",
+    headingColor,
+  )}
 >
   {title}
   <span class="text-muted-foreground font-normal">

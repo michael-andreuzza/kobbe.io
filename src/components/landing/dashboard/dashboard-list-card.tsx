@@ -30,7 +30,7 @@ export function CardExpandButton(props: {
       type="button"
       aria-label={props.ariaLabel}
       onClick={props.onClick}
-      className="text-muted-foreground hover:bg-muted/60 hover:text-foreground inline-flex size-6 items-center justify-center transition-colors"
+      className="text-muted-foreground hover:bg-muted/60 hover:text-foreground inline-flex size-6 items-center justify-center rounded-md transition-colors"
     >
       <HugeiconsIcon
         icon={FullscreenIcon}

@@ -74,7 +74,7 @@ export function PricingPlanCard({
   return (
     <Card
       variant="default"
-      className={cn("bg-muted mx-auto w-full gap-0 lg:max-w-xl", className)}
+      className={cn("bg-muted mx-auto w-full gap-0 lg:max-w-lg", className)}
     >
       <CardHeader className="pt-0">
         <BillingPeriodTabs period={period} onPeriodChange={setPeriod} />
