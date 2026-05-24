@@ -133,7 +133,7 @@ export function PricingPlanCard({
               "w-full",
             )}
           >
-            Start 3-day free trial, then {tierPriceLabel}
+            Start 7-day free trial, then {tierPriceLabel}
           </a>
           <p className="text-muted-foreground text-center text-xs">
             No credit card required. Cancel anytime.

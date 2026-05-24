@@ -21,7 +21,7 @@ export const pricingFaqItems = [
     id: "trial",
     question: "Do I need a credit card to start the trial?",
     answer:
-      "No. Start with a 3-day free trial without entering a card. Add billing details when you are ready to continue after the trial.",
+      "No. Start with a 7-day free trial without entering a card. Add billing details when you are ready to continue after the trial.",
   },
   {
     id: "yearly",

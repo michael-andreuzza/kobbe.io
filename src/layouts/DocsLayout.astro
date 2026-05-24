@@ -93,23 +93,23 @@ groupedNavLinks.sort((a, b) => {
       <Wrapper
         variant="prose"
         id="markdown-content"
-        class="min-w-0 w-full max-w-none"
+        class="w-full max-w-none min-w-0"
       >
         {
           displayTitle && (
-            <header class="not-prose flex w-full  items-start justify-between gap-4">
+            <header class="not-prose flex w-full items-start justify-between gap-4">
               <div class="min-w-0">
                 <Text
                   tag="h1"
-                  variant="displayXS"
-                  class="text-foreground font-medium tracking-tight"
+                  variant="displayTitle"
+                  class="text-foreground font-display"
                 >
                   {displayTitle}
                 </Text>
                 {description && (
                   <Text
                     tag="h1"
-                    variant="textBase"
+                    variant="displaySubtitle"
                     class="text-muted-foreground mt-2"
                   >
                     {description}

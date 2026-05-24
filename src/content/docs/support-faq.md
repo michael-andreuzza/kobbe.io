@@ -54,7 +54,7 @@ Yes. Yearly billing gives one month free at every paid tier, so the annual price
 
 ### Is there a free trial?
 
-New paid plans include a 3-day trial so you can set up tracking, review your reports, and confirm the plan fits your usage.
+New paid plans include a 7-day trial so you can set up tracking, review your reports, and confirm the plan fits your usage.
 
 ### I saw a Kobbe charge on my statement. What is it?
 
