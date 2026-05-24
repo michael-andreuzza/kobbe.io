@@ -1,0 +1,21 @@
+---
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import SectionIntro from "@/components/landing/SectionIntro.astro";
+import { PricingFaq } from "@/components/sections/pricing/pricing-faq";
+---
+
+<section id="faq" aria-labelledby="faq-heading" class="pt-8">
+  <Wrapper
+    variant="default"
+    class="bg-chart-1/5 border-chart-1/15 rounded-xl border border-dashed py-20"
+  >
+    <div class="mx-auto max-w-2xl">
+      <SectionIntro
+        id="faq-heading"
+        title="FAQ"
+        description="Quick answers about plans, trials, and usage."
+      />
+      <PricingFaq client:visible className="mt-10" headingId="faq-heading" />
+    </div>
+  </Wrapper>
+</section>
