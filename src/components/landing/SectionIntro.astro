@@ -1,5 +1,7 @@
 ---
 import Text from "@/components/foundations/elements/Text.astro";
+import TrackingModeBadge from "@/components/foundations/elements/TrackingModeBadge.astro";
+import type { TrackingMode } from "@/components/landing/tracking-mode-badge";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -8,17 +10,23 @@ interface Props {
   tag?: "h1" | "h2" | "h3";
   id?: string;
   headingColor?: string;
+  mode?: TrackingMode;
 }
 
-const { title, description, tag = "h2", id, headingColor } = Astro.props;
+const { title, description, tag = "h2", id, headingColor, mode } = Astro.props;
 ---
 
 <div class="text-pretty lg:mx-auto lg:max-w-200 lg:text-center lg:text-balance">
+  {mode ? (
+    <div class="mb-3 flex justify-center lg:justify-center">
+      <TrackingModeBadge mode={mode} />
+    </div>
+  ) : null}
   <Text
     id={id}
     tag={tag}
     variant="displaySM"
-    class={cn("text-foreground font-display ", headingColor)}
+    class={cn("text-foreground font-display", headingColor)}
   >
     {title}
   </Text>

@@ -1,0 +1,27 @@
+---
+import { cn } from "@/lib/utils";
+import type { TrackingMode } from "@/components/landing/tracking-mode-badge";
+
+interface Props {
+  mode: TrackingMode;
+}
+
+const { mode } = Astro.props;
+
+const label = mode === "default" ? "Default" : "Extended";
+---
+
+<span
+  class={cn(
+    "inline-grid h-5 shrink-0 place-items-center rounded-full px-2 shadow",
+    mode === "default"
+      ? "bg-muted/50 text-muted-foreground"
+      : "bg-background text-foreground",
+  )}
+>
+  <span
+    class="text-[10px] leading-none font-semibold tracking-wide uppercase translate-y-px"
+  >
+    {label}
+  </span>
+</span>
