@@ -23,6 +23,7 @@ export function PricingFaq({
   return (
     <div className={cn("mx-auto w-full max-w-2xl", className)}>
       <Accordion
+        keepMounted
         aria-labelledby={listLabelId}
         className="border-border border-y"
       >

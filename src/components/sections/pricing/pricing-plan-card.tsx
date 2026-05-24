@@ -15,12 +15,10 @@ import {
 
 const includedFeatures = [
   "50 sites per workspace",
-  "Long-term data history",
-  "Pageviews, events, funnels, UTM campaigns, and revenue tracking",
-  "Realtime dashboards",
-  "Share links, CSV exports, and monthly reports",
-  "Traffic spike/drop alerts",
-  "Cookie-free tracking with privacy signals",
+  "All analytics and reporting features",
+  "Cookieless tracking by default",
+  "Dashboards, exports, and share links",
+  "Alerts and monthly reports",
 ] as const;
 
 type KobbeWindow = Window &
@@ -93,10 +91,7 @@ export function PricingPlanCard({
         <p className="text-foreground text-base font-semibold">
           Included in every plan
         </p>
-        <p className="text-muted-foreground mt-2 text-sm font-medium text-balance">
-          Every volume tier includes the same features — you only pay for more
-          events.
-        </p>
+
         <ul
           className="text-muted-foreground mt-4 grid gap-y-1 text-base"
           role="list"
@@ -110,14 +105,14 @@ export function PricingPlanCard({
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
+                  className="fill-foreground"
                   d="M295.5 246.25V0H246.25V246.25H0V295.5H246.25V541.75H295.5V295.5H541.75V246.25H295.5Z"
-                  fill="#7C7C7C"
                 ></path>{" "}
                 <rect
+                  className="fill-background"
                   width="63"
                   height="63"
                   transform="translate(239.875 239.875)"
-                  fill="#FFF"
                 ></rect>{" "}
               </svg>
               <span className="text-base tracking-tight">{feature}</span>
