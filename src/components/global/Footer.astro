@@ -58,99 +58,84 @@ const footerLinkGroups: FooterLinkGroup[] = [
 ];
 ---
 
-<footer class="overflow-x-clip pt-8">
+<footer class="overflow-x-clip pt-20">
   <Wrapper variant="default">
-    <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-end">
-      <div class="lg:col-span-2">
-        <Text
-          tag="h2"
-          variant="textXL"
-          class="text-foreground font-medium text-balance"
+    <div class="mx-auto max-w-4xl">
+      <div class="max-w-md text-balance lg:mx-auto lg:text-center">
+        <div class="lg:col-span-2">
+          <Text
+            tag="h2"
+            variant="textXL"
+            class="text-foreground font-medium text-balance"
+          >
+            Set up in 5 minutes. <br /> Back to marketing by <span
+              data-setup-time>soon</span
+            >.
+          </Text>
+          <Text
+            tag="p"
+            variant="textBase"
+            class="text-muted-foreground font-medium text-balance"
+          >
+            Privacy-friendly analytics for teams that want clear numbers without
+            extra tracking work.
+          </Text>
+        </div>
+
+        <a
+          href="/#pricing"
+          data-kobbe-event="Footer CTA — start free trial"
+          class={cn(
+            buttonVariants({ variant: "default", size: "sm" }),
+            "lg:ml-auto w-fit mt-8 mx-auto",
+          )}
         >
-          Set up in 5 minutes. <br /> Back to marketing by <span data-setup-time
-            >soon</span
-          >.
-        </Text>
-        <Text
-          tag="p"
-          variant="textBase"
-          class="text-muted-foreground font-medium text-balance"
-        >
-          Privacy-friendly analytics for teams that want clear numbers without
-          extra tracking work.
-        </Text>
+          Start a free trial
+        </a>
       </div>
 
-      <a
-        href="/#pricing"
-        data-kobbe-event="Footer CTA — start free trial"
-        class={cn(
-          buttonVariants({ variant: "default", size: "sm" }),
-          "lg:ml-auto w-fit",
-        )}
-      >
-        Start a free trial
-      </a>
-    </div>
-
-    <div class="border-border/60 mt-8 w-full border-t pt-8">
-      <p class="text-foreground text-sm font-semibold uppercase">
-        &copy; {new Date().getFullYear()} Kobbe. All rights reserved.
-      </p>
-      <nav
-        class="mt-8 grid grid-cols-2 gap-8 text-sm md:grid-cols-4 lg:col-start-3"
-      >
-        {
-          footerLinkGroups.map((group) => (
-            <div class="space-y-3">
-              <Text
-                tag="p"
-                variant="textSM"
-                class="text-foreground font-semibold uppercase"
-              >
-                {group.title}
-              </Text>
-              <ul class="space-y-1">
-                {group.links.map((link) => (
-                  <li>
-                    <a
-                      href={link.href}
-                      target={link.target}
-                      rel={link.rel}
-                      class="text-muted-foreground hover:text-foreground font-medium transition-colors"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-        }
-      </nav>
+      <div class="border-border/60 mt-8 w-full border-t pt-8">
+        <p class="text-foreground text-sm font-semibold uppercase">
+          &copy; {new Date().getFullYear()} Kobbe. All rights reserved.
+        </p>
+        <nav
+          class="mt-8 grid grid-cols-2 gap-8 text-sm md:grid-cols-4 lg:col-start-3"
+        >
+          {
+            footerLinkGroups.map((group) => (
+              <div class="space-y-3">
+                <Text
+                  tag="p"
+                  variant="textSM"
+                  class="text-foreground font-semibold uppercase"
+                >
+                  {group.title}
+                </Text>
+                <ul class="space-y-1">
+                  {group.links.map((link) => (
+                    <li>
+                      <a
+                        href={link.href}
+                        target={link.target}
+                        rel={link.rel}
+                        class="text-muted-foreground hover:text-foreground font-medium transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </nav>
+      </div>
     </div>
   </Wrapper>
   <FooterLogoReveal
     client:load
-    className="mt-24 flex items-end overflow-hidden text-[clamp(10rem,46vw,46rem)]"
-  >
-    <p
-      class="text-foreground relative block translate-y-[0.1em] px-0 text-center leading-[0.78] font-medium tracking-[-0.08em] whitespace-nowrap"
-      aria-label="kobbe"
-    >
-      {
-        "kobbe".split("").map((letter) => (
-          <span
-            data-footer-logo-letter
-            class="inline-block will-change-transform"
-            aria-hidden="true"
-          >
-            {letter}
-          </span>
-        ))
-      }
-    </p>
-  </FooterLogoReveal>
+    className="relative left-1/2 mt-24 flex w-screen -translate-x-1/2 justify-center overflow-hidden leading-none"
+  />
   <script is:inline>
     const setupTimes = document.querySelectorAll("[data-setup-time]");
     const setupTime = new Date(Date.now() + 5 * 60 * 1000);

@@ -13,17 +13,20 @@ interface Props {
 const { title, description, tag = "h2", id, headingColor } = Astro.props;
 ---
 
-<Text
-  id={id}
-  tag={tag}
-  variant="textLG"
-  class={cn(
-    "text-foreground font-semibold text-balance lg:max-w-200",
-    headingColor,
-  )}
->
-  {title}
-  <span class="text-muted-foreground font-normal">
+<div class="text-pretty lg:mx-auto lg:max-w-200 lg:text-center lg:text-balance">
+  <Text
+    id={id}
+    tag={tag}
+    variant="displaySM"
+    class={cn("text-foreground font-display ", headingColor)}
+  >
+    {title}
+  </Text>
+  <Text
+    tag="p"
+    variant="textBase"
+    class="text-muted-foreground mt-1 font-normal"
+  >
     {description}
-  </span>
-</Text>
+  </Text>
+</div>

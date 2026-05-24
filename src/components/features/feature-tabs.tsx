@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "motion/react";
+import { useState } from "react";
 
 import {
   Card,
@@ -17,7 +16,6 @@ type Feature = {
 
 type FeatureGroup = {
   category: string;
-  description: string;
   features: readonly Feature[];
 };
 
@@ -27,93 +25,21 @@ type FeatureTabsProps = {
 
 export function FeatureTabs({ groups }: FeatureTabsProps) {
   const defaultValue = groups[0] ? toFeatureGroupValue(groups[0].category) : "";
-  const panelRef = useRef<HTMLDivElement | null>(null);
-  const hasAnimatedTabRef = useRef(false);
-  const shouldReduceMotion = useReducedMotion();
   const [activeValue, setActiveValue] = useState(defaultValue);
   const activeGroup =
     groups.find(
       (group) => toFeatureGroupValue(group.category) === activeValue,
     ) ?? groups[0];
 
-  useEffect(() => {
-    const panel = panelRef.current;
-    if (!panel || !hasAnimatedTabRef.current) {
-      hasAnimatedTabRef.current = true;
-      return;
-    }
-    const element: HTMLDivElement = panel;
-
-    if (shouldReduceMotion) {
-      element.style.opacity = "1";
-      element.style.transform = "none";
-      for (const item of element.querySelectorAll<HTMLElement>(
-        "[data-feature-tab-stagger]",
-      )) {
-        item.style.opacity = "1";
-        item.style.transform = "none";
-      }
-      return;
-    }
-
-    let mounted = true;
-    let cleanup: (() => void) | undefined;
-
-    async function animateTabPanel() {
-      const { gsap } = await import("gsap");
-      if (!mounted) return;
-
-      const context = gsap.context(() => {
-        const items = Array.from(
-          element.querySelectorAll<HTMLElement>("[data-feature-tab-stagger]"),
-        );
-
-        gsap.fromTo(
-          element,
-          { autoAlpha: 0, y: 8 },
-          {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.28,
-            ease: "power2.out",
-          },
-        );
-
-        if (items.length > 0) {
-          gsap.fromTo(
-            items,
-            { autoAlpha: 0, y: 10 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              duration: 0.42,
-              ease: "power3.out",
-              stagger: { each: 0.035, from: "start" },
-            },
-          );
-        }
-      }, element);
-
-      cleanup = () => context.revert();
-    }
-
-    void animateTabPanel();
-
-    return () => {
-      mounted = false;
-      cleanup?.();
-    };
-  }, [activeValue, shouldReduceMotion]);
-
   return (
     <Tabs
       value={activeValue}
       onValueChange={(nextValue) => setActiveValue(nextValue)}
-      className="gap-8 lg:grid lg:grid-cols-[13rem_minmax(0,1fr)] lg:items-start"
+      className="gap-8"
     >
       <TabsList
         aria-label="Feature categories"
-        className="lg:flex-col lg:items-stretch lg:gap-0 lg:border-b-0 lg:pr-6 [&_[data-slot=tabs-trigger]>span]:hidden"
+        className="w-full gap-x-4 gap-y-2 sm:gap-x-6 lg:mx-auto lg:w-fit"
       >
         {groups.map((group) => {
           const value = toFeatureGroupValue(group.category);
@@ -123,8 +49,7 @@ export function FeatureTabs({ groups }: FeatureTabsProps) {
               key={group.category}
               value={value}
               onClick={() => setActiveValue(value)}
-              className="before:bg-foreground before:h-1.5 before:w-0 before:shrink-0 before:opacity-0 before:transition-[width,opacity] before:content-[''] data-active:gap-2 data-active:before:w-1.5 data-active:before:opacity-100 lg:w-full lg:justify-start lg:pr-4 lg:text-left"
-              data-kobbe-stagger
+              className="px-0 pb-3"
             >
               {group.category}
             </TabsTrigger>
@@ -133,10 +58,8 @@ export function FeatureTabs({ groups }: FeatureTabsProps) {
       </TabsList>
 
       {activeGroup ? (
-        <TabsContent value={activeValue} className="mt-8 lg:mt-0">
-          <div ref={panelRef} key={activeValue}>
-            <FeatureGroupPanel group={activeGroup} />
-          </div>
+        <TabsContent value={activeValue} className="mt-0">
+          <FeatureGroupPanel group={activeGroup} />
         </TabsContent>
       ) : null}
     </Tabs>
@@ -148,42 +71,28 @@ function FeatureGroupPanel({ group }: { group: FeatureGroup }) {
 
   return (
     <section aria-labelledby={headingId}>
-      <div>
-        <div
-          className="max-w-lg text-balance"
-          data-feature-tab-stagger
-          data-kobbe-stagger
-        >
-          <h3 id={headingId} className="text-foreground text-lg font-medium">
-            {group.category}.
-            <span className="text-muted-foreground font-normal">
-              {group.description}
-            </span>
-          </h3>
-        </div>
-
-        <div className="mt-8 grid gap-x-12 gap-y-8 md:grid-cols-2">
-          {group.features.map((feature) => (
-            <Card
-              key={feature.href}
-              className="group rounded-lg bg-transparent p-0 transition-transform duration-300 ease-out hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
-              data-feature-tab-stagger
-              data-kobbe-stagger
-            >
-              <CardHeader className="p-0">
-                <CardTitle className="text-foreground text-base font-medium">
-                  <a
-                    href={feature.href}
-                    className="outline-none group-hover:underline focus-visible:underline"
-                  >
-                    {feature.title}
-                  </a>
-                </CardTitle>
-                <CardDescription>{feature.description}</CardDescription>
-              </CardHeader>
-            </Card>
-          ))}
-        </div>
+      <h3 id={headingId} className="sr-only">
+        {group.category}
+      </h3>
+      <div className="flex flex-wrap justify-center gap-12 lg:text-center">
+        {group.features.map((feature) => (
+          <Card
+            key={feature.href}
+            className="group w-full rounded-lg bg-transparent p-0 transition-transform duration-300 ease-out hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none md:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-2rem)]"
+          >
+            <CardHeader className="p-0">
+              <CardTitle className="text-foreground text-base font-medium">
+                <a
+                  href={feature.href}
+                  className="outline-none group-hover:underline focus-visible:underline"
+                >
+                  {feature.title}
+                </a>
+              </CardTitle>
+              <CardDescription>{feature.description}</CardDescription>
+            </CardHeader>
+          </Card>
+        ))}
       </div>
     </section>
   );

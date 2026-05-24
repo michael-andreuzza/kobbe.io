@@ -87,17 +87,17 @@ groupedNavLinks.sort((a, b) => {
 >
   <Wrapper variant="default">
     <div
-      class="grid w-full grid-cols-1 gap-x-8 py-12 lg:grid-cols-[13rem_minmax(0,1fr)] 2xl:gap-x-16"
+      class="grid w-full grid-cols-1 gap-x-8 py-12 lg:grid-cols-[13rem_minmax(0,1fr)] xl:grid-cols-[13rem_minmax(0,1fr)_12rem] 2xl:gap-x-16"
     >
       <Sidebar client:load groups={groupedNavLinks} />
       <Wrapper
         variant="prose"
         id="markdown-content"
-        class="w-full max-w-none min-w-0"
+        class="min-w-0 w-full max-w-none"
       >
         {
           displayTitle && (
-            <header class="not-prose flex w-full items-start justify-between gap-4">
+            <header class="not-prose flex w-full  items-start justify-between gap-4">
               <div class="min-w-0">
                 <Text
                   tag="h1"
@@ -124,6 +124,7 @@ groupedNavLinks.sort((a, b) => {
         }
         <slot />
       </Wrapper>
+      <TableOfContents />
     </div>
   </Wrapper>
   <ToCScript />

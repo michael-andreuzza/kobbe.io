@@ -6,9 +6,7 @@ import SectionIntro from "@/components/landing/SectionIntro.astro";
 
 const featureGroups = [
   {
-    category: "Dashboard",
-    description:
-      "Understand traffic quality, page performance, sources, locations, and live activity without digging through separate tools.",
+    category: "Analytics",
     features: [
       {
         title: "Traffic overview",
@@ -58,13 +56,6 @@ const featureGroups = [
           "Bring organic search queries, clicks, impressions, and ranking data into Kobbe.",
         href: "/docs/search-console",
       },
-    ],
-  },
-  {
-    category: "Events",
-    description:
-      "Measure the actions that matter while keeping event names focused and privacy-conscious.",
-    features: [
       {
         title: "Custom events",
         description:
@@ -105,8 +96,6 @@ const featureGroups = [
   },
   {
     category: "Revenue",
-    description:
-      "Connect payment activity to the same pages, sources, and journeys you use to understand traffic.",
     features: [
       {
         title: "Revenue dashboard",
@@ -148,8 +137,6 @@ const featureGroups = [
   },
   {
     category: "Privacy",
-    description:
-      "Kobbe is designed for useful analytics without invasive browser tracking or visitor profiles.",
     features: [
       {
         title: "Cookieless by default",
@@ -190,53 +177,7 @@ const featureGroups = [
     ],
   },
   {
-    category: "Reports",
-    description:
-      "Keep teammates and clients updated without forcing everyone to check dashboards manually.",
-    features: [
-      {
-        title: "Monthly reports",
-        description:
-          "Send opt-in month-in-review emails with traffic, top pages, sources, and revenue context.",
-        href: "/docs/monthly-reports",
-      },
-      {
-        title: "Traffic alerts",
-        description:
-          "Get notified when traffic spikes or drops sharply against a site's recent baseline.",
-        href: "/docs/traffic-alerts",
-      },
-      {
-        title: "Site-level settings",
-        description:
-          "Keep setup, tokens, exclusions, integrations, and reporting scoped per site.",
-        href: "/docs/dashboard-overview",
-      },
-    ],
-  },
-  {
-    category: "Sharing",
-    description:
-      "Give teammates, clients, and stakeholders the right view of your analytics without extra reporting work.",
-    features: [
-      {
-        title: "Team access",
-        description:
-          "Invite teammates to view project dashboards with scoped access.",
-        href: "/docs/team-access",
-      },
-      {
-        title: "Shared dashboards",
-        description:
-          "Create public, read-only dashboard links for clients, teams, or stakeholders.",
-        href: "/docs/shared-dashboards",
-      },
-    ],
-  },
-  {
-    category: "Developer",
-    description:
-      "Install Kobbe, configure the tracker, and collect the technical signals your product team needs.",
+    category: "Setup & sharing",
     features: [
       {
         title: "Lightweight tracker",
@@ -262,13 +203,6 @@ const featureGroups = [
           "Step-by-step setup for Astro, Next.js, React Router, WordPress, Shopify, Webflow, and more.",
         href: "/docs/installation-guides",
       },
-    ],
-  },
-  {
-    category: "MCP",
-    description:
-      "Inspect analytics from your terminal and give AI tools the Kobbe context they need.",
-    features: [
       {
         title: "CLI",
         description:
@@ -281,6 +215,36 @@ const featureGroups = [
           "Use the same CLI package in MCP mode so AI tools can inspect Kobbe context.",
         href: "/docs/ai-agents",
       },
+      {
+        title: "Team access",
+        description:
+          "Invite teammates to view project dashboards with scoped access.",
+        href: "/docs/team-access",
+      },
+      {
+        title: "Shared dashboards",
+        description:
+          "Create public, read-only dashboard links for clients, teams, or stakeholders.",
+        href: "/docs/shared-dashboards",
+      },
+      {
+        title: "Monthly reports",
+        description:
+          "Send opt-in month-in-review emails with traffic, top pages, sources, and revenue context.",
+        href: "/docs/monthly-reports",
+      },
+      {
+        title: "Traffic alerts",
+        description:
+          "Get notified when traffic spikes or drops sharply against a site's recent baseline.",
+        href: "/docs/traffic-alerts",
+      },
+      {
+        title: "Site-level settings",
+        description:
+          "Keep setup, tokens, exclusions, integrations, and reporting scoped per site.",
+        href: "/docs/dashboard-overview",
+      },
     ],
   },
 ] as const;
@@ -289,13 +253,15 @@ const featureGroups = [
 <section id="benefits" class="pt-8">
   <Wrapper
     variant="default"
-    class="bg-chart-3/5 border-chart-3/15 rounded-xl border border-dashed py-20"
+    class="bg-chart-3/5 dark:bg-chart-3/15 border-chart-3/15 rounded-xl border border-dashed py-20"
   >
     <div class="mx-auto max-w-4xl">
-      <SectionIntro
-        title="Everything you need to understand your website."
-        description="Kobbe combines privacy-friendly analytics, events, funnels, revenue attribution, shared dashboards, CLI access, and AI-agent context in one focused product."
-      />
+      <div class="mx-auto max-w-3xl lg:text-center">
+        <SectionIntro
+          title="Everything you need to understand your website."
+          description="Kobbe combines privacy-friendly analytics, events, funnels, revenue attribution, shared dashboards, CLI access, and AI-agent context in one focused product."
+        />
+      </div>
       <div class="mt-8">
         <AnimatedPanelReveal client:load trigger="view">
           <FeatureTabs client:load groups={featureGroups} />
