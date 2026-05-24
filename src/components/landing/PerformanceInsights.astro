@@ -31,27 +31,30 @@ const performancePreview: PerformancePreview = {
 };
 ---
 
-<section>
-  <Wrapper class="py-20">
-    <SectionIntro
+<section class="pt-8">
+  <Wrapper
+    class="bg-chart-1/5 border-chart-1/15 rounded-xl border border-dashed py-20"
+  >
+    <div class="mx-auto max-w-4xl">
+      <SectionIntro
+        title="Keep performance beside your traffic."
+        description="Track Core Web Vitals with the same dashboard language: percentile trends, slow pages, and environment breakdowns."
+      />
 
-      title="Keep performance beside your traffic."
-      description="Track Core Web Vitals with the same dashboard language: percentile trends, slow pages, and environment breakdowns."
-    />
-
-    <div class="group mt-8">
-      <AnimatedPanelReveal
-        client:load
-        trigger="scroll"
-        mask={false}
-        end="bottom 42%"
-        className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
-      >
-        <PerformanceDashboardPreview
+      <div class="group mt-8">
+        <AnimatedPanelReveal
           client:load
-          webVitals={performancePreview}
-        />
-      </AnimatedPanelReveal>
+          trigger="scroll"
+          mask={false}
+          end="bottom 42%"
+          className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+        >
+          <PerformanceDashboardPreview
+            client:load
+            webVitals={performancePreview}
+          />
+        </AnimatedPanelReveal>
+      </div>
     </div>
   </Wrapper>
 </section>

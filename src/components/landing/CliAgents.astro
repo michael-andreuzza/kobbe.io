@@ -25,43 +25,47 @@ const codeEditors = [
 ];
 ---
 
-<section>
-  <Wrapper class="py-20">
-    <SectionIntro
-      title="CLI access, with MCP built in."
-      description="Install one CLI to inspect analytics from your terminal, then run the same package in MCP mode so compatible editors and agents can query Kobbe for you."
-    />
-    <div class="mt-8">
-      <span class="sr-only">Works with MCP-compatible tools, including:</span>
-      <div
-        class="flex flex-wrap items-center gap-x-4 gap-y-2"
-        aria-label="Supported code editors and agents"
-      >
-        {
-          codeEditors.map((editor) => (
-            <span>
-              <Image
-                src={editor.logo}
-                alt={`${editor.name} logo`}
-                class="size-6 rounded object-contain"
-                loading="lazy"
-              />
-              <span class="sr-only">{editor.name}</span>
-            </span>
-          ))
-        }
+<section class="pt-8">
+  <Wrapper
+    class="bg-chart-2/5 border-chart-2/15 rounded-xl border border-dashed py-20"
+  >
+    <div class="mx-auto max-w-4xl">
+      <SectionIntro
+        title="CLI access, with MCP built in."
+        description="Install one CLI to inspect analytics from your terminal, then run the same package in MCP mode so compatible editors and agents can query Kobbe for you."
+      />
+      <div class="mt-8">
+        <span class="sr-only">Works with MCP-compatible tools, including:</span>
+        <div
+          class="flex flex-wrap items-center gap-x-4 gap-y-2"
+          aria-label="Supported code editors and agents"
+        >
+          {
+            codeEditors.map((editor) => (
+              <span>
+                <Image
+                  src={editor.logo}
+                  alt={`${editor.name} logo`}
+                  class="size-6 rounded object-contain"
+                  loading="lazy"
+                />
+                <span class="sr-only">{editor.name}</span>
+              </span>
+            ))
+          }
+        </div>
       </div>
-    </div>
-    <div class="group mt-8">
-      <AnimatedPanelReveal
-        client:load
-        trigger="scroll"
-        mask={false}
-        end="bottom 42%"
-        className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
-      >
-        <CliAgentsPanel client:load />
-      </AnimatedPanelReveal>
+      <div class="group mt-8">
+        <AnimatedPanelReveal
+          client:load
+          trigger="scroll"
+          mask={false}
+          end="bottom 42%"
+          className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+        >
+          <CliAgentsPanel client:load />
+        </AnimatedPanelReveal>
+      </div>
     </div>
   </Wrapper>
 </section>

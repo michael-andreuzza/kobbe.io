@@ -112,13 +112,15 @@ function PaginationNext({
 
 function PaginationPreviousIcon({
   className,
+  size = "icon",
+  variant = "secondary",
   ...props
-}: Omit<React.ComponentProps<typeof PaginationLink>, "children" | "size">) {
+}: Omit<React.ComponentProps<typeof PaginationLink>, "children">) {
   return (
     <PaginationLink
       aria-label="Go to previous page"
-      size="icon"
-      variant="secondary"
+      size={size}
+      variant={variant}
       className={className}
       {...props}
     >
@@ -134,13 +136,15 @@ function PaginationPreviousIcon({
 
 function PaginationNextIcon({
   className,
+  size = "icon",
+  variant = "secondary",
   ...props
-}: Omit<React.ComponentProps<typeof PaginationLink>, "children" | "size">) {
+}: Omit<React.ComponentProps<typeof PaginationLink>, "children">) {
   return (
     <PaginationLink
       aria-label="Go to next page"
-      size="icon"
-      variant="secondary"
+      size={size}
+      variant={variant}
       className={className}
       {...props}
     >

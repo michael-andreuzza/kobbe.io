@@ -286,16 +286,21 @@ const featureGroups = [
 ] as const;
 ---
 
-<section id="benefits">
-  <Wrapper variant="default" class="py-20">
-    <SectionIntro
-      title="Everything you need to understand your website."
-      description="Kobbe combines privacy-friendly analytics, events, funnels, revenue attribution, shared dashboards, CLI access, and AI-agent context in one focused product."
-    />
-    <AnimatedPanelReveal client:load trigger="view">
+<section id="benefits" class="pt-8">
+  <Wrapper
+    variant="default"
+    class="bg-chart-3/5 border-chart-3/15 rounded-xl border border-dashed py-20"
+  >
+    <div class="mx-auto max-w-4xl">
+      <SectionIntro
+        title="Everything you need to understand your website."
+        description="Kobbe combines privacy-friendly analytics, events, funnels, revenue attribution, shared dashboards, CLI access, and AI-agent context in one focused product."
+      />
       <div class="mt-8">
+        <AnimatedPanelReveal client:load trigger="view">
+          <FeatureTabs client:load groups={featureGroups} />
+        </AnimatedPanelReveal>
       </div>
-      <FeatureTabs client:load groups={featureGroups} />
-    </AnimatedPanelReveal>
+    </div>
   </Wrapper>
 </section>

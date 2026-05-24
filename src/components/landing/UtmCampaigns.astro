@@ -68,24 +68,27 @@ const campaignsPreview = {
 };
 ---
 
-<section>
-  <Wrapper class="py-20">
-    <SectionIntro
+<section class="pt-8">
+  <Wrapper
+    class="bg-chart-6/5 border-chart-6/15 rounded-xl border border-dashed py-20"
+  >
+    <div class="mx-auto max-w-4xl">
+      <SectionIntro
+        title="Trace every UTM campaign back to real actions."
+        description="See campaign visitors, conversions, sources, mediums, and custom events in the same dashboard language as the rest of your traffic reports."
+      />
 
-      title="Trace every UTM campaign back to real actions."
-      description="See campaign visitors, conversions, sources, mediums, and custom events in the same dashboard language as the rest of your traffic reports."
-    />
-
-    <div class="group mt-8">
-      <AnimatedPanelReveal
-        client:load
-        trigger="scroll"
-        mask={false}
-        end="bottom 42%"
-        className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
-      >
-        <CampaignsDashboardPreview client:load campaigns={campaignsPreview} />
-      </AnimatedPanelReveal>
+      <div class="group mt-8">
+        <AnimatedPanelReveal
+          client:load
+          trigger="scroll"
+          mask={false}
+          end="bottom 42%"
+          className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+        >
+          <CampaignsDashboardPreview client:load campaigns={campaignsPreview} />
+        </AnimatedPanelReveal>
+      </div>
     </div>
   </Wrapper>
 </section>

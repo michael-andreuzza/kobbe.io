@@ -3,9 +3,10 @@ import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import DashboardCapabilityGrid from "@/components/landing/dashboard/dashboard-capability-grid";
 ---
 
-<section>
-  <Wrapper class="py-20">
-    <div><DashboardCapabilityGrid client:load /></div>
-    
+<section class="pt-8">
+  <Wrapper
+    class="bg-chart-2/5 border-chart-2/15 rounded-xl border border-dashed py-20"
+  >
+    <div class="mx-auto max-w-4xl"><DashboardCapabilityGrid client:load /></div>
   </Wrapper>
 </section>

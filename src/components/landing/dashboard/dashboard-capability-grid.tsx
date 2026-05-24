@@ -1,19 +1,22 @@
 import type { ReactNode } from "react";
 import { useRef } from "react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
 import { useIdlePulse } from "@/components/landing/use-idle-pulse";
-import { EventsCard } from "./cards/events-card";
-import { LocationsCard } from "./cards/locations-card";
-import { PagesCard } from "./cards/pages-card";
-import { SearchKeywordsCard } from "./cards/search-keywords-card";
-import { SourcesCard } from "./cards/sources-card";
+import {
+  EventsSummaryTable,
+  LocationBreakdownList,
+  PageBreakdownList,
+  ReferrerBreakdownList,
+  SearchTermsBreakdownList,
+} from "./dashboard-list-card";
 import { DashboardMetricTile } from "./dashboard-metric-strip";
 import { dashboardPreviewData } from "./dashboard-preview-data";
 
 const data = dashboardPreviewData["14d"];
+
+const capabilityPreviewRowLimit = 2;
 
 type CapabilityCardProps = {
   title: string;
@@ -25,7 +28,7 @@ type CapabilityCardProps = {
 
 export function DashboardCapabilityGrid() {
   return (
-    <div className="relative mt-8 grid auto-rows-fr gap-x-8 gap-y-24 md:grid-cols-2 lg:grid-cols-2">
+    <div className="relative mt-8 grid items-end gap-x-8 gap-y-24 md:grid-cols-2 lg:grid-cols-2">
       <style>{`
         @keyframes kobbeCapabilityBarRise {
           from {
@@ -57,13 +60,55 @@ export function DashboardCapabilityGrid() {
             animation-delay: 120ms;
           }
 
+          .group:hover .kobbe-capability-stack li:first-child {
+            transform: translateX(6px) rotate(-2deg);
+          }
+
+          .group:hover .kobbe-capability-stack li:nth-child(2) {
+            transform: translateX(-6px) rotate(1.5deg);
+          }
+        }
+
+        .kobbe-capability-stack ul {
+          position: relative;
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          min-height: 4rem;
+        }
+
+        .kobbe-capability-stack li {
+          list-style: none;
+          position: absolute;
+          inset-inline: 0;
+          width: 100%;
+          transition: transform 300ms ease-out;
+        }
+
+        .kobbe-capability-stack li:first-child {
+          top: 0;
+          z-index: 10;
+          transform: translateX(8px) rotate(-1.5deg);
+        }
+
+        .kobbe-capability-stack li:nth-child(2) {
+          top: 1.625rem;
+          z-index: 20;
+          transform: translateX(-4px) rotate(1deg);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .kobbe-capability-stack li:first-child,
+          .kobbe-capability-stack li:nth-child(2) {
+            transform: none;
+          }
         }
 
       `}</style>
       <CapabilityCard
         title="Traffic overview"
         description="Understand traffic quality at a glance with visitors, visits, page views, engagement, and recent movement in one compact view."
-        mockupClassName="w-full"
+        mockupClassName="w-full max-w-md"
         unframed
       >
         <TrafficOverviewPreview />
@@ -72,107 +117,144 @@ export function DashboardCapabilityGrid() {
       <CapabilityCard
         title="Pages and paths"
         description="See which pages bring people in, where they continue browsing, and which paths lead visitors to drop off."
-        mockupClassName="w-[calc(100%-0.5rem)]"
+        mockupClassName="w-full max-w-md"
+        unframed
       >
-        <PagesCard pages={data.pages} />
+        <CapabilityListPreview>
+          <PageBreakdownList
+            rows={data.pages.top.slice(0, capabilityPreviewRowLimit)}
+            revenueFormat={formatPageRevenue}
+          />
+        </CapabilityListPreview>
       </CapabilityCard>
 
       <CapabilityCard
         title="Sources and AI traffic"
         description="Break down referrers, channels, hostnames, and AI tools so you can tell where meaningful traffic is coming from."
-        mockupClassName="w-[calc(100%-0.5rem)]"
+        mockupClassName="w-full max-w-md"
+        unframed
       >
-        <SourcesCard sources={data.sources} />
+        <CapabilityListPreview>
+          <ReferrerBreakdownList
+            rows={data.sources.referrers.slice(0, capabilityPreviewRowLimit)}
+          />
+        </CapabilityListPreview>
       </CapabilityCard>
 
       <CapabilityCard
         title="Audience context"
         description="Learn where your audience is, what devices they use, and how browser or operating system trends affect their experience."
-        mockupClassName="w-[calc(100%-0.5rem)]"
+        mockupClassName="w-full max-w-md"
+        unframed
       >
-        <LocationsCard locations={data.locations} />
+        <CapabilityListPreview>
+          <LocationBreakdownList
+            rows={data.locations.countries.slice(0, capabilityPreviewRowLimit)}
+          />
+        </CapabilityListPreview>
       </CapabilityCard>
 
       <CapabilityCard
         title="Custom events"
         description="Measure the actions that matter, from sign-ups and CTA clicks to checkout starts and product interactions."
-        mockupClassName="w-[calc(100%-0.5rem)]"
+        mockupClassName="w-full max-w-md"
+        unframed
       >
-        <EventsCard rows={data.events} />
+        <CapabilityListPreview>
+          <EventsSummaryTable
+            rows={data.events.rows.slice(0, capabilityPreviewRowLimit)}
+            total={data.events.total}
+            valueMode="count"
+          />
+        </CapabilityListPreview>
       </CapabilityCard>
 
       <CapabilityCard
         title="Search insights"
         description="Connect Search Console queries with traffic behavior to understand which searches bring qualified visitors."
-        mockupClassName="w-[calc(100%-0.5rem)]"
+        mockupClassName="w-full max-w-md"
+        unframed
       >
-        <SearchKeywordsCard rows={data.searchKeywords} />
+        <CapabilityListPreview>
+          <SearchTermsBreakdownList
+            rows={data.searchKeywords.slice(0, capabilityPreviewRowLimit)}
+          />
+        </CapabilityListPreview>
       </CapabilityCard>
     </div>
   );
 }
 
 function TrafficOverviewPreview() {
+  const formatDelta = (deltaPct: number | null) => {
+    if (deltaPct == null || !Number.isFinite(deltaPct)) {
+      return null;
+    }
+
+    const sign = deltaPct > 0 ? "+" : "";
+    return `${sign}${deltaPct}%`;
+  };
+
+  const tiles = [
+    {
+      label: "Visitors",
+      value: data.kpi.visitors.display,
+      hint: formatDelta(data.kpi.visitors.deltaPct),
+    },
+    {
+      label: "Visits",
+      value: data.kpi.visits.display,
+      hint: formatDelta(data.kpi.visits.deltaPct),
+    },
+    {
+      label: "Page views",
+      value: data.kpi.views.display,
+      hint: formatDelta(data.kpi.views.deltaPct),
+    },
+    {
+      label: "Session time",
+      value: data.kpi.sessionTime.display,
+      hint: formatDelta(data.kpi.sessionTime.deltaPct),
+    },
+  ];
+
   return (
-    <div className="grid gap-3 sm:grid-cols-2">
-      <TrafficKpi
-        label="Visitors"
-        value={data.kpi.visitors.display}
-        hint="+18.4%"
-        className="shadow"
-      />
-      <TrafficKpi
-        label="Visits"
-        value={data.kpi.visits.display}
-        hint="+15.2%"
-        activeColor="var(--chart-2)"
-        className="shadow"
-      />
+    <div className="flex w-full flex-row gap-2 sm:gap-3">
+      {tiles.map((tile) => (
+        <TrafficKpiTile
+          key={tile.label}
+          label={tile.label}
+          value={tile.value}
+          hint={tile.hint}
+        />
+      ))}
     </div>
   );
 }
 
-function TrafficKpi(props: {
+function TrafficKpiTile(props: {
   label: string;
   value: string;
-  hint: string;
-  active?: boolean;
-  activeColor?: string;
-  className?: string;
+  hint: string | null;
 }) {
   return (
     <DashboardMetricTile
-      active={props.active}
-      activeColor={props.activeColor ?? "var(--chart-1)"}
       surface="muted"
-      className={cn("aspect-square min-h-28", props.className)}
+      className="aspect-square min-h-0 min-w-0 flex-1 p-2.5 shadow sm:p-3"
     >
       <div className="flex h-full min-w-0 flex-col gap-1">
         <div className="flex w-full min-w-0 items-baseline justify-between gap-2">
-          <span
-            className={cn(
-              "truncate text-xs leading-tight font-medium",
-              "text-muted-foreground",
-            )}
-          >
+          <span className="text-muted-foreground truncate text-xs leading-tight font-medium">
             {props.label}
           </span>
-          <span
-            className={cn(
-              "relative inline-flex shrink-0 text-xs leading-tight font-medium tabular-nums",
-              "text-success",
-            )}
-          >
-            {props.hint}
-          </span>
+          {props.hint ? (
+            <span className="text-success relative inline-flex shrink-0 text-xs leading-tight font-medium tabular-nums">
+              {props.hint}
+            </span>
+          ) : null}
         </div>
         <div className="mt-auto min-w-0">
-          <span
-            className={cn(
-              "text-lg leading-tight font-medium tracking-tight tabular-nums sm:text-xl",
-              "text-foreground",
-            )}
-          >
+          <span className="text-foreground truncate text-base leading-tight font-medium tracking-tight tabular-nums sm:text-lg">
             {props.value}
           </span>
         </div>
@@ -183,13 +265,13 @@ function TrafficKpi(props: {
 
 function CapabilityCard(props: CapabilityCardProps) {
   return (
-    <Card className="group flex h-full min-w-0 flex-col gap-0 overflow-visible bg-transparent p-0">
-      <AnimatedPanelReveal trigger="scroll" mask={false} className="mt-auto">
-        <CardContent className="p-0 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none">
+    <div className="group flex min-w-0 flex-col overflow-visible">
+      <AnimatedPanelReveal trigger="scroll" mask={false}>
+        <div className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none">
           {props.unframed ? (
             <div
               className={cn(
-                "kobbe-capability-mockup pointer-events-none relative flex h-72 origin-center items-center justify-center",
+                "kobbe-capability-mockup pointer-events-none relative flex w-full origin-top items-start justify-start",
                 props.mockupClassName,
               )}
             >
@@ -200,16 +282,29 @@ function CapabilityCard(props: CapabilityCardProps) {
               {props.children}
             </PreviewFrame>
           )}
-        </CardContent>
+        </div>
       </AnimatedPanelReveal>
-      <CardHeader className="mt-4 p-0">
-        <CardTitle className="text-foreground text-base font-medium text-pretty">
-          {props.title}.
-          <span className="text-muted-foreground"> {props.description}</span>
-        </CardTitle>
-      </CardHeader>
-    </Card>
+      <p className="text-foreground mt-5 text-base font-medium text-pretty">
+        {props.title}.
+        <span className="text-muted-foreground"> {props.description}</span>
+      </p>
+    </div>
   );
+}
+
+function CapabilityListPreview(props: { children: ReactNode }) {
+  return (
+    <div className="kobbe-capability-stack [&_li>div]:bg-card [&_li>div]:border-border w-full [&_li>div]:rounded-lg [&_li>div]:border [&_li>div]:shadow">
+      {props.children}
+    </div>
+  );
+}
+
+function formatPageRevenue(minor: number) {
+  return new Intl.NumberFormat(undefined, {
+    style: "currency",
+    currency: "USD",
+  }).format(minor / 100);
 }
 
 function PreviewFrame(props: {

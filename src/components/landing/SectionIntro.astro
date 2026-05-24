@@ -10,13 +10,7 @@ interface Props {
   headingColor?: string;
 }
 
-const {
-  title,
-  description,
-  tag = "h2",
-  id,
-  headingColor,
-} = Astro.props;
+const { title, description, tag = "h2", id, headingColor } = Astro.props;
 ---
 
 <Text
@@ -24,7 +18,7 @@ const {
   tag={tag}
   variant="textLG"
   class={cn(
-    "text-foreground font-medium text-balance lg:max-w-200",
+    "text-foreground font-semibold text-balance lg:max-w-200",
     headingColor,
   )}
 >

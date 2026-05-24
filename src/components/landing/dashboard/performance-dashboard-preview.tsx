@@ -241,6 +241,14 @@ function formatAxisTick(v: number): string {
   return rounded.toLocaleString();
 }
 
+const performanceMetricActiveColors = [
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+] as const;
+
 export function PerformanceDashboardPreview({ webVitals }: Props) {
   const shouldReduceMotion = useReducedMotion();
   const metrics = webVitals.metrics.slice(0, 5);
@@ -280,9 +288,12 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
             <DashboardMetricTile
               key={metric.name}
               active={active}
-              activeColor="var(--chart-1)"
+              activeColor={
+                performanceMetricActiveColors[index] ?? "var(--chart-1)"
+              }
               surface="muted"
               className="shadow"
+              onClick={() => setActiveMetricIndex(index)}
             >
               <div className="flex h-full min-w-0 flex-col gap-1">
                 <div className="flex min-w-0 items-baseline justify-between gap-2">

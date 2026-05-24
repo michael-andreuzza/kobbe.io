@@ -2,11 +2,15 @@
 import Text from "@/components/foundations/elements/Text.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import HeroDashboardPreview from "@/components/landing/hero-dashboard-preview";
+import { buttonVariants } from "@/components/ui/button";
 ---
 
 <section>
-  <Wrapper variant="default" class="pt-20 pb-20 lg:pt-28">
-    <div class=" max-w-xl text-balance">
+  <Wrapper
+    variant="default"
+    class="bg-chart-1/5 border-chart-1/15 rounded-xl border border-dashed pt-20 pb-20 lg:pt-28"
+  >
+    <div class="text-balanc max-w-md lg:mx-auto lg:text-center">
       <Text
         tag="h1"
         variant="textXL"
@@ -16,19 +20,19 @@ import HeroDashboardPreview from "@/components/landing/hero-dashboard-preview";
       </Text>
       <Text
         tag="p"
-        variant="textBase"
+        variant="textSM"
         class="text-muted-foreground mt-4 font-medium"
       >
         See traffic, pages, referrers, locations, devices, funnels, and revenue
         without cookies, raw IP storage, or invasive tracking. Manage with CLI
-        or AI agents. <br /> — Set up in seconds.
+        or AI agents. — Set up in seconds.
       </Text>
 
-      <div class=" flex w-fit flex-wrap gap-x-8 gap-y-4">
+      <div class="mt-4 flex w-fit flex-wrap gap-2 lg:mx-auto">
         <a
           href="#pricing"
-          data-kobbe-event="Hero — see demo"
-          class="text-foreground hover:text-muted-foreground text-sbase mx-auto mt-8 flex w-fit font-medium"
+          data-kobbe-event="Hero — start trial"
+          class={buttonVariants({ variant: "default", size: "xs" })}
         >
           Start a 3-day free trial
         </a>
@@ -37,7 +41,7 @@ import HeroDashboardPreview from "@/components/landing/hero-dashboard-preview";
           target="_blank"
           rel="noopener noreferrer"
           data-kobbe-event="Hero — see demo"
-          class="text-muted-foreground hover:text-foreground text-sbase mx-auto mt-8 flex w-fit font-medium"
+          class={buttonVariants({ variant: "outline", size: "xs" })}
         >
           See the demo
         </a>

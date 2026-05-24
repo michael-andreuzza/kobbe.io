@@ -32,24 +32,27 @@ const funnelPreview = {
 };
 ---
 
-<section>
-  <Wrapper class="py-20">
-    <SectionIntro
-    
-      title="See where visitors continue or drop off."
-      description="Build funnels from pages and custom events, then inspect conversion, drop-off, and step-level detail with the same app dashboard view."
-    />
+<section class="pt-8">
+  <Wrapper
+    class="bg-chart-5/5 border-chart-5/15 rounded-xl border border-dashed py-20"
+  >
+    <div class="mx-auto max-w-4xl">
+      <SectionIntro
+        title="See where visitors continue or drop off."
+        description="Build funnels from pages and custom events, then inspect conversion, drop-off, and step-level detail with the same app dashboard view."
+      />
 
-    <div class="group mt-8">
-      <AnimatedPanelReveal
-        client:load
-        trigger="scroll"
-        mask={false}
-        end="bottom 42%"
-        className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
-      >
-        <FunnelsDashboardPreview client:load funnel={funnelPreview} />
-      </AnimatedPanelReveal>
+      <div class="group mt-8">
+        <AnimatedPanelReveal
+          client:load
+          trigger="scroll"
+          mask={false}
+          end="bottom 42%"
+          className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+        >
+          <FunnelsDashboardPreview client:load funnel={funnelPreview} />
+        </AnimatedPanelReveal>
+      </div>
     </div>
   </Wrapper>
 </section>

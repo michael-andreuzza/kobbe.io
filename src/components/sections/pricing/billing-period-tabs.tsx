@@ -35,7 +35,7 @@ export function BillingPeriodTabs({
   return (
     <div
       className={cn(
-        "relative mx-auto inline-flex h-7 w-fit shrink-0 justify-self-start overflow-hidden rounded-md p-0.5",
+        "relative mx-auto flex h-7 w-fit shrink-0 overflow-hidden rounded-md p-0.5",
         className,
       )}
       role="group"

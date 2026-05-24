@@ -5,7 +5,9 @@ import {
   PaginationContent,
   PaginationItem,
   PaginationNext,
+  PaginationNextIcon,
   PaginationPrevious,
+  PaginationPreviousIcon,
 } from "@/components/ui/pagination";
 
 interface Props {
@@ -39,14 +41,12 @@ const getHref = (doc: CollectionEntry<"docs">) =>
         <PaginationItem>
           {previousDoc ? (
             variant === "compact" ? (
-              <PaginationPrevious
+              <PaginationPreviousIcon
                 href={getHref(previousDoc)}
-                size="icon"
-                className="bg-secondary text-secondary-foreground hover:bg-secondary/80 gap-0 p-0"
+                size="icon-xs"
+                variant="outline"
                 aria-label={`Previous: ${previousDoc.data.navLabel ?? previousDoc.data.title}`}
-              >
-                {""}
-              </PaginationPrevious>
+              />
             ) : (
               <PaginationPrevious href={getHref(previousDoc)} size="default">
                 {previousDoc.data.navLabel ?? previousDoc.data.title}
@@ -61,14 +61,12 @@ const getHref = (doc: CollectionEntry<"docs">) =>
         <PaginationItem>
           {nextDoc ? (
             variant === "compact" ? (
-              <PaginationNext
+              <PaginationNextIcon
                 href={getHref(nextDoc)}
-                size="icon"
-                className="bg-secondary text-secondary-foreground hover:bg-secondary/80 gap-0 p-0"
+                size="icon-xs"
+                variant="outline"
                 aria-label={`Next: ${nextDoc.data.navLabel ?? nextDoc.data.title}`}
-              >
-                {""}
-              </PaginationNext>
+              />
             ) : (
               <PaginationNext href={getHref(nextDoc)} size="default">
                 {nextDoc.data.navLabel ?? nextDoc.data.title}

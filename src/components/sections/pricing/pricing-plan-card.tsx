@@ -3,7 +3,6 @@ import { useMemo, useState } from "react";
 import { BillingPeriodTabs } from "@/components/sections/pricing/billing-period-tabs";
 import { PricingTierSelectors } from "@/components/sections/pricing/pricing-tier-selectors";
 import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {
   buildCheckoutReturnPath,
@@ -79,11 +78,8 @@ export function PricingPlanCard({
   }, [appBaseUrl, period, tier.key]);
 
   return (
-    <Card
-      variant="default"
-      className={cn("bg-muted mx-auto w-full gap-0 p-0 lg:max-w-md", className)}
-    >
-      <CardHeader className="p-0">
+    <div className={cn("mx-auto flex w-full flex-col lg:max-w-100", className)}>
+      <div>
         <BillingPeriodTabs period={period} onPeriodChange={setPeriod} />
         <PricingTierSelectors
           period={period}
@@ -91,9 +87,9 @@ export function PricingPlanCard({
           onTierIndexChange={setTierIndex}
           className="mt-4"
         />
-      </CardHeader>
+      </div>
 
-      <CardContent className="">
+      <div className="py-4">
         <p className="text-foreground text-base font-semibold">
           Included in every plan
         </p>
@@ -143,8 +139,8 @@ export function PricingPlanCard({
             No credit card required. Cancel anytime.
           </p>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
 

@@ -8,7 +8,7 @@
   --shadow-lg: var(--shadow-elevation-lg);
   --shadow-xl: var(--shadow-elevation-xl);
   --shadow-2xl: var(--shadow-elevation-2xl);
-  --shadow: var(--shadow-elevation);
+  --shadow: var(--shadow-elevation-xs);
 }
 
 :root {

@@ -78,47 +78,51 @@ const installationPlatformItems = installationPlatforms.map((platform) => ({
 }));
 ---
 
-<section>
-  <Wrapper class="py-20">
-    <div class="lg:mx-auto max-w-lg lg:text-center">
-      <SectionIntro
-        title="From one script tag to a dashboard you can actually read."
-        description="Install Kobbe once, let privacy-friendly analytics signals flow in, then use the dashboard to understand traffic, events, and revenue without building visitor profiles."
-      />
-    </div>
+<section class="pt-8">
+  <Wrapper
+    class="bg-chart-3/5 border-chart-3/15 rounded-xl border border-dashed py-20"
+  >
+    <div class="mx-auto max-w-4xl">
+      <div class="max-w-xl lg:mx-auto lg:text-center">
+        <SectionIntro
+          title="From one script tag to a dashboard you can actually read."
+          description="Install Kobbe once, let privacy-friendly analytics signals flow in, then use the dashboard to understand traffic, events, and revenue without building visitor profiles."
+        />
+      </div>
 
-    <div class="mt-8">
-      <InstallationPlatformGrid
-        client:load
-        platforms={installationPlatformItems}
-      />
+      <div class="py-12">
+        <InstallationPlatformGrid
+          client:load
+          platforms={installationPlatformItems}
+        />
+      </div>
+      <dl class="grid gap-8 sm:grid-cols-3 lg:text-center">
+        {
+          steps.map((step) => (
+            <div>
+              <dt>
+                <Text
+                  tag="p"
+                  variant="textBase"
+                  class="text-foreground font-medium"
+                >
+                  {step.number}.-
+                  {step.title}
+                </Text>
+              </dt>
+              <dd>
+                <Text
+                  tag="p"
+                  variant="textSM"
+                  class="text-muted-foreground mt-1 font-medium text-pretty"
+                >
+                  {step.description}
+                </Text>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
     </div>
-    <dl class="mt-8 grid gap-8 sm:grid-cols-3 lg:text-center">
-      {
-        steps.map((step) => (
-          <div>
-            <dt>
-              <Text
-                tag="p"
-                variant="textBase"
-                class="text-foreground font-medium"
-              >
-                {step.number}.-
-                {step.title}
-              </Text>
-            </dt>
-            <dd>
-              <Text
-                tag="p"
-                variant="textSM"
-                class="text-muted-foreground mt-1 font-medium text-pretty"
-              >
-                {step.description}
-              </Text>
-            </dd>
-          </div>
-        ))
-      }
-    </dl>
   </Wrapper>
 </section>

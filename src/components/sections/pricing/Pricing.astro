@@ -11,19 +11,24 @@ const appBaseUrl = "https://app.kobbe.io";
 const { headingTag = "h2" } = Astro.props;
 ---
 
-<section id="pricing" aria-labelledby="pricing-heading">
-  <Wrapper variant="default" class="relative pt-20 pb-20 lg:pt-28">
-    <div class="mx-auto max-w-lg text-center">
-      <SectionIntro
-        id="pricing-heading"
-        tag={headingTag}
-        title="Event-based pricing that scales with you."
-        description="Start with a 3-day free trial. No credit card required."
-      />
-    </div>
+<section id="pricing" aria-labelledby="pricing-heading" class="pt-8">
+  <Wrapper
+    variant="default"
+    class="bg-brand/5 border-brand/15 rounded-xl border border-dashed py-20"
+  >
+    <div class="mx-auto max-w-4xl">
+      <div class="mx-auto max-w-lg text-center">
+        <SectionIntro
+          id="pricing-heading"
+          tag={headingTag}
+          title="Event-based pricing that scales with you."
+          description="Start with a 3-day free trial. No credit card required."
+        />
+      </div>
 
-    <div class="mt-8">
-      <PricingPlanCard client:load appBaseUrl={appBaseUrl} />
+      <div class="mt-8">
+        <PricingPlanCard client:load appBaseUrl={appBaseUrl} />
+      </div>
     </div>
   </Wrapper>
 </section>
