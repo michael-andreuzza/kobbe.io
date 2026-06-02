@@ -3,6 +3,7 @@ import Text from "@/components/foundations/elements/Text.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import HeroDashboardPreview from "@/components/landing/hero-dashboard-preview";
 import { buttonVariants } from "@/components/ui/button";
+import SectionIntro from "@/components/landing/SectionIntro.astro";
 ---
 
 <section>
@@ -10,30 +11,17 @@ import { buttonVariants } from "@/components/ui/button";
     variant="default"
     class="bg-chart-1/5 dark:bg-chart-1/15 border-chart-1/15 rounded-xl border border-dashed pt-20 pb-20 lg:pt-28"
   >
-    <div class="text-balanc max-w-md lg:mx-auto lg:text-center">
-      <Text
-        tag="h1"
-        variant="displayTitle"
-        class="text-foreground font-display text-balance"
-      >
-        Privacy-friendly and cookie-less analytics for your website.
-      </Text>
-      <Text
-        tag="p"
-        variant="displaySubTitle"
-        class="text-muted-foreground mt-4 font-medium"
-      >
-        See traffic, pages, referrers, locations, devices, and funnels with
-        cookieless analytics by default — or enable extended tracking for
-        revenue, cross-domain journeys, Web Vitals, and more when you need it.
-        Manage with CLI or AI agents. — Set up in seconds.
-      </Text>
+    <div class="mx-auto max-w-3xl lg:text-center">
+      <SectionIntro
+        title="Privacy-friendly and cookie-less analytics for your website."
+        description="See traffic, pages, referrers, locations, devices, and funnels with cookieless analytics by default — or enable extended tracking for revenue, cross-domain journeys, Web Vitals, and more when you need it. Manage with CLI or AI agents. — Set up in seconds."
+      />
 
       <div class="mt-4 flex w-fit flex-wrap gap-2 lg:mx-auto">
         <a
           href="#pricing"
           data-kobbe-event="Hero — start trial"
-          class={buttonVariants({ variant: "default", size: "xs" })}
+          class={buttonVariants({ variant: "default", size: "sm" })}
         >
           Start a 7-day free trial
         </a>
@@ -42,12 +30,13 @@ import { buttonVariants } from "@/components/ui/button";
           target="_blank"
           rel="noopener noreferrer"
           data-kobbe-event="Hero — see demo"
-          class={buttonVariants({ variant: "outline", size: "xs" })}
+          class={buttonVariants({ variant: "outline", size: "sm" })}
         >
           See the demo
         </a>
       </div>
     </div>
+
     <div class="mt-8"><HeroDashboardPreview client:load /></div>
     <ul
       class="text-foreground font-display mx-auto mt-8 flex w-fit flex-wrap gap-2 text-center text-2xl"
