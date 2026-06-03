@@ -7,16 +7,12 @@ import SectionIntro from "@/components/landing/SectionIntro.astro";
 ---
 
 <section>
-  <Wrapper
-    variant="default"
-    class="bg-chart-1/5 dark:bg-chart-1/15 border-chart-1/15 rounded-xl border border-dashed pt-20 pb-20 lg:pt-28"
-  >
+  <Wrapper variant="default" class="pt-20 pb-20 lg:pt-28">
     <div class="mx-auto max-w-3xl lg:text-center">
       <SectionIntro
         title="Privacy-friendly and cookie-less analytics for your website."
         description="See traffic, pages, referrers, locations, devices, and funnels with cookieless analytics by default — or enable extended tracking for revenue, cross-domain journeys, Web Vitals, and more when you need it. Manage with CLI or AI agents. — Set up in seconds."
       />
-
       <div class="mt-4 flex w-fit flex-wrap gap-2 lg:mx-auto">
         <a
           href="#pricing"
@@ -36,13 +32,11 @@ import SectionIntro from "@/components/landing/SectionIntro.astro";
         </a>
       </div>
     </div>
-
-    <div class="mt-8"><HeroDashboardPreview client:load /></div>
+    <div class="mt-12"><HeroDashboardPreview client:load /></div>
     <ul
       class="text-foreground font-display mx-auto mt-8 flex w-fit flex-wrap gap-2 text-center text-2xl"
     >
       <li>1.8KB default tracker gzip</li>
-
       —
       <li>0 analytics cookies</li>
       —
