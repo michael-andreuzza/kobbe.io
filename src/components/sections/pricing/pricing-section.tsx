@@ -71,7 +71,7 @@ function PricingTierPanel({
   period: BillingPeriod;
 }) {
   return (
-    <article className="bg-foreground text-background relative flex h-full w-full flex-col justify-between p-8">
+    <article className="bg-foreground text-background relative flex h-full w-full flex-col justify-between p-8 rounded-xl">
       {popular ? (
         <span className="text-background/70 absolute top-4 right-4 text-[10px] font-semibold tracking-wide uppercase">
           Popular
