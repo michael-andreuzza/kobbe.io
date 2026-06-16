@@ -107,9 +107,7 @@ function PricingTierPanel({
             <li key={feature} className="relative">
               <div className="flex items-start gap-2">
                 <PricingFeatureMark />
-                <p className="text-base tracking-tight 2xl:text-2xl">
-                  {feature}
-                </p>
+                <p className="text-base tracking-tight">{feature}</p>
               </div>
             </li>
           ))}
