@@ -1,5 +1,3 @@
-import type { CSSProperties } from "react";
-
 import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 
 type Props = {
@@ -16,15 +14,6 @@ type MarketingFunnelStep =
     dropoff: number;
     ratio: number;
   };
-
-const funnelLineColors = [
-  "var(--chart-1)",
-  "var(--chart-2)",
-  "var(--chart-3)",
-  "var(--chart-4)",
-  "var(--chart-5)",
-  "var(--chart-6)",
-] as const;
 
 const funnelBaselineY = 280;
 
@@ -60,16 +49,10 @@ function MarketingFunnelChart(props: {
     <div className="w-full min-w-0 px-3 pt-2 pb-4 sm:px-5">
       <div className="space-y-2 sm:hidden">
         {steps.map((step, index) => {
-          const lineColor = funnelLineColors[index % funnelLineColors.length];
           return (
             <div
               key={step.id}
               className="group relative overflow-hidden px-1 py-3"
-              style={
-                {
-                  "--funnel-segment-color": lineColor,
-                } as CSSProperties
-              }
               aria-label={`${step.label}: ${step.visitors.toLocaleString()} visitors, ${formatPercent(step.conversionRate)} conversion`}
             >
               <div
@@ -77,7 +60,7 @@ function MarketingFunnelChart(props: {
                 aria-hidden
               >
                 <div
-                  className="absolute bottom-0 left-0 w-px rounded-full bg-(--funnel-segment-color) transition-[height] duration-300"
+                  className="bg-primary absolute bottom-0 left-0 w-px rounded-full transition-[height] duration-300"
                   style={{ height: `${Math.max(12, step.ratio * 100)}%` }}
                 />
               </div>
@@ -145,13 +128,7 @@ function MarketingFunnelDesktopFlow(props: { steps: MarketingFunnelStep[] }) {
             <path
               key={segment.index}
               d={segment.path}
-              className="fill-[color-mix(in_oklch,var(--funnel-segment-color)_16%,transparent)] stroke-none dark:fill-[color-mix(in_oklch,var(--funnel-segment-color)_18%,transparent)]"
-              style={
-                {
-                  "--funnel-segment-color":
-                    funnelLineColors[segment.index % funnelLineColors.length],
-                } as CSSProperties
-              }
+              className="fill-primary stroke-none"
             />
           ))}
         </svg>
@@ -187,7 +164,7 @@ function MarketingFunnelDesktopFlow(props: { steps: MarketingFunnelStep[] }) {
                 </div>
               </div>
               <div className="absolute inset-x-3 bottom-4 text-left lg:inset-x-5">
-                <div className="text-foreground text-lg font-semibold tabular-nums">
+                <div className="text-primary-foreground text-lg font-semibold tabular-nums">
                   {formatPercent(step.conversionRate)}
                 </div>
               </div>
