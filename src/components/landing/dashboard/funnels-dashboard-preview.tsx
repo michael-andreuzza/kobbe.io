@@ -14,7 +14,7 @@ export function FunnelsDashboardPreview({ funnel }: Props) {
     <Card
       className={cn(
         dashboardCardRootClass,
-        "mx-auto w-full max-w-4xl shadow-none",
+        "mx-auto w-full max-w-4xl pt-4 shadow-none",
       )}
     >
       <CardContent className="w-full p-0">
