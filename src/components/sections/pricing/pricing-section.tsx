@@ -81,12 +81,12 @@ function PricingTierPanel({
         <h3 className="text-background font-display text-2xl font-medium tracking-tight italic sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-4xl">
           {name}
         </h3>
-        <p className="text-background/70 mt-1 text-base font-medium 2xl:text-lg">
+        <p className="text-background/70 mt-1 text-base font-medium">
           {tagline}
         </p>
 
         <div className="mt-8 flex flex-wrap gap-x-6 gap-y-1 lg:items-center">
-          <p className="text-background font-display text-4xl tracking-tighter italic sm:text-4xl md:text-5xl lg:text-6xl 2xl:text-8xl">
+          <p className="text-background font-display text-4xl tracking-tighter italic sm:text-4xl md:text-5xl lg:text-6xl">
             {priceAmount}
           </p>
           <div>
