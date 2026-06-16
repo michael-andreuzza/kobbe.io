@@ -106,7 +106,7 @@ const attentionRows = [
   { path: "/pricing", value: "2.8s", samples: 184 },
   { path: "/docs/install-nextjs", value: "2.4s", samples: 142 },
   { path: "/demo/kobbe-studio", value: "2.1s", samples: 96 },
-  { path: "/docs/revenue-attribution", value: "2.0s", samples: 82 },
+  { path: "/docs/overview", value: "2.0s", samples: 82 },
 ];
 
 const browserRows = [

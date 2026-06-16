@@ -33,5 +33,4 @@ Visit your public Podia site and confirm Kobbe.
 
 ## Next steps
 
-- [Revenue attribution](/docs/revenue-attribution) if you connect payment webhooks separately
 - [Custom events](/docs/custom-events) for limited on-page interactions

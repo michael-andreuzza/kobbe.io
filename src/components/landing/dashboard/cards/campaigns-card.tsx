@@ -95,7 +95,7 @@ export function CampaignsCard({ campaigns }: Props) {
 
   return (
     <div ref={rootRef} className="grid min-w-0 gap-4">
-      <DashboardMetricStrip ariaLabel="Campaign metrics" lgCols={6}>
+      <DashboardMetricStrip ariaLabel="Campaign metrics" lgCols={4}>
         <CampaignMetric
           label="Campaigns"
           value={summary.campaigns.toLocaleString()}
@@ -115,16 +115,6 @@ export function CampaignsCard({ campaigns }: Props) {
           label="Conversions"
           value={summary.conversions.toLocaleString()}
           hint="custom events"
-        />
-        <CampaignMetric
-          label="Orders"
-          value={summary.orders.toLocaleString()}
-          hint="attributed revenue"
-        />
-        <CampaignMetric
-          label="Revenue"
-          value={summary.revenue}
-          hint="campaign journeys"
         />
       </DashboardMetricStrip>
 
@@ -153,8 +143,6 @@ export function CampaignsCard({ campaigns }: Props) {
             <span className="text-right">Visitors</span>
             <span className="hidden text-right md:block">Views</span>
             <span className="text-right">Conversions</span>
-            <span className="hidden text-right md:block">Orders</span>
-            <span className="hidden text-right md:block">Revenue</span>
             {showActions ? (
               <span className="hidden text-right md:block">Actions</span>
             ) : null}
@@ -187,12 +175,6 @@ export function CampaignsCard({ campaigns }: Props) {
                     </span>
                     <span className="text-muted-foreground text-right tabular-nums">
                       {row.conversions.toLocaleString()}
-                    </span>
-                    <span className="text-muted-foreground hidden text-right tabular-nums md:block">
-                      {row.orders.toLocaleString()}
-                    </span>
-                    <span className="text-muted-foreground hidden text-right tabular-nums md:block">
-                      {row.revenue}
                     </span>
                     {showActions ? (
                       <span className="text-destructive hidden text-right text-[11px] font-medium md:block">
@@ -265,8 +247,8 @@ function tableGridClass(showActions: boolean, className: string) {
   return [
     "grid gap-2",
     showActions
-      ? "grid-cols-[minmax(0,1fr)_4rem_5rem] md:grid-cols-[minmax(0,1.4fr)_4rem_4rem_5rem_4rem_4rem_4rem]"
-      : "grid-cols-[minmax(0,1fr)_4rem_5rem] md:grid-cols-[minmax(0,1.4fr)_4rem_4rem_5rem_4rem_4rem]",
+      ? "grid-cols-[minmax(0,1fr)_4rem_5rem] md:grid-cols-[minmax(0,1.4fr)_4rem_4rem_5rem_4rem]"
+      : "grid-cols-[minmax(0,1fr)_4rem_5rem] md:grid-cols-[minmax(0,1.4fr)_4rem_4rem_5rem]",
     className,
   ].join(" ");
 }

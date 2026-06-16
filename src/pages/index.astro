@@ -3,7 +3,6 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Hero from "@/components/landing/Hero.astro";
 import HowItWorks from "@/components/landing/HowItWorks.astro";
 import DashboardCapabilities from "@/components/landing/DashboardCapabilities.astro";
-import RevenueInsights from "@/components/landing/RevenueInsights.astro";
 import FunnelInsights from "@/components/landing/FunnelInsights.astro";
 import UtmCampaigns from "@/components/landing/UtmCampaigns.astro";
 import PerformanceInsights from "@/components/landing/PerformanceInsights.astro";
@@ -42,13 +41,12 @@ const pricingJsonLd = [
 
 <BaseLayout
   title="Kobbe — Web analytics that respect your visitors"
-  description="Privacy-friendly, cookie-free website analytics for traffic, pages, referrers, locations, devices, events, and revenue insights."
+  description="Privacy-friendly, cookie-free website analytics for traffic, pages, referrers, locations, devices, and custom events."
   jsonLdExtra={pricingJsonLd}
 >
   <Hero />
   <DashboardCapabilities />
   <AllFeatures />
-  <RevenueInsights />
   <FunnelInsights />
   <UtmCampaigns />
   <PerformanceInsights />

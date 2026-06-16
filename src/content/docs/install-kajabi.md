@@ -34,4 +34,3 @@ Load a public Kajabi page and check Kobbe.
 ## Next steps
 
 - [Custom events](/docs/custom-events) for offers and buttons where Kajabi exposes custom code blocks
-- [Revenue attribution](/docs/revenue-attribution) for separate payment flows

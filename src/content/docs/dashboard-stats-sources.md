@@ -23,8 +23,6 @@ For marketing links with UTM parameters, use the dedicated [UTM campaigns](/docs
 
 If you track multiple hosts as one site (for example `www` and `app`), hostname rows reflect how visits were split across those hosts. See [Track across subdomains](/docs/track-subdomains).
 
-Attributed **revenue** can appear on individual rows when [revenue attribution](/docs/revenue-attribution) is enabled. Campaign revenue appears on the Campaigns page when both UTM campaigns and revenue attribution are enabled.
-
 ## Related docs
 
 - [Dashboard overview](/docs/dashboard-overview)

@@ -17,7 +17,6 @@ The KPI strip summarizes traffic for the **selected time range** and filters. Cl
 | **Views**        | Pageviews.                                                                                                                                        |
 | **Bounce rate**  | Share of visits with only one pageview.                                                                                                           |
 | **Session time** | Average time between first and last pageview within a visit.                                                                                      |
-| **Revenue**      | Total paid revenue when payment webhooks have recorded paid events for this range. See [Revenue on the dashboard](/docs/dashboard-stats-revenue). |
 
 ## Period comparisons
 
@@ -27,9 +26,8 @@ Use **No comparison** when you want to inspect the current range without deltas.
 
 ## Chart metric
 
-The main chart always reflects the **currently selected KPI** (except where revenue is overlaid; see [Revenue on the dashboard](/docs/dashboard-stats-revenue)).
+The main chart always reflects the **currently selected KPI**.
 
 ## Related docs
 
 - [Dashboard overview](/docs/dashboard-overview)
-- [Revenue on the dashboard](/docs/dashboard-stats-revenue)

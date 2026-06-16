@@ -39,7 +39,7 @@ Depending on your configuration, the hosted service may process privacy-minimize
 - Timestamp of the event.
 - Browser, operating system, and device category derived from the request user agent.
 - Country or coarse location derived at the edge from the incoming connection.
-- Pageviews, custom events, scroll visibility events, performance samples, and opted-in revenue attribution metadata configured by the site owner.
+- Pageviews, custom events, scroll visibility events, and performance samples configured by the site owner.
 - Customer-defined custom event properties that pass server-side validation.
 
 Some of this information may still be considered personal data under privacy laws depending on context. Kobbe's goal is to reduce direct identifiers and avoid behavioral profiling, not to remove every possible compliance obligation from your website.
@@ -48,7 +48,7 @@ Some of this information may still be considered personal data under privacy law
 
 Kobbe's default analytics tracking does not use analytics cookies or browser storage to count visits.
 
-Optional features can change that privacy posture. For example, visitor opt-out uses `localStorage` to remember a do-not-send preference, cross-domain tracking may use `sessionStorage` for allowlisted domains, and revenue attribution may use a tab-scoped attribution value before server-side hashing.
+Optional features can change that privacy posture. For example, visitor opt-out uses `localStorage` to remember a do-not-send preference, and cross-domain tracking may use `sessionStorage` for allowlisted domains.
 
 Whether you need consent, a cookie banner, or additional privacy notice language depends on your jurisdiction, audience, legal basis, and enabled features. Review [Privacy and cookieless tracking](/docs/privacy-and-cookieless-tracking) before enabling optional tracking features.
 
@@ -60,7 +60,7 @@ Kobbe is designed to support privacy-conscious analytics, but your implementatio
 - Choose a lawful basis where required.
 - Decide whether consent is needed for your country, region, audience, and configuration.
 - Avoid sending personal data in URLs, custom event names, event properties, payment metadata, or other analytics fields.
-- Review optional features such as cross-domain tracking and revenue attribution before enabling them.
+- Review optional features such as cross-domain tracking, scroll tracking, and Web Vitals before enabling them.
 - Keep your account, team access, and shared dashboard links limited to the people who need them.
 
 ## Data processing terms

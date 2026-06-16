@@ -1,6 +1,6 @@
 ---
 title: UTM campaigns
-description: Track marketing campaign traffic, conversions, and attributed revenue with opt-in UTM capture.
+description: Track marketing campaign traffic and conversions with opt-in UTM capture.
 order: 12.05
 category: Dashboard stats
 navLabel: Campaigns
@@ -47,22 +47,6 @@ Then send visitors to URLs such as:
 https://example.com/pricing?utm_source=newsletter&utm_medium=email&utm_campaign=launch
 ```
 
-## Revenue by campaign
-
-Revenue by campaign needs both campaign tracking and revenue attribution:
-
-```html
-<script
-  defer
-  data-token="YOUR_SITE_TOKEN"
-  data-campaigns="true"
-  data-revenue-attribution="true"
-  src="https://app.kobbe.io/tracker.full.js"
-></script>
-```
-
-Follow [Revenue attribution](/docs/revenue-attribution) to pass `kobbe_attribution_id` through checkout and connect payment webhooks back to campaign journeys.
-
 ## What you see
 
 The Campaigns page shows:
@@ -70,16 +54,14 @@ The Campaigns page shows:
 - campaign visitors and pageviews
 - conversions from custom events
 - top campaigns, sources, mediums, and source / medium pairs
-- attributed orders and revenue when revenue attribution is enabled
 
 ## Privacy notes
 
 Campaign capture is intentionally narrow. Kobbe does not store the original query string, does not store arbitrary URL parameters, and does not turn UTM parameters into a persistent visitor profile.
 
-Review your privacy notice before enabling campaign or revenue attribution, especially if your checkout flow or marketing stack requires consent in your jurisdiction.
+Review your privacy notice before enabling campaign tracking, especially if your marketing stack requires consent in your jurisdiction.
 
 ## Related docs
 
 - [Script options](/docs/script-options)
 - [Sources on the dashboard](/docs/dashboard-stats-sources)
-- [Revenue attribution](/docs/revenue-attribution)

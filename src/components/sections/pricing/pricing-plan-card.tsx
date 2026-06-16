@@ -21,27 +21,6 @@ const includedFeatures = [
   "Alerts and monthly reports",
 ] as const;
 
-type KobbeWindow = Window &
-  typeof globalThis & {
-    kobbe?: {
-      attributionId?: string;
-      getAttributionId?: () => string | undefined;
-    };
-  };
-
-function checkoutHrefWithAttribution(href: string) {
-  const kobbe = (window as KobbeWindow).kobbe;
-  const attributionId = kobbe?.getAttributionId?.() ?? kobbe?.attributionId;
-  if (!attributionId) return href;
-  try {
-    const url = new URL(href, window.location.href);
-    url.searchParams.set("kobbe_attribution_id", attributionId);
-    return url.toString();
-  } catch {
-    return href;
-  }
-}
-
 function buildSignupHref(
   appBaseUrl: string,
   tierKey: PricingTierKey,
@@ -69,11 +48,10 @@ export function PricingPlanCard({
     return `$${formatPricingCurrency(amount)}/${suffix}`;
   }, [period, tier.monthly, tier.yearly]);
 
-  const checkoutHref = useMemo(() => {
-    const base = buildSignupHref(appBaseUrl, tier.key, period);
-    if (typeof window === "undefined") return base;
-    return checkoutHrefWithAttribution(base);
-  }, [appBaseUrl, period, tier.key]);
+  const checkoutHref = useMemo(
+    () => buildSignupHref(appBaseUrl, tier.key, period),
+    [appBaseUrl, period, tier.key],
+  );
 
   return (
     <div className={cn("mx-auto flex w-full flex-col lg:max-w-100", className)}>

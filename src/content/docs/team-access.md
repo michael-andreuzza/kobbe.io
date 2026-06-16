@@ -38,7 +38,7 @@ Team members cannot:
 
 - Create, edit, delete, or reset sites.
 - View dashboards for other projects in the workspace.
-- Change tracker tokens, exclusions, revenue sources, or public dashboard links.
+- Change tracker tokens, exclusions, or public dashboard links.
 - Export analytics data.
 - Manage billing, agent access, or other team members.
 - Change workspace settings.

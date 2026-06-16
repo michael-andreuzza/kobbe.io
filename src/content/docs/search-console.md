@@ -19,7 +19,7 @@ Kobbe imports Search Console rows for the verified property you select:
 - Average position
 - Click-through rate
 
-The overview highlights top search terms and can estimate revenue attribution by matching Search Console query/page data with Kobbe's page and revenue analytics.
+The overview highlights top search terms and can connect organic queries with landing-page traffic in Kobbe.
 
 ## Requirements
 
@@ -53,7 +53,7 @@ If you track `example.com` in Kobbe, a domain property such as `sc-domain:exampl
 
 You can reconnect Search Console from **Site settings → Integrations** if you need to change Google accounts or refresh access.
 
-Disconnecting removes the Google link and deletes synced Search Console rows for that site. It does not remove Kobbe pageviews, events, revenue data, tokens, or site settings.
+Disconnecting removes the Google link and deletes synced Search Console rows for that site. It does not remove Kobbe pageviews, events, tokens, or site settings.
 
 ## Troubleshooting
 

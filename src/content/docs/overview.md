@@ -30,7 +30,7 @@ Create read-only dashboards for clients or teammates, invite team viewers withou
 
 ### CLI, Raycast, and AI agents
 
-Use the [CLI](/docs/cli), [Raycast extension](/docs/raycast), or [AI agents](/docs/ai-agents) to inspect analytics, review revenue, check setup health, and manage sites from your terminal, Raycast, or MCP-compatible tools.
+Use the [CLI](/docs/cli), [Raycast extension](/docs/raycast), or [AI agents](/docs/ai-agents) to inspect analytics, check setup health, and manage sites from your terminal, Raycast, or MCP-compatible tools.
 
 ## Privacy by default
 

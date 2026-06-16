@@ -10,7 +10,7 @@ navLabel: FAQ
 
 ### Do I need a cookie banner for Kobbe?
 
-Kobbe's default tracker does not use analytics cookies or persistent browser identifiers, and it sends no analytics request when Global Privacy Control or Do Not Track is enabled. Consent requirements still depend on your jurisdiction, site configuration, and whether you enable optional features such as revenue attribution.
+Kobbe's default tracker does not use analytics cookies or persistent browser identifiers, and it sends no analytics request when Global Privacy Control or Do Not Track is enabled. Consent requirements still depend on your jurisdiction, site configuration, and whether you enable optional features such as cross-domain tracking.
 
 ### How does Kobbe count unique visitors without cookies?
 
@@ -28,7 +28,7 @@ Kobbe is designed to reduce personal data collection, avoid analytics cookies by
 
 ### What counts toward my monthly event limit?
 
-Pageviews, custom events, scroll visibility events, and accepted Web Vitals/performance payloads count toward the monthly workspace event limit. Funnels are calculated from the pageviews and custom events you already collect. Revenue webhooks and attribution metadata are handled separately.
+Pageviews, custom events, scroll visibility events, and accepted Web Vitals/performance payloads count toward the monthly workspace event limit. Funnels are calculated from the pageviews and custom events you already collect.
 
 ### Are bots counted in my stats?
 
@@ -80,4 +80,4 @@ Yes. You can create public, read-only dashboard links for clients or teammates a
 
 ### Where do I get help?
 
-Email support@kobbe.io for help with setup, billing, privacy questions, revenue attribution, or anything else around your workspace.
+Email support@kobbe.io for help with setup, billing, privacy questions, or anything else around your workspace.

@@ -43,4 +43,3 @@ Visit the public site (not `/wp-admin`), then check Kobbe.
 
 - [Exclude visits](/docs/exclude-visits) to drop admin or editor traffic
 - [Custom events](/docs/custom-events)
-- [Revenue attribution](/docs/revenue-attribution)

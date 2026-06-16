@@ -20,8 +20,6 @@ The **Pages** breakdown answers where people land, what they view most, and wher
 
 Cards show a **short preview**. When an expand control is available, use it to open the full list for that breakdown.
 
-If a **revenue-attributed** row would fall outside the preview, Kobbe can still surface it so you can see where a conversion was credited. Rows without attributed revenue stay **blank** rather than showing zero. See [Revenue on the dashboard](/docs/dashboard-stats-revenue).
-
 ## Page drill-down
 
 Click a **page row** to open a drill-down for that path. It reuses the same dashboard patterns, filtered to that path, so you can inspect traffic, sources, events, and exits for a single page.

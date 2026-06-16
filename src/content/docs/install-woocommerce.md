@@ -28,7 +28,7 @@ WooCommerce runs on WordPress — use the same global snippet as [WordPress](/do
 
 ## Purchase measurement
 
-Pageviews cover catalog browsing. Track important milestones with [Custom events](/docs/custom-events) and connect payments through [Revenue attribution](/docs/revenue-attribution) when applicable.
+Pageviews cover catalog browsing. Track important milestones with [Custom events](/docs/custom-events).
 
 ## Verify
 

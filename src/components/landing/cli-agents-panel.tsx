@@ -5,7 +5,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { useEffect, useState } from "react";
 
 const userQuestion =
-  "What's my traffic and revenue today, and which page should I improve next?";
+  "What's my traffic today, and which page should I improve next?";
 
 type ConversationPhase = "typing" | "working" | "answer";
 
@@ -98,8 +98,7 @@ export function CliAgentsPanel() {
                 <div className="text-muted-foreground space-y-2 text-xs">
                   <p>Kobbe is checking analytics...</p>
                   <ToolLine name="get_overview" detail="range: today" />
-                  <ToolLine name="get_revenue" detail="range: today" />
-                  <ToolLine name="get_top_pages" detail="include revenue" />
+                  <ToolLine name="get_top_pages" detail="limit: 5" />
                   <ToolLine name="get_next_actions" detail="site: kobbe.io" />
                 </div>
               ) : null}
@@ -110,7 +109,7 @@ export function CliAgentsPanel() {
           <div className="shrink-0 p-4">
             <div className="bg-surface rounded-lg p-3">
               <p className="text-muted-foreground min-h-10 text-sm leading-6">
-                Ask about traffic, revenue, sources...
+                Ask about traffic, sources, pages...
               </p>
 
               <div className="text-muted-foreground mt-8 ml-auto flex w-fit shrink-0 items-center gap-2">
@@ -161,12 +160,12 @@ function AgentAnswer() {
     <div className="space-y-3 text-xs leading-6">
       <p>
         Today you have <strong className="font-semibold">1,284 visitors</strong>{" "}
-        and <strong className="font-semibold">US$228 revenue</strong> from 3
-        paid conversions.
+        and <strong className="font-semibold">3,842 views</strong> across your
+        top pages.
       </p>
       <p>
-        <span className="font-mono">/pricing</span> is the highest-value page.
-        It drove US$199, so I would improve that CTA before changing lower
+        <span className="font-mono">/pricing</span> is the highest-traffic page.
+        It drove 612 views, so I would improve that CTA before changing lower
         traffic pages.
       </p>
     </div>

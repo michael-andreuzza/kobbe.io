@@ -17,7 +17,6 @@ Each monthly report includes:
 - Visitors and pageviews for the previous calendar month.
 - Top page.
 - Top source.
-- Revenue summary when revenue attribution has received paid events.
 
 Kobbe sends one report per enabled site and deduplicates each month so the same report is not sent repeatedly.
 

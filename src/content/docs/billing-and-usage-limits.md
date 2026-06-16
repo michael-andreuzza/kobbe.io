@@ -38,7 +38,7 @@ Typical usage includes:
 - One accepted Web Vitals/performance collect payload when performance tracking is enabled.
 - Funnel steps because they are based on pageviews and custom events already collected by the tracker.
 
-Revenue webhooks and attribution metadata are handled separately from the monthly event counter, but you should still enable optional features intentionally and avoid sending personal data.
+Optional features such as scroll tracking, cross-domain tracking, and Web Vitals are handled separately from the monthly event counter. Enable them intentionally and avoid sending personal data in event names or properties.
 
 ## What happens when usage is blocked
 

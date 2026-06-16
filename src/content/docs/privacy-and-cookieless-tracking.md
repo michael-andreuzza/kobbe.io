@@ -1,6 +1,6 @@
 ---
 title: Privacy and cookieless tracking
-description: How Kobbe tracks visits without cookies, and how optional revenue attribution changes the privacy posture.
+description: How Kobbe tracks visits without cookies, and how optional advanced features use browser storage.
 order: 11
 category: Get started
 navLabel: Privacy
@@ -32,31 +32,19 @@ Cookieless analytics are intentionally less invasive than cookie or user-profile
 
 For normal traffic reporting, this is usually a good tradeoff: you can still see visits, views, pages, sources, locations, devices, events, and funnels without building personal profiles.
 
-For long sales cycles, attribution can be less complete than systems that use long-lived cookies or identified users. That limitation is part of the privacy posture.
+For long sales cycles, session-level reporting is less complete than systems that use long-lived cookies or identified users. That limitation is part of the privacy posture.
 
-## Optional cross-domain tracking
+## Optional advanced features
 
-[Cross-domain tracking](/docs/cross-domain-tracking) is off by default. When you enable it for allowlisted hostnames, the tracker may use `sessionStorage` in the current tab to tie same-day navigation across root domains. This is consent-sensitive: disclose it where required and only turn it on when it matches the rules that apply to your country, region, audience, and legal basis.
+Some optional features are off by default and may use limited browser storage in the current tab only. For example, [cross-domain tracking](/docs/cross-domain-tracking) may use `sessionStorage` to tie same-day navigation across allowlisted root domains.
 
-## Optional revenue attribution
-
-Revenue attribution is off by default. When enabled, it connects an analytics journey to a later payment webhook so Kobbe can show which pages, sources, locations, and devices contributed to revenue.
-
-This changes the privacy posture:
-
-- It uses `sessionStorage` for a tab-scoped attribution ID.
-- The raw attribution ID is hashed server-side before storage.
-- Kobbe stores payment amount, currency, provider event IDs, and the hashed attribution key.
-- Kobbe does not need customer emails or names for attribution.
-- Attribution may still be considered personal data depending on your setup and the rules that apply to your country, region, and audience.
-
-Enable revenue attribution only when it fits your privacy notice, consent setup, payment provider configuration, and applicable country or regional rules.
+These features are consent-sensitive: disclose them where required and only turn them on when they match the rules that apply to your country, region, audience, and legal basis.
 
 ## What to tell your visitors
 
-If you use Kobbe, your privacy policy should describe analytics in plain language. If visitors can opt out with `localStorage.kobbe_ignore`, say so. If you enable cross-domain tracking or revenue attribution, also disclose `sessionStorage` use and that payment events may be connected to analytics activity in a pseudonymous way where applicable.
+If you use Kobbe, your privacy policy should describe analytics in plain language. If visitors can opt out with `localStorage.kobbe_ignore`, say so. If you enable cross-domain tracking or other optional features that use `sessionStorage`, disclose that use in your privacy notice.
 
-Avoid sending personal data in custom event names, event properties, URLs, or payment metadata. Kobbe is built for aggregate analytics, not user profiling.
+Avoid sending personal data in custom event names, event properties, or URLs. Kobbe is built for aggregate analytics, not user profiling.
 
 ## Related docs
 
@@ -64,5 +52,4 @@ Avoid sending personal data in custom event names, event properties, URLs, or pa
 - [Script options](/docs/script-options)
 - [Exclude visits](/docs/exclude-visits)
 - [Performance and Web Vitals](/docs/performance-web-vitals)
-- [Revenue attribution](/docs/revenue-attribution)
 - [Cross-domain tracking](/docs/cross-domain-tracking)

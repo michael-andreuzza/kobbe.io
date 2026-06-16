@@ -9,7 +9,7 @@ export const pricingFaqItems = [
     id: "privacy",
     question: "Is Kobbe privacy-first?",
     answer:
-      "Yes. Kobbe defaults to cookieless, privacy-friendly tracking — no analytics cookies, no raw IP storage, and no persistent visitor profiles. You choose what to enable: keep the default for traffic insights, or turn on extended tracking when you need revenue attribution, cross-domain journeys, Web Vitals, and more.",
+      "Yes. Kobbe defaults to cookieless, privacy-friendly tracking — no analytics cookies, no raw IP storage, and no persistent visitor profiles. You choose what to enable: keep the default for traffic insights, or turn on extended tracking when you need cross-domain journeys, Web Vitals, scroll visibility, and more.",
   },
   {
     id: "events",

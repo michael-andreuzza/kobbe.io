@@ -13,8 +13,6 @@ The **Devices** breakdown compares **browsers**, **operating systems**, and **de
 - Values come from user-agent and related hints available at collection time.
 - Uncommon or privacy-hardened clients may appear in generic buckets.
 
-Attributed **revenue** can appear on rows when [revenue attribution](/docs/revenue-attribution) is enabled.
-
 ## Related docs
 
 - [Dashboard overview](/docs/dashboard-overview)

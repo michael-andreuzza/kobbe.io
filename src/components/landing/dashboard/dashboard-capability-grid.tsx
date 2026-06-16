@@ -123,7 +123,6 @@ export function DashboardCapabilityGrid() {
         <CapabilityListPreview>
           <PageBreakdownList
             rows={data.pages.top.slice(0, capabilityPreviewRowLimit)}
-            revenueFormat={formatPageRevenue}
           />
         </CapabilityListPreview>
       </CapabilityCard>
@@ -156,7 +155,7 @@ export function DashboardCapabilityGrid() {
 
       <CapabilityCard
         title="Custom events"
-        description="Measure the actions that matter, from sign-ups and CTA clicks to checkout starts and product interactions."
+        description="Measure the actions that matter, from sign-ups and CTA clicks to downloads and product interactions."
         mockupClassName="w-full max-w-md"
         unframed
       >
@@ -298,13 +297,6 @@ function CapabilityListPreview(props: { children: ReactNode }) {
       {props.children}
     </div>
   );
-}
-
-function formatPageRevenue(minor: number) {
-  return new Intl.NumberFormat(undefined, {
-    style: "currency",
-    currency: "USD",
-  }).format(minor / 100);
 }
 
 function PreviewFrame(props: {

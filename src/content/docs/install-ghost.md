@@ -34,4 +34,3 @@ Open a published post, confirm traffic in Kobbe.
 ## Next steps
 
 - [Custom events](/docs/custom-events) if you add buttons or CTAs outside default templates
-- [Revenue attribution](/docs/revenue-attribution) if you sell through a gateway Ghost links to

@@ -34,7 +34,7 @@ When you visit a site that uses Kobbe, the hosted service may process privacy-mi
 - Timestamp of the event
 - Browser, operating system, and device category derived from the request user agent
 - Country or coarse location derived at the edge from the incoming connection
-- Pageviews, custom events, scroll visibility events, performance samples, and opted-in revenue attribution metadata configured by the site owner
+- Pageviews, custom events, scroll visibility events, and performance samples configured by the site owner
 - Customer-defined custom event properties that pass server-side validation
 
 Some of this data may be considered personal data under privacy laws depending on the context, configuration, and jurisdiction. Kobbe is designed to reduce and avoid direct visitor identifiers, not to collect everything possible.
@@ -53,7 +53,7 @@ If you create or use a Kobbe account, we may process information needed to opera
 
 We use information to:
 
-- Provide dashboards, reports, shared links, funnels, revenue attribution, and other analytics features
+- Provide dashboards, reports, shared links, funnels, and other analytics features
 - Count visits, sessions, and events in a privacy-minimized way
 - Filter bot, spam, and abusive traffic
 - Secure, maintain, debug, and improve the service

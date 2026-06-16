@@ -6,7 +6,7 @@ category: Get started
 navLabel: AI agents
 ---
 
-Kobbe exposes a scoped API for local AI agents. Use it when you want Cursor, Claude Code, Codex, or another MCP-compatible tool to inspect analytics, review revenue, check setup health, or manage sites.
+Kobbe exposes a scoped API for local AI agents. Use it when you want Cursor, Claude Code, Codex, or another MCP-compatible tool to inspect analytics, check setup health, or manage sites.
 
 Agent access uses the same `@kobbe/cli` package as the [CLI](/docs/cli), but runs it in MCP server mode.
 
@@ -38,7 +38,6 @@ MCP tools include:
 | ------------------- | ---------------------------------------------------------------------- |
 | `list_sites`        | List sites the token can access.                                       |
 | `get_overview`      | Read headline traffic KPIs for one site.                               |
-| `get_revenue`       | Read revenue summaries when revenue attribution is configured.         |
 | `get_top_pages`     | Inspect top pages for a site and time range.                           |
 | `get_sources`       | Inspect referrers, channels, and source breakdowns.                    |
 | `get_setup_health`  | Check whether tracking and optional features are configured correctly. |
@@ -59,7 +58,6 @@ Scopes:
 | ---------------- | -------------------------------------------------------------- |
 | `sites:read`     | List and inspect sites.                                        |
 | `analytics:read` | Read overview, pages, sources, setup health, and next actions. |
-| `revenue:read`   | Read revenue summaries.                                        |
 | `sites:write`    | Create or update sites.                                        |
 | `tokens:write`   | Rotate tracker tokens.                                         |
 | `danger:write`   | Delete sites or reset analytics data.                          |
@@ -78,7 +76,6 @@ Kobbe API tokens are management credentials. Treat them like passwords.
 
 - "What changed on my site today?"
 - "Which page should I improve next?"
-- "Is revenue attribution configured correctly?"
 - "List my sites and tell me which one needs setup."
 - "Rotate the tracker token for this test site."
 

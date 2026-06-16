@@ -15,9 +15,8 @@ This is optional. You do not need Raycast to use Kobbe, install the tracker, or 
 The extension can:
 
 - Search your Kobbe sites.
-- Show overview metrics such as visitors, views, visits, bounce rate, session time, and revenue.
+- Show overview metrics such as visitors, views, visits, bounce rate, and session time.
 - List top pages for a site.
-- Show revenue totals with page and source context.
 - Open the full Kobbe dashboard when you need more detail.
 
 ## Create an API token
@@ -28,7 +27,6 @@ Create a token named `Raycast` and enable only the scopes the extension needs:
 
 - **Read sites**
 - **Read analytics**
-- **Read revenue**
 
 You do not need management scopes such as **Manage sites**, **Rotate tracker tokens**, or **Delete/reset sites** for the Raycast extension.
 
@@ -46,7 +44,7 @@ After saving preferences, start with **Search Sites** to confirm the token works
 
 ## Change the default range
 
-The extension uses the **Default Range** preference for overview, top pages, and revenue commands.
+The extension uses the **Default Range** preference for overview and top pages commands.
 
 To change it later, open Raycast settings, go to **Extensions**, search for **Kobbe**, select the main **Kobbe** extension row, and update **Default Range** in the preferences panel.
 

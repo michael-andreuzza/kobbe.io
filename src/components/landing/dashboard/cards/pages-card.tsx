@@ -29,14 +29,9 @@ export function PagesCard({
         onActiveIndexChange: setActiveTab,
       }}
     >
-      <PageBreakdownList rows={rows} revenueFormat={formatRevenue} />
+      <PageBreakdownList rows={rows} />
     </DashboardTabbedBreakdownCard>
   );
 }
 
-function formatRevenue(minor: number) {
-  return new Intl.NumberFormat(undefined, {
-    style: "currency",
-    currency: "USD",
-  }).format(minor / 100);
-}
+export default PagesCard;

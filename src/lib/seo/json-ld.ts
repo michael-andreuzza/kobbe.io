@@ -1,6 +1,6 @@
 const SITE_NAME = "Kobbe";
 const SITE_DESCRIPTION =
-  "Privacy-friendly, cookie-free website analytics for teams that want useful traffic, conversion, and revenue insights without invasive tracking.";
+  "Privacy-friendly, cookie-free website analytics for teams that want useful traffic, conversion, and content insights without invasive tracking.";
 const LOGO_PATH = "/images/favicons/android-chrome-512x512.png";
 const ACRONYMS: Record<string, string> = {
   ai: "AI",

@@ -24,7 +24,7 @@ const heroMetricSequence = [
   "visitors",
   "views",
   "visits",
-  "revenue",
+  "bounceRate",
 ] satisfies TrafficChartMetric[];
 
 const heroSpotlightIndexes = [18, 22, 25, 27] as const;
@@ -70,7 +70,6 @@ export function DashboardPreview() {
         views={data.kpi.views}
         bounceRate={data.kpi.bounceRate}
         sessionTime={data.kpi.sessionTime}
-        revenue={data.kpi.revenue}
         activeMetric={chartMetric}
         onMetricClick={handleMetricClick}
         tileClassName="shadow"

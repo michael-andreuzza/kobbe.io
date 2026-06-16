@@ -1,6 +1,6 @@
 ---
 title: Script options
-description: Configure Kobbe tracker options for endpoints, hash routes, attribution, Web Vitals, and debugging.
+description: Configure Kobbe tracker options for endpoints, hash routes, Web Vitals, and debugging.
 order: 26
 category: Tracking
 navLabel: Script
@@ -8,9 +8,9 @@ navLabel: Script
 
 Use `data-*` attributes on the `<script>` tag to configure the tracker.
 
-The default `tracker.js` is lightweight and covers pageviews, custom events, custom endpoints, hash routes, UTM campaign capture, and debug logging. Advanced features such as cross-domain tracking, revenue attribution, performance collection, and scroll tracking use `tracker.full.js`.
+The default `tracker.js` is lightweight and covers pageviews, custom events, custom endpoints, hash routes, UTM campaign capture, and debug logging. Advanced features such as cross-domain tracking, performance collection, and scroll tracking use `tracker.full.js`.
 
-**See also:** [Custom events](/docs/custom-events) · [Scroll tracking](/docs/scroll-tracking) · [Hash page paths](/docs/hash-page-paths) · [UTM campaigns](/docs/utm-campaigns) · [Subdomains](/docs/track-subdomains) · [Cross-domain tracking](/docs/cross-domain-tracking) · [Revenue attribution](/docs/revenue-attribution) · [Performance and Web Vitals](/docs/performance-web-vitals) · [Exclude visits](/docs/exclude-visits)
+**See also:** [Custom events](/docs/custom-events) · [Scroll tracking](/docs/scroll-tracking) · [Hash page paths](/docs/hash-page-paths) · [UTM campaigns](/docs/utm-campaigns) · [Subdomains](/docs/track-subdomains) · [Cross-domain tracking](/docs/cross-domain-tracking) · [Performance and Web Vitals](/docs/performance-web-vitals) · [Exclude visits](/docs/exclude-visits)
 
 ## Required
 
@@ -64,14 +64,6 @@ Allow cross-domain tracking for specific hostnames. Requires `tracker.full.js`. 
 
 ```html
 data-allowed-hostnames="app.example.com,shop.example.net"
-```
-
-### Revenue attribution
-
-Set to `true` to create a tab-scoped attribution ID for checkout metadata. Requires `tracker.full.js`. See [Revenue attribution](/docs/revenue-attribution).
-
-```html
-data-revenue-attribution="true"
 ```
 
 ### Web Vitals collection

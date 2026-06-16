@@ -40,4 +40,3 @@ Visit the storefront URL and check Kobbe.
 ## Next steps
 
 - [Custom events](/docs/custom-events) for add-to-cart or purchase buttons
-- [Revenue attribution](/docs/revenue-attribution) for payment webhooks

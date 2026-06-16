@@ -60,7 +60,6 @@ export type DashboardPreviewRangeData = {
       deltaPct: number | null;
       tone: "good" | "bad" | "neutral";
     };
-    revenue: { display: string; rightHint?: string };
   };
   pages: {
     top: { path: string; count: number; revenueMinor?: number }[];
@@ -475,24 +474,20 @@ function buildKpi(points: StackedChartPoint[]) {
       deltaPct: 9.8,
       tone: "good" as const,
     },
-    revenue: {
-      display: `$${formatCompact(sumMetric(points, "revenueMinor") / 100)}`,
-      rightHint: "184 paid",
-    },
   };
 }
 
 const pages = {
   top: [
-    { path: "/", count: 9842, revenueMinor: 114000 },
-    { path: "/pricing", count: 4118, revenueMinor: 94000 },
+    { path: "/", count: 9842 },
+    { path: "/pricing", count: 4118 },
     { path: "/docs/install-astro", count: 2906 },
-    { path: "/docs/revenue-attribution", count: 2442, revenueMinor: 182000 },
+    { path: "/docs/overview", count: 2442 },
     { path: "/demo/kobbe-studio", count: 1885 },
   ],
   entered: [
     { path: "/", count: 5731 },
-    { path: "/pricing", count: 1942, revenueMinor: 62000 },
+    { path: "/pricing", count: 1942 },
     { path: "/docs/overview", count: 1206 },
     { path: "/docs/install-nextjs", count: 842 },
   ],
@@ -693,8 +688,8 @@ export const dashboardPreviewData = {
       rows: [
         { name: "Clicked live demo", visitors: 512, count: 642 },
         { name: "Copied install script", visitors: 316, count: 418 },
-        { name: "Started checkout", visitors: 102, count: 126 },
-        { name: "Connected revenue source", visitors: 61, count: 74 },
+        { name: "Opened pricing", visitors: 102, count: 126 },
+        { name: "Started trial", visitors: 61, count: 74 },
       ],
     },
     funnels,
@@ -720,8 +715,8 @@ export const dashboardPreviewData = {
       rows: [
         { name: "Clicked live demo", visitors: 956, count: 1184 },
         { name: "Copied install script", visitors: 604, count: 792 },
-        { name: "Started checkout", visitors: 186, count: 236 },
-        { name: "Connected revenue source", visitors: 112, count: 132 },
+        { name: "Opened pricing", visitors: 186, count: 236 },
+        { name: "Started trial", visitors: 112, count: 132 },
       ],
     },
     funnels,
@@ -747,8 +742,8 @@ export const dashboardPreviewData = {
       rows: [
         { name: "Clicked live demo", visitors: 1994, count: 2428 },
         { name: "Copied install script", visitors: 1240, count: 1611 },
-        { name: "Started checkout", visitors: 408, count: 516 },
-        { name: "Connected revenue source", visitors: 228, count: 284 },
+        { name: "Opened pricing", visitors: 408, count: 516 },
+        { name: "Started trial", visitors: 228, count: 284 },
       ],
     },
     funnels,
