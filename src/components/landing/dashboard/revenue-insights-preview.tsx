@@ -59,7 +59,7 @@ export function RevenueInsightsPreview() {
           }
         }
       `}</style>
-      <Card className="bg-card mx-auto w-full max-w-4xl rounded-xl shadow">
+      <Card className="bg-card mx-auto w-full max-w-4xl rounded-xl">
         <CardContent className="w-full p-0">
           <div className="relative h-80 w-full">
             <div className="pointer-events-none absolute top-0 left-0 w-full origin-top-left">

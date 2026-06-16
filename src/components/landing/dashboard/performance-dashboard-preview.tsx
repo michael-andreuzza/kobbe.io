@@ -1,3 +1,4 @@
+import { ComputerPhoneSyncIcon } from "@hugeicons/core-free-icons";
 import { useEffect, useMemo, useState } from "react";
 import { useReducedMotion } from "motion/react";
 import { Bar, Cell, ComposedChart, XAxis, YAxis } from "recharts";
@@ -27,6 +28,7 @@ import {
   DashboardMetricStrip,
   DashboardMetricTile,
 } from "./dashboard-metric-strip";
+import { DashboardTabbedBreakdownCard } from "./dashboard-breakdown-card";
 import {
   dashboardCardContentListClass,
   dashboardCardContentTableClass,
@@ -134,9 +136,9 @@ function ratingClassName(
 }
 
 const performanceChartConfig = {
-  p50: { label: "Median (p50)", color: "var(--chart-1)" },
-  p75: { label: "p75", color: "var(--chart-2)" },
-  p95: { label: "p95", color: "var(--chart-3)" },
+  p50: { label: "Median (p50)", color: "var(--foreground)" },
+  p75: { label: "p75", color: "var(--foreground)" },
+  p95: { label: "p95", color: "var(--foreground)" },
 } satisfies ChartConfig;
 
 type LollipopShapeProps = {
@@ -241,20 +243,14 @@ function formatAxisTick(v: number): string {
   return rounded.toLocaleString();
 }
 
-const performanceMetricActiveColors = [
-  "var(--chart-1)",
-  "var(--chart-2)",
-  "var(--chart-3)",
-  "var(--chart-4)",
-  "var(--chart-5)",
-] as const;
-
 export function PerformanceDashboardPreview({ webVitals }: Props) {
   const shouldReduceMotion = useReducedMotion();
   const metrics = webVitals.metrics.slice(0, 5);
   const [activeMetricIndex, setActiveMetricIndex] = useState(0);
+  const [envTab, setEnvTab] = useState(0);
   const activeMetric = (metrics[activeMetricIndex]?.name ??
     "LCP") as WebVitalName;
+  const envRows = envTab === 0 ? browserRows : webVitals.environments;
 
   useEffect(() => {
     if (shouldReduceMotion || metrics.length <= 1) {
@@ -288,11 +284,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
             <DashboardMetricTile
               key={metric.name}
               active={active}
-              activeColor={
-                performanceMetricActiveColors[index] ?? "var(--chart-1)"
-              }
               surface="muted"
-              className="shadow"
               onClick={() => setActiveMetricIndex(index)}
             >
               <div className="flex h-full min-w-0 flex-col gap-1">
@@ -300,7 +292,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
                   <span
                     className={cn(
                       "truncate text-xs leading-tight font-medium",
-                      "text-muted-foreground",
+                      active ? "text-background/70" : "text-muted-foreground",
                     )}
                   >
                     {metric.name}
@@ -308,7 +300,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
                   <span
                     className={cn(
                       "shrink-0 text-xs leading-tight tabular-nums",
-                      "text-muted-foreground",
+                      active ? "text-background/70" : "text-muted-foreground",
                     )}
                   >
                     n={metric.sampleCount.toLocaleString()}
@@ -318,7 +310,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
                   <span
                     className={cn(
                       "text-lg leading-tight font-medium tracking-tight tabular-nums sm:text-xl",
-                      "text-foreground",
+                      active ? "text-background" : "text-foreground",
                     )}
                   >
                     {metric.value}
@@ -327,7 +319,9 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
                     <span
                       className={cn(
                         "font-medium",
-                        ratingClassName(metric.rating),
+                        active
+                          ? "text-background/70"
+                          : ratingClassName(metric.rating),
                       )}
                     >
                       {metric.rating}
@@ -340,7 +334,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
         })}
       </DashboardMetricStrip>
 
-      <Card className={cn("mt-4 shadow sm:mt-5", dashboardCardRootClass)}>
+      <Card className={cn("mt-4 sm:mt-5", dashboardCardRootClass)}>
         <CardHeader className={dashboardCardHeaderClass}>
           <CardTitle className={dashboardCardTitleClass}>
             {activeMetric} over time
@@ -352,7 +346,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
         </CardContent>
       </Card>
 
-      <Card className={cn("mt-4 shadow", dashboardCardRootClass)}>
+      <Card className={cn("mt-4", dashboardCardRootClass)}>
         <CardHeader className={dashboardCardHeaderClass}>
           <CardTitle className={dashboardCardTitleClass}>
             Needs attention
@@ -395,19 +389,24 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
         </CardContent>
       </Card>
 
-      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <PerformanceBreakdownCard
-          title="Device"
-          description="Slowest dimensions by p75 · LCP"
+      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <DashboardTabbedBreakdownCard
+          title="Devices"
+          isEmpty={envRows.length === 0}
+          empty={{
+            icon: ComputerPhoneSyncIcon,
+            title:
+              envTab === 0 ? "No browsers in range" : "No device types in range",
+          }}
+          tabs={{
+            label: "Devices",
+            tabs: ["Browsers", "Devices"],
+            activeIndex: envTab,
+            onActiveIndexChange: setEnvTab,
+          }}
         >
-          <DeviceBreakdownList rows={webVitals.environments} />
-        </PerformanceBreakdownCard>
-        <PerformanceBreakdownCard
-          title="Browser"
-          description="Slowest dimensions by p75 · LCP"
-        >
-          <DeviceBreakdownList rows={browserRows} />
-        </PerformanceBreakdownCard>
+          <DeviceBreakdownList rows={envRows} />
+        </DashboardTabbedBreakdownCard>
         <PerformanceBreakdownCard
           title="Country"
           description="Slowest dimensions by p75 · LCP"
@@ -678,7 +677,7 @@ function PerformanceBreakdownCard(props: {
   children: React.ReactNode;
 }) {
   return (
-    <Card className={cn(dashboardCardRootClass, "shadow")}>
+    <Card className={dashboardCardRootClass}>
       <CardHeader className={dashboardCardHeaderClass}>
         <CardTitle className={dashboardCardTitleClass}>{props.title}</CardTitle>
         <CardDescription>{props.description}</CardDescription>

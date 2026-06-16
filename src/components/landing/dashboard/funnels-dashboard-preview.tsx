@@ -9,7 +9,7 @@ type Props = {
 
 export function FunnelsDashboardPreview({ funnel }: Props) {
   return (
-    <Card className="bg-card mx-auto w-full max-w-4xl rounded-xl shadow">
+    <Card className="bg-card mx-auto w-full max-w-4xl rounded-xl">
       <CardContent className="w-full p-0">
         <div className="kobbe-funnel-chart w-full">
           <FunnelsCard funnel={funnel} />

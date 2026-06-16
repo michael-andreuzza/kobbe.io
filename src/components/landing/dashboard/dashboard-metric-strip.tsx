@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -34,7 +34,6 @@ export function DashboardMetricStrip(props: DashboardMetricStripProps) {
 type DashboardMetricTileProps = {
   children: ReactNode;
   active?: boolean;
-  activeColor?: string;
   className?: string;
   onClick?: () => void;
   surface?: "card" | "muted";
@@ -59,17 +58,11 @@ const metricTileInteractiveMutedClass =
 export function DashboardMetricTile(props: DashboardMetricTileProps) {
   const surface = props.surface ?? "card";
   const isInteractive = Boolean(props.onClick);
-  const activeStyle =
-    props.active && props.activeColor
-      ? ({
-          "--metric-active-color": props.activeColor,
-        } as CSSProperties)
-      : undefined;
   const className = cn(
     surface === "muted" ? metricTileMutedClass : metricTileCardClass,
     surface === "muted" && isInteractive && metricTileInteractiveMutedClass,
     props.active &&
-      "bg-[color-mix(in_oklch,var(--metric-active-color)_16%,transparent)] text-foreground ring-0 hover:bg-[color-mix(in_oklch,var(--metric-active-color)_16%,transparent)] dark:bg-[color-mix(in_oklch,var(--metric-active-color)_18%,transparent)] dark:hover:bg-[color-mix(in_oklch,var(--metric-active-color)_18%,transparent)]",
+      "bg-foreground text-background ring-0 hover:bg-foreground",
     props.className,
   );
 
@@ -78,7 +71,6 @@ export function DashboardMetricTile(props: DashboardMetricTileProps) {
       <button
         type="button"
         className={cn("group w-full", className)}
-        style={activeStyle}
         onClick={props.onClick}
         aria-pressed={props.active}
         data-active={props.active ? "true" : "false"}
@@ -93,7 +85,6 @@ export function DashboardMetricTile(props: DashboardMetricTileProps) {
   return (
     <div
       className={className}
-      style={activeStyle}
       data-active={props.active ? "true" : "false"}
       data-dashboard-metric-tile
       data-kobbe-stagger

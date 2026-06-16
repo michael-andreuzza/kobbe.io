@@ -28,30 +28,32 @@ export type StackedChartPoint = {
   t: number;
 };
 
+const primaryChartColor = "var(--primary)";
+
 const chartConfig = {
   visitors: {
     label: "Visitors",
-    color: "var(--chart-1)",
+    color: primaryChartColor,
   },
   visits: {
     label: "Visits",
-    color: "var(--chart-2)",
+    color: primaryChartColor,
   },
   pageviews: {
     label: "Views",
-    color: "var(--chart-3)",
+    color: primaryChartColor,
   },
   bounceRate: {
     label: "Bounce rate",
-    color: "var(--chart-4)",
+    color: primaryChartColor,
   },
   sessionTime: {
     label: "Session time",
-    color: "var(--chart-5)",
+    color: primaryChartColor,
   },
   revenue: {
     label: "Revenue",
-    color: "var(--chart-6)",
+    color: primaryChartColor,
   },
 } satisfies ChartConfig;
 
@@ -177,7 +179,7 @@ export function TrafficLineChart(props: {
   }));
 
   const metricKey = metricToDataKey(metric);
-  const metricColor = `var(--color-${metricKey})`;
+  const metricColor = primaryChartColor;
   const metricValues = data
     .map((point) => point[metricKey])
     .filter((value): value is number => typeof value === "number");

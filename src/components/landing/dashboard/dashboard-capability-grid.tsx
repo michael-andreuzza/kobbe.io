@@ -235,7 +235,7 @@ function TrafficKpiTile(props: {
   return (
     <DashboardMetricTile
       surface="muted"
-      className="aspect-square min-h-0 min-w-0 flex-1 p-2.5 shadow sm:p-3"
+      className="aspect-square min-h-0 min-w-0 flex-1 p-2.5 sm:p-3"
     >
       <div className="flex h-full min-w-0 flex-col gap-1">
         <div className="flex w-full min-w-0 items-baseline justify-between gap-2">
@@ -289,7 +289,7 @@ function CapabilityCard(props: CapabilityCardProps) {
 
 function CapabilityListPreview(props: { children: ReactNode }) {
   return (
-    <div className="kobbe-capability-stack [&_li>div]:bg-card [&_li>div]:border-border w-full [&_li>div]:rounded-lg [&_li>div]:border [&_li>div]:shadow">
+    <div className="kobbe-capability-stack [&_li>div]:bg-card [&_li>div]:border-border w-full [&_li>div]:rounded-lg [&_li>div]:border">
       {props.children}
     </div>
   );
@@ -312,7 +312,7 @@ function PreviewFrame(props: {
   return (
     <div
       ref={frameRef}
-      className="bg-card relative flex h-72 w-full items-start justify-center rounded-xl shadow"
+      className="bg-card relative flex h-72 w-full items-start justify-center rounded-xl"
     >
       <div
         className={cn(

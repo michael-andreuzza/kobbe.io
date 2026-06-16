@@ -82,15 +82,9 @@ function CampaignMetric(props: {
   label: string;
   value: string;
   hint: string;
-  active?: boolean;
 }) {
   return (
-    <DashboardMetricTile
-      active={props.active}
-      activeColor="var(--chart-1)"
-      surface="muted"
-      className="shadow"
-    >
+    <DashboardMetricTile surface="muted">
       <div className="flex h-full min-w-0 flex-col gap-1">
         <span
           className={cn(

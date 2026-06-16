@@ -17,7 +17,6 @@ type KpiTile = {
   rightHintTone?: KpiPillTone;
   rightHintAriaLabel?: string;
   active?: boolean;
-  activeColor?: string;
   onClick?: () => void;
 };
 
@@ -39,7 +38,6 @@ function KpiStripGrid(props: {
           <DashboardMetricTile
             key={key}
             active={active}
-            activeColor={tile.activeColor}
             onClick={onClick}
             surface={tileSurface}
             className={props.tileClassName}
@@ -54,7 +52,7 @@ function KpiStripGrid(props: {
 
 function KpiTileBody(kpi: KpiTileBodyProps) {
   const toneClass = kpi.active
-    ? "text-muted-foreground"
+    ? "text-background/70"
     : kpi.rightHintTone === "good"
       ? "text-success"
       : kpi.rightHintTone === "bad"
@@ -66,7 +64,7 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
         <span
           className={cn(
             "truncate text-xs leading-tight font-medium",
-            kpi.active ? "text-muted-foreground" : "text-muted-foreground",
+            kpi.active ? "text-background/70" : "text-muted-foreground",
           )}
         >
           {kpi.label}
@@ -86,7 +84,7 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
         <span
           className={cn(
             "text-lg leading-tight font-medium tracking-tight tabular-nums sm:text-xl",
-            kpi.active ? "text-foreground" : "text-foreground",
+            kpi.active ? "text-background" : "text-foreground",
             kpi.valueClassName,
           )}
         >
@@ -96,15 +94,6 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
     </div>
   );
 }
-
-const chartMetricActiveColor = {
-  visitors: "var(--chart-1)",
-  visits: "var(--chart-2)",
-  views: "var(--chart-3)",
-  bounceRate: "var(--chart-4)",
-  sessionTime: "var(--chart-5)",
-  revenue: "var(--chart-6)",
-} satisfies Record<TrafficChartMetric, string>;
 
 export function DashboardKpiStrip(props: {
   showComparison: boolean;
@@ -130,7 +119,6 @@ export function DashboardKpiStrip(props: {
       rightHintTone: props.visitors.tone,
       rightHintAriaLabel: trendAria,
       active: props.activeMetric === "visitors",
-      activeColor: chartMetricActiveColor.visitors,
       onClick: props.onMetricClick
         ? () => props.onMetricClick?.("visitors")
         : undefined,
@@ -143,7 +131,6 @@ export function DashboardKpiStrip(props: {
       rightHintTone: props.visits.tone,
       rightHintAriaLabel: trendAria,
       active: props.activeMetric === "visits",
-      activeColor: chartMetricActiveColor.visits,
       onClick: props.onMetricClick ? () => props.onMetricClick?.("visits") : undefined,
     },
     {
@@ -154,7 +141,6 @@ export function DashboardKpiStrip(props: {
       rightHintTone: props.views.tone,
       rightHintAriaLabel: trendAria,
       active: props.activeMetric === "views",
-      activeColor: chartMetricActiveColor.views,
       onClick: props.onMetricClick ? () => props.onMetricClick?.("views") : undefined,
     },
     {
@@ -165,7 +151,6 @@ export function DashboardKpiStrip(props: {
       rightHintTone: props.bounceRate.tone,
       rightHintAriaLabel: trendAria,
       active: props.activeMetric === "bounceRate",
-      activeColor: chartMetricActiveColor.bounceRate,
       onClick: props.onMetricClick
         ? () => props.onMetricClick?.("bounceRate")
         : undefined,
@@ -178,7 +163,6 @@ export function DashboardKpiStrip(props: {
       rightHintTone: props.sessionTime.tone,
       rightHintAriaLabel: trendAria,
       active: props.activeMetric === "sessionTime",
-      activeColor: chartMetricActiveColor.sessionTime,
       onClick: props.onMetricClick
         ? () => props.onMetricClick?.("sessionTime")
         : undefined,
@@ -192,7 +176,6 @@ export function DashboardKpiStrip(props: {
       valueClassName: "text-base sm:text-lg",
       rightHint: props.revenue.rightHint,
       active: props.activeMetric === "revenue",
-      activeColor: chartMetricActiveColor.revenue,
       onClick: props.onMetricClick ? () => props.onMetricClick?.("revenue") : undefined,
     });
   }

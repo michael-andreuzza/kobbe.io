@@ -72,26 +72,24 @@ export function DashboardPreview() {
         sessionTime={data.kpi.sessionTime}
         activeMetric={chartMetric}
         onMetricClick={handleMetricClick}
-        tileClassName="shadow"
       />
       <DashboardTrafficChart
         points={data.points}
         metric={chartMetric}
         rangeLabel={data.label}
         spotlightIndex={spotlightIndex}
-        className="shadow"
       >
         {trafficChartMetricLabels[chartMetric]}
       </DashboardTrafficChart>
       <div className="mt-4 grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
-        <PagesCard pages={data.pages} className="shadow" />
-        <SourcesCard sources={data.sources} className="shadow" />
+        <PagesCard pages={data.pages} />
+        <SourcesCard sources={data.sources} />
       </div>
       <div className="mt-4 grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
-        <LocationsCard locations={data.locations} className="shadow" />
-        <DevicesCard devices={data.devices} className="shadow" />
-        <SearchKeywordsCard rows={data.searchKeywords} className="shadow" />
-        <EventsCard rows={data.events} className="shadow" />
+        <LocationsCard locations={data.locations} />
+        <DevicesCard devices={data.devices} />
+        <SearchKeywordsCard rows={data.searchKeywords} />
+        <EventsCard rows={data.events} />
       </div>
     </div>
   );
