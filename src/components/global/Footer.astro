@@ -1,8 +1,8 @@
 ---
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import Text from "@/components/foundations/elements/Text.astro";
-import FooterLogoReveal from "@/components/global/footer-logo-reveal";
 import { buttonVariants } from "@/components/ui/button";
+import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
 import { cn } from "@/lib/utils";
 
 type FooterLink = {
@@ -58,7 +58,7 @@ const footerLinkGroups: FooterLinkGroup[] = [
 ];
 ---
 
-<footer class="overflow-x-clip pt-20">
+<footer class="overflow-x-clip pt-20 pb-8">
   <Wrapper variant="default">
     <div class="mx-auto max-w-4xl">
       <div class="max-w-md text-balance lg:mx-auto lg:text-center">
@@ -90,7 +90,7 @@ const footerLinkGroups: FooterLinkGroup[] = [
             "lg:ml-auto w-fit mt-8 mx-auto",
           )}
         >
-          Start a free trial
+          Start a {pricingTrialDays}-day trial
         </a>
       </div>
 
@@ -134,10 +134,6 @@ const footerLinkGroups: FooterLinkGroup[] = [
       </div>
     </div>
   </Wrapper>
-  <FooterLogoReveal
-    client:load
-    className="relative left-1/2 mt-24 flex w-screen -translate-x-1/2 justify-center overflow-hidden leading-none"
-  />
   <script is:inline>
     const setupTimes = document.querySelectorAll("[data-setup-time]");
     const setupTime = new Date(Date.now() + 5 * 60 * 1000);

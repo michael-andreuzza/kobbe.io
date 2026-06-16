@@ -14,9 +14,9 @@ Plans and limits can change over time. The billing page in the app is the source
 
 Kobbe currently offers event tiers from **100,000 monthly events** up to **25,000,000 monthly events**. Every paid tier includes the same product features; the tier mainly changes monthly event allowance and billing amount.
 
-Yearly billing gives one month free at every tier. For traffic above the published tiers, contact support so we can help with a higher-volume plan.
+Yearly billing gives one month free at every tier. Need more than 25 million monthly events? Email support and we can help you pick the right setup.
 
-You can manage billing from the app's billing settings. Checkout and subscription management are handled by the billing provider, and the app billing page is the source of truth for the workspace's active tier.
+Checkout, subscriptions, receipts, and billing management run through **Polar** from the app's billing settings. The app billing page is the source of truth for your workspace's active tier.
 
 ## Monthly event caps
 

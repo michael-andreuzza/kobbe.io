@@ -28,7 +28,7 @@ type CapabilityCardProps = {
 
 export function DashboardCapabilityGrid() {
   return (
-    <div className="relative mt-8 grid items-end gap-x-8 gap-y-24 md:grid-cols-2 lg:grid-cols-2">
+    <div className="relative grid items-end gap-x-12 gap-y-24 md:grid-cols-2 lg:grid-cols-3">
       <style>{`
         @keyframes kobbeCapabilityBarRise {
           from {
@@ -210,11 +210,7 @@ function TrafficOverviewPreview() {
       value: data.kpi.views.display,
       hint: formatDelta(data.kpi.views.deltaPct),
     },
-    {
-      label: "Session time",
-      value: data.kpi.sessionTime.display,
-      hint: formatDelta(data.kpi.sessionTime.deltaPct),
-    },
+    
   ];
 
   return (
@@ -264,7 +260,7 @@ function TrafficKpiTile(props: {
 
 function CapabilityCard(props: CapabilityCardProps) {
   return (
-    <div className="group flex min-w-0 flex-col overflow-visible">
+    <div className="group flex min-w-0 flex-col overflow-visible h-full justify-start gap-4">
       <AnimatedPanelReveal trigger="scroll" mask={false}>
         <div className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none">
           {props.unframed ? (
@@ -283,7 +279,7 @@ function CapabilityCard(props: CapabilityCardProps) {
           )}
         </div>
       </AnimatedPanelReveal>
-      <p className="text-foreground mt-5 text-base font-medium text-pretty">
+      <p className="text-foreground  text-base font-medium text-pretty order-first">
         {props.title}.
         <span className="text-muted-foreground"> {props.description}</span>
       </p>

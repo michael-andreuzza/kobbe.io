@@ -1,12 +1,19 @@
 ---
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import DashboardCapabilityGrid from "@/components/landing/dashboard/dashboard-capability-grid";
+import SectionIntro from "@/components/landing/SectionIntro.astro";
 ---
 
 <section class="pt-8">
-  <Wrapper
-    class="py-20"
-  >
-    <div class="mx-auto max-w-4xl"><DashboardCapabilityGrid client:load /></div>
+  <Wrapper class="py-20">
+    <div class="mx-auto max-w-4xl">
+      <SectionIntro
+        title="Clear numbers. Private by default."
+        description="Cookieless, privacy-first analytics with GDPR-friendly defaults — so you get useful traffic insights without invasive tracking."
+      />
+    </div>
+    <div class="mt-12">
+      <DashboardCapabilityGrid client:load />
+    </div>
   </Wrapper>
 </section>

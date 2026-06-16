@@ -30,9 +30,89 @@ export const pricingTiers = [
   yearly: number;
 }>;
 
+export const pricingTrialDays = 15;
+
 export const defaultPricingTierIndex = 0;
 
 export const popularPricingTierIndices = [0, 2, 3] as const;
+
+export const pricingPlanCards = [
+  {
+    id: "starter",
+    name: "Starter",
+    tagline: "Solo sites and side projects.",
+    tierKey: "events_100k",
+    popular: false,
+    features: [
+      "Up to 100k monthly events",
+      "All analytics and reporting features",
+      "Cookieless tracking by default",
+      "Dashboards, exports, and share links",
+    ],
+  },
+  {
+    id: "growth",
+    name: "Growth",
+    tagline: "Steady traffic and small teams.",
+    tierKey: "events_500k",
+    popular: true,
+    features: [
+      "Up to 500k monthly events",
+      "Everything in Starter",
+      "Alerts and monthly reports",
+      "Team access and agent integrations",
+    ],
+  },
+  {
+    id: "scale",
+    name: "Scale",
+    tagline: "Agencies and high-traffic products.",
+    tierKey: "events_2m",
+    popular: false,
+    features: [
+      "Up to 2M monthly events",
+      "Everything in Growth",
+      "50 sites per workspace",
+      "Higher-volume headroom",
+    ],
+  },
+] as const satisfies ReadonlyArray<{
+  id: string;
+  name: string;
+  tagline: string;
+  tierKey: PricingTierKey;
+  popular: boolean;
+  features: readonly string[];
+}>;
+
+export function getPricingTierByKey(tierKey: PricingTierKey) {
+  const tier = pricingTiers.find((entry) => entry.key === tierKey);
+  if (!tier) {
+    throw new Error(`Unknown pricing tier: ${tierKey}`);
+  }
+  return tier;
+}
+
+export function formatTierPrice(
+  tier: (typeof pricingTiers)[number],
+  period: BillingPeriod,
+) {
+  const amount = period === "monthly" ? tier.monthly : tier.yearly;
+  const suffix = period === "monthly" ? "month" : "year";
+  return `$${formatPricingCurrency(amount)}/${suffix}`;
+}
+
+export function formatTierPriceAmount(
+  tier: (typeof pricingTiers)[number],
+  period: BillingPeriod,
+) {
+  const amount = period === "monthly" ? tier.monthly : tier.yearly;
+  return `$${formatPricingCurrency(amount)}`;
+}
+
+export function formatTierPricePeriod(period: BillingPeriod) {
+  return period === "monthly" ? "/ month" : "/ year";
+}
 
 export function formatPricingCurrency(amount: number) {
   return new Intl.NumberFormat("en-US").format(amount);

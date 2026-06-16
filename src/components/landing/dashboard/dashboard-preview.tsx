@@ -62,7 +62,7 @@ export function DashboardPreview() {
   };
 
   return (
-    <div className="relative mx-auto max-w-4xl min-w-0">
+    <div className="relative min-w-0">
       <DashboardKpiStrip
         showComparison={data.kpi.showComparison}
         visitors={data.kpi.visitors}

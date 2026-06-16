@@ -1,16 +1,7 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useIdlePulse } from "@/components/landing/use-idle-pulse";
 import { cn } from "@/lib/utils";
-import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
-import { DashboardTabbedCardHeaderContent } from "../dashboard-breakdown-card";
-import {
-  dashboardCardContentTableClass,
-  dashboardCardHeaderClass,
-  dashboardCardRootClass,
-  dashboardTabbedCardHeaderClass,
-} from "../dashboard-card-layout";
 import {
   DashboardMetricStrip,
   DashboardMetricTile,
@@ -26,29 +17,19 @@ export type CampaignsPreviewData = {
     visitors: number;
     views: number;
     conversions: number;
-    orders: number;
-    revenue: string;
   };
-  rows: (DashboardPreviewRangeData["campaigns"]["rows"][number] & {
+  rows: {
+    name: string;
+    source: string;
+    medium: string;
+    visitors: number;
     views?: number;
-    orders?: number;
-    revenue?: string;
-  })[];
-};
-
-type CampaignTableRow = {
-  label: string;
-  detail?: string;
-  visitors: number;
-  views: number;
-  conversions: number;
-  orders: number;
-  revenue: string;
+    conversions?: number;
+  }[];
 };
 
 export function CampaignsCard({ campaigns }: Props) {
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const [activeTab, setActiveTab] = useState(0);
   useIdlePulse(rootRef, {
     selector: "[data-dashboard-metric-tile]",
     interval: 6000,
@@ -63,35 +44,11 @@ export function CampaignsCard({ campaigns }: Props) {
       (sum, row) => sum + (row.views ?? row.visitors * 2),
       0,
     ),
-    conversions: campaigns.rows.reduce((sum, row) => sum + row.conversions, 0),
-    orders: campaigns.rows.reduce((sum, row) => sum + (row.orders ?? 0), 0),
-    revenue: "0",
+    conversions: campaigns.rows.reduce(
+      (sum, row) => sum + (row.conversions ?? 0),
+      0,
+    ),
   };
-  const tableRows: CampaignTableRow[] =
-    activeTab === 1
-      ? groupCampaignRows(campaigns.rows, "source")
-      : activeTab === 2
-        ? groupCampaignRows(campaigns.rows, "medium")
-        : activeTab === 3
-          ? groupSourceMediumRows(campaigns.rows)
-          : campaigns.rows.map((row) => ({
-              label: row.name,
-              detail: `${row.source} / ${row.medium}`,
-              visitors: row.visitors,
-              views: row.views ?? row.visitors * 2,
-              conversions: row.conversions,
-              orders: row.orders ?? 0,
-              revenue: row.revenue ?? "0",
-            }));
-  const label =
-    activeTab === 1
-      ? "Source"
-      : activeTab === 2
-        ? "Medium"
-        : activeTab === 3
-          ? "Source / medium"
-          : "Campaign";
-  const showActions = activeTab === 0;
 
   return (
     <div ref={rootRef} className="grid min-w-0 gap-4">
@@ -117,140 +74,8 @@ export function CampaignsCard({ campaigns }: Props) {
           hint="custom events"
         />
       </DashboardMetricStrip>
-
-      <Card className={`${dashboardCardRootClass} shadow`}>
-        <CardHeader
-          className={`${dashboardCardHeaderClass} ${dashboardTabbedCardHeaderClass}`}
-        >
-          <DashboardTabbedCardHeaderContent
-            title="Campaign performance"
-            tabs={{
-              label: "Campaign breakdown",
-              tabs: ["Campaigns", "Sources", "Mediums", "Source / medium"],
-              activeIndex: activeTab,
-              onActiveIndexChange: setActiveTab,
-            }}
-          />
-        </CardHeader>
-        <CardContent className={dashboardCardContentTableClass}>
-          <div
-            className={tableGridClass(
-              showActions,
-              "text-muted-foreground px-2 pb-2 text-[11px] font-medium sm:px-2.5",
-            )}
-          >
-            <span>{label}</span>
-            <span className="text-right">Visitors</span>
-            <span className="hidden text-right md:block">Views</span>
-            <span className="text-right">Conversions</span>
-            {showActions ? (
-              <span className="hidden text-right md:block">Actions</span>
-            ) : null}
-          </div>
-          <ul className="flex flex-col">
-            {tableRows.map((row) => {
-              return (
-                <li key={row.label} className="list-none">
-                  <div
-                    className={tableGridClass(
-                      showActions,
-                      "border-border/50 min-w-0 items-center border-t px-2 py-2 text-xs sm:px-2.5",
-                    )}
-                  >
-                    <span className="min-w-0">
-                      <span className="text-foreground block truncate font-medium">
-                        {row.label}
-                      </span>
-                      {row.detail ? (
-                        <span className="text-muted-foreground mt-0.5 block truncate text-[11px]">
-                          {row.detail}
-                        </span>
-                      ) : null}
-                    </span>
-                    <span className="text-muted-foreground text-right tabular-nums">
-                      {row.visitors.toLocaleString()}
-                    </span>
-                    <span className="text-muted-foreground hidden text-right tabular-nums md:block">
-                      {row.views.toLocaleString()}
-                    </span>
-                    <span className="text-muted-foreground text-right tabular-nums">
-                      {row.conversions.toLocaleString()}
-                    </span>
-                    {showActions ? (
-                      <span className="text-destructive hidden text-right text-[11px] font-medium md:block">
-                        Delete
-                      </span>
-                    ) : null}
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </CardContent>
-      </Card>
     </div>
   );
-}
-
-type CampaignPreviewRow = Props["campaigns"]["rows"][number];
-
-function groupCampaignRows(
-  rows: CampaignPreviewRow[],
-  key: "source" | "medium",
-): CampaignTableRow[] {
-  const grouped = new Map<string, CampaignTableRow>();
-
-  for (const row of rows) {
-    const label = row[key];
-    const existing = grouped.get(label) ?? {
-      label,
-      visitors: 0,
-      views: 0,
-      conversions: 0,
-      orders: 0,
-      revenue: "0",
-    };
-    existing.visitors += row.visitors;
-    existing.views += row.views ?? row.visitors * 2;
-    existing.conversions += row.conversions;
-    existing.orders += row.orders ?? 0;
-    grouped.set(label, existing);
-  }
-
-  return Array.from(grouped.values()).sort((a, b) => b.visitors - a.visitors);
-}
-
-function groupSourceMediumRows(rows: CampaignPreviewRow[]): CampaignTableRow[] {
-  const grouped = new Map<string, CampaignTableRow>();
-
-  for (const row of rows) {
-    const label = `${row.source} / ${row.medium}`;
-    const existing = grouped.get(label) ?? {
-      label,
-      visitors: 0,
-      views: 0,
-      conversions: 0,
-      orders: 0,
-      revenue: "0",
-    };
-    existing.visitors += row.visitors;
-    existing.views += row.views ?? row.visitors * 2;
-    existing.conversions += row.conversions;
-    existing.orders += row.orders ?? 0;
-    grouped.set(label, existing);
-  }
-
-  return Array.from(grouped.values()).sort((a, b) => b.visitors - a.visitors);
-}
-
-function tableGridClass(showActions: boolean, className: string) {
-  return [
-    "grid gap-2",
-    showActions
-      ? "grid-cols-[minmax(0,1fr)_4rem_5rem] md:grid-cols-[minmax(0,1.4fr)_4rem_4rem_5rem_4rem]"
-      : "grid-cols-[minmax(0,1fr)_4rem_5rem] md:grid-cols-[minmax(0,1.4fr)_4rem_4rem_5rem]",
-    className,
-  ].join(" ");
 }
 
 function CampaignMetric(props: {

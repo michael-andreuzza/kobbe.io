@@ -54,7 +54,7 @@ Yes. Yearly billing gives one month free at every paid tier, so the annual price
 
 ### Is there a free trial?
 
-New paid plans include a 7-day trial so you can set up tracking, review your reports, and confirm the plan fits your usage.
+New paid plans include a 15-day trial so you can set up tracking, review your reports, and confirm the plan fits your usage.
 
 ### I saw a Kobbe charge on my statement. What is it?
 
@@ -62,7 +62,7 @@ It is usually a Kobbe subscription charge for a workspace, trial conversion, or 
 
 ### What happens if I need more than 25 million monthly events?
 
-Contact support and we will help set up a higher-volume plan that fits your traffic and operational needs.
+Contact support@kobbe.io. Billing stays in Polar — we can help you choose the right published tier or discuss options if you are above the listed volumes.
 
 ## Setup and support
 
