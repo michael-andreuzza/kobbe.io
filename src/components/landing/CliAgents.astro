@@ -12,6 +12,7 @@ import opencodeLogo from "@/images/brands/opencode.svg";
 import rooCodeLogo from "@/images/brands/roo code.svg";
 import windsurfLogo from "@/images/brands/windsurf.svg";
 import zedLogo from "@/images/brands/zed.svg";
+import paintOne from "@/images/assets/paint-one.png";
 
 const codeEditors = [
   { name: "Cursor", logo: cursorLogo },
@@ -26,10 +27,8 @@ const codeEditors = [
 ---
 
 <section class="pt-8">
-  <Wrapper
-    class="py-20"
-  >
-    <div class="mx-auto max-w-4xl">
+  <Wrapper class="py-20">
+    <div class="max-w-4xl">
       <SectionIntro
         title="CLI access, with MCP built in."
         description="Install one CLI to inspect analytics from your terminal, then run the same package in MCP mode so compatible editors and agents can query Kobbe for you."
@@ -37,7 +36,7 @@ const codeEditors = [
       <div class="mt-8">
         <span class="sr-only">Works with MCP-compatible tools, including:</span>
         <div
-          class="flex w-fit flex-wrap items-center gap-x-4 gap-y-2 lg:mx-auto"
+          class="flex w-fit flex-wrap items-center gap-x-4 gap-y-2"
           aria-label="Supported code editors and agents"
         >
           {
@@ -55,7 +54,22 @@ const codeEditors = [
           }
         </div>
       </div>
-      <div class="group mt-8">
+    </div>
+    <div
+      class="group relative mt-8 overflow-hidden rounded-4xl px-4 py-12 sm:px-8 lg:p-20"
+    >
+      <Image
+        src={paintOne}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        height={2000}
+        width={2000}
+        class="absolute inset-0 size-full bg-cover object-cover"
+      />
+
+      <div class="relative z-10">
         <AnimatedPanelReveal
           client:load
           trigger="scroll"

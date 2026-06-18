@@ -3,6 +3,8 @@ import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
 import PerformanceDashboardPreview from "@/components/landing/dashboard/performance-dashboard-preview";
 import SectionIntro from "@/components/landing/SectionIntro.astro";
+import { Image } from "astro:assets";
+import paintOne from "@/images/assets/paint-one.png";
 
 type PerformancePreview = {
   metrics: {
@@ -32,16 +34,28 @@ const performancePreview: PerformancePreview = {
 ---
 
 <section class="pt-8">
-  <Wrapper
-    class="py-20"
-  >
-    <div class="mx-auto max-w-4xl">
+  <Wrapper class="py-20">
+    <div class="max-w-4xl">
       <SectionIntro
         title="Keep performance beside your traffic."
         description="Track Core Web Vitals with the same dashboard language: percentile trends, slow pages, and environment breakdowns."
       />
+    </div>
+    <div
+      class="group relative mt-8 h-200 overflow-hidden rounded-4xl px-4 py-12 sm:px-8 lg:p-20"
+    >
+      <Image
+        src={paintOne}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        height={2000}
+        width={2000}
+        class="absolute inset-0 size-full bg-cover object-cover"
+      />
 
-      <div class="group mt-8">
+      <div class="relative z-10">
         <AnimatedPanelReveal
           client:load
           trigger="scroll"

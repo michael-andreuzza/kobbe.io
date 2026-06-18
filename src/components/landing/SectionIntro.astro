@@ -16,10 +16,10 @@ interface Props {
 const { title, description, tag = "h2", id, headingColor, mode } = Astro.props;
 ---
 
-<div class="text-balance lg:mx-auto lg:max-w-150 lg:text-center 2xl:max-w-400">
+<div class="text-balance">
   {
     mode ? (
-      <div class="mb-3 flex justify-center lg:justify-center">
+      <div class="mb-3 flex">
         <TrackingModeBadge mode={mode} />
       </div>
     ) : null
@@ -28,7 +28,7 @@ const { title, description, tag = "h2", id, headingColor, mode } = Astro.props;
     id={id}
     tag={tag}
     variant="displayTitle"
-    class={cn("text-foreground font-display", headingColor)}
+    class={cn("text-foreground tracking-tight font-display", headingColor)}
   >
     {title}
   </Text>
