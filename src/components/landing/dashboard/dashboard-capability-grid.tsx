@@ -210,7 +210,6 @@ function TrafficOverviewPreview() {
       value: data.kpi.views.display,
       hint: formatDelta(data.kpi.views.deltaPct),
     },
-    
   ];
 
   return (
@@ -235,7 +234,7 @@ function TrafficKpiTile(props: {
   return (
     <DashboardMetricTile
       surface="muted"
-      className="aspect-square min-h-0 min-w-0 flex-1 p-2.5 sm:p-3"
+      className="outline-border aspect-square min-h-0 min-w-0 flex-1 p-2.5 outline sm:p-3"
     >
       <div className="flex h-full min-w-0 flex-col gap-1">
         <div className="flex w-full min-w-0 items-baseline justify-between gap-2">
@@ -260,7 +259,7 @@ function TrafficKpiTile(props: {
 
 function CapabilityCard(props: CapabilityCardProps) {
   return (
-    <div className="group flex min-w-0 flex-col overflow-visible h-full justify-start gap-4">
+    <div className="group flex h-full min-w-0 flex-col justify-start gap-4 overflow-visible">
       <AnimatedPanelReveal trigger="scroll" mask={false}>
         <div className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none">
           {props.unframed ? (
@@ -279,7 +278,7 @@ function CapabilityCard(props: CapabilityCardProps) {
           )}
         </div>
       </AnimatedPanelReveal>
-      <p className="text-foreground  text-base font-medium text-pretty order-first">
+      <p className="text-foreground order-first text-base font-medium text-pretty">
         {props.title}.
         <span className="text-muted-foreground"> {props.description}</span>
       </p>

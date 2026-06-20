@@ -43,7 +43,7 @@ export function BillingPeriodTabs({
     >
       <span
         aria-hidden="true"
-        className="bg-background pointer-events-none absolute top-0.5 bottom-0.5 rounded-sm shadow-xs transition-all duration-200 ease-out"
+        className="bg-muted pointer-events-none absolute top-0.5 bottom-0.5 rounded transition-all duration-200 ease-out"
         style={{
           left: `${sliderStyle.left}px`,
           width: `${sliderStyle.width}px`,
