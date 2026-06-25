@@ -155,9 +155,9 @@ function PricingVolumeTable({
         </p>
       </div>
 
-      <div className="mt-6 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] border-collapse text-left text-xs lg:mx-auto lg:max-w-2xl">
+      <div className="mt-6 grid min-w-0 grid-cols-1">
+        <div className="min-w-0 overflow-x-auto [contain:inline-size]">
+          <table className="w-full border-collapse text-left text-xs sm:min-w-[640px] lg:mx-auto lg:max-w-2xl">
             <thead>
               <tr className="border-border/70 border-b">
                 <th className="text-muted-foreground py-2 font-medium">
@@ -219,7 +219,7 @@ export function PricingSection({
   );
 
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("w-full min-w-0", className)}>
       <div className="flex justify-center">
         <BillingPeriodTabs period={period} onPeriodChange={setPeriod} />
       </div>

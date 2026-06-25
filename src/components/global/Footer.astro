@@ -60,13 +60,13 @@ const footerLinkGroups: FooterLinkGroup[] = [
 
 <footer class="overflow-x-clip pt-20 pb-8">
   <Wrapper variant="default">
-    <div >
+    <div class="bg-brand px-8 py-20">
       <div class="max-w-xl text-balance lg:mx-auto lg:text-center">
         <div class="lg:col-span-2">
           <Text
             tag="h2"
             variant="displayTitle"
-            class="text-foreground font-display text-balance"
+            class="text-background font-display text-balance"
           >
             Set up in 5 minutes. <br /> Back to marketing by <span
               data-setup-time>soon</span
@@ -75,7 +75,7 @@ const footerLinkGroups: FooterLinkGroup[] = [
           <Text
             tag="p"
             variant="displaySubtitle"
-            class="text-muted-foreground mt-1 font-medium text-balance"
+            class="text-muted mt-1 font-medium text-balance"
           >
             Privacy-friendly analytics for teams that want clear numbers without
             extra tracking work.
@@ -86,49 +86,99 @@ const footerLinkGroups: FooterLinkGroup[] = [
           href="/#pricing"
           data-kobbe-event="Footer CTA — start free trial"
           class={cn(
-            buttonVariants({ variant: "default", size: "sm" }),
+            buttonVariants({ variant: "secondary", size: "sm" }),
             "lg:ml-auto w-fit mt-8 mx-auto",
           )}
         >
           Start a {pricingTrialDays}-day trial
         </a>
       </div>
-
-      <div class="border-border/60 mt-8 w-full border-t pt-8">
-        <nav
-          class="grid grid-cols-2 gap-8 text-sm md:grid-cols-4 lg:col-start-3"
-        >
-          {
-            footerLinkGroups.map((group) => (
-              <div class="space-y-3">
-                <Text
-                  tag="p"
-                  variant="textXS"
-                  class="text-foreground font-semibold uppercase"
-                >
-                  {group.title}
-                </Text>
-                <ul class="space-y-1">
-                  {group.links.map((link) => (
-                    <li>
-                      <a
-                        href={link.href}
-                        target={link.target}
-                        rel={link.rel}
-                        class="text-muted-foreground hover:text-foreground text-xs font-medium transition-colors"
-                      >
-                        {link.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))
-          }
-        </nav>
-        <p
-          class="text-foreground border-border mt-4 border-t pt-4 text-center text-xs font-semibold uppercase"
-        >
+    </div>
+    <div class="mt-24 w-full">
+      <nav class="grid grid-cols-2 gap-8 text-sm md:grid-cols-4 lg:col-start-3">
+        {
+          footerLinkGroups.map((group) => (
+            <div class="space-y-3">
+              <Text
+                tag="p"
+                variant="textXS"
+                class="text-foreground font-semibold uppercase"
+              >
+                {group.title}
+              </Text>
+              <ul class="space-y-1">
+                {group.links.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      target={link.target}
+                      rel={link.rel}
+                      class="text-muted-foreground hover:text-foreground text-xs font-medium transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </nav>
+      <div
+        class="border-border mt-4 flex flex-wrap items-center justify-between gap-2 border-t pt-4 text-xs font-semibold uppercase "
+      >
+        <div class="text-muted-foreground flex items-center gap-2">
+          <svg
+            class="h-6"
+            viewBox="0 0 124 155"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <g clip-path="url(#aland-flag-clip)">
+              <path
+                d="M122.729 15.9559L63.4249 0L0.113977 15.9559C0.113977 31.38 -1.48882 63.8238 7.32662 97.3313C16.1421 130.839 47.1297 146.529 63.4249 154.773C95.4811 138.817 109.426 116.478 117.119 97.3313C124.812 78.1841 123.797 35.1031 122.729 15.9559Z"
+                fill="#0454A5"></path>
+              <mask
+                id="aland-flag-mask"
+                style="mask-type:alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="124"
+                height="155"
+              >
+                <path
+                  d="M122.729 15.9559L63.4249 0L0.113977 15.9559C0.113977 31.38 -1.48882 63.8238 7.32662 97.3313C16.1421 130.839 47.1297 146.529 63.4249 154.773C95.4811 138.817 109.426 116.478 117.119 97.3313C124.812 78.1841 123.797 35.1031 122.729 15.9559Z"
+                  fill="white"></path>
+              </mask>
+              <g mask="url(#aland-flag-mask)">
+                <rect
+                  x="0.264282"
+                  y="77"
+                  width="32"
+                  height="123"
+                  transform="rotate(-90 0.264282 77)"
+                  fill="#FECE0A"></rect>
+                <rect x="25.2643" width="32" height="155" fill="#FECE0A"></rect>
+                <rect x="33" width="16" height="155" fill="#DD1823"></rect>
+                <rect
+                  y="69"
+                  width="16"
+                  height="123"
+                  transform="rotate(-90 0 69)"
+                  fill="#DD1823"></rect>
+              </g>
+            </g>
+            <defs>
+              <clipPath id="aland-flag-clip">
+                <rect width="123.46" height="154.773" fill="white"></rect>
+              </clipPath>
+            </defs>
+          </svg>
+          <span>Made in the Åland Islands</span>
+        </div>
+        <p class="text-foreground">
           &copy; {new Date().getFullYear()} Kobbe. All rights reserved.
         </p>
       </div>

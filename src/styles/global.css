@@ -45,3 +45,6 @@
   scrollbar-width: thin;
   scrollbar-color: gray transparent;
 }
+* {
+  outline: 1px solid red;
+}
