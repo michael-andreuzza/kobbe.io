@@ -1,8 +1,11 @@
 ---
+import { getImage } from "astro:assets";
+
 import { PricingSection } from "@/components/sections/pricing/pricing-section";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import SectionIntro from "@/components/landing/SectionIntro.astro";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
+import paintOne from "@/images/assets/paint-one.png";
 
 interface Props {
   headingTag?: "h1" | "h2";
@@ -10,11 +13,17 @@ interface Props {
 
 const appBaseUrl = "https://app.kobbe.io";
 const { headingTag = "h2" } = Astro.props;
+
+const paintBackground = await getImage({
+  src: paintOne,
+  width: paintOne.width,
+  quality: 85,
+});
 ---
 
 <section id="pricing" aria-labelledby="pricing-heading" class="pt-8">
   <Wrapper variant="default" class="py-20">
-    <div class="mx-auto min-w-0 max-w-6xl">
+    <div class="mx-auto min-w-0">
       <div class="mx-auto max-w-2xl text-center">
         <SectionIntro
           id="pricing-heading"
@@ -25,7 +34,13 @@ const { headingTag = "h2" } = Astro.props;
       </div>
 
       <div class="mt-10 min-w-0">
-        <PricingSection client:load appBaseUrl={appBaseUrl} />
+        <PricingSection
+          client:load
+          appBaseUrl={appBaseUrl}
+          paintSrc={paintBackground.src}
+          paintWidth={paintOne.width}
+          paintHeight={paintOne.height}
+        />
       </div>
     </div>
   </Wrapper>

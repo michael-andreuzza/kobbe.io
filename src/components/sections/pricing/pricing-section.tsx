@@ -37,13 +37,13 @@ function PricingFeatureMark() {
     >
       <path
         d="M295.5 246.25V0H246.25V246.25H0V295.5H246.25V541.75H295.5V295.5H541.75V246.25H295.5Z"
-        className="fill-background/70"
+        className="fill-muted-foreground/80"
       />
       <rect
         width="63"
         height="63"
         transform="translate(239.875 239.875)"
-        className="fill-foreground"
+        className="fill-background"
       />
     </svg>
   );
@@ -71,48 +71,46 @@ function PricingTierPanel({
   period: BillingPeriod;
 }) {
   return (
-    <article className="bg-foreground text-background relative flex h-full w-full flex-col justify-between p-8">
+    <article className="bg-background text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] p-8">
       {popular ? (
-        <span className="text-background/70 absolute top-4 right-4 text-[10px] font-semibold tracking-wide uppercase">
+        <span className="text-muted-foreground absolute top-4 right-4 text-[10px] font-semibold tracking-wide uppercase">
           Popular
         </span>
       ) : null}
       <div>
-        <h3 className="text-background font-display text-2xl font-medium tracking-tight italic sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-4xl">
+        <h3 className="text-foreground font-display text-2xl font-medium tracking-tight italic sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-4xl">
           {name}
         </h3>
-        <p className="text-background/70 mt-1 text-base font-medium">
+        <p className="text-muted-foreground mt-1 text-base font-medium">
           {tagline}
         </p>
 
         <div className="mt-8 flex flex-wrap gap-x-6 gap-y-1 lg:items-center">
-          <p className="text-background font-display text-4xl tracking-tighter italic sm:text-4xl md:text-5xl lg:text-6xl">
+          <p className="text-foreground font-display text-4xl tracking-tighter italic sm:text-4xl md:text-5xl lg:text-6xl">
             {priceAmount}
           </p>
           <div>
-            <p className="text-background flex items-center gap-1 text-sm font-medium tracking-tight lg:text-sm">
+            <p className="text-foreground flex items-center gap-1 text-sm font-medium tracking-tight lg:text-sm">
               {pricePeriod}
             </p>
-            <p className="text-background/70 text-sm lg:text-sm">
+            <p className="text-muted-foreground text-sm lg:text-sm">
               + applicable taxes
             </p>
           </div>
         </div>
-
-        <ul
-          className="text-background mt-12 list-none gap-1 space-y-1 font-medium 2xl:space-y-2"
-          role="list"
-        >
-          {features.map((feature) => (
-            <li key={feature} className="relative">
-              <div className="flex items-start gap-2">
-                <PricingFeatureMark />
-                <p className="text-base tracking-tight">{feature}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
       </div>
+
+      <ul
+        className="text-foreground mt-12 list-none space-y-1 self-start font-medium 2xl:space-y-2"
+        role="list"
+      >
+        {features.map((feature) => (
+          <li key={feature} className="flex items-start gap-2">
+            <PricingFeatureMark />
+            <p className="text-base tracking-tight">{feature}</p>
+          </li>
+        ))}
+      </ul>
 
       <div className="mt-8">
         <a
@@ -120,7 +118,7 @@ function PricingTierPanel({
           data-kobbe-event={`Pricing — ${name} ${period}`}
           className={cn(
             buttonVariants({
-              variant: popular ? "brand" : "secondaryDark",
+              variant: popular ? "brand" : "default",
               size: "sm",
             }),
             "w-full justify-center",
@@ -128,10 +126,11 @@ function PricingTierPanel({
         >
           {ctaLabel}
         </a>
-        <p className="text-background/70 mt-2 text-center text-xs">
-          {pricingTrialDays}-day trial · no card required
-        </p>
       </div>
+
+      <p className="text-muted-foreground mt-2 text-center text-xs">
+        {pricingTrialDays}-day trial · no card required
+      </p>
     </article>
   );
 }
@@ -206,9 +205,15 @@ function PricingVolumeTable({
 
 export function PricingSection({
   appBaseUrl = "https://app.kobbe.io",
+  paintSrc,
+  paintWidth,
+  paintHeight,
   className,
 }: {
   appBaseUrl?: string;
+  paintSrc: string;
+  paintWidth: number;
+  paintHeight: number;
   className?: string;
 }) {
   const [period, setPeriod] = useState<BillingPeriod>("monthly");
@@ -224,25 +229,44 @@ export function PricingSection({
         <BillingPeriodTabs period={period} onPeriodChange={setPeriod} />
       </div>
 
-      <div className="mt-8 grid grid-cols-1 gap-x-4 gap-y-8 lg:grid-cols-3">
-        {pricingPlanCards.map((plan) => {
-          const tier = getPricingTierByKey(plan.tierKey);
+      <div className="relative mt-10 overflow-hidden px-4 py-12 sm:px-8 lg:p-12">
+        <img
+          src={paintSrc}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          width={paintWidth}
+          height={paintHeight}
+          className="absolute inset-0 size-full bg-cover object-cover"
+        />
 
-          return (
-            <PricingTierPanel
-              key={plan.id}
-              name={plan.name}
-              tagline={plan.tagline}
-              priceAmount={formatTierPriceAmount(tier, period)}
-              pricePeriod={formatTierPricePeriod(period)}
-              popular={plan.popular}
-              features={plan.features}
-              checkoutHref={buildSignupHref(appBaseUrl, plan.tierKey, period)}
-              ctaLabel={trialCtaLabel}
-              period={period}
-            />
-          );
-        })}
+        <div className="relative z-10">
+          <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-3">
+            {pricingPlanCards.map((plan) => {
+              const tier = getPricingTierByKey(plan.tierKey);
+
+              return (
+                <PricingTierPanel
+                  key={plan.id}
+                  name={plan.name}
+                  tagline={plan.tagline}
+                  priceAmount={formatTierPriceAmount(tier, period)}
+                  pricePeriod={formatTierPricePeriod(period)}
+                  popular={plan.popular}
+                  features={plan.features}
+                  checkoutHref={buildSignupHref(
+                    appBaseUrl,
+                    plan.tierKey,
+                    period,
+                  )}
+                  ctaLabel={trialCtaLabel}
+                  period={period}
+                />
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       <PricingVolumeTable appBaseUrl={appBaseUrl} period={period} />

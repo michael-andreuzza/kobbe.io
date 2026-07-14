@@ -4,6 +4,8 @@ import Text from "@/components/foundations/elements/Text.astro";
 import { buttonVariants } from "@/components/ui/button";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
 import { cn } from "@/lib/utils";
+import { Image } from "astro:assets";
+import paintOne from "@/images/assets/paint-one.png";
 
 type FooterLink = {
   href: string;
@@ -60,13 +62,26 @@ const footerLinkGroups: FooterLinkGroup[] = [
 
 <footer class="overflow-x-clip pt-20 pb-8">
   <Wrapper variant="default">
-    <div class="bg-brand px-8 py-20">
-      <div class="max-w-xl text-balance lg:mx-auto lg:text-center">
-        <div class="lg:col-span-2">
+    <div class="relative overflow-hidden px-4 py-12 sm:px-8 lg:p-12">
+      <Image
+        src={paintOne}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        height={2000}
+        width={2000}
+        class="absolute inset-0 size-full bg-cover object-cover"
+      />
+
+      <div class="relative z-10 mx-auto">
+        <div
+          class="bg-background text-foreground p-8 text-balance lg:py-20 lg:text-center"
+        >
           <Text
             tag="h2"
             variant="displayTitle"
-            class="text-background font-display text-balance"
+            class="text-foreground font-display text-balance"
           >
             Set up in 5 minutes. <br /> Back to marketing by <span
               data-setup-time>soon</span
@@ -75,23 +90,23 @@ const footerLinkGroups: FooterLinkGroup[] = [
           <Text
             tag="p"
             variant="displaySubtitle"
-            class="text-muted mt-1 font-medium text-balance"
+            class="text-muted-foreground mt-1 font-medium text-balance"
           >
             Privacy-friendly analytics for teams that want clear numbers without
             extra tracking work.
           </Text>
-        </div>
 
-        <a
-          href="/#pricing"
-          data-kobbe-event="Footer CTA — start free trial"
-          class={cn(
-            buttonVariants({ variant: "secondary", size: "sm" }),
-            "lg:ml-auto w-fit mt-8 mx-auto",
-          )}
-        >
-          Start a {pricingTrialDays}-day trial
-        </a>
+          <a
+            href="/#pricing"
+            data-kobbe-event="Footer CTA — start free trial"
+            class={cn(
+              buttonVariants({ variant: "default", size: "sm" }),
+              "mx-auto mt-8 w-fit",
+            )}
+          >
+            Start a {pricingTrialDays}-day trial
+          </a>
+        </div>
       </div>
     </div>
     <div class="mt-24 w-full">
@@ -125,7 +140,7 @@ const footerLinkGroups: FooterLinkGroup[] = [
         }
       </nav>
       <div
-        class="border-border mt-4 flex flex-wrap items-center justify-between gap-2 border-t pt-4 text-xs font-semibold uppercase "
+        class="border-border mt-4 flex flex-wrap items-center justify-between gap-2 border-t pt-4 text-xs font-semibold uppercase"
       >
         <div class="text-muted-foreground flex items-center gap-2">
           <svg
