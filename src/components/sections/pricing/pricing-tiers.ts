@@ -1,6 +1,7 @@
 export type BillingPeriod = "monthly" | "yearly";
 
 export type PricingTierKey =
+  | "events_100k"
   | "events_1m"
   | "events_3m"
   | "events_5m"
@@ -10,6 +11,7 @@ export type PricingTierKey =
   | "events_25m";
 
 export const pricingTiers = [
+  { key: "events_100k", events: "100K", monthly: 7.12, yearly: 47.88 },
   { key: "events_1m", events: "1M", monthly: 15.99, yearly: 107.88 },
   { key: "events_3m", events: "3M", monthly: 45.99, yearly: 311.88 },
   { key: "events_5m", events: "5M", monthly: 100.99, yearly: 683.88 },
@@ -28,46 +30,58 @@ export const pricingTrialDays = 15;
 
 export const defaultPricingTierIndex = 0;
 
-export const popularPricingTierIndices = [0, 1, 2] as const;
+export const popularPricingTierIndices = [1, 2, 3] as const;
 
 export const pricingPlanCards = [
   {
-    id: "starter",
-    name: "Starter",
-    tagline: "Solo sites and side projects.",
-    tierKey: "events_1m",
+    id: "hobby",
+    name: "Hobby",
+    tagline: "Low traffic across a few personal sites.",
+    tierKey: "events_100k",
     popular: false,
     features: [
+      "Up to 100K monthly events",
+      "Up to 3 websites",
+      "Funnels and custom events",
+      "Revenue attribution",
+      "AI and referrer traffic breakdown",
+      "Realtime visitors",
+      "Shared dashboard links",
+      "Bot filtering and traffic exclusions",
+    ],
+  },
+  {
+    id: "starter",
+    name: "Starter",
+    tagline: "Real traffic on one product or portfolio.",
+    tierKey: "events_1m",
+    popular: true,
+    features: [
       "Up to 1M monthly events",
-      "All analytics and reporting features",
-      "Cookieless tracking by default",
-      "Dashboards, exports, and share links",
+      "Up to 30 websites",
+      "Funnels and custom events",
+      "Revenue attribution",
+      "AI and referrer traffic breakdown",
+      "Web Vitals and performance",
+      "Team access and shared links",
+      "Bot filtering and traffic exclusions",
     ],
   },
   {
     id: "growth",
     name: "Growth",
-    tagline: "Steady traffic and small teams.",
+    tagline: "More traffic for busy sites and small teams.",
     tierKey: "events_3m",
-    popular: true,
-    features: [
-      "Up to 3M monthly events",
-      "Everything in Starter",
-      "Alerts and monthly reports",
-      "Team access and agent integrations",
-    ],
-  },
-  {
-    id: "scale",
-    name: "Scale",
-    tagline: "Agencies and high-traffic products.",
-    tierKey: "events_5m",
     popular: false,
     features: [
-      "Up to 5M monthly events",
-      "Everything in Growth",
-      "50 sites per workspace",
-      "Higher-volume headroom",
+      "Up to 3M monthly events",
+      "Up to 50 websites",
+      "Funnels and custom events",
+      "Revenue attribution",
+      "UTM campaign and channel reports",
+      "Traffic alerts and monthly reports",
+      "AI agent and CLI access",
+      "Data export and share links",
     ],
   },
 ] as const satisfies ReadonlyArray<{
@@ -115,17 +129,6 @@ export function formatTierPriceAmount(
 ) {
   const amount = getTierDisplayAmount(tier, period);
   return `$${formatPricingCurrency(amount)}`;
-}
-
-export function formatTierComparePriceAmount(
-  tier: (typeof pricingTiers)[number],
-  period: BillingPeriod,
-) {
-  if (period !== "yearly") {
-    return null;
-  }
-
-  return `$${formatPricingCurrency(tier.monthly)}`;
 }
 
 export function formatTierPricePeriod(_period: BillingPeriod) {

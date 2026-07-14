@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import {
   buildCheckoutReturnPath,
   formatTierBillingNote,
-  formatTierComparePriceAmount,
   formatTierPriceAmount,
   formatTierPricePeriod,
   getPricingTierByKey,
@@ -52,7 +51,6 @@ function PricingTierPanel({
   name,
   tagline,
   priceAmount,
-  comparePriceAmount,
   pricePeriod,
   billingNote,
   popular,
@@ -64,7 +62,6 @@ function PricingTierPanel({
   name: string;
   tagline: string;
   priceAmount: string;
-  comparePriceAmount: string | null;
   pricePeriod: string;
   billingNote: string;
   popular?: boolean;
@@ -75,35 +72,24 @@ function PricingTierPanel({
 }) {
   return (
     <article className="bg-background text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] p-8">
-      {popular ? (
-        <span className="text-muted-foreground absolute top-4 right-4 text-[10px] font-semibold tracking-wide uppercase">
-          Popular
-        </span>
-      ) : null}
+     
       <div>
         <h3 className="text-foreground font-display text-2xl font-medium tracking-tight italic sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-4xl">
           {name}
         </h3>
-        <p className="text-muted-foreground mt-1 text-base font-medium">
+        <p className="text-muted-foreground mt-1 text-base font-medium text-balance">
           {tagline}
         </p>
 
-        <div className="mt-8 flex flex-wrap items-end gap-x-3 gap-y-1 lg:items-center">
-          <div className="flex flex-wrap items-end gap-x-3">
-            <p className="text-foreground font-display text-4xl tracking-tighter italic sm:text-4xl md:text-5xl lg:text-6xl">
-              {priceAmount}
-            </p>
-            {comparePriceAmount ? (
-              <p className="text-muted-foreground font-display text-xl tracking-tighter italic line-through sm:text-2xl md:text-3xl">
-                {comparePriceAmount}
-              </p>
-            ) : null}
-          </div>
+        <div className="mt-8  flex flex-row gap-x-3 gap-y-1 items-center">
+          <p className="text-foreground font-display text-4xl tracking-tighter italic ">
+            {priceAmount}
+          </p>
           <div>
             <p className="text-foreground flex items-center gap-1 text-sm font-medium tracking-tight lg:text-sm">
               {pricePeriod}
             </p>
-            <p className="text-muted-foreground text-sm lg:text-sm">
+            <p className="text-muted-foreground text-sm lg:text-xs">
               {billingNote}
             </p>
           </div>
@@ -111,7 +97,7 @@ function PricingTierPanel({
       </div>
 
       <ul
-        className="text-foreground mt-12 list-none space-y-1 self-start font-medium 2xl:space-y-2"
+        className="text-foreground mt-8 list-none space-y-1 self-start font-medium 2xl:space-y-2"
         role="list"
       >
         {features.map((feature) => (
@@ -158,7 +144,7 @@ export function PricingSection({
   paintHeight: number;
   className?: string;
 }) {
-  const [period, setPeriod] = useState<BillingPeriod>("monthly");
+  const [period, setPeriod] = useState<BillingPeriod>("yearly");
 
   const trialCtaLabel = useMemo(
     () => `Start ${pricingTrialDays}-day trial`,
@@ -194,10 +180,6 @@ export function PricingSection({
                   name={plan.name}
                   tagline={plan.tagline}
                   priceAmount={formatTierPriceAmount(tier, period)}
-                  comparePriceAmount={formatTierComparePriceAmount(
-                    tier,
-                    period,
-                  )}
                   pricePeriod={formatTierPricePeriod(period)}
                   billingNote={formatTierBillingNote(period)}
                   popular={plan.popular}
@@ -215,15 +197,16 @@ export function PricingSection({
           </div>
         </div>
       </div>
-        <p className="text-muted-foreground relative z-10 mt-8 text-center text-sm">
-          Need a different event volume?{" "}
-          <a
-            href="/docs/billing-and-usage-limits#all-event-volumes"
-            className="text-foreground font-medium underline underline-offset-4"
-          >
-            View all plans
-          </a>
-        </p>
+
+      <p className="text-muted-foreground relative z-10 mt-8 text-center text-sm">
+        Need a different event volume?{" "}
+        <a
+          href="/docs/billing-and-usage-limits#all-event-volumes"
+          className="text-foreground font-medium underline underline-offset-4"
+        >
+          View all plans
+        </a>
+      </p>
     </div>
   );
 }

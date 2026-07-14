@@ -21,7 +21,7 @@ export const pricingFaqItems = [
     id: "features",
     question: "Do all plans include the same features?",
     answer:
-      "Yes. Every paid tier includes the same product features. You only choose how many monthly events your workspace needs.",
+      "Yes. Every paid tier includes the same product features. You choose how many monthly events your workspace needs. Site limits vary by tier: Hobby supports up to 3 websites, Starter up to 30, and Growth and higher up to 50.",
   },
   {
     id: "trial",
