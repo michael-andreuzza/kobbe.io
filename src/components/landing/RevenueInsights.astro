@@ -8,6 +8,7 @@ import creemLogo from "@/images/brands/creem.svg";
 import paddleLogo from "@/images/brands/paddle.svg";
 import polarLogo from "@/images/brands/polar.svg";
 import stripeLogo from "@/images/brands/stripe.svg";
+import paintOne from "@/images/assets/background.svg";
 
 const revenueProviders = [
   { name: "Stripe", logo: stripeLogo },
@@ -34,9 +35,7 @@ const revenueInsightsPoints = [
 ---
 
 <section class="pt-8">
-  <Wrapper
-    class="py-20"
-  >
+  <Wrapper class="py-20">
     <div class="mx-auto max-w-4xl">
       <div class="max-w-lg lg:mx-auto lg:text-center">
         <SectionIntro
@@ -64,32 +63,39 @@ const revenueInsightsPoints = [
           }
         </div>
       </div>
+    </div>
+    <div class="group relative mt-8 overflow-hidden px-4 py-12 sm:px-8 lg:p-12">
+      <Image
+        src={paintOne}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        height={2000}
+        width={2000}
+        class="absolute inset-0 size-full bg-cover object-cover"
+      />
+      <AnimatedPanelReveal
+        client:load
+        trigger="scroll"
+        mask={false}
+        className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+      >
+        <RevenueInsightsPreview client:load />
+      </AnimatedPanelReveal>
+    </div>
 
-      <div class="group mt-8">
-        <AnimatedPanelReveal
-          client:load
-          trigger="scroll"
-          mask={false}
-          className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
-        >
-          <RevenueInsightsPreview client:load />
-        </AnimatedPanelReveal>
-      </div>
-
-      <div class="mt-8 grid gap-4 text-balance sm:grid-cols-3 lg:text-center">
-        {
-          revenueInsightsPoints.map((point) => (
-            <div data-kobbe-stagger>
-              <h3 class="text-foreground text-base font-medium">
-                {point.title}
-              </h3>
-              <p class="text-muted-foreground mt-1 text-sm font-medium">
-                {point.description}
-              </p>
-            </div>
-          ))
-        }
-      </div>
+    <div class="mt-8 grid gap-4 text-balance sm:grid-cols-3 lg:text-center">
+      {
+        revenueInsightsPoints.map((point) => (
+          <div data-kobbe-stagger>
+            <h3 class="text-foreground text-base font-medium">{point.title}</h3>
+            <p class="text-muted-foreground mt-1 text-sm font-medium">
+              {point.description}
+            </p>
+          </div>
+        ))
+      }
     </div>
   </Wrapper>
 </section>

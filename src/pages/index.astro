@@ -3,6 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Hero from "@/components/landing/Hero.astro";
 import HowItWorks from "@/components/landing/HowItWorks.astro";
 import DashboardCapabilities from "@/components/landing/DashboardCapabilities.astro";
+import RevenueInsights from "@/components/landing/RevenueInsights.astro";
 import FunnelInsights from "@/components/landing/FunnelInsights.astro";
 import UtmCampaigns from "@/components/landing/UtmCampaigns.astro";
 import PerformanceInsights from "@/components/landing/PerformanceInsights.astro";
@@ -24,11 +25,11 @@ const pricingJsonLd = [
     operatingSystem: "Web",
     url: "https://kobbe.io",
     description:
-      "Website analytics pricing from $15/month. Event-based plans with cookie-free tracking, privacy-friendly insights, and every feature included.",
+      "Website analytics pricing from $15.99/month with 1M monthly events. Event-based plans with cookie-free tracking, privacy-friendly insights, and every feature included.",
     offers: {
       "@type": "AggregateOffer",
-      lowPrice: "15",
-      highPrice: "470",
+      lowPrice: "8.99",
+      highPrice: "470.99",
       priceCurrency: "USD",
       offerCount: String(pricingTiers.length),
       url: "https://kobbe.io/#pricing",
@@ -41,12 +42,13 @@ const pricingJsonLd = [
 
 <BaseLayout
   title="Kobbe — Web analytics that respect your visitors"
-  description="Privacy-friendly, cookie-free website analytics for traffic, pages, referrers, locations, devices, and custom events."
+  description="Privacy-friendly, cookie-free website analytics for traffic, pages, referrers, locations, devices, custom events, and revenue insights."
   jsonLdExtra={pricingJsonLd}
 >
   <Hero />
   <DashboardCapabilities />
   <AllFeatures />
+  <RevenueInsights />
   <FunnelInsights />
   <UtmCampaigns />
   <PerformanceInsights />

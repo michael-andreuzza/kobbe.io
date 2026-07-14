@@ -4,8 +4,10 @@ import DocsPageNavigation from "@/components/docs/docs-page-navigation.astro";
 import DocsLayout from "@/layouts/DocsLayout.astro";
 import InstallationGuidesList from "@/components/docs/installation-guides-list.astro";
 import McpClientTabs from "@/components/docs/mcp-client-tabs.astro";
+import RevenueProvidersList from "@/components/docs/revenue-providers-list.astro";
 import DpaControls from "@/components/docs/dpa-controls.astro";
 import DpaSummary from "@/components/docs/dpa-summary.astro";
+import { PricingVolumeTable } from "@/components/sections/pricing/pricing-volume-table";
 import { NotificationCard } from "@/components/ui/notification-card";
 
 export async function getStaticPaths() {
@@ -25,6 +27,9 @@ const docs = (await getCollection("docs")).sort(
   (a, b) => a.data.order - b.data.order,
 );
 const installationGuides = docs.filter((doc) => doc.id.startsWith("install-"));
+const revenueProviders = docs.filter((doc) =>
+  doc.id.startsWith("revenue-attribution-"),
+);
 const { Content } = await render(entry);
 
 const topNotificationsById = {
@@ -63,9 +68,25 @@ const topNotificationsById = {
       body: "Only give danger:write to agents you fully trust. That scope can delete sites or reset analytics data.",
     },
   ],
+  "revenue-attribution": [
+    {
+      state: "warning",
+      title: "Review your privacy setup",
+      body: "Enable revenue attribution only after checking the privacy and consent rules that apply to your country, region, audience, and legal basis. Kobbe does not collect customer emails for attribution.",
+      linkHref: "/docs/privacy-and-cookieless-tracking",
+      linkLabel: "Privacy and cookieless tracking",
+    },
+  ],
 } as const;
 
 const bottomNotificationsById = {
+  "revenue-attribution": [
+    {
+      state: "warning",
+      title: "Review consent and privacy wording",
+      body: "For many sites this requires a privacy notice update and may require consent before loading the revenue attribution tracker option. Check the rules that apply to your country, region, audience, and payment flow before making absolute claims such as “no consent required.”",
+    },
+  ],
   "data-export": [
     {
       state: "warning",
@@ -133,6 +154,39 @@ const effectiveDateDefault = new Date().toISOString().slice(0, 10);
     )
   }
   {entry.id === "ai-agents" && <McpClientTabs />}
+  {
+    entry.id === "revenue-attribution" && (
+      <RevenueProvidersList providers={revenueProviders} />
+    )
+  }
+  {
+    entry.id === "billing-and-usage-limits" && (
+      <div id="all-event-volumes" class="not-prose mt-10 scroll-mt-24">
+        <PricingVolumeTable client:load />
+      </div>
+    )
+  }
+  {
+    entry.id === "billing-and-usage-limits" && (
+      <div class="prose mt-10">
+        <h2>Related docs</h2>
+        <ul>
+          <li>
+            <a href="/docs/reduce-usage">Reduce usage</a>
+          </li>
+          <li>
+            <a href="/docs/exclude-visits">Exclude visits</a>
+          </li>
+          <li>
+            <a href="/docs/script-options">Script options</a>
+          </li>
+          <li>
+            <a href="/docs/data-export">Data export</a>
+          </li>
+        </ul>
+      </div>
+    )
+  }
   {
     entry.id === "installation-guides" && (
       <InstallationGuidesList guides={installationGuides} />

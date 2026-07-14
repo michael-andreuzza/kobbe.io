@@ -14,7 +14,7 @@ export function BillingPeriodTabs({
   period,
   onPeriodChange,
   className,
-  yearlyLabel = "1 month free",
+  yearlyLabel = "Yearly -44%",
 }: BillingPeriodTabsProps) {
   const monthlyRef = useRef<HTMLButtonElement>(null);
   const yearlyRef = useRef<HTMLButtonElement>(null);

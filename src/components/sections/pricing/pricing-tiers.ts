@@ -1,11 +1,8 @@
 export type BillingPeriod = "monthly" | "yearly";
 
 export type PricingTierKey =
-  | "events_100k"
-  | "events_200k"
-  | "events_500k"
   | "events_1m"
-  | "events_2m"
+  | "events_3m"
   | "events_5m"
   | "events_10m"
   | "events_15m"
@@ -13,16 +10,13 @@ export type PricingTierKey =
   | "events_25m";
 
 export const pricingTiers = [
-  { key: "events_100k", events: "100k", monthly: 15, yearly: 165 },
-  { key: "events_200k", events: "200k", monthly: 25, yearly: 275 },
-  { key: "events_500k", events: "500k", monthly: 45, yearly: 495 },
-  { key: "events_1m", events: "1M", monthly: 60, yearly: 660 },
-  { key: "events_2m", events: "2M", monthly: 100, yearly: 1100 },
-  { key: "events_5m", events: "5M", monthly: 140, yearly: 1540 },
-  { key: "events_10m", events: "10M", monthly: 200, yearly: 2200 },
-  { key: "events_15m", events: "15M", monthly: 290, yearly: 3190 },
-  { key: "events_20m", events: "20M", monthly: 380, yearly: 4180 },
-  { key: "events_25m", events: "25M", monthly: 470, yearly: 5170 },
+  { key: "events_1m", events: "1M", monthly: 15.99, yearly: 107.88 },
+  { key: "events_3m", events: "3M", monthly: 45.99, yearly: 311.88 },
+  { key: "events_5m", events: "5M", monthly: 100.99, yearly: 683.88 },
+  { key: "events_10m", events: "10M", monthly: 200.99, yearly: 1367.88 },
+  { key: "events_15m", events: "15M", monthly: 290.99, yearly: 1979.88 },
+  { key: "events_20m", events: "20M", monthly: 380.99, yearly: 2591.88 },
+  { key: "events_25m", events: "25M", monthly: 470.99, yearly: 3203.88 },
 ] as const satisfies ReadonlyArray<{
   key: PricingTierKey;
   events: string;
@@ -34,17 +28,17 @@ export const pricingTrialDays = 15;
 
 export const defaultPricingTierIndex = 0;
 
-export const popularPricingTierIndices = [0, 2, 3] as const;
+export const popularPricingTierIndices = [0, 1, 2] as const;
 
 export const pricingPlanCards = [
   {
     id: "starter",
     name: "Starter",
     tagline: "Solo sites and side projects.",
-    tierKey: "events_100k",
+    tierKey: "events_1m",
     popular: false,
     features: [
-      "Up to 100k monthly events",
+      "Up to 1M monthly events",
       "All analytics and reporting features",
       "Cookieless tracking by default",
       "Dashboards, exports, and share links",
@@ -54,10 +48,10 @@ export const pricingPlanCards = [
     id: "growth",
     name: "Growth",
     tagline: "Steady traffic and small teams.",
-    tierKey: "events_500k",
+    tierKey: "events_3m",
     popular: true,
     features: [
-      "Up to 500k monthly events",
+      "Up to 3M monthly events",
       "Everything in Starter",
       "Alerts and monthly reports",
       "Team access and agent integrations",
@@ -67,10 +61,10 @@ export const pricingPlanCards = [
     id: "scale",
     name: "Scale",
     tagline: "Agencies and high-traffic products.",
-    tierKey: "events_2m",
+    tierKey: "events_5m",
     popular: false,
     features: [
-      "Up to 2M monthly events",
+      "Up to 5M monthly events",
       "Everything in Growth",
       "50 sites per workspace",
       "Higher-volume headroom",
@@ -93,29 +87,55 @@ export function getPricingTierByKey(tierKey: PricingTierKey) {
   return tier;
 }
 
+export function getTierDisplayAmount(
+  tier: (typeof pricingTiers)[number],
+  period: BillingPeriod,
+) {
+  return period === "monthly" ? tier.monthly : tier.yearly / 12;
+}
+
+export function formatPricingCurrency(amount: number) {
+  return new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: Number.isInteger(amount) ? 0 : 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
+}
+
 export function formatTierPrice(
   tier: (typeof pricingTiers)[number],
   period: BillingPeriod,
 ) {
-  const amount = period === "monthly" ? tier.monthly : tier.yearly;
-  const suffix = period === "monthly" ? "month" : "year";
-  return `$${formatPricingCurrency(amount)}/${suffix}`;
+  const amount = getTierDisplayAmount(tier, period);
+  return `$${formatPricingCurrency(amount)}/month`;
 }
 
 export function formatTierPriceAmount(
   tier: (typeof pricingTiers)[number],
   period: BillingPeriod,
 ) {
-  const amount = period === "monthly" ? tier.monthly : tier.yearly;
+  const amount = getTierDisplayAmount(tier, period);
   return `$${formatPricingCurrency(amount)}`;
 }
 
-export function formatTierPricePeriod(period: BillingPeriod) {
-  return period === "monthly" ? "/ month" : "/ year";
+export function formatTierComparePriceAmount(
+  tier: (typeof pricingTiers)[number],
+  period: BillingPeriod,
+) {
+  if (period !== "yearly") {
+    return null;
+  }
+
+  return `$${formatPricingCurrency(tier.monthly)}`;
 }
 
-export function formatPricingCurrency(amount: number) {
-  return new Intl.NumberFormat("en-US").format(amount);
+export function formatTierPricePeriod(_period: BillingPeriod) {
+  return "/ month";
+}
+
+export function formatTierBillingNote(period: BillingPeriod) {
+  return period === "monthly"
+    ? "Billed monthly. Cancel anytime."
+    : "Per month, billed yearly.";
 }
 
 export function formatIncludedEventsPhrase(events: string) {

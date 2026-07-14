@@ -1,5 +1,5 @@
 import {
-  FullscreenIcon,
+  FullScreenIcon,
   Globe02Icon,
   LinkSquare01Icon,
 } from "@hugeicons/core-free-icons";
@@ -33,7 +33,7 @@ export function CardExpandButton(props: {
       className="text-muted-foreground hover:bg-muted/60 hover:text-foreground inline-flex size-6 items-center justify-center rounded-md transition-colors"
     >
       <HugeiconsIcon
-        icon={FullscreenIcon}
+        icon={FullScreenIcon}
         className="size-3.5"
         strokeWidth={1.8}
         aria-hidden

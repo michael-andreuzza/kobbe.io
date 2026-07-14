@@ -5,17 +5,17 @@ import { buttonVariants } from "@/components/ui/button";
 import SectionIntro from "@/components/landing/SectionIntro.astro";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
 import { Image } from "astro:assets";
-import paintOne from "@/images/assets/paint-one.png";
+import paintOne from "@/images/assets/background.svg";
 ---
 
 <section>
   <Wrapper variant="default" class="pt-20 pb-20 lg:pt-28">
-    <div class="max-w-200">
+    <div class="mx-auto max-w-2xl text-center">
       <SectionIntro
         title="Privacy-friendly and cookie-less analytics for your website."
         description="Traffic, pages, sources, and funnels — private by default. Set up in seconds."
       />
-      <div class="mt-4 flex w-fit flex-wrap gap-2">
+      <div class="mx-auto mt-4 flex w-fit flex-wrap gap-2">
         <a
           href="#pricing"
           data-kobbe-event="Hero — start trial"

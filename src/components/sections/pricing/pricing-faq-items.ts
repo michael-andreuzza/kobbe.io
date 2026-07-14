@@ -9,7 +9,7 @@ export const pricingFaqItems = [
     id: "privacy",
     question: "Is Kobbe privacy-first?",
     answer:
-      "Yes. Kobbe defaults to cookieless, privacy-friendly tracking — no analytics cookies, no raw IP storage, and no persistent visitor profiles. You choose what to enable: keep the default for traffic insights, or turn on extended tracking when you need cross-domain journeys, Web Vitals, scroll visibility, and more.",
+      "Yes. Kobbe defaults to cookieless, privacy-friendly tracking — no analytics cookies, no raw IP storage, and no persistent visitor profiles. You choose what to enable: keep the default for traffic insights, or turn on extended tracking when you need revenue attribution, cross-domain journeys, Web Vitals, scroll visibility, and more.",
   },
   {
     id: "events",
@@ -33,7 +33,7 @@ export const pricingFaqItems = [
     id: "yearly",
     question: "Is yearly billing discounted?",
     answer:
-      "Yes. Yearly billing gives one month free at every tier, so you pay for eleven months instead of twelve.",
+      "Yes. Yearly billing saves about 44% compared to paying monthly at every tier.",
   },
   {
     id: "over-limit",

@@ -12,9 +12,11 @@ Plans and limits can change over time. The billing page in the app is the source
 
 ## Plans
 
-Kobbe currently offers event tiers from **100,000 monthly events** up to **25,000,000 monthly events**. Every paid tier includes the same product features; the tier mainly changes monthly event allowance and billing amount.
+Kobbe offers event tiers from **1,000,000 monthly events** up to **25,000,000 monthly events**. Every paid tier includes the same product features; the tier mainly changes monthly event allowance and billing amount.
 
-Yearly billing gives one month free at every tier. Need more than 25 million monthly events? Email support and we can help you pick the right setup.
+The homepage shows Starter, Growth, and Scale as common starting points. For the complete list of all event volumes and prices, see [All event volumes](#all-event-volumes) below.
+
+Yearly billing saves about **44%** compared to paying monthly at every tier. Need more than 25 million monthly events? Email support and we can help you pick the right setup.
 
 Checkout, subscriptions, receipts, and billing management run through **Polar** from the app's billing settings. The app billing page is the source of truth for your workspace's active tier.
 
@@ -51,10 +53,3 @@ If numbers look lower than expected, check:
 3. Browser opt-out via `localStorage.kobbe_ignore`.
 4. Token validity in the install snippet.
 5. Network responses from `/api/collect`.
-
-## Related docs
-
-- [Reduce usage](/docs/reduce-usage)
-- [Exclude visits](/docs/exclude-visits)
-- [Script options](/docs/script-options)
-- [Data export](/docs/data-export)

@@ -19,7 +19,7 @@ const { title, description, tag = "h2", id, headingColor, mode } = Astro.props;
 <div class="text-balance">
   {
     mode ? (
-      <div class="mb-3 flex">
+      <div class="mx-auto mb-8 flex w-fit">
         <TrackingModeBadge mode={mode} />
       </div>
     ) : null

@@ -5,13 +5,12 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
   buildCheckoutReturnPath,
-  formatTierLimitLabel,
-  formatTierPrice,
+  formatTierBillingNote,
+  formatTierComparePriceAmount,
   formatTierPriceAmount,
   formatTierPricePeriod,
   getPricingTierByKey,
   pricingPlanCards,
-  pricingTiers,
   pricingTrialDays,
   type BillingPeriod,
   type PricingTierKey,
@@ -53,7 +52,9 @@ function PricingTierPanel({
   name,
   tagline,
   priceAmount,
+  comparePriceAmount,
   pricePeriod,
+  billingNote,
   popular,
   features,
   checkoutHref,
@@ -63,7 +64,9 @@ function PricingTierPanel({
   name: string;
   tagline: string;
   priceAmount: string;
+  comparePriceAmount: string | null;
   pricePeriod: string;
+  billingNote: string;
   popular?: boolean;
   features: readonly string[];
   checkoutHref: string;
@@ -85,16 +88,23 @@ function PricingTierPanel({
           {tagline}
         </p>
 
-        <div className="mt-8 flex flex-wrap gap-x-6 gap-y-1 lg:items-center">
-          <p className="text-foreground font-display text-4xl tracking-tighter italic sm:text-4xl md:text-5xl lg:text-6xl">
-            {priceAmount}
-          </p>
+        <div className="mt-8 flex flex-wrap items-end gap-x-3 gap-y-1 lg:items-center">
+          <div className="flex flex-wrap items-end gap-x-3">
+            <p className="text-foreground font-display text-4xl tracking-tighter italic sm:text-4xl md:text-5xl lg:text-6xl">
+              {priceAmount}
+            </p>
+            {comparePriceAmount ? (
+              <p className="text-muted-foreground font-display text-xl tracking-tighter italic line-through sm:text-2xl md:text-3xl">
+                {comparePriceAmount}
+              </p>
+            ) : null}
+          </div>
           <div>
             <p className="text-foreground flex items-center gap-1 text-sm font-medium tracking-tight lg:text-sm">
               {pricePeriod}
             </p>
             <p className="text-muted-foreground text-sm lg:text-sm">
-              + applicable taxes
+              {billingNote}
             </p>
           </div>
         </div>
@@ -132,74 +142,6 @@ function PricingTierPanel({
         {pricingTrialDays}-day trial · no card required
       </p>
     </article>
-  );
-}
-
-function PricingVolumeTable({
-  appBaseUrl,
-  period,
-}: {
-  appBaseUrl: string;
-  period: BillingPeriod;
-}) {
-  return (
-    <div className="mt-16">
-      <div className="mx-auto max-w-xl text-center text-balance">
-        <h3 className="text-foreground font-display text-2xl sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-6xl">
-          All event volumes
-        </h3>
-        <p className="text-muted-foreground mt-2 text-base 2xl:text-lg">
-          Same features on every tier — choose the monthly event cap that fits.
-          Prices update with your billing period above.
-        </p>
-      </div>
-
-      <div className="mt-6 grid min-w-0 grid-cols-1">
-        <div className="min-w-0 overflow-x-auto [contain:inline-size]">
-          <table className="w-full border-collapse text-left text-xs sm:min-w-[640px] lg:mx-auto lg:max-w-2xl">
-            <thead>
-              <tr className="border-border/70 border-b">
-                <th className="text-muted-foreground py-2 font-medium">
-                  Monthly events
-                </th>
-                <th className="text-muted-foreground py-2 font-medium">
-                  {period === "monthly" ? "Monthly price" : "Yearly price"}
-                </th>
-                <th className="text-muted-foreground py-2 font-medium">
-                  <span className="sr-only">Start trial</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {pricingTiers.map((tier) => (
-                <tr
-                  key={tier.key}
-                  className="border-border border-b last:border-b-0"
-                >
-                  <td className="text-foreground py-2 font-medium">
-                    {formatTierLimitLabel(tier.events)}
-                  </td>
-                  <td className="text-foreground py-2 tabular-nums">
-                    {formatTierPrice(tier, period)}
-                  </td>
-                  <td className="py-2 text-right">
-                    <a
-                      href={buildSignupHref(appBaseUrl, tier.key, period)}
-                      data-kobbe-event={`Pricing table — ${tier.events} ${period}`}
-                      className={cn(
-                        buttonVariants({ variant: "default", size: "xs" }),
-                      )}
-                    >
-                      Start trial
-                    </a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -252,7 +194,12 @@ export function PricingSection({
                   name={plan.name}
                   tagline={plan.tagline}
                   priceAmount={formatTierPriceAmount(tier, period)}
+                  comparePriceAmount={formatTierComparePriceAmount(
+                    tier,
+                    period,
+                  )}
                   pricePeriod={formatTierPricePeriod(period)}
+                  billingNote={formatTierBillingNote(period)}
                   popular={plan.popular}
                   features={plan.features}
                   checkoutHref={buildSignupHref(
@@ -268,8 +215,15 @@ export function PricingSection({
           </div>
         </div>
       </div>
-
-      <PricingVolumeTable appBaseUrl={appBaseUrl} period={period} />
+        <p className="text-muted-foreground relative z-10 mt-8 text-center text-sm">
+          Need a different event volume?{" "}
+          <a
+            href="/docs/billing-and-usage-limits#all-event-volumes"
+            className="text-foreground font-medium underline underline-offset-4"
+          >
+            View all plans
+          </a>
+        </p>
     </div>
   );
 }
