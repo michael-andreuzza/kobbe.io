@@ -10,7 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 
 const tierColumnOrder: PricingComparisonTierId[] = [
-  "hobby",
+  "lite",
   "starter",
   "growth",
 ];
@@ -60,9 +60,9 @@ export function PricingComparisonTable({
       <div className="min-w-[768px] overflow-hidden">
         <table className="w-full text-sm">
           <caption className="sr-only">
-            Feature comparison across Hobby, Starter, and Growth plans
+            Feature comparison across Lite, Starter, and Growth plans
           </caption>
-          <thead className="font-display text-center text-xl tracking-wide uppercase">
+          <thead className="font-display text-center text-3xl tracking-wide italic">
             <tr>
               <th
                 scope="col"

@@ -34,8 +34,8 @@ export const popularPricingTierIndices = [1, 2, 3] as const;
 
 export const pricingPlanCards = [
   {
-    id: "hobby",
-    name: "Hobby",
+    id: "lite",
+    name: "Lite",
     tagline: "Core analytics for a few personal sites.",
     tierKey: "events_100k",
     popular: false,
@@ -58,7 +58,7 @@ export const pricingPlanCards = [
     tierKey: "events_1m",
     popular: true,
     features: [
-      "Everything in Hobby, plus:",
+      "Everything in Lite, plus:",
       "Up to 1M monthly events",
       "Up to 30 websites",
       "Revenue attribution",

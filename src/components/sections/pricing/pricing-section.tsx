@@ -82,7 +82,7 @@ function PricingTierPanel({
         </p>
 
         <div className="mt-4 flex flex-row items-center gap-x-3 gap-y-1">
-          <p className="text-foreground font-display text-4xl tracking-tighter italic">
+          <p className="text-foreground font-display text-4xl italic">
             {priceAmount}
           </p>
           <div>
@@ -123,7 +123,7 @@ function PricingTierPanel({
           className={cn(
             buttonVariants({
               variant: popular ? "brand" : "default",
-              size: "sm",
+              size: "lg",
             }),
             "w-full justify-center",
           )}
@@ -133,7 +133,7 @@ function PricingTierPanel({
       </div>
 
       <p className="text-muted-foreground mt-2 text-center text-xs">
-        {pricingTrialDays}-day trial · no card required
+        5 minutes setup · No card required
       </p>
     </article>
   );
@@ -155,7 +155,7 @@ export function PricingSection({
   const [period, setPeriod] = useState<BillingPeriod>("yearly");
 
   const trialCtaLabel = useMemo(
-    () => `Start ${pricingTrialDays}-day trial`,
+    () => `Start free for ${pricingTrialDays} days`,
     [],
   );
 
@@ -165,7 +165,7 @@ export function PricingSection({
         <BillingPeriodTabs period={period} onPeriodChange={setPeriod} />
       </div>
 
-      <div className="relative mt-10 overflow-hidden p-4 sm:p-8">
+      <div className="relative mt-10 overflow-hidden p-4 lg:p-8">
         <img
           src={paintSrc}
           alt=""
@@ -178,7 +178,7 @@ export function PricingSection({
         />
 
         <div className="relative z-10">
-          <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-3">
+          <div className="grid grid-cols-1 items-stretch gap-1 lg:grid-cols-3">
             {pricingPlanCards.map((plan) => {
               const tier = getPricingTierByKey(plan.tierKey);
 
