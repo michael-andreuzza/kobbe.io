@@ -26,7 +26,7 @@ Checkout, subscriptions, receipts, and billing management run through **Polar** 
 
 Event caps are enforced per workspace and reset monthly in UTC. When a workspace reaches its monthly cap, Kobbe stops ingesting additional analytics events for that workspace until the next reset or plan change.
 
-Use [traffic exclusions](/docs/exclude-visits) and [Reduce usage](/docs/reduce-usage) to avoid spending quota on internal traffic, staging sites, noisy paths, or traffic you do not need to analyze.
+Use [visit filters](/docs/exclude-visits) and [Reduce usage](/docs/reduce-usage) to avoid spending quota on internal traffic, staging sites, noisy paths, or traffic you do not need to analyze.
 
 ## Site limits
 
@@ -51,7 +51,7 @@ When usage is blocked by a cap or exclusion, Kobbe avoids storing the event. Bot
 If numbers look lower than expected, check:
 
 1. Your workspace billing status and usage.
-2. Traffic exclusions.
+2. Visit filters.
 3. Browser opt-out via `localStorage.kobbe_ignore`.
 4. Token validity in the install snippet.
 5. Network responses from `/api/collect`.

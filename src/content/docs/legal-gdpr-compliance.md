@@ -75,4 +75,4 @@ Customers that need a PDF copy for internal records can use the DPA page to gene
 - [Data Processing Addendum](/docs/legal-dpa)
 - [Terms of Service](/docs/legal-terms)
 - [Privacy and cookieless tracking](/docs/privacy-and-cookieless-tracking)
-- [Exclude visits](/docs/exclude-visits)
+- [Filter your visits](/docs/exclude-visits)

@@ -6,7 +6,7 @@ category: Manage
 navLabel: Reduce usage
 ---
 
-If event volume is high, cut noise with [traffic exclusions](/docs/exclude-visits) so unwanted hits never count toward quotas.
+If event volume is high, cut noise with [visit filters](/docs/exclude-visits) so unwanted hits never count toward quotas.
 
 ## Start with low-value traffic
 
@@ -44,7 +44,7 @@ These are useful when configured intentionally. Keep event names and marked sect
 
 ## Use exclusions
 
-Use [Exclude visits](/docs/exclude-visits) to configure:
+Use [Filter your visits](/docs/exclude-visits) to configure:
 
 - Path rules.
 - Hostname rules.
@@ -52,10 +52,10 @@ Use [Exclude visits](/docs/exclude-visits) to configure:
 - IP rules.
 - Browser-level ignore for your own device.
 
-Exclusions apply before events are stored or counted toward quotas.
+Visit filters apply before events are stored or counted toward quotas.
 
 ## Related
 
-- [Exclude visits](/docs/exclude-visits)
+- [Filter your visits](/docs/exclude-visits)
 - [Script options](/docs/script-options)
 - [Funnels](/docs/funnels)

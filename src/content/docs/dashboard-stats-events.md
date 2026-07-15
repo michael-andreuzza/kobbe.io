@@ -24,4 +24,5 @@ Do **not** put personal data in event names or properties. See [Custom events](/
 
 - [Dashboard overview](/docs/dashboard-overview)
 - [Custom events](/docs/custom-events)
+- [Conversions](/docs/conversions)
 - [Funnels](/docs/funnels)

@@ -1,14 +1,16 @@
 ---
-title: Exclude visits
-description: Ignore your own traffic and filter events by path, host, IP, or country.
+title: Filter your visits
+description: Ignore your own traffic and filter events by path, host, IP, or country before they count.
 order: 30
 category: Tracking
-navLabel: Exclude visits
+navLabel: Filter your visits
 ---
 
-Drop pageviews and custom events **before** they count toward quotas or appear in the dashboard. This is separate from [bot filtering](/docs/script-options#bot-filtering-and-exclusions)—bots are handled first; exclusions are rules you set per site.
+Drop pageviews and custom events **before** they count toward quotas or appear in the dashboard. This is separate from [bot filtering](/docs/script-options#bot-filtering-and-exclusions)—bots are handled first; visit filters are rules you set per site.
 
-Open **Traffic exclusions** for the site (`/websites/<site-id>/exclusions`), or **Exclusions** from the site sidebar. For volume tips, see [Reduce usage](/docs/reduce-usage).
+Open **Filter your visits** for the site (`/websites/<site-id>/exclusions`), or use **Filter your visits** from the site sidebar. For volume tips, see [Reduce usage](/docs/reduce-usage).
+
+Changes apply to new visits within about a minute. Past data cannot be retroactively filtered.
 
 ## Ignore your browser
 
@@ -26,6 +28,12 @@ delete localStorage.kobbe_ignore;
 
 The tracker checks this flag before any network request. It does not use cookies.
 
+## Add your current IP
+
+In **Filter your visits**, use **Add my current IP** to exclude traffic from the network you are on right now. This is helpful when you browse your own site during development or QA.
+
+The address is compared only when the event is collected and is not stored as part of the event row.
+
 ## Path rules
 
 | Rule                 | Matches                                                         |
@@ -39,11 +47,11 @@ Paths are matched against the same normalized path Kobbe stores for events: **pa
 
 Hostnames are compared in lowercase. You can enter `example.com` without `https://`; Kobbe normalizes full URLs to their hostname if you paste one. `example.com` and `www.example.com` match each other automatically, so you do not need to add both.
 
-Use hostname rules when you use a [custom collect endpoint](/docs/script-options) (proxy): the tracker sends the **page** hostname on the visitor’s site so exclusions still work.
+Use hostname rules when you use [first-party collect](/docs/first-party-collect) or a [custom collect endpoint](/docs/script-options): the tracker sends the **page** hostname on the visitor's site so filters still work.
 
 ## Country rules
 
-Use a two-letter ISO-3166 code (e.g. `us`, `de`). Kobbe uses the request’s country hint from the edge (same source as dashboard maps). Unknown or missing country will not match a country rule.
+Use a two-letter ISO-3166 code (e.g. `us`, `de`). Kobbe uses the request's country hint from the edge (same source as dashboard maps). Unknown or missing country will not match a country rule.
 
 ## IP rules
 

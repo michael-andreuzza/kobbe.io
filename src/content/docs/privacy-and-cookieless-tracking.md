@@ -22,7 +22,7 @@ The default Kobbe tracker collects pageviews and custom events without creating 
 
 ## Visitor opt-out
 
-Visitors can stop the tracker from sending events by setting `localStorage.kobbe_ignore = "true"` (see [Exclude visits](/docs/exclude-visits)). That flag is a **do-not-send preference**, not an analytics ID: it does not identify a person or join sessions across sites. Mention it in your privacy notice if you document how people can opt out.
+Visitors can stop the tracker from sending events by setting `localStorage.kobbe_ignore = "true"` (see [Filter your visits](/docs/exclude-visits)). That flag is a **do-not-send preference**, not an analytics ID: it does not identify a person or join sessions across sites. Mention it in your privacy notice if you document how people can opt out.
 
 To count same-day unique visitors, Kobbe computes a short-lived anonymous hash on the server from request metadata and a daily-rotating secret. The hash is not reversible, is scoped to the site, and is not shared across days as a long-term profile.
 
@@ -50,6 +50,6 @@ Avoid sending personal data in custom event names, event properties, or URLs. Ko
 
 - [Add the tracker](/docs/add-the-tracker)
 - [Script options](/docs/script-options)
-- [Exclude visits](/docs/exclude-visits)
+- [Filter your visits](/docs/exclude-visits)
 - [Performance and Web Vitals](/docs/performance-web-vitals)
 - [Cross-domain tracking](/docs/cross-domain-tracking)

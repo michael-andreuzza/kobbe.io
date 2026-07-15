@@ -29,6 +29,8 @@ Each step can be one of two types:
 
 Keep step names consistent. If your site sends a custom event called `Signup completed`, use that exact event name in the funnel step.
 
+From the site overview, you can open **Funnels** with `?event=` in the URL to pre-fill a step from a conversion or custom event name.
+
 ## Read a funnel
 
 The funnel chart shows how many visitors reached each step in order.
@@ -73,6 +75,12 @@ If your funnel crosses different root domains, use [Cross-domain tracking](/docs
 Do not send personal data in event names or event properties.
 
 Do not exclude pages or events that are part of a funnel. See [Reduce usage](/docs/reduce-usage) for safer ways to lower event volume.
+
+## Related docs
+
+- [Conversions](/docs/conversions)
+- [Custom events](/docs/custom-events)
+- [Scroll tracking](/docs/scroll-tracking)
 
 ## Privacy
 

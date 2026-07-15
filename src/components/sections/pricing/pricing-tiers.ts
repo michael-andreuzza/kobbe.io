@@ -42,12 +42,13 @@ export const pricingPlanCards = [
     features: [
       "Up to 100K monthly events",
       "Up to 3 websites",
-      "Funnels and custom events",
+      "Funnels, conversions, and custom events",
+      "First-party collect hostname",
       "Revenue attribution",
       "AI and referrer traffic breakdown",
       "Realtime visitors",
       "Shared dashboard links",
-      "Bot filtering and traffic exclusions",
+      "Bot filtering and visit filters",
     ],
   },
   {
@@ -59,12 +60,13 @@ export const pricingPlanCards = [
     features: [
       "Up to 1M monthly events",
       "Up to 30 websites",
-      "Funnels and custom events",
+      "Funnels, conversions, and custom events",
+      "First-party collect hostname",
       "Revenue attribution",
       "AI and referrer traffic breakdown",
       "Web Vitals and performance",
       "Team access and shared links",
-      "Bot filtering and traffic exclusions",
+      "Bot filtering and visit filters",
     ],
   },
   {
@@ -76,7 +78,8 @@ export const pricingPlanCards = [
     features: [
       "Up to 3M monthly events",
       "Up to 50 websites",
-      "Funnels and custom events",
+      "Funnels, conversions, and custom events",
+      "First-party collect hostname",
       "Revenue attribution",
       "UTM campaign and channel reports",
       "Traffic alerts and monthly reports",

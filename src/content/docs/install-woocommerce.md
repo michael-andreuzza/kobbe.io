@@ -37,4 +37,4 @@ Browse a product and cart; confirm events in Kobbe as you define them.
 ## Next steps
 
 - [WordPress](/docs/install-wordpress)
-- [Exclude visits](/docs/exclude-visits) for staging or admin
+- [Filter your visits](/docs/exclude-visits) for staging or admin

@@ -10,7 +10,7 @@ Use `data-*` attributes on the `<script>` tag to configure the tracker.
 
 The default `tracker.js` is lightweight and covers pageviews, custom events, custom endpoints, hash routes, UTM campaign capture, and debug logging. Advanced features such as cross-domain tracking, performance collection, and scroll tracking use `tracker.full.js`.
 
-**See also:** [Custom events](/docs/custom-events) · [Scroll tracking](/docs/scroll-tracking) · [Hash page paths](/docs/hash-page-paths) · [UTM campaigns](/docs/utm-campaigns) · [Subdomains](/docs/track-subdomains) · [Cross-domain tracking](/docs/cross-domain-tracking) · [Performance and Web Vitals](/docs/performance-web-vitals) · [Exclude visits](/docs/exclude-visits)
+**See also:** [Custom events](/docs/custom-events) · [Conversions](/docs/conversions) · [First-party collect](/docs/first-party-collect) · [Scroll tracking](/docs/scroll-tracking) · [Hash page paths](/docs/hash-page-paths) · [UTM campaigns](/docs/utm-campaigns) · [Subdomains](/docs/track-subdomains) · [Cross-domain tracking](/docs/cross-domain-tracking) · [Performance and Web Vitals](/docs/performance-web-vitals) · [Filter your visits](/docs/exclude-visits)
 
 ## Required
 
@@ -38,6 +38,8 @@ data-token="YOUR_SITE_TOKEN"
 
 Override the full collect API URL. By default, the tracker posts to `/api/collect` on the same origin as `tracker.js`.
 
+For a managed first-party hostname from Kobbe (`yoursite-collect.kobbe.io` or your own CNAME), enable **First-party collect** in site settings instead of hand-writing `data-endpoint`. See [First-party collect](/docs/first-party-collect).
+
 ```html
 data-endpoint="https://my-worker.example.com/api/collect"
 ```
@@ -56,6 +58,14 @@ Set to `true` to capture only allowlisted UTM fields (`utm_source`, `utm_medium`
 
 ```html
 data-campaigns="true"
+```
+
+### Conversions
+
+Set to `true` when conversions are enabled for the site. The tracker loads enabled presets from `/api/collect-config` and auto-tracks contact clicks, messaging links, outbound links, and form submits. See [Conversions](/docs/conversions).
+
+```html
+data-conversions="true"
 ```
 
 ### Cross-domain hostnames
@@ -138,7 +148,7 @@ See [Scroll tracking](/docs/scroll-tracking) for privacy guidance and examples.
 
 Kobbe applies **automatic bot detection** on every collect request (e.g. headless clients and common crawler signals). Suspicious requests return a success response but **do not** increment usage or store an event.
 
-**Exclusions** are separate: per-site rules you set in the Kobbe app (path, hostname, country, IP, or “ignore my browser” via `localStorage`). Those are evaluated after the bot filter and after your site is resolved. See [Exclude visits](/docs/exclude-visits) and [Reduce usage](/docs/reduce-usage).
+**Visit filters** are separate: per-site rules you set in the Kobbe app (path, hostname, country, IP, or “ignore my browser” via `localStorage`). Those are evaluated after the bot filter and after your site is resolved. See [Filter your visits](/docs/exclude-visits) and [Reduce usage](/docs/reduce-usage).
 
 ## Local development
 
@@ -154,5 +164,5 @@ There is no separate “localhost toggle”: if your dev site loads the snippet 
 - Performance collection is off by default and requires `tracker.full.js`; when enabled, Web Vitals samples are stored separately from custom events and one accepted performance payload counts toward usage (see [Performance and Web Vitals](/docs/performance-web-vitals)).
 - The page hostname is stored on each event and powers the **Hostnames** breakdown (and hostname exclusions when collect is proxied).
 - The referrer is reduced to the origin, so search queries and private URL data are not collected.
-- No cookies or persistent identifiers: optional `localStorage.kobbe_ignore === "true"` stops this browser from sending events (see [Exclude visits](/docs/exclude-visits)).
+- No cookies or persistent identifiers: optional `localStorage.kobbe_ignore === "true"` stops this browser from sending events (see [Filter your visits](/docs/exclude-visits)).
 - Custom events use the same tracker script and the same site token (see [Custom events](/docs/custom-events) and `window.kobbe.track`).

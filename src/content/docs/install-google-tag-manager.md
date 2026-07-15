@@ -36,4 +36,4 @@ Use GTM preview mode, load a page, then confirm the request and Kobbe traffic.
 ## Next steps
 
 - [Script options](/docs/script-options)
-- [Exclude visits](/docs/exclude-visits)
+- [Filter your visits](/docs/exclude-visits)

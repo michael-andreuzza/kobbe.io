@@ -52,7 +52,7 @@ https://example.com/pricing?utm_source=newsletter&utm_medium=email&utm_campaign=
 The Campaigns page shows:
 
 - campaign visitors and pageviews
-- conversions from custom events
+- conversions from [enabled conversion goals](/docs/conversions) or custom events
 - top campaigns, sources, mediums, and source / medium pairs
 
 ## Privacy notes
@@ -64,4 +64,5 @@ Review your privacy notice before enabling campaign tracking, especially if your
 ## Related docs
 
 - [Script options](/docs/script-options)
+- [Conversions](/docs/conversions)
 - [Sources on the dashboard](/docs/dashboard-stats-sources)

@@ -20,9 +20,9 @@ Kobbe does **not** rely on cookies or cross-domain URL parameters for this—sam
 
 Under **Sources**, open the **Hostnames** tab to see distinct visitors per hostname. Older events collected before hostname was stored on each row may appear only in aggregate until new traffic arrives.
 
-## Exclusions
+## Visit filters
 
-Hostname exclusion rules apply to this value. See [Exclude visits](/docs/exclude-visits).
+Hostname exclusion rules apply to this value. See [Filter your visits](/docs/exclude-visits).
 
 ## Different root domains
 

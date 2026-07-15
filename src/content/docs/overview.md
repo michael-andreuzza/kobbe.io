@@ -16,7 +16,11 @@ Kobbe shows visitors, visits, views, top pages, referrers, channels, locations, 
 
 ### Events and conversions
 
-Track custom events for clicks, signups, purchases, downloads, and important sections. Funnels help you measure drop-off across page paths and events, and [UTM campaigns](/docs/utm-campaigns) can connect marketing links to conversions.
+Track custom events for clicks, signups, purchases, downloads, and important sections. [Conversions](/docs/conversions) can auto-track common goals like contact clicks and form submits. Funnels help you measure drop-off across page paths and events, and [UTM campaigns](/docs/utm-campaigns) can connect marketing links to conversions.
+
+### First-party collect
+
+Optional [first-party collect](/docs/first-party-collect) serves the tracker and ingest endpoint from a dedicated hostname (`yoursite-collect.kobbe.io` or your own CNAME) for more reliable delivery when blockers interfere with the default origin.
 
 ### Connected insights
 
@@ -36,7 +40,7 @@ Use the [CLI](/docs/cli), [Raycast extension](/docs/raycast), or [AI agents](/do
 
 Kobbe's default tracker does not use cookies or browser fingerprinting techniques (canvas, WebGL, font enumeration, etc.). It does not use `localStorage` or `sessionStorage` **to count pageviews or build visitor profiles**.
 
-**Visitor opt-out:** If someone sets `localStorage.kobbe_ignore` (see [Exclude visits](/docs/exclude-visits)), the script stops sending events from that browser. That stores a **preference**, not a persistent analytics identifier.
+**Visitor opt-out:** If someone sets `localStorage.kobbe_ignore` (see [Filter your visits](/docs/exclude-visits)), the script stops sending events from that browser. That stores a **preference**, not a persistent analytics identifier.
 
 In the default configuration there is no client-side storage used for cross-session tracking.
 
