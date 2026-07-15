@@ -8,6 +8,10 @@ export type NavItem = {
   href: string;
   label: string;
   isActive: boolean;
+  logo?: {
+    src: string;
+    alt: string;
+  };
 };
 
 export type NavGroup = {
@@ -70,13 +74,26 @@ export function SidebarGroups({
                     href={item.href}
                     aria-current={item.isActive ? "page" : undefined}
                     className={cn(
-                      "block text-xs leading-5 font-medium transition-colors",
+                      "text-xs leading-5 font-medium transition-colors",
+                      item.logo ? "flex min-w-0 items-center gap-1.5" : "block",
                       item.isActive
                         ? "text-foreground"
                         : "text-muted-foreground hover:text-foreground",
                     )}
                   >
-                    <span className="block truncate">{item.label}</span>
+                    {item.logo ? (
+                      <span className="flex size-3.5 shrink-0 items-center justify-center">
+                        <img
+                          src={item.logo.src}
+                          alt=""
+                          className="size-3 rounded-[0.15rem] object-contain"
+                          loading="lazy"
+                          width={12}
+                          height={12}
+                        />
+                      </span>
+                    ) : null}
+                    <span className="min-w-0 truncate">{item.label}</span>
                   </a>
                 ))}
               </div>

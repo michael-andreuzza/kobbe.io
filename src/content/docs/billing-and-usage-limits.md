@@ -12,9 +12,9 @@ Plans and limits can change over time. The billing page in the app is the source
 
 ## Plans
 
-Kobbe offers event tiers from **100,000 monthly events** up to **25,000,000 monthly events**. Every paid tier includes the same product features; tiers mainly differ in monthly event allowance, site limits, and billing amount.
+Kobbe offers event tiers from **100,000 monthly events** up to **25,000,000 monthly events**. Plans differ in monthly event allowance, site limits, and which features are included.
 
-The **Hobby** plan is limited to **3 websites** per workspace. **Starter** allows up to **30 websites**. Growth and higher tiers allow up to **50 websites**.
+**Hobby** includes core analytics for up to **3 websites**. **Starter** includes everything in Hobby, plus revenue attribution, first-party collect, UTM campaigns, traffic alerts, data export, Web Vitals, and team access for up to **30 websites**. **Growth** and higher tiers include everything in Starter, plus monthly email reports and AI agent or CLI access for up to **50 websites**. Tiers above Growth mainly increase event volume while keeping Growth features.
 
 The homepage shows Hobby, Starter, and Growth as common starting points. For the complete list of all event volumes and prices, see [All event volumes](#all-event-volumes) below.
 

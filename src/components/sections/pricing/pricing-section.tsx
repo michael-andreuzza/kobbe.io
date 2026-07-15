@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 
 import { BillingPeriodTabs } from "@/components/sections/pricing/billing-period-tabs";
+import { PricingComparisonTable } from "@/components/sections/pricing/pricing-comparison-table";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -72,17 +73,16 @@ function PricingTierPanel({
 }) {
   return (
     <article className="bg-background text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] p-8">
-     
       <div>
         <h3 className="text-foreground font-display text-2xl font-medium tracking-tight italic sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-4xl">
           {name}
         </h3>
-        <p className="text-muted-foreground mt-1 text-base font-medium text-balance">
+        <p className="text-muted-foreground mt-1 max-w-50 text-sm font-medium text-balance">
           {tagline}
         </p>
 
-        <div className="mt-8  flex flex-row gap-x-3 gap-y-1 items-center">
-          <p className="text-foreground font-display text-4xl tracking-tighter italic ">
+        <div className="mt-8 flex flex-row items-center gap-x-3 gap-y-1">
+          <p className="text-foreground font-display text-4xl tracking-tighter italic">
             {priceAmount}
           </p>
           <div>
@@ -100,12 +100,20 @@ function PricingTierPanel({
         className="text-foreground mt-8 list-none space-y-1 self-start font-medium 2xl:space-y-2"
         role="list"
       >
-        {features.map((feature) => (
-          <li key={feature} className="flex items-start gap-2">
-            <PricingFeatureMark />
-            <p className="text-base tracking-tight">{feature}</p>
-          </li>
-        ))}
+        {features.map((feature) =>
+          feature.endsWith("plus:") ? (
+            <li key={feature} className="pt-1 first:pt-0">
+              <p className="text-muted-foreground pb-2 text-sm font-medium tracking-tight">
+                {feature}
+              </p>
+            </li>
+          ) : (
+            <li key={feature} className="flex items-start gap-2">
+              <PricingFeatureMark />
+              <p className="text-base tracking-tight">{feature}</p>
+            </li>
+          ),
+        )}
       </ul>
 
       <div className="mt-8">
@@ -157,7 +165,7 @@ export function PricingSection({
         <BillingPeriodTabs period={period} onPeriodChange={setPeriod} />
       </div>
 
-      <div className="relative mt-10 overflow-hidden px-4 py-12 sm:px-8 lg:p-12">
+      <div className="relative mt-10 overflow-hidden p-4 sm:p-8">
         <img
           src={paintSrc}
           alt=""
@@ -197,6 +205,8 @@ export function PricingSection({
           </div>
         </div>
       </div>
+
+      <PricingComparisonTable />
 
       <p className="text-muted-foreground relative z-10 mt-8 text-center text-sm">
         Need a different event volume?{" "}

@@ -21,7 +21,7 @@ export const pricingFaqItems = [
     id: "features",
     question: "Do all plans include the same features?",
     answer:
-      "Yes. Every paid tier includes the same product features. You choose how many monthly events your workspace needs. Site limits vary by tier: Hobby supports up to 3 websites, Starter up to 30, and Growth and higher up to 50.",
+      "No. Hobby includes core analytics for up to 3 websites. Starter adds revenue attribution, first-party collect, UTM campaigns, traffic alerts, data export, Web Vitals, team access, and agent API or CLI access for up to 30 websites. Growth and higher tiers add monthly email reports for up to 50 websites. Above Growth, plans mainly increase monthly event volume.",
   },
   {
     id: "trial",
