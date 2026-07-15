@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { SiteMobileNavDialog } from "@/components/global/docs-mobile-nav-dialog";
 import type { NavGroup } from "@/components/ui/sidebar";
+
 export type SiteNavigationProps = {
   docsNavGroups?: NavGroup[];
 };

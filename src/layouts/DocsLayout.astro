@@ -6,6 +6,7 @@ import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import type { CollectionEntry } from "astro:content";
 import ToCScript from "@/components/foundations/scripts/ToCScript.astro";
 import TableOfContents from "@/components/foundations/navigation/TableOfContents.astro";
+import { DocsCommandSearch } from "@/components/docs/docs-command-search";
 import type { JsonLdBreadcrumb } from "@/lib/seo/json-ld";
 
 interface Props {
@@ -90,6 +91,18 @@ groupedNavLinks.sort((a, b) => {
   const br = bi === -1 ? NAV_GROUP_ORDER.length : bi;
   return ar - br || a.category.localeCompare(b.category);
 });
+const docsSearchItems = resolvedNavLinks.map((item) => ({
+  id: item.href === "/docs" ? "overview" : item.href.replace("/docs/", ""),
+  title: item.label,
+  description:
+    navItems.find((doc) =>
+      item.href === "/docs"
+        ? doc.id === "overview"
+        : `/docs/${doc.id}` === item.href,
+    )?.data.description ?? "",
+  category: item.category,
+  href: item.href,
+}));
 ---
 
 <BaseLayout
@@ -140,5 +153,6 @@ groupedNavLinks.sort((a, b) => {
       <TableOfContents />
     </div>
   </Wrapper>
+  <DocsCommandSearch client:load hideTrigger items={docsSearchItems} />
   <ToCScript />
 </BaseLayout>

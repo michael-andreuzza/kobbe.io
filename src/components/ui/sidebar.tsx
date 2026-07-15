@@ -2,6 +2,7 @@ import { Collapsible } from "@base-ui/react/collapsible";
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
+import { DocsCommandSearchTrigger } from "@/components/docs/docs-command-search";
 import { cn } from "@/lib/utils";
 
 export type NavItem = {
@@ -116,6 +117,7 @@ export default function Sidebar({ groups }: SidebarProps) {
         aria-label="Docs navigation"
         className="!scrollbar-none text-sidebar-foreground sticky top-24 flex max-h-[calc(100svh-6rem)] flex-col overflow-y-auto pr-5"
       >
+        <DocsCommandSearchTrigger className="mb-3" />
         <SidebarGroups groups={groups} />
       </nav>
     </aside>

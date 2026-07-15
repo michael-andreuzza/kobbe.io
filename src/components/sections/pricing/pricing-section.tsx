@@ -74,14 +74,14 @@ function PricingTierPanel({
   return (
     <article className="bg-background text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] p-8">
       <div>
-        <h3 className="text-foreground font-display text-2xl font-medium tracking-tight italic sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-4xl">
+        <h3 className="text-foreground font-display text-2xl font-medium tracking-tight italic md:text-3xl">
           {name}
         </h3>
         <p className="text-muted-foreground mt-1 max-w-50 text-sm font-medium text-balance">
           {tagline}
         </p>
 
-        <div className="mt-8 flex flex-row items-center gap-x-3 gap-y-1">
+        <div className="mt-4 flex flex-row items-center gap-x-3 gap-y-1">
           <p className="text-foreground font-display text-4xl tracking-tighter italic">
             {priceAmount}
           </p>
@@ -97,7 +97,7 @@ function PricingTierPanel({
       </div>
 
       <ul
-        className="text-foreground mt-8 list-none space-y-1 self-start font-medium 2xl:space-y-2"
+        className="text-foreground mt-4 list-none space-y-1 self-start font-medium 2xl:space-y-2"
         role="list"
       >
         {features.map((feature) =>
