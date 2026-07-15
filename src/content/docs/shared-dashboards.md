@@ -49,3 +49,7 @@ Settings, billing, token management, exports, exclusions, and funnel editing are
 The public dashboard is read-only. Anyone with the link can view the dashboard, but they cannot change site settings, rotate tokens, create events, or manage share links.
 
 Revoking or regenerating a link immediately invalidates the previous URL. Expired links stop working automatically.
+
+## Embed widgets
+
+If you want a compact analytics card on your marketing site instead of a full dashboard link, use [Embed widgets](/docs/embed-widgets). That feature has its own token, expiry, and iframe snippets.
