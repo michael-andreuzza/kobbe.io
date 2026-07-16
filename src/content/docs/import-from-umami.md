@@ -37,9 +37,9 @@ Kobbe reads `website_event.csv` inside the ZIP and rolls it up into daily dashbo
 ## What gets imported
 
 - Visitors, visits, and pageviews by day
-- Top pages and referrers
-- Countries, cities, browsers, operating systems, and devices when `session.csv` is included
 - Daily custom event totals from Umami custom events
+
+Pages, referrers, countries, and device breakdowns are **not** imported from Umami yet. The export is event-level data and is rolled up to daily totals so imports finish reliably.
 
 Bounce rate and session duration are not reconstructed from Umami exports in this version.
 
