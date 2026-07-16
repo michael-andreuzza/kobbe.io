@@ -10,7 +10,7 @@ Use `data-*` attributes on the `<script>` tag to configure the tracker.
 
 The default `tracker.js` is lightweight and covers pageviews, custom events, custom endpoints, hash routes, UTM campaign capture, and debug logging. Advanced features such as cross-domain tracking, performance collection, and scroll tracking use `tracker.full.js`.
 
-**See also:** [Custom events](/docs/custom-events) · [Conversions](/docs/conversions) · [First-party collect](/docs/first-party-collect) · [Scroll tracking](/docs/scroll-tracking) · [Hash page paths](/docs/hash-page-paths) · [UTM campaigns](/docs/utm-campaigns) · [Subdomains](/docs/track-subdomains) · [Cross-domain tracking](/docs/cross-domain-tracking) · [Performance and Web Vitals](/docs/performance-web-vitals) · [Filter your visits](/docs/exclude-visits)
+**See also:** [Custom events](/docs/custom-events) · [Conversions](/docs/conversions) · [First-party collect](/docs/first-party-collect) · [Scroll tracking](/docs/scroll-tracking) · [404 tracking](/docs/404-tracking) · [Hash page paths](/docs/hash-page-paths) · [UTM campaigns](/docs/utm-campaigns) · [Subdomains](/docs/track-subdomains) · [Cross-domain tracking](/docs/cross-domain-tracking) · [Performance and Web Vitals](/docs/performance-web-vitals) · [Filter your visits](/docs/exclude-visits)
 
 ## Required
 
@@ -114,6 +114,14 @@ Sends a custom event when the element is clicked. Optional `data-kobbe-event-*` 
 
 ```html
 data-kobbe-event="Newsletter signup"
+```
+
+### 404 pages
+
+Flags your not-found template so Kobbe records the missing path and the page that linked to it. Works with both `tracker.js` and `tracker.full.js`. See [404 tracking](/docs/404-tracking).
+
+```html
+data-kobbe-not-found
 ```
 
 ### Section visibility events

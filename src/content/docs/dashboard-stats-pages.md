@@ -10,11 +10,14 @@ The **Pages** breakdown answers where people land, what they view most, and wher
 
 ## What you see
 
-| View          | What it shows                                    |
-| ------------- | ------------------------------------------------ |
-| **Top pages** | Paths with the most views in the selected range. |
-| **Entered**   | Paths where visits started (entry pages).        |
-| **Exited**    | Paths where visits ended (exit pages).           |
+| View          | What it shows                                                             |
+| ------------- | ------------------------------------------------------------------------- |
+| **Top pages** | Paths with the most views in the selected range.                          |
+| **Entered**   | Paths where visits started (entry pages).                                 |
+| **Exited**    | Paths where visits ended (exit pages).                                    |
+| **404s**      | Missing pages visitors hit, with the page that most often linked to them. |
+
+The 404s tab needs a one-line setup on your site — see [404 tracking](/docs/404-tracking).
 
 ## Preview and full list
 
