@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 
 import { BillingPeriodTabs } from "@/components/sections/pricing/billing-period-tabs";
 import { PricingComparisonTable } from "@/components/sections/pricing/pricing-comparison-table";
+import { ArrowRight } from "@/components/assets/arrow-right";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -125,10 +126,11 @@ function PricingTierPanel({
               variant: popular ? "brand" : "default",
               size: "lg",
             }),
-            "w-full justify-center",
+            "w-full justify-between",
           )}
         >
-          {ctaLabel}
+          <span>{ctaLabel}</span>
+          <ArrowRight size="base" />
         </a>
       </div>
 
