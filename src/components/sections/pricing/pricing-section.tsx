@@ -213,16 +213,16 @@ export function PricingSection({
               );
             })}
           </div>
-
-          <div className="text-foreground mt-2 flex flex-wrap items-center justify-between font-semibold lg:items-start">
-            <p className="text-sm 2xl:text-base">Secure payments via Polar.sh</p>
-            <p className="text-muted-foreground mt-1 flex flex-wrap gap-2 text-sm font-medium 2xl:text-base">
-              {paymentMethods.map((method) => (
-                <span key={method}>{method}</span>
-              ))}
-            </p>
-          </div>
         </div>
+      </div>
+
+      <div className="text-foreground mt-2 flex flex-wrap items-center justify-between font-semibold lg:items-start">
+        <p className="text-sm 2xl:text-base">Secure payments via Polar.sh</p>
+        <p className="text-muted-foreground mt-1 flex flex-wrap gap-2 text-sm font-medium 2xl:text-base">
+          {paymentMethods.map((method) => (
+            <span key={method}>{method}</span>
+          ))}
+        </p>
       </div>
 
       <PricingComparisonTable />
