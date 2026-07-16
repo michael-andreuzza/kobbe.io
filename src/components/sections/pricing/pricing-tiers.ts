@@ -66,6 +66,7 @@ export const pricingPlanCards = [
       "UTM campaign and channel reports",
       "Traffic alerts",
       "Data export",
+      "Import analytics data",
       "Web Vitals and performance",
       "Team access",
       "Agent API and CLI access",

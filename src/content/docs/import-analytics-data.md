@@ -15,6 +15,9 @@ Imports write **daily rollup data** into Kobbe. That means KPIs, charts, and bre
 - Use a **full site export ZIP**, not a quick chart export with row limits.
 - Import on the **same site** where you will collect new Kobbe traffic.
 - Pick a merge mode so you do not overwrite days Kobbe already has.
+- Keep the ZIP under **25 MB**. If your export is larger, split it into shorter date ranges.
+
+Imports run in the background. Large exports can take a minute to process, and the settings page reports the result when the import finishes.
 
 ## Merge modes
 

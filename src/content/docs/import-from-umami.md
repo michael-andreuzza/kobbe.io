@@ -39,16 +39,18 @@ Kobbe reads `website_event.csv` inside the ZIP and rolls it up into daily dashbo
 - Visitors, visits, and pageviews by day
 - Daily custom event totals from Umami custom events
 
-Pages, referrers, countries, and device breakdowns are **not** imported from Umami yet. The export is event-level data and is rolled up to daily totals so imports finish reliably.
+Umami exports raw events rather than pre-aggregated reports, so Kobbe rolls them up into daily totals. Pages, referrers, countries, and device breakdowns are **not** imported from Umami yet.
 
 Bounce rate and session duration are not reconstructed from Umami exports in this version.
+
+Large exports are fine: the import runs in the background and streams the event file, so date ranges with hundreds of thousands of events process in under a minute.
 
 ## If import fails
 
 - **Use the ZIP file** from Umami's email link, not the unzipped folder.
-- **Try a shorter date range** in Umami if the export is large. Umami event exports can be much bigger than Plausible or Fathom rollups.
+- **Keep the ZIP under 25 MB.** If your export is larger, split it into shorter date ranges in Umami.
 - If Kobbe is already collecting live traffic, use **Fill gaps only** or pick a **date range** that does not overlap days Kobbe already has.
-- If you see a specific error in the toast, follow that message first. Timeout errors usually mean the export should be split into smaller date ranges.
+- If you see a specific error in the toast, follow that message first.
 
 ## After the import
 

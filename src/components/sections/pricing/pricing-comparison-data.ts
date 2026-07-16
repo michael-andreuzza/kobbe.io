@@ -184,6 +184,15 @@ export const pricingComparisonSections = [
         growth: true,
       },
       {
+        id: "analytics-import",
+        title: "Import analytics data",
+        description:
+          "Bring historical traffic from Plausible, Fathom, or Umami exports into your dashboard.",
+        lite: false,
+        starter: true,
+        growth: true,
+      },
+      {
         id: "web-vitals",
         title: "Web Vitals and performance",
         description:
