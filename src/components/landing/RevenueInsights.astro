@@ -64,7 +64,7 @@ const revenueInsightsPoints = [
         </div>
       </div>
     </div>
-    <div class="group relative mt-8 overflow-hidden px-4 py-12 sm:px-8 lg:p-12">
+    <div class="group relative mt-8 overflow-hidden p-4 lg:p-12">
       <Image
         src={paintOne}
         alt=""
@@ -75,14 +75,16 @@ const revenueInsightsPoints = [
         width={2000}
         class="absolute inset-0 size-full bg-cover object-cover"
       />
-      <AnimatedPanelReveal
-        client:load
-        trigger="scroll"
-        mask={false}
-        className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
-      >
-        <RevenueInsightsPreview client:load />
-      </AnimatedPanelReveal>
+      <div class="relative z-10">
+        <AnimatedPanelReveal
+          client:load
+          trigger="scroll"
+          mask={false}
+          className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+        >
+          <RevenueInsightsPreview client:load />
+        </AnimatedPanelReveal>
+      </div>
     </div>
 
     <div class="mt-8 grid gap-4 text-balance sm:grid-cols-3 lg:text-center">

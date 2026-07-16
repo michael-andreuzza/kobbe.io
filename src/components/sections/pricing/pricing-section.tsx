@@ -17,6 +17,14 @@ import {
   type PricingTierKey,
 } from "./pricing-tiers";
 
+const paymentMethods = [
+  "Visa",
+  "Amex",
+  "Mastercard",
+  "Apple Pay",
+  "Google Pay",
+] as const;
+
 function buildSignupHref(
   appBaseUrl: string,
   tierKey: PricingTierKey,
@@ -73,7 +81,7 @@ function PricingTierPanel({
   period: BillingPeriod;
 }) {
   return (
-    <article className="bg-background text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] p-8">
+    <article className="bg-background text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] p-6">
       <div>
         <h3 className="text-foreground font-display text-2xl font-medium tracking-tight italic md:text-3xl">
           {name}
@@ -135,7 +143,7 @@ function PricingTierPanel({
       </div>
 
       <p className="text-muted-foreground mt-2 text-center text-xs">
-        5 minutes setup · No card required
+        5 minutes setup · No creditcard required
       </p>
     </article>
   );
@@ -204,6 +212,15 @@ export function PricingSection({
                 />
               );
             })}
+          </div>
+
+          <div className="text-foreground mt-2 flex flex-wrap items-center justify-between font-semibold lg:items-start">
+            <p className="text-sm 2xl:text-base">Secure payments via Polar.sh</p>
+            <p className="text-muted-foreground mt-1 flex flex-wrap gap-2 text-sm font-medium 2xl:text-base">
+              {paymentMethods.map((method) => (
+                <span key={method}>{method}</span>
+              ))}
+            </p>
           </div>
         </div>
       </div>

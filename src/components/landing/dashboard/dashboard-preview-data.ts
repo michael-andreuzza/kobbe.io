@@ -60,6 +60,10 @@ export type DashboardPreviewRangeData = {
       deltaPct: number | null;
       tone: "good" | "bad" | "neutral";
     };
+    revenue: {
+      display: string;
+      rightHint: string;
+    };
   };
   pages: {
     top: { path: string; count: number; revenueMinor?: number }[];
@@ -439,6 +443,21 @@ function formatCompact(value: number) {
   }).format(value);
 }
 
+function formatRevenueKpi(points: StackedChartPoint[]) {
+  const revenueMinor = sumMetric(points, "revenueMinor");
+  const display = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    notation: revenueMinor >= 1_000_000 ? "compact" : "standard",
+    maximumFractionDigits: 1,
+  }).format(revenueMinor / 100);
+  const paidOrders = Math.max(1, Math.round(revenueMinor / 41_700));
+  return {
+    display,
+    rightHint: `${paidOrders.toLocaleString()} paid`,
+  };
+}
+
 function buildKpi(points: StackedChartPoint[]) {
   const visits = sumMetric(points, "visits");
   const bounceAvg =
@@ -474,6 +493,7 @@ function buildKpi(points: StackedChartPoint[]) {
       deltaPct: 9.8,
       tone: "good" as const,
     },
+    revenue: formatRevenueKpi(points),
   };
 }
 

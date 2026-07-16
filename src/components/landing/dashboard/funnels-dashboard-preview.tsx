@@ -12,10 +12,7 @@ type Props = {
 export function FunnelsDashboardPreview({ funnel }: Props) {
   return (
     <Card
-      className={cn(
-        dashboardCardRootClass,
-        "mx-auto w-full max-w-4xl pt-4 shadow-none",
-      )}
+      className={cn(dashboardCardRootClass, "mx-auto w-full pt-4 shadow-none")}
     >
       <CardContent className="w-full p-0">
         <div className="kobbe-funnel-chart w-full">

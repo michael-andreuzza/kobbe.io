@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useReducedMotion } from "motion/react";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { DashboardKpiStrip } from "./dashboard-kpi-strip";
 import { dashboardPreviewData } from "./dashboard-preview-data";
 import { DashboardTrafficChart } from "./dashboard-traffic-chart";
 
@@ -59,22 +59,28 @@ export function RevenueInsightsPreview() {
           }
         }
       `}</style>
-      <Card className="bg-card mx-auto w-full max-w-4xl rounded-xl">
-        <CardContent className="w-full p-0">
-          <div className="relative h-80 w-full">
-            <div className="pointer-events-none absolute top-0 left-0 w-full origin-top-left">
-              <div className="kobbe-revenue-chart pointer-events-auto relative z-10">
-                <DashboardTrafficChart
-                  points={data.points}
-                  metric="revenue"
-                  rangeLabel={data.label}
-                  spotlightIndex={spotlightIndex}
-                ></DashboardTrafficChart>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="relative min-w-0">
+        <DashboardKpiStrip
+          showComparison={data.kpi.showComparison}
+          visitors={data.kpi.visitors}
+          visits={data.kpi.visits}
+          views={data.kpi.views}
+          bounceRate={data.kpi.bounceRate}
+          sessionTime={data.kpi.sessionTime}
+          revenue={data.kpi.revenue}
+          activeMetric="revenue"
+        />
+        <div className="kobbe-revenue-chart">
+          <DashboardTrafficChart
+            points={data.points}
+            metric="revenue"
+            rangeLabel={data.label}
+            spotlightIndex={spotlightIndex}
+          >
+            Revenue
+          </DashboardTrafficChart>
+        </div>
+      </div>
     </>
   );
 }

@@ -70,6 +70,7 @@ export function DashboardPreview() {
         views={data.kpi.views}
         bounceRate={data.kpi.bounceRate}
         sessionTime={data.kpi.sessionTime}
+        revenue={data.kpi.revenue}
         activeMetric={chartMetric}
         onMetricClick={handleMetricClick}
       />

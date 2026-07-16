@@ -276,7 +276,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
   }, [activeMetricIndex, metrics.length, shouldReduceMotion]);
 
   return (
-    <div className="relative mx-auto max-w-4xl min-w-0">
+    <div className="relative mx-auto min-w-0">
       <DashboardMetricStrip ariaLabel="Web Vitals metrics" lgCols={5}>
         {metrics.map((metric, index) => {
           const active = index === activeMetricIndex;
@@ -396,7 +396,9 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
           empty={{
             icon: ComputerPhoneSyncIcon,
             title:
-              envTab === 0 ? "No browsers in range" : "No device types in range",
+              envTab === 0
+                ? "No browsers in range"
+                : "No device types in range",
           }}
           tabs={{
             label: "Devices",
