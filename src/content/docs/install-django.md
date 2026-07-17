@@ -26,7 +26,7 @@ Put the tracker in your **base template** (`templates/base.html` or equivalent).
 1. Add `KOBBE_SITE_TOKEN` to your settings (from environment / secrets manager).
 2. Expose it in template context (e.g. context processor) so `{{ KOBBE_SITE_TOKEN }}` resolves, or hardcode the env read in the template if your project permits.
 
-Example context processor (pattern only — adapt to your app):
+Example context processor (pattern only, adapt to your app):
 
 ```python
 def kobbe(request):

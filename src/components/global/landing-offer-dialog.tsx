@@ -142,7 +142,7 @@ export function LandingOfferDialog() {
                 render={
                   <a
                     href="/#pricing"
-                    data-kobbe-event="Offer modal — view yearly pricing"
+                    data-kobbe-event="Offer modal - view yearly pricing"
                     onClick={() => dismiss(true)}
                     className={cn(
                       buttonVariants({ size: "lg" }),

@@ -14,7 +14,7 @@ Use the **same site token** on every subdomain you want rolled into one site. Ea
 2. Add the snippet to every subdomain you want tracked, for example `example.com`, `www.example.com`, `app.example.com`, and `blog.example.com`.
 3. No extra attributes are required: the tracker sends the current page hostname automatically.
 
-Kobbe does **not** rely on cookies or cross-domain URL parameters for this—same-day visitor logic matches single-host installs.
+Kobbe does **not** rely on cookies or cross-domain URL parameters for this-same-day visitor logic matches single-host installs.
 
 ## Dashboard
 

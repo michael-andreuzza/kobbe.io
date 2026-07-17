@@ -6,7 +6,7 @@ category: Tracking
 navLabel: Filter your visits
 ---
 
-Drop pageviews and custom events **before** they count toward quotas or appear in the dashboard. This is separate from [bot filtering](/docs/script-options#bot-filtering-and-exclusions)—bots are handled first; visit filters are rules you set per site.
+Drop pageviews and custom events **before** they count toward quotas or appear in the dashboard. This is separate from [bot filtering](/docs/script-options#bot-filtering-and-exclusions)-bots are handled first; visit filters are rules you set per site.
 
 Open **Filter your visits** for the site (`/websites/<site-id>/exclusions`), or use **Filter your visits** from the site sidebar. For volume tips, see [Reduce usage](/docs/reduce-usage).
 

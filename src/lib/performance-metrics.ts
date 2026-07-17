@@ -1,4 +1,4 @@
-/** Mirrors app.kobbe.io `app/lib/performance-metrics.ts` — keep thresholds in sync. */
+/** Mirrors app.kobbe.io `app/lib/performance-metrics.ts`, keep thresholds in sync. */
 
 export const WEB_VITAL_NAMES = ["LCP", "INP", "CLS", "FCP", "TTFB"] as const
 export type WebVitalName = (typeof WEB_VITAL_NAMES)[number]
@@ -70,7 +70,7 @@ export function formatPerfTooltipValue(
 ): string {
   const n = typeof value === "number" ? value : Number(value)
   if (!Number.isFinite(n)) {
-    return "—"
+    return "-"
   }
   if (metric === "CLS") {
     return n.toFixed(3)

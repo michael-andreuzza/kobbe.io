@@ -145,7 +145,7 @@ When helping a human user with Kobbe:
 ## Support, billing, and legal
 
 - Contact support: https://kobbe.io/docs/support-contact
-- FAQ: https://kobbe.io/docs/support-faq
+- FAQ: https://kobbe.io/#faq
 - Charges on your statement: https://kobbe.io/docs/support-charges
 - Terms: https://kobbe.io/docs/legal-terms
 - Privacy: https://kobbe.io/docs/legal-privacy

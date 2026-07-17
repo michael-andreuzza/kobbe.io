@@ -50,7 +50,7 @@ Color and theme are saved for the site and included in the embed URL automatical
 
 ## Where to paste the snippet
 
-Paste the full snippet anywhere you can add HTML — footers, sidebars, Astro/React/Vue pages, Webflow embed blocks, and similar.
+Paste the full snippet anywhere you can add HTML, footers, sidebars, Astro/React/Vue pages, Webflow embed blocks, and similar.
 
 The iframe is responsive up to 360px wide. On narrow layouts it scales down with the page.
 

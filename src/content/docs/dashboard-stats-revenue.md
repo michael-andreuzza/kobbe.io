@@ -25,7 +25,7 @@ When revenue attribution is active and the selected chart metric is **visitors**
 Attributed revenue can show on rows in **Pages**, **Sources**, **Locations**, **Devices**, Search terms, and similar breakdowns.
 
 - Rows **with** attribution show the amount.
-- Rows **without** attribution stay **empty** instead of showing zero—this avoids implying a negative attribution result.
+- Rows **without** attribution stay **empty** instead of showing zero-this avoids implying a negative attribution result.
 
 ## Related docs
 

@@ -47,12 +47,12 @@ export function PricingFaq({
       </Accordion>
 
       <p className="text-muted-foreground mt-4 text-center text-xs">
-        More answers in the{" "}
+        Still have questions?{" "}
         <a
-          href="/docs/support-faq"
+          href="/docs/support-contact"
           className="text-foreground underline-offset-4 hover:underline"
         >
-          full FAQ
+          Contact support
         </a>
         .
       </p>

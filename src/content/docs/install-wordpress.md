@@ -33,7 +33,7 @@ Use **Appearance → Editor → Templates** and add a **Custom HTML** block in t
 
 ## WooCommerce stores
 
-Storefront pages are still WordPress templates — the same snippet applies. See also [WooCommerce](/docs/install-woocommerce) for funnel-specific notes.
+Storefront pages are still WordPress templates, the same snippet applies. See also [WooCommerce](/docs/install-woocommerce) for funnel-specific notes.
 
 ## Verify
 

@@ -69,6 +69,6 @@ Deploy or run locally, open a page, then confirm the visit in your Kobbe dashboa
 
 ## Next steps
 
-- [Script options](/docs/script-options) — custom collect URL, hash tracking, etc.
+- [Script options](/docs/script-options), custom collect URL, hash tracking, etc.
 - [Track across subdomains](/docs/track-subdomains)
 - [Custom events](/docs/custom-events)

@@ -17,7 +17,7 @@ The fastest option needs no DNS changes on your domain. It is available on **Sta
 1. Open **Site settings** in Kobbe.
 2. Under **First-party collect**, choose **Enable first-party collect**.
 3. Kobbe provisions a dedicated hostname such as `yoursite-collect.kobbe.io`.
-4. Copy the updated install snippet — it loads `tracker.js` from that hostname and posts to the same origin.
+4. Copy the updated install snippet, it loads `tracker.js` from that hostname and posts to the same origin.
 
 Use **Disconnect** to return to the default `app.kobbe.io` snippet.
 

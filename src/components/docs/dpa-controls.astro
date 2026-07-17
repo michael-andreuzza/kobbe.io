@@ -142,7 +142,7 @@ const { effectiveDateDefault } = Astro.props;
     function setText(id, value, usePlaceholder) {
       var el = document.getElementById(id);
       if (!el) return;
-      var t = value || (usePlaceholder ? placeholder : "—");
+      var t = value || (usePlaceholder ? placeholder : "-");
       el.textContent = t;
     }
 

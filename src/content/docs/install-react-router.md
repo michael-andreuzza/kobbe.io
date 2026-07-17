@@ -26,7 +26,7 @@ Emit the tracker on **every document shell** so first paint and hard navigations
 1. Open your root HTML template (for example `index.html` or the shell your framework generates).
 2. Paste the snippet in `<head>` before `</head>`.
 
-React Router client navigations send a new document only on hard refresh; the tracker records the initial pageview. If you rely on **client-side** route changes without full reloads, follow any framework guidance for “route change analytics” or trigger custom page views with [Custom events](/docs/custom-events) if Kobbe exposes an API you wire manually — otherwise full reloads and first-visit flows are tracked automatically for standard setups.
+React Router client navigations send a new document only on hard refresh; the tracker records the initial pageview. If you rely on **client-side** route changes without full reloads, follow any framework guidance for “route change analytics” or trigger custom page views with [Custom events](/docs/custom-events) if Kobbe exposes an API you wire manually, otherwise full reloads and first-visit flows are tracked automatically for standard setups.
 
 ## Full-stack / SSR
 

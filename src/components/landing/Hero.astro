@@ -13,12 +13,12 @@ import paintOne from "@/images/assets/background.svg";
     <div class="mx-auto max-w-2xl text-center">
       <SectionIntro
         title="Privacy-friendly analytics with traffic and revenue in one place."
-        description="Pages, sources, funnels, conversions, and revenue attribution — private by default. Set up in seconds."
+        description="Pages, sources, funnels, conversions, and revenue attribution. Private by default. Set up in seconds."
       />
       <div class="mx-auto mt-4 flex w-fit flex-wrap gap-2">
         <a
           href="#pricing"
-          data-kobbe-event="Hero — start trial"
+          data-kobbe-event="Hero - start trial"
           class={buttonVariants({ variant: "default", size: "xs" })}
         >
           Start a {pricingTrialDays}-day free trial
@@ -27,7 +27,7 @@ import paintOne from "@/images/assets/background.svg";
           href="https://app.kobbe.io/demo/kobbe-studio"
           target="_blank"
           rel="noopener noreferrer"
-          data-kobbe-event="Hero — see demo"
+          data-kobbe-event="Hero - see demo"
           class={buttonVariants({ variant: "outline", size: "xs" })}
         >
           See the demo
@@ -54,9 +54,9 @@ import paintOne from "@/images/assets/background.svg";
       class="text-foreground font-display mx-auto mt-8 flex w-fit flex-wrap gap-2 text-center text-2xl"
     >
       <li>1.8KB default tracker gzip</li>
-      —
+      <li aria-hidden="true" class="text-muted-foreground">·</li>
       <li>Traffic + revenue</li>
-      —
+      <li aria-hidden="true" class="text-muted-foreground">·</li>
       <li>0 raw IPs stored</li>
     </ul>
   </Wrapper>

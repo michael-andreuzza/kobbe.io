@@ -16,7 +16,7 @@ The **Events** card summarizes **custom events** you send from the tracker (clic
 | **Count**      | How many times that event fired in the selected range.      |
 | **Share**      | That event’s portion of **all** custom events in the range. |
 
-Kobbe does not treat every automatic page signal as a named “custom event” in this card—the focus is on **events you define**.
+Kobbe does not treat every automatic page signal as a named “custom event” in this card-the focus is on **events you define**.
 
 Do **not** put personal data in event names or properties. See [Custom events](/docs/custom-events).
 

@@ -81,7 +81,7 @@ function PricingTierPanel({
   period: BillingPeriod;
 }) {
   return (
-    <article className="bg-background text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] p-6">
+    <article className="bg-muted text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] p-6">
       <div>
         <h3 className="text-foreground font-display text-2xl font-medium tracking-tight italic md:text-3xl">
           {name}
@@ -128,7 +128,7 @@ function PricingTierPanel({
       <div className="mt-8">
         <a
           href={checkoutHref}
-          data-kobbe-event={`Pricing — ${name} ${period}`}
+          data-kobbe-event={`Pricing - ${name} ${period}`}
           className={cn(
             buttonVariants({
               variant: popular ? "brand" : "default",
@@ -151,9 +151,7 @@ function PricingTierPanel({
 
 export function PricingSection({
   appBaseUrl = "https://app.kobbe.io",
-  paintSrc,
-  paintWidth,
-  paintHeight,
+
   className,
 }: {
   appBaseUrl?: string;
@@ -175,20 +173,9 @@ export function PricingSection({
         <BillingPeriodTabs period={period} onPeriodChange={setPeriod} />
       </div>
 
-      <div className="relative mt-10 overflow-hidden p-4 lg:p-8">
-        <img
-          src={paintSrc}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          decoding="async"
-          width={paintWidth}
-          height={paintHeight}
-          className="absolute inset-0 size-full bg-cover object-cover"
-        />
-
+      <div className="relative mt-10 overflow-hidden">
         <div className="relative z-10">
-          <div className="grid grid-cols-1 items-stretch gap-1 lg:grid-cols-3">
+          <div className="grid grid-cols-1 items-stretch gap-2 lg:grid-cols-3">
             {pricingPlanCards.map((plan) => {
               const tier = getPricingTierByKey(plan.tierKey);
 

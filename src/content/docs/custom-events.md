@@ -8,7 +8,7 @@ navLabel: Custom events
 
 Track button clicks, form submissions, and other interactions without JavaScript.
 
-Events appear next to pageviews in the dashboard—keep names short and consistent (signups, outbound links, pricing clicks, etc.).
+Events appear next to pageviews in the dashboard-keep names short and consistent (signups, outbound links, pricing clicks, etc.).
 
 ## HTML attributes
 

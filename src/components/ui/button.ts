@@ -21,13 +21,13 @@ const buttonVariants = cva(
       },
       size: {
         default:
-          "h-10 gap-2 rounded-lg px-3 text-sm has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
-        xs: "h-8 gap-2 rounded-md px-3 text-xs in-data-[slot=button-group]:rounded has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3 [&_svg:not([class*='size-'])]:size-4",
-        sm: "h-10 gap-2 rounded-lg px-3 text-sm in-data-[slot=button-group]:rounded has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3 [&_svg:not([class*='size-'])]:size-4",
-        lg: "h-12 gap-2 rounded-lg px-3 text-base has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3 [&_svg:not([class*='size-'])]:size-4",
-        xl: "h-16 gap-2 rounded-xl px-3 text-lg has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3 [&_svg:not([class*='size-'])]:size-5",
+          "h-10 gap-2 rounded-lg px-4 text-sm has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
+        xs: "h-8 gap-2 rounded-md px-4 text-xs in-data-[slot=button-group]:rounded has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4 [&_svg:not([class*='size-'])]:size-4",
+        sm: "h-10 gap-2 rounded-lg px-4 text-sm in-data-[slot=button-group]:rounded has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4 [&_svg:not([class*='size-'])]:size-4",
+        lg: "h-12 gap-2 rounded-lg px-4 text-base has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4 [&_svg:not([class*='size-'])]:size-4",
+        xl: "h-16 gap-2 rounded-xl px-4 text-lg has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4 [&_svg:not([class*='size-'])]:size-5",
         "2xl":
-          "h-20 gap-2 rounded-xl px-4 text-lg has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4 [&_svg:not([class*='size-'])]:size-5",
+          "h-20 gap-2 rounded-xl px-5 text-lg has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5 [&_svg:not([class*='size-'])]:size-5",
         icon: "size-10 rounded-lg",
         "icon-xs":
           "size-8 rounded-md in-data-[slot=button-group]:rounded [&_svg:not([class*='size-'])]:size-4",

@@ -97,7 +97,7 @@ function MarketingFunnelChart(props: {
                     <div className="text-muted-foreground">Drop-off</div>
                     <div className="text-foreground mt-0.5 font-medium tabular-nums">
                       {index === 0
-                        ? "—"
+                        ? "-"
                         : formatPercent(Math.max(0, step.dropoff))}
                     </div>
                   </div>
@@ -159,7 +159,7 @@ function MarketingFunnelDesktopFlow(props: { steps: MarketingFunnelStep[] }) {
                 </div>
                 <div className="text-muted-foreground/80 mt-1 text-[11px] tabular-nums">
                   {index === 0
-                    ? "— drop-off"
+                    ? "- drop-off"
                     : `${formatPercent(Math.max(0, step.dropoff))} drop-off`}
                 </div>
               </div>

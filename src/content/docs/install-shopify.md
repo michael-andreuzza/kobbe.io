@@ -27,7 +27,7 @@ Shopify themes render **`theme.liquid`**. Add the snippet in the `<head>` (or be
 2. Open `layout/theme.liquid`.
 3. Paste before `</head>` (or use Theme App Extensions / custom liquid sections if you manage scripts there).
 
-Duplicate the snippet only once — avoid loading it in both theme and a second app.
+Duplicate the snippet only once, avoid loading it in both theme and a second app.
 
 ## Checkout and headless stores
 

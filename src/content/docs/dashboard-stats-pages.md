@@ -17,7 +17,7 @@ The **Pages** breakdown answers where people land, what they view most, and wher
 | **Exited**    | Paths where visits ended (exit pages).                                    |
 | **404s**      | Missing pages visitors hit, with the page that most often linked to them. |
 
-The 404s tab needs a one-line setup on your site — see [404 tracking](/docs/404-tracking).
+The 404s tab needs a one-line setup on your site, see [404 tracking](/docs/404-tracking).
 
 ## Preview and full list
 

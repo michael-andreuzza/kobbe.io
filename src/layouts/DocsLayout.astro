@@ -17,9 +17,11 @@ interface Props {
 
 const { title, description, navItems } = Astro.props;
 const currentPath = Astro.url.pathname.replace(/\/$/, "");
-const displayTitle = title?.replace(/\s+— Kobbe Docs$/, "");
+const displayTitle = title?.replace(/\s+: Kobbe Docs$/, "");
 
-const resolvedNavLinks = navItems.map((item) => {
+const resolvedNavLinks = navItems
+  .filter((item) => item.id !== "support-faq")
+  .map((item) => {
   const logo = item.data.brandLogo;
 
   return {

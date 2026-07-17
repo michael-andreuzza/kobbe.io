@@ -27,7 +27,7 @@ Webflow injects **site-wide** scripts from Project settings. Token: [Add the tra
 2. Paste the snippet into **Head code** (recommended) or **Footer code** if your compliance setup requires it.
 3. Publish the site.
 
-Some plans restrict custom code — upgrade if the fields are locked.
+Some plans restrict custom code, upgrade if the fields are locked.
 
 ## Verify
 

@@ -42,6 +42,6 @@ The raw handoff value is not stored in Kobbe. The collector hashes it server-sid
 
 ## Related
 
-- [Track across subdomains](/docs/track-subdomains) — subdomains work without cross-domain handoff.
-- [Script options](/docs/script-options) — all tracker attributes.
-- [Funnels](/docs/funnels) — use cross-domain journeys to analyze marketing to app/store flows.
+- [Track across subdomains](/docs/track-subdomains), subdomains work without cross-domain handoff.
+- [Script options](/docs/script-options), all tracker attributes.
+- [Funnels](/docs/funnels), use cross-domain journeys to analyze marketing to app/store flows.

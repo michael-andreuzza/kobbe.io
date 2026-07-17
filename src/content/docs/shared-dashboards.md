@@ -16,9 +16,9 @@ You can choose what each link shows and when it expires.
 2. Go to **Settings**.
 3. Find **Public dashboard**.
 4. Choose what the link can show:
-   - **Overview + realtime** — viewers can see the main dashboard and realtime page.
-   - **Overview only** — viewers can only see the main dashboard.
-   - **Realtime only** — viewers can only see the realtime page.
+   - **Overview + realtime**, viewers can see the main dashboard and realtime page.
+   - **Overview only**, viewers can only see the main dashboard.
+   - **Realtime only**, viewers can only see the realtime page.
 5. Choose when the link should expire: never, 7 days, 30 days, or 90 days.
 6. Enable the link.
 7. Copy the generated URL and send it to anyone who needs read-only access.

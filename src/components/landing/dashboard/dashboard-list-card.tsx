@@ -210,7 +210,7 @@ export function ReferrerBreakdownList(props: {
               {openUrl ? (
                 <span
                   className="group/referrer flex min-w-0 flex-1 cursor-default items-center gap-2 rounded-sm no-underline outline-offset-2 hover:underline"
-                  title={`${hostLabel} (preview — not a link)`}
+                  title={`${hostLabel} (preview, not a link)`}
                 >
                   <ReferrerFavicon referrer={row.referrer} title={hostLabel} />
                   <span className="text-foreground min-w-0 flex-1 truncate text-xs">

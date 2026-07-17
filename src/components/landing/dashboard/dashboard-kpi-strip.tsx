@@ -69,7 +69,7 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
         >
           {kpi.label}
         </span>
-        {kpi.rightHint != null && kpi.rightHint !== "—" ? (
+        {kpi.rightHint != null && kpi.rightHint !== "-" ? (
           <span className="relative inline-flex shrink-0 text-xs leading-tight font-medium">
             <span
               className={cn("tabular-nums transition-opacity duration-150", toneClass)}
@@ -192,13 +192,13 @@ export function DashboardKpiStrip(props: {
 
 function formatKpiDeltaLabel(showComparison: boolean, deltaPct: number | null): string {
   if (!showComparison) {
-    return "—";
+    return "-";
   }
   if (deltaPct == null) {
     return "New";
   }
   if (Number.isNaN(deltaPct) || !Number.isFinite(deltaPct)) {
-    return "—";
+    return "-";
   }
   const capped = Math.max(-100, Math.min(100, deltaPct));
   if (Math.abs(capped) < 0.05) {

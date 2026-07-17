@@ -27,7 +27,7 @@ Wix can inject global scripts from **Settings → Custom code** (requires a plan
 2. Add custom code → place in **Head** on **All pages**.
 3. Apply and publish.
 
-Free tiers may block custom head code — use a Premium plan or Wix’s approved analytics integrations workaround per their docs.
+Free tiers may block custom head code, use a Premium plan or Wix’s approved analytics integrations workaround per their docs.
 
 ## Verify
 

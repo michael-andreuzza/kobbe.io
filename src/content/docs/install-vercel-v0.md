@@ -9,7 +9,7 @@ brandLogo:
   alt: Vercel v0 logo
 ---
 
-v0 outputs Next.js most of the time — use the **root layout** pattern. Token: [Add the tracker](/docs/add-the-tracker).
+v0 outputs Next.js most of the time, use the **root layout** pattern. Token: [Add the tracker](/docs/add-the-tracker).
 
 ## Quick path
 

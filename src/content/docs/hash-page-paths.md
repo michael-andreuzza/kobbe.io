@@ -33,6 +33,6 @@ Server-side or CLI sends can set **`"trackHash": true`** on the JSON body alongs
 
 ## Related
 
-- [Script options](/docs/script-options) — all `data-*` attributes on the tracker.
-- [Add the tracker](/docs/add-the-tracker) — default install snippet.
-- [Filter your visits](/docs/exclude-visits) — path exclusions use the same stored path shape (including hash when this mode is on).
+- [Script options](/docs/script-options), all `data-*` attributes on the tracker.
+- [Add the tracker](/docs/add-the-tracker), default install snippet.
+- [Filter your visits](/docs/exclude-visits), path exclusions use the same stored path shape (including hash when this mode is on).

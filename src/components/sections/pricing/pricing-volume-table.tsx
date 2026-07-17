@@ -90,7 +90,7 @@ export function PricingVolumeTable({
                   <td className="py-2 text-right">
                     <a
                       href={buildSignupHref(appBaseUrl, tier.key, period)}
-                      data-kobbe-event={`Pricing table — ${tier.events} ${period}`}
+                      data-kobbe-event={`Pricing table - ${tier.events} ${period}`}
                       className={cn(
                         buttonVariants({ variant: "default", size: "xs" }),
                       )}

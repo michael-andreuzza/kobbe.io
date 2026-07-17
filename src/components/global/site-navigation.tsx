@@ -17,7 +17,7 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
   const siteLinks = [
     { href: "/#pricing", label: "Pricing" },
     ...(!hasDocsNavigation
-      ? [{ href: "/docs/support-faq", label: "FAQ" }]
+      ? [{ href: "/#faq", label: "FAQ" }]
       : []),
     {
       href: "https://app.kobbe.io",
@@ -39,7 +39,7 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
           {!hasDocsNavigation ? (
             <NavigationMenuItem className="hidden md:block">
               <NavigationMenuLink
-                href="/docs/support-faq"
+                href="/#faq"
                 className={linkClassName}
               >
                 FAQ

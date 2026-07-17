@@ -9,7 +9,7 @@ brandLogo:
   alt: WooCommerce logo
 ---
 
-WooCommerce runs on WordPress — use the same global snippet as [WordPress](/docs/install-wordpress). Token: [Add the tracker](/docs/add-the-tracker).
+WooCommerce runs on WordPress, use the same global snippet as [WordPress](/docs/install-wordpress). Token: [Add the tracker](/docs/add-the-tracker).
 
 ## Tracker snippet
 

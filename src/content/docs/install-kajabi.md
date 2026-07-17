@@ -24,7 +24,7 @@ Kajabi allows **site-wide tracking scripts** in Settings. Token: [Add the tracke
 ## Steps
 
 1. Kajabi → **Settings → Site details** (or **Analytics / Scripts** depending on UI version).
-2. Paste into **Header tracking code** / **Footer tracking code** — header is preferred.
+2. Paste into **Header tracking code** / **Footer tracking code**, header is preferred.
 3. Save.
 
 ## Verify

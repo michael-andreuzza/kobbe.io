@@ -18,7 +18,7 @@ When **Google Search Console** is connected for the site, the dashboard can show
 | **Impressions**     | How often listings appeared in results.                 |
 | **Rank / position** | Average ranking hints where Google exposes them.        |
 
-Data depends on **Google’s reporting**, your selected property, and sync timing—not on every Kobbe pageview.
+Data depends on **Google’s reporting**, your selected property, and sync timing-not on every Kobbe pageview.
 
 ## Setup and limits
 
