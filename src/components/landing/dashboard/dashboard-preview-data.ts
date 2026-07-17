@@ -91,6 +91,12 @@ export type DashboardPreviewRangeData = {
     total: number;
     rows: { name: string; visitors: number; count: number }[];
   };
+  conversions: {
+    rows: { name: string; count: number }[];
+  };
+  notFoundPages: {
+    rows: { path: string; count: number; topFrom: string | null }[];
+  };
   funnels: {
     name: string;
     completed: number;
@@ -647,6 +653,24 @@ const campaigns = {
   ],
 };
 
+const conversions = {
+  rows: [
+    { name: "Form submit", count: 342 },
+    { name: "Contact click", count: 224 },
+    { name: "Outbound link", count: 518 },
+    { name: "Messaging click", count: 104 },
+  ],
+};
+
+const notFoundPages = {
+  rows: [
+    { path: "/docs/old-install", count: 48, topFrom: "/docs/overview" },
+    { path: "/pricing-2024", count: 31, topFrom: "/blog/launch" },
+    { path: "/features/security", count: 22, topFrom: "/" },
+    { path: "/app/login", count: 18, topFrom: "/docs/overview" },
+  ],
+};
+
 const webVitals = {
   metrics: [
     {
@@ -714,6 +738,8 @@ export const dashboardPreviewData = {
     },
     funnels,
     campaigns,
+    conversions,
+    notFoundPages,
     webVitals,
   },
   "14d": {
@@ -741,6 +767,8 @@ export const dashboardPreviewData = {
     },
     funnels,
     campaigns,
+    conversions,
+    notFoundPages,
     webVitals,
   },
   "30d": {
@@ -768,6 +796,8 @@ export const dashboardPreviewData = {
     },
     funnels,
     campaigns,
+    conversions,
+    notFoundPages,
     webVitals,
   },
 } satisfies Record<DashboardRangeKey, DashboardPreviewRangeData>;

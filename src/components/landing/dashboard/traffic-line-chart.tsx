@@ -1,9 +1,10 @@
-import type { CSSProperties } from "react";
-import { useEffect, useRef, useState } from "react";
+import type { CSSProperties, ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Bar,
   Cell,
   ComposedChart,
+  ReferenceDot,
   ReferenceLine,
   XAxis,
   YAxis,
@@ -64,6 +65,37 @@ type PinnedTooltipState = {
   chartWidth: number;
   chartHeight: number;
 };
+
+type AnnotationMarker = {
+  day: string;
+  index: number;
+  label: string;
+  notes: string[];
+};
+
+type AnnotationDotShapeProps = {
+  cx?: number;
+  cy?: number;
+  viewBox?: {
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
+  };
+  notes: string[];
+  onSelect: (coordinate: { x?: number; y?: number }) => void;
+};
+
+export type TrafficChartAnnotation = {
+  id: string;
+  /** UTC calendar day, YYYY-MM-DD. */
+  day: string;
+  label: string;
+};
+
+function pointUtcDay(t: number): string {
+  return new Date(t).toISOString().slice(0, 10);
+}
 
 type LollipopShapeProps = {
   x?: number;
@@ -135,11 +167,20 @@ export type TrafficChartMetric =
 export function TrafficLineChart(props: {
   points: StackedChartPoint[];
   bucket: TrafficStackBucket;
-  variant?: "default" | "hero";
+  variant?: "default" | "hero" | "compact";
   metric?: TrafficChartMetric;
   spotlightIndex?: number;
   displayTimeZone?: string;
   revenueCurrency?: string | null;
+  annotations?: TrafficChartAnnotation[] | null;
+  /** Marketing preview: keep the annotation popover open for this UTC day. */
+  previewPinnedDay?: string | null;
+  /** Marketing preview: pin by chart point index (overrides day lookup when set). */
+  previewPinnedIndex?: number | null;
+  /** Fill the parent height instead of a fixed chart height. */
+  fitContainer?: boolean;
+  /** Interactive note editor rendered inside the pinned annotation popover. */
+  annotationFooter?: ReactNode;
 }) {
   const {
     points,
@@ -149,34 +190,193 @@ export function TrafficLineChart(props: {
     spotlightIndex,
     displayTimeZone = "UTC",
     revenueCurrency = null,
+    annotations = null,
+    previewPinnedDay = null,
+    previewPinnedIndex = null,
+    fitContainer = false,
+    annotationFooter = null,
   } = props;
   const hero = variant === "hero";
+  const compact = variant === "compact";
   const chartRootRef = useRef<HTMLDivElement>(null);
   const [pinnedTooltip, setPinnedTooltip] = useState<PinnedTooltipState | null>(
     null,
   );
+  const [pinnedAnnotation, setPinnedAnnotation] =
+    useState<PinnedTooltipState | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  const annotationsByDay = (() => {
+    const map = new Map<string, TrafficChartAnnotation[]>();
+    if (!annotations?.length) {
+      return map;
+    }
+    for (const annotation of annotations) {
+      const list = map.get(annotation.day) ?? [];
+      list.push(annotation);
+      map.set(annotation.day, list);
+    }
+    return map;
+  })();
+
+  const pinAnnotationAtIndex = useCallback(
+    (nextIndex: number, coordinate?: { x?: number; y?: number }) => {
+      if (!Number.isInteger(nextIndex) || nextIndex < 0) {
+        return;
+      }
+      setPinnedAnnotation((current) => {
+        if (current?.index === nextIndex) {
+          return null;
+        }
+        const bounds = chartRootRef.current?.getBoundingClientRect();
+        const chartWidth = bounds?.width ?? 0;
+        const chartHeight = bounds?.height ?? 0;
+        return {
+          index: nextIndex,
+          x:
+            typeof coordinate?.x === "number"
+              ? coordinate.x
+              : chartWidth / 2,
+          y:
+            typeof coordinate?.y === "number"
+              ? coordinate.y
+              : chartHeight / 2,
+          chartWidth,
+          chartHeight,
+        };
+      });
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (previewPinnedIndex == null && !previewPinnedDay) {
+      return;
+    }
+
+    const index =
+      previewPinnedIndex != null &&
+      previewPinnedIndex >= 0 &&
+      previewPinnedIndex < points.length
+        ? previewPinnedIndex
+        : points.findIndex(
+            (point) => pointUtcDay(point.t) === previewPinnedDay,
+          );
+    if (index < 0) {
+      return;
+    }
+
+    const metricKey = metricToDataKey(metric);
+    const metricValues = points
+      .map((point) => {
+        if (metricKey === "visitors") return point.visitors;
+        if (metricKey === "visits") return point.visits;
+        if (metricKey === "pageviews") return point.pageviews;
+        if (metricKey === "bounceRate") {
+          return point.visits > 0 ? point.bounceRate * 100 : 0;
+        }
+        if (metricKey === "sessionTime") return point.avgDurationMs / 1000;
+        return point.revenueMinor ?? 0;
+      })
+      .filter((value): value is number => typeof value === "number");
+    const maxMetric = Math.max(1, ...metricValues);
+    const trafficYMax =
+      metric === "bounceRate"
+        ? 100
+        : metric === "sessionTime" || metric === "revenue"
+          ? chartCountAxisUpperBound(Math.ceil(maxMetric))
+          : chartCountAxisUpperBound(maxMetric);
+    const pinnedValue = metricValues[index] ?? 0;
+    const displayDotValue = Math.max(pinnedValue, trafficYMax * 0.025);
+
+    const applyPin = () => {
+      const bounds = chartRootRef.current?.getBoundingClientRect();
+      if (!bounds?.width) {
+        return;
+      }
+
+      setPinnedAnnotation({
+        index,
+        x: (chartCursorXPercent(index, points.length) / 100) * bounds.width,
+        y:
+          (chartCursorYPercent(displayDotValue, trafficYMax) / 100) *
+          bounds.height,
+        chartWidth: bounds.width,
+        chartHeight: bounds.height,
+      });
+    };
+
+    applyPin();
+    const frame = requestAnimationFrame(applyPin);
+    const observer = new ResizeObserver(applyPin);
+    const node = chartRootRef.current;
+    if (node) {
+      observer.observe(node);
+    }
+
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, [previewPinnedDay, previewPinnedIndex, points, metric]);
 
   if (points.length === 0) {
     return (
       <div
-        className={`border-border/80 bg-muted/15 text-muted-foreground flex w-full min-w-0 items-center justify-center rounded-xl border border-dashed text-sm ${hero ? "h-64 sm:h-72" : "h-52"}`}
+        className={`border-border/80 bg-muted/15 text-muted-foreground flex w-full min-w-0 items-center justify-center rounded-xl border border-dashed text-sm ${hero ? "h-64 sm:h-72" : compact ? "h-40" : "h-52"}`}
       >
         No pageviews in this range yet
       </div>
     );
   }
 
-  const data = points.map((point) => ({
-    label: point.label,
-    visitors: point.visitors,
-    visits: point.visits,
-    pageviews: point.pageviews,
-    bounceRate: point.visits > 0 ? point.bounceRate * 100 : null,
-    sessionTime: point.avgDurationMs / 1000,
-    revenue: point.revenueMinor ?? 0,
-    t: point.t,
-  }));
+  const data = points.map((point) => {
+    const day = pointUtcDay(point.t);
+    return {
+      label: point.label,
+      visitors: point.visitors,
+      visits: point.visits,
+      pageviews: point.pageviews,
+      bounceRate: point.visits > 0 ? point.bounceRate * 100 : null,
+      sessionTime: point.avgDurationMs / 1000,
+      revenue: point.revenueMinor ?? 0,
+      t: point.t,
+      annotationNotes:
+        annotationsByDay.get(day)?.map((annotation) => annotation.label) ??
+        null,
+    };
+  });
+
+  const annotationMarkers = (() => {
+    if (annotationsByDay.size === 0) {
+      return [] as AnnotationMarker[];
+    }
+    const firstIndexByDay = new Map<string, number>();
+    data.forEach((point, index) => {
+      const day = pointUtcDay(point.t);
+      if (annotationsByDay.has(day) && !firstIndexByDay.has(day)) {
+        firstIndexByDay.set(day, index);
+      }
+    });
+    return [...firstIndexByDay.entries()]
+      .map(([day, index]) => {
+        const point = data[index];
+        if (!point) {
+          return null;
+        }
+        const notes =
+          annotationsByDay.get(day)?.map((annotation) => annotation.label) ??
+          [];
+        return {
+          day,
+          index,
+          label: point.label,
+          notes,
+        };
+      })
+      .filter((marker): marker is AnnotationMarker => marker != null)
+      .sort((a, b) => a.index - b.index);
+  })();
 
   const metricKey = metricToDataKey(metric);
   const metricColor = primaryChartColor;
@@ -194,6 +394,13 @@ export function TrafficLineChart(props: {
     metric === "revenue" ? 60 : metric === "sessionTime" ? 44 : 40;
   const barMaxSize = chartBarMaxSize(data.length);
   const barCategoryGap = chartBarCategoryGap(data.length);
+  const pinnedAnnotationIndex = pinnedAnnotation?.index ?? null;
+  const pinnedAnnotationPoint =
+    pinnedAnnotationIndex != null &&
+    pinnedAnnotationIndex >= 0 &&
+    pinnedAnnotationIndex < data.length
+      ? data[pinnedAnnotationIndex]
+      : null;
   const pinnedIndex = pinnedTooltip?.index ?? null;
   const pinnedPoint =
     pinnedIndex != null && pinnedIndex >= 0 && pinnedIndex < data.length
@@ -205,7 +412,8 @@ export function TrafficLineChart(props: {
     spotlightIndex < data.length
       ? data[spotlightIndex]
       : null;
-  const displayPoint = pinnedPoint ?? spotlightPoint;
+  const displayPoint =
+    pinnedAnnotationPoint ?? pinnedPoint ?? spotlightPoint;
   const displayMetricValue = displayPoint ? displayPoint[metricKey] : null;
   const displayMetricNumber =
     typeof displayMetricValue === "number" &&
@@ -222,6 +430,15 @@ export function TrafficLineChart(props: {
           dataKey: metricKey,
           value: pinnedPoint[metricKey],
           payload: pinnedPoint,
+        },
+      ]
+    : [];
+  const pinnedAnnotationPayload = pinnedAnnotationPoint
+    ? [
+        {
+          dataKey: metricKey,
+          value: pinnedAnnotationPoint[metricKey],
+          payload: pinnedAnnotationPoint,
         },
       ]
     : [];
@@ -243,7 +460,10 @@ export function TrafficLineChart(props: {
       : null;
 
   return (
-    <div ref={chartRootRef} className="text-primary relative w-full min-w-0">
+    <div
+      ref={chartRootRef}
+      className={`text-primary relative w-full min-w-0${fitContainer ? " h-full min-h-0" : ""}`}
+    >
       <style>{`
         @keyframes kobbeHeroCursorClick {
           0%, 56%, 100% {
@@ -263,8 +483,13 @@ export function TrafficLineChart(props: {
       <ChartContainer
         config={chartConfig}
         className={
-          (hero ? "h-64 w-full sm:h-72" : "h-52 w-full") +
-          " min-w-0 [&_.recharts-label-list]:hidden"
+          (fitContainer
+            ? "h-full min-h-0 w-full"
+            : hero
+              ? "h-64 w-full sm:h-72"
+              : compact
+                ? "h-40 w-full"
+                : "h-52 w-full") + " min-w-0 [&_.recharts-label-list]:hidden"
         }
       >
         <ComposedChart
@@ -324,7 +549,7 @@ export function TrafficLineChart(props: {
             axisLine={false}
             tickMargin={12}
             interval="preserveStartEnd"
-            minTickGap={hero ? 28 : 22}
+            minTickGap={hero ? 28 : compact ? 18 : 22}
             tick={{
               fontSize: 10.5,
               className: "fill-muted-foreground/80 font-medium",
@@ -375,13 +600,37 @@ export function TrafficLineChart(props: {
               <Cell
                 key={`${point.t}-${metricKey}`}
                 fill={
-                  index === pinnedIndex || index === spotlightIndex
+                  index === pinnedAnnotationIndex ||
+                  index === pinnedIndex ||
+                  index === spotlightIndex
                     ? "var(--brand)"
                     : metricColor
                 }
               />
             ))}
           </Bar>
+          {annotationMarkers.map((marker) => (
+            <ReferenceDot
+              key={`annotation-dot-${marker.day}`}
+              yAxisId="traffic"
+              x={marker.label}
+              y={trafficYMax}
+              r={0}
+              ifOverflow="extendDomain"
+              shape={(dotProps) => (
+                <AnnotationDotShape
+                  cx={dotProps.cx}
+                  viewBox={
+                    dotProps.viewBox as AnnotationDotShapeProps["viewBox"]
+                  }
+                  notes={marker.notes}
+                  onSelect={(coordinate) => {
+                    pinAnnotationAtIndex(marker.index, coordinate);
+                  }}
+                />
+              )}
+            />
+          ))}
           {displayPoint ? (
             <ReferenceLine
               key={`spotlight-line-${metricKey}-${displayPoint.label}`}
@@ -443,6 +692,24 @@ export function TrafficLineChart(props: {
           />
         </div>
       ) : null}
+      {pinnedAnnotationPoint && pinnedAnnotation && annotationFooter ? (
+        <div
+          className="pointer-events-none absolute z-20"
+          style={pinnedTooltipStyle(pinnedAnnotation)}
+        >
+          <TrafficChartTooltip
+            active
+            payload={pinnedAnnotationPayload}
+            bucket={bucket}
+            displayTimeZone={displayTimeZone}
+            metric={metric}
+            revenueCurrency={revenueCurrency}
+            pinned
+            footer={annotationFooter}
+            showAnnotationNotes={false}
+          />
+        </div>
+      ) : null}
       {pinnedPoint && pinnedTooltip ? (
         <div
           className="pointer-events-none absolute z-10"
@@ -471,18 +738,26 @@ function TrafficChartTooltip({
   metric,
   revenueCurrency,
   pinned = false,
+  footer,
+  showAnnotationNotes = true,
 }: {
   active?: boolean;
   payload?: Array<{
     dataKey?: string | number;
     value?: number | string | null;
-    payload?: { t?: number; label?: string };
+    payload?: {
+      t?: number;
+      label?: string;
+      annotationNotes?: string[] | null;
+    };
   }>;
   bucket: TrafficStackBucket;
   displayTimeZone: string;
   metric: TrafficChartMetric;
   revenueCurrency: string | null;
   pinned?: boolean;
+  footer?: ReactNode;
+  showAnnotationNotes?: boolean;
 }) {
   if (!active || !payload?.length) {
     return null;
@@ -492,11 +767,16 @@ function TrafficChartTooltip({
     pl?.t != null
       ? formatTrafficChartTooltipTitle(bucket, pl.t, displayTimeZone)
       : String(pl?.label ?? "");
+  const annotationNotes = Array.isArray(pl?.annotationNotes)
+    ? pl.annotationNotes
+    : [];
   const metricKey = metricToDataKey(metric);
   const metricRow = payload.find((row) => String(row.dataKey) === metricKey);
 
   return (
-    <div className="border-background/10 bg-foreground text-background grid max-w-xs min-w-44 gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-md">
+    <div
+      className={`border-background/10 bg-foreground text-background grid max-w-xs gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl ${footer != null ? "min-w-60 pb-2" : "min-w-44"}`}
+    >
       {pinned ? (
         <div className="text-background/70 text-[10px] font-medium tracking-wide uppercase">
           Pinned
@@ -513,7 +793,65 @@ function TrafficChartTooltip({
           </span>
         </div>
       </div>
+      {showAnnotationNotes && footer == null && annotationNotes.length > 0 ? (
+        <div className="grid gap-0.5 border-t border-background/15 pt-1.5">
+          {annotationNotes.map((note, index) => (
+            <div
+              key={`${note}-${index}`}
+              className="text-background/85 flex items-start gap-1.5"
+            >
+              <span
+                className="mt-0.5 shrink-0 text-[8px] leading-none"
+                style={{ color: "var(--brand)" }}
+                aria-hidden
+              >
+                ◆
+              </span>
+              <span className="min-w-0">{note}</span>
+            </div>
+          ))}
+        </div>
+      ) : null}
+      {footer}
     </div>
+  );
+}
+
+function AnnotationDotShape(props: AnnotationDotShapeProps) {
+  const cx = props.cx ?? 0;
+  const topY = (props.viewBox?.y ?? 0) + 10;
+  const noteLabel = props.notes.join(", ");
+
+  return (
+    <g
+      role="button"
+      tabIndex={0}
+      aria-label={noteLabel ? `Chart note: ${noteLabel}` : "Chart note"}
+      style={{ cursor: "pointer" }}
+      onMouseDown={(event) => {
+        event.stopPropagation();
+      }}
+      onClick={(event) => {
+        event.stopPropagation();
+        props.onSelect({ x: cx, y: topY });
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          event.stopPropagation();
+          props.onSelect({ x: cx, y: topY });
+        }
+      }}
+    >
+      <circle
+        cx={cx}
+        cy={topY}
+        r={4.5}
+        fill="var(--brand)"
+        stroke="var(--background)"
+        strokeWidth={1.5}
+      />
+    </g>
   );
 }
 

@@ -389,6 +389,69 @@ export function SearchTermsBreakdownList(props: {
   );
 }
 
+export function ConversionsBreakdownList(props: {
+  rows: { name: string; count: number }[];
+}) {
+  const listTotal = sumCountFromRows(props.rows.map((row) => row.count));
+
+  return (
+    <ul className={breakdownListClassName}>
+      {props.rows.map((row) => (
+        <li key={row.name} className="list-none">
+          <BreakdownListRow count={row.count} listTotal={listTotal}>
+            <span className="text-foreground min-w-0 flex-1 truncate text-xs">
+              {row.name}
+            </span>
+            <span className={breakdownValueClassName}>
+              {row.count.toLocaleString()}
+            </span>
+          </BreakdownListRow>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Pages card 404s tab: dead path, hits, and the page that most often linked to it. */
+export function NotFoundBreakdownList(props: {
+  rows: { path: string; count: number; topFrom: string | null }[];
+}) {
+  const listTotal = sumCountFromRows(props.rows.map((row) => row.count));
+
+  return (
+    <ul className={breakdownListClassName}>
+      {props.rows.map((row) => (
+        <li key={row.path} className="list-none">
+          <BreakdownListRow count={row.count} listTotal={listTotal}>
+            <span className="flex min-w-0 flex-1 items-baseline gap-2">
+              <span
+                className="text-foreground min-w-0 truncate text-xs"
+                title={row.path}
+              >
+                {row.path}
+              </span>
+              {row.topFrom ? (
+                <span
+                  className="text-muted-foreground min-w-0 truncate text-[0.6875rem]"
+                  title={`Most linked from ${row.topFrom}`}
+                >
+                  from {row.topFrom}
+                </span>
+              ) : null}
+            </span>
+            <span
+              className={breakdownValueClassName}
+              aria-label={`${row.count.toLocaleString()} hits`}
+            >
+              {row.count.toLocaleString()}
+            </span>
+          </BreakdownListRow>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function EventsSummaryTable(props: {
   rows: { name: string; visitors: number; count: number }[];
   total: number;

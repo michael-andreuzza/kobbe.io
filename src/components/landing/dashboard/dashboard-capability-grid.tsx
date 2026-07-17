@@ -5,12 +5,15 @@ import { cn } from "@/lib/utils";
 import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
 import { useIdlePulse } from "@/components/landing/use-idle-pulse";
 import {
+  ConversionsBreakdownList,
   EventsSummaryTable,
-  LocationBreakdownList,
-  PageBreakdownList,
+  NotFoundBreakdownList,
   ReferrerBreakdownList,
   SearchTermsBreakdownList,
 } from "./dashboard-list-card";
+import { ChartAnnotationsPreview } from "./chart-annotations-preview";
+import { McpPreview } from "./mcp-preview";
+import { RealtimePreview } from "./realtime-preview";
 import { DashboardMetricTile } from "./dashboard-metric-strip";
 import { dashboardPreviewData } from "./dashboard-preview-data";
 
@@ -107,7 +110,7 @@ export function DashboardCapabilityGrid() {
       `}</style>
       <CapabilityCard
         title="Traffic overview"
-        description="Understand traffic quality at a glance with visitors, visits, page views, engagement, and recent movement in one compact view."
+        description="Switch between visitors and revenue in one compact view to see when traffic turns into paid orders."
         mockupClassName="w-full max-w-md"
         unframed
       >
@@ -115,16 +118,25 @@ export function DashboardCapabilityGrid() {
       </CapabilityCard>
 
       <CapabilityCard
-        title="Pages and paths"
-        description="See which pages bring people in, where they continue browsing, and which paths lead visitors to drop off."
+        title="Conversions"
+        description="Auto-track form submits, contact clicks, outbound links, and messaging taps, then filter the dashboard by goal."
         mockupClassName="w-full max-w-md"
         unframed
       >
         <CapabilityListPreview>
-          <PageBreakdownList
-            rows={data.pages.top.slice(0, capabilityPreviewRowLimit)}
+          <ConversionsBreakdownList
+            rows={data.conversions.rows.slice(0, capabilityPreviewRowLimit)}
           />
         </CapabilityListPreview>
+      </CapabilityCard>
+
+      <CapabilityCard
+        title="Chart annotations"
+        description="Pin notes to specific days on your traffic chart so launches, campaigns, and incidents stay tied to the numbers."
+        mockupClassName="w-full max-w-md"
+        unframed
+      >
+        <ChartAnnotationsPreview />
       </CapabilityCard>
 
       <CapabilityCard
@@ -141,14 +153,14 @@ export function DashboardCapabilityGrid() {
       </CapabilityCard>
 
       <CapabilityCard
-        title="Audience context"
-        description="Learn where your audience is, what devices they use, and how browser or operating system trends affect their experience."
+        title="Google search keywords"
+        description="Connect Search Console to see which queries bring people to your site and tie search demand back to traffic."
         mockupClassName="w-full max-w-md"
         unframed
       >
         <CapabilityListPreview>
-          <LocationBreakdownList
-            rows={data.locations.countries.slice(0, capabilityPreviewRowLimit)}
+          <SearchTermsBreakdownList
+            rows={data.searchKeywords.slice(0, capabilityPreviewRowLimit)}
           />
         </CapabilityListPreview>
       </CapabilityCard>
@@ -169,16 +181,34 @@ export function DashboardCapabilityGrid() {
       </CapabilityCard>
 
       <CapabilityCard
-        title="Search insights"
-        description="Connect Search Console queries with traffic behavior to understand which searches bring qualified visitors."
+        title="Realtime"
+        description="See who is on your site right now, where they are, and what pages they are viewing as activity comes in."
+        mockupClassName="w-full max-w-md"
+        unframed
+      >
+        <RealtimePreview />
+      </CapabilityCard>
+
+      <CapabilityCard
+        title="404 tracking"
+        description="Flag your not-found page once, then see broken URLs, hit counts, and which internal page linked to them."
         mockupClassName="w-full max-w-md"
         unframed
       >
         <CapabilityListPreview>
-          <SearchTermsBreakdownList
-            rows={data.searchKeywords.slice(0, capabilityPreviewRowLimit)}
+          <NotFoundBreakdownList
+            rows={data.notFoundPages.rows.slice(0, capabilityPreviewRowLimit)}
           />
         </CapabilityListPreview>
+      </CapabilityCard>
+
+      <CapabilityCard
+        title="MCP for agents"
+        description="Connect Cursor, Claude Code, or Codex to pull traffic, pages, and setup health without leaving your editor."
+        mockupClassName="w-full max-w-md"
+        unframed
+      >
+        <McpPreview />
       </CapabilityCard>
     </div>
   );
@@ -199,16 +229,15 @@ function TrafficOverviewPreview() {
       label: "Visitors",
       value: data.kpi.visitors.display,
       hint: formatDelta(data.kpi.visitors.deltaPct),
+      hintTone: "good" as const,
+      active: true,
     },
     {
-      label: "Visits",
-      value: data.kpi.visits.display,
-      hint: formatDelta(data.kpi.visits.deltaPct),
-    },
-    {
-      label: "Page views",
-      value: data.kpi.views.display,
-      hint: formatDelta(data.kpi.views.deltaPct),
+      label: "Revenue",
+      value: data.kpi.revenue.display,
+      hint: data.kpi.revenue.rightHint,
+      hintTone: "neutral" as const,
+      active: false,
     },
   ];
 
@@ -220,6 +249,8 @@ function TrafficOverviewPreview() {
           label={tile.label}
           value={tile.value}
           hint={tile.hint}
+          hintTone={tile.hintTone}
+          active={tile.active}
         />
       ))}
     </div>
@@ -230,25 +261,49 @@ function TrafficKpiTile(props: {
   label: string;
   value: string;
   hint: string | null;
+  hintTone?: "good" | "neutral";
+  active?: boolean;
 }) {
+  const hintClassName = props.active
+    ? "text-background/70"
+    : props.hintTone === "good"
+      ? "text-success"
+      : "text-muted-foreground";
+
   return (
     <DashboardMetricTile
       surface="muted"
-      className="outline-border aspect-square min-h-0 min-w-0 flex-1 p-2.5 outline sm:p-3"
+      active={props.active}
+      className="outline-border aspect-square min-h-0 min-w-0 flex-1 p-2.5 shadow outline sm:p-3"
     >
       <div className="flex h-full min-w-0 flex-col gap-1">
         <div className="flex w-full min-w-0 items-baseline justify-between gap-2">
-          <span className="text-muted-foreground truncate text-xs leading-tight font-medium">
+          <span
+            className={cn(
+              "truncate text-xs leading-tight font-medium",
+              props.active ? "text-background/70" : "text-muted-foreground",
+            )}
+          >
             {props.label}
           </span>
           {props.hint ? (
-            <span className="text-success relative inline-flex shrink-0 text-xs leading-tight font-medium tabular-nums">
+            <span
+              className={cn(
+                "relative inline-flex shrink-0 text-xs leading-tight font-medium tabular-nums",
+                hintClassName,
+              )}
+            >
               {props.hint}
             </span>
           ) : null}
         </div>
         <div className="mt-auto min-w-0">
-          <span className="text-foreground truncate text-base leading-tight font-medium tracking-tight tabular-nums sm:text-lg">
+          <span
+            className={cn(
+              "truncate text-base leading-tight font-medium tracking-tight tabular-nums sm:text-lg",
+              props.active ? "text-background" : "text-foreground",
+            )}
+          >
             {props.value}
           </span>
         </div>
