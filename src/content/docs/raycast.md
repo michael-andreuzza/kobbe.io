@@ -21,7 +21,7 @@ The extension can:
 
 ## Create an API token
 
-Open Kobbe and go to **Account -> Agent access**.
+Open the app **profile menu** (your avatar, top right) and choose **Agent access**. You can also open [app.kobbe.io/settings/agent-access](https://app.kobbe.io/settings/agent-access) directly. It is **not** under site settings or **Account** settings. This requires a **Starter plan or higher** and workspace manager access.
 
 Create a token named `Raycast` and enable only the scopes the extension needs:
 
@@ -50,7 +50,7 @@ To change it later, open Raycast settings, go to **Extensions**, search for **Ko
 
 ## Revoke a token
 
-If a token is exposed or a device no longer needs access, go back to **Account -> Agent access** and revoke it.
+If a token is exposed or a device no longer needs access, open **profile menu → Agent access** and revoke it.
 
 Create a new token when you need to connect Raycast again.
 

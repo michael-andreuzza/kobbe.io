@@ -16,7 +16,11 @@ The CLI package is `@kobbe/cli`. It also includes MCP server mode for AI agents,
 npm install -g @kobbe/cli
 ```
 
-Create an API token in **Kobbe → Settings → Account → Agent access**. Copy it immediately; Kobbe only shows it once.
+Create an API token from the app **profile menu** (your avatar, top right) → **Agent access**. You can also open [app.kobbe.io/settings/agent-access](https://app.kobbe.io/settings/agent-access) directly. It is **not** under site settings or **Account** settings. Copy the token immediately; Kobbe only shows it once.
+
+**Agent access requires a Starter plan or higher.** On Lite, the menu item is hidden. Upgrade from **profile menu → Billing**, or open the URL above to see the upgrade notice.
+
+Only workspace owners and managers can create tokens. Use **Cmd/Ctrl K** and search **Agent access** if you do not see it in the profile menu.
 
 Then log in locally:
 

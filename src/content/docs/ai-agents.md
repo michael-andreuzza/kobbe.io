@@ -12,7 +12,9 @@ Agent access uses the same `@kobbe/cli` package as the [CLI](/docs/cli), but run
 
 ## Setup
 
-Create an API token in **Kobbe → Settings → Account → Agent access**. Copy it immediately; Kobbe only shows it once.
+Create an API token from the app **profile menu** (your avatar, top right) → **Agent access**. You can also open [app.kobbe.io/settings/agent-access](https://app.kobbe.io/settings/agent-access) directly. It is **not** under site settings or **Account** settings. Copy the token immediately; Kobbe only shows it once.
+
+**Agent access requires a Starter plan or higher.** On Lite, the menu item is hidden. Only workspace owners and managers can create tokens.
 
 You can either log in once with the CLI:
 
@@ -50,7 +52,7 @@ MCP tools include:
 
 ## Token scopes
 
-API tokens are workspace-scoped and can be revoked any time from account settings.
+API tokens are workspace-scoped and can be revoked any time from **profile menu → Agent access**.
 
 Scopes:
 
