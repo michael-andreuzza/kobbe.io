@@ -1,11 +1,12 @@
 ---
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import HeroDashboardPreview from "@/components/landing/hero-dashboard-preview";
+import HeroShaderBackground from "@/components/landing/hero-shader-background";
 import { buttonVariants } from "@/components/ui/button";
 import SectionIntro from "@/components/landing/SectionIntro.astro";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
 import { Image } from "astro:assets";
-import paintOne from "@/images/assets/background.svg";
+import paintOne from "@/images/assets/paint-one.png";
 ---
 
 <section>
@@ -45,6 +46,7 @@ import paintOne from "@/images/assets/background.svg";
         width={2000}
         class="absolute inset-0 size-full bg-cover object-cover"
       />
+      <HeroShaderBackground client:visible />
 
       <div class="relative z-10">
         <HeroDashboardPreview client:load />
