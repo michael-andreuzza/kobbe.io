@@ -7,7 +7,7 @@ import { PagesCard } from "./cards/pages-card";
 import { SearchKeywordsCard } from "./cards/search-keywords-card";
 import { SourcesCard } from "./cards/sources-card";
 import { DashboardKpiStrip } from "./dashboard-kpi-strip";
-import { dashboardPreviewData } from "./dashboard-preview-data";
+import { dashboardPreviewData, heroChartAnnotations, heroChartPinnedIndex } from "./dashboard-preview-data";
 import { DashboardTrafficChart } from "./dashboard-traffic-chart";
 import type { TrafficChartMetric } from "./traffic-line-chart";
 
@@ -27,8 +27,6 @@ const heroMetricSequence = [
   "bounceRate",
 ] satisfies TrafficChartMetric[];
 
-const heroSpotlightIndexes = [18, 22, 25, 27] as const;
-
 export function DashboardPreview() {
   const [chartMetric, setChartMetric] =
     useState<TrafficChartMetric>("visitors");
@@ -36,10 +34,6 @@ export function DashboardPreview() {
   const [autoplayPaused, setAutoplayPaused] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
   const data = dashboardPreviewData["30d"];
-  const spotlightIndex =
-    autoplayPaused || prefersReducedMotion
-      ? undefined
-      : heroSpotlightIndexes[autoplayStep % heroSpotlightIndexes.length];
 
   useEffect(() => {
     if (autoplayPaused || prefersReducedMotion) return;
@@ -78,7 +72,8 @@ export function DashboardPreview() {
         points={data.points}
         metric={chartMetric}
         rangeLabel={data.label}
-        spotlightIndex={spotlightIndex}
+        previewPinnedIndex={heroChartPinnedIndex}
+        annotations={heroChartAnnotations}
       >
         {trafficChartMetricLabels[chartMetric]}
       </DashboardTrafficChart>

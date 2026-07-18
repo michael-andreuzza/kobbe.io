@@ -1,4 +1,4 @@
-import type { StackedChartPoint } from "./traffic-line-chart";
+import type { StackedChartPoint, TrafficChartAnnotation } from "./traffic-line-chart";
 
 export type DashboardRangeKey = "7d" | "14d" | "30d";
 
@@ -127,6 +127,17 @@ export type DashboardPreviewRangeData = {
     environments: { name: string; count: number }[];
   };
 };
+
+/** Hero dashboard preview: pinned chart day (May 5) with note + top referrer. */
+export const heroChartPinnedIndex = 24;
+
+export const heroChartAnnotations: TrafficChartAnnotation[] = [
+  {
+    id: "hero-note-1",
+    day: "2026-05-05",
+    label: "Product launch campaign went live",
+  },
+];
 
 const basePoints: StackedChartPoint[] = [
   {
@@ -377,6 +388,7 @@ const basePoints: StackedChartPoint[] = [
     bounceRate: 0.29,
     avgDurationMs: 162000,
     revenueMinor: 376000,
+    topReferrer: { host: "lexingtonthemes.com", count: 312 },
     t: Date.UTC(2026, 4, 5),
   },
   {

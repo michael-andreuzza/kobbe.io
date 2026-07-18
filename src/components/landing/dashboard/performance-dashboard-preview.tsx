@@ -38,6 +38,12 @@ import {
   dashboardCardTitleClass,
 } from "./dashboard-card-layout";
 import {
+  BrandActiveLollipopBarShape,
+  LollipopBarShape,
+  chartBarCategoryGap,
+  chartBarMaxSize,
+} from "./chart-lollipop";
+import {
   DeviceBreakdownList,
   LocationBreakdownList,
 } from "./dashboard-list-card";
@@ -184,68 +190,6 @@ const performanceChartConfig = {
   p75: { label: "p75", color: "var(--foreground)" },
   p95: { label: "p95", color: "var(--foreground)" },
 } satisfies ChartConfig;
-
-type LollipopShapeProps = {
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
-  fill?: string;
-  fillOpacity?: number;
-  active?: boolean;
-  background?: { y?: number; height?: number };
-};
-
-function LollipopBarShape(props: LollipopShapeProps) {
-  const x = Number(props.x) || 0;
-  const y = Number(props.y) || 0;
-  const width = Number(props.width) || 0;
-  const height = Number(props.height) || 0;
-  const fill = props.active
-    ? "var(--brand)"
-    : (props.fill ?? "var(--foreground)");
-  const fillOpacity = props.fillOpacity ?? 1;
-  const cx = x + width / 2;
-  const railTop =
-    typeof props.background?.y === "number" ? props.background.y : y;
-  const railBottom =
-    typeof props.background?.height === "number"
-      ? railTop + props.background.height
-      : y + height;
-  const stemOpacity = (props.active ? 0.9 : 0.7) * fillOpacity;
-  const railOpacity = (props.active ? 0.18 : 0.1) * fillOpacity;
-
-  return (
-    <g>
-      <line
-        x1={cx}
-        y1={railTop}
-        x2={cx}
-        y2={railBottom}
-        stroke={fill}
-        strokeOpacity={railOpacity}
-        strokeWidth={1}
-        strokeLinecap="round"
-      />
-      {height > 0 ? (
-        <line
-          x1={cx}
-          y1={y}
-          x2={cx}
-          y2={railBottom}
-          stroke={fill}
-          strokeOpacity={stemOpacity}
-          strokeWidth={1.5}
-          strokeLinecap="round"
-        />
-      ) : null}
-    </g>
-  );
-}
-
-function BrandActiveLollipopBarShape(props: LollipopShapeProps) {
-  return <LollipopBarShape {...props} active fill="var(--brand)" />;
-}
 
 const performanceMetricSequence = [0, 1, 2, 3, 4] as const;
 
@@ -562,7 +506,7 @@ function PerformanceTrendPreview(props: {
     <div className="relative min-w-0 w-full">
       <ChartContainer
         config={performanceChartConfig}
-        className="h-64 w-full min-w-0 sm:h-72 [&_.recharts-label-list]:hidden"
+        className="h-64 w-full min-w-0 sm:h-72 [&_.recharts-label-list]:hidden [&_.recharts-curve.recharts-tooltip-cursor]:hidden [&_.recharts-rectangle.recharts-tooltip-cursor]:hidden [&_.recharts-tooltip-cursor]:hidden"
       >
         <ComposedChart
           accessibilityLayer
@@ -722,22 +666,6 @@ function PerformanceBreakdownCard(props: {
       </CardContent>
     </Card>
   );
-}
-
-function chartBarMaxSize(pointCount: number): number {
-  if (pointCount <= 7) return 64;
-  if (pointCount <= 14) return 48;
-  if (pointCount <= 30) return 32;
-  if (pointCount <= 60) return 22;
-  if (pointCount <= 120) return 14;
-  return 10;
-}
-
-function chartBarCategoryGap(pointCount: number): string | number {
-  if (pointCount <= 7) return "12%";
-  if (pointCount <= 30) return "10%";
-  if (pointCount <= 90) return "6%";
-  return "2%";
 }
 
 export default PerformanceDashboardPreview;

@@ -15,8 +15,24 @@ import {
   ChartTooltip,
   type ChartConfig,
 } from "@/components/ui/chart";
+import { hostnameFromReferrer } from "@/lib/referrer-favicon";
+
+import {
+  BrandActiveLollipopBarShape,
+  LollipopBarShape,
+  chartBarCategoryGap,
+  chartBarMaxSize,
+} from "./chart-lollipop";
+import { ReferrerFavicon } from "./referrer-favicon";
+
+const TRAFFIC_CHART_TOOLTIP_LINE_GAP = 16;
 
 export type TrafficStackBucket = "hour" | "day";
+
+export type ChartTopReferrer = {
+  host: string;
+  count: number;
+};
 
 export type StackedChartPoint = {
   label: string;
@@ -26,6 +42,7 @@ export type StackedChartPoint = {
   bounceRate: number;
   avgDurationMs: number;
   revenueMinor?: number;
+  topReferrer?: ChartTopReferrer | null;
   t: number;
 };
 
@@ -95,65 +112,6 @@ export type TrafficChartAnnotation = {
 
 function pointUtcDay(t: number): string {
   return new Date(t).toISOString().slice(0, 10);
-}
-
-type LollipopShapeProps = {
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
-  fill?: string;
-  active?: boolean;
-  background?: { y?: number; height?: number };
-};
-
-function LollipopBarShape(props: LollipopShapeProps) {
-  const x = Number(props.x) || 0;
-  const y = Number(props.y) || 0;
-  const width = Number(props.width) || 0;
-  const height = Number(props.height) || 0;
-  const fill = props.active
-    ? "var(--brand)"
-    : (props.fill ?? "var(--foreground)");
-  const cx = x + width / 2;
-  const railTop = typeof props.background?.y === "number" ? props.background.y : y;
-  const railBottom =
-    typeof props.background?.height === "number"
-      ? railTop + props.background.height
-      : y + height;
-  const stemOpacity = props.active ? 0.9 : 0.7;
-  const railOpacity = props.active ? 0.18 : 0.1;
-
-  return (
-    <g>
-      <line
-        x1={cx}
-        y1={railTop}
-        x2={cx}
-        y2={railBottom}
-        stroke={fill}
-        strokeOpacity={railOpacity}
-        strokeWidth={1}
-        strokeLinecap="round"
-      />
-      {height > 0 ? (
-        <line
-          x1={cx}
-          y1={y}
-          x2={cx}
-          y2={railBottom}
-          stroke={fill}
-          strokeOpacity={stemOpacity}
-          strokeWidth={1.5}
-          strokeLinecap="round"
-        />
-      ) : null}
-    </g>
-  );
-}
-
-function BrandActiveLollipopBarShape(props: LollipopShapeProps) {
-  return <LollipopBarShape {...props} active fill="var(--brand)" />;
 }
 
 export type TrafficChartMetric =
@@ -344,6 +302,7 @@ export function TrafficLineChart(props: {
       annotationNotes:
         annotationsByDay.get(day)?.map((annotation) => annotation.label) ??
         null,
+      topReferrer: point.topReferrer ?? null,
     };
   });
 
@@ -395,6 +354,11 @@ export function TrafficLineChart(props: {
   const barMaxSize = chartBarMaxSize(data.length);
   const barCategoryGap = chartBarCategoryGap(data.length);
   const pinnedAnnotationIndex = pinnedAnnotation?.index ?? null;
+  const heroPinnedIndex =
+    hero && previewPinnedIndex != null ? previewPinnedIndex : null;
+  const disableHoverChartInteraction = hero && heroPinnedIndex != null;
+  const activeBarIndex =
+    heroPinnedIndex ?? pinnedAnnotationIndex ?? pinnedTooltip?.index ?? null;
   const pinnedAnnotationPoint =
     pinnedAnnotationIndex != null &&
     pinnedAnnotationIndex >= 0 &&
@@ -413,7 +377,9 @@ export function TrafficLineChart(props: {
       ? data[spotlightIndex]
       : null;
   const displayPoint =
-    pinnedAnnotationPoint ?? pinnedPoint ?? spotlightPoint;
+    pinnedAnnotationPoint ??
+    pinnedPoint ??
+    (hero && heroPinnedIndex == null ? spotlightPoint : null);
   const displayMetricValue = displayPoint ? displayPoint[metricKey] : null;
   const displayMetricNumber =
     typeof displayMetricValue === "number" &&
@@ -451,13 +417,23 @@ export function TrafficLineChart(props: {
         },
       ]
     : [];
-  const spotlightCursor =
-    hero && spotlightIndex != null && spotlightPoint && displayDotValue != null
-      ? {
-          x: chartCursorXPercent(spotlightIndex, data.length),
-          y: chartCursorYPercent(displayDotValue, trafficYMax),
-        }
-      : null;
+  const showHeroSpotlight =
+    hero &&
+    heroPinnedIndex == null &&
+    spotlightIndex != null &&
+    spotlightPoint &&
+    displayDotValue != null;
+  const spotlightCursor = showHeroSpotlight
+    ? {
+        x: chartCursorXPercent(spotlightIndex!, data.length),
+        y: chartCursorYPercent(displayDotValue!, trafficYMax),
+      }
+    : null;
+  const showHeroPinnedTooltip =
+    hero &&
+    heroPinnedIndex != null &&
+    pinnedAnnotationPoint &&
+    pinnedAnnotation != null;
 
   return (
     <div
@@ -489,7 +465,8 @@ export function TrafficLineChart(props: {
               ? "h-64 w-full sm:h-72"
               : compact
                 ? "h-40 w-full"
-                : "h-52 w-full") + " min-w-0 [&_.recharts-label-list]:hidden"
+                : "h-52 w-full") +
+          " min-w-0 [&_.recharts-label-list]:hidden [&_.recharts-curve.recharts-tooltip-cursor]:hidden [&_.recharts-rectangle.recharts-tooltip-cursor]:hidden [&_.recharts-tooltip-cursor]:hidden"
         }
       >
         <ComposedChart
@@ -575,40 +552,57 @@ export function TrafficLineChart(props: {
             }}
             domain={[0, trafficYMax]}
           />
-          <ChartTooltip
-            content={
-              <TrafficChartTooltip
-                bucket={bucket}
-                displayTimeZone={displayTimeZone}
-                metric={metric}
-                revenueCurrency={revenueCurrency}
-              />
-            }
-            cursor={false}
-          />
+          {disableHoverChartInteraction ? null : (
+            <ChartTooltip
+              content={
+                <TrafficChartTooltip
+                  bucket={bucket}
+                  displayTimeZone={displayTimeZone}
+                  metric={metric}
+                  revenueCurrency={revenueCurrency}
+                />
+              }
+              cursor={false}
+            />
+          )}
           <Bar
             key={metricKey}
             yAxisId="traffic"
             dataKey={metricKey}
             fill={metricColor}
             maxBarSize={barMaxSize}
-            shape={<LollipopBarShape />}
-            activeBar={<BrandActiveLollipopBarShape />}
+            shape={(barProps) => (
+              <LollipopBarShape
+                x={barProps.x}
+                y={barProps.y ?? undefined}
+                width={barProps.width}
+                height={barProps.height}
+                fill={barProps.fill}
+                fillOpacity={barProps.fillOpacity}
+                background={
+                  barProps.background
+                    ? {
+                        y: barProps.background.y ?? undefined,
+                        height: barProps.background.height ?? undefined,
+                      }
+                    : undefined
+                }
+                active={
+                  activeBarIndex != null && barProps.index === activeBarIndex
+                }
+              />
+            )}
+            activeBar={
+              disableHoverChartInteraction ? undefined : (
+                <BrandActiveLollipopBarShape />
+              )
+            }
             isAnimationActive={!prefersReducedMotion}
             animationDuration={320}
             animationEasing="ease-out"
           >
-            {data.map((point, index) => (
-              <Cell
-                key={`${point.t}-${metricKey}`}
-                fill={
-                  index === pinnedAnnotationIndex ||
-                  index === pinnedIndex ||
-                  index === spotlightIndex
-                    ? "var(--brand)"
-                    : metricColor
-                }
-              />
+            {data.map((point) => (
+              <Cell key={`${point.t}-${metricKey}`} fill={metricColor} />
             ))}
           </Bar>
           {annotationMarkers.map((marker) => (
@@ -633,7 +627,7 @@ export function TrafficLineChart(props: {
               )}
             />
           ))}
-          {displayPoint ? (
+          {displayPoint && !disableHoverChartInteraction ? (
             <ReferenceLine
               key={`spotlight-line-${metricKey}-${displayPoint.label}`}
               yAxisId="traffic"
@@ -694,10 +688,10 @@ export function TrafficLineChart(props: {
           />
         </div>
       ) : null}
-      {pinnedAnnotationPoint && pinnedAnnotation && annotationFooter ? (
+      {showHeroPinnedTooltip || (pinnedAnnotationPoint && pinnedAnnotation && annotationFooter) ? (
         <div
           className="pointer-events-none absolute z-20"
-          style={pinnedTooltipStyle(pinnedAnnotation)}
+          style={pinnedTooltipStyle(pinnedAnnotation!)}
         >
           <TrafficChartTooltip
             active
@@ -708,7 +702,7 @@ export function TrafficLineChart(props: {
             revenueCurrency={revenueCurrency}
             pinned
             footer={annotationFooter}
-            showAnnotationNotes={false}
+            showAnnotationNotes={annotationFooter == null}
           />
         </div>
       ) : null}
@@ -747,10 +741,12 @@ function TrafficChartTooltip({
   payload?: Array<{
     dataKey?: string | number;
     value?: number | string | null;
-    payload?: {
+      payload?: {
       t?: number;
       label?: string;
+      visitors?: number;
       annotationNotes?: string[] | null;
+      topReferrer?: ChartTopReferrer | null;
     };
   }>;
   bucket: TrafficStackBucket;
@@ -774,6 +770,21 @@ function TrafficChartTooltip({
     : [];
   const metricKey = metricToDataKey(metric);
   const metricRow = payload.find((row) => String(row.dataKey) === metricKey);
+  const topReferrer =
+    pl?.topReferrer && typeof pl.topReferrer === "object"
+      ? (pl.topReferrer as ChartTopReferrer)
+      : null;
+  const visitorsInBucket =
+    typeof pl?.visitors === "number" ? pl.visitors : Number(pl?.visitors) || 0;
+  const topReferrerShare =
+    topReferrer && visitorsInBucket > 0
+      ? Math.round((topReferrer.count / visitorsInBucket) * 100)
+      : null;
+  const topReferrerLabel =
+    topReferrer != null
+      ? (hostnameFromReferrer(topReferrer.host)?.replace(/^www\./i, "") ??
+        topReferrer.host)
+      : null;
 
   return (
     <div
@@ -795,20 +806,37 @@ function TrafficChartTooltip({
           </span>
         </div>
       </div>
+      {topReferrer && topReferrerLabel ? (
+        <div className="grid gap-1.5 border-t border-background/15 pt-1.5">
+          <div className="text-background/70 text-[10px] font-medium tracking-wide uppercase">
+            Top referrer
+          </div>
+          <div className="flex items-center justify-between gap-3 leading-none">
+            <span className="text-background/85 inline-flex min-w-0 items-center gap-1.5">
+              <ReferrerFavicon
+                referrer={topReferrer.host}
+                title={topReferrerLabel}
+              />
+              <span className="truncate">{topReferrerLabel}</span>
+            </span>
+            <span className="text-background shrink-0 font-mono font-medium tabular-nums">
+              {Math.round(topReferrer.count).toLocaleString()}
+            </span>
+          </div>
+          {topReferrerShare != null && topReferrerShare > 0 ? (
+            <p className="text-background/65 text-[11px] leading-snug">
+              Accounted for {topReferrerShare}% of visitors that day.
+            </p>
+          ) : null}
+        </div>
+      ) : null}
       {showAnnotationNotes && footer == null && annotationNotes.length > 0 ? (
         <div className="grid gap-0.5 border-t border-background/15 pt-1.5">
           {annotationNotes.map((note, index) => (
             <div
               key={`${note}-${index}`}
-              className="text-background/85 flex items-start gap-1.5"
+              className="text-background/85"
             >
-              <span
-                className="mt-0.5 shrink-0 text-[8px] leading-none"
-                style={{ color: "var(--brand)" }}
-                aria-hidden
-              >
-                ◆
-              </span>
               <span className="min-w-0">{note}</span>
             </div>
           ))}
@@ -853,27 +881,20 @@ function AnnotationDotShape(props: AnnotationDotShapeProps) {
         rx={2}
         ry={2}
         fill="var(--brand)"
-        stroke="var(--background)"
-        strokeWidth={1.5}
       />
     </g>
   );
 }
 
 function pinnedTooltipStyle(pinned: PinnedTooltipState): CSSProperties {
-  const horizontal =
-    pinned.x < 140
-      ? "left"
-      : pinned.chartWidth - pinned.x < 220
-        ? "right"
-        : "center";
+  const gap = TRAFFIC_CHART_TOOLTIP_LINE_GAP;
+  const placeRight = pinned.chartWidth - pinned.x >= 220;
   const vertical = pinned.y < 96 ? "below" : "above";
-  const translateX =
-    horizontal === "left" ? "0" : horizontal === "right" ? "-100%" : "-50%";
   const translateY = vertical === "above" ? "-100%" : "0";
+  const translateX = placeRight ? "0" : "-100%";
 
   return {
-    left: pinned.x,
+    left: placeRight ? pinned.x + gap : pinned.x - gap,
     top: vertical === "above" ? pinned.y - 12 : pinned.y + 12,
     transform: `translate(${translateX}, ${translateY})`,
   };
@@ -941,22 +962,6 @@ function usePrefersReducedMotion() {
   }, []);
 
   return reducedMotion;
-}
-
-function chartBarMaxSize(pointCount: number): number {
-  if (pointCount <= 7) return 64;
-  if (pointCount <= 14) return 48;
-  if (pointCount <= 30) return 32;
-  if (pointCount <= 60) return 22;
-  if (pointCount <= 120) return 14;
-  return 10;
-}
-
-function chartBarCategoryGap(pointCount: number): string | number {
-  if (pointCount <= 7) return "12%";
-  if (pointCount <= 30) return "10%";
-  if (pointCount <= 90) return "6%";
-  return "2%";
 }
 
 function chartCountAxisUpperBound(maxValue: number) {

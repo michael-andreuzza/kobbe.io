@@ -16,6 +16,7 @@ import {
 import {
   TrafficLineChart,
   type StackedChartPoint,
+  type TrafficChartAnnotation,
   type TrafficChartMetric,
 } from "./traffic-line-chart";
 
@@ -26,6 +27,8 @@ type Props = {
   children?: ReactNode;
   className?: string;
   spotlightIndex?: number;
+  previewPinnedIndex?: number | null;
+  annotations?: TrafficChartAnnotation[] | null;
 };
 
 export function DashboardTrafficChart(props: Props) {
@@ -47,6 +50,8 @@ export function DashboardTrafficChart(props: Props) {
             variant="hero"
             metric={props.metric}
             spotlightIndex={props.spotlightIndex}
+            previewPinnedIndex={props.previewPinnedIndex}
+            annotations={props.annotations}
             displayTimeZone="UTC"
             revenueCurrency="USD"
           />
