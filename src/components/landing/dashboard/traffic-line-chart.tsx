@@ -545,6 +545,8 @@ export function TrafficLineChart(props: {
         >
           <XAxis
             dataKey="label"
+            scale="point"
+            padding={{ left: 6, right: 6 }}
             tickLine={false}
             axisLine={false}
             tickMargin={12}
@@ -843,10 +845,13 @@ function AnnotationDotShape(props: AnnotationDotShapeProps) {
         }
       }}
     >
-      <circle
-        cx={cx}
-        cy={topY}
-        r={4.5}
+      <rect
+        x={cx - 4}
+        y={topY - 4}
+        width={8}
+        height={8}
+        rx={2}
+        ry={2}
         fill="var(--brand)"
         stroke="var(--background)"
         strokeWidth={1.5}
@@ -911,8 +916,9 @@ function chartCursorXPercent(index: number, pointCount: number) {
     return 52;
   }
 
-  const plotStart = 14;
-  const plotEnd = 92;
+  // Match point-scale XAxis: first/last buckets sit near the plot edges.
+  const plotStart = 6;
+  const plotEnd = 94;
   return plotStart + (index / (pointCount - 1)) * (plotEnd - plotStart);
 }
 

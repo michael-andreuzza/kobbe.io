@@ -5,6 +5,7 @@ import { Bar, Cell, ComposedChart, XAxis, YAxis } from "recharts";
 
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -44,6 +45,49 @@ import {
 type Props = {
   webVitals: DashboardPreviewRangeData["webVitals"];
 };
+
+type PerformancePercentileVisibility = {
+  p50: boolean;
+  p75: boolean;
+  p95: boolean;
+};
+
+const defaultPerformancePercentileVisibility: PerformancePercentileVisibility =
+  {
+    p50: false,
+    p75: true,
+    p95: false,
+  };
+
+function PerformancePercentileToggles(props: {
+  value: PerformancePercentileVisibility;
+  onChange: (next: PerformancePercentileVisibility) => void;
+}) {
+  const { value, onChange } = props;
+  return (
+    <div className="flex flex-wrap items-center gap-1">
+      {(["p50", "p75", "p95"] as const).map((key) => (
+        <button
+          key={key}
+          type="button"
+          className={cn(
+            buttonVariants({
+              variant: value[key] ? "default" : "ghost",
+              size: "xs",
+            }),
+            "h-5 min-h-5 rounded-md border-transparent px-1.5 text-[0.6875rem]",
+            !value[key] &&
+              "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-muted-foreground",
+          )}
+          onClick={() => onChange({ ...value, [key]: !value[key] })}
+          aria-pressed={value[key]}
+        >
+          {key}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 const trendPoints = [
   {
@@ -334,17 +378,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
         })}
       </DashboardMetricStrip>
 
-      <Card className={cn("mt-4 sm:mt-5", dashboardCardRootClass)}>
-        <CardHeader className={dashboardCardHeaderClass}>
-          <CardTitle className={dashboardCardTitleClass}>
-            {activeMetric} over time
-          </CardTitle>
-          <CardDescription>Last 7 days</CardDescription>
-        </CardHeader>
-        <CardContent className="min-w-0 px-3 pb-4 sm:px-4">
-          <PerformanceTrendPreview metric={activeMetric} points={trendPoints} />
-        </CardContent>
-      </Card>
+      <PerformanceTrendCard metric={activeMetric} points={trendPoints} />
 
       <Card className={cn("mt-4", dashboardCardRootClass)}>
         <CardHeader className={dashboardCardHeaderClass}>
@@ -420,15 +454,12 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
   );
 }
 
-function PerformanceTrendPreview(props: {
+function PerformanceTrendCard(props: {
   metric: WebVitalName;
   points: typeof trendPoints;
 }) {
-  const { metric } = props;
   const shouldReduceMotion = useReducedMotion();
-  const [showP50, setShowP50] = useState(false);
-  const [showP75, setShowP75] = useState(true);
-  const [showP95, setShowP95] = useState(false);
+  const [visible, setVisible] = useState(defaultPerformancePercentileVisibility);
   const [userSelectedMetric, setUserSelectedMetric] = useState(false);
 
   useEffect(() => {
@@ -436,7 +467,7 @@ function PerformanceTrendPreview(props: {
       return;
     }
 
-    const sequence = [
+    const sequence: PerformancePercentileVisibility[] = [
       { p50: false, p75: true, p95: false },
       { p50: true, p75: true, p95: false },
       { p50: true, p75: true, p95: true },
@@ -445,16 +476,59 @@ function PerformanceTrendPreview(props: {
     const timeout = window.setTimeout(() => {
       const currentIndex = sequence.findIndex(
         (item) =>
-          item.p50 === showP50 && item.p75 === showP75 && item.p95 === showP95,
+          item.p50 === visible.p50 &&
+          item.p75 === visible.p75 &&
+          item.p95 === visible.p95,
       );
-      const next = sequence[(Math.max(0, currentIndex) + 1) % sequence.length]!;
-      setShowP50(next.p50);
-      setShowP75(next.p75);
-      setShowP95(next.p95);
+      const next =
+        sequence[(Math.max(0, currentIndex) + 1) % sequence.length]!;
+      setVisible(next);
     }, 2100);
 
     return () => window.clearTimeout(timeout);
-  }, [shouldReduceMotion, showP50, showP75, showP95, userSelectedMetric]);
+  }, [
+    shouldReduceMotion,
+    userSelectedMetric,
+    visible.p50,
+    visible.p75,
+    visible.p95,
+  ]);
+
+  return (
+    <Card className={cn("mt-4 sm:mt-5", dashboardCardRootClass)}>
+      <CardHeader className={dashboardCardHeaderClass}>
+        <CardTitle className={dashboardCardTitleClass}>
+          {props.metric} over time
+        </CardTitle>
+        <CardDescription>Last 7 days</CardDescription>
+        <CardAction>
+          <PerformancePercentileToggles
+            value={visible}
+            onChange={(next) => {
+              setUserSelectedMetric(true);
+              setVisible(next);
+            }}
+          />
+        </CardAction>
+      </CardHeader>
+      <CardContent className="min-w-0 px-3 pb-4 sm:px-4">
+        <PerformanceTrendPreview
+          metric={props.metric}
+          points={props.points}
+          visible={visible}
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
+function PerformanceTrendPreview(props: {
+  metric: WebVitalName;
+  points: typeof trendPoints;
+  visible: PerformancePercentileVisibility;
+}) {
+  const { metric, visible } = props;
+  const { p50: showP50, p75: showP75, p95: showP95 } = visible;
   const maxY = useMemo(() => {
     let m = 0;
     for (const p of props.points) {
@@ -484,51 +558,8 @@ function PerformanceTrendPreview(props: {
   );
   const barCategoryGap = chartBarCategoryGap(props.points.length);
 
-  const toggleClass = (on: boolean) =>
-    cn(
-      buttonVariants({ variant: on ? "secondary" : "ghost", size: "sm" }),
-      "h-8 rounded-lg px-2.5 text-xs",
-      !on ? "text-muted-foreground" : "",
-    );
-
   return (
-    <div className="min-w-0 space-y-3">
-      <div className="flex flex-wrap items-center justify-end gap-2 px-1">
-        <span className="text-muted-foreground mr-auto text-xs">Show</span>
-        <button
-          type="button"
-          className={toggleClass(showP50)}
-          onClick={() => {
-            setUserSelectedMetric(true);
-            setShowP50((v) => !v);
-          }}
-          aria-pressed={showP50}
-        >
-          p50
-        </button>
-        <button
-          type="button"
-          className={toggleClass(showP75)}
-          onClick={() => {
-            setUserSelectedMetric(true);
-            setShowP75((v) => !v);
-          }}
-          aria-pressed={showP75}
-        >
-          p75
-        </button>
-        <button
-          type="button"
-          className={toggleClass(showP95)}
-          onClick={() => {
-            setUserSelectedMetric(true);
-            setShowP95((v) => !v);
-          }}
-          aria-pressed={showP95}
-        >
-          p95
-        </button>
-      </div>
+    <div className="relative min-w-0 w-full">
       <ChartContainer
         config={performanceChartConfig}
         className="h-64 w-full min-w-0 sm:h-72 [&_.recharts-label-list]:hidden"
@@ -542,6 +573,8 @@ function PerformanceTrendPreview(props: {
         >
           <XAxis
             dataKey="label"
+            scale="point"
+            padding={{ left: 6, right: 6 }}
             tickLine={false}
             axisLine={false}
             tickMargin={12}
@@ -592,7 +625,7 @@ function PerformanceTrendPreview(props: {
           ))}
         </ComposedChart>
       </ChartContainer>
-      <div className="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-1 px-1 text-[0.6875rem] leading-relaxed">
+      <div className="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-1 px-1 pt-2 text-[0.6875rem] leading-relaxed">
         <span className="inline-flex items-center gap-1.5">
           <span className="bg-success size-2 rounded-[2px]" aria-hidden />
           Good
