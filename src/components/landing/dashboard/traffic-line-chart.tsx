@@ -438,7 +438,7 @@ export function TrafficLineChart(props: {
   return (
     <div
       ref={chartRootRef}
-      className={`text-primary relative w-full min-w-0${fitContainer ? " h-full min-h-0" : ""}`}
+      className={`text-primary relative w-full min-w-0${fitContainer ? " h-full min-h-0" : ""}${disableHoverChartInteraction ? " pointer-events-none" : ""}`}
     >
       <style>{`
         @keyframes kobbeHeroCursorClick {
@@ -590,6 +590,7 @@ export function TrafficLineChart(props: {
                 active={
                   activeBarIndex != null && barProps.index === activeBarIndex
                 }
+                widget={disableHoverChartInteraction}
               />
             )}
             activeBar={

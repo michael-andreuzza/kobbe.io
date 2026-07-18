@@ -99,13 +99,6 @@ export function ChartNoteTooltipEditorPreview(props: {
               key={annotation.id}
               className="flex items-center gap-1.5 text-background/85"
             >
-              <span
-                className="shrink-0 text-[8px] leading-none"
-                style={{ color: "var(--brand)" }}
-                aria-hidden
-              >
-                ◆
-              </span>
               <span className="min-w-0 flex-1 truncate">{annotation.label}</span>
               <NoteIconButton
                 compact={compact}

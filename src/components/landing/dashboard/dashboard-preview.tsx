@@ -7,7 +7,13 @@ import { PagesCard } from "./cards/pages-card";
 import { SearchKeywordsCard } from "./cards/search-keywords-card";
 import { SourcesCard } from "./cards/sources-card";
 import { DashboardKpiStrip } from "./dashboard-kpi-strip";
-import { dashboardPreviewData, heroChartAnnotations, heroChartPinnedIndex } from "./dashboard-preview-data";
+import {
+  dashboardPreviewData,
+  heroChartAnnotations,
+  heroChartPinnedDay,
+  heroChartPinnedIndex,
+} from "./dashboard-preview-data";
+import { ChartNoteTooltipEditorPreview } from "./chart-note-tooltip-editor-preview";
 import { DashboardTrafficChart } from "./dashboard-traffic-chart";
 import type { TrafficChartMetric } from "./traffic-line-chart";
 
@@ -74,6 +80,12 @@ export function DashboardPreview() {
         rangeLabel={data.label}
         previewPinnedIndex={heroChartPinnedIndex}
         annotations={heroChartAnnotations}
+        annotationFooter={
+          <ChartNoteTooltipEditorPreview
+            day={heroChartPinnedDay}
+            annotations={heroChartAnnotations}
+          />
+        }
       >
         {trafficChartMetricLabels[chartMetric]}
       </DashboardTrafficChart>

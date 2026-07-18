@@ -131,11 +131,13 @@ export type DashboardPreviewRangeData = {
 /** Hero dashboard preview: pinned chart day (May 5) with note + top referrer. */
 export const heroChartPinnedIndex = 24;
 
+export const heroChartPinnedDay = "2026-05-05";
+
 export const heroChartAnnotations: TrafficChartAnnotation[] = [
   {
     id: "hero-note-1",
-    day: "2026-05-05",
-    label: "Product launch campaign went live",
+    day: heroChartPinnedDay,
+    label: "X launch on 28.5.26",
   },
 ];
 
@@ -540,7 +542,7 @@ const pages = {
 const sources = {
   referrers: [
     { referrer: "google.com", count: 6140 },
-    { referrer: "twitter.com", count: 2284 },
+    { referrer: "t.co", count: 2284 },
     { referrer: "github.com", count: 1903 },
     { referrer: "producthunt.com", count: 1522 },
     { referrer: "direct", count: 1177 },

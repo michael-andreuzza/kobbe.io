@@ -29,6 +29,7 @@ type Props = {
   spotlightIndex?: number;
   previewPinnedIndex?: number | null;
   annotations?: TrafficChartAnnotation[] | null;
+  annotationFooter?: ReactNode;
 };
 
 export function DashboardTrafficChart(props: Props) {
@@ -52,6 +53,7 @@ export function DashboardTrafficChart(props: Props) {
             spotlightIndex={props.spotlightIndex}
             previewPinnedIndex={props.previewPinnedIndex}
             annotations={props.annotations}
+            annotationFooter={props.annotationFooter}
             displayTimeZone="UTC"
             revenueCurrency="USD"
           />
