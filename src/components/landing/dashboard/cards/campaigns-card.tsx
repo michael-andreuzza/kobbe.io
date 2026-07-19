@@ -1,7 +1,20 @@
 import { useRef } from "react";
 
 import { useIdlePulse } from "@/components/landing/use-idle-pulse";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import {
+  dashboardCardContentTableClass,
+  dashboardCardHeaderClass,
+  dashboardCardRootClass,
+  dashboardCardStackClass,
+  dashboardCardTitleClass,
+} from "../dashboard-card-layout";
 import {
   DashboardMetricStrip,
   DashboardMetricTile,
@@ -51,7 +64,7 @@ export function CampaignsCard({ campaigns }: Props) {
   };
 
   return (
-    <div ref={rootRef} className="grid min-w-0 gap-4">
+    <div ref={rootRef} className="relative min-w-0">
       <DashboardMetricStrip ariaLabel="Campaign metrics" lgCols={4}>
         <CampaignMetric
           label="Campaigns"
@@ -74,6 +87,51 @@ export function CampaignsCard({ campaigns }: Props) {
           hint="custom events"
         />
       </DashboardMetricStrip>
+      <div className={cn(dashboardCardStackClass, "mt-2")}>
+        <Card variant="bordered" className={dashboardCardRootClass}>
+          <CardHeader className={dashboardCardHeaderClass}>
+            <CardTitle className={dashboardCardTitleClass}>
+              Campaign performance
+            </CardTitle>
+          </CardHeader>
+          <CardContent className={dashboardCardContentTableClass}>
+            <div className="text-muted-foreground grid grid-cols-[minmax(0,1fr)_4rem_4rem_4rem] gap-2 pb-2 text-[11px] font-medium">
+              <span>Campaign</span>
+              <span className="text-right">Visitors</span>
+              <span className="text-right">Views</span>
+              <span className="text-right">Conv.</span>
+            </div>
+            <ul className="flex flex-col">
+              {campaigns.rows.map((row) => (
+                <li key={row.name} className="list-none">
+                  <div
+                    className="border-border/40 grid min-w-0 grid-cols-[minmax(0,1fr)_4rem_4rem_4rem] items-center gap-2 border-b py-2 text-xs last:border-b-0"
+                    data-kobbe-stagger
+                  >
+                    <div className="min-w-0">
+                      <p className="text-foreground truncate font-medium">
+                        {row.name}
+                      </p>
+                      <p className="text-muted-foreground truncate text-[11px]">
+                        {row.source} / {row.medium}
+                      </p>
+                    </div>
+                    <span className="text-muted-foreground text-right tabular-nums">
+                      {row.visitors.toLocaleString()}
+                    </span>
+                    <span className="text-muted-foreground text-right tabular-nums">
+                      {(row.views ?? row.visitors * 2).toLocaleString()}
+                    </span>
+                    <span className="text-muted-foreground text-right tabular-nums">
+                      {(row.conversions ?? 0).toLocaleString()}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
@@ -86,30 +144,15 @@ function CampaignMetric(props: {
   return (
     <DashboardMetricTile surface="muted">
       <div className="flex h-full min-w-0 flex-col gap-1">
-        <span
-          className={cn(
-            "truncate text-xs leading-tight font-medium",
-            "text-muted-foreground",
-          )}
-        >
+        <span className="text-muted-foreground truncate text-xs leading-tight font-medium">
           {props.label}
         </span>
         <div className="mt-auto min-w-0">
-          <span
-            className={cn(
-              "text-lg leading-tight font-semibold tracking-tight tabular-nums sm:text-xl",
-              "text-foreground",
-            )}
-          >
+          <span className="text-foreground text-base leading-tight font-medium tracking-tight tabular-nums">
             {props.value}
           </span>
         </div>
-        <span
-          className={cn(
-            "truncate text-xs leading-tight",
-            "text-muted-foreground",
-          )}
-        >
+        <span className="text-muted-foreground truncate text-xs leading-tight">
           {props.hint}
         </span>
       </div>

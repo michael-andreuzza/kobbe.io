@@ -12,7 +12,6 @@ import opencodeLogo from "@/images/brands/opencode.svg";
 import rooCodeLogo from "@/images/brands/roo code.svg";
 import windsurfLogo from "@/images/brands/windsurf.svg";
 import zedLogo from "@/images/brands/zed.svg";
-import paintOne from "@/images/assets/background.svg";
 
 const codeEditors = [
   { name: "Cursor", logo: cursorLogo },
@@ -55,29 +54,10 @@ const codeEditors = [
         </div>
       </div>
     </div>
-    <div class="group relative mt-8 overflow-hidden p-4 lg:p-12">
-      <Image
-        src={paintOne}
-        alt=""
-        aria-hidden="true"
-        loading="lazy"
-        decoding="async"
-        height={2000}
-        width={2000}
-        class="absolute inset-0 size-full bg-cover object-cover"
-      />
-
-      <div class="relative z-10">
-        <AnimatedPanelReveal
-          client:load
-          trigger="scroll"
-          mask={false}
-          end="bottom 42%"
-          className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
-        >
-          <CliAgentsPanel client:load />
-        </AnimatedPanelReveal>
-      </div>
+    <div class="relative mt-8">
+      <AnimatedPanelReveal client:load trigger="scroll" mask={false}>
+        <CliAgentsPanel client:load />
+      </AnimatedPanelReveal>
     </div>
   </Wrapper>
 </section>

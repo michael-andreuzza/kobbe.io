@@ -83,7 +83,7 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
       <div className="mt-auto min-w-0">
         <span
           className={cn(
-            "text-lg leading-tight font-medium tracking-tight tabular-nums sm:text-xl",
+            "text-base leading-tight font-medium tracking-tight tabular-nums",
             kpi.active ? "text-background" : "text-foreground",
             kpi.valueClassName,
           )}

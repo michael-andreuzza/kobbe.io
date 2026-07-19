@@ -99,11 +99,11 @@ export function LandingOfferDialog() {
         <Dialog.Viewport className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <Dialog.Popup
             className={cn(
-              "bg-primary text-primary-foreground relative flex w-full max-w-lg flex-col",
+              "bg-primary text-primary-foreground relative flex w-full max-w-lg flex-col rounded-3xl",
               "2xl:max-w-3xl",
             )}
           >
-            <div className="flex items-center justify-between p-2">
+            <div className="flex items-center justify-between p-4">
               <div className="pl-2">
                 <Logo className="h-6" />
               </div>
@@ -136,7 +136,7 @@ export function LandingOfferDialog() {
               </Dialog.Description>
             </div>
 
-            <div className="border-primary-foreground/10 border-t p-6">
+            <div className="border-primary-foreground/10 border-t p-4">
               <Dialog.Close
                 nativeButton={false}
                 render={

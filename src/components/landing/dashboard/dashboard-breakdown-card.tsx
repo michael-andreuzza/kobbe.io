@@ -13,6 +13,7 @@ import { CardExpandButton } from "./dashboard-list-card";
 import {
   dashboardCardContentDefaultClass,
   dashboardCardContentListClass,
+  dashboardCardDescriptionClass,
   dashboardCardHeaderClass,
   dashboardCardRootClass,
   dashboardCardTitleClass,
@@ -49,11 +50,11 @@ export function DashboardTabbedCardHeaderContent(props: {
   return (
     <>
       <CardTitle
-        className={cn(dashboardCardTitleClass, "min-w-0 justify-self-start pt-0.5")}
+        className={cn(dashboardCardTitleClass, "min-w-0 justify-self-start")}
       >
         {props.title}
       </CardTitle>
-      <div className="flex max-w-full min-w-0 flex-wrap items-center justify-start gap-3 self-start pt-0.5 sm:justify-end">
+      <div className="flex max-w-full min-w-0 flex-wrap items-center justify-start gap-2 sm:justify-end sm:gap-3">
         <TabsChrome
           label={props.tabs.label}
           tabs={props.tabs.tabs}
@@ -68,10 +69,18 @@ export function DashboardTabbedCardHeaderContent(props: {
         ) : null}
       </div>
       {props.description != null ? (
-        <CardDescription className="col-span-2">{props.description}</CardDescription>
+        <CardDescription
+          className={cn("col-span-2", dashboardCardDescriptionClass)}
+        >
+          {props.description}
+        </CardDescription>
       ) : null}
     </>
   );
+}
+
+function DashboardCardBodyInset(props: { children: ReactNode }) {
+  return <div className="min-w-0 px-3 sm:px-4">{props.children}</div>;
 }
 
 export function DashboardTabbedBreakdownCard(props: {
@@ -84,7 +93,10 @@ export function DashboardTabbedBreakdownCard(props: {
   className?: string;
 }) {
   return (
-    <Card className={cn(dashboardCardRootClass, props.className)}>
+    <Card
+      variant="bordered"
+      className={cn(dashboardCardRootClass, "h-full min-h-0", props.className)}
+    >
       <CardHeader
         className={cn(dashboardCardHeaderClass, dashboardTabbedCardHeaderClass)}
       >
@@ -96,22 +108,32 @@ export function DashboardTabbedBreakdownCard(props: {
       </CardHeader>
       {props.isEmpty ? (
         <CardContent className={dashboardCardContentDefaultClass}>
-          <EmptyRows icon={props.empty.icon} title={props.empty.title} hint={props.empty.hint} />
+          <DashboardCardBodyInset>
+            <EmptyRows
+              icon={props.empty.icon}
+              title={props.empty.title}
+              hint={props.empty.hint}
+            />
+          </DashboardCardBodyInset>
         </CardContent>
       ) : (
         <CardContent className={dashboardCardContentListClass}>
-          {props.children}
+          <DashboardCardBodyInset>{props.children}</DashboardCardBodyInset>
         </CardContent>
       )}
     </Card>
   );
 }
 
-function EmptyRows(props: { icon: HugeiconsProp; title: string; hint?: string }) {
+function EmptyRows(props: {
+  icon: HugeiconsProp;
+  title: string;
+  hint?: string;
+}) {
   return (
-    <div className="flex min-h-32 flex-col items-center justify-center gap-2 text-center text-muted-foreground">
+    <div className="text-muted-foreground flex min-h-32 flex-col items-center justify-center gap-2 text-center">
       <HugeiconsIcon icon={props.icon} className="size-5" strokeWidth={1.7} />
-      <p className="text-sm font-medium text-foreground">{props.title}</p>
+      <p className="text-foreground text-sm font-medium">{props.title}</p>
       {props.hint ? <p className="max-w-64 text-xs">{props.hint}</p> : null}
     </div>
   );

@@ -37,6 +37,17 @@
   body {
     @apply bg-background text-foreground;
   }
+  header[data-site-header] {
+    @apply bg-background;
+  }
+  @media (prefers-color-scheme: dark) {
+    body {
+      @apply bg-muted;
+    }
+    header[data-site-header] {
+      @apply bg-muted;
+    }
+  }
   html {
     @apply scroll-smooth font-sans antialiased;
   }

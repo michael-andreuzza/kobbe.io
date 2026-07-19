@@ -46,7 +46,7 @@ function MarketingFunnelChart(props: {
   });
 
   return (
-    <div className="w-full min-w-0 px-3 pt-2 pb-4 sm:px-5">
+    <div className="w-full min-w-0 px-3 pb-4 sm:px-4 sm:pb-5">
       <div className="space-y-2 sm:hidden">
         {steps.map((step, index) => {
           return (

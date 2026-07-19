@@ -150,11 +150,21 @@ export function formatTierLimitLabel(events: string) {
   return `Up to ${formatIncludedEventsPhrase(events)}`;
 }
 
+export function buildSignupHref(
+  appBaseUrl: string,
+  tierKey: PricingTierKey,
+  period: BillingPeriod,
+) {
+  const params = new URLSearchParams({ tier: tierKey, period })
+  return `${appBaseUrl}/signup?${params.toString()}`
+}
+
+/** @deprecated Use buildSignupHref — checkout is only needed after the trial ends. */
 export function buildCheckoutReturnPath(
   tierKey: PricingTierKey,
   period: BillingPeriod,
 ) {
-  return `/checkout?tier=${tierKey}&period=${period}`;
+  return `/checkout?tier=${tierKey}&period=${period}`
 }
 
 export function buildPricingJsonLdOffers(canonical: string) {

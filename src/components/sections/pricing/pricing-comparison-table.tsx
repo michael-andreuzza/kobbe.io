@@ -53,7 +53,7 @@ export function PricingComparisonTable({
   return (
     <div
       className={cn(
-        "bg-background relative z-0 mt-12 hidden w-full scrollbar-none overflow-x-auto lg:block",
+        "bg-card relative z-0 mt-12 hidden w-full scrollbar-none overflow-x-auto lg:block",
         className,
       )}
     >
@@ -87,7 +87,7 @@ export function PricingComparisonTable({
                 <tr>
                   <td
                     colSpan={tierColumnCount}
-                    className="bg-foreground/8 text-foreground dark:bg-muted px-4 pt-12 pb-4 font-normal"
+                    className="bg-muted text-foreground px-4 pt-12 pb-4 font-normal"
                   >
                     <div className="flex items-center gap-2">
                       <div

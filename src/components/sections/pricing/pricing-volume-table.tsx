@@ -4,22 +4,13 @@ import { BillingPeriodTabs } from "@/components/sections/pricing/billing-period-
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
-  buildCheckoutReturnPath,
+  buildSignupHref,
   formatTierLimitLabel,
   formatTierPrice,
   pricingTiers,
   type BillingPeriod,
   type PricingTierKey,
 } from "./pricing-tiers";
-
-function buildSignupHref(
-  appBaseUrl: string,
-  tierKey: PricingTierKey,
-  period: BillingPeriod,
-) {
-  const returnTo = buildCheckoutReturnPath(tierKey, period);
-  return `${appBaseUrl}/signup?returnTo=${encodeURIComponent(returnTo)}`;
-}
 
 type PricingVolumeTableProps = {
   appBaseUrl?: string;

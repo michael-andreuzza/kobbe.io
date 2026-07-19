@@ -1,11 +1,9 @@
 ---
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import SectionIntro from "@/components/landing/SectionIntro.astro";
 import HeroDashboardPreview from "@/components/landing/hero-dashboard-preview";
 import { buttonVariants } from "@/components/ui/button";
-import SectionIntro from "@/components/landing/SectionIntro.astro";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
-import { Image } from "astro:assets";
-import paintOne from "@/images/assets/background.svg";
 ---
 
 <section>
@@ -34,21 +32,9 @@ import paintOne from "@/images/assets/background.svg";
         </a>
       </div>
     </div>
-    <div class="relative mt-12 h-200 overflow-hidden p-4 lg:p-12">
-      <Image
-        src={paintOne}
-        alt=""
-        aria-hidden="true"
-        loading="eager"
-        decoding="async"
-        height={2000}
-        width={2000}
-        class="absolute inset-0 size-full bg-cover object-cover"
-      />
 
-      <div class="relative z-10">
-        <HeroDashboardPreview client:load />
-      </div>
+    <div class="relative mt-12 ">
+      <HeroDashboardPreview client:load />
     </div>
     <ul
       class="text-foreground font-display mx-auto mt-8 flex w-fit flex-wrap gap-2 text-center text-2xl"

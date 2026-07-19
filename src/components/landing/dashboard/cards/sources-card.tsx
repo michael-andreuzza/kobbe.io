@@ -6,15 +6,18 @@ import {
   DeviceBreakdownList,
   ReferrerBreakdownList,
   TrafficChannelList,
+  type BreakdownRevenueFormat,
 } from "../dashboard-list-card";
 import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 
 export function SourcesCard({
   sources,
   className,
+  revenueFormat,
 }: {
   sources: DashboardPreviewRangeData["sources"];
   className?: string;
+  revenueFormat?: BreakdownRevenueFormat;
 }) {
   const [activeTab, setActiveTab] = useState(0);
   const isEmpty =
@@ -37,13 +40,19 @@ export function SourcesCard({
       }}
     >
       {activeTab === 3 ? (
-        <DeviceBreakdownList rows={sources.ai} />
+        <DeviceBreakdownList rows={sources.ai} revenueFormat={revenueFormat} />
       ) : activeTab === 2 ? (
         <TrafficChannelList rows={sources.channels} />
       ) : activeTab === 1 ? (
-        <DeviceBreakdownList rows={sources.hostnames} />
+        <DeviceBreakdownList
+          rows={sources.hostnames}
+          revenueFormat={revenueFormat}
+        />
       ) : (
-        <ReferrerBreakdownList rows={sources.referrers} />
+        <ReferrerBreakdownList
+          rows={sources.referrers}
+          revenueFormat={revenueFormat}
+        />
       )}
     </DashboardTabbedBreakdownCard>
   );

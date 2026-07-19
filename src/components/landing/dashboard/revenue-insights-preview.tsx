@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import { useReducedMotion } from "motion/react";
 
+import { cn } from "@/lib/utils";
+import { PagesCard } from "./cards/pages-card";
+import { SourcesCard } from "./cards/sources-card";
+import { dashboardCardStackClass } from "./dashboard-card-layout";
 import { DashboardKpiStrip } from "./dashboard-kpi-strip";
-import { dashboardPreviewData } from "./dashboard-preview-data";
+import {
+  dashboardPreviewData,
+  formatDashboardPreviewRevenue,
+} from "./dashboard-preview-data";
 import { DashboardTrafficChart } from "./dashboard-traffic-chart";
 
 const data = dashboardPreviewData["30d"];
 const revenueSpotlightIndexes = [8, 15, 23] as const;
+const revenueFormat = formatDashboardPreviewRevenue;
 
 export function RevenueInsightsPreview() {
   const shouldReduceMotion = useReducedMotion();
@@ -70,15 +78,27 @@ export function RevenueInsightsPreview() {
           revenue={data.kpi.revenue}
           activeMetric="revenue"
         />
-        <div className="kobbe-revenue-chart">
-          <DashboardTrafficChart
-            points={data.points}
-            metric="revenue"
-            rangeLabel={data.label}
-            spotlightIndex={spotlightIndex}
-          >
-            Revenue
-          </DashboardTrafficChart>
+        <div className={cn(dashboardCardStackClass, "mt-2")}>
+          <div className="kobbe-revenue-chart">
+            <DashboardTrafficChart
+              points={data.points}
+              metric="revenue"
+              rangeLabel={data.label}
+              spotlightIndex={spotlightIndex}
+            >
+              Revenue
+            </DashboardTrafficChart>
+          </div>
+          <div className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
+            <PagesCard
+              pages={data.pages}
+              revenueFormat={revenueFormat}
+            />
+            <SourcesCard
+              sources={data.sources}
+              revenueFormat={revenueFormat}
+            />
+          </div>
         </div>
       </div>
     </>

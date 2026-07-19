@@ -6,16 +6,8 @@ import { ArrowRight } from "@/components/assets/arrow-right";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
-  buildCheckoutReturnPath,
+  buildSignupHref,
   formatTierBillingNote,
-  formatTierPriceAmount,
-  formatTierPricePeriod,
-  getPricingTierByKey,
-  pricingPlanCards,
-  pricingTrialDays,
-  type BillingPeriod,
-  type PricingTierKey,
-} from "./pricing-tiers";
 
 const paymentMethods = [
   "Visa",
@@ -24,15 +16,6 @@ const paymentMethods = [
   "Apple Pay",
   "Google Pay",
 ] as const;
-
-function buildSignupHref(
-  appBaseUrl: string,
-  tierKey: PricingTierKey,
-  period: BillingPeriod,
-) {
-  const returnTo = buildCheckoutReturnPath(tierKey, period);
-  return `${appBaseUrl}/signup?returnTo=${encodeURIComponent(returnTo)}`;
-}
 
 function PricingFeatureMark() {
   return (
@@ -81,7 +64,7 @@ function PricingTierPanel({
   period: BillingPeriod;
 }) {
   return (
-    <article className="bg-muted text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] p-6">
+    <article className="bg-card text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] p-6">
       <div>
         <h3 className="text-foreground font-display text-2xl font-medium tracking-tight italic md:text-3xl">
           {name}

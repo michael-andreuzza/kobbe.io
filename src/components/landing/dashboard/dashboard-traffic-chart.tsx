@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {
+  dashboardCardDescriptionClass,
   dashboardCardHeaderClass,
   dashboardCardRootClass,
   dashboardCardTitleClass,
@@ -34,17 +35,22 @@ type Props = {
 
 export function DashboardTrafficChart(props: Props) {
   return (
-    <section className="mt-4 sm:mt-5">
-      <Card className={cn(dashboardCardRootClass, props.className)}>
-        {props.children ? (
-          <CardHeader className={dashboardCardHeaderClass}>
-            <CardTitle className={dashboardCardTitleClass}>
-              {props.children} over time
-            </CardTitle>
-            <CardDescription>{props.rangeLabel}</CardDescription>
-          </CardHeader>
-        ) : null}
-        <CardContent className="min-w-0 px-4 pt-0 pb-4 sm:px-5">
+    <Card
+      variant="bordered"
+      className={cn(dashboardCardRootClass, "h-auto", props.className)}
+    >
+      {props.children ? (
+        <CardHeader className={dashboardCardHeaderClass}>
+          <CardTitle className={dashboardCardTitleClass}>
+            {props.children} over time
+          </CardTitle>
+          <CardDescription className={dashboardCardDescriptionClass}>
+            {props.rangeLabel}
+          </CardDescription>
+        </CardHeader>
+      ) : null}
+      <CardContent className="h-auto min-w-0 !px-0 !pt-0 pb-4 sm:pb-5">
+        <div className="min-w-0 px-3 sm:px-4">
           <TrafficLineChart
             points={props.points}
             bucket="day"
@@ -57,8 +63,8 @@ export function DashboardTrafficChart(props: Props) {
             displayTimeZone="UTC"
             revenueCurrency="USD"
           />
-        </CardContent>
-      </Card>
-    </section>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

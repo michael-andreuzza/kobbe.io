@@ -35,6 +35,8 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-toolbar-control-hover: var(--toolbar-control-hover);
+  --color-toolbar-control: var(--toolbar-control);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
   --color-surface: var(--surface);
@@ -47,6 +49,8 @@
   --surface-foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
+  --toolbar-control: oklch(1 0 0);
+  --toolbar-control-hover: oklch(0.985 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
@@ -57,7 +61,7 @@
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
-  --brand: oklch(0.697 0.192 30.659);
+  --brand: oklch(0.657 0.23 35.095);
   --success: oklch(0.565 0.11 164.584);
   --destructive: oklch(0.566 0.197 12.263);
   --warning: oklch(0.661 0.121 71.707);
@@ -88,15 +92,17 @@
     --foreground: oklch(0.985 0 0);
     --surface: oklch(0.18 0 0);
     --surface-foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
+    --card: oklch(0.269 0 0);
     --card-foreground: oklch(0.985 0 0);
+    --toolbar-control: oklch(0.269 0 0);
+    --toolbar-control-hover: oklch(0.235 0 0);
     --popover: oklch(0.205 0 0);
     --popover-foreground: oklch(0.985 0 0);
     --primary: oklch(0.985 0 0);
     --primary-foreground: oklch(0.205 0 0);
     --secondary: oklch(0.269 0 0);
     --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
+    --muted: oklch(0.205 0 0);
     --muted-foreground: oklch(0.708 0 0);
     --accent: oklch(0.269 0 0);
     --accent-foreground: oklch(0.985 0 0);

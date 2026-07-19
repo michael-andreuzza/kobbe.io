@@ -17,8 +17,8 @@ function Card({
       data-size={size}
       data-variant={variant}
       className={cn(
-        "group/card bg-card text-card-foreground flex flex-col gap-4  py-4 text-sm has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-md *:[img:last-child]:rounded-b-xl",
-        variant === "bordered" && "border-border/70 border",
+        "group/card bg-card text-card-foreground flex h-full flex-col gap-4 rounded-xl px-2 py-4 text-sm has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-md *:[img:last-child]:rounded-b-xl",
+        variant === "bordered" && "border border-border/70",
         variant === "surface" && "bg-surface",
         variant === "muted" && "bg-muted",
         className,

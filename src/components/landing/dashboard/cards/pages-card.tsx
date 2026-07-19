@@ -2,15 +2,20 @@ import { useState } from "react";
 import { File01Icon } from "@hugeicons/core-free-icons";
 
 import { DashboardTabbedBreakdownCard } from "../dashboard-breakdown-card";
-import { PageBreakdownList } from "../dashboard-list-card";
+import {
+  PageBreakdownList,
+  type BreakdownRevenueFormat,
+} from "../dashboard-list-card";
 import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 
 export function PagesCard({
   pages,
   className,
+  revenueFormat,
 }: {
   pages: DashboardPreviewRangeData["pages"];
   className?: string;
+  revenueFormat?: BreakdownRevenueFormat;
 }) {
   const [activeTab, setActiveTab] = useState(0);
   const rows =
@@ -29,7 +34,7 @@ export function PagesCard({
         onActiveIndexChange: setActiveTab,
       }}
     >
-      <PageBreakdownList rows={rows} />
+      <PageBreakdownList rows={rows} revenueFormat={revenueFormat} />
     </DashboardTabbedBreakdownCard>
   );
 }

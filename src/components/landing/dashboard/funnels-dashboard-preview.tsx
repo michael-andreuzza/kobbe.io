@@ -1,8 +1,19 @@
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 import { FunnelsCard } from "./cards/funnels-card";
-import { dashboardCardRootClass } from "./dashboard-card-layout";
+import {
+  dashboardCardDescriptionClass,
+  dashboardCardHeaderClass,
+  dashboardCardRootClass,
+  dashboardCardTitleClass,
+} from "./dashboard-card-layout";
 import type { DashboardPreviewRangeData } from "./dashboard-preview-data";
 
 type Props = {
@@ -12,9 +23,17 @@ type Props = {
 export function FunnelsDashboardPreview({ funnel }: Props) {
   return (
     <Card
-      className={cn(dashboardCardRootClass, "mx-auto w-full pt-4 shadow-none")}
+      variant="bordered"
+      className={cn(dashboardCardRootClass, "h-auto w-full")}
     >
-      <CardContent className="w-full p-0">
+      <CardHeader className={dashboardCardHeaderClass}>
+        <CardTitle className={dashboardCardTitleClass}>{funnel.name}</CardTitle>
+        <CardDescription className={dashboardCardDescriptionClass}>
+          {funnel.completed.toLocaleString()} completed,{" "}
+          {Math.round(funnel.conversionRate * 100)}% total conversion
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="min-w-0 p-0 pt-2">
         <div className="kobbe-funnel-chart w-full">
           <FunnelsCard funnel={funnel} />
         </div>

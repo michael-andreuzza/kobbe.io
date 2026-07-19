@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { cn } from "@/lib/utils";
 import { DevicesCard } from "./cards/devices-card";
 import { EventsCard } from "./cards/events-card";
 import { LocationsCard } from "./cards/locations-card";
@@ -13,6 +14,7 @@ import {
   heroChartPinnedDay,
   heroChartPinnedIndex,
 } from "./dashboard-preview-data";
+import { dashboardCardStackClass } from "./dashboard-card-layout";
 import { ChartNoteTooltipEditorPreview } from "./chart-note-tooltip-editor-preview";
 import { DashboardTrafficChart } from "./dashboard-traffic-chart";
 import type { TrafficChartMetric } from "./traffic-line-chart";
@@ -74,30 +76,32 @@ export function DashboardPreview() {
         activeMetric={chartMetric}
         onMetricClick={handleMetricClick}
       />
-      <DashboardTrafficChart
-        points={data.points}
-        metric={chartMetric}
-        rangeLabel={data.label}
-        previewPinnedIndex={heroChartPinnedIndex}
-        annotations={heroChartAnnotations}
-        annotationFooter={
-          <ChartNoteTooltipEditorPreview
-            day={heroChartPinnedDay}
-            annotations={heroChartAnnotations}
-          />
-        }
-      >
-        {trafficChartMetricLabels[chartMetric]}
-      </DashboardTrafficChart>
-      <div className="mt-4 grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
-        <PagesCard pages={data.pages} />
-        <SourcesCard sources={data.sources} />
-      </div>
-      <div className="mt-4 grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
-        <LocationsCard locations={data.locations} />
-        <DevicesCard devices={data.devices} />
-        <SearchKeywordsCard rows={data.searchKeywords} />
-        <EventsCard rows={data.events} />
+      <div className={cn(dashboardCardStackClass, "mt-2")}>
+        <DashboardTrafficChart
+          points={data.points}
+          metric={chartMetric}
+          rangeLabel={data.label}
+          previewPinnedIndex={heroChartPinnedIndex}
+          annotations={heroChartAnnotations}
+          annotationFooter={
+            <ChartNoteTooltipEditorPreview
+              day={heroChartPinnedDay}
+              annotations={heroChartAnnotations}
+            />
+          }
+        >
+          {trafficChartMetricLabels[chartMetric]}
+        </DashboardTrafficChart>
+        <div className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
+          <PagesCard pages={data.pages} />
+          <SourcesCard sources={data.sources} />
+        </div>
+        <div className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
+          <LocationsCard locations={data.locations} />
+          <DevicesCard devices={data.devices} />
+          <SearchKeywordsCard rows={data.searchKeywords} />
+          <EventsCard rows={data.events} />
+        </div>
       </div>
     </div>
   );

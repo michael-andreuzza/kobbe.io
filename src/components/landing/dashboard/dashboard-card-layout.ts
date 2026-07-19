@@ -1,13 +1,39 @@
-export const dashboardCardRootClass = "gap-0 rounded-xl bg-card py-0";
+/**
+ * Class fragments for analytics dashboard cards: use with `Card variant="bordered"` and
+ * {@link dashboardCardRootClass} so padding and gaps match the app dashboard.
+ */
+export const dashboardCardRootClass = "mt-0 gap-0 px-0 py-0";
+
+/** Vertical rhythm between stacked dashboard cards (overview, performance, etc.). */
+export const dashboardCardStackClass = "space-y-4";
+
+/** Replaces former shell header padding (aligned with row inset). */
 export const dashboardCardHeaderClass =
-  "px-4 pt-3.5 pb-3 sm:px-5 sm:pt-4 sm:pb-3.5";
+  "!px-3 pt-4 pb-3 sm:!px-4 sm:pt-5 sm:pb-4";
+
+/** Horizontal inset aligned with {@link dashboardCardHeaderClass}. */
+export const dashboardCardRowInsetXClass = "px-3 sm:px-4";
+
+/**
+ * Use with {@link dashboardCardHeaderClass} on `CardHeader` **without** `CardAction`.
+ * Title on the start edge; tabs + expand grouped on the end.
+ */
 export const dashboardTabbedCardHeaderClass =
-  "grid-cols-1 items-start gap-y-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-x-3";
-export const dashboardCardTitleClass =
-  "font-sans text-sm font-semibold leading-snug sm:text-base";
-export const dashboardCardContentDefaultClass =
-  "min-w-0 px-4 pt-4 sm:px-5 sm:pt-5";
+  "grid-cols-1 items-start gap-y-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-x-3";
+
+export const dashboardCardTitleClass = "text-sm font-medium leading-snug";
+
+export const dashboardCardDescriptionClass =
+  "text-xs text-balance text-muted-foreground";
+
+/** CardContent shell for lists — pair with an inset wrapper around children. */
 export const dashboardCardContentListClass =
-  "min-w-0 px-2 pb-2 pt-0 sm:px-2.5 sm:pb-3";
+  "min-w-0 !px-0 !pt-0 pb-3 sm:pb-4";
+
+/** CardContent shell for default/empty bodies — pair with an inset wrapper around children. */
+export const dashboardCardContentDefaultClass =
+  "min-w-0 !px-0 !pt-0 pb-4 sm:pb-5";
+
+/** CardContent shell for dashboard tables — same horizontal inset as the card header. */
 export const dashboardCardContentTableClass =
-  "min-w-0 px-2 pb-3 pt-0 sm:px-2.5 sm:pb-4";
+  "min-w-0 !px-3 !pt-0 pb-4 sm:!px-4 sm:pb-5";

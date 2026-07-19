@@ -519,33 +519,33 @@ function buildKpi(points: StackedChartPoint[]) {
 
 const pages = {
   top: [
-    { path: "/", count: 9842 },
-    { path: "/pricing", count: 4118 },
-    { path: "/docs/install-astro", count: 2906 },
-    { path: "/docs/overview", count: 2442 },
-    { path: "/demo/kobbe-studio", count: 1885 },
+    { path: "/", count: 9842, revenueMinor: 418_000 },
+    { path: "/pricing", count: 4118, revenueMinor: 624_000 },
+    { path: "/docs/install-astro", count: 2906, revenueMinor: 182_000 },
+    { path: "/docs/overview", count: 2442, revenueMinor: 94_000 },
+    { path: "/demo/kobbe-studio", count: 1885, revenueMinor: 156_000 },
   ],
   entered: [
-    { path: "/", count: 5731 },
-    { path: "/pricing", count: 1942 },
-    { path: "/docs/overview", count: 1206 },
-    { path: "/docs/install-nextjs", count: 842 },
+    { path: "/", count: 5731, revenueMinor: 248_000 },
+    { path: "/pricing", count: 1942, revenueMinor: 312_000 },
+    { path: "/docs/overview", count: 1206, revenueMinor: 48_000 },
+    { path: "/docs/install-nextjs", count: 842, revenueMinor: 36_000 },
   ],
   exited: [
-    { path: "/pricing", count: 1134 },
-    { path: "/docs/add-the-tracker", count: 936 },
-    { path: "/docs/legal-privacy", count: 611 },
-    { path: "/demo/kobbe-studio", count: 498 },
+    { path: "/pricing", count: 1134, revenueMinor: 88_000 },
+    { path: "/docs/add-the-tracker", count: 936, revenueMinor: 22_000 },
+    { path: "/docs/legal-privacy", count: 611, revenueMinor: 0 },
+    { path: "/demo/kobbe-studio", count: 498, revenueMinor: 41_000 },
   ],
 };
 
 const sources = {
   referrers: [
-    { referrer: "google.com", count: 6140 },
-    { referrer: "t.co", count: 2284 },
-    { referrer: "github.com", count: 1903 },
-    { referrer: "producthunt.com", count: 1522 },
-    { referrer: "direct", count: 1177 },
+    { referrer: "google.com", count: 6140, revenueMinor: 412_000 },
+    { referrer: "t.co", count: 2284, revenueMinor: 286_000 },
+    { referrer: "github.com", count: 1903, revenueMinor: 118_000 },
+    { referrer: "producthunt.com", count: 1522, revenueMinor: 224_000 },
+    { referrer: "direct", count: 1177, revenueMinor: 86_000 },
   ],
   hostnames: [
     { name: "kobbe.io", count: 10422 },
@@ -815,6 +815,16 @@ export const dashboardPreviewData = {
     webVitals,
   },
 } satisfies Record<DashboardRangeKey, DashboardPreviewRangeData>;
+
+export const dashboardPreviewRevenueCurrency = "USD";
+
+export function formatDashboardPreviewRevenue(minor: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: dashboardPreviewRevenueCurrency,
+    maximumFractionDigits: minor >= 100_000 ? 0 : 2,
+  }).format(minor / 100);
+}
 
 export const dashboardRangeOptions: {
   key: DashboardRangeKey;

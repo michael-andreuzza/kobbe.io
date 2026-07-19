@@ -300,7 +300,7 @@ function TrafficKpiTile(props: {
         <div className="mt-auto min-w-0">
           <span
             className={cn(
-              "truncate text-base leading-tight font-medium tracking-tight tabular-nums sm:text-lg",
+              "truncate text-base leading-tight font-medium tracking-tight tabular-nums",
               props.active ? "text-background" : "text-foreground",
             )}
           >
@@ -343,7 +343,7 @@ function CapabilityCard(props: CapabilityCardProps) {
 
 function CapabilityListPreview(props: { children: ReactNode }) {
   return (
-    <div className="kobbe-capability-stack [&_li>div]:bg-card [&_li>div]:border-border w-full [&_li>div]:rounded-lg [&_li>div]:border">
+    <div className="kobbe-capability-stack [&_li>div]:border-border/70 [&_li>div]:bg-card w-full [&_li>div]:rounded-lg [&_li>div]:border">
       {props.children}
     </div>
   );
@@ -366,7 +366,7 @@ function PreviewFrame(props: {
   return (
     <div
       ref={frameRef}
-      className="bg-card relative flex h-72 w-full items-start justify-center rounded-xl"
+      className="border-border/70 bg-card relative flex h-72 w-full items-start justify-center rounded-xl border"
     >
       <div
         className={cn(

@@ -18,7 +18,10 @@ export function DashboardMetricStrip(props: DashboardMetricStripProps) {
         : "lg:grid-cols-4";
 
   return (
-    <section aria-label={props.ariaLabel}>
+    <section
+      className={cn("-mx-2 mt-2 p-2", props.className)}
+      aria-label={props.ariaLabel}
+    >
       <div
         className={cn(
           "relative grid grid-cols-2 gap-3 sm:grid-cols-3",
@@ -39,21 +42,25 @@ type DashboardMetricTileProps = {
   surface?: "card" | "muted";
 };
 
+const metricTileBorderClass = "border border-border/70";
+
 const metricTileBaseClass =
-  "relative min-w-0 p-4 lg:aspect-square text-left text-foreground transition-[background-color,box-shadow,color,transform] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none";
+  "relative min-w-0 p-4 lg:aspect-square text-left text-foreground transition-[background-color,box-shadow,color,transform,border-color] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none";
 
 const metricTileCardClass = cn(
   metricTileBaseClass,
-  "rounded-md border bg-card",
+  "rounded-xl bg-card",
+  metricTileBorderClass,
 );
 
 const metricTileMutedClass = cn(
   metricTileBaseClass,
   "rounded-xl bg-card",
+  metricTileBorderClass,
 );
 
 const metricTileInteractiveMutedClass =
-  "cursor-pointer hover:bg-surface hover:ring-0";
+  "cursor-pointer hover:bg-background/50 hover:ring-0";
 
 export function DashboardMetricTile(props: DashboardMetricTileProps) {
   const surface = props.surface ?? "card";
@@ -62,7 +69,7 @@ export function DashboardMetricTile(props: DashboardMetricTileProps) {
     surface === "muted" ? metricTileMutedClass : metricTileCardClass,
     surface === "muted" && isInteractive && metricTileInteractiveMutedClass,
     props.active &&
-      "bg-foreground text-background ring-0 hover:bg-foreground",
+      "border-transparent bg-foreground text-background ring-0 hover:bg-foreground",
     props.className,
   );
 

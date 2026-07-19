@@ -33,8 +33,10 @@ import { DashboardTabbedBreakdownCard } from "./dashboard-breakdown-card";
 import {
   dashboardCardContentListClass,
   dashboardCardContentTableClass,
+  dashboardCardDescriptionClass,
   dashboardCardHeaderClass,
   dashboardCardRootClass,
+  dashboardCardStackClass,
   dashboardCardTitleClass,
 } from "./dashboard-card-layout";
 import {
@@ -297,7 +299,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
                 <div className="mt-auto min-w-0">
                   <span
                     className={cn(
-                      "text-lg leading-tight font-medium tracking-tight tabular-nums sm:text-xl",
+                      "text-base leading-tight font-medium tracking-tight tabular-nums",
                       active ? "text-background" : "text-foreground",
                     )}
                   >
@@ -322,77 +324,79 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
         })}
       </DashboardMetricStrip>
 
-      <PerformanceTrendCard metric={activeMetric} points={trendPoints} />
+      <div className={cn(dashboardCardStackClass, "mt-2")}>
+        <PerformanceTrendCard metric={activeMetric} points={trendPoints} />
 
-      <Card className={cn("mt-4", dashboardCardRootClass)}>
-        <CardHeader className={dashboardCardHeaderClass}>
-          <CardTitle className={dashboardCardTitleClass}>
-            Needs attention
-          </CardTitle>
-          <CardDescription>
-            Pages with the highest p75 for LCP (min. 3 samples per path)
-          </CardDescription>
-        </CardHeader>
-        <CardContent className={dashboardCardContentTableClass}>
-          <div className="text-muted-foreground grid grid-cols-[minmax(0,1fr)_4rem_4rem] gap-2 px-2 pb-2 text-[11px] font-medium sm:px-2.5">
-            <span>Page</span>
-            <span className="text-right">p75</span>
-            <span className="text-right">Samples</span>
-          </div>
-          <ul className="flex flex-col">
-            {attentionRows.map((row, index) => (
-              <li key={row.path} className="list-none">
-                <div
-                  className={cn(
-                    "grid min-w-0 grid-cols-[minmax(0,1fr)_4rem_4rem] items-center gap-2 rounded-md px-2 py-2 text-xs transition-colors duration-500 sm:px-2.5",
-                    !shouldReduceMotion &&
-                      index === activeMetricIndex % attentionRows.length &&
-                      "bg-muted/45",
-                  )}
-                  data-kobbe-stagger
-                >
-                  <span className="text-foreground min-w-0 truncate font-medium">
-                    {row.path}
-                  </span>
-                  <span className="text-muted-foreground text-right tabular-nums">
-                    {row.value}
-                  </span>
-                  <span className="text-muted-foreground text-right tabular-nums">
-                    {row.samples.toLocaleString()}
-                  </span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-      </Card>
+        <Card variant="bordered" className={dashboardCardRootClass}>
+          <CardHeader className={dashboardCardHeaderClass}>
+            <CardTitle className={dashboardCardTitleClass}>
+              Needs attention
+            </CardTitle>
+            <CardDescription className={dashboardCardDescriptionClass}>
+              Pages with the highest p75 for LCP (min. 3 samples per path)
+            </CardDescription>
+          </CardHeader>
+          <CardContent className={dashboardCardContentTableClass}>
+            <div className="text-muted-foreground grid grid-cols-[minmax(0,1fr)_4rem_4rem] gap-2 pb-2 text-[11px] font-medium">
+              <span>Page</span>
+              <span className="text-right">p75</span>
+              <span className="text-right">Samples</span>
+            </div>
+            <ul className="flex flex-col">
+              {attentionRows.map((row, index) => (
+                <li key={row.path} className="list-none">
+                  <div
+                    className={cn(
+                      "grid min-w-0 grid-cols-[minmax(0,1fr)_4rem_4rem] items-center gap-2 rounded-md px-0 py-2 text-xs transition-colors duration-500",
+                      !shouldReduceMotion &&
+                        index === activeMetricIndex % attentionRows.length &&
+                        "bg-muted/45",
+                    )}
+                    data-kobbe-stagger
+                  >
+                    <span className="text-foreground min-w-0 truncate font-medium">
+                      {row.path}
+                    </span>
+                    <span className="text-muted-foreground text-right tabular-nums">
+                      {row.value}
+                    </span>
+                    <span className="text-muted-foreground text-right tabular-nums">
+                      {row.samples.toLocaleString()}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
 
-      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-        <DashboardTabbedBreakdownCard
-          title="Devices"
-          isEmpty={envRows.length === 0}
-          empty={{
-            icon: ComputerPhoneSyncIcon,
-            title:
-              envTab === 0
-                ? "No browsers in range"
-                : "No device types in range",
-          }}
-          tabs={{
-            label: "Devices",
-            tabs: ["Browsers", "Devices"],
-            activeIndex: envTab,
-            onActiveIndexChange: setEnvTab,
-          }}
-        >
-          <DeviceBreakdownList rows={envRows} />
-        </DashboardTabbedBreakdownCard>
-        <PerformanceBreakdownCard
-          title="Country"
-          description="Slowest dimensions by p75 · LCP"
-        >
-          <LocationBreakdownList rows={countryRows} />
-        </PerformanceBreakdownCard>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <DashboardTabbedBreakdownCard
+            title="Devices"
+            isEmpty={envRows.length === 0}
+            empty={{
+              icon: ComputerPhoneSyncIcon,
+              title:
+                envTab === 0
+                  ? "No browsers in range"
+                  : "No device types in range",
+            }}
+            tabs={{
+              label: "Devices",
+              tabs: ["Browsers", "Devices"],
+              activeIndex: envTab,
+              onActiveIndexChange: setEnvTab,
+            }}
+          >
+            <DeviceBreakdownList rows={envRows} />
+          </DashboardTabbedBreakdownCard>
+          <PerformanceBreakdownCard
+            title="Country"
+            description="Slowest dimensions by p75 · LCP"
+          >
+            <LocationBreakdownList rows={countryRows} />
+          </PerformanceBreakdownCard>
+        </div>
       </div>
     </div>
   );
@@ -439,12 +443,14 @@ function PerformanceTrendCard(props: {
   ]);
 
   return (
-    <Card className={cn("mt-4 sm:mt-5", dashboardCardRootClass)}>
+    <Card variant="bordered" className={cn(dashboardCardRootClass, "h-auto")}>
       <CardHeader className={dashboardCardHeaderClass}>
         <CardTitle className={dashboardCardTitleClass}>
           {props.metric} over time
         </CardTitle>
-        <CardDescription>Last 7 days</CardDescription>
+        <CardDescription className={dashboardCardDescriptionClass}>
+          Last 7 days
+        </CardDescription>
         <CardAction>
           <PerformancePercentileToggles
             value={visible}
@@ -455,12 +461,14 @@ function PerformanceTrendCard(props: {
           />
         </CardAction>
       </CardHeader>
-      <CardContent className="min-w-0 px-3 pb-4 sm:px-4">
-        <PerformanceTrendPreview
-          metric={props.metric}
-          points={props.points}
-          visible={visible}
-        />
+      <CardContent className="h-auto min-w-0 !px-0 !pt-0 pb-4 sm:pb-5">
+        <div className="min-w-0 px-3 sm:px-4">
+          <PerformanceTrendPreview
+            metric={props.metric}
+            points={props.points}
+            visible={visible}
+          />
+        </div>
       </CardContent>
     </Card>
   );
@@ -656,13 +664,15 @@ function PerformanceBreakdownCard(props: {
   children: React.ReactNode;
 }) {
   return (
-    <Card className={dashboardCardRootClass}>
+    <Card variant="bordered" className={dashboardCardRootClass}>
       <CardHeader className={dashboardCardHeaderClass}>
         <CardTitle className={dashboardCardTitleClass}>{props.title}</CardTitle>
-        <CardDescription>{props.description}</CardDescription>
+        <CardDescription className={dashboardCardDescriptionClass}>
+          {props.description}
+        </CardDescription>
       </CardHeader>
       <CardContent className={dashboardCardContentListClass}>
-        {props.children}
+        <div className="min-w-0 px-3 sm:px-4">{props.children}</div>
       </CardContent>
     </Card>
   );

@@ -58,7 +58,7 @@ export function CliAgentsPanel() {
   }, [phase, typedText]);
 
   return (
-    <div className="bg-card text-foreground mx-auto flex h-135 flex-col overflow-hidden rounded-xl lg:h-172">
+    <div className="border-border/70 bg-card text-foreground mx-auto flex h-135 flex-col overflow-hidden rounded-xl border lg:h-172">
       <style>{`
         @keyframes kobbe-agent-caret {
           0%, 48% { opacity: 1; }
