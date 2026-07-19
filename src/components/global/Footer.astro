@@ -3,6 +3,7 @@ import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import Text from "@/components/foundations/elements/Text.astro";
 import { buttonVariants } from "@/components/ui/button";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
+import { marketingPaths } from "@/lib/marketing-urls";
 import { cn } from "@/lib/utils";
 import { Image } from "astro:assets";
 import paintOne from "@/images/assets/background.svg";
@@ -32,9 +33,9 @@ const footerLinkGroups: FooterLinkGroup[] = [
   {
     title: "Support",
     links: [
-      { href: "/docs/support-contact", label: "Contact" },
+      { href: marketingPaths.support.contact, label: "Contact" },
       { href: "/#faq", label: "FAQ" },
-      { href: "/docs/support-charges", label: "Charges" },
+      { href: marketingPaths.support.charges, label: "Charges" },
     ],
   },
   {

@@ -63,7 +63,7 @@ We use information to:
 
 We do not sell analytics data. Analytics data is visible to the site owner, authorized workspace members, project dashboard users, and anyone the site owner gives access to through public or shared dashboard links.
 
-We use service providers, also called sub-processors, to operate Kobbe. These are listed in our [Data Processing Addendum](/docs/legal-dpa). We may also disclose information if required by law or to protect the service, customers, visitors, or others.
+We use service providers, also called sub-processors, to operate Kobbe. These are listed in our [Data Processing Addendum](/legal/dpa). We may also disclose information if required by law or to protect the service, customers, visitors, or others.
 
 ## Data storage and retention
 
@@ -85,7 +85,7 @@ We may update this policy from time to time. The most recent revision date will 
 
 ## Data processing addendum (organizations)
 
-If you need a processor agreement (GDPR-style DPA) for the **hosted** Kobbe service, see the [Data Processing Addendum](/docs/legal-dpa). It is part of our [Terms of Service](/docs/legal-terms); **using the hosted service** accepts the current DPA, and you can **download a PDF copy** from that page for your files. Organizations should have **their own counsel** review if required for their procurement or jurisdiction.
+If you need a processor agreement (GDPR-style DPA) for the **hosted** Kobbe service, see the [Data Processing Addendum](/legal/dpa). It is part of our [Terms of Service](/legal/terms); **using the hosted service** accepts the current DPA, and you can **download a PDF copy** from that page for your files. Organizations should have **their own counsel** review if required for their procurement or jurisdiction.
 
 ## Contact
 

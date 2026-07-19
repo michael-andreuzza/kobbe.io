@@ -17,9 +17,9 @@ interface Props {
 const { docsNavGroups } = Astro.props;
 ---
 
-<header data-site-header class="bg-muted sticky top-0 z-40">
-  <Wrapper variant="nav">
-    <div class="flex items-center justify-between gap-3 py-4">
+<header data-site-header class="bg-muted sticky top-0 z-40 overflow-visible">
+  <Wrapper variant="nav" class="overflow-visible">
+    <div class="flex items-center justify-between gap-3 overflow-visible py-4">
       <a
         href="/"
         aria-label="Homepage"

@@ -1,0 +1,60 @@
+---
+import Text from "@/components/foundations/elements/Text.astro";
+import BaseLayout from "./BaseLayout.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import type { JsonLdBreadcrumb } from "@/lib/seo/json-ld";
+
+interface Props {
+  title?: string;
+  description?: string;
+  pageTitle?: string;
+}
+
+const { title, description, pageTitle } = Astro.props;
+const currentPath = Astro.url.pathname.replace(/\/$/, "");
+const displayTitle = pageTitle ?? title?.replace(/\s+: Kobbe$/, "");
+
+const jsonLdBreadcrumbs: JsonLdBreadcrumb[] = [
+  { name: "Home", item: "/" },
+  ...(displayTitle ? [{ name: displayTitle, item: currentPath }] : []),
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  jsonLdBreadcrumbs={jsonLdBreadcrumbs}
+>
+  <Wrapper variant="default" class="py-12">
+    <Wrapper variant="narrow">
+      <Wrapper variant="prose" class="mx-auto w-full min-w-0">
+        {
+          displayTitle && (
+            <header class="not-prose">
+              <Text
+                tag="h1"
+                variant="displaySM"
+                class="text-foreground font-display text-balance"
+              >
+                {displayTitle}
+              </Text>
+              {description && (
+                <Text
+                  tag="p"
+                  variant="displaySubTitle"
+                  class="text-muted-foreground mt-2"
+                >
+                  {description}
+                </Text>
+              )}
+              <div class="mt-4">
+                <slot name="header-actions" />
+              </div>
+            </header>
+          )
+        }
+        <slot />
+      </Wrapper>
+    </Wrapper>
+  </Wrapper>
+</BaseLayout>

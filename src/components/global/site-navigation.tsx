@@ -5,6 +5,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { SiteMobileNavDialog } from "@/components/global/docs-mobile-nav-dialog";
+import { SiteMobileMenu } from "@/components/global/site-mobile-menu";
 import type { NavGroup } from "@/components/ui/sidebar";
 
 export type SiteNavigationProps = {
@@ -16,6 +17,7 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
     "bg-transparent p-0 text-sm font-medium text-muted-foreground transition-colors hover:bg-transparent hover:text-foreground focus:bg-transparent data-active:bg-transparent data-active:hover:bg-transparent data-active:focus:bg-transparent";
   const siteLinks = [
     { href: "/#pricing", label: "Pricing" },
+    { href: "/docs", label: "Docs" },
     ...(!hasDocsNavigation
       ? [{ href: "/#faq", label: "FAQ" }]
       : []),
@@ -28,12 +30,17 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
   ];
 
   return (
-    <div className="flex items-center gap-2 sm:gap-3">
+    <div className="flex items-center gap-2 overflow-visible sm:gap-3">
       <NavigationMenu className="max-w-none">
         <NavigationMenuList className="flex flex-nowrap justify-end gap-2 sm:gap-4">
           <NavigationMenuItem className="hidden md:block">
             <NavigationMenuLink href="/#pricing" className={linkClassName}>
               Pricing
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem className="hidden md:block">
+            <NavigationMenuLink href="/docs" className={linkClassName}>
+              Docs
             </NavigationMenuLink>
           </NavigationMenuItem>
           {!hasDocsNavigation ? (
@@ -58,7 +65,11 @@ export default function SiteNavigation({ docsNavGroups }: SiteNavigationProps) {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      <SiteMobileNavDialog links={siteLinks} groups={docsNavGroups} />
+      {hasDocsNavigation ? (
+        <SiteMobileNavDialog links={siteLinks} groups={docsNavGroups} />
+      ) : (
+        <SiteMobileMenu links={siteLinks} />
+      )}
     </div>
   );
 }

@@ -1,0 +1,20 @@
+---
+import { getCollection } from "astro:content";
+
+import StandaloneDocPage from "@/components/docs/standalone-doc-page.astro";
+
+export async function getStaticPaths() {
+  const docs = await getCollection("docs");
+
+  return docs
+    .filter((entry) => entry.data.category === "Legal")
+    .map((entry) => ({
+      params: { slug: entry.id.replace(/^legal-/, "") },
+      props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+---
+
+<StandaloneDocPage entry={entry} />

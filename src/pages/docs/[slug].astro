@@ -5,16 +5,15 @@ import DocsLayout from "@/layouts/DocsLayout.astro";
 import InstallationGuidesList from "@/components/docs/installation-guides-list.astro";
 import McpClientTabs from "@/components/docs/mcp-client-tabs.astro";
 import RevenueProvidersList from "@/components/docs/revenue-providers-list.astro";
-import DpaControls from "@/components/docs/dpa-controls.astro";
-import DpaSummary from "@/components/docs/dpa-summary.astro";
 import { PricingVolumeTable } from "@/components/sections/pricing/pricing-volume-table";
 import { NotificationCard } from "@/components/ui/notification-card";
+import { filterDocsNavigationItems, isStandaloneDoc } from "@/lib/standalone-docs";
 
 export async function getStaticPaths() {
   const docs = await getCollection("docs");
 
   return docs
-    .filter((entry) => entry.id !== "overview")
+    .filter((entry) => entry.id !== "overview" && !isStandaloneDoc(entry))
     .map((entry) => ({
       params: { slug: entry.id },
       props: { entry },
@@ -26,6 +25,7 @@ const { entry } = Astro.props;
 const docs = (await getCollection("docs")).sort(
   (a, b) => a.data.order - b.data.order,
 );
+const docsNavItems = filterDocsNavigationItems(docs);
 const installationGuides = docs.filter((doc) => doc.id.startsWith("install-"));
 const revenueProviders = docs.filter((doc) =>
   doc.id.startsWith("revenue-attribution-"),
@@ -101,17 +101,16 @@ const topNotifications =
 const bottomNotifications =
   bottomNotificationsById[entry.id as keyof typeof bottomNotificationsById] ??
   [];
-const effectiveDateDefault = new Date().toISOString().slice(0, 10);
 ---
 
 <DocsLayout
   title={`${entry.data.title}: Kobbe Docs`}
   description={entry.data.description}
-  navItems={docs}
+  navItems={docsNavItems}
 >
   <DocsPageNavigation
     slot="header-actions"
-    docs={docs}
+    docs={docsNavItems}
     currentId={entry.id}
     variant="compact"
   />
@@ -142,17 +141,7 @@ const effectiveDateDefault = new Date().toISOString().slice(0, 10);
       </div>
     )
   }
-  {entry.id === "legal-dpa" && <DpaControls effectiveDateDefault={effectiveDateDefault} />}
-  {
-    entry.id === "legal-dpa" ? (
-      <div id="dpa-printable">
-        <DpaSummary effectiveDateDefault={effectiveDateDefault} />
-        <Content />
-      </div>
-    ) : (
-      <Content />
-    )
-  }
+  <Content />
   {entry.id === "ai-agents" && <McpClientTabs />}
   {
     entry.id === "revenue-attribution" && (
@@ -207,5 +196,5 @@ const effectiveDateDefault = new Date().toISOString().slice(0, 10);
       </div>
     )
   }
-  <DocsPageNavigation docs={docs} currentId={entry.id} />
+  <DocsPageNavigation docs={docsNavItems} currentId={entry.id} />
 </DocsLayout>

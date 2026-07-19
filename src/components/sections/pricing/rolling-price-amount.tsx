@@ -35,7 +35,7 @@ function RollingDigit({
   const shouldSpin = animate && !reduceMotion;
 
   return (
-    <span className="inline-block h-[1em] overflow-hidden align-top">
+    <span className="inline-block h-[1em] overflow-y-hidden align-top">
       <motion.span
         key={`${spinGeneration}-${columnIndex}`}
         className="flex flex-col"

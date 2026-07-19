@@ -35,7 +35,7 @@ Do not send full card numbers, passwords, authentication codes, or screenshots c
 
 ## Refunds and billing mistakes
 
-Kobbe subscriptions are generally non-refundable, as described in our [Terms of Service](/docs/legal-terms). That said, billing mistakes, duplicate charges, fraud reports, or other unusual cases are reviewed by a human.
+Kobbe subscriptions are generally non-refundable, as described in our [Terms of Service](/legal/terms). That said, billing mistakes, duplicate charges, fraud reports, or other unusual cases are reviewed by a human.
 
 If something is wrong, we want to understand it and fix it. Email [support@kobbe.io](mailto:support@kobbe.io) and we will help review the account, subscription, or charge.
 

@@ -168,9 +168,9 @@ For support or legal notice questions:
 
 ## 18. Incorporation, acceptance, and signatory warranty
 
-- **Part of the Terms.** This DPA is an **addendum** to Kobbe’s [Terms of Service](/docs/legal-terms) and, together with those Terms, governs processing of visitor and account data for **vendor-hosted** Kobbe (the Service at [app.kobbe.io](https://app.kobbe.io)).
+- **Part of the Terms.** This DPA is an **addendum** to Kobbe’s [Terms of Service](/legal/terms) and, together with those Terms, governs processing of visitor and account data for **vendor-hosted** Kobbe (the Service at [app.kobbe.io](https://app.kobbe.io)).
 
-- **Online acceptance.** Customer’s **use of the hosted Service** after the date this DPA is published-including maintaining an account or subscription there-**constitutes Customer’s acceptance** of this DPA as then posted at kobbe.io/docs/legal-dpa, **unless** Customer and Kobbe have a **separate written agreement** that expressly governs processing instead. **No wet or electronic signature is required** for that online acceptance, to the extent permitted by applicable law.
+- **Online acceptance.** Customer’s **use of the hosted Service** after the date this DPA is published-including maintaining an account or subscription there-**constitutes Customer’s acceptance** of this DPA as then posted at kobbe.io/legal/dpa, **unless** Customer and Kobbe have a **separate written agreement** that expressly governs processing instead. **No wet or electronic signature is required** for that online acceptance, to the extent permitted by applicable law.
 
 - **Optional PDF.** The fields and “Download PDF” (print) control on this page are for Customer’s **records and procurement** only. Generating a PDF does not replace the Terms or change how online acceptance applies.
 

@@ -49,7 +49,7 @@ export function PricingFaq({
       <p className="text-muted-foreground mt-4 text-center text-xs">
         Still have questions?{" "}
         <a
-          href="/docs/support-contact"
+          href="/support/contact"
           className="text-foreground underline-offset-4 hover:underline"
         >
           Contact support

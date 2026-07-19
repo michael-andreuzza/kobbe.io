@@ -144,7 +144,7 @@ export function formatTierPricePeriod(_period: BillingPeriod) {
 }
 
 export function formatTierBillingNote(period: BillingPeriod) {
-  return period === "monthly" ? "Billed monthly." : "Per month, billed yearly.";
+  return period === "monthly" ? "Billed monthly." : "Billed yearly.";
 }
 
 export function formatIncludedEventsPhrase(events: string) {

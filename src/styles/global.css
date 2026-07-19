@@ -38,7 +38,7 @@
     @apply bg-background text-foreground;
   }
   header[data-site-header] {
-    @apply bg-background;
+    @apply bg-background overflow-visible;
   }
   @media (prefers-color-scheme: dark) {
     body {

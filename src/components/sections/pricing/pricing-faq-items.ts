@@ -99,7 +99,7 @@ export const pricingFaqItems = [
     id: "charges",
     question: "I saw a Kobbe charge on my statement. What is it?",
     answer:
-      "It is usually a Kobbe subscription charge for a workspace, trial conversion, or renewal. If you do not recognize it, see our statement charges guide (/docs/support-charges) or email support@kobbe.io.",
+      "It is usually a Kobbe subscription charge for a workspace, trial conversion, or renewal. If you do not recognize it, see our statement charges guide (/support/charges) or email support@kobbe.io.",
   },
   {
     id: "script-speed",

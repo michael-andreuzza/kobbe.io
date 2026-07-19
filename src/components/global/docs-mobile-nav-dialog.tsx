@@ -11,6 +11,8 @@ type SiteMobileNavLink = {
   rel?: string;
 };
 
+export type { SiteMobileNavLink };
+
 type SiteMobileNavDialogProps = {
   groups?: NavGroup[];
   links: SiteMobileNavLink[];

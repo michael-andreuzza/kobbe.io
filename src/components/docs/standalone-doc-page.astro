@@ -1,0 +1,33 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+
+import DpaControls from "@/components/docs/dpa-controls.astro";
+import DpaSummary from "@/components/docs/dpa-summary.astro";
+import ProseLayout from "@/layouts/ProseLayout.astro";
+
+interface Props {
+  entry: CollectionEntry<"docs">;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const effectiveDateDefault = new Date().toISOString().slice(0, 10);
+---
+
+<ProseLayout
+  title={`${entry.data.title}: Kobbe`}
+  description={entry.data.description}
+  pageTitle={entry.data.title}
+>
+  {entry.id === "legal-dpa" && <DpaControls effectiveDateDefault={effectiveDateDefault} />}
+  {
+    entry.id === "legal-dpa" ? (
+      <div id="dpa-printable">
+        <DpaSummary effectiveDateDefault={effectiveDateDefault} />
+        <Content />
+      </div>
+    ) : (
+      <Content />
+    )
+  }
+</ProseLayout>

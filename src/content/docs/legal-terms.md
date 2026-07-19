@@ -12,7 +12,7 @@ By accessing or using Kobbe, you agree to these Terms of Service. If you do not 
 
 ## Data processing (hosted service)
 
-Our [Data Processing Addendum](/docs/legal-dpa) (**DPA**) is **incorporated into these Terms by reference**. If you use Kobbe’s **hosted** analytics service at [app.kobbe.io](https://app.kobbe.io), you agree to the **current DPA** published at kobbe.io/docs/legal-dpa together with these Terms, unless you and Kobbe have agreed otherwise **in writing**. The DPA explains how we process data as a processor on your behalf; you remain responsible for your sites, lawful basis, and notices to your visitors.
+Our [Data Processing Addendum](/legal/dpa) (**DPA**) is **incorporated into these Terms by reference**. If you use Kobbe’s **hosted** analytics service at [app.kobbe.io](https://app.kobbe.io), you agree to the **current DPA** published at kobbe.io/legal/dpa together with these Terms, unless you and Kobbe have agreed otherwise **in writing**. The DPA explains how we process data as a processor on your behalf; you remain responsible for your sites, lawful basis, and notices to your visitors.
 
 ## Using the service
 
@@ -47,7 +47,7 @@ Paid plans are generally non-refundable, but we may review refund requests case 
 
 ## Data and retention
 
-Kobbe stores analytics and account data as described in our [Privacy Policy](/docs/legal-privacy) and, for hosted business use, the [Data Processing Addendum](/docs/legal-dpa). For the hosted Service, analytics events and related rollups are kept for a **rolling retention window**. The default period is **180 days**, after which older analytics data is automatically deleted. You may delete data earlier through product controls.
+Kobbe stores analytics and account data as described in our [Privacy Policy](/legal/privacy) and, for hosted business use, the [Data Processing Addendum](/legal/dpa). For the hosted Service, analytics events and related rollups are kept for a **rolling retention window**. The default period is **180 days**, after which older analytics data is automatically deleted. You may delete data earlier through product controls.
 
 Deleting a site, workspace, or account may permanently remove associated data. Some records may be retained where needed for billing, security, legal compliance, dispute resolution, backups, or service operations.
 

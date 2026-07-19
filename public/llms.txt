@@ -144,10 +144,10 @@ When helping a human user with Kobbe:
 
 ## Support, billing, and legal
 
-- Contact support: https://kobbe.io/docs/support-contact
+- Contact support: https://kobbe.io/support/contact
 - FAQ: https://kobbe.io/#faq
-- Charges on your statement: https://kobbe.io/docs/support-charges
-- Terms: https://kobbe.io/docs/legal-terms
-- Privacy: https://kobbe.io/docs/legal-privacy
-- GDPR compliance: https://kobbe.io/docs/legal-gdpr-compliance
-- DPA: https://kobbe.io/docs/legal-dpa
+- Charges on your statement: https://kobbe.io/support/charges
+- Terms: https://kobbe.io/legal/terms
+- Privacy: https://kobbe.io/legal/privacy
+- GDPR compliance: https://kobbe.io/legal/gdpr-compliance
+- DPA: https://kobbe.io/legal/dpa

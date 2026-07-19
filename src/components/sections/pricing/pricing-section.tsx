@@ -85,13 +85,13 @@ function PricingTierPanel({
           <RollingPriceAmount
             amount={priceAmount}
             spinToken={period}
-            className="text-foreground font-display text-4xl italic"
+            className="text-foreground font-display text-4xl italic pr-1"
           />
           <div>
-            <p className="text-foreground flex items-center gap-1 text-sm font-medium tracking-tight lg:text-sm">
+            <p className="text-foreground flex items-center gap-1 text-xs font-semibold tracking-tight lg:text-sm">
               {pricePeriod}
             </p>
-            <p className="text-muted-foreground text-sm lg:text-xs">
+            <p className="text-muted-foreground text-xs">
               {billingNote}
             </p>
           </div>

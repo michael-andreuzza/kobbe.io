@@ -4,10 +4,12 @@ import DocsPageNavigation from "@/components/docs/docs-page-navigation.astro";
 import DocsLayout from "@/layouts/DocsLayout.astro";
 import OverviewGuidesList from "@/components/docs/overview-guides-list.astro";
 import { NotificationCard } from "@/components/ui/notification-card";
+import { filterDocsNavigationItems } from "@/lib/standalone-docs";
 
 const docs = (await getCollection("docs")).sort(
   (a, b) => a.data.order - b.data.order,
 );
+const docsNavItems = filterDocsNavigationItems(docs);
 const entry = docs[0];
 
 if (!entry) {
@@ -22,15 +24,15 @@ const { Content } = await render(entry);
 <DocsLayout
   title={`${entry.data.title}: Kobbe Docs`}
   description={entry.data.description}
-  navItems={docs}
+  navItems={docsNavItems}
 >
   <DocsPageNavigation
     slot="header-actions"
-    docs={docs}
+    docs={docsNavItems}
     currentId={entry.id}
     variant="compact"
   />
-  <OverviewGuidesList docs={docs} />
+  <OverviewGuidesList docs={docsNavItems} />
   <Content />
   <NotificationCard
     state="info"
@@ -43,5 +45,5 @@ const { Content } = await render(entry);
     Cross-domain handoff can use <code>sessionStorage</code> in the tab after
     you explicitly enable it.
   </NotificationCard>
-  <DocsPageNavigation docs={docs} currentId={entry.id} />
+  <DocsPageNavigation docs={docsNavItems} currentId={entry.id} />
 </DocsLayout>

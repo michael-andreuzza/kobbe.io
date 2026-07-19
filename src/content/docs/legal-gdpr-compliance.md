@@ -14,7 +14,7 @@ This page explains the privacy and GDPR-oriented design choices behind the hoste
 
 When you use Kobbe on your website, you are usually the controller for your site visitors' personal data. You decide whether to use analytics, what sites to track, what events to send, and what privacy notices or consent flows are required.
 
-For the hosted analytics service at [app.kobbe.io](https://app.kobbe.io), Kobbe generally acts as a processor for analytics data submitted on your behalf. Our [Data Processing Addendum](/docs/legal-dpa) describes that processor relationship and is incorporated into our [Terms of Service](/docs/legal-terms).
+For the hosted analytics service at [app.kobbe.io](https://app.kobbe.io), Kobbe generally acts as a processor for analytics data submitted on your behalf. Our [Data Processing Addendum](/legal/dpa) describes that processor relationship and is incorporated into our [Terms of Service](/legal/terms).
 
 ## Data minimization by default
 
@@ -66,14 +66,14 @@ Kobbe is designed to support privacy-conscious analytics, but your implementatio
 
 ## Data processing terms
 
-The [Data Processing Addendum](/docs/legal-dpa) explains the subject matter, roles, categories of data, security measures, sub-processors, breach notification, deletion, and related processing terms for hosted Kobbe analytics.
+The [Data Processing Addendum](/legal/dpa) explains the subject matter, roles, categories of data, security measures, sub-processors, breach notification, deletion, and related processing terms for hosted Kobbe analytics.
 
 Customers that need a PDF copy for internal records can use the DPA page to generate one with their organization details.
 
 ## Related pages
 
-- [Privacy Policy](/docs/legal-privacy)
-- [Data Processing Addendum](/docs/legal-dpa)
-- [Terms of Service](/docs/legal-terms)
+- [Privacy Policy](/legal/privacy)
+- [Data Processing Addendum](/legal/dpa)
+- [Terms of Service](/legal/terms)
 - [Privacy and cookieless tracking](/docs/privacy-and-cookieless-tracking)
 - [Filter your visits](/docs/exclude-visits)

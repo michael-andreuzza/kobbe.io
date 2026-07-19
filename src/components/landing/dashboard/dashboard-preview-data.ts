@@ -296,7 +296,7 @@ const pages = {
   exited: [
     { path: "/pricing", count: 1134, revenueMinor: 88_000 },
     { path: "/docs/add-the-tracker", count: 936, revenueMinor: 22_000 },
-    { path: "/docs/legal-privacy", count: 611, revenueMinor: 0 },
+    { path: "/legal/privacy", count: 611, revenueMinor: 0 },
     { path: "/demo/kobbe-studio", count: 498, revenueMinor: 41_000 },
   ],
 };
