@@ -27,7 +27,7 @@ const paymentMethods = [
 function PricingFeatureMark() {
   return (
     <svg
-      className="mt-1.5 size-4 shrink-0"
+      className="mt-1.5 size-3 shrink-0"
       viewBox="0 0 542 542"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -71,9 +71,9 @@ function PricingTierPanel({
   period: BillingPeriod;
 }) {
   return (
-    <article className="bg-card text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] p-6">
+    <article className="bg-card text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] p-6 rounded-2xl">
       <div>
-        <h3 className="text-foreground font-display text-2xl font-medium tracking-tight italic md:text-3xl">
+        <h3 className="text-foreground font-display text-2xl font-medium tracking-tight italic ">
           {name}
         </h3>
         <p className="text-muted-foreground mt-1 max-w-50 text-sm font-medium text-balance">
@@ -109,7 +109,7 @@ function PricingTierPanel({
           ) : (
             <li key={feature} className="flex items-start gap-2">
               <PricingFeatureMark />
-              <p className="text-base tracking-tight">{feature}</p>
+              <p className="text-sm tracking-tight">{feature}</p>
             </li>
           ),
         )}
@@ -192,6 +192,24 @@ export function PricingSection({
           </div>
         </div>
       </div>
+
+      <p className="text-muted-foreground mx-auto mt-6 max-w-2xl text-center text-sm leading-relaxed">
+        Every plan includes cookieless tracking by default,{" "}
+        <a
+          href="/docs/legal-gdpr-compliance"
+          className="text-foreground font-medium underline underline-offset-4"
+        >
+          GDPR-oriented documentation
+        </a>
+        , and our{" "}
+        <a
+          href="/docs/legal-dpa"
+          className="text-foreground font-medium underline underline-offset-4"
+        >
+          Data Processing Addendum
+        </a>
+        .
+      </p>
 
       <div className="text-foreground mt-2 flex flex-wrap items-center justify-between font-semibold lg:items-start">
         <p className="text-sm 2xl:text-base">Secure payments via Polar</p>

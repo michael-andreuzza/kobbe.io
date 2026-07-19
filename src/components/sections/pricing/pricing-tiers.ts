@@ -32,6 +32,12 @@ export const defaultPricingTierIndex = 0;
 
 export const popularPricingTierIndices = [1, 2, 3] as const;
 
+/** On the Lite card; Starter and Growth inherit via “Everything in …, plus:”. */
+export const pricingPrivacyFeatures = [
+  "Privacy-first, cookieless by default",
+  "GDPR-ready analytics (DPA included)",
+] as const;
+
 export const pricingPlanCards = [
   {
     id: "lite",
@@ -42,6 +48,7 @@ export const pricingPlanCards = [
     features: [
       "Up to 100K monthly events",
       "Up to 3 websites",
+      ...pricingPrivacyFeatures,
       "Funnels",
       "Conversions",
       "Custom events",

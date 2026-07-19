@@ -573,24 +573,10 @@ export function TrafficLineChart(props: {
             maxBarSize={barMaxSize}
             shape={(barProps) => (
               <LollipopBarShape
-                x={barProps.x}
-                y={barProps.y ?? undefined}
-                width={barProps.width}
-                height={barProps.height}
-                fill={barProps.fill}
-                fillOpacity={barProps.fillOpacity}
-                background={
-                  barProps.background
-                    ? {
-                        y: barProps.background.y ?? undefined,
-                        height: barProps.background.height ?? undefined,
-                      }
-                    : undefined
-                }
+                {...barProps}
                 active={
                   activeBarIndex != null && barProps.index === activeBarIndex
                 }
-                widget={disableHoverChartInteraction}
               />
             )}
             activeBar={

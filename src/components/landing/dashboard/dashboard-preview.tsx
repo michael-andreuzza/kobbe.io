@@ -11,8 +11,11 @@ import { DashboardKpiStrip } from "./dashboard-kpi-strip";
 import {
   dashboardPreviewData,
   heroChartAnnotations,
+  heroChartKpi,
   heroChartPinnedDay,
   heroChartPinnedIndex,
+  heroChartPoints,
+  heroChartRangeLabel,
 } from "./dashboard-preview-data";
 import { dashboardCardStackClass } from "./dashboard-card-layout";
 import { ChartNoteTooltipEditorPreview } from "./chart-note-tooltip-editor-preview";
@@ -66,21 +69,21 @@ export function DashboardPreview() {
   return (
     <div className="relative min-w-0">
       <DashboardKpiStrip
-        showComparison={data.kpi.showComparison}
-        visitors={data.kpi.visitors}
-        visits={data.kpi.visits}
-        views={data.kpi.views}
-        bounceRate={data.kpi.bounceRate}
-        sessionTime={data.kpi.sessionTime}
-        revenue={data.kpi.revenue}
+        showComparison={heroChartKpi.showComparison}
+        visitors={heroChartKpi.visitors}
+        visits={heroChartKpi.visits}
+        views={heroChartKpi.views}
+        bounceRate={heroChartKpi.bounceRate}
+        sessionTime={heroChartKpi.sessionTime}
+        revenue={heroChartKpi.revenue}
         activeMetric={chartMetric}
         onMetricClick={handleMetricClick}
       />
       <div className={cn(dashboardCardStackClass, "mt-2")}>
         <DashboardTrafficChart
-          points={data.points}
+          points={heroChartPoints}
           metric={chartMetric}
-          rangeLabel={data.label}
+          rangeLabel={heroChartRangeLabel}
           previewPinnedIndex={heroChartPinnedIndex}
           annotations={heroChartAnnotations}
           annotationFooter={

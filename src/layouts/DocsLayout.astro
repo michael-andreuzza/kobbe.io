@@ -22,26 +22,26 @@ const displayTitle = title?.replace(/\s+: Kobbe Docs$/, "");
 const resolvedNavLinks = navItems
   .filter((item) => item.id !== "support-faq")
   .map((item) => {
-  const logo = item.data.brandLogo;
+    const logo = item.data.brandLogo;
 
-  return {
-    href: item.id === "overview" ? "/docs" : `/docs/${item.id}`,
-    label: item.data.navLabel ?? item.data.title,
-    category: item.data.category ?? "Docs",
-    isActive:
-      currentPath ===
-      (item.id === "overview" ? "/docs" : `/docs/${item.id}`).replace(
-        /\/$/,
-        "",
-      ),
-    logo: logo
-      ? {
-          src: logo.url.src,
-          alt: logo.alt,
-        }
-      : undefined,
-  };
-});
+    return {
+      href: item.id === "overview" ? "/docs" : `/docs/${item.id}`,
+      label: item.data.navLabel ?? item.data.title,
+      category: item.data.category ?? "Docs",
+      isActive:
+        currentPath ===
+        (item.id === "overview" ? "/docs" : `/docs/${item.id}`).replace(
+          /\/$/,
+          "",
+        ),
+      logo: logo
+        ? {
+            src: logo.url.src,
+            alt: logo.alt,
+          }
+        : undefined,
+    };
+  });
 
 const groupedNavLinks = resolvedNavLinks.reduce(
   (groups, item) => {
@@ -129,7 +129,7 @@ const docsSearchItems = resolvedNavLinks.map((item) => ({
               <div class="min-w-0">
                 <Text
                   tag="h1"
-                  variant="displayTitle"
+                  variant="displayMD"
                   class="text-foreground font-display"
                 >
                   {displayTitle}

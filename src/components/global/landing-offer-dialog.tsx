@@ -99,8 +99,7 @@ export function LandingOfferDialog() {
         <Dialog.Viewport className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <Dialog.Popup
             className={cn(
-              "bg-primary text-primary-foreground relative flex w-full max-w-lg flex-col rounded-3xl",
-              "2xl:max-w-3xl",
+              "bg-primary text-primary-foreground relative flex w-full max-w-sm flex-col rounded-2xl",
             )}
           >
             <div className="flex items-center justify-between p-4">
@@ -120,7 +119,7 @@ export function LandingOfferDialog() {
             </div>
 
             <div className="border-primary-foreground/10 border-t p-4 text-center text-balance">
-              <Dialog.Title className="font-display text-primary-foreground text-center text-2xl tracking-tight sm:text-2xl md:text-3xl lg:text-5xl 2xl:text-6xl">
+              <Dialog.Title className="font-display text-primary-foreground text-center text-2xl">
                 <span className="block">20% off yearly plans</span>
                 <span className="mt-8 block">
                   Use code

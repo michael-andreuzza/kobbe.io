@@ -125,6 +125,41 @@ export const pricingComparisonSections = [
     ],
   },
   {
+    id: "privacy-compliance",
+    title: "Privacy and compliance",
+    description:
+      "Included on every plan. Your lawful basis, notices, and consent still depend on your site and configuration.",
+    features: [
+      {
+        id: "cookieless-default",
+        title: "Cookieless by default",
+        description:
+          "No analytics cookies or persistent browser-side visitor identifiers in the default tracker.",
+        lite: true,
+        starter: true,
+        growth: true,
+      },
+      {
+        id: "gdpr-ready",
+        title: "GDPR-ready analytics",
+        description:
+          "Privacy-minimized collection, published legal docs, and a hosted-service DPA incorporated into our Terms.",
+        lite: true,
+        starter: true,
+        growth: true,
+      },
+      {
+        id: "privacy-signals",
+        title: "Global Privacy Control and Do Not Track",
+        description:
+          "The default tracker sends no analytics request when either browser signal is enabled.",
+        lite: true,
+        starter: true,
+        growth: true,
+      },
+    ],
+  },
+  {
     id: "growth-monetization",
     title: "Growth and monetization",
     description:

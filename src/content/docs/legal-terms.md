@@ -47,7 +47,7 @@ Paid plans are generally non-refundable, but we may review refund requests case 
 
 ## Data and retention
 
-Kobbe stores analytics and account data as described in our [Privacy Policy](/docs/legal-privacy) and, for hosted business use, the [Data Processing Addendum](/docs/legal-dpa). Analytics event history is retained for as long as the customer keeps the relevant site, workspace, or account active, unless deleted earlier by the customer, required by law, or otherwise agreed.
+Kobbe stores analytics and account data as described in our [Privacy Policy](/docs/legal-privacy) and, for hosted business use, the [Data Processing Addendum](/docs/legal-dpa). For the hosted Service, analytics events and related rollups are kept for a **rolling retention window**. The default period is **180 days**, after which older analytics data is automatically deleted. You may delete data earlier through product controls.
 
 Deleting a site, workspace, or account may permanently remove associated data. Some records may be retained where needed for billing, security, legal compliance, dispute resolution, backups, or service operations.
 

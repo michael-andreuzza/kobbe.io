@@ -128,8 +128,72 @@ export type DashboardPreviewRangeData = {
   };
 };
 
+const MS_DAY = 86_400_000;
+const HERO_CHART_DAY_COUNT = 79;
+const HERO_CHART_START_MS = Date.UTC(2026, 4, 2);
+const HERO_CHART_PINNED_OFFSET = 3;
+
+function formatPreviewDayLabel(timestamp: number): string {
+  return new Date(timestamp).toLocaleDateString("en-US", {
+    timeZone: "UTC",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+function previewVisitorRatio(index: number, count: number): number {
+  const phase = index / Math.max(1, count - 1);
+  const primary = 0.42 + 0.32 * Math.sin(phase * Math.PI * 5.2);
+  const secondary = 0.08 * Math.sin(index * 0.81 + 0.6);
+  const weekly = 0.06 * Math.sin((index / 7) * Math.PI * 2);
+  return Math.min(0.94, Math.max(0.12, primary + secondary + weekly));
+}
+
+function generatePreviewChartPoints(): StackedChartPoint[] {
+  const visitorPeak = 890;
+
+  return Array.from({ length: HERO_CHART_DAY_COUNT }, (_, index) => {
+    const t = HERO_CHART_START_MS + index * MS_DAY;
+    const isPinnedDay = index === HERO_CHART_PINNED_OFFSET;
+    const ratio = previewVisitorRatio(index, HERO_CHART_DAY_COUNT);
+    const visitors = isPinnedDay ? 846 : Math.round(ratio * visitorPeak);
+    const visits = Math.round(visitors * (1.02 + 0.08 * Math.sin(index * 0.4)));
+    const pageviews = Math.round(
+      visits * (2.05 + 0.15 * Math.sin(index * 0.31)),
+    );
+    const bounceRate = 0.28 + 0.08 * Math.sin(index * 0.19 + 1);
+    const avgDurationMs = Math.round(95_000 + 45_000 * ratio);
+    const revenueMinor = Math.round(
+      visitors * (380 + 40 * Math.sin(index * 0.22)),
+    );
+
+    const point: StackedChartPoint = {
+      label: formatPreviewDayLabel(t),
+      visitors,
+      visits,
+      pageviews,
+      bounceRate,
+      avgDurationMs,
+      revenueMinor,
+      t,
+    };
+
+    if (isPinnedDay) {
+      point.topReferrer = { host: "lexingtonthemes.com", count: 312 };
+    }
+
+    return point;
+  });
+}
+
+const basePoints = generatePreviewChartPoints();
+
 /** Hero dashboard preview: pinned chart day (May 5) with note + top referrer. */
-export const heroChartPinnedIndex = 24;
+export const heroChartPoints = basePoints;
+
+export const heroChartRangeLabel = "May 2 – Jul 19";
+
+export const heroChartPinnedIndex = HERO_CHART_PINNED_OFFSET;
 
 export const heroChartPinnedDay = "2026-05-05";
 
@@ -138,310 +202,6 @@ export const heroChartAnnotations: TrafficChartAnnotation[] = [
     id: "hero-note-1",
     day: heroChartPinnedDay,
     label: "X launch on 28.5.26",
-  },
-];
-
-const basePoints: StackedChartPoint[] = [
-  {
-    label: "Apr 11",
-    visitors: 314,
-    visits: 436,
-    pageviews: 889,
-    bounceRate: 0.41,
-    avgDurationMs: 96200,
-    revenueMinor: 68000,
-    t: Date.UTC(2026, 3, 11),
-  },
-  {
-    label: "Apr 12",
-    visitors: 366,
-    visits: 492,
-    pageviews: 971,
-    bounceRate: 0.39,
-    avgDurationMs: 101000,
-    revenueMinor: 82000,
-    t: Date.UTC(2026, 3, 12),
-  },
-  {
-    label: "Apr 13",
-    visitors: 343,
-    visits: 461,
-    pageviews: 924,
-    bounceRate: 0.42,
-    avgDurationMs: 94000,
-    revenueMinor: 76000,
-    t: Date.UTC(2026, 3, 13),
-  },
-  {
-    label: "Apr 14",
-    visitors: 418,
-    visits: 552,
-    pageviews: 1186,
-    bounceRate: 0.38,
-    avgDurationMs: 108000,
-    revenueMinor: 104000,
-    t: Date.UTC(2026, 3, 14),
-  },
-  {
-    label: "Apr 15",
-    visitors: 396,
-    visits: 527,
-    pageviews: 1098,
-    bounceRate: 0.4,
-    avgDurationMs: 103000,
-    revenueMinor: 93000,
-    t: Date.UTC(2026, 3, 15),
-  },
-  {
-    label: "Apr 16",
-    visitors: 451,
-    visits: 603,
-    pageviews: 1272,
-    bounceRate: 0.37,
-    avgDurationMs: 115000,
-    revenueMinor: 118000,
-    t: Date.UTC(2026, 3, 16),
-  },
-  {
-    label: "Apr 17",
-    visitors: 489,
-    visits: 646,
-    pageviews: 1338,
-    bounceRate: 0.36,
-    avgDurationMs: 119000,
-    revenueMinor: 132000,
-    t: Date.UTC(2026, 3, 17),
-  },
-  {
-    label: "Apr 18",
-    visitors: 472,
-    visits: 621,
-    pageviews: 1296,
-    bounceRate: 0.38,
-    avgDurationMs: 112000,
-    revenueMinor: 126000,
-    t: Date.UTC(2026, 3, 18),
-  },
-  {
-    label: "Apr 19",
-    visitors: 528,
-    visits: 708,
-    pageviews: 1452,
-    bounceRate: 0.35,
-    avgDurationMs: 121000,
-    revenueMinor: 154000,
-    t: Date.UTC(2026, 3, 19),
-  },
-  {
-    label: "Apr 20",
-    visitors: 501,
-    visits: 674,
-    pageviews: 1384,
-    bounceRate: 0.37,
-    avgDurationMs: 116000,
-    revenueMinor: 141000,
-    t: Date.UTC(2026, 3, 20),
-  },
-  {
-    label: "Apr 21",
-    visitors: 546,
-    visits: 728,
-    pageviews: 1490,
-    bounceRate: 0.35,
-    avgDurationMs: 124000,
-    revenueMinor: 168000,
-    t: Date.UTC(2026, 3, 21),
-  },
-  {
-    label: "Apr 22",
-    visitors: 579,
-    visits: 781,
-    pageviews: 1601,
-    bounceRate: 0.34,
-    avgDurationMs: 129000,
-    revenueMinor: 183000,
-    t: Date.UTC(2026, 3, 22),
-  },
-  {
-    label: "Apr 23",
-    visitors: 557,
-    visits: 742,
-    pageviews: 1528,
-    bounceRate: 0.36,
-    avgDurationMs: 126000,
-    revenueMinor: 176000,
-    t: Date.UTC(2026, 3, 23),
-  },
-  {
-    label: "Apr 24",
-    visitors: 621,
-    visits: 829,
-    pageviews: 1724,
-    bounceRate: 0.33,
-    avgDurationMs: 134000,
-    revenueMinor: 206000,
-    t: Date.UTC(2026, 3, 24),
-  },
-  {
-    label: "Apr 25",
-    visitors: 604,
-    visits: 807,
-    pageviews: 1667,
-    bounceRate: 0.34,
-    avgDurationMs: 132000,
-    revenueMinor: 198000,
-    t: Date.UTC(2026, 3, 25),
-  },
-  {
-    label: "Apr 26",
-    visitors: 638,
-    visits: 858,
-    pageviews: 1788,
-    bounceRate: 0.33,
-    avgDurationMs: 138000,
-    revenueMinor: 224000,
-    t: Date.UTC(2026, 3, 26),
-  },
-  {
-    label: "Apr 27",
-    visitors: 612,
-    visits: 816,
-    pageviews: 1711,
-    bounceRate: 0.35,
-    avgDurationMs: 129000,
-    revenueMinor: 211000,
-    t: Date.UTC(2026, 3, 27),
-  },
-  {
-    label: "Apr 28",
-    visitors: 676,
-    visits: 912,
-    pageviews: 1886,
-    bounceRate: 0.32,
-    avgDurationMs: 141000,
-    revenueMinor: 246000,
-    t: Date.UTC(2026, 3, 28),
-  },
-  {
-    label: "Apr 29",
-    visitors: 704,
-    visits: 942,
-    pageviews: 1960,
-    bounceRate: 0.31,
-    avgDurationMs: 144000,
-    revenueMinor: 262000,
-    t: Date.UTC(2026, 3, 29),
-  },
-  {
-    label: "Apr 30",
-    visitors: 689,
-    visits: 927,
-    pageviews: 1918,
-    bounceRate: 0.33,
-    avgDurationMs: 139000,
-    revenueMinor: 251000,
-    t: Date.UTC(2026, 3, 30),
-  },
-  {
-    label: "May 1",
-    visitors: 731,
-    visits: 984,
-    pageviews: 2055,
-    bounceRate: 0.31,
-    avgDurationMs: 148000,
-    revenueMinor: 286000,
-    t: Date.UTC(2026, 4, 1),
-  },
-  {
-    label: "May 2",
-    visitors: 758,
-    visits: 1021,
-    pageviews: 2140,
-    bounceRate: 0.3,
-    avgDurationMs: 151000,
-    revenueMinor: 302000,
-    t: Date.UTC(2026, 4, 2),
-  },
-  {
-    label: "May 3",
-    visitors: 724,
-    visits: 968,
-    pageviews: 2016,
-    bounceRate: 0.32,
-    avgDurationMs: 146000,
-    revenueMinor: 278000,
-    t: Date.UTC(2026, 4, 3),
-  },
-  {
-    label: "May 4",
-    visitors: 792,
-    visits: 1068,
-    pageviews: 2235,
-    bounceRate: 0.3,
-    avgDurationMs: 154000,
-    revenueMinor: 334000,
-    t: Date.UTC(2026, 4, 4),
-  },
-  {
-    label: "May 5",
-    visitors: 846,
-    visits: 1134,
-    pageviews: 2388,
-    bounceRate: 0.29,
-    avgDurationMs: 162000,
-    revenueMinor: 376000,
-    topReferrer: { host: "lexingtonthemes.com", count: 312 },
-    t: Date.UTC(2026, 4, 5),
-  },
-  {
-    label: "May 6",
-    visitors: 818,
-    visits: 1092,
-    pageviews: 2296,
-    bounceRate: 0.31,
-    avgDurationMs: 157000,
-    revenueMinor: 352000,
-    t: Date.UTC(2026, 4, 6),
-  },
-  {
-    label: "May 7",
-    visitors: 882,
-    visits: 1194,
-    pageviews: 2498,
-    bounceRate: 0.28,
-    avgDurationMs: 168000,
-    revenueMinor: 418000,
-    t: Date.UTC(2026, 4, 7),
-  },
-  {
-    label: "May 8",
-    visitors: 911,
-    visits: 1246,
-    pageviews: 2614,
-    bounceRate: 0.28,
-    avgDurationMs: 171000,
-    revenueMinor: 444000,
-    t: Date.UTC(2026, 4, 8),
-  },
-  {
-    label: "May 9",
-    visitors: 894,
-    visits: 1218,
-    pageviews: 2546,
-    bounceRate: 0.29,
-    avgDurationMs: 166000,
-    revenueMinor: 432000,
-    t: Date.UTC(2026, 4, 9),
-  },
-  {
-    label: "May 10",
-    visitors: 948,
-    visits: 1296,
-    pageviews: 2718,
-    bounceRate: 0.27,
-    avgDurationMs: 176000,
-    revenueMinor: 486000,
-    t: Date.UTC(2026, 4, 10),
   },
 ];
 
@@ -516,6 +276,8 @@ function buildKpi(points: StackedChartPoint[]) {
     revenue: formatRevenueKpi(points),
   };
 }
+
+export const heroChartKpi = buildKpi(heroChartPoints);
 
 const pages = {
   top: [

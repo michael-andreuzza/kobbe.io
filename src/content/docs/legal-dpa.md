@@ -93,7 +93,7 @@ Current sub-processors:
 
 | Sub-processor    | Purpose                                                                                         | Location / transfer notes                                                 |
 | ---------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| Cloudflare, Inc. | Hosting, Cloudflare Workers, D1 database, edge infrastructure, security, and request processing | See Cloudflare’s applicable data processing terms and transfer safeguards |
+| Cloudflare, Inc. | Hosting, Cloudflare Workers, D1 database, edge infrastructure, security, request processing, and transactional email delivery for account and product messages | See Cloudflare’s applicable data processing terms and transfer safeguards |
 | Polar            | Subscription checkout, billing, and payment-related account operations                          | See Polar’s applicable terms and data processing documentation            |
 | Google           | Google sign-in / authentication for customer account users who choose that method               | See Google’s applicable data processing terms and transfer safeguards     |
 
@@ -116,9 +116,11 @@ Taking into account the nature of processing, Company will provide reasonable as
 
 ## 12. Deletion and return
 
-Customer may delete analytics data by using Service controls, including site deletion or statistics reset features where available.
+Customer may delete analytics data earlier by using Service controls, including site deletion or statistics reset features where available.
 
-Company retains analytics event history for as long as Customer keeps the relevant site, workspace, or account active, unless Customer deletes it earlier through Service controls, deletion is required by law, or the parties agree otherwise. Account, billing, subscription, and operational records may be retained for as long as needed to provide the Service, comply with legal obligations, resolve disputes, and enforce agreements.
+For the hosted Service, analytics events and related rollups are kept for a **rolling retention window**. The default period is **180 days**, after which older analytics data is automatically deleted. Company may publish an updated default retention period for the hosted Service; the period in effect when data is collected applies unless the parties agree otherwise in writing.
+
+Account, billing, subscription, integration, support, security, and operational records may be retained for as long as needed to provide the Service, comply with legal obligations, resolve disputes, and enforce agreements.
 
 Upon termination of the Service, Company will delete or return personal data in accordance with the agreement, unless retention is required by applicable law.
 

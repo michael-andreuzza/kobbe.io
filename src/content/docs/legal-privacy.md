@@ -67,7 +67,7 @@ We use service providers, also called sub-processors, to operate Kobbe. These ar
 
 ## Data storage and retention
 
-Analytics data is stored and processed by Kobbe to provide the dashboard, reports, and shared dashboard links. Analytics event history is retained for as long as the customer keeps the relevant site, workspace, or account active, unless deleted earlier by the customer, required by law, or otherwise agreed.
+Analytics data is stored and processed by Kobbe to provide the dashboard, reports, and shared dashboard links. For the hosted Service, analytics events and related rollups are kept for a **rolling retention window**. The default period is **180 days**, after which older analytics data is automatically deleted. You may delete data earlier by deleting a site, resetting statistics, or closing your account.
 
 Account, billing, subscription, integration, support, security, and operational records may be kept for as long as needed to provide the service, comply with legal obligations, resolve disputes, enforce agreements, and operate the product.
 
