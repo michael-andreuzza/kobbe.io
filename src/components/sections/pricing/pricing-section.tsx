@@ -71,9 +71,9 @@ function PricingTierPanel({
   period: BillingPeriod;
 }) {
   return (
-    <article className="bg-card text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] p-6 rounded-2xl">
+    <article className="bg-card text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] rounded-2xl p-6">
       <div>
-        <h3 className="text-foreground font-display text-2xl font-medium tracking-tight italic ">
+        <h3 className="text-foreground font-display text-2xl font-medium tracking-tight italic">
           {name}
         </h3>
         <p className="text-muted-foreground mt-1 max-w-50 text-sm font-medium text-balance">
@@ -192,24 +192,6 @@ export function PricingSection({
           </div>
         </div>
       </div>
-
-      <p className="text-muted-foreground mx-auto mt-6 max-w-2xl text-center text-sm leading-relaxed">
-        Every plan includes cookieless tracking by default,{" "}
-        <a
-          href="/docs/legal-gdpr-compliance"
-          className="text-foreground font-medium underline underline-offset-4"
-        >
-          GDPR-oriented documentation
-        </a>
-        , and our{" "}
-        <a
-          href="/docs/legal-dpa"
-          className="text-foreground font-medium underline underline-offset-4"
-        >
-          Data Processing Addendum
-        </a>
-        .
-      </p>
 
       <div className="text-foreground mt-2 flex flex-wrap items-center justify-between font-semibold lg:items-start">
         <p className="text-sm 2xl:text-base">Secure payments via Polar</p>
