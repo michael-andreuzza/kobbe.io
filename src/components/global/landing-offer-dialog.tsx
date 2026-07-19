@@ -8,7 +8,7 @@ import { Logo } from "@/components/assets/logo";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const CAMPAIGN_VERSION = "2026-hellokobbe-1";
+const CAMPAIGN_VERSION = "2026-hellokobbe-2";
 const DISMISS_KEY = "kobbeOfferDismissed";
 const DISCOUNT_CODE = "hellokobbe";
 
@@ -127,12 +127,12 @@ export function LandingOfferDialog() {
                   <span className="text-brand px-1 font-medium">
                     {DISCOUNT_CODE}
                   </span>
-                  at checkout
+                  when you upgrade
                 </span>
               </Dialog.Title>
               <Dialog.Description className="text-primary-foreground/75 mt-4 max-w-xl text-base font-medium">
-                Privacy-friendly analytics with traffic, revenue, funnels, and
-                more. Affordable plans for indie SaaS and product sites.
+                Start with a 15-day free trial, no card required. Apply the code
+                on yearly billing when you choose a plan.
               </Dialog.Description>
             </div>
 

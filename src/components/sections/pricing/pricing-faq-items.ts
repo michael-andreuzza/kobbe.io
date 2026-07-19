@@ -81,7 +81,7 @@ export const pricingFaqItems = [
     id: "yearly",
     question: "Is yearly billing discounted?",
     answer:
-      "Yes. Yearly billing saves about 44% compared to paying monthly at every tier.",
+      "Yes. Yearly billing saves about 44% compared to paying monthly at every tier. Use discount code hellokobbe when you upgrade to a yearly plan for an extra 20% off.",
   },
   {
     id: "over-limit",
