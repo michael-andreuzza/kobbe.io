@@ -133,7 +133,7 @@ function PricingTierPanel({
       </div>
 
       <p className="text-muted-foreground mt-2 text-center text-xs">
-        5 minutes setup · No creditcard required
+        No creditcard required - Cancel anytime
       </p>
     </article>
   );

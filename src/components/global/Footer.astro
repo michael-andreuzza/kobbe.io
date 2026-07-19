@@ -68,52 +68,37 @@ const footerLinkGroups: FooterLinkGroup[] = [
 
 <footer class="overflow-x-clip pt-20 pb-8">
   <Wrapper variant="default">
-    <div class="relative overflow-hidden px-4 py-12 sm:px-8 lg:p-12">
-      <Image
-        src={paintOne}
-        alt=""
-        aria-hidden="true"
-        loading="lazy"
-        decoding="async"
-        height={2000}
-        width={2000}
-        class="absolute inset-0 size-full bg-cover object-cover"
-      />
+    <div
+      class="bg-foreground text-foreground rounded-2xl p-4 text-balance lg:py-24 lg:text-center"
+    >
+      <Text
+        tag="h2"
+        variant="displayTitle"
+        class="text-background font-display text-balance"
+      >
+        Set up in 5 minutes. <br /> Back to marketing by <span data-setup-time
+          >soon</span
+        >.
+      </Text>
+      <Text
+        tag="p"
+        variant="displaySubtitle"
+        class="text-muted-foreground mt-1 font-medium text-balance"
+      >
+        Privacy-friendly analytics for teams that want clear numbers without
+        extra tracking work.
+      </Text>
 
-      <div class="relative z-10 mx-auto">
-        <div
-          class="bg-background text-foreground p-4 text-balance lg:p-12 lg:text-center"
-        >
-          <Text
-            tag="h2"
-            variant="displayTitle"
-            class="text-foreground font-display text-balance"
-          >
-            Set up in 5 minutes. <br /> Back to marketing by <span
-              data-setup-time>soon</span
-            >.
-          </Text>
-          <Text
-            tag="p"
-            variant="displaySubtitle"
-            class="text-muted-foreground mt-1 font-medium text-balance"
-          >
-            Privacy-friendly analytics for teams that want clear numbers without
-            extra tracking work.
-          </Text>
-
-          <a
-            href="/#pricing"
-            data-kobbe-event="Footer CTA - start free trial"
-            class={cn(
-              buttonVariants({ variant: "default", size: "sm" }),
-              "mx-auto mt-8 w-fit",
-            )}
-          >
-            Start a {pricingTrialDays}-day trial
-          </a>
-        </div>
-      </div>
+      <a
+        href="/#pricing"
+        data-kobbe-event="Footer CTA - start free trial"
+        class={cn(
+          buttonVariants({ variant: "secondary", size: "sm" }),
+          "mx-auto mt-8 w-fit",
+        )}
+      >
+        Start a {pricingTrialDays}-day trial
+      </a>
     </div>
     <div class="mt-24 w-full">
       <nav class="grid grid-cols-2 gap-8 text-sm md:grid-cols-4 lg:col-start-3">
