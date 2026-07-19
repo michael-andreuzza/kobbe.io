@@ -6,8 +6,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
 ---
 
-<section class="overflow-hidden border border-border">
-  <Wrapper variant="default" class="pt-20 lg:pt-28 lg:h-dvh">
+<section class="border-border overflow-hidden border-b">
+  <Wrapper variant="default" class="pt-20 lg:h-dvh lg:pt-28">
     <div class="mx-auto max-w-2xl text-center">
       <SectionIntro
         title="Privacy-friendly analytics with traffic and revenue in one place."
@@ -33,11 +33,10 @@ import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
       </div>
     </div>
 
-    <div class="relative mt-12 ">
+    <div class="relative mt-12">
       <HeroDashboardPreview client:load />
     </div>
   </Wrapper>
-  
 </section>
 <section>
   <Wrapper variant="default" class="py-8">
@@ -52,6 +51,5 @@ import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
       <li aria-hidden="true" class="text-muted-foreground">·</li>
       <li>0 raw IPs stored</li>
     </ul>
-
   </Wrapper>
 </section>
