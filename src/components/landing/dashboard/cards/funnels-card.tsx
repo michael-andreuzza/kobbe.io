@@ -1,3 +1,7 @@
+import { useState } from "react";
+
+import { cn } from "@/lib/utils";
+
 import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 
 type Props = {
@@ -113,24 +117,29 @@ function MarketingFunnelChart(props: {
 }
 
 function MarketingFunnelDesktopFlow(props: { steps: MarketingFunnelStep[] }) {
-  const segments = funnelFillSegments(props.steps);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const linePath = funnelLinePath(props.steps);
 
   return (
     <div className="hidden min-w-0 sm:block">
-      <div className="border-border/50 relative overflow-hidden border-x bg-transparent">
+      <div
+        className="border-border/50 relative min-h-80 overflow-hidden border-x bg-transparent"
+        onMouseLeave={() => setHoveredIndex(null)}
+      >
         <svg
           className="pointer-events-none absolute inset-0 h-full w-full"
           viewBox="0 0 1000 280"
           preserveAspectRatio="none"
           aria-hidden
         >
-          {segments.map((segment) => (
-            <path
-              key={segment.index}
-              d={segment.path}
-              className="fill-primary stroke-none"
-            />
-          ))}
+          <path
+            d={linePath}
+            className={cn(
+              "fill-none transition-colors duration-200",
+              hoveredIndex != null ? "stroke-brand" : "stroke-primary",
+            )}
+            strokeWidth={2}
+          />
         </svg>
         <div
           className="relative z-10 grid min-h-80 min-w-0"
@@ -141,7 +150,11 @@ function MarketingFunnelDesktopFlow(props: { steps: MarketingFunnelStep[] }) {
           {props.steps.map((step, index) => (
             <div
               key={step.id}
-              className="border-border/35 relative flex min-h-80 min-w-0 flex-col border-l px-3 py-5 first:border-l-0 lg:px-5"
+              className={cn(
+                "border-border/35 relative flex min-h-80 min-w-0 flex-col border-l px-3 py-5 transition-colors duration-200 first:border-l-0 lg:px-5",
+                hoveredIndex === index && "bg-muted/25",
+              )}
+              onMouseEnter={() => setHoveredIndex(index)}
               aria-label={`${step.label}: ${step.visitors.toLocaleString()} visitors, ${formatPercent(step.conversionRate)} conversion`}
             >
               <div className="min-w-0 text-left">
@@ -164,7 +177,12 @@ function MarketingFunnelDesktopFlow(props: { steps: MarketingFunnelStep[] }) {
                 </div>
               </div>
               <div className="absolute inset-x-3 bottom-4 text-left lg:inset-x-5">
-                <div className="text-primary-foreground text-lg font-semibold tabular-nums">
+                <div
+                  className={cn(
+                    "text-lg font-semibold tabular-nums transition-colors duration-200",
+                    hoveredIndex === index ? "text-brand" : "text-primary",
+                  )}
+                >
                   {formatPercent(step.conversionRate)}
                 </div>
               </div>
@@ -180,11 +198,16 @@ function funnelStageHeight(ratio: number) {
   return 36 + ratio * 110;
 }
 
-function funnelFillSegments(steps: MarketingFunnelStep[]) {
+function funnelLinePath(steps: MarketingFunnelStep[]): string {
+  if (steps.length === 0) {
+    return "";
+  }
+
   const segmentWidth = 1000 / steps.length;
   const heights = steps.map((step) => funnelStageHeight(step.ratio));
+  const parts: string[] = [];
 
-  return steps.map((_, index) => {
+  for (let index = 0; index < steps.length; index += 1) {
     const leftX = index * segmentWidth;
     const rightX = (index + 1) * segmentWidth;
     const leftHeight =
@@ -196,16 +219,16 @@ function funnelFillSegments(steps: MarketingFunnelStep[]) {
     const midX = (leftX + rightX) / 2;
     const topLeftY = funnelBaselineY - leftHeight;
     const topRightY = funnelBaselineY - rightHeight;
-    const path = [
-      `M ${leftX} ${topLeftY}`,
-      `C ${midX} ${topLeftY}, ${midX} ${topRightY}, ${rightX} ${topRightY}`,
-      `L ${rightX} ${funnelBaselineY}`,
-      `L ${leftX} ${funnelBaselineY}`,
-      "Z",
-    ].join(" ");
 
-    return { index, path };
-  });
+    if (index === 0) {
+      parts.push(`M ${leftX} ${topLeftY}`);
+    }
+    parts.push(
+      `C ${midX} ${topLeftY}, ${midX} ${topRightY}, ${rightX} ${topRightY}`,
+    );
+  }
+
+  return parts.join(" ");
 }
 
 export default FunnelsCard;

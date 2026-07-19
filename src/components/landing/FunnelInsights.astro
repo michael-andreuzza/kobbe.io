@@ -5,28 +5,22 @@ import FunnelsDashboardPreview from "@/components/landing/dashboard/funnels-dash
 import SectionIntro from "@/components/landing/SectionIntro.astro";
 
 const funnelPreview = {
-  name: "Trial signup",
-  completed: 700,
-  conversionRate: 0.38,
+  name: "Marketing signup",
+  completed: 39,
+  conversionRate: 0.52,
   steps: [
-    { label: "Visited pricing", visitors: 1840, conversionRate: 1 },
+    { label: "/", visitors: 75, conversionRate: 1, dropoffRate: 0 },
     {
-      label: "Opened signup",
-      visitors: 1380,
-      conversionRate: 0.75,
-      dropoffRate: 0.25,
+      label: "/pricing",
+      visitors: 64,
+      conversionRate: 0.853,
+      dropoffRate: 0.147,
     },
     {
-      label: "Created workspace",
-      visitors: 980,
-      conversionRate: 0.71,
-      dropoffRate: 0.29,
-    },
-    {
-      label: "Installed tracker",
-      visitors: 700,
-      conversionRate: 0.71,
-      dropoffRate: 0.29,
+      label: "signup",
+      visitors: 39,
+      conversionRate: 0.609,
+      dropoffRate: 0.391,
     },
   ],
 };
@@ -34,7 +28,7 @@ const funnelPreview = {
 
 <section class="pt-8">
   <Wrapper class="py-20">
-    <div class="max-w-4xl">
+    <div class="mx-auto max-w-4xl text-center">
       <SectionIntro
         title="See where visitors continue or drop off."
         description="Build funnels from pages and custom events, then inspect conversion, drop-off, and step-level detail with the same app dashboard view."

@@ -6,18 +6,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-
-import { TrackingModeBadge } from "@/components/landing/tracking-mode-badge";
-import type { TrackingMode } from "@/components/landing/tracking-mode-badge";
 
 type Feature = {
   title: string;
   description: string;
   href: string;
-  mode?: TrackingMode;
 };
 
 type FeatureGroup = {
@@ -97,33 +93,28 @@ function FeatureGroupPanel({ group }: { group: FeatureGroup }) {
         </div>
 
         {needsCollapse && !expanded ? (
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center">
-            <div
-              aria-hidden
-              className="absolute inset-x-0 bottom-0 h-28 mask-[linear-gradient(to_top,black,transparent)] backdrop-blur-[3px]"
-            />
-            <button
+          <div className="mt-8 flex justify-center">
+            <Button
               type="button"
+              variant="outline"
+              size="xs"
               onClick={() => setExpanded(true)}
-              className={cn(
-                buttonVariants({ variant: "outline", size: "xs" }),
-                "pointer-events-auto relative z-10 shadow",
-              )}
             >
               Show {hiddenCount} more
-            </button>
+            </Button>
           </div>
         ) : null}
 
         {needsCollapse && expanded ? (
           <div className="mt-8 flex justify-center">
-            <button
+            <Button
               type="button"
+              variant="outline"
+              size="xs"
               onClick={() => setExpanded(false)}
-              className={buttonVariants({ variant: "outline", size: "xs" })}
             >
               Show less
-            </button>
+            </Button>
           </div>
         ) : null}
       </div>
@@ -149,11 +140,6 @@ function FeatureGrid({ features }: { features: readonly Feature[] }) {
               </a>
             </CardTitle>
             <CardDescription>{feature.description}</CardDescription>
-            {feature.mode === "extended" ? (
-              <div className="mt-3 flex justify-center">
-                <TrackingModeBadge mode="extended" />
-              </div>
-            ) : null}
           </CardHeader>
         </Card>
       ))}

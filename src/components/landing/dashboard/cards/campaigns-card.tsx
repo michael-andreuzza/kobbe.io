@@ -3,18 +3,25 @@ import { useRef } from "react";
 import { useIdlePulse } from "@/components/landing/use-idle-pulse";
 import {
   Card,
-  CardContent,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {
-  dashboardCardContentTableClass,
   dashboardCardHeaderClass,
   dashboardCardRootClass,
   dashboardCardStackClass,
   dashboardCardTitleClass,
 } from "../dashboard-card-layout";
+import {
+  DashboardCardTable,
+  DashboardTable,
+  DashboardTableBody,
+  DashboardTableCell,
+  DashboardTableHead,
+  DashboardTableHeader,
+  DashboardTableRow,
+} from "../dashboard-table";
 import {
   DashboardMetricStrip,
   DashboardMetricTile,
@@ -94,42 +101,43 @@ export function CampaignsCard({ campaigns }: Props) {
               Campaign performance
             </CardTitle>
           </CardHeader>
-          <CardContent className={dashboardCardContentTableClass}>
-            <div className="text-muted-foreground grid grid-cols-[minmax(0,1fr)_4rem_4rem_4rem] gap-2 pb-2 text-[11px] font-medium">
-              <span>Campaign</span>
-              <span className="text-right">Visitors</span>
-              <span className="text-right">Views</span>
-              <span className="text-right">Conv.</span>
-            </div>
-            <ul className="flex flex-col">
-              {campaigns.rows.map((row) => (
-                <li key={row.name} className="list-none">
-                  <div
-                    className="border-border/40 grid min-w-0 grid-cols-[minmax(0,1fr)_4rem_4rem_4rem] items-center gap-2 border-b py-2 text-xs last:border-b-0"
-                    data-kobbe-stagger
-                  >
-                    <div className="min-w-0">
-                      <p className="text-foreground truncate font-medium">
+          <DashboardCardTable>
+            <DashboardTable>
+              <DashboardTableHeader>
+                <DashboardTableRow>
+                  <DashboardTableHead>Campaign</DashboardTableHead>
+                  <DashboardTableHead className="text-right">
+                    Visitors
+                  </DashboardTableHead>
+                  <DashboardTableHead className="text-right">Views</DashboardTableHead>
+                  <DashboardTableHead className="text-right">Conv.</DashboardTableHead>
+                </DashboardTableRow>
+              </DashboardTableHeader>
+              <DashboardTableBody>
+                {campaigns.rows.map((row) => (
+                  <DashboardTableRow key={row.name}>
+                    <DashboardTableCell className="max-w-[min(100%,16rem)]">
+                      <span className="text-foreground block truncate font-medium">
                         {row.name}
-                      </p>
-                      <p className="text-muted-foreground truncate text-[11px]">
+                      </span>
+                      <span className="text-muted-foreground block truncate text-[11px]">
                         {row.source} / {row.medium}
-                      </p>
-                    </div>
-                    <span className="text-muted-foreground text-right tabular-nums">
+                      </span>
+                    </DashboardTableCell>
+                    <DashboardTableCell className="text-muted-foreground text-right tabular-nums">
                       {row.visitors.toLocaleString()}
-                    </span>
-                    <span className="text-muted-foreground text-right tabular-nums">
+                    </DashboardTableCell>
+                    <DashboardTableCell className="text-muted-foreground text-right tabular-nums">
                       {(row.views ?? row.visitors * 2).toLocaleString()}
-                    </span>
-                    <span className="text-muted-foreground text-right tabular-nums">
+                    </DashboardTableCell>
+                    <DashboardTableCell className="text-muted-foreground text-right tabular-nums">
                       {(row.conversions ?? 0).toLocaleString()}
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
+                    </DashboardTableCell>
+                  </DashboardTableRow>
+                ))}
+              </DashboardTableBody>
+            </DashboardTable>
+          </DashboardCardTable>
         </Card>
       </div>
     </div>
