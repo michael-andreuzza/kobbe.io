@@ -64,6 +64,19 @@ export function ratingLabelForValue(
   return ratingDisplayLabel(ratingForMetric(metric, value))
 }
 
+export function formatPerfValue(
+  metric: WebVitalName,
+  value: number | null,
+): string {
+  if (value == null || !Number.isFinite(value)) {
+    return "-"
+  }
+  if (metric === "CLS") {
+    return value.toFixed(3)
+  }
+  return `${Math.round(value).toLocaleString()} ms`
+}
+
 export function formatPerfTooltipValue(
   metric: WebVitalName,
   value: unknown,
@@ -72,8 +85,5 @@ export function formatPerfTooltipValue(
   if (!Number.isFinite(n)) {
     return "-"
   }
-  if (metric === "CLS") {
-    return n.toFixed(3)
-  }
-  return `${Math.round(n).toLocaleString()} ms`
+  return formatPerfValue(metric, n)
 }

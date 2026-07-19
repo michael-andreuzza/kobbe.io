@@ -1,10 +1,13 @@
+import { cn } from "@/lib/utils";
+
+import { capabilityMockupSurfaceClass } from "./dashboard-card-layout";
 import { dashboardPreviewData } from "./dashboard-preview-data";
 
 const data = dashboardPreviewData["14d"];
 
 export function McpPreview() {
   return (
-    <div className="border-border/70 bg-card w-full min-w-0 space-y-1.5 rounded-xl border p-2.5">
+    <div className={cn(capabilityMockupSurfaceClass, "w-full min-w-0 space-y-1.5 p-2.5")}>
       <div className="bg-muted ml-auto max-w-[90%] rounded-md px-2 py-1.5 text-[11px] leading-snug">
         What changed on my site this week?
       </div>

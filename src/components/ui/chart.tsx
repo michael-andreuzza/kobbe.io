@@ -49,8 +49,8 @@ function ChartContainer({
         data-slot="chart"
         data-chart={chartId}
         className={cn(
-          // Recharts 3 measures the responsive wrapper; `height: 100%` inside flex/flex-1 often
-          // resolves to 0 so the chart unmounts. Pin the plot area to the caller’s `h-*` box.
+          // Callers should pass an explicit `h-*` (or `h-full` on a sized parent). Recharts 3
+          // unmounts the plot when ResponsiveContainer measures 0×0 after mount.
           "relative w-full text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector[stroke='#fff']]:stroke-transparent",
           "[&_.recharts-wrapper]:outline-none [&_.recharts-wrapper]:ring-0 [&_.recharts-wrapper]:focus:outline-none [&_.recharts-wrapper]:focus-visible:outline-none [&_.recharts-wrapper]:focus-visible:ring-0 [&_.recharts-wrapper_*]:outline-none [&_.recharts-wrapper_*]:focus:outline-none [&_.recharts-wrapper_*]:focus-visible:outline-none [&_.recharts-wrapper_*]:focus-visible:ring-0",
           className,
@@ -58,11 +58,14 @@ function ChartContainer({
         {...props}
       >
         <ChartStyle id={chartId} config={config} />
-        <div className="absolute inset-0 min-h-0 w-full min-w-0">
-          <RechartsPrimitive.ResponsiveContainer width="100%" height="100%" initialDimension={initialDimension}>
-            {children}
-          </RechartsPrimitive.ResponsiveContainer>
-        </div>
+        <RechartsPrimitive.ResponsiveContainer
+          width="100%"
+          height="100%"
+          initialDimension={initialDimension}
+          minHeight={initialDimension.height}
+        >
+          {children}
+        </RechartsPrimitive.ResponsiveContainer>
       </div>
     </ChartContext.Provider>
   );

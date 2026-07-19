@@ -281,6 +281,79 @@ export function TrafficChannelList(props: {
   );
 }
 
+export type PerformanceEnvBreakdownRow = {
+  key: string;
+  label: string;
+  p75: number;
+  n: number;
+  countryCode?: string | null;
+};
+
+/** Environment breakdown for Performance (p75 + sample count), same bar row pattern as device lists. */
+export function PerformanceEnvBreakdownList(props: {
+  rows: PerformanceEnvBreakdownRow[];
+  formatP75: (value: number) => string;
+}) {
+  const listTotal = sumCountFromRows(props.rows.map((row) => row.n));
+
+  return (
+    <ul className={breakdownListClassName}>
+      {props.rows.map((row) => {
+        const isCountry = row.countryCode != null && row.countryCode !== "";
+        const cc = isCountry
+          ? normalizedCountryCode(row.countryCode ?? null)
+          : null;
+
+        return (
+          <li key={row.key} className="list-none">
+            <BreakdownListRow count={row.n} listTotal={listTotal}>
+              {isCountry ? (
+                <span className="flex min-w-0 flex-1 items-center gap-2">
+                  {cc ? (
+                    <div
+                      className={`fi fi-${cc} overflow inline-block size-auto shrink-0 overflow-hidden rounded-xs bg-cover bg-center`}
+                      aria-hidden
+                      title={row.countryCode ?? undefined}
+                    />
+                  ) : (
+                    <HugeiconsIcon
+                      icon={Globe02Icon}
+                      className="text-muted-foreground size-3.5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden
+                    />
+                  )}
+                  <span
+                    className="min-w-0 flex-1 truncate text-xs"
+                    title={row.label}
+                  >
+                    {row.label}
+                  </span>
+                </span>
+              ) : (
+                <span
+                  className="text-foreground min-w-0 flex-1 truncate text-xs"
+                  title={row.label}
+                >
+                  {row.label}
+                </span>
+              )}
+              <div className="flex shrink-0 items-baseline justify-end gap-2 text-xs tabular-nums sm:gap-2.5">
+                <span className="text-foreground min-w-18 text-right font-medium sm:min-w-24">
+                  {props.formatP75(row.p75)}
+                </span>
+                <span className="text-muted-foreground w-12 text-right sm:w-14">
+                  {row.n.toLocaleString()}
+                </span>
+              </div>
+            </BreakdownListRow>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
 export function DeviceBreakdownList(props: {
   rows: { name: string; count: number; revenueMinor?: number }[];
   revenueFormat?: BreakdownRevenueFormat;

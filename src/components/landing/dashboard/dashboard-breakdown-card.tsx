@@ -3,6 +3,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -105,6 +106,57 @@ export function DashboardTabbedBreakdownCard(props: {
           tabs={props.tabs}
           expandAction={props.expandAction}
         />
+      </CardHeader>
+      {props.isEmpty ? (
+        <CardContent className={dashboardCardContentDefaultClass}>
+          <DashboardCardBodyInset>
+            <EmptyRows
+              icon={props.empty.icon}
+              title={props.empty.title}
+              hint={props.empty.hint}
+            />
+          </DashboardCardBodyInset>
+        </CardContent>
+      ) : (
+        <CardContent className={dashboardCardContentListClass}>
+          <DashboardCardBodyInset>{props.children}</DashboardCardBodyInset>
+        </CardContent>
+      )}
+    </Card>
+  );
+}
+
+export function DashboardBreakdownCard(props: {
+  title: string;
+  description?: ReactNode;
+  isEmpty: boolean;
+  empty: EmptyState;
+  children: ReactNode;
+  className?: string;
+  expandAction?: ExpandAction;
+}) {
+  return (
+    <Card
+      variant="bordered"
+      className={cn(dashboardCardRootClass, "h-full min-h-0", props.className)}
+    >
+      <CardHeader className={dashboardCardHeaderClass}>
+        <CardTitle className={dashboardCardTitleClass}>{props.title}</CardTitle>
+        {props.expandAction ? (
+          <CardAction className="self-start pt-0.5">
+            <CardExpandButton
+              onClick={props.expandAction.onClick}
+              ariaLabel={props.expandAction.ariaLabel}
+            />
+          </CardAction>
+        ) : null}
+        {props.description != null ? (
+          <CardDescription
+            className={cn("col-span-full", dashboardCardDescriptionClass)}
+          >
+            {props.description}
+          </CardDescription>
+        ) : null}
       </CardHeader>
       {props.isEmpty ? (
         <CardContent className={dashboardCardContentDefaultClass}>

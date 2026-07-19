@@ -15,6 +15,10 @@ import { ChartAnnotationsPreview } from "./chart-annotations-preview";
 import { McpPreview } from "./mcp-preview";
 import { RealtimePreview } from "./realtime-preview";
 import { DashboardMetricTile } from "./dashboard-metric-strip";
+import {
+  capabilityMockupStackSurfaceClass,
+  capabilityMockupSurfaceClass,
+} from "./dashboard-card-layout";
 import { dashboardPreviewData } from "./dashboard-preview-data";
 
 const data = dashboardPreviewData["14d"];
@@ -274,7 +278,7 @@ function TrafficKpiTile(props: {
     <DashboardMetricTile
       surface="muted"
       active={props.active}
-      className="outline-border aspect-square min-h-0 min-w-0 flex-1 p-2.5 shadow outline sm:p-3"
+      className="aspect-square min-h-0 min-w-0 flex-1 p-2.5 sm:p-3"
     >
       <div className="flex h-full min-w-0 flex-col gap-1">
         <div className="flex w-full min-w-0 items-baseline justify-between gap-2">
@@ -343,7 +347,7 @@ function CapabilityCard(props: CapabilityCardProps) {
 
 function CapabilityListPreview(props: { children: ReactNode }) {
   return (
-    <div className="kobbe-capability-stack [&_li>div]:border-border/70 [&_li>div]:bg-card w-full [&_li>div]:rounded-lg [&_li>div]:border">
+    <div className={cn("kobbe-capability-stack w-full", capabilityMockupStackSurfaceClass)}>
       {props.children}
     </div>
   );
@@ -366,7 +370,10 @@ function PreviewFrame(props: {
   return (
     <div
       ref={frameRef}
-      className="border-border/70 bg-card relative flex h-72 w-full items-start justify-center rounded-xl border"
+      className={cn(
+        capabilityMockupSurfaceClass,
+        "relative flex h-72 w-full items-start justify-center",
+      )}
     >
       <div
         className={cn(

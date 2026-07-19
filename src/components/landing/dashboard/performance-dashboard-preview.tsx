@@ -1,6 +1,5 @@
-import { ComputerPhoneSyncIcon } from "@hugeicons/core-free-icons";
-import { useEffect, useMemo, useState } from "react";
-import { useReducedMotion } from "motion/react";
+import { ComputerPhoneSyncIcon, Globe02Icon } from "@hugeicons/core-free-icons";
+import { useMemo, useState } from "react";
 import { Bar, Cell, ComposedChart, XAxis, YAxis } from "recharts";
 
 import {
@@ -18,7 +17,10 @@ import {
 } from "@/components/ui/chart";
 import { buttonVariants } from "@/components/ui/button";
 import {
+  formatPerfValue,
   ratingColorForValue,
+  ratingDisplayLabel,
+  ratingForMetric,
   ratingLabelForValue,
   formatPerfTooltipValue,
   type WebVitalName,
@@ -29,15 +31,16 @@ import {
   DashboardMetricStrip,
   DashboardMetricTile,
 } from "./dashboard-metric-strip";
-import { DashboardTabbedBreakdownCard } from "./dashboard-breakdown-card";
 import {
-  dashboardCardContentListClass,
-  dashboardCardContentTableClass,
-  dashboardCardDescriptionClass,
+  DashboardBreakdownCard,
+  DashboardTabbedBreakdownCard,
+} from "./dashboard-breakdown-card";
+import {
   dashboardCardHeaderClass,
   dashboardCardRootClass,
   dashboardCardStackClass,
   dashboardCardTitleClass,
+  dashboardCardDescriptionClass,
 } from "./dashboard-card-layout";
 import {
   BrandActiveLollipopBarShape,
@@ -46,9 +49,18 @@ import {
   chartBarMaxSize,
 } from "./chart-lollipop";
 import {
-  DeviceBreakdownList,
-  LocationBreakdownList,
+  PerformanceEnvBreakdownList,
+  type PerformanceEnvBreakdownRow,
 } from "./dashboard-list-card";
+import {
+  DashboardCardTable,
+  DashboardTable,
+  DashboardTableBody,
+  DashboardTableCell,
+  DashboardTableHead,
+  DashboardTableHeader,
+  DashboardTableRow,
+} from "./dashboard-table";
 
 type Props = {
   webVitals: DashboardPreviewRangeData["webVitals"];
@@ -157,34 +169,36 @@ const trendPoints = [
 ];
 
 const attentionRows = [
-  { path: "/pricing", value: "2.8s", samples: 184 },
-  { path: "/docs/install-nextjs", value: "2.4s", samples: 142 },
-  { path: "/demo/kobbe-studio", value: "2.1s", samples: 96 },
-  { path: "/docs/overview", value: "2.0s", samples: 82 },
+  { path: "/pricing", p75: 2800, n: 184 },
+  { path: "/docs/install-nextjs", p75: 2400, n: 142 },
+  { path: "/demo/kobbe-studio", p75: 2100, n: 96 },
+  { path: "/docs/overview", p75: 2000, n: 82 },
 ];
 
-const browserRows = [
-  { name: "Safari", count: 318 },
-  { name: "Chrome", count: 624 },
-  { name: "Firefox", count: 144 },
-  { name: "Edge", count: 96 },
+const perfBrowserRows: PerformanceEnvBreakdownRow[] = [
+  { key: "browser:Safari", label: "Safari", p75: 2140, n: 318 },
+  { key: "browser:Chrome", label: "Chrome", p75: 1680, n: 624 },
+  { key: "browser:Firefox", label: "Firefox", p75: 1980, n: 144 },
+  { key: "browser:Edge", label: "Edge", p75: 1860, n: 96 },
 ];
 
-const countryRows = [
-  { key: "us", label: "United States", count: 412, countryCode: "US" },
-  { key: "de", label: "Germany", count: 180, countryCode: "DE" },
-  { key: "gb", label: "United Kingdom", count: 166, countryCode: "GB" },
-  { key: "es", label: "Spain", count: 121, countryCode: "ES" },
+const perfCountryRows: PerformanceEnvBreakdownRow[] = [
+  { key: "country:US", label: "US", p75: 2400, n: 412, countryCode: "US" },
+  { key: "country:DE", label: "DE", p75: 2280, n: 180, countryCode: "DE" },
+  { key: "country:GB", label: "GB", p75: 2160, n: 166, countryCode: "GB" },
+  { key: "country:ES", label: "ES", p75: 2040, n: 121, countryCode: "ES" },
 ];
 
-function ratingClassName(
-  rating: DashboardPreviewRangeData["webVitals"]["metrics"][number]["rating"],
-) {
-  return rating === "Good"
-    ? "text-success"
-    : rating === "Watch"
-      ? "text-warning"
-      : "text-destructive";
+function performanceEnvListRows(
+  rows: { name: string; p75: number; n: number }[],
+  kind: "device" | "browser",
+): PerformanceEnvBreakdownRow[] {
+  return rows.map((row) => ({
+    key: `${kind}:${row.name}`,
+    label: row.name,
+    p75: row.p75,
+    n: row.n,
+  }));
 }
 
 const performanceChartConfig = {
@@ -192,8 +206,6 @@ const performanceChartConfig = {
   p75: { label: "p75", color: "var(--foreground)" },
   p95: { label: "p95", color: "var(--foreground)" },
 } satisfies ChartConfig;
-
-const performanceMetricSequence = [0, 1, 2, 3, 4] as const;
 
 const performancePercentileLabels = {
   p50: "Median (p50)",
@@ -233,43 +245,32 @@ function formatAxisTick(v: number): string {
   return rounded.toLocaleString();
 }
 
+function kobbeRatingClassName(
+  rating: ReturnType<typeof ratingForMetric>,
+): string {
+  if (rating === "good") return "text-success";
+  if (rating === "needs-improvement") return "text-warning";
+  return "text-destructive";
+}
+
 export function PerformanceDashboardPreview({ webVitals }: Props) {
-  const shouldReduceMotion = useReducedMotion();
   const metrics = webVitals.metrics.slice(0, 5);
   const [activeMetricIndex, setActiveMetricIndex] = useState(0);
   const [envTab, setEnvTab] = useState(0);
   const activeMetric = (metrics[activeMetricIndex]?.name ??
     "LCP") as WebVitalName;
-  const envRows = envTab === 0 ? browserRows : webVitals.environments;
-
-  useEffect(() => {
-    if (shouldReduceMotion || metrics.length <= 1) {
-      return;
-    }
-
-    const timeout = window.setTimeout(() => {
-      setActiveMetricIndex((currentIndex) => {
-        const currentSequenceIndex = performanceMetricSequence.indexOf(
-          currentIndex as (typeof performanceMetricSequence)[number],
-        );
-        const nextSequenceIndex =
-          (Math.max(0, currentSequenceIndex) + 1) %
-          performanceMetricSequence.length;
-        return Math.min(
-          performanceMetricSequence[nextSequenceIndex] ?? 0,
-          metrics.length - 1,
-        );
-      });
-    }, 2200);
-
-    return () => window.clearTimeout(timeout);
-  }, [activeMetricIndex, metrics.length, shouldReduceMotion]);
+  const envRows =
+    envTab === 0
+      ? perfBrowserRows
+      : performanceEnvListRows(webVitals.environments, "device");
+  const formatActiveP75 = (value: number) => formatPerfValue(activeMetric, value);
 
   return (
     <div className="relative mx-auto min-w-0">
       <DashboardMetricStrip ariaLabel="Web Vitals metrics" lgCols={5}>
         {metrics.map((metric, index) => {
           const active = index === activeMetricIndex;
+          const rating = ratingForMetric(metric.name, metric.p75);
           return (
             <DashboardMetricTile
               key={metric.name}
@@ -278,7 +279,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
               onClick={() => setActiveMetricIndex(index)}
             >
               <div className="flex h-full min-w-0 flex-col gap-1">
-                <div className="flex min-w-0 items-baseline justify-between gap-2">
+                <div className="flex w-full min-w-0 items-baseline justify-between gap-2">
                   <span
                     className={cn(
                       "truncate text-xs leading-tight font-medium",
@@ -289,7 +290,7 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
                   </span>
                   <span
                     className={cn(
-                      "shrink-0 text-xs leading-tight tabular-nums",
+                      "shrink-0 text-xs leading-tight font-medium tabular-nums",
                       active ? "text-background/70" : "text-muted-foreground",
                     )}
                   >
@@ -299,22 +300,22 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
                 <div className="mt-auto min-w-0">
                   <span
                     className={cn(
-                      "text-base leading-tight font-medium tracking-tight tabular-nums",
+                      "text-lg leading-tight font-medium tracking-tight tabular-nums sm:text-xl",
                       active ? "text-background" : "text-foreground",
                     )}
                   >
-                    {metric.value}
+                    {formatPerfValue(metric.name, metric.p75)}
                   </span>
-                  <div className="mt-0.5 text-xs">
+                  <div className="mt-0.5 flex flex-wrap items-center gap-x-2 text-xs">
                     <span
                       className={cn(
                         "font-medium",
                         active
                           ? "text-background/70"
-                          : ratingClassName(metric.rating),
+                          : kobbeRatingClassName(rating),
                       )}
                     >
-                      {metric.rating}
+                      {ratingDisplayLabel(rating)}
                     </span>
                   </div>
                 </div>
@@ -327,50 +328,49 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
       <div className={cn(dashboardCardStackClass, "mt-2")}>
         <PerformanceTrendCard metric={activeMetric} points={trendPoints} />
 
-        <Card variant="bordered" className={dashboardCardRootClass}>
+        <Card variant="bordered" className={cn(dashboardCardRootClass, "h-auto min-h-0")}>
           <CardHeader className={dashboardCardHeaderClass}>
             <CardTitle className={dashboardCardTitleClass}>
               Needs attention
             </CardTitle>
             <CardDescription className={dashboardCardDescriptionClass}>
-              Pages with the highest p75 for LCP (min. 3 samples per path)
+              Pages with the highest p75 for {activeMetric} (min. 3 samples per
+              path)
             </CardDescription>
           </CardHeader>
-          <CardContent className={dashboardCardContentTableClass}>
-            <div className="text-muted-foreground grid grid-cols-[minmax(0,1fr)_4rem_4rem] gap-2 pb-2 text-[11px] font-medium">
-              <span>Page</span>
-              <span className="text-right">p75</span>
-              <span className="text-right">Samples</span>
-            </div>
-            <ul className="flex flex-col">
-              {attentionRows.map((row, index) => (
-                <li key={row.path} className="list-none">
-                  <div
-                    className={cn(
-                      "grid min-w-0 grid-cols-[minmax(0,1fr)_4rem_4rem] items-center gap-2 rounded-md px-0 py-2 text-xs transition-colors duration-500",
-                      !shouldReduceMotion &&
-                        index === activeMetricIndex % attentionRows.length &&
-                        "bg-muted/45",
-                    )}
-                    data-kobbe-stagger
-                  >
-                    <span className="text-foreground min-w-0 truncate font-medium">
-                      {row.path}
-                    </span>
-                    <span className="text-muted-foreground text-right tabular-nums">
-                      {row.value}
-                    </span>
-                    <span className="text-muted-foreground text-right tabular-nums">
-                      {row.samples.toLocaleString()}
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
+          <DashboardCardTable className="h-auto">
+            <DashboardTable>
+              <DashboardTableHeader>
+                <DashboardTableRow>
+                  <DashboardTableHead>Page</DashboardTableHead>
+                  <DashboardTableHead className="text-right">
+                    p75
+                  </DashboardTableHead>
+                  <DashboardTableHead className="text-right">
+                    Samples
+                  </DashboardTableHead>
+                </DashboardTableRow>
+              </DashboardTableHeader>
+              <DashboardTableBody>
+                {attentionRows.map((row) => (
+                  <DashboardTableRow key={row.path}>
+                    <DashboardTableCell className="max-w-[min(100%,20rem)] font-medium">
+                      <span className="truncate">{row.path}</span>
+                    </DashboardTableCell>
+                    <DashboardTableCell className="text-right tabular-nums">
+                      {formatPerfValue(activeMetric, row.p75)}
+                    </DashboardTableCell>
+                    <DashboardTableCell className="text-muted-foreground text-right tabular-nums">
+                      {row.n.toLocaleString()}
+                    </DashboardTableCell>
+                  </DashboardTableRow>
+                ))}
+              </DashboardTableBody>
+            </DashboardTable>
+          </DashboardCardTable>
         </Card>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <DashboardTabbedBreakdownCard
             title="Devices"
             isEmpty={envRows.length === 0}
@@ -388,15 +388,26 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
               onActiveIndexChange: setEnvTab,
             }}
           >
-            <DeviceBreakdownList rows={envRows} />
+            <PerformanceEnvBreakdownList
+              rows={envRows}
+              formatP75={formatActiveP75}
+            />
           </DashboardTabbedBreakdownCard>
-          <PerformanceBreakdownCard
+          <DashboardBreakdownCard
             title="Country"
-            description="Slowest dimensions by p75 · LCP"
+            description={`Slowest dimensions by p75 · ${activeMetric}`}
+            isEmpty={perfCountryRows.length === 0}
+            empty={{
+              icon: Globe02Icon,
+              title: "No countries in range",
+            }}
           >
-            <LocationBreakdownList rows={countryRows} />
-          </PerformanceBreakdownCard>
-        </div>
+            <PerformanceEnvBreakdownList
+              rows={perfCountryRows}
+              formatP75={formatActiveP75}
+            />
+          </DashboardBreakdownCard>
+        </section>
       </div>
     </div>
   );
@@ -406,41 +417,7 @@ function PerformanceTrendCard(props: {
   metric: WebVitalName;
   points: typeof trendPoints;
 }) {
-  const shouldReduceMotion = useReducedMotion();
   const [visible, setVisible] = useState(defaultPerformancePercentileVisibility);
-  const [userSelectedMetric, setUserSelectedMetric] = useState(false);
-
-  useEffect(() => {
-    if (shouldReduceMotion || userSelectedMetric) {
-      return;
-    }
-
-    const sequence: PerformancePercentileVisibility[] = [
-      { p50: false, p75: true, p95: false },
-      { p50: true, p75: true, p95: false },
-      { p50: true, p75: true, p95: true },
-      { p50: false, p75: true, p95: true },
-    ];
-    const timeout = window.setTimeout(() => {
-      const currentIndex = sequence.findIndex(
-        (item) =>
-          item.p50 === visible.p50 &&
-          item.p75 === visible.p75 &&
-          item.p95 === visible.p95,
-      );
-      const next =
-        sequence[(Math.max(0, currentIndex) + 1) % sequence.length]!;
-      setVisible(next);
-    }, 2100);
-
-    return () => window.clearTimeout(timeout);
-  }, [
-    shouldReduceMotion,
-    userSelectedMetric,
-    visible.p50,
-    visible.p75,
-    visible.p95,
-  ]);
 
   return (
     <Card variant="bordered" className={cn(dashboardCardRootClass, "h-auto")}>
@@ -454,10 +431,7 @@ function PerformanceTrendCard(props: {
         <CardAction>
           <PerformancePercentileToggles
             value={visible}
-            onChange={(next) => {
-              setUserSelectedMetric(true);
-              setVisible(next);
-            }}
+            onChange={setVisible}
           />
         </CardAction>
       </CardHeader>
@@ -655,26 +629,6 @@ function PerformanceChartTooltip({
         })}
       </div>
     </div>
-  );
-}
-
-function PerformanceBreakdownCard(props: {
-  title: string;
-  description: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Card variant="bordered" className={dashboardCardRootClass}>
-      <CardHeader className={dashboardCardHeaderClass}>
-        <CardTitle className={dashboardCardTitleClass}>{props.title}</CardTitle>
-        <CardDescription className={dashboardCardDescriptionClass}>
-          {props.description}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className={dashboardCardContentListClass}>
-        <div className="min-w-0 px-3 sm:px-4">{props.children}</div>
-      </CardContent>
-    </Card>
   );
 }
 

@@ -120,11 +120,10 @@ export type DashboardPreviewRangeData = {
   webVitals: {
     metrics: {
       name: "LCP" | "INP" | "CLS" | "TTFB" | "FCP";
-      value: string;
-      rating: "Good" | "Watch" | "Poor";
+      p75: number;
       sampleCount: number;
     }[];
-    environments: { name: string; count: number }[];
+    environments: { name: string; p75: number; n: number }[];
   };
 };
 
@@ -449,42 +448,17 @@ const notFoundPages = {
 
 const webVitals = {
   metrics: [
-    {
-      name: "LCP" as const,
-      value: "1.8s",
-      rating: "Good" as const,
-      sampleCount: 1284,
-    },
-    {
-      name: "INP" as const,
-      value: "92ms",
-      rating: "Good" as const,
-      sampleCount: 1172,
-    },
-    {
-      name: "CLS" as const,
-      value: "0.03",
-      rating: "Good" as const,
-      sampleCount: 1218,
-    },
-    {
-      name: "TTFB" as const,
-      value: "420ms",
-      rating: "Watch" as const,
-      sampleCount: 984,
-    },
-    {
-      name: "FCP" as const,
-      value: "1.1s",
-      rating: "Good" as const,
-      sampleCount: 1246,
-    },
+    { name: "LCP" as const, p75: 1800, sampleCount: 1284 },
+    { name: "INP" as const, p75: 92, sampleCount: 1172 },
+    { name: "CLS" as const, p75: 0.03, sampleCount: 1218 },
+    { name: "TTFB" as const, p75: 420, sampleCount: 984 },
+    { name: "FCP" as const, p75: 1100, sampleCount: 1246 },
   ],
   environments: [
-    { name: "Chrome desktop", count: 624 },
-    { name: "Safari mobile", count: 318 },
-    { name: "Firefox desktop", count: 144 },
-    { name: "Edge desktop", count: 96 },
+    { name: "Chrome desktop", p75: 1720, n: 624 },
+    { name: "Safari mobile", p75: 2140, n: 318 },
+    { name: "Firefox desktop", p75: 1980, n: 144 },
+    { name: "Edge desktop", p75: 1860, n: 96 },
   ],
 };
 

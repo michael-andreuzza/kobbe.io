@@ -7,6 +7,14 @@ export const dashboardCardRootClass = "mt-0 gap-0 px-0 py-0";
 /** Vertical rhythm between stacked dashboard cards (overview, performance, etc.). */
 export const dashboardCardStackClass = "space-y-4";
 
+/** Unframed DashboardCapabilities mockups — matches hero `Card variant="bordered"`. */
+export const capabilityMockupSurfaceClass =
+  "border border-border/70 bg-card rounded-xl";
+
+/** Stacked capability list cards (card shell on `li`, row + bar inset inside). */
+export const capabilityMockupStackSurfaceClass =
+  "[&_li]:border [&_li]:border-border/70 [&_li]:bg-card [&_li]:rounded-md [&_li]:pl-1";
+
 /** Replaces former shell header padding (aligned with row inset). */
 export const dashboardCardHeaderClass =
   "!px-3 pt-4 pb-3 sm:!px-4 sm:pt-5 sm:pb-4";
@@ -43,7 +51,7 @@ export const dashboardTableClass = "border-collapse border-spacing-0 text-sm";
 
 /** Pass to `TableBody` — row dividers, no zebra striping, hover on every row. */
 export const dashboardTableBodyClass =
-  "[&_tr>td]:bg-transparent [&_tr:hover>td]:bg-muted/40 [&_tr>td:first-child]:rounded-none [&_tr>td:last-child]:rounded-none [&_tr]:border-b [&_tr]:border-border/40 [&_tr:last-child]:border-b-0";
+  "[&_tr>td]:bg-transparent [&_tr:hover>td]:bg-muted/40 [&_tr>td:first-child]:rounded-none [&_tr>td:last-child]:rounded-none [&_tr:not(:last-child)>td]:border-b [&_tr:not(:last-child)>td]:border-border/40";
 
 /** Pass to `TableHead` inside dashboard cards. */
 export const dashboardTableHeadClass =

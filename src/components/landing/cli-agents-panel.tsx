@@ -107,7 +107,7 @@ export function CliAgentsPanel() {
             </div>
           </div>
           <div className="shrink-0 p-4">
-            <div className="bg-surface rounded-lg p-3">
+            <div className="bg-muted rounded-lg p-3">
               <p className="text-muted-foreground min-h-10 text-sm leading-6">
                 Ask about traffic, sources, pages...
               </p>

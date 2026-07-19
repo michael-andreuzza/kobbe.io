@@ -3,6 +3,10 @@
 import maplibregl from "maplibre-gl";
 import { useEffect, useRef } from "react";
 
+import { cn } from "@/lib/utils";
+
+import { capabilityMockupSurfaceClass } from "./dashboard-card-layout";
+
 import "maplibre-gl/dist/maplibre-gl.css";
 
 const MAP_STYLE_LIGHT =
@@ -191,10 +195,15 @@ export function RealtimePreview() {
   }, []);
 
   return (
-    <div className="border-border bg-card relative aspect-5/2 max-h-36 w-full overflow-hidden rounded-lg border shadow [&_.maplibregl-canvas]:outline-none [&_.maplibregl-ctrl-bottom-left]:hidden [&_.maplibregl-ctrl-bottom-right]:hidden [&_.maplibregl-ctrl-logo]:hidden">
+    <div
+      className={cn(
+        capabilityMockupSurfaceClass,
+        "relative aspect-5/2 max-h-36 w-full overflow-hidden [&_.maplibregl-canvas]:outline-none [&_.maplibregl-ctrl-bottom-left]:hidden [&_.maplibregl-ctrl-bottom-right]:hidden [&_.maplibregl-ctrl-logo]:hidden",
+      )}
+    >
       <div ref={containerRef} className="h-full w-full" aria-hidden />
 
-      <div className="border-border bg-card/95 pointer-events-none absolute top-2 right-2 flex flex-col overflow-hidden rounded-md border shadow-sm">
+      <div className="border-border bg-card/95 pointer-events-none absolute top-2 right-2 flex flex-col overflow-hidden rounded-md border">
         <span className="border-border text-muted-foreground flex size-6 items-center justify-center border-b text-xs leading-none">
           +
         </span>
