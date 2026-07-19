@@ -2,15 +2,16 @@ import { useMemo, useState } from "react";
 
 import { BillingPeriodTabs } from "@/components/sections/pricing/billing-period-tabs";
 import { PricingComparisonTable } from "@/components/sections/pricing/pricing-comparison-table";
+import { RollingPriceAmount } from "@/components/sections/pricing/rolling-price-amount";
 import { ArrowRight } from "@/components/assets/arrow-right";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
   buildSignupHref,
   formatTierBillingNote,
-  formatTierPriceAmount,
   formatTierPricePeriod,
   getPricingTierByKey,
+  getTierDisplayAmount,
   pricingPlanCards,
   pricingTrialDays,
   type BillingPeriod,
@@ -61,7 +62,7 @@ function PricingTierPanel({
 }: {
   name: string;
   tagline: string;
-  priceAmount: string;
+  priceAmount: number;
   pricePeriod: string;
   billingNote: string;
   popular?: boolean;
@@ -81,9 +82,11 @@ function PricingTierPanel({
         </p>
 
         <div className="mt-4 flex flex-row items-center gap-x-3 gap-y-1">
-          <p className="text-foreground font-display text-4xl italic">
-            {priceAmount}
-          </p>
+          <RollingPriceAmount
+            amount={priceAmount}
+            spinToken={period}
+            className="text-foreground font-display text-4xl italic"
+          />
           <div>
             <p className="text-foreground flex items-center gap-1 text-sm font-medium tracking-tight lg:text-sm">
               {pricePeriod}
@@ -174,7 +177,7 @@ export function PricingSection({
                   key={plan.id}
                   name={plan.name}
                   tagline={plan.tagline}
-                  priceAmount={formatTierPriceAmount(tier, period)}
+                  priceAmount={getTierDisplayAmount(tier, period)}
                   pricePeriod={formatTierPricePeriod(period)}
                   billingNote={formatTierBillingNote(period)}
                   popular={plan.popular}

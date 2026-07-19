@@ -144,9 +144,7 @@ export function formatTierPricePeriod(_period: BillingPeriod) {
 }
 
 export function formatTierBillingNote(period: BillingPeriod) {
-  return period === "monthly"
-    ? "Billed monthly. Cancel anytime."
-    : "Per month, billed yearly.";
+  return period === "monthly" ? "Billed monthly." : "Per month, billed yearly.";
 }
 
 export function formatIncludedEventsPhrase(events: string) {
@@ -162,8 +160,8 @@ export function buildSignupHref(
   tierKey: PricingTierKey,
   period: BillingPeriod,
 ) {
-  const params = new URLSearchParams({ tier: tierKey, period })
-  return `${appBaseUrl}/signup?${params.toString()}`
+  const params = new URLSearchParams({ tier: tierKey, period });
+  return `${appBaseUrl}/signup?${params.toString()}`;
 }
 
 /** @deprecated Use buildSignupHref — checkout is only needed after the trial ends. */
@@ -171,7 +169,7 @@ export function buildCheckoutReturnPath(
   tierKey: PricingTierKey,
   period: BillingPeriod,
 ) {
-  return `/checkout?tier=${tierKey}&period=${period}`
+  return `/checkout?tier=${tierKey}&period=${period}`;
 }
 
 export function buildPricingJsonLdOffers(canonical: string) {

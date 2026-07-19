@@ -35,7 +35,7 @@ export function BillingPeriodTabs({
   return (
     <div
       className={cn(
-        "relative mx-auto flex h-7 w-fit shrink-0 overflow-hidden rounded-md p-0.5",
+        "bg-muted relative mx-auto flex h-7 w-fit shrink-0 overflow-hidden rounded-md p-0.5",
         className,
       )}
       role="group"
@@ -43,7 +43,7 @@ export function BillingPeriodTabs({
     >
       <span
         aria-hidden="true"
-        className="bg-muted pointer-events-none absolute top-0.5 bottom-0.5 rounded transition-all duration-200 ease-out"
+        className="bg-card pointer-events-none absolute top-0.5 bottom-0.5 rounded-sm shadow-sm transition-all duration-200 ease-out"
         style={{
           left: `${sliderStyle.left}px`,
           width: `${sliderStyle.width}px`,
