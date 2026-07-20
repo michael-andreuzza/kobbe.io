@@ -1,15 +1,13 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { BillingPeriodTabs } from "@/components/sections/pricing/billing-period-tabs";
 import { PricingComparisonTable } from "@/components/sections/pricing/pricing-comparison-table";
 import { RollingPriceAmount } from "@/components/sections/pricing/rolling-price-amount";
-import { ArrowRight } from "@/components/assets/arrow-right";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
   buildSignupHref,
-  formatTierBillingNote,
-  formatTierPricePeriod,
+  formatTierTrialPriceNote,
   getPricingTierByKey,
   getTierDisplayAmount,
   pricingPlanCards,
@@ -52,54 +50,36 @@ function PricingTierPanel({
   name,
   tagline,
   priceAmount,
-  pricePeriod,
-  billingNote,
-  popular,
+  trialPriceNote,
   features,
   checkoutHref,
   ctaLabel,
   period,
+  popular = false,
 }: {
   name: string;
   tagline: string;
   priceAmount: number;
-  pricePeriod: string;
-  billingNote: string;
-  popular?: boolean;
+  trialPriceNote: string;
   features: readonly string[];
   checkoutHref: string;
   ctaLabel: string;
   period: BillingPeriod;
+  popular?: boolean;
 }) {
   return (
-    <article className="bg-card text-foreground relative grid h-full w-full grid-rows-[auto_1fr_auto_auto] rounded-2xl p-6">
+    <article className="bg-card text-foreground relative flex h-full w-full flex-col rounded-xl p-4 lg:p-6">
       <div>
-        <h3 className="text-foreground font-display text-2xl font-medium tracking-tight italic">
+        <h3 className="text-foreground text-2xl font-semibold tracking-tight">
           {name}
         </h3>
-        <p className="text-muted-foreground mt-1 max-w-50 text-sm font-medium text-balance">
+        <p className="text-muted-foreground mt-1 text-sm font-medium text-balance">
           {tagline}
         </p>
-
-        <div className="mt-4 flex flex-row items-center gap-x-3 gap-y-1">
-          <RollingPriceAmount
-            amount={priceAmount}
-            spinToken={period}
-            className="text-foreground font-display text-4xl italic pr-1"
-          />
-          <div>
-            <p className="text-foreground flex items-center gap-1 text-xs font-semibold tracking-tight lg:text-sm">
-              {pricePeriod}
-            </p>
-            <p className="text-muted-foreground text-xs">
-              {billingNote}
-            </p>
-          </div>
-        </div>
       </div>
 
       <ul
-        className="text-foreground mt-4 list-none space-y-1 self-start font-medium 2xl:space-y-2"
+        className="text-foreground mt-8 flex-1 list-none space-y-1.5 font-medium 2xl:space-y-2"
         role="list"
       >
         {features.map((feature) =>
@@ -118,26 +98,31 @@ function PricingTierPanel({
         )}
       </ul>
 
-      <div className="mt-8">
+      <div className="mt-4">
+        <div className="overflow-visible pt-1">
+          <RollingPriceAmount
+            amount={priceAmount}
+            spinToken={period}
+            className="text-foreground text-xl font-semibold tracking-tighter"
+          />
+          <p className="text-muted-foreground text-sm font-medium text-balance">
+            {trialPriceNote}
+          </p>
+        </div>
         <a
           href={checkoutHref}
           data-kobbe-event={`Pricing - ${name} ${period}`}
           className={cn(
             buttonVariants({
-              variant: popular ? "brand" : "default",
-              size: "lg",
+              variant: popular ? "default" : "secondary",
+              size: "sm",
             }),
-            "w-full justify-between",
+            "mt-2 w-full",
           )}
         >
-          <span>{ctaLabel}</span>
-          <ArrowRight size="base" />
+          {ctaLabel}
         </a>
       </div>
-
-      <p className="text-muted-foreground mt-2 text-center text-xs">
-        No creditcard required - Cancel anytime
-      </p>
     </article>
   );
 }
@@ -154,11 +139,7 @@ export function PricingSection({
   className?: string;
 }) {
   const [period, setPeriod] = useState<BillingPeriod>("yearly");
-
-  const trialCtaLabel = useMemo(
-    () => `Start free for ${pricingTrialDays} days`,
-    [],
-  );
+  const trialCtaLabel = `Start free for ${pricingTrialDays} days`;
 
   return (
     <div className={cn("w-full min-w-0", className)}>
@@ -166,9 +147,9 @@ export function PricingSection({
         <BillingPeriodTabs period={period} onPeriodChange={setPeriod} />
       </div>
 
-      <div className="relative mt-10 overflow-hidden">
+      <div className="relative mt-8">
         <div className="relative z-10">
-          <div className="grid grid-cols-1 items-stretch gap-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-3">
             {pricingPlanCards.map((plan) => {
               const tier = getPricingTierByKey(plan.tierKey);
 
@@ -178,9 +159,10 @@ export function PricingSection({
                   name={plan.name}
                   tagline={plan.tagline}
                   priceAmount={getTierDisplayAmount(tier, period)}
-                  pricePeriod={formatTierPricePeriod(period)}
-                  billingNote={formatTierBillingNote(period)}
-                  popular={plan.popular}
+                  trialPriceNote={formatTierTrialPriceNote(
+                    getTierDisplayAmount(tier, period),
+                    period,
+                  )}
                   features={plan.features}
                   checkoutHref={buildSignupHref(
                     appBaseUrl,
@@ -189,6 +171,7 @@ export function PricingSection({
                   )}
                   ctaLabel={trialCtaLabel}
                   period={period}
+                  popular={plan.popular}
                 />
               );
             })}

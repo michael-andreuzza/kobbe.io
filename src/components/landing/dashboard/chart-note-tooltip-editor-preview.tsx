@@ -2,20 +2,44 @@ import type { ReactNode } from "react";
 
 import type { TrafficChartAnnotation } from "./traffic-line-chart";
 
-const noteIconButtonClassName =
-  "rounded p-0.5 text-background/50 transition-colors hover:bg-background/10 hover:text-background disabled:opacity-50";
-const noteInputClassName =
-  "h-6 min-w-0 flex-1 rounded bg-background/15 px-1.5 text-xs text-background outline-none placeholder:text-background/45 focus:bg-background/25";
-const noteSubmitClassName =
-  "h-6 shrink-0 rounded bg-background px-2 text-xs font-medium text-foreground transition-colors hover:bg-background/90 disabled:bg-background/25 disabled:text-background/70";
-const noteInputCompactClassName =
-  "h-5 min-w-0 flex-1 rounded bg-background/15 px-1.5 text-[10px] text-background outline-none placeholder:text-background/45";
-const noteSubmitCompactClassName =
-  "h-5 shrink-0 rounded bg-background px-1.5 text-[10px] font-medium text-foreground disabled:bg-background/25 disabled:text-background/70";
+/** `inverted` matches the dark chart tooltip; `surface` sits on normal cards. */
+type NoteEditorTone = "inverted" | "surface";
+
+const noteToneClasses = {
+  inverted: {
+    divider: "border-background/15",
+    note: "text-background/85",
+    iconButton:
+      "rounded p-0.5 text-background/50 transition-colors hover:bg-background/10 hover:text-background disabled:opacity-50",
+    input:
+      "h-6 min-w-0 flex-1 rounded bg-background/15 px-1.5 text-xs text-background outline-none placeholder:text-background/45 focus:bg-background/25",
+    submit:
+      "h-6 shrink-0 rounded bg-background px-2 text-xs font-medium text-foreground transition-colors hover:bg-background/90 disabled:bg-background/25 disabled:text-background/70",
+    inputCompact:
+      "h-5 min-w-0 flex-1 rounded bg-background/15 px-1.5 text-[10px] text-background outline-none placeholder:text-background/45",
+    submitCompact:
+      "h-5 shrink-0 rounded bg-background px-1.5 text-[10px] font-medium text-foreground disabled:bg-background/25 disabled:text-background/70",
+  },
+  surface: {
+    divider: "border-border",
+    note: "text-foreground/85",
+    iconButton:
+      "rounded p-0.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-50",
+    input:
+      "h-6 min-w-0 flex-1 rounded bg-muted px-1.5 text-xs text-foreground outline-none placeholder:text-muted-foreground/70 focus:bg-muted/70",
+    submit:
+      "h-6 shrink-0 rounded bg-foreground px-2 text-xs font-medium text-background transition-colors hover:bg-foreground/90 disabled:bg-foreground/25 disabled:text-background/70",
+    inputCompact:
+      "h-5 min-w-0 flex-1 rounded bg-muted px-1.5 text-[10px] text-foreground outline-none placeholder:text-muted-foreground/70",
+    submitCompact:
+      "h-5 shrink-0 rounded bg-foreground px-1.5 text-[10px] font-medium text-background disabled:bg-foreground/25 disabled:text-background/70",
+  },
+} satisfies Record<NoteEditorTone, Record<string, string>>;
 
 function NoteIconButton(props: {
   label: string;
   compact?: boolean;
+  className: string;
   children: ReactNode;
 }) {
   return (
@@ -23,7 +47,7 @@ function NoteIconButton(props: {
       type="button"
       disabled
       aria-label={props.label}
-      className={noteIconButtonClassName}
+      className={props.className}
     >
       {props.children}
     </button>
@@ -78,36 +102,36 @@ export function ChartNoteTooltipEditorPreview(props: {
   day: string;
   annotations: TrafficChartAnnotation[];
   compact?: boolean;
+  tone?: NoteEditorTone;
 }) {
   const dayNotes = props.annotations.filter(
     (annotation) => annotation.day === props.day,
   );
   const compact = props.compact === true;
+  const tone = noteToneClasses[props.tone ?? "inverted"];
 
   return (
     <div
-      className={
-        compact
-          ? "grid gap-1 border-t border-background/15 pt-1"
-          : "grid gap-1.5 border-t border-background/15 pt-1.5"
-      }
+      className={`grid border-t ${tone.divider} ${compact ? "gap-1 pt-1" : "gap-1.5 pt-1.5"}`}
     >
       {dayNotes.length > 0 ? (
         <ul className="grid gap-1">
           {dayNotes.map((annotation) => (
             <li
               key={annotation.id}
-              className="flex items-center gap-1.5 text-background/85"
+              className={`flex items-center gap-1.5 ${tone.note}`}
             >
               <span className="min-w-0 flex-1 truncate">{annotation.label}</span>
               <NoteIconButton
                 compact={compact}
+                className={tone.iconButton}
                 label={`Edit note "${annotation.label}"`}
               >
                 <PencilIcon compact={compact} />
               </NoteIconButton>
               <NoteIconButton
                 compact={compact}
+                className={tone.iconButton}
                 label={`Delete note "${annotation.label}"`}
               >
                 <DeleteIcon compact={compact} />
@@ -123,12 +147,12 @@ export function ChartNoteTooltipEditorPreview(props: {
           value=""
           placeholder="Add a note for this day…"
           aria-label="Note for this day"
-          className={compact ? noteInputCompactClassName : noteInputClassName}
+          className={compact ? tone.inputCompact : tone.input}
         />
         <button
           type="button"
           disabled
-          className={compact ? noteSubmitCompactClassName : noteSubmitClassName}
+          className={compact ? tone.submitCompact : tone.submit}
         >
           Add
         </button>

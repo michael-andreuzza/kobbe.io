@@ -4,7 +4,6 @@ import Navigation from "@/components/global/Navigation.astro";
 import Footer from "@/components/global/Footer.astro";
 import SiteSeo from "@/components/foundations/head/SiteSeo.astro";
 import SmoothScroll from "@/components/foundations/scripts/SmoothScroll.astro";
-import LandingOfferDialog from "@/components/global/landing-offer-dialog";
 import type { JsonLdBreadcrumb } from "@/lib/seo/json-ld";
 
 interface Props {
@@ -79,7 +78,6 @@ const {
       <slot />
     </main>
     {!hideFooter && <Footer />}
-    <LandingOfferDialog client:only="react" />
     <SmoothScroll />
   </body>
 </html>

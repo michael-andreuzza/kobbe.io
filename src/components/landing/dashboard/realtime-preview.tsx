@@ -22,7 +22,30 @@ const VISITOR_LOCATIONS = [
 ] as const;
 
 function isDarkTheme() {
-  return document.documentElement.classList.contains("dark");
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return (
+    document.documentElement.classList.contains("dark") ||
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  );
+}
+
+function watchThemeChange(onChange: () => void) {
+  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  mediaQuery.addEventListener("change", onChange);
+
+  const classObserver = new MutationObserver(onChange);
+  classObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+
+  return () => {
+    mediaQuery.removeEventListener("change", onChange);
+    classObserver.disconnect();
+  };
 }
 
 function mapStyleForTheme() {
@@ -59,13 +82,13 @@ function setPaintProperty(
 function applyKobbeMapTheme(map: maplibregl.Map) {
   const dark = isDarkTheme();
   const colors = {
-    water: dark ? "#050505" : "#fbfbfa",
-    land: dark ? "#101010" : "#e2e2df",
-    landDetail: dark ? "#151515" : "#d9d9d6",
-    boundary: dark ? "#303030" : "#b8b8b4",
-    road: dark ? "#242424" : "#ccccca",
+    water: dark ? "#161616" : "#fbfbfa",
+    land: dark ? "#262626" : "#e2e2df",
+    landDetail: dark ? "#2e2e2e" : "#d9d9d6",
+    boundary: dark ? "#484848" : "#b8b8b4",
+    road: dark ? "#3a3a3a" : "#ccccca",
     label: dark ? "#ececec" : "#343430",
-    labelHalo: dark ? "#050505" : "#fbfbfa",
+    labelHalo: dark ? "#161616" : "#fbfbfa",
   };
 
   for (const layer of map.getStyle().layers ?? []) {
@@ -174,20 +197,18 @@ export function RealtimePreview() {
     });
     resizeObserver.observe(container);
 
-    const themeObserver = new MutationObserver(() => {
+    const onThemeChange = () => {
       map.setStyle(mapStyleForTheme());
       map.once("styledata", () => {
         applyKobbeMapTheme(map);
         syncMarkers();
       });
-    });
-    themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
+    };
+
+    const stopWatchingTheme = watchThemeChange(onThemeChange);
 
     return () => {
-      themeObserver.disconnect();
+      stopWatchingTheme();
       resizeObserver.disconnect();
       markers.forEach((marker) => marker.remove());
       map.remove();

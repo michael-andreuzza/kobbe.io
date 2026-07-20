@@ -1,84 +1,51 @@
-import { useLayoutEffect, useRef, useState } from "react";
-
 import { cn } from "@/lib/utils";
-import type { BillingPeriod } from "./pricing-tiers";
+import { yearlyBillingSavingsLabel, type BillingPeriod } from "./pricing-tiers";
 
 type BillingPeriodTabsProps = {
   period: BillingPeriod;
   onPeriodChange: (period: BillingPeriod) => void;
   className?: string;
-  yearlyLabel?: string;
 };
 
 export function BillingPeriodTabs({
   period,
   onPeriodChange,
   className,
-  yearlyLabel = "Yearly -44%",
 }: BillingPeriodTabsProps) {
-  const monthlyRef = useRef<HTMLButtonElement>(null);
-  const yearlyRef = useRef<HTMLButtonElement>(null);
-  const [sliderStyle, setSliderStyle] = useState({ left: 2, width: 0 });
-
-  useLayoutEffect(() => {
-    const activeButton =
-      period === "monthly" ? monthlyRef.current : yearlyRef.current;
-
-    if (!activeButton) return;
-
-    setSliderStyle({
-      left: activeButton.offsetLeft,
-      width: activeButton.offsetWidth,
-    });
-  }, [period, yearlyLabel]);
+  const isYearly = period === "yearly";
 
   return (
-    <div
-      className={cn(
-        "bg-muted relative mx-auto flex h-7 w-fit shrink-0 overflow-hidden rounded-md p-0.5",
-        className,
-      )}
-      role="group"
-      aria-label="Billing period"
-    >
-      <span
-        aria-hidden="true"
-        className="bg-card pointer-events-none absolute top-0.5 bottom-0.5 rounded-sm shadow-sm transition-all duration-200 ease-out"
-        style={{
-          left: `${sliderStyle.left}px`,
-          width: `${sliderStyle.width}px`,
-        }}
-      />
-      <button
-        ref={monthlyRef}
-        type="button"
-        aria-pressed={period === "monthly"}
-        onClick={() => onPeriodChange("monthly")}
-        className={cn(
-          "relative z-10 h-6 rounded-sm bg-transparent px-2 text-xs font-medium transition-colors",
-          period === "monthly"
-            ? "text-foreground"
-            : "text-muted-foreground hover:text-foreground",
-        )}
-      >
-        Monthly
-      </button>
-      <button
-        ref={yearlyRef}
-        type="button"
-        aria-pressed={period === "yearly"}
-        onClick={() => onPeriodChange("yearly")}
-        className={cn(
-          "relative z-10 h-6 rounded-sm bg-transparent px-2 text-xs font-medium transition-colors",
-          period === "yearly"
-            ? "text-foreground"
-            : "text-muted-foreground hover:text-foreground",
-        )}
-      >
-        Yearly{" "}
-        <span className="text-foreground ml-1 font-semibold uppercase">
-          {yearlyLabel}
+    <div className={cn("flex items-center gap-2.5", className)}>
+      <span className="text-foreground text-sm font-medium">
+        {isYearly ? "Yearly billing" : "Monthly billing"}
+      </span>
+      {isYearly ? (
+        <span className="text-muted-foreground text-sm font-medium">
+          {yearlyBillingSavingsLabel}
         </span>
+      ) : null}
+      <button
+        type="button"
+        role="switch"
+        aria-checked={isYearly}
+        aria-label={`${isYearly ? "Yearly" : "Monthly"} billing. Switch to ${isYearly ? "monthly" : "yearly"}.`}
+        onClick={() => onPeriodChange(isYearly ? "monthly" : "yearly")}
+        className="focus-visible:ring-ring/50 relative inline-flex h-4 w-7 shrink-0 border-0 bg-transparent p-0 outline-none focus-visible:ring-3"
+      >
+        <span
+          aria-hidden="true"
+          className={cn(
+            "absolute inset-x-0 top-1/2 h-3 -translate-y-1/2 rounded-full transition-colors",
+            isYearly ? "bg-brand" : "bg-foreground/15",
+          )}
+        />
+        <span
+          aria-hidden="true"
+          className={cn(
+            "bg-foreground absolute top-1/2 size-3.5 -translate-y-1/2 rounded-full transition-transform duration-200 ease-out",
+            isYearly ? "translate-x-3.5" : "translate-x-0",
+          )}
+        />
       </button>
     </div>
   );

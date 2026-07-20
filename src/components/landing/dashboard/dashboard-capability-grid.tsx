@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
-import { useRef } from "react";
+import type { ImageMetadata } from "astro";
 
 import { cn } from "@/lib/utils";
 import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
-import { useIdlePulse } from "@/components/landing/use-idle-pulse";
 import {
   ConversionsBreakdownList,
   EventsSummaryTable,
@@ -15,11 +14,18 @@ import { ChartAnnotationsPreview } from "./chart-annotations-preview";
 import { McpPreview } from "./mcp-preview";
 import { RealtimePreview } from "./realtime-preview";
 import { DashboardMetricTile } from "./dashboard-metric-strip";
-import {
-  capabilityMockupStackSurfaceClass,
-  capabilityMockupSurfaceClass,
-} from "./dashboard-card-layout";
+import { capabilityMockupStackSurfaceClass } from "./dashboard-card-layout";
 import { dashboardPreviewData } from "./dashboard-preview-data";
+
+import bgTrafficOverview from "@/images/assets/backgrounds/1.png";
+import bgConversions from "@/images/assets/backgrounds/2.png";
+import bgChartAnnotations from "@/images/assets/backgrounds/3.png";
+import bgSources from "@/images/assets/backgrounds/4.png";
+import bgSearchKeywords from "@/images/assets/backgrounds/5.png";
+import bgCustomEvents from "@/images/assets/backgrounds/6.png";
+import bgRealtime from "@/images/assets/backgrounds/7.png";
+import bgNotFound from "@/images/assets/backgrounds/8.png";
+import bgMcp from "@/images/assets/backgrounds/9.png";
 
 const data = dashboardPreviewData["14d"];
 
@@ -28,14 +34,14 @@ const capabilityPreviewRowLimit = 2;
 type CapabilityCardProps = {
   title: string;
   description: string;
+  background: ImageMetadata;
   children: ReactNode;
   mockupClassName?: string;
-  unframed?: boolean;
 };
 
 export function DashboardCapabilityGrid() {
   return (
-    <div className="relative grid items-end gap-x-12 gap-y-24 md:grid-cols-2 lg:grid-cols-3">
+    <div className="relative grid items-start gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
       <style>{`
         @keyframes kobbeCapabilityBarRise {
           from {
@@ -110,13 +116,12 @@ export function DashboardCapabilityGrid() {
             transform: none;
           }
         }
-
       `}</style>
       <CapabilityCard
         title="Traffic overview"
         description="Switch between visitors and revenue in one compact view to see when traffic turns into paid orders."
         mockupClassName="w-full max-w-md"
-        unframed
+        background={bgTrafficOverview}
       >
         <TrafficOverviewPreview />
       </CapabilityCard>
@@ -125,7 +130,7 @@ export function DashboardCapabilityGrid() {
         title="Conversions"
         description="Auto-track form submits, contact clicks, outbound links, and messaging taps, then filter the dashboard by goal."
         mockupClassName="w-full max-w-md"
-        unframed
+        background={bgConversions}
       >
         <CapabilityListPreview>
           <ConversionsBreakdownList
@@ -138,7 +143,7 @@ export function DashboardCapabilityGrid() {
         title="Chart annotations"
         description="Pin notes to specific days on your traffic chart so launches, campaigns, and incidents stay tied to the numbers."
         mockupClassName="w-full max-w-md"
-        unframed
+        background={bgChartAnnotations}
       >
         <ChartAnnotationsPreview />
       </CapabilityCard>
@@ -147,7 +152,7 @@ export function DashboardCapabilityGrid() {
         title="Sources and AI traffic"
         description="Break down referrers, channels, hostnames, and AI tools so you can tell where meaningful traffic is coming from."
         mockupClassName="w-full max-w-md"
-        unframed
+        background={bgSources}
       >
         <CapabilityListPreview>
           <ReferrerBreakdownList
@@ -160,7 +165,7 @@ export function DashboardCapabilityGrid() {
         title="Google search keywords"
         description="Connect Search Console to see which queries bring people to your site and tie search demand back to traffic."
         mockupClassName="w-full max-w-md"
-        unframed
+        background={bgSearchKeywords}
       >
         <CapabilityListPreview>
           <SearchTermsBreakdownList
@@ -173,7 +178,7 @@ export function DashboardCapabilityGrid() {
         title="Custom events"
         description="Measure the actions that matter, from sign-ups and CTA clicks to downloads and product interactions."
         mockupClassName="w-full max-w-md"
-        unframed
+        background={bgCustomEvents}
       >
         <CapabilityListPreview>
           <EventsSummaryTable
@@ -188,7 +193,7 @@ export function DashboardCapabilityGrid() {
         title="Realtime"
         description="See who is on your site right now, where they are, and what pages they are viewing as activity comes in."
         mockupClassName="w-full max-w-md"
-        unframed
+        background={bgRealtime}
       >
         <RealtimePreview />
       </CapabilityCard>
@@ -197,7 +202,7 @@ export function DashboardCapabilityGrid() {
         title="404 tracking"
         description="Flag your not-found page once, then see broken URLs, hit counts, and which internal page linked to them."
         mockupClassName="w-full max-w-md"
-        unframed
+        background={bgNotFound}
       >
         <CapabilityListPreview>
           <NotFoundBreakdownList
@@ -210,7 +215,7 @@ export function DashboardCapabilityGrid() {
         title="MCP for agents"
         description="Connect Cursor, Claude Code, or Codex to pull traffic, pages, and setup health without leaving your editor."
         mockupClassName="w-full max-w-md"
-        unframed
+        background={bgMcp}
       >
         <McpPreview />
       </CapabilityCard>
@@ -268,26 +273,20 @@ function TrafficKpiTile(props: {
   hintTone?: "good" | "neutral";
   active?: boolean;
 }) {
-  const hintClassName = props.active
-    ? "text-background/70"
-    : props.hintTone === "good"
-      ? "text-success"
-      : "text-muted-foreground";
+  const hintClassName =
+    props.hintTone === "good" ? "text-success" : "text-muted-foreground";
 
   return (
     <DashboardMetricTile
       surface="muted"
-      active={props.active}
-      className="aspect-square min-h-0 min-w-0 flex-1 p-2.5 sm:p-3"
+      className={cn(
+        "aspect-square min-h-0 min-w-0 flex-1 p-2.5 sm:p-3",
+        props.active && "border-foreground/40",
+      )}
     >
       <div className="flex h-full min-w-0 flex-col gap-1">
         <div className="flex w-full min-w-0 items-baseline justify-between gap-2">
-          <span
-            className={cn(
-              "truncate text-xs leading-tight font-medium",
-              props.active ? "text-background/70" : "text-muted-foreground",
-            )}
-          >
+          <span className="text-muted-foreground truncate text-xs leading-tight font-medium">
             {props.label}
           </span>
           {props.hint ? (
@@ -302,12 +301,7 @@ function TrafficKpiTile(props: {
           ) : null}
         </div>
         <div className="mt-auto min-w-0">
-          <span
-            className={cn(
-              "truncate text-base leading-tight font-medium tracking-tight tabular-nums",
-              props.active ? "text-background" : "text-foreground",
-            )}
-          >
+          <span className="text-foreground truncate text-base leading-tight font-medium tracking-tight tabular-nums">
             {props.value}
           </span>
         </div>
@@ -318,29 +312,34 @@ function TrafficKpiTile(props: {
 
 function CapabilityCard(props: CapabilityCardProps) {
   return (
-    <div className="group flex h-full min-w-0 flex-col justify-start gap-4 overflow-visible">
+    <div className="group flex h-full min-w-0 flex-col gap-4 overflow-visible">
       <AnimatedPanelReveal trigger="scroll" mask={false}>
         <div className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none">
-          {props.unframed ? (
+          <div className="border-border/40 relative flex aspect-4/5 w-full items-center justify-center overflow-hidden rounded border">
+            <img
+              src={props.background.src}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              className="absolute inset-0 h-full w-full scale-110 object-cover blur"
+            />
             <div
               className={cn(
-                "kobbe-capability-mockup pointer-events-none relative flex w-full origin-top items-start justify-start",
+                "kobbe-capability-mockup pointer-events-none relative z-10 mx-auto w-full px-5 sm:px-6",
                 props.mockupClassName,
               )}
             >
               {props.children}
             </div>
-          ) : (
-            <PreviewFrame mockupClassName={props.mockupClassName}>
-              {props.children}
-            </PreviewFrame>
-          )}
+          </div>
         </div>
       </AnimatedPanelReveal>
-      <p className="text-foreground order-first text-base font-medium text-pretty">
-        {props.title}.
-        <span className="text-muted-foreground"> {props.description}</span>
-      </p>
+      <div className="space-y-1">
+        <p className="text-foreground text-base font-medium">{props.title}</p>
+        <p className="text-muted-foreground text-sm text-pretty">
+          {props.description}
+        </p>
+      </div>
     </div>
   );
 }
@@ -354,40 +353,6 @@ function CapabilityListPreview(props: { children: ReactNode }) {
       )}
     >
       {props.children}
-    </div>
-  );
-}
-
-function PreviewFrame(props: {
-  children: ReactNode;
-  mockupClassName?: string;
-}) {
-  const frameRef = useRef<HTMLDivElement | null>(null);
-
-  useIdlePulse(frameRef, {
-    selector: "[data-kobbe-stagger]:not([data-dashboard-metric-tile])",
-    interval: 2800,
-    initialDelay: 1800,
-    scaleTo: 1.008,
-    staggerEach: 0.08,
-  });
-
-  return (
-    <div
-      ref={frameRef}
-      className={cn(
-        capabilityMockupSurfaceClass,
-        "relative flex h-72 w-full items-start justify-center",
-      )}
-    >
-      <div
-        className={cn(
-          "kobbe-capability-mockup pointer-events-none relative origin-center",
-          props.mockupClassName,
-        )}
-      >
-        {props.children}
-      </div>
     </div>
   );
 }

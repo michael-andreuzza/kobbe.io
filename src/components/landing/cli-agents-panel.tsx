@@ -64,6 +64,23 @@ export function CliAgentsPanel() {
           0%, 48% { opacity: 1; }
           49%, 100% { opacity: 0; }
         }
+
+        @keyframes kobbe-agent-tool-in {
+          from {
+            opacity: 0;
+            transform: translateY(4px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .kobbe-agent-tool-line {
+            animation: none !important;
+          }
+        }
       `}</style>
       <div className="grid h-9 grid-cols-[1fr_auto_1fr] items-center px-4 text-xs">
         <div className="flex items-center gap-1.5">
@@ -74,7 +91,13 @@ export function CliAgentsPanel() {
         <span className="text-foreground font-mono font-medium">
           $ npm install -g @kobbe/cli
         </span>
-        <span />
+        <span className="text-muted-foreground flex items-center justify-end gap-1.5 font-medium">
+          <span
+            aria-hidden="true"
+            className="bg-success size-1.5 rounded-full motion-safe:animate-pulse"
+          />
+          kobbe mcp
+        </span>
       </div>
 
       <div className="border-border/60 bg-card flex min-h-0 flex-1 items-stretch justify-center border-t px-4 py-4">
@@ -96,10 +119,29 @@ export function CliAgentsPanel() {
 
               {phase !== "typing" ? (
                 <div className="text-muted-foreground space-y-2 text-xs">
-                  <p>Kobbe is checking analytics...</p>
-                  <ToolLine name="get_overview" detail="range: today" />
-                  <ToolLine name="get_top_pages" detail="limit: 5" />
-                  <ToolLine name="get_next_actions" detail="site: kobbe.io" />
+                  <p>
+                    Calling tools on the{" "}
+                    <span className="text-foreground font-mono">kobbe</span> MCP
+                    server...
+                  </p>
+                  <ToolLine
+                    name="get_overview"
+                    detail="range: today"
+                    done={phase === "answer"}
+                    delayMs={0}
+                  />
+                  <ToolLine
+                    name="get_top_pages"
+                    detail="limit: 5"
+                    done={phase === "answer"}
+                    delayMs={380}
+                  />
+                  <ToolLine
+                    name="get_next_actions"
+                    detail="site: kobbe.io"
+                    done={phase === "answer"}
+                    delayMs={760}
+                  />
                 </div>
               ) : null}
 
@@ -146,11 +188,39 @@ export function CliAgentsPanel() {
   );
 }
 
-function ToolLine(props: { name: string; detail: string }) {
+function ToolLine(props: {
+  name: string;
+  detail: string;
+  done: boolean;
+  delayMs: number;
+}) {
   return (
-    <div className="bg-muted flex items-center justify-between rounded-md px-3 py-2">
-      <span className="text-foreground font-mono">{props.name}</span>
-      <span>{props.detail}</span>
+    <div
+      className="kobbe-agent-tool-line bg-muted flex items-center justify-between rounded-md px-3 py-2"
+      style={{
+        animation: "kobbe-agent-tool-in 360ms ease-out both",
+        animationDelay: `${props.delayMs}ms`,
+      }}
+    >
+      <span className="flex min-w-0 items-center gap-2">
+        <span className="border-border text-muted-foreground shrink-0 rounded border px-1 py-px text-[10px] leading-4 font-medium">
+          MCP
+        </span>
+        <span className="text-foreground truncate font-mono">{props.name}</span>
+      </span>
+      <span className="flex shrink-0 items-center gap-2">
+        {props.detail}
+        {props.done ? (
+          <span className="text-success" aria-label="Tool call finished">
+            ✓
+          </span>
+        ) : (
+          <span
+            aria-hidden="true"
+            className="bg-foreground/40 size-1.5 rounded-full motion-safe:animate-pulse"
+          />
+        )}
+      </span>
     </div>
   );
 }
@@ -167,6 +237,9 @@ function AgentAnswer() {
         <span className="font-mono">/pricing</span> is the highest-traffic page.
         It drove 612 views, so I would improve that CTA before changing lower
         traffic pages.
+      </p>
+      <p className="text-muted-foreground text-[11px]">
+        3 MCP tool calls · kobbe CLI in MCP mode
       </p>
     </div>
   );

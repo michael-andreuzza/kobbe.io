@@ -28,6 +28,8 @@ export const pricingTiers = [
 
 export const pricingTrialDays = 15;
 
+export const yearlyBillingSavingsLabel = "2 months free";
+
 export const defaultPricingTierIndex = 0;
 
 export const popularPricingTierIndices = [1, 2, 3] as const;
@@ -49,13 +51,8 @@ export const pricingPlanCards = [
       "Up to 100K monthly events",
       "Up to 3 websites",
       ...pricingPrivacyFeatures,
-      "Funnels",
-      "Conversions",
-      "Custom events",
-      "Referrer and channel breakdown",
-      "Realtime visitors",
-      "Shared dashboard links",
-      "Bot filtering and visit filters",
+      "Funnels, conversions, and custom events",
+      "Realtime visitors and shared dashboards",
     ],
   },
   {
@@ -69,14 +66,11 @@ export const pricingPlanCards = [
       "Up to 1M monthly events",
       "Up to 30 websites",
       "Revenue attribution",
-      "First-party collect hostname",
       "UTM campaign and channel reports",
+      "First-party collect hostname",
       "Traffic alerts",
-      "Data export",
-      "Import analytics data",
-      "Web Vitals and performance",
-      "Team access",
-      "Agent API and CLI access",
+      "Data export and import",
+      "Team access, agent API, and CLI",
     ],
   },
   {
@@ -145,6 +139,16 @@ export function formatTierPricePeriod(_period: BillingPeriod) {
 
 export function formatTierBillingNote(period: BillingPeriod) {
   return period === "monthly" ? "Billed monthly." : "Billed yearly.";
+}
+
+export function formatTierTrialPriceNote(
+  amount: number,
+  period: BillingPeriod,
+  trialDays: number = pricingTrialDays,
+) {
+  const billingCadence = period === "monthly" ? "monthly" : "yearly";
+
+  return `Free for ${trialDays} days · then $${formatPricingCurrency(amount)}/mo billed ${billingCadence} + local taxes`;
 }
 
 export function formatIncludedEventsPhrase(events: string) {

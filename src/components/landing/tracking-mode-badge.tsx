@@ -9,7 +9,7 @@ type TrackingModeBadgeProps = {
 
 const trackingModeLabels: Record<TrackingMode, string> = {
   default: "Default",
-  extended: "Extended",
+  extended: "Opt in",
 };
 
 export function TrackingModeBadge({

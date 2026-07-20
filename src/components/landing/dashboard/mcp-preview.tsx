@@ -7,12 +7,17 @@ const data = dashboardPreviewData["14d"];
 
 export function McpPreview() {
   return (
-    <div className={cn(capabilityMockupSurfaceClass, "w-full min-w-0 space-y-1.5 p-2.5")}>
-      <div className="bg-muted ml-auto max-w-[90%] rounded-md px-2 py-1.5 text-[11px] leading-snug">
+    <div
+      className={cn(
+        capabilityMockupSurfaceClass,
+        "w-full min-w-0 space-y-1.5 p-2.5 text-[11px]",
+      )}
+    >
+      <div className="bg-muted ml-auto max-w-[90%] rounded-md px-2 py-1.5 leading-snug">
         What changed on my site this week?
       </div>
 
-      <div className="bg-surface rounded-md px-2 py-1.5 text-[11px] leading-snug">
+      <div className="bg-surface rounded-md px-2 py-1.5 leading-snug">
         <p className="text-muted-foreground truncate">
           Kobbe · get_overview, get_top_pages
         </p>

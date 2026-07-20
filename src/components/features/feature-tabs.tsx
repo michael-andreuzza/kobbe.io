@@ -1,19 +1,18 @@
-import { useState } from "react";
+import { ChevronDownIcon } from "lucide-react";
 
+import { type TrackingMode } from "@/components/landing/tracking-mode-badge";
 import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+  Accordion,
+  AccordionItem,
+  AccordionPanel,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 type Feature = {
   title: string;
   description: string;
   href: string;
+  trackingMode?: TrackingMode;
 };
 
 type FeatureGroup = {
@@ -21,129 +20,66 @@ type FeatureGroup = {
   features: readonly Feature[];
 };
 
-type FeatureTabsProps = {
+type FeatureAccordionProps = {
   groups: readonly FeatureGroup[];
 };
 
-const VISIBLE_FEATURE_LIMIT = 6;
-
-export function FeatureTabs({ groups }: FeatureTabsProps) {
-  const defaultValue = groups[0] ? toFeatureGroupValue(groups[0].category) : "";
-  const [activeValue, setActiveValue] = useState(defaultValue);
-  const activeGroup =
-    groups.find(
-      (group) => toFeatureGroupValue(group.category) === activeValue,
-    ) ?? groups[0];
+export function FeatureAccordion({ groups }: FeatureAccordionProps) {
+  const defaultValue = groups[0]
+    ? [toFeatureGroupValue(groups[0].category)]
+    : [];
 
   return (
-    <Tabs
-      value={activeValue}
-      onValueChange={(nextValue) => setActiveValue(nextValue)}
-      className="gap-8"
+    <Accordion
+      keepMounted
+      defaultValue={defaultValue}
+      className="border-border border-y"
     >
-      <TabsList
-        aria-label="Feature categories"
-        className="w-full gap-x-4 gap-y-2 sm:gap-x-6 lg:mx-auto lg:w-fit"
-      >
-        {groups.map((group) => {
-          const value = toFeatureGroupValue(group.category);
+      {groups.map((group) => {
+        const value = toFeatureGroupValue(group.category);
 
-          return (
-            <TabsTrigger
-              key={group.category}
-              value={value}
-              onClick={() => setActiveValue(value)}
-              className="px-0 pb-3"
-            >
-              {group.category}
-            </TabsTrigger>
-          );
-        })}
-      </TabsList>
-
-      {activeGroup ? (
-        <TabsContent value={activeValue} className="mt-0">
-          <FeatureGroupPanel key={activeValue} group={activeGroup} />
-        </TabsContent>
-      ) : null}
-    </Tabs>
-  );
-}
-
-function FeatureGroupPanel({ group }: { group: FeatureGroup }) {
-  const headingId = `features-${toFeatureGroupValue(group.category)}`;
-  const [expanded, setExpanded] = useState(false);
-  const needsCollapse = group.features.length > VISIBLE_FEATURE_LIMIT;
-  const hiddenCount = group.features.length - VISIBLE_FEATURE_LIMIT;
-
-  return (
-    <section aria-labelledby={headingId}>
-      <h3 id={headingId} className="sr-only">
-        {group.category}
-      </h3>
-      <div className="relative">
-        <div
-          className={cn(
-            needsCollapse &&
-              !expanded &&
-              "max-h-160 overflow-hidden mask-[linear-gradient(to_bottom,black_calc(100%-6rem),transparent)] md:max-h-136 lg:max-h-104",
-          )}
-        >
-          <FeatureGrid features={group.features} />
-        </div>
-
-        {needsCollapse && !expanded ? (
-          <div className="mt-8 flex justify-center">
-            <Button
-              type="button"
-              variant="outline"
-              size="xs"
-              onClick={() => setExpanded(true)}
-            >
-              Show {hiddenCount} more
-            </Button>
-          </div>
-        ) : null}
-
-        {needsCollapse && expanded ? (
-          <div className="mt-8 flex justify-center">
-            <Button
-              type="button"
-              variant="outline"
-              size="xs"
-              onClick={() => setExpanded(false)}
-            >
-              Show less
-            </Button>
-          </div>
-        ) : null}
-      </div>
-    </section>
-  );
-}
-
-function FeatureGrid({ features }: { features: readonly Feature[] }) {
-  return (
-    <div className="flex flex-wrap justify-center gap-12 lg:text-center">
-      {features.map((feature) => (
-        <Card
-          key={feature.href}
-          className="feature-card w-full rounded-lg bg-transparent p-0 transition-transform duration-300 ease-out hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none md:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-2rem)]"
-        >
-          <CardHeader className="p-0">
-            <CardTitle className="text-foreground text-base font-medium">
-              <a
-                href={feature.href}
-                className="outline-none hover:underline focus-visible:underline"
-              >
-                {feature.title}
-              </a>
-            </CardTitle>
-            <CardDescription>{feature.description}</CardDescription>
-          </CardHeader>
-        </Card>
-      ))}
-    </div>
+        return (
+          <AccordionItem key={group.category} value={value}>
+            <AccordionTrigger className="gap-4 py-5 [&[data-panel-open]_svg]:rotate-180">
+              <span className="font-display text-3xl font-normal">
+                {group.category}
+              </span>
+              <ChevronDownIcon
+                aria-hidden
+                strokeWidth={2.25}
+                className="text-muted-foreground size-4 shrink-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              />
+            </AccordionTrigger>
+            <AccordionPanel>
+              <ul className="grid items-start gap-x-10 gap-y-8 pt-2 pb-10 sm:grid-cols-2 lg:grid-cols-3">
+                {group.features.map((feature) => (
+                  <li key={feature.title}>
+                    <div>
+                      <h4 className="text-foreground text-base font-medium">
+                        <a
+                          href={feature.href}
+                          className="outline-none hover:underline focus-visible:underline"
+                        >
+                          {feature.title}
+                        </a>
+                      </h4>
+                      <p className="text-muted-foreground mt-1 text-sm font-medium">
+                        {feature.description}
+                      </p>
+                    </div>
+                    {feature.trackingMode === "extended" ? (
+                      <span className="text-brand mt-2 text-xs font-medium block">
+                        Opt in
+                      </span>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            </AccordionPanel>
+          </AccordionItem>
+        );
+      })}
+    </Accordion>
   );
 }
 
@@ -151,4 +87,4 @@ function toFeatureGroupValue(category: string) {
   return category.toLowerCase().replaceAll(" ", "-");
 }
 
-export default FeatureTabs;
+export default FeatureAccordion;

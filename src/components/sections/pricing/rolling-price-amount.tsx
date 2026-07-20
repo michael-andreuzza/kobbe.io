@@ -8,6 +8,9 @@ const REEL_DIGITS = Array.from({ length: 2 }, () =>
   Array.from({ length: 10 }, (_, digit) => digit),
 ).flat();
 
+/** Row height in em — display serif italics exceed 1em metrics. */
+const REEL_ROW_EM = 1.45;
+
 function getReelOffset(digit: number) {
   return 10 + digit;
 }
@@ -30,12 +33,12 @@ function RollingDigit({
   const reduceMotion = useReducedMotion();
   const targetOffset = getReelOffset(digit);
   const startOffset = getStartOffset(digit);
-  const finalY = `calc(-1em * ${targetOffset})`;
-  const startY = `calc(-1em * ${startOffset})`;
+  const finalY = `calc(-${REEL_ROW_EM}em * ${targetOffset})`;
+  const startY = `calc(-${REEL_ROW_EM}em * ${startOffset})`;
   const shouldSpin = animate && !reduceMotion;
 
   return (
-    <span className="inline-block h-[1em] overflow-y-hidden align-top">
+    <span className="inline-block h-[1.45em] overflow-y-clip align-middle">
       <motion.span
         key={`${spinGeneration}-${columnIndex}`}
         className="flex flex-col"
@@ -54,7 +57,7 @@ function RollingDigit({
         {REEL_DIGITS.map((value, index) => (
           <span
             key={index}
-            className="flex h-[1em] items-center justify-center"
+            className="flex h-[1.45em] items-center justify-center leading-none"
             aria-hidden="true"
           >
             {value}
@@ -96,7 +99,10 @@ export function RollingPriceAmount({
 
   return (
     <span
-      className={cn("inline-flex items-baseline tabular-nums leading-none", className)}
+      className={cn(
+        "inline-flex items-center tabular-nums leading-[1.45]",
+        className,
+      )}
       aria-label={`$${formattedAmount}`}
     >
       <span aria-hidden="true">$</span>

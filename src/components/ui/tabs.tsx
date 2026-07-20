@@ -100,7 +100,7 @@ function TabsTrigger({
       aria-selected={active}
       data-active={active ? "" : undefined}
       className={cn(
-        "text-muted-foreground hover:text-foreground focus-visible:text-foreground relative -mb-px inline-flex shrink-0 items-center justify-center  text-base font-medium whitespace-nowrap transition-colors outline-none disabled:pointer-events-none disabled:opacity-50",
+        "text-muted-foreground hover:text-foreground focus-visible:text-foreground relative -mb-px inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none disabled:pointer-events-none disabled:opacity-50",
         active && "text-foreground",
         className,
       )}

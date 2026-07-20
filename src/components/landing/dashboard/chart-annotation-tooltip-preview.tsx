@@ -23,15 +23,15 @@ export function ChartAnnotationPinnedTooltipPreview(
           : "Visitors";
 
   return (
-    <div className="border-background/10 bg-foreground text-background grid w-full min-w-0 gap-1.5 rounded-lg border px-2.5 py-1.5 pb-2 text-xs shadow-xl">
-      <div className="text-background/70 text-[10px] font-medium tracking-wide uppercase">
+    <div className="border-border/70 bg-card text-foreground grid w-full min-w-0 gap-1.5 rounded-lg border px-2.5 py-1.5 pb-2 text-xs">
+      <div className="text-muted-foreground text-[10px] font-medium tracking-wide uppercase">
         Pinned
       </div>
-      <div className="text-background font-medium">{props.title}</div>
+      <div className="text-foreground font-medium">{props.title}</div>
       <div className="flex w-full flex-wrap items-center gap-2">
         <div className="flex flex-1 items-center justify-between gap-4 leading-none">
-          <span className="text-background/70">{metricLabel}</span>
-          <span className="text-background font-mono font-medium tabular-nums">
+          <span className="text-muted-foreground">{metricLabel}</span>
+          <span className="text-foreground font-mono font-medium tabular-nums">
             {props.metricValue}
           </span>
         </div>
@@ -39,6 +39,7 @@ export function ChartAnnotationPinnedTooltipPreview(
       <ChartNoteTooltipEditorPreview
         day={props.day}
         annotations={props.annotations}
+        tone="surface"
       />
     </div>
   );
