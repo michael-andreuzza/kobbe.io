@@ -68,11 +68,20 @@ function PricingTierPanel({
   popular?: boolean;
 }) {
   return (
-    <article className="bg-card text-foreground relative flex h-full w-full flex-col rounded-xl p-4 lg:p-6">
+    <article className="bg-card text-foreground relative flex h-full w-full flex-col rounded-lg p-4 lg:p-6">
       <div>
-        <h3 className="text-foreground text-2xl font-semibold tracking-tight">
-          {name}
-        </h3>
+        <div className="overflow-visible">
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="text-foreground text-xl font-semibold tracking-tight">
+              {name}
+            </h3>
+            <RollingPriceAmount
+              amount={priceAmount}
+              spinToken={period}
+              className="text-foreground text-xl font-semibold tracking-tighter"
+            />
+          </div>
+        </div>
         <p className="text-muted-foreground mt-1 text-sm font-medium text-balance">
           {tagline}
         </p>
@@ -97,18 +106,10 @@ function PricingTierPanel({
           ),
         )}
       </ul>
-
-      <div className="mt-4">
-        <div className="overflow-visible pt-1">
-          <RollingPriceAmount
-            amount={priceAmount}
-            spinToken={period}
-            className="text-foreground text-xl font-semibold tracking-tighter"
-          />
-          <p className="text-muted-foreground text-sm font-medium text-balance">
-            {trialPriceNote}
-          </p>
-        </div>
+      <p className="text-muted-foreground mt-8 text-xs font-medium text-balance">
+        {trialPriceNote}
+      </p>
+      <div className="mt-1">
         <a
           href={checkoutHref}
           data-kobbe-event={`Pricing - ${name} ${period}`}

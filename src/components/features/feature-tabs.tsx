@@ -41,7 +41,7 @@ export function FeatureAccordion({ groups }: FeatureAccordionProps) {
         return (
           <AccordionItem key={group.category} value={value}>
             <AccordionTrigger className="gap-4 py-5 [&[data-panel-open]_svg]:rotate-180">
-              <span className="font-display text-3xl font-normal">
+              <span className="font-atipla text-lg font-medium">
                 {group.category}
               </span>
               <ChevronDownIcon
@@ -68,7 +68,7 @@ export function FeatureAccordion({ groups }: FeatureAccordionProps) {
                       </p>
                     </div>
                     {feature.trackingMode === "extended" ? (
-                      <span className="text-brand mt-2 text-xs font-medium block">
+                      <span className="text-brand mt-2 block text-xs font-medium">
                         Opt in
                       </span>
                     ) : null}

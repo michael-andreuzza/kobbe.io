@@ -17,7 +17,7 @@ export function BillingPeriodTabs({
   return (
     <div className={cn("flex items-center gap-2.5", className)}>
       <span className="text-foreground text-sm font-medium">
-        {isYearly ? "Yearly billing" : "Monthly billing"}
+        {isYearly ? "Yearly " : "Monthly "}
       </span>
       {isYearly ? (
         <span className="text-muted-foreground text-sm font-medium">

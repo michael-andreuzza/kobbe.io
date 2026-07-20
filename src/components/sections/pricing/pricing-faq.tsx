@@ -29,7 +29,7 @@ export function PricingFaq({
       >
         {pricingFaqItems.map((item) => (
           <AccordionItem key={item.id} value={item.id}>
-            <AccordionTrigger className="gap-4 [&[data-panel-open]_svg]:rotate-180">
+            <AccordionTrigger className="gap-4 text-base [&[data-panel-open]_svg]:rotate-180">
               <span>{item.question}</span>
               <ChevronDownIcon
                 aria-hidden

@@ -4,9 +4,14 @@ export type DocsSearchItem = {
   description: string;
   category: string;
   href: string;
+  logo?: {
+    src: string;
+    alt: string;
+  };
 };
 
 const NAV_GROUP_ORDER = [
+  "Site",
   "Get started",
   "Dashboard stats",
   "Installation guides",
@@ -14,6 +19,7 @@ const NAV_GROUP_ORDER = [
   "Analyze",
   "Sharing",
   "Revenue attribution",
+  "Reports and alerts",
   "Manage",
   "Support",
   "Legal",

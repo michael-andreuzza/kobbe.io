@@ -315,7 +315,7 @@ function CapabilityCard(props: CapabilityCardProps) {
     <div className="group flex h-full min-w-0 flex-col gap-4 overflow-visible">
       <AnimatedPanelReveal trigger="scroll" mask={false}>
         <div className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none">
-          <div className="border-border/40 relative flex aspect-4/5 w-full items-center justify-center overflow-hidden rounded border">
+          <div className="border-border/40 relative flex aspect-4/3 w-full items-center justify-center overflow-hidden rounded-lg border">
             <img
               src={props.background.src}
               alt=""

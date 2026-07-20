@@ -34,7 +34,7 @@ export function SidebarGroups({
   );
 
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex min-w-0 flex-col gap-1.5">
       {groups.map((group, index) => {
         const isActiveGroup = group.items.some((item) => item.isActive);
         const defaultOpen =
@@ -44,11 +44,12 @@ export function SidebarGroups({
           <Collapsible.Root
             key={`${group.category}:${forceOpen ? "open" : "default"}`}
             defaultOpen={defaultOpen}
+            className="min-w-0 w-full"
           >
             <Collapsible.Trigger
               className={cn(
-                "text-muted-foreground flex min-h-7 w-full items-center gap-2 text-left text-sm leading-5 transition-colors outline-none",
-                "hover:text-foreground focus-visible:ring-ring/40 font-medium focus-visible:ring-2",
+                "text-muted-foreground flex min-h-7 w-full min-w-0 items-center gap-2 text-left text-sm leading-5 font-medium transition-colors outline-none focus-visible:ring-0",
+                "hover:text-foreground",
                 isActiveGroup
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground",
@@ -112,14 +113,16 @@ type SidebarProps = {
 
 export default function Sidebar({ groups }: SidebarProps) {
   return (
-    <aside className="hidden w-52 shrink-0 lg:block">
-      <nav
-        aria-label="Docs navigation"
-        className="!scrollbar-none text-sidebar-foreground sticky top-24 flex max-h-[calc(100svh-6rem)] flex-col overflow-y-auto pr-5"
-      >
-        <DocsCommandSearchTrigger className="mb-3" />
-        <SidebarGroups groups={groups} />
-      </nav>
+    <aside className="hidden w-52 min-w-52 shrink-0 lg:block">
+      <div className="sticky top-24 flex max-h-[calc(100svh-6rem)] min-w-0 flex-col">
+        <DocsCommandSearchTrigger className="mb-3 w-full shrink-0 self-stretch focus-visible:ring-0" />
+        <nav
+          aria-label="Docs navigation"
+          className="text-sidebar-foreground min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto pr-5 scrollbar-none!"
+        >
+          <SidebarGroups groups={groups} />
+        </nav>
+      </div>
     </aside>
   );
 }

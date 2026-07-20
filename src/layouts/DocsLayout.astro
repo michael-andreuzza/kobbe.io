@@ -4,11 +4,13 @@ import BaseLayout from "./BaseLayout.astro";
 import Sidebar from "@/components/ui/sidebar";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
 import ToCScript from "@/components/foundations/scripts/ToCScript.astro";
 import TableOfContents from "@/components/foundations/navigation/TableOfContents.astro";
 import { DocsCommandSearch } from "@/components/docs/docs-command-search";
 import type { JsonLdBreadcrumb } from "@/lib/seo/json-ld";
 import { filterDocsNavigationItems } from "@/lib/standalone-docs";
+import { buildSiteSearchItems } from "@/lib/site-search";
 
 interface Props {
   title?: string;
@@ -21,28 +23,27 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "");
 const displayTitle = title?.replace(/\s+: Kobbe Docs$/, "");
 const filteredNavItems = filterDocsNavigationItems(navItems);
 
-const resolvedNavLinks = filteredNavItems
-  .map((item) => {
-    const logo = item.data.brandLogo;
+const resolvedNavLinks = filteredNavItems.map((item) => {
+  const logo = item.data.brandLogo;
 
-    return {
-      href: item.id === "overview" ? "/docs" : `/docs/${item.id}`,
-      label: item.data.navLabel ?? item.data.title,
-      category: item.data.category ?? "Docs",
-      isActive:
-        currentPath ===
-        (item.id === "overview" ? "/docs" : `/docs/${item.id}`).replace(
-          /\/$/,
-          "",
-        ),
-      logo: logo
-        ? {
-            src: logo.url.src,
-            alt: logo.alt,
-          }
-        : undefined,
-    };
-  });
+  return {
+    href: item.id === "overview" ? "/docs" : `/docs/${item.id}`,
+    label: item.data.navLabel ?? item.data.title,
+    category: item.data.category ?? "Docs",
+    isActive:
+      currentPath ===
+      (item.id === "overview" ? "/docs" : `/docs/${item.id}`).replace(
+        /\/$/,
+        "",
+      ),
+    logo: logo
+      ? {
+          src: logo.url.src,
+          alt: logo.alt,
+        }
+      : undefined,
+  };
+});
 
 const groupedNavLinks = resolvedNavLinks.reduce(
   (groups, item) => {
@@ -94,18 +95,8 @@ groupedNavLinks.sort((a, b) => {
   const br = bi === -1 ? NAV_GROUP_ORDER.length : bi;
   return ar - br || a.category.localeCompare(b.category);
 });
-const docsSearchItems = resolvedNavLinks.map((item) => ({
-  id: item.href === "/docs" ? "overview" : item.href.replace("/docs/", ""),
-  title: item.label,
-  description:
-    filteredNavItems.find((doc) =>
-      item.href === "/docs"
-        ? doc.id === "overview"
-        : `/docs/${doc.id}` === item.href,
-    )?.data.description ?? "",
-  category: item.category,
-  href: item.href,
-}));
+const allDocs = await getCollection("docs");
+const siteSearchItems = buildSiteSearchItems(allDocs);
 ---
 
 <BaseLayout
@@ -156,6 +147,6 @@ const docsSearchItems = resolvedNavLinks.map((item) => ({
       <TableOfContents />
     </div>
   </Wrapper>
-  <DocsCommandSearch client:load hideTrigger items={docsSearchItems} />
+  <DocsCommandSearch client:load hideTrigger items={siteSearchItems} />
   <ToCScript />
 </BaseLayout>

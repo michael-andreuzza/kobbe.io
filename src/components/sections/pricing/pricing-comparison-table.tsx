@@ -62,11 +62,11 @@ export function PricingComparisonTable({
           <caption className="sr-only">
             Feature comparison across Lite, Starter, and Growth plans
           </caption>
-          <thead className="font-display text-center text-3xl tracking-wide italic">
+          <thead className="text-center text-2xl font-medium tracking-wide">
             <tr>
               <th
                 scope="col"
-                className="text-foreground px-4 py-4 text-left font-normal"
+                className="text-foreground px-4 py-4 text-left font-medium tracking-tight"
               >
                 Features
               </th>
@@ -74,7 +74,7 @@ export function PricingComparisonTable({
                 <th
                   key={tierId}
                   scope="col"
-                  className="text-foreground px-4 py-4 font-normal"
+                  className="text-foreground px-4 py-4 font-medium tracking-tight"
                 >
                   {pricingComparisonTierLabels[tierId]}
                 </th>

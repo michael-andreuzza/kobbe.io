@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Dialog } from "@base-ui/react/dialog";
-import { ArrowRight01Icon, Search01Icon } from "@hugeicons/core-free-icons";
+import {
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  Search01Icon,
+} from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import { Input } from "@/components/ui/input";
@@ -19,6 +23,10 @@ type DocsCommandSearchProps = {
   /** When true, only renders the dialog and keyboard shortcut (no trigger button). */
   hideTrigger?: boolean;
 };
+
+type SearchListEntry =
+  | { type: "group"; category: string }
+  | { type: "item"; item: DocsSearchItem };
 
 function isEditableTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) {
@@ -54,10 +62,10 @@ export function DocsCommandSearchTrigger({
       type="button"
       onClick={openDocsSearch}
       className={cn(
-        "border-border bg-background text-muted-foreground hover:bg-muted flex h-8 w-full items-center gap-2 rounded-md border px-2.5 text-left text-xs transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring/40",
+        "border-border/70 bg-card/60 text-muted-foreground hover:text-foreground flex h-8 w-full items-center gap-2 rounded-md border px-2.5 text-left text-xs transition-colors outline-none",
         className,
       )}
-      aria-label="Search docs"
+      aria-label="Search"
     >
       <HugeiconsIcon
         icon={Search01Icon}
@@ -65,11 +73,28 @@ export function DocsCommandSearchTrigger({
         className="size-4 shrink-0"
         aria-hidden
       />
-      <span className="min-w-0 flex-1 truncate">Search docs…</span>
-      <kbd className="bg-muted text-muted-foreground shrink-0 rounded px-1.5 py-0.5 font-mono text-[0.65rem] leading-none">
+      <span className="min-w-0 flex-1 truncate">Search</span>
+      <kbd className="border-border/70 text-muted-foreground shrink-0 rounded border px-1 py-0.5 font-mono text-[0.65rem] leading-none">
         {shortcutLabel}
       </kbd>
     </button>
+  );
+}
+
+function ItemIcon({ item }: { item: DocsSearchItem }) {
+  if (!item.logo) {
+    return null;
+  }
+
+  return (
+    <img
+      src={item.logo.src}
+      alt=""
+      className="size-4 shrink-0 rounded-sm object-contain"
+      loading="lazy"
+      width={16}
+      height={16}
+    />
   );
 }
 
@@ -79,38 +104,80 @@ export function DocsCommandSearch({
 }: DocsCommandSearchProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [activeGroup, setActiveGroup] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
-  const filteredItems = useMemo(
-    () => filterDocsSearchItems(items, query),
+  const allGroupedItems = useMemo(() => groupDocsSearchItems(items), [items]);
+  const isSearching = query.trim().length > 0;
+
+  const searchGroups = useMemo(
+    () => groupDocsSearchItems(filterDocsSearchItems(items, query)),
     [items, query],
   );
-  const groupedItems = useMemo(
-    () => groupDocsSearchItems(filteredItems),
-    [filteredItems],
-  );
-  const flatItems = useMemo(
-    () => flattenGroupedDocsSearchItems(groupedItems),
-    [groupedItems],
-  );
+
+  const listEntries = useMemo((): SearchListEntry[] => {
+    if (isSearching) {
+      return flattenGroupedDocsSearchItems(searchGroups).map((item) => ({
+        type: "item",
+        item,
+      }));
+    }
+
+    if (activeGroup) {
+      const group = allGroupedItems.find(
+        (entry) => entry.category === activeGroup,
+      );
+      return (group?.items ?? []).map((item) => ({ type: "item", item }));
+    }
+
+    return allGroupedItems.map((group) => ({
+      type: "group",
+      category: group.category,
+    }));
+  }, [activeGroup, allGroupedItems, isSearching, searchGroups]);
+
+  const resetBrowseState = () => {
+    setActiveGroup(null);
+    setSelectedIndex(0);
+  };
 
   const close = () => {
     setOpen(false);
     setQuery("");
-    setSelectedIndex(0);
+    resetBrowseState();
   };
 
   const openSearch = () => {
     setQuery("");
-    setSelectedIndex(0);
+    resetBrowseState();
     setOpen(true);
+  };
+
+  const goBack = () => {
+    setActiveGroup(null);
+    setSelectedIndex(0);
+    inputRef.current?.focus();
   };
 
   const navigateTo = (href: string) => {
     close();
     window.location.assign(href);
+  };
+
+  const activateEntry = (entry: SearchListEntry | undefined) => {
+    if (!entry) {
+      return;
+    }
+
+    if (entry.type === "group") {
+      setActiveGroup(entry.category);
+      setSelectedIndex(0);
+      return;
+    }
+
+    navigateTo(entry.item.href);
   };
 
   useEffect(() => {
@@ -180,9 +247,9 @@ export function DocsCommandSearch({
 
   useEffect(() => {
     setSelectedIndex((current) =>
-      flatItems.length === 0 ? 0 : Math.min(current, flatItems.length - 1),
+      listEntries.length === 0 ? 0 : Math.min(current, listEntries.length - 1),
     );
-  }, [flatItems.length, query]);
+  }, [listEntries.length, query, activeGroup]);
 
   useEffect(() => {
     if (!open || !listRef.current) {
@@ -193,45 +260,93 @@ export function DocsCommandSearch({
       '[data-selected="true"]',
     );
     selected?.scrollIntoView({ block: "nearest" });
-  }, [open, selectedIndex, flatItems]);
+  }, [open, selectedIndex, listEntries]);
 
   const onInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "ArrowDown") {
       event.preventDefault();
-      if (flatItems.length === 0) {
+      if (listEntries.length === 0) {
         return;
       }
-      setSelectedIndex((current) => (current + 1) % flatItems.length);
+      setSelectedIndex((current) => (current + 1) % listEntries.length);
       return;
     }
 
     if (event.key === "ArrowUp") {
       event.preventDefault();
-      if (flatItems.length === 0) {
+      if (listEntries.length === 0) {
         return;
       }
       setSelectedIndex(
-        (current) => (current - 1 + flatItems.length) % flatItems.length,
+        (current) => (current - 1 + listEntries.length) % listEntries.length,
       );
       return;
     }
 
     if (event.key === "Enter") {
       event.preventDefault();
-      const item = flatItems[selectedIndex];
-      if (item) {
-        navigateTo(item.href);
-      }
+      activateEntry(listEntries[selectedIndex]);
+      return;
+    }
+
+    if (event.key === "Backspace" && query.length === 0 && activeGroup) {
+      event.preventDefault();
+      goBack();
       return;
     }
 
     if (event.key === "Escape") {
       event.preventDefault();
+      if (activeGroup && !isSearching) {
+        goBack();
+        return;
+      }
       close();
     }
   };
 
-  let runningIndex = -1;
+  const selectedEntry = listEntries[selectedIndex];
+  const enterLabel =
+    selectedEntry?.type === "group" && !isSearching ? "Browse" : "Open";
+
+  const renderItemRow = (
+    item: DocsSearchItem,
+    index: number,
+    isSelected: boolean,
+  ) => (
+    <li key={item.id}>
+      <button
+        type="button"
+        data-selected={isSelected ? "true" : undefined}
+        role="option"
+        aria-selected={isSelected}
+        onMouseEnter={() => {
+          setSelectedIndex(index);
+        }}
+        onClick={() => {
+          navigateTo(item.href);
+        }}
+        className={cn(
+          "flex min-h-8 w-full cursor-default items-center rounded-md py-1.5 pr-1.5 pl-2.5 text-left text-xs leading-snug transition-colors outline-none",
+          isSelected && "bg-foreground/6 dark:bg-foreground/10",
+        )}
+      >
+        <span className="flex min-w-0 flex-1 items-center gap-2">
+          <ItemIcon item={item} />
+          <span className="min-w-0">
+            <span className="text-foreground block truncate text-xs font-medium">
+              {item.title}
+            </span>
+            {item.description ? (
+              <span className="text-muted-foreground mt-0.5 block truncate text-[0.7rem]">
+                {item.description}
+              </span>
+            ) : null}
+          </span>
+        </span>
+      </button>
+    </li>
+  );
 
   return (
     <>
@@ -248,94 +363,150 @@ export function DocsCommandSearch({
         }}
       >
         <Dialog.Portal>
-          <Dialog.Backdrop className="bg-background/50 fixed inset-0 z-50 transition-opacity duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0" />
+          <Dialog.Backdrop className="bg-foreground/20 fixed inset-0 z-50 transition-opacity duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0" />
           <Dialog.Popup
             data-lenis-prevent
             onWheel={(event) => {
               event.stopPropagation();
             }}
-            className="bg-background fixed top-[min(18%,7rem)] left-1/2 z-50 flex w-[min(36rem,calc(100vw-2rem))] max-h-[min(32rem,calc(100svh-6rem))] -translate-x-1/2 flex-col overflow-hidden rounded-xl border-0 shadow-lg outline-none"
+            className="bg-card fixed top-[min(22%,9rem)] left-1/2 z-50 flex max-h-[min(28rem,calc(100svh-6rem))] w-full max-w-lg -translate-x-1/2 flex-col overflow-hidden rounded-xl shadow-md outline-none max-sm:w-[calc(100vw-2rem)]"
           >
-            <div className="flex items-center gap-2 px-3 py-2.5">
-              <HugeiconsIcon
-                icon={Search01Icon}
-                strokeWidth={1.7}
-                className="text-muted-foreground size-4 shrink-0"
-                aria-hidden
-              />
-              <Input
-                ref={inputRef}
-                value={query}
-                onChange={(event) => {
-                  setQuery(event.target.value);
-                  setSelectedIndex(0);
+            <div className="border-border/60 border-b px-3 py-2">
+              <div className="border-border/70 bg-background/70 dark:bg-background/40 flex h-8 items-center rounded-md border px-2">
+                {activeGroup && !isSearching ? (
+                  <button
+                    type="button"
+                    onClick={goBack}
+                    className="text-muted-foreground hover:text-foreground mr-1.5 inline-flex size-5 shrink-0 items-center justify-center rounded transition-colors outline-none"
+                    aria-label="Back to categories"
+                  >
+                    <HugeiconsIcon
+                      icon={ArrowLeft01Icon}
+                      strokeWidth={1.7}
+                      className="size-4"
+                      aria-hidden
+                    />
+                  </button>
+                ) : (
+                  <HugeiconsIcon
+                    icon={Search01Icon}
+                    strokeWidth={2}
+                    className="text-muted-foreground pointer-events-none mr-1.5 size-4 shrink-0"
+                    aria-hidden
+                  />
+                )}
+                <Input
+                  ref={inputRef}
+                  value={query}
+                  onChange={(event) => {
+                    setQuery(event.target.value);
+                    setActiveGroup(null);
+                    setSelectedIndex(0);
+                  }}
+                  onKeyDown={onInputKeyDown}
+                  placeholder={
+                    activeGroup && !isSearching
+                      ? `Search in ${activeGroup}...`
+                      : "Search docs and pages..."
+                  }
+                  aria-label="Search"
+                  className="h-8 min-w-0 border-0 bg-transparent px-0 text-sm leading-tight shadow-none focus-visible:ring-0"
+                />
+              </div>
+
+              <div
+                ref={listRef}
+                data-lenis-prevent
+                className="mt-1 max-h-[min(19rem,calc(100svh-14rem))] min-h-0 flex-1 overflow-y-auto overscroll-y-contain p-1"
+                role="listbox"
+                aria-label="Search results"
+                onWheel={(event) => {
+                  event.stopPropagation();
                 }}
-                onKeyDown={onInputKeyDown}
-                placeholder="Search docs…"
-                aria-label="Search docs"
-                className="h-9 border-0 bg-transparent px-0 shadow-none focus-visible:ring-0"
-              />
-              <kbd className="bg-muted text-muted-foreground shrink-0 rounded px-1.5 py-0.5 font-mono text-[0.65rem] leading-none">
-                Esc
-              </kbd>
-            </div>
-
-            <div
-              ref={listRef}
-              data-lenis-prevent
-              className="min-h-0 flex-1 overscroll-y-contain overflow-y-auto p-2"
-              role="listbox"
-              aria-label="Docs search results"
-              onWheel={(event) => {
-                event.stopPropagation();
-              }}
-            >
-              {flatItems.length === 0 ? (
-                <p className="text-muted-foreground px-2 py-8 text-center text-sm">
-                  No docs matched your search.
-                </p>
-              ) : (
-                groupedItems.map((group) => (
-                  <div key={group.category} className="not-first:mt-3">
-                    <p className="text-muted-foreground px-2 py-1 text-[0.65rem] font-medium tracking-wide uppercase">
-                      {group.category}
+              >
+                {listEntries.length === 0 ? (
+                  <p className="text-muted-foreground px-3 py-2.5 text-center text-xs">
+                    No pages matched your search.
+                  </p>
+                ) : isSearching ? (
+                  searchGroups.map((group) => (
+                    <div key={group.category} className="py-0.5">
+                      <p className="text-muted-foreground px-2 pt-1.5 pb-1 text-[0.7rem] font-medium tracking-wide uppercase">
+                        {group.category}
+                      </p>
+                      <ul>
+                        {group.items.map((item) => {
+                          const itemIndex = listEntries.findIndex(
+                            (entry) =>
+                              entry.type === "item" &&
+                              entry.item.id === item.id,
+                          );
+                          return renderItemRow(
+                            item,
+                            itemIndex,
+                            itemIndex === selectedIndex,
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  ))
+                ) : activeGroup ? (
+                  <div className="py-0.5">
+                    <p className="text-muted-foreground px-2 pt-1.5 pb-1 text-[0.7rem] font-medium tracking-wide uppercase">
+                      {activeGroup}
                     </p>
-                    <ul className="space-y-0.5">
-                      {group.items.map((item) => {
-                        runningIndex += 1;
-                        const itemIndex = runningIndex;
-                        const isSelected = itemIndex === selectedIndex;
-
+                    <ul>
+                      {listEntries.map((entry, index) =>
+                        entry.type === "item"
+                          ? renderItemRow(
+                              entry.item,
+                              index,
+                              index === selectedIndex,
+                            )
+                          : null,
+                      )}
+                    </ul>
+                  </div>
+                ) : (
+                  <div className="py-0.5">
+                    <p className="text-muted-foreground px-2 pt-1.5 pb-1 text-[0.7rem] font-medium tracking-wide uppercase">
+                      Browse
+                    </p>
+                    <ul>
+                      {listEntries.map((entry, index) => {
+                        if (entry.type !== "group") {
+                          return null;
+                        }
+                        const isSelected = index === selectedIndex;
                         return (
-                          <li key={item.id}>
+                          <li key={entry.category}>
                             <button
                               type="button"
                               data-selected={isSelected ? "true" : undefined}
                               role="option"
                               aria-selected={isSelected}
                               onMouseEnter={() => {
-                                setSelectedIndex(itemIndex);
+                                setSelectedIndex(index);
                               }}
                               onClick={() => {
-                                navigateTo(item.href);
+                                activateEntry(entry);
                               }}
                               className={cn(
-                                "hover:bg-muted flex w-full items-start gap-3 rounded-lg px-2 py-2 text-left transition-colors outline-none",
-                                isSelected && "bg-muted",
+                                "text-foreground flex min-h-8 w-full cursor-default items-center gap-2 rounded-md py-1.5 pr-1.5 pl-2.5 text-left text-xs font-medium transition-colors outline-none",
+                                isSelected &&
+                                  "bg-foreground/6 dark:bg-foreground/10",
                               )}
                             >
-                              <span className="min-w-0 flex-1">
-                                <span className="text-foreground block text-sm font-medium">
-                                  {item.title}
-                                </span>
-                                <span className="text-muted-foreground mt-0.5 line-clamp-2 text-xs text-balance">
-                                  {item.description}
-                                </span>
+                              <span className="min-w-0 flex-1 truncate">
+                                {entry.category}
                               </span>
                               <HugeiconsIcon
                                 icon={ArrowRight01Icon}
                                 strokeWidth={1.7}
-                                className="text-muted-foreground mt-0.5 size-4 shrink-0"
+                                className={cn(
+                                  "text-muted-foreground size-3.5 shrink-0 transition-opacity",
+                                  isSelected ? "opacity-100" : "opacity-0",
+                                )}
                                 aria-hidden
                               />
                             </button>
@@ -344,21 +515,33 @@ export function DocsCommandSearch({
                       })}
                     </ul>
                   </div>
-                ))
-              )}
+                )}
+              </div>
             </div>
 
-            <div className="text-muted-foreground flex items-center justify-between gap-3 px-3 py-2 text-[0.65rem]">
-              <span className="inline-flex items-center gap-1.5">
-                <kbd className="bg-muted rounded px-1 py-0.5 font-mono">↑</kbd>
-                <kbd className="bg-muted rounded px-1 py-0.5 font-mono">↓</kbd>
-                <span>to move</span>
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <kbd className="bg-muted rounded px-1 py-0.5 font-mono">
-                  Enter
+            <div className="border-border/60 text-muted-foreground flex items-center justify-between gap-3 px-3 py-2 text-[0.7rem]">
+              <div className="flex min-w-0 items-center gap-2">
+                <span className="inline-flex items-center gap-1">
+                  <kbd className="border-border/70 rounded border px-1 font-mono">
+                    ↑
+                  </kbd>
+                  <kbd className="border-border/70 rounded border px-1 font-mono">
+                    ↓
+                  </kbd>
+                  Navigate
+                </span>
+                <span className="hidden items-center gap-1 sm:inline-flex">
+                  <kbd className="border-border/70 rounded border px-1 font-mono">
+                    ↵
+                  </kbd>
+                  {enterLabel}
+                </span>
+              </div>
+              <span className="inline-flex shrink-0 items-center gap-1">
+                <kbd className="border-border/70 rounded border px-1 font-mono">
+                  Esc
                 </kbd>
-                <span>to open</span>
+                Close
               </span>
             </div>
           </Dialog.Popup>
