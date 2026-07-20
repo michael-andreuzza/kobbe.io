@@ -27,14 +27,14 @@ const { title, description, tag = "h2", id, headingColor, mode } = Astro.props;
   <Text
     id={id}
     tag={tag}
-    variant="displayTitle"
-    class={cn("text-foreground tracking-tight font-display", headingColor)}
+    variant="displayMD"
+    class={cn("text-foreground tracking-tight font-medium", headingColor)}
   >
     {title}
   </Text>
   <Text
     tag="p"
-    variant="displaySubTitle"
+    variant="textBase"
     class="text-muted-foreground mt-1.5 font-normal"
   >
     {description}

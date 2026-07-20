@@ -78,9 +78,9 @@ const installationPlatformItems = installationPlatforms.map((platform) => ({
 }));
 ---
 
-<section class="pt-8">
+<section>
   <Wrapper class="py-20">
-    <div class="mx-auto max-w-4xl">
+    <div class="mx-auto max-w-3xl">
       <div class="lg:mx-auto lg:text-center">
         <SectionIntro
           title="From one script tag to a dashboard you can actually read."
@@ -95,39 +95,39 @@ const installationPlatformItems = installationPlatforms.map((platform) => ({
         />
       </div>
     </div>
-      <dl class="divide-border border-border mx-auto max-w-2xl divide-y border-y">
-        {
-          steps.map((step) => (
-            <div class="grid grid-cols-[3rem_1fr] gap-4 py-6 sm:gap-8">
-              <span
-                aria-hidden="true"
-                class="text-muted-foreground text-sm font-medium tabular-nums"
-              >
-                {step.number}
-              </span>
-              <div>
-                <dt>
-                  <Text
-                    tag="p"
-                    variant="textSM"
-                    class="text-foreground font-medium"
-                  >
-                    {step.title}
-                  </Text>
-                </dt>
-                <dd>
-                  <Text
-                    tag="p"
-                    variant="textSM"
-                    class="text-muted-foreground mt-1 text-pretty"
-                  >
-                    {step.description}
-                  </Text>
-                </dd>
-              </div>
+    <dl class="divide-border border-border mx-auto max-w-2xl divide-y border-y">
+      {
+        steps.map((step) => (
+          <div class="grid grid-cols-[3rem_1fr] gap-4 py-6 sm:gap-8">
+            <span
+              aria-hidden="true"
+              class="text-muted-foreground text-sm font-medium tabular-nums"
+            >
+              {step.number}
+            </span>
+            <div>
+              <dt>
+                <Text
+                  tag="p"
+                  variant="textSM"
+                  class="text-foreground font-medium"
+                >
+                  {step.title}
+                </Text>
+              </dt>
+              <dd>
+                <Text
+                  tag="p"
+                  variant="textSM"
+                  class="text-muted-foreground mt-1 text-pretty"
+                >
+                  {step.description}
+                </Text>
+              </dd>
             </div>
-          ))
-        }
-      </dl>
+          </div>
+        ))
+      }
+    </dl>
   </Wrapper>
 </section>

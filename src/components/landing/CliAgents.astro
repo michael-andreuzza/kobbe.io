@@ -3,7 +3,6 @@ import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
 import CliAgentsPanel from "@/components/landing/cli-agents-panel";
 import SectionIntro from "@/components/landing/SectionIntro.astro";
-import { Image } from "astro:assets";
 import claudeLogo from "@/images/brands/claude.svg";
 import codexLogo from "@/images/brands/codex.svg";
 import copilotLogo from "@/images/brands/copilot.svg";
@@ -41,11 +40,13 @@ const codeEditors = [
           {
             codeEditors.map((editor) => (
               <span>
-                <Image
-                  src={editor.logo}
+                <img
+                  src={editor.logo.src}
                   alt={`${editor.name} logo`}
                   class="size-6 rounded object-contain"
                   loading="lazy"
+                  width="24"
+                  height="24"
                 />
                 <span class="sr-only">{editor.name}</span>
               </span>
