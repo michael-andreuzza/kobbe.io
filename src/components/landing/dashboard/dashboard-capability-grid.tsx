@@ -347,7 +347,12 @@ function CapabilityCard(props: CapabilityCardProps) {
 
 function CapabilityListPreview(props: { children: ReactNode }) {
   return (
-    <div className={cn("kobbe-capability-stack w-full", capabilityMockupStackSurfaceClass)}>
+    <div
+      className={cn(
+        "kobbe-capability-stack w-full",
+        capabilityMockupStackSurfaceClass,
+      )}
+    >
       {props.children}
     </div>
   );
