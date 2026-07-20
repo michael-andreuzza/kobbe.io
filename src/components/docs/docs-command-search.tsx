@@ -25,8 +25,7 @@ type DocsCommandSearchProps = {
 };
 
 type SearchListEntry =
-  | { type: "group"; category: string }
-  | { type: "item"; item: DocsSearchItem };
+  { type: "group"; category: string } | { type: "item"; item: DocsSearchItem };
 
 function isEditableTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) {
