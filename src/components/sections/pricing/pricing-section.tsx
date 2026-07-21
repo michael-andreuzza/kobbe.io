@@ -59,7 +59,6 @@ function PricingTierPanel({
               period={period}
               monthlyAmount={monthlyAmount}
               displayAmount={displayAmount}
-              spinToken={period}
               className="text-foreground text-2xl font-semibold tracking-tighter"
               compareClassName="text-2xl font-semibold tracking-tighter"
             />
@@ -123,7 +122,7 @@ export function PricingSection({
   className?: string;
 }) {
   const [period, setPeriod] = useState<BillingPeriod>("yearly");
-  const trialCtaLabel = `Start free for ${pricingTrialDays} days`;
+  const trialCtaLabel = `Start free trial for ${pricingTrialDays} days`;
 
   return (
     <div className={cn("w-full min-w-0", className)}>

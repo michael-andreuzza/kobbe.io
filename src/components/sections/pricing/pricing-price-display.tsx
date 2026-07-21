@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
-import { RollingPriceAmount } from "@/components/sections/pricing/rolling-price-amount";
 import {
   formatPricingCurrency,
+  pricingAmountSuffix,
   type BillingPeriod,
 } from "@/components/sections/pricing/pricing-tiers";
 
@@ -9,16 +9,42 @@ type PricingPriceDisplayProps = {
   period: BillingPeriod;
   monthlyAmount: number;
   displayAmount: number;
-  spinToken: string | number;
   className?: string;
   compareClassName?: string;
 };
+
+function StaticPriceAmount({
+  amount,
+  className,
+  suffix = pricingAmountSuffix,
+}: {
+  amount: number;
+  className?: string;
+  suffix?: string;
+}) {
+  const formattedAmount = formatPricingCurrency(amount);
+
+  return (
+    <span
+      className={cn(
+        "inline-flex items-baseline tabular-nums leading-[1.45]",
+        className,
+      )}
+    >
+      ${formattedAmount}
+      {suffix ? (
+        <span className="text-muted-foreground ml-0.5 text-sm font-medium">
+          {suffix}
+        </span>
+      ) : null}
+    </span>
+  );
+}
 
 export function PricingPriceDisplay({
   period,
   monthlyAmount,
   displayAmount,
-  spinToken,
   className,
   compareClassName,
 }: PricingPriceDisplayProps) {
@@ -26,13 +52,7 @@ export function PricingPriceDisplay({
     period === "yearly" && monthlyAmount !== displayAmount;
 
   if (!showYearlyCompare) {
-    return (
-      <RollingPriceAmount
-        amount={displayAmount}
-        spinToken={spinToken}
-        className={className}
-      />
-    );
+    return <StaticPriceAmount amount={displayAmount} className={className} />;
   }
 
   const compareLabel = `$${formatPricingCurrency(monthlyAmount)}`;
@@ -42,7 +62,7 @@ export function PricingPriceDisplay({
       className={cn(
         "inline-flex items-baseline gap-1.5 leading-[1.45] tabular-nums",
       )}
-      aria-label={`$${formatPricingCurrency(displayAmount)} per month billed yearly, regular price ${compareLabel} per month`}
+      aria-label={`$${formatPricingCurrency(displayAmount)} per month, billed annually, regular price ${compareLabel} per month`}
     >
       <span
         aria-hidden="true"
@@ -53,11 +73,7 @@ export function PricingPriceDisplay({
       >
         {compareLabel}
       </span>
-      <RollingPriceAmount
-        amount={displayAmount}
-        spinToken={spinToken}
-        className={className}
-      />
+      <StaticPriceAmount amount={displayAmount} className={className} />
     </span>
   );
 }

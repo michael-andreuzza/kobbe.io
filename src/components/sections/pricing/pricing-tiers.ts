@@ -195,7 +195,7 @@ export function formatTierPricePeriod(_period: BillingPeriod) {
 }
 
 export function formatTierBillingNote(period: BillingPeriod) {
-  return period === "monthly" ? "Billed monthly." : "Billed yearly.";
+  return period === "monthly" ? "Billed monthly." : "Billed annually.";
 }
 
 export function formatTierTrialPriceNote(
@@ -203,9 +203,13 @@ export function formatTierTrialPriceNote(
   period: BillingPeriod,
   trialDays: number = pricingTrialDays,
 ) {
-  const billingCadence = period === "monthly" ? "monthly" : "yearly";
+  const price = `$${formatPricingCurrency(amount)}${pricingAmountSuffix}`
 
-  return `Free for ${trialDays} days · then $${formatPricingCurrency(amount)}${pricingAmountSuffix} billed ${billingCadence} + local taxes`;
+  if (period === "monthly") {
+    return `Free for ${trialDays} days · then ${price}, billed monthly + local taxes`
+  }
+
+  return `Free for ${trialDays} days · then ${price}, billed annually + local taxes`
 }
 
 export function formatIncludedEventsPhrase(events: string) {

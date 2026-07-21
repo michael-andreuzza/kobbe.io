@@ -59,7 +59,7 @@ export function PricingVolumeTable({
                 <th className="text-muted-foreground py-2 font-medium">
                   {period === "monthly"
                     ? "Monthly price"
-                    : "Price (billed yearly)"}
+                    : "Price (billed annually)"}
                 </th>
                 <th className="text-muted-foreground py-2 font-medium">
                   <span className="sr-only">Start trial</span>
@@ -80,7 +80,6 @@ export function PricingVolumeTable({
                       period={period}
                       monthlyAmount={tier.monthly}
                       displayAmount={getTierDisplayAmount(tier, period)}
-                      spinToken={`${tier.key}-${period}`}
                       className="text-sm font-medium"
                       compareClassName="text-sm"
                     />
