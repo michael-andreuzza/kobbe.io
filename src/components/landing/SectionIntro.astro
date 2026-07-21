@@ -28,7 +28,7 @@ const { title, description, tag = "h2", id, headingColor, mode } = Astro.props;
     id={id}
     tag={tag}
     variant="displayMD"
-    class={cn("text-foreground tracking-tight font-medium", headingColor)}
+    class={cn("text-foreground font-display", headingColor)}
   >
     {title}
   </Text>

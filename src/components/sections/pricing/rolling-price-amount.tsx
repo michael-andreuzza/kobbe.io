@@ -2,7 +2,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 import { cn } from "@/lib/utils";
-import { formatPricingCurrency } from "@/components/sections/pricing/pricing-tiers";
+import {
+  formatPricingCurrency,
+  pricingAmountSuffix,
+} from "@/components/sections/pricing/pricing-tiers";
 
 const REEL_DIGITS = Array.from({ length: 2 }, () =>
   Array.from({ length: 10 }, (_, digit) => digit),
@@ -72,12 +75,14 @@ type RollingPriceAmountProps = {
   amount: number;
   spinToken: string | number;
   className?: string;
+  suffix?: string;
 };
 
 export function RollingPriceAmount({
   amount,
   spinToken,
   className,
+  suffix = pricingAmountSuffix,
 }: RollingPriceAmountProps) {
   const formattedAmount = useMemo(
     () => formatPricingCurrency(amount),
@@ -103,7 +108,7 @@ export function RollingPriceAmount({
         "inline-flex items-center tabular-nums leading-[1.45]",
         className,
       )}
-      aria-label={`$${formattedAmount}`}
+      aria-label={`$${formattedAmount}${suffix}`}
     >
       <span aria-hidden="true">$</span>
       {formattedAmount.split("").map((character, index) => {
@@ -128,6 +133,11 @@ export function RollingPriceAmount({
           />
         );
       })}
+      {suffix ? (
+        <span className="text-muted-foreground ml-0.5 text-sm font-medium">
+          {suffix}
+        </span>
+      ) : null}
     </span>
   );
 }

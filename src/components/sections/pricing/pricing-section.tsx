@@ -2,7 +2,8 @@ import { useState } from "react";
 
 import { BillingPeriodTabs } from "@/components/sections/pricing/billing-period-tabs";
 import { PricingComparisonTable } from "@/components/sections/pricing/pricing-comparison-table";
-import { RollingPriceAmount } from "@/components/sections/pricing/rolling-price-amount";
+import { PricingFeatureMark } from "@/components/sections/pricing/pricing-feature-mark";
+import { PricingPriceDisplay } from "@/components/sections/pricing/pricing-price-display";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -23,33 +24,11 @@ const paymentMethods = [
   "Google Pay",
 ] as const;
 
-function PricingFeatureMark() {
-  return (
-    <svg
-      className="mt-1.5 size-3 shrink-0"
-      viewBox="0 0 542 542"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <path
-        d="M295.5 246.25V0H246.25V246.25H0V295.5H246.25V541.75H295.5V295.5H541.75V246.25H295.5Z"
-        className="fill-muted-foreground/80"
-      />
-      <rect
-        width="63"
-        height="63"
-        transform="translate(239.875 239.875)"
-        className="fill-background"
-      />
-    </svg>
-  );
-}
-
 function PricingTierPanel({
   name,
   tagline,
-  priceAmount,
+  monthlyAmount,
+  displayAmount,
   trialPriceNote,
   features,
   checkoutHref,
@@ -59,7 +38,8 @@ function PricingTierPanel({
 }: {
   name: string;
   tagline: string;
-  priceAmount: number;
+  monthlyAmount: number;
+  displayAmount: number;
   trialPriceNote: string;
   features: readonly string[];
   checkoutHref: string;
@@ -72,13 +52,16 @@ function PricingTierPanel({
       <div>
         <div className="overflow-visible">
           <div className="flex items-center justify-between gap-2">
-            <h3 className="text-foreground text-xl font-semibold tracking-tight">
+            <h3 className="text-foreground text-2xl font-semibold tracking-tight">
               {name}
             </h3>
-            <RollingPriceAmount
-              amount={priceAmount}
+            <PricingPriceDisplay
+              period={period}
+              monthlyAmount={monthlyAmount}
+              displayAmount={displayAmount}
               spinToken={period}
-              className="text-foreground text-xl font-semibold tracking-tighter"
+              className="text-foreground text-2xl font-semibold tracking-tighter"
+              compareClassName="text-2xl font-semibold tracking-tighter"
             />
           </div>
         </div>
@@ -159,7 +142,8 @@ export function PricingSection({
                   key={plan.id}
                   name={plan.name}
                   tagline={plan.tagline}
-                  priceAmount={getTierDisplayAmount(tier, period)}
+                  monthlyAmount={tier.monthly}
+                  displayAmount={getTierDisplayAmount(tier, period)}
                   trialPriceNote={formatTierTrialPriceNote(
                     getTierDisplayAmount(tier, period),
                     period,
@@ -188,9 +172,6 @@ export function PricingSection({
           ))}
         </p>
       </div>
-
-      <PricingComparisonTable />
-
       <p className="text-muted-foreground relative z-10 mt-8 text-center text-sm">
         Need a different event volume?{" "}
         <a
@@ -200,6 +181,8 @@ export function PricingSection({
           View all plans
         </a>
       </p>
+
+      <PricingComparisonTable />
     </div>
   );
 }

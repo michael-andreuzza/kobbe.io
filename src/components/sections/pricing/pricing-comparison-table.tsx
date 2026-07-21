@@ -62,7 +62,7 @@ export function PricingComparisonTable({
           <caption className="sr-only">
             Feature comparison across Lite, Starter, and Growth plans
           </caption>
-          <thead className="text-center text-2xl font-medium tracking-wide">
+          <thead className="text-center text-base font-medium tracking-wide">
             <tr>
               <th
                 scope="col"

@@ -16,14 +16,14 @@ export function BillingPeriodTabs({
 
   return (
     <div className={cn("flex items-center gap-2.5", className)}>
-      <span className="text-foreground text-sm font-medium">
-        {isYearly ? "Yearly " : "Monthly "}
+      <span
+        className={cn(
+          "text-sm font-medium",
+          isYearly ? "text-muted-foreground" : "text-foreground",
+        )}
+      >
+        Monthly
       </span>
-      {isYearly ? (
-        <span className="text-muted-foreground text-sm font-medium">
-          {yearlyBillingSavingsLabel}
-        </span>
-      ) : null}
       <button
         type="button"
         role="switch"
@@ -47,6 +47,17 @@ export function BillingPeriodTabs({
           )}
         />
       </button>
+      <span
+        className={cn(
+          "text-sm font-medium",
+          isYearly ? "text-foreground" : "text-muted-foreground",
+        )}
+      >
+        Yearly
+      </span>
+      <span className="text-muted-foreground text-sm font-medium">
+        {yearlyBillingSavingsLabel}
+      </span>
     </div>
   );
 }

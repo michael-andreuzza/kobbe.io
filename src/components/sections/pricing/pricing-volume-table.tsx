@@ -1,15 +1,15 @@
 import { useState } from "react";
 
 import { BillingPeriodTabs } from "@/components/sections/pricing/billing-period-tabs";
+import { PricingPriceDisplay } from "@/components/sections/pricing/pricing-price-display";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
   buildSignupHref,
   formatTierLimitLabel,
-  formatTierPrice,
+  getTierDisplayAmount,
   pricingTiers,
   type BillingPeriod,
-  type PricingTierKey,
 } from "./pricing-tiers";
 
 type PricingVolumeTableProps = {
@@ -76,7 +76,14 @@ export function PricingVolumeTable({
                     {formatTierLimitLabel(tier.events)}
                   </td>
                   <td className="text-foreground py-2 tabular-nums">
-                    {formatTierPrice(tier, period)}
+                    <PricingPriceDisplay
+                      period={period}
+                      monthlyAmount={tier.monthly}
+                      displayAmount={getTierDisplayAmount(tier, period)}
+                      spinToken={`${tier.key}-${period}`}
+                      className="text-sm font-medium"
+                      compareClassName="text-sm"
+                    />
                   </td>
                   <td className="py-2 text-right">
                     <a

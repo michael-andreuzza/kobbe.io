@@ -10,25 +10,81 @@ export type PricingTierKey =
   | "events_20m"
   | "events_25m";
 
-export const pricingTiers = [
-  { key: "events_100k", events: "100K", monthly: 7.12, yearly: 47.88 },
-  { key: "events_1m", events: "1M", monthly: 15.99, yearly: 107.88 },
-  { key: "events_3m", events: "3M", monthly: 45.99, yearly: 311.88 },
-  { key: "events_5m", events: "5M", monthly: 100.99, yearly: 683.88 },
-  { key: "events_10m", events: "10M", monthly: 200.99, yearly: 1367.88 },
-  { key: "events_15m", events: "15M", monthly: 290.99, yearly: 1979.88 },
-  { key: "events_20m", events: "20M", monthly: 380.99, yearly: 2591.88 },
-  { key: "events_25m", events: "25M", monthly: 470.99, yearly: 3203.88 },
-] as const satisfies ReadonlyArray<{
+export type PricingTier = {
   key: PricingTierKey;
   events: string;
+  /** Billed monthly. */
   monthly: number;
+  /** Shown as $X/mo when yearly billing is selected. */
+  yearlyMonthly: number;
+  /** Total annual charge (pay 10 months, get 12). */
   yearly: number;
-}>;
+};
+
+export const pricingTiers = [
+  {
+    key: "events_100k",
+    events: "100K",
+    monthly: 15,
+    yearlyMonthly: 13,
+    yearly: 150,
+  },
+  {
+    key: "events_1m",
+    events: "1M",
+    monthly: 50,
+    yearlyMonthly: 42,
+    yearly: 500,
+  },
+  {
+    key: "events_3m",
+    events: "3M",
+    monthly: 90,
+    yearlyMonthly: 75,
+    yearly: 900,
+  },
+  {
+    key: "events_5m",
+    events: "5M",
+    monthly: 130,
+    yearlyMonthly: 110,
+    yearly: 1300,
+  },
+  {
+    key: "events_10m",
+    events: "10M",
+    monthly: 200,
+    yearlyMonthly: 170,
+    yearly: 2000,
+  },
+  {
+    key: "events_15m",
+    events: "15M",
+    monthly: 280,
+    yearlyMonthly: 235,
+    yearly: 2800,
+  },
+  {
+    key: "events_20m",
+    events: "20M",
+    monthly: 350,
+    yearlyMonthly: 290,
+    yearly: 3500,
+  },
+  {
+    key: "events_25m",
+    events: "25M",
+    monthly: 420,
+    yearlyMonthly: 350,
+    yearly: 4200,
+  },
+] as const satisfies ReadonlyArray<PricingTier>;
 
 export const pricingTrialDays = 15;
 
 export const yearlyBillingSavingsLabel = "2 months free";
+
+export const pricingAmountSuffix = "/mo";
 
 export const defaultPricingTierIndex = 0;
 
@@ -104,29 +160,30 @@ export function getPricingTierByKey(tierKey: PricingTierKey) {
 }
 
 export function getTierDisplayAmount(
-  tier: (typeof pricingTiers)[number],
+  tier: PricingTier,
   period: BillingPeriod,
 ) {
-  return period === "monthly" ? tier.monthly : tier.yearly / 12;
+  return period === "monthly" ? tier.monthly : tier.yearlyMonthly;
 }
 
 export function formatPricingCurrency(amount: number) {
+  const isWhole = Number.isInteger(amount);
   return new Intl.NumberFormat("en-US", {
-    minimumFractionDigits: Number.isInteger(amount) ? 0 : 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: isWhole ? 0 : 2,
+    maximumFractionDigits: isWhole ? 0 : 2,
   }).format(amount);
 }
 
 export function formatTierPrice(
-  tier: (typeof pricingTiers)[number],
+  tier: PricingTier,
   period: BillingPeriod,
 ) {
   const amount = getTierDisplayAmount(tier, period);
-  return `$${formatPricingCurrency(amount)}/month`;
+  return `$${formatPricingCurrency(amount)}${pricingAmountSuffix}`;
 }
 
 export function formatTierPriceAmount(
-  tier: (typeof pricingTiers)[number],
+  tier: PricingTier,
   period: BillingPeriod,
 ) {
   const amount = getTierDisplayAmount(tier, period);
@@ -134,7 +191,7 @@ export function formatTierPriceAmount(
 }
 
 export function formatTierPricePeriod(_period: BillingPeriod) {
-  return "/ month";
+  return pricingAmountSuffix;
 }
 
 export function formatTierBillingNote(period: BillingPeriod) {
@@ -148,7 +205,7 @@ export function formatTierTrialPriceNote(
 ) {
   const billingCadence = period === "monthly" ? "monthly" : "yearly";
 
-  return `Free for ${trialDays} days · then $${formatPricingCurrency(amount)}/mo billed ${billingCadence} + local taxes`;
+  return `Free for ${trialDays} days · then $${formatPricingCurrency(amount)}${pricingAmountSuffix} billed ${billingCadence} + local taxes`;
 }
 
 export function formatIncludedEventsPhrase(events: string) {
