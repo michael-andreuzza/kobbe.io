@@ -16,7 +16,8 @@ The image uses the **current dashboard time range**, the **KPI selected in the K
 2. Choose the time range and KPI you want to show.
 3. On the main traffic chart, click the **share** icon in the chart header.
 4. Pick a background color for the exported frame.
-5. Click **Copy** to paste the image into another app, or **Download** to save a PNG file.
+5. Use the sun/moon control next to the color chips to switch the card between light and dark without changing your app theme.
+6. Click **Copy** to paste the image into another app, or **Download** to save a PNG file.
 
 The preview shows a landscape card with the metric name, headline value, range label, chart, and `kobbe.io` branding.
 
@@ -42,7 +43,7 @@ Choose one of six background colors before exporting:
 - Off white
 - Dark
 
-The range indicator chip on the card matches the selected background, except on the off-white and dark themes, where it inverts so the chip stays readable.
+The range indicator chip on the card matches the selected background for color themes. On the off-white and dark backgrounds, it uses a solid black dot on a light card and a solid white dot on a dark card so it stays readable.
 
 ## Tips
 

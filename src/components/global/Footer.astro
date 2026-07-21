@@ -1,12 +1,12 @@
 ---
+import Logo from "@/components/assets/Logo.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import Text from "@/components/foundations/elements/Text.astro";
+import FooterCtaVisual from "@/components/global/footer-cta-visual";
 import { buttonVariants } from "@/components/ui/button";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
 import { marketingPaths } from "@/lib/marketing-urls";
 import { cn } from "@/lib/utils";
-import { Image } from "astro:assets";
-import paintOne from "@/images/assets/background.svg";
 
 type FooterLink = {
   href: string;
@@ -70,36 +70,52 @@ const footerLinkGroups: FooterLinkGroup[] = [
 <footer class="overflow-x-clip pt-20 pb-8">
   <Wrapper variant="default">
     <div
-      class="bg-foreground text-foreground rounded-2xl p-4 text-balance lg:py-24 lg:text-center"
+      class="border-border bg-background text-foreground overflow-hidden rounded-2xl border"
     >
-      <Text
-        tag="h2"
-        variant="displayTitle"
-        class="text-background font-display text-balance"
-      >
-        Set up in 5 minutes. <br /> Back to marketing by <span data-setup-time
-          >soon</span
-        >.
-      </Text>
-      <Text
-        tag="p"
-        variant="displaySubtitle"
-        class="text-muted-foreground mt-1 font-medium text-balance"
-      >
-        Privacy-friendly analytics for teams that want clear numbers without
-        extra tracking work.
-      </Text>
+      <div class="grid lg:grid-cols-3">
+        <div
+          class="flex flex-col justify-center p-8 text-balance lg:col-span-2 lg:p-12 lg:text-left"
+        >
+          <div class="max-w-md">
+            <div class="flex flex-col gap-3">
+              <Logo
+                class="text-foreground h-12 w-fit shrink-0"
+                aria-hidden="true"
+              />
+              <Text
+                tag="h2"
+                variant="displayMD"
+                class="text-foreground font-display mt-12"
+              >
+                Set up in 5 minutes. <br /> Back to marketing by <span
+                  data-setup-time>soon</span
+                >.
+              </Text>
+              <Text
+                tag="p"
+                variant="displaySubtitle"
+                class="text-muted-foreground font-medium text-balance"
+              >
+                Privacy-first web analytics with traffic and revenue in one
+                place.
+              </Text>
+            </div>
 
-      <a
-        href="/#pricing"
-        data-kobbe-event="Footer CTA - start free trial"
-        class={cn(
-          buttonVariants({ variant: "secondary", size: "sm" }),
-          "mx-auto mt-8 w-fit",
-        )}
-      >
-        Start a {pricingTrialDays}-day trial
-      </a>
+            <a
+              href="/#pricing"
+              data-kobbe-event="Footer CTA - start free trial"
+              class={cn(
+                buttonVariants({ variant: "default", size: "sm" }),
+                "mt-8 lg:mt-48 w-fit lg:mx-0",
+              )}
+            >
+              Start a {pricingTrialDays}-day trial
+            </a>
+          </div>
+        </div>
+
+        <FooterCtaVisual client:visible />
+      </div>
     </div>
     <div class="mt-24 w-full">
       <nav class="grid grid-cols-2 gap-8 text-sm md:grid-cols-4 lg:col-start-3">
