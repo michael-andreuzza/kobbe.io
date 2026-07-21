@@ -28,7 +28,7 @@ Optional Web Vitals and Search Console data help you review slow pages, browsers
 
 ### Sharing and exports
 
-Create read-only dashboards for clients or teammates, invite team viewers without giving them workspace settings access, and export site analytics as CSV when you need reports or backups.
+Create read-only dashboards for clients or teammates, invite team viewers without giving them workspace settings access, copy or download branded chart images from the overview dashboard, and export site analytics as CSV when you need reports or backups.
 
 [Monthly reports](/docs/monthly-reports) and [traffic alerts](/docs/traffic-alerts) can be enabled per site when you want opt-in email summaries or obvious spike/drop notifications.
 

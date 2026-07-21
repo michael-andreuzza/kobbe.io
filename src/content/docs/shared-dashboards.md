@@ -53,3 +53,5 @@ Revoking or regenerating a link immediately invalidates the previous URL. Expire
 ## Embed widgets
 
 If you want a compact analytics card on your marketing site instead of a full dashboard link, use [Embed widgets](/docs/embed-widgets). That feature has its own token, expiry, and iframe snippets.
+
+If you want a one-off chart image for social posts or updates, use [Share metric images](/docs/share-metric-images) from the overview traffic chart.
