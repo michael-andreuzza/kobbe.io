@@ -7,6 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
 import { marketingPaths } from "@/lib/marketing-urls";
 import { cn } from "@/lib/utils";
+import juncosImg from "@/images/assets/backgrounds/juncos.png";
 
 type FooterLink = {
   href: string;
@@ -20,11 +21,109 @@ type FooterLinkGroup = {
   links: FooterLink[];
 };
 
+/** Mirrors `AllFeatures.astro` — keep in sync when feature links change. */
+const footerFeatureLinkGroups: FooterLinkGroup[] = [
+  {
+    title: "Overview",
+    links: [
+      { href: "/docs/dashboard-stats-kpis", label: "Traffic overview" },
+      { href: "/docs/dashboard-overview", label: "Range comparisons" },
+      { href: "/docs/realtime-visitors", label: "Realtime visitors" },
+    ],
+  },
+  {
+    title: "Breakdowns",
+    links: [
+      { href: "/docs/dashboard-stats-pages", label: "Pages and paths" },
+      {
+        href: "/docs/dashboard-stats-sources",
+        label: "Sources, channels, and AI traffic",
+      },
+      {
+        href: "/docs/dashboard-stats-locations",
+        label: "Locations and devices",
+      },
+      { href: "/docs/search-console", label: "Search Console insights" },
+      { href: "/docs/utm-campaigns", label: "UTM campaigns" },
+    ],
+  },
+  {
+    title: "Events",
+    links: [
+      { href: "/docs/custom-events", label: "Custom events" },
+      { href: "/docs/conversions", label: "Conversions" },
+      { href: "/docs/funnels", label: "Funnels" },
+      { href: "/docs/scroll-tracking", label: "Scroll visibility events" },
+    ],
+  },
+  {
+    title: "Tracking",
+    links: [
+      { href: "/docs/hash-page-paths", label: "Hash routes" },
+      { href: "/docs/cross-domain-tracking", label: "Cross-domain tracking" },
+      { href: "/docs/exclude-visits", label: "Filter your visits" },
+      { href: "/docs/reduce-usage", label: "Usage controls" },
+    ],
+  },
+  {
+    title: "Revenue",
+    links: [
+      { href: "/docs/dashboard-stats-revenue", label: "Revenue dashboard" },
+      { href: "/docs/revenue-attribution", label: "Checkout attribution" },
+      { href: "/docs/revenue-attribution", label: "Payment integrations" },
+    ],
+  },
+  {
+    title: "Privacy",
+    links: [
+      {
+        href: "/docs/privacy-and-cookieless-tracking",
+        label: "Private by default",
+      },
+      { href: "/legal/gdpr-compliance", label: "No raw IP storage" },
+      { href: "/docs/script-options", label: "Bot filtering" },
+      {
+        href: "/docs/privacy-and-cookieless-tracking",
+        label: "Privacy signals",
+      },
+      { href: "/docs/data-export", label: "Data export" },
+      { href: "/docs/import-analytics-data", label: "Import analytics data" },
+      { href: "/legal/gdpr-compliance", label: "Legal docs and DPA" },
+    ],
+  },
+  {
+    title: "Setup",
+    links: [
+      { href: "/docs/add-the-tracker", label: "Lightweight tracker" },
+      { href: "/docs/script-options", label: "Script options" },
+      { href: "/docs/first-party-collect", label: "First-party collect" },
+      { href: "/docs/installation-guides", label: "Install guides" },
+      { href: "/docs/cli", label: "CLI" },
+      { href: "/docs/ai-agents", label: "AI agents and MCP" },
+      { href: "/docs/dashboard-overview", label: "Site-level settings" },
+      {
+        href: "/docs/performance-web-vitals",
+        label: "Performance and Web Vitals",
+      },
+    ],
+  },
+  {
+    title: "Sharing",
+    links: [
+      { href: "/docs/team-access", label: "Team access" },
+      { href: "/docs/shared-dashboards", label: "Shared dashboards" },
+      { href: "/docs/share-metric-images", label: "Share metric images" },
+      { href: "/docs/monthly-reports", label: "Monthly reports" },
+      { href: "/docs/traffic-alerts", label: "Traffic alerts" },
+    ],
+  },
+];
+
 const footerLinkGroups: FooterLinkGroup[] = [
   {
     title: "Product",
     links: [
-      { href: "/#benefits", label: "Features" },
+      { href: "/#benefits", label: "All features" },
       { href: "/#pricing", label: "Pricing" },
       { href: "/docs", label: "Documentation" },
       { href: "/llms.txt", label: "llms.txt" },
@@ -67,14 +166,24 @@ const footerLinkGroups: FooterLinkGroup[] = [
 ];
 ---
 
-<footer class="overflow-x-clip pt-20 pb-8">
-  <Wrapper variant="default">
+<footer class="relative overflow-x-clip pt-20 pb-8">
+  <img
+    src={juncosImg.src}
+    width={juncosImg.width}
+    height={juncosImg.height}
+    alt=""
+    aria-hidden="true"
+    decoding="async"
+    loading="lazy"
+    class="pointer-events-none absolute right-0 bottom-0 z-0 h-auto w-36 select-none sm:w-44 lg:w-56"
+  />
+  <Wrapper variant="default" class="relative z-10">
     <div
       class="border-border bg-background text-foreground overflow-hidden rounded-2xl border"
     >
       <div class="grid lg:grid-cols-3">
         <div
-          class="flex flex-col justify-center p-8 text-balance lg:col-span-2 lg:p-12 lg:text-left"
+          class="flex flex-col justify-center p-8 text-balance lg:col-span-2 lg:p-20 lg:text-left"
         >
           <div class="max-w-md">
             <div class="flex flex-col gap-3">
@@ -118,7 +227,9 @@ const footerLinkGroups: FooterLinkGroup[] = [
       </div>
     </div>
     <div class="mt-24 w-full">
-      <nav class="grid grid-cols-2 gap-8 text-sm md:grid-cols-4 lg:col-start-3">
+      <nav class="grid grid-cols-2 gap-8 text-sm md:grid-cols-4 lg:grid-cols-5">
+        <Logo class="text-foreground h-12 w-fit shrink-0" aria-hidden="true" />
+
         {
           footerLinkGroups.map((group) => (
             <div class="space-y-3">
@@ -147,8 +258,39 @@ const footerLinkGroups: FooterLinkGroup[] = [
           ))
         }
       </nav>
+      <nav
+        class="mt-12 grid grid-cols-2 gap-x-8 gap-y-10 border-t pt-12 text-sm md:grid-cols-4 lg:grid-cols-5"
+      >
+        {
+          footerFeatureLinkGroups.map((group) => (
+            <div class="space-y-3">
+              <Text
+                tag="p"
+                variant="textXS"
+                class="text-foreground font-semibold uppercase"
+              >
+                {group.title}
+              </Text>
+              <ul class="space-y-1">
+                {group.links.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      target={link.target}
+                      rel={link.rel}
+                      class="text-muted-foreground hover:text-foreground text-xs font-medium transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </nav>
       <div
-        class="border-border mt-4 flex flex-wrap items-center justify-between gap-2 border-t pt-4 text-xs font-semibold uppercase"
+        class="border-border mt-24 flex flex-wrap items-center justify-between gap-2 border-t pt-4 text-xs font-semibold uppercase lg:mt-48"
       >
         <div class="text-muted-foreground flex items-center gap-2">
           <svg
