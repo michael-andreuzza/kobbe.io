@@ -1,228 +1,50 @@
 "use client";
 
-import maplibregl from "maplibre-gl";
-import { useEffect, useRef } from "react";
-
 import { cn } from "@/lib/utils";
 
 import { capabilityMockupSurfaceClass } from "./dashboard-card-layout";
 
-import "maplibre-gl/dist/maplibre-gl.css";
-
-const MAP_STYLE_LIGHT =
-  "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
-const MAP_STYLE_DARK =
-  "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
-
-const VISITOR_LOCATIONS = [
-  { lon: -122.4194, lat: 37.7749 },
-  { lon: -74.006, lat: 40.7128 },
-  { lon: -0.1276, lat: 51.5074 },
-  { lon: 13.405, lat: 52.52 },
+const VISITOR_MARKERS = [
+  { x: 26, y: 58, large: false },
+  { x: 74, y: 52, large: true },
+  { x: 168, y: 44, large: false },
+  { x: 182, y: 42, large: false },
 ] as const;
 
-function isDarkTheme() {
-  if (typeof window === "undefined") {
-    return false;
-  }
-
-  return (
-    document.documentElement.classList.contains("dark") ||
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-  );
-}
-
-function watchThemeChange(onChange: () => void) {
-  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-  mediaQuery.addEventListener("change", onChange);
-
-  const classObserver = new MutationObserver(onChange);
-  classObserver.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ["class"],
-  });
-
-  return () => {
-    mediaQuery.removeEventListener("change", onChange);
-    classObserver.disconnect();
-  };
-}
-
-function mapStyleForTheme() {
-  return isDarkTheme() ? MAP_STYLE_DARK : MAP_STYLE_LIGHT;
-}
-
-function createMarkerElement(larger = false) {
-  const el = document.createElement("div");
-  const size = larger ? 16 : 14;
-  el.style.width = `${size}px`;
-  el.style.height = `${size}px`;
-  el.style.borderRadius = "9999px";
-  el.style.backgroundColor = "var(--foreground)";
-  el.style.border = "2px solid var(--card)";
-  el.style.boxShadow = "0 1px 2px rgb(0 0 0 / 0.18)";
-  return el;
-}
-
-function setPaintProperty(
-  map: maplibregl.Map,
-  layerId: string,
-  property: string,
-  value: unknown,
-) {
-  try {
-    if (map.getLayer(layerId)) {
-      map.setPaintProperty(layerId, property, value);
-    }
-  } catch {
-    // CARTO layer ids can differ between style versions.
-  }
-}
-
-function applyKobbeMapTheme(map: maplibregl.Map) {
-  const dark = isDarkTheme();
-  const colors = {
-    water: dark ? "#161616" : "#fbfbfa",
-    land: dark ? "#262626" : "#e2e2df",
-    landDetail: dark ? "#2e2e2e" : "#d9d9d6",
-    boundary: dark ? "#484848" : "#b8b8b4",
-    road: dark ? "#3a3a3a" : "#ccccca",
-    label: dark ? "#ececec" : "#343430",
-    labelHalo: dark ? "#161616" : "#fbfbfa",
-  };
-
-  for (const layer of map.getStyle().layers ?? []) {
-    const layerMeta = layer as maplibregl.LayerSpecification & {
-      "source-layer"?: string;
-    };
-    const name = `${layer.id} ${layerMeta["source-layer"] ?? ""}`.toLowerCase();
-
-    if (layer.type === "background") {
-      setPaintProperty(map, layer.id, "background-color", colors.land);
-      setPaintProperty(map, layer.id, "background-opacity", 1);
-      continue;
-    }
-
-    if (name.includes("water")) {
-      setPaintProperty(map, layer.id, "fill-color", colors.water);
-      setPaintProperty(map, layer.id, "line-color", colors.water);
-      setPaintProperty(map, layer.id, "fill-opacity", 1);
-      continue;
-    }
-
-    if (
-      name.includes("land") ||
-      name.includes("park") ||
-      name.includes("wood") ||
-      name.includes("grass")
-    ) {
-      setPaintProperty(map, layer.id, "fill-color", colors.landDetail);
-      setPaintProperty(map, layer.id, "fill-opacity", 1);
-      continue;
-    }
-
-    if (layer.type === "fill") {
-      setPaintProperty(map, layer.id, "fill-color", colors.land);
-      setPaintProperty(map, layer.id, "fill-opacity", 1);
-      continue;
-    }
-
-    if (name.includes("boundary") || name.includes("admin")) {
-      setPaintProperty(map, layer.id, "line-color", colors.boundary);
-      setPaintProperty(map, layer.id, "line-opacity", 0.55);
-      continue;
-    }
-
-    if (name.includes("road") || name.includes("transport")) {
-      setPaintProperty(map, layer.id, "line-color", colors.road);
-      setPaintProperty(map, layer.id, "line-opacity", 0.55);
-      continue;
-    }
-
-    if (layer.type === "symbol") {
-      setPaintProperty(map, layer.id, "text-color", colors.label);
-      setPaintProperty(map, layer.id, "text-halo-color", colors.labelHalo);
-      setPaintProperty(map, layer.id, "text-halo-width", 1.1);
-    }
-  }
-}
-
 export function RealtimePreview() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) {
-      return;
-    }
-
-    const map = new maplibregl.Map({
-      container,
-      style: mapStyleForTheme(),
-      center: [-35, 48],
-      zoom: 1.35,
-      minZoom: 1,
-      maxZoom: 4,
-      interactive: false,
-      attributionControl: false,
-      fadeDuration: 0,
-      renderWorldCopies: false,
-    });
-
-    const markers: maplibregl.Marker[] = [];
-
-    const syncMarkers = () => {
-      markers.splice(0).forEach((marker) => marker.remove());
-      VISITOR_LOCATIONS.forEach((location, index) => {
-        markers.push(
-          new maplibregl.Marker({
-            element: createMarkerElement(index === 1),
-          })
-            .setLngLat([location.lon, location.lat])
-            .addTo(map),
-        );
-      });
-    };
-
-    const onLoad = () => {
-      applyKobbeMapTheme(map);
-      syncMarkers();
-      map.resize();
-    };
-
-    map.on("load", onLoad);
-
-    const resizeObserver = new ResizeObserver(() => {
-      map.resize();
-    });
-    resizeObserver.observe(container);
-
-    const onThemeChange = () => {
-      map.setStyle(mapStyleForTheme());
-      map.once("styledata", () => {
-        applyKobbeMapTheme(map);
-        syncMarkers();
-      });
-    };
-
-    const stopWatchingTheme = watchThemeChange(onThemeChange);
-
-    return () => {
-      stopWatchingTheme();
-      resizeObserver.disconnect();
-      markers.forEach((marker) => marker.remove());
-      map.remove();
-    };
-  }, []);
-
   return (
     <div
       className={cn(
         capabilityMockupSurfaceClass,
-        "relative aspect-5/2 max-h-36 w-full overflow-hidden [&_.maplibregl-canvas]:outline-none [&_.maplibregl-ctrl-bottom-left]:hidden [&_.maplibregl-ctrl-bottom-right]:hidden [&_.maplibregl-ctrl-logo]:hidden",
+        "relative h-36 w-full overflow-hidden",
       )}
     >
-      <div ref={containerRef} className="h-full w-full" aria-hidden />
+      <svg
+        viewBox="0 0 360 144"
+        className="text-background h-full w-full"
+        aria-hidden
+      >
+        <rect width="360" height="144" className="fill-background" />
+
+        <g className="fill-muted">
+          <path d="M 8 52 C 18 34 44 28 72 34 C 98 38 112 48 108 62 C 104 76 86 84 62 82 C 38 80 18 68 8 52 Z" />
+          <path d="M 58 88 C 68 78 82 76 94 84 C 104 92 98 108 84 112 C 70 116 54 104 58 88 Z" />
+          <path d="M 148 46 C 164 38 188 40 204 48 C 214 54 212 66 198 72 C 182 78 158 72 148 62 Z" />
+          <path d="M 168 72 C 182 66 198 68 208 78 C 216 86 210 102 194 108 C 178 114 162 104 168 72 Z" />
+          <path d="M 228 54 C 244 48 262 52 270 64 C 276 74 266 84 250 82 C 234 80 224 66 228 54 Z" />
+        </g>
+
+        {VISITOR_MARKERS.map((marker, index) => (
+          <circle
+            key={index}
+            cx={marker.x}
+            cy={marker.y}
+            r={marker.large ? 8 : 7}
+            className="fill-foreground stroke-card"
+            strokeWidth="2"
+          />
+        ))}
+      </svg>
 
       <div className="border-border bg-card/95 pointer-events-none absolute top-2 right-2 flex flex-col overflow-hidden rounded-md border">
         <span className="border-border text-muted-foreground flex size-6 items-center justify-center border-b text-xs leading-none">
