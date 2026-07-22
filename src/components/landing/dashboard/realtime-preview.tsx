@@ -147,48 +147,6 @@ function applyKobbeMapTheme(map: maplibregl.Map) {
   }
 }
 
-function safeResize(map: maplibregl.Map) {
-  try {
-    map.resize();
-  } catch {
-    // Map may throw during teardown races.
-  }
-}
-
-function scheduleResize(map: maplibregl.Map) {
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      safeResize(map);
-    });
-  });
-}
-
-function waitForLayoutSize(
-  container: HTMLElement,
-  callback: () => void,
-): () => void {
-  let cancelled = false;
-
-  const tryStart = () => {
-    if (cancelled) {
-      return;
-    }
-
-    if (container.offsetWidth > 0 && container.offsetHeight > 0) {
-      callback();
-      return;
-    }
-
-    requestAnimationFrame(tryStart);
-  };
-
-  tryStart();
-
-  return () => {
-    cancelled = true;
-  };
-}
-
 export function RealtimePreview() {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -198,17 +156,22 @@ export function RealtimePreview() {
       return;
     }
 
-    let map: maplibregl.Map | null = null;
+    const map = new maplibregl.Map({
+      container,
+      style: mapStyleForTheme(),
+      center: [-35, 48],
+      zoom: 1.35,
+      minZoom: 1,
+      maxZoom: 4,
+      interactive: false,
+      attributionControl: false,
+      fadeDuration: 0,
+      renderWorldCopies: false,
+    });
+
     const markers: maplibregl.Marker[] = [];
-    let resizeObserver: ResizeObserver | null = null;
-    let stopWatchingTheme: (() => void) | null = null;
-    let cancelLayoutWait: (() => void) | null = null;
 
     const syncMarkers = () => {
-      if (!map) {
-        return;
-      }
-
       markers.splice(0).forEach((marker) => marker.remove());
       VISITOR_LOCATIONS.forEach((location, index) => {
         markers.push(
@@ -216,72 +179,39 @@ export function RealtimePreview() {
             element: createMarkerElement(index === 1),
           })
             .setLngLat([location.lon, location.lat])
-            .addTo(map!),
+            .addTo(map),
         );
       });
     };
 
     const onLoad = () => {
-      if (!map) {
-        return;
-      }
-
       applyKobbeMapTheme(map);
       syncMarkers();
-      scheduleResize(map);
+      map.resize();
     };
 
-    cancelLayoutWait = waitForLayoutSize(container, () => {
-      map = new maplibregl.Map({
-        container,
-        style: mapStyleForTheme(),
-        center: [-35, 48],
-        zoom: 1.35,
-        minZoom: 1,
-        maxZoom: 4,
-        interactive: false,
-        attributionControl: false,
-        fadeDuration: 0,
-        renderWorldCopies: false,
-      });
+    map.on("load", onLoad);
 
-      map.on("load", onLoad);
-      scheduleResize(map);
-
-      resizeObserver = new ResizeObserver(() => {
-        if (map) {
-          safeResize(map);
-        }
-      });
-      resizeObserver.observe(container);
-
-      const onThemeChange = () => {
-        if (!map) {
-          return;
-        }
-
-        map.setStyle(mapStyleForTheme());
-        map.once("styledata", () => {
-          if (!map) {
-            return;
-          }
-
-          applyKobbeMapTheme(map);
-          syncMarkers();
-          scheduleResize(map);
-        });
-      };
-
-      stopWatchingTheme = watchThemeChange(onThemeChange);
+    const resizeObserver = new ResizeObserver(() => {
+      map.resize();
     });
+    resizeObserver.observe(container);
+
+    const onThemeChange = () => {
+      map.setStyle(mapStyleForTheme());
+      map.once("styledata", () => {
+        applyKobbeMapTheme(map);
+        syncMarkers();
+      });
+    };
+
+    const stopWatchingTheme = watchThemeChange(onThemeChange);
 
     return () => {
-      cancelLayoutWait?.();
-      stopWatchingTheme?.();
-      resizeObserver?.disconnect();
+      stopWatchingTheme();
+      resizeObserver.disconnect();
       markers.forEach((marker) => marker.remove());
-      map?.remove();
-      map = null;
+      map.remove();
     };
   }, []);
 
@@ -289,12 +219,12 @@ export function RealtimePreview() {
     <div
       className={cn(
         capabilityMockupSurfaceClass,
-        "relative h-36 w-full overflow-hidden [&_.maplibregl-canvas]:outline-none [&_.maplibregl-ctrl-bottom-left]:hidden [&_.maplibregl-ctrl-bottom-right]:hidden [&_.maplibregl-ctrl-logo]:hidden",
+        "relative aspect-5/2 max-h-36 w-full overflow-hidden [&_.maplibregl-canvas]:outline-none [&_.maplibregl-ctrl-bottom-left]:hidden [&_.maplibregl-ctrl-bottom-right]:hidden [&_.maplibregl-ctrl-logo]:hidden",
       )}
     >
-      <div ref={containerRef} className="absolute inset-0" aria-hidden />
+      <div ref={containerRef} className="h-full w-full" aria-hidden />
 
-      <div className="border-border bg-card/95 pointer-events-none absolute top-2 right-2 z-10 flex flex-col overflow-hidden rounded-md border">
+      <div className="border-border bg-card/95 pointer-events-none absolute top-2 right-2 flex flex-col overflow-hidden rounded-md border">
         <span className="border-border text-muted-foreground flex size-6 items-center justify-center border-b text-xs leading-none">
           +
         </span>
