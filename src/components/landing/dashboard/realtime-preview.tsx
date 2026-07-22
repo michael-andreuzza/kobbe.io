@@ -156,18 +156,22 @@ export function RealtimePreview() {
       return;
     }
 
-    let map: maplibregl.Map | null = null;
+    const map = new maplibregl.Map({
+      container,
+      style: mapStyleForTheme(),
+      center: [-35, 48],
+      zoom: 1.35,
+      minZoom: 1,
+      maxZoom: 4,
+      interactive: false,
+      attributionControl: false,
+      fadeDuration: 0,
+      renderWorldCopies: false,
+    });
+
     const markers: maplibregl.Marker[] = [];
-    let resizeObserver: ResizeObserver | null = null;
-    let stopWatchingTheme: (() => void) | null = null;
-    let intersectionObserver: IntersectionObserver | null = null;
-    let layoutObserver: ResizeObserver | null = null;
 
     const syncMarkers = () => {
-      if (!map) {
-        return;
-      }
-
       markers.splice(0).forEach((marker) => marker.remove());
       VISITOR_LOCATIONS.forEach((location, index) => {
         markers.push(
@@ -175,109 +179,39 @@ export function RealtimePreview() {
             element: createMarkerElement(index === 1),
           })
             .setLngLat([location.lon, location.lat])
-            .addTo(map!),
+            .addTo(map),
         );
       });
     };
 
-    const scheduleResize = () => {
-      if (!map) {
-        return;
-      }
-
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          try {
-            map?.resize();
-          } catch {
-            // Map may throw during teardown races.
-          }
-        });
-      });
-    };
-
     const onLoad = () => {
-      if (!map) {
-        return;
-      }
-
       applyKobbeMapTheme(map);
       syncMarkers();
-      scheduleResize();
+      map.resize();
     };
 
-    const startMap = () => {
-      if (map || container.offsetWidth === 0 || container.offsetHeight === 0) {
-        return;
-      }
+    map.on("load", onLoad);
 
-      map = new maplibregl.Map({
-        container,
-        style: mapStyleForTheme(),
-        center: [-35, 48],
-        zoom: 1.35,
-        minZoom: 1,
-        maxZoom: 4,
-        interactive: false,
-        attributionControl: false,
-        fadeDuration: 0,
-        renderWorldCopies: false,
-      });
-
-      map.on("load", onLoad);
-      scheduleResize();
-
-      resizeObserver = new ResizeObserver(() => {
-        scheduleResize();
-      });
-      resizeObserver.observe(container);
-
-      const onThemeChange = () => {
-        if (!map) {
-          return;
-        }
-
-        map.setStyle(mapStyleForTheme());
-        map.once("styledata", () => {
-          if (!map) {
-            return;
-          }
-
-          applyKobbeMapTheme(map);
-          syncMarkers();
-          scheduleResize();
-        });
-      };
-
-      stopWatchingTheme = watchThemeChange(onThemeChange);
-    };
-
-    intersectionObserver = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          startMap();
-        }
-      },
-      { rootMargin: "120px" },
-    );
-    intersectionObserver.observe(container);
-
-    layoutObserver = new ResizeObserver(() => {
-      startMap();
+    const resizeObserver = new ResizeObserver(() => {
+      map.resize();
     });
-    layoutObserver.observe(container);
+    resizeObserver.observe(container);
 
-    // Cards already in view on first paint still need a map instance.
-    startMap();
+    const onThemeChange = () => {
+      map.setStyle(mapStyleForTheme());
+      map.once("styledata", () => {
+        applyKobbeMapTheme(map);
+        syncMarkers();
+      });
+    };
+
+    const stopWatchingTheme = watchThemeChange(onThemeChange);
 
     return () => {
-      intersectionObserver?.disconnect();
-      layoutObserver?.disconnect();
-      stopWatchingTheme?.();
-      resizeObserver?.disconnect();
+      stopWatchingTheme();
+      resizeObserver.disconnect();
       markers.forEach((marker) => marker.remove());
-      map?.remove();
-      map = null;
+      map.remove();
     };
   }, []);
 
@@ -285,10 +219,10 @@ export function RealtimePreview() {
     <div
       className={cn(
         capabilityMockupSurfaceClass,
-        "relative h-36 w-full overflow-hidden [&_.maplibregl-canvas]:outline-none [&_.maplibregl-ctrl-bottom-left]:hidden [&_.maplibregl-ctrl-bottom-right]:hidden [&_.maplibregl-ctrl-logo]:hidden",
+        "relative aspect-5/2 max-h-36 w-full overflow-hidden [&_.maplibregl-canvas]:outline-none [&_.maplibregl-ctrl-bottom-left]:hidden [&_.maplibregl-ctrl-bottom-right]:hidden [&_.maplibregl-ctrl-logo]:hidden",
       )}
     >
-      <div ref={containerRef} className="absolute inset-0" aria-hidden />
+      <div ref={containerRef} className="h-full w-full" aria-hidden />
 
       <div className="border-border bg-card/95 pointer-events-none absolute top-2 right-2 flex flex-col overflow-hidden rounded-md border">
         <span className="border-border text-muted-foreground flex size-6 items-center justify-center border-b text-xs leading-none">
