@@ -27,6 +27,9 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ["maplibre-gl"],
+    },
   },
   integrations: [react(), sitemap()],
 });
