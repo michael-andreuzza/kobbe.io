@@ -8,6 +8,14 @@ navLabel: Dashboard
 
 The site dashboard is the main place to understand traffic for one website. It combines headline KPIs, a trend chart, and breakdown cards for pages, sources, locations, devices, Search Console, and events.
 
+Use the sidebar to open dedicated pages when you need more detail:
+
+| Page | Doc |
+| ---- | --- |
+| **Events** | [Events activity log](/docs/events-activity-log) |
+| **Insights** | [Insights](/docs/insights) |
+| **Realtime** | [Realtime visitors](/docs/realtime-visitors) |
+
 ## Time range and filters
 
 Use the range control at the top of the dashboard to switch between presets, today-style calendar windows, or custom dates. The selected range applies to KPIs, charts, cards, events, funnels, performance, exports, and shared dashboard links.
@@ -51,6 +59,8 @@ Click a page row to inspect a single path. See [Pages on the dashboard](/docs/da
 
 ## Related docs
 
+- [Insights](/docs/insights)
+- [Events activity log](/docs/events-activity-log)
 - [Realtime visitors](/docs/realtime-visitors)
 - [Custom events](/docs/custom-events)
 - [Funnels](/docs/funnels)

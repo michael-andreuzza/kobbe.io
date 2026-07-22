@@ -1,4 +1,5 @@
 import type { StackedChartPoint, TrafficChartAnnotation } from "./traffic-line-chart";
+import { buildDemoInsightsHeatmapCells } from "./demo-insights-heatmap";
 
 export type DashboardRangeKey = "7d" | "14d" | "30d";
 
@@ -91,11 +92,33 @@ export type DashboardPreviewRangeData = {
     total: number;
     rows: { name: string; visitors: number; count: number }[];
   };
+  activityLog: {
+    summary: string;
+    rows: {
+      event: string;
+      page: string;
+      referrer: string | null;
+      countryCode: string | null;
+      time: string;
+    }[];
+  };
   conversions: {
     rows: { name: string; count: number }[];
   };
   notFoundPages: {
     rows: { path: string; count: number; topFrom: string | null }[];
+  };
+  insights: {
+    metrics: {
+      key: string;
+      label: string;
+      valueDisplay: string;
+    }[];
+    heatmap: {
+      dayOfWeek: number;
+      hour: number;
+      count: number;
+    }[];
   };
   funnels: {
     name: string;
@@ -438,6 +461,97 @@ const conversions = {
   ],
 };
 
+const activityLogRows = [
+  {
+    event: "Clicked live demo",
+    page: "/",
+    referrer: "https://www.google.com/",
+    countryCode: "us",
+    time: "2:14 PM",
+  },
+  {
+    event: "Copied install script",
+    page: "/docs/install",
+    referrer: "https://docs.kobbe.io/",
+    countryCode: "de",
+    time: "1:58 PM",
+  },
+  {
+    event: "Opened pricing",
+    page: "/pricing",
+    referrer: "https://t.co/",
+    countryCode: "gb",
+    time: "1:42 PM",
+  },
+  {
+    event: "Started trial",
+    page: "/signup",
+    referrer: null,
+    countryCode: "fr",
+    time: "1:31 PM",
+  },
+] as const;
+
+function buildActivityLogSummary(total: number, rangeLabel: string) {
+  return `${total.toLocaleString()} custom events · 4 types · ${rangeLabel}`;
+}
+
+const insightsHeatmap = buildDemoInsightsHeatmapCells();
+
+function formatInsightsRevenue(minor: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: minor >= 100_000 ? 0 : 2,
+  }).format(minor / 100);
+}
+
+function buildInsightsMetrics(
+  points: StackedChartPoint[],
+  eventsTotal: number,
+  rangeDays: number,
+) {
+  const totalVisitors = sumMetric(points, "visitors");
+  const avgDailyVisitors = Math.max(1, Math.round(totalVisitors / rangeDays));
+  const revenueMinor = sumMetric(points, "revenueMinor");
+  const avgDailyRevenueMinor = Math.round(revenueMinor / rangeDays);
+  const revenuePerVisitorMinor =
+    totalVisitors > 0 ? Math.round(revenueMinor / totalVisitors) : 0;
+
+  return [
+    {
+      key: "avg-daily-visitors",
+      label: "Avg. daily visitors",
+      valueDisplay: avgDailyVisitors.toLocaleString(),
+    },
+    {
+      key: "single-visit-share",
+      label: "Single-visit share",
+      valueDisplay: "38.2%",
+    },
+    {
+      key: "custom-events",
+      label: "Custom events",
+      valueDisplay: eventsTotal.toLocaleString(),
+    },
+    {
+      key: "avg-daily-revenue",
+      label: "Avg. daily revenue",
+      valueDisplay: formatInsightsRevenue(avgDailyRevenueMinor),
+    },
+    {
+      key: "revenue-per-visitor",
+      label: "Revenue / visitor",
+      valueDisplay: formatInsightsRevenue(revenuePerVisitorMinor),
+    },
+    {
+      key: "median-time-to-purchase",
+      label: "Median time to purchase",
+      valueDisplay: "—",
+    },
+  ];
+}
+
 const notFoundPages = {
   rows: [
     { path: "/docs/old-install", count: 48, topFrom: "/docs/overview" },
@@ -487,6 +601,14 @@ export const dashboardPreviewData = {
         { name: "Started trial", visitors: 61, count: 74 },
       ],
     },
+    activityLog: {
+      summary: buildActivityLogSummary(1260, "Last 7 days"),
+      rows: [...activityLogRows],
+    },
+    insights: {
+      metrics: buildInsightsMetrics(lastPoints(7), 1260, 7),
+      heatmap: insightsHeatmap,
+    },
     funnels,
     campaigns,
     conversions,
@@ -516,6 +638,14 @@ export const dashboardPreviewData = {
         { name: "Started trial", visitors: 112, count: 132 },
       ],
     },
+    activityLog: {
+      summary: buildActivityLogSummary(2344, "Last 14 days"),
+      rows: [...activityLogRows],
+    },
+    insights: {
+      metrics: buildInsightsMetrics(lastPoints(14), 2344, 14),
+      heatmap: insightsHeatmap,
+    },
     funnels,
     campaigns,
     conversions,
@@ -544,6 +674,14 @@ export const dashboardPreviewData = {
         { name: "Opened pricing", visitors: 408, count: 516 },
         { name: "Started trial", visitors: 228, count: 284 },
       ],
+    },
+    activityLog: {
+      summary: buildActivityLogSummary(4839, "Last 30 days"),
+      rows: [...activityLogRows],
+    },
+    insights: {
+      metrics: buildInsightsMetrics(lastPoints(30), 4839, 30),
+      heatmap: insightsHeatmap,
     },
     funnels,
     campaigns,

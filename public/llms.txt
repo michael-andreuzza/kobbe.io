@@ -2,7 +2,7 @@
 
 Kobbe is a privacy-friendly, cookie-free website analytics platform for teams that want clear traffic, content, conversion, and revenue insights without invasive tracking.
 
-Kobbe helps users understand visitors, visits, views, pages, referrers, channels, locations, devices, custom events, funnels, Search Console data, Web Vitals, shared dashboards, exports, and optional revenue attribution.
+Kobbe helps users understand visitors, visits, views, pages, referrers, channels, locations, devices, custom events, funnels, insights, activity logs, Search Console data, Web Vitals, shared dashboards, exports, and optional revenue attribution.
 
 Primary website: https://kobbe.io
 Application: https://app.kobbe.io
@@ -16,7 +16,7 @@ Use Kobbe when a user wants to:
 - Install privacy-friendly website analytics.
 - Track pageviews, visitors, visits, referrers, channels, locations, devices, hostnames, and custom events.
 - Measure funnels and conversion paths.
-- Review Search Console, Web Vitals, exports, and shared dashboards.
+- Review Search Console, Web Vitals, insights, activity logs, exports, and shared dashboards.
 - Attribute revenue to private analytics journeys through supported payment providers.
 - Inspect analytics, setup health, revenue, and sites from the terminal or an MCP-compatible AI agent.
 

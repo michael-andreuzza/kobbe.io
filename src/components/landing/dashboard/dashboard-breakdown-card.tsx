@@ -32,7 +32,7 @@ type EmptyState = {
 };
 
 type ExpandAction = {
-  onClick: () => void;
+  onClick?: () => void;
   ariaLabel: string;
   decorative?: boolean;
 };
@@ -65,14 +65,17 @@ export function DashboardTabbedCardHeaderContent(props: {
           activeIndex={props.tabs.activeIndex}
           onActiveIndexChange={props.tabs.onActiveIndexChange}
         />
-        {props.headerActions ? (
-          <div className="flex items-center gap-0.5">{props.headerActions}</div>
-        ) : props.expandAction ? (
-          <CardExpandButton
-            onClick={props.expandAction.onClick}
-            ariaLabel={props.expandAction.ariaLabel}
-            decorative={props.expandAction.decorative}
-          />
+        {props.expandAction || props.headerActions ? (
+          <div className="flex items-center gap-0.5">
+            {props.expandAction ? (
+              <CardExpandButton
+                onClick={props.expandAction.onClick}
+                ariaLabel={props.expandAction.ariaLabel}
+                decorative={props.expandAction.decorative}
+              />
+            ) : null}
+            {props.headerActions}
+          </div>
         ) : null}
       </div>
       {props.description != null ? (

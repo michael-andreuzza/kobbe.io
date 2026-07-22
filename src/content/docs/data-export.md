@@ -10,10 +10,21 @@ Kobbe lets you download a CSV export for each site. Use exports when you want to
 
 ## Export a site
 
+You can export from **Settings** or from the **Events** activity log when a preset time range is selected.
+
+### From site settings
+
 1. Open the site in Kobbe.
 2. Go to **Settings**.
 3. Find **Data export**.
 4. Choose the range you want to download: **Last 7 days**, **Last 30 days**, **Last 90 days**, or **All time**.
+
+### From the Events page
+
+1. Open the site in Kobbe.
+2. Go to **Events** in the sidebar.
+3. Select a preset range (not a custom range).
+4. Choose **Export CSV** in the top toolbar.
 
 Your browser downloads a CSV file for the selected site and time range.
 

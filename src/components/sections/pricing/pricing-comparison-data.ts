@@ -96,6 +96,24 @@ export const pricingComparisonSections = [
         growth: true,
       },
       {
+        id: "insights",
+        title: "Insights",
+        description:
+          "Engagement KPIs, ranked breakdown tables, and a conversion peak heatmap by day and hour.",
+        lite: true,
+        starter: true,
+        growth: true,
+      },
+      {
+        id: "events-activity-log",
+        title: "Events activity log",
+        description:
+          "Paginated log of pageviews and custom events with event filters, referrer and country context, and CSV export.",
+        lite: true,
+        starter: true,
+        growth: true,
+      },
+      {
         id: "referrers-channels",
         title: "Referrers and channels",
         description:

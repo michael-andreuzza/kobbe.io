@@ -8,7 +8,7 @@ navLabel: Custom events
 
 Track button clicks, form submissions, and other interactions without JavaScript.
 
-Events appear next to pageviews in the dashboard-keep names short and consistent (signups, outbound links, pricing clicks, etc.).
+Events appear next to pageviews in the dashboard. Keep names short and consistent (signups, outbound links, pricing clicks, etc.).
 
 ## HTML attributes
 
@@ -88,3 +88,11 @@ Avoid:
 ```js
 window.kobbe?.track("Signup completed", { email: "person@example.com" });
 ```
+
+## Related docs
+
+- [Events on the dashboard](/docs/dashboard-stats-events)
+- [Events activity log](/docs/events-activity-log)
+- [Insights](/docs/insights)
+- [Conversions](/docs/conversions)
+- [Funnels](/docs/funnels)

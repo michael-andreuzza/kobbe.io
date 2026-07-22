@@ -47,6 +47,7 @@ Shared realtime is read-only. Viewers cannot change settings, export data, rotat
 
 ## Related docs
 
+- [Events activity log](/docs/events-activity-log)
 - [Dashboard overview](/docs/dashboard-overview)
-- [Shared dashboards](/docs/shared-dashboards)
+- [Insights](/docs/insights)
 - [Privacy and cookieless tracking](/docs/privacy-and-cookieless-tracking)

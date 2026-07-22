@@ -207,3 +207,37 @@ function formatKpiDeltaLabel(showComparison: boolean, deltaPct: number | null): 
   const rounded = Math.round(capped * 10) / 10;
   return `${rounded > 0 ? "+" : ""}${rounded}%`;
 }
+
+/** One tile in a KPI strip: label, value, optional right-aligned hint. */
+export type DashboardKpiTile = {
+  key: string;
+  label: string;
+  valueDisplay: string;
+  valueClassName?: string;
+  rightHint?: string;
+  rightHintTone?: KpiPillTone;
+  rightHintAriaLabel?: string;
+};
+
+/** KPI strip with custom tiles — same chrome as {@link DashboardKpiStrip}. */
+export function DashboardCustomKpiStrip(props: {
+  items: DashboardKpiTile[];
+  ariaLabel: string;
+  lgCols?: 4 | 5 | 6;
+  presentation?: "cards" | "mutedBand";
+  tileClassName?: string;
+}) {
+  const useMutedTiles = props.presentation === "mutedBand";
+  return (
+    <KpiStripGrid
+      items={props.items}
+      ariaLabel={props.ariaLabel}
+      lgCols={
+        props.lgCols ??
+        (props.items.length >= 6 ? 6 : props.items.length >= 5 ? 5 : 4)
+      }
+      tileSurface={useMutedTiles ? "muted" : "card"}
+      tileClassName={props.tileClassName}
+    />
+  );
+}

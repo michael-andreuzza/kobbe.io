@@ -7,10 +7,10 @@ import {
   ConversionsBreakdownList,
   EventsSummaryTable,
   NotFoundBreakdownList,
-  ReferrerBreakdownList,
   SearchTermsBreakdownList,
 } from "./dashboard-list-card";
 import { ChartAnnotationsPreview } from "./chart-annotations-preview";
+import { InsightsHeatmapPreview } from "./insights-heatmap-preview";
 import { McpPreview } from "./mcp-preview";
 import { RealtimePreview } from "./realtime-preview";
 import { DashboardMetricTile } from "./dashboard-metric-strip";
@@ -149,19 +149,6 @@ export function DashboardCapabilityGrid() {
       </CapabilityCard>
 
       <CapabilityCard
-        title="Sources and AI traffic"
-        description="Break down referrers, channels, hostnames, and AI tools so you can tell where meaningful traffic is coming from."
-        mockupClassName="w-full max-w-md"
-        background={bgSources}
-      >
-        <CapabilityListPreview>
-          <ReferrerBreakdownList
-            rows={data.sources.referrers.slice(0, capabilityPreviewRowLimit)}
-          />
-        </CapabilityListPreview>
-      </CapabilityCard>
-
-      <CapabilityCard
         title="Google search keywords"
         description="Connect Search Console to see which queries bring people to your site and tie search demand back to traffic."
         mockupClassName="w-full max-w-md"
@@ -172,6 +159,15 @@ export function DashboardCapabilityGrid() {
             rows={data.searchKeywords.slice(0, capabilityPreviewRowLimit)}
           />
         </CapabilityListPreview>
+      </CapabilityCard>
+
+      <CapabilityCard
+        title="Insights"
+        description="See when conversions peak by day and hour, with engagement metrics and breakdowns for sources, pages, and events."
+        mockupClassName="w-full max-w-md"
+        background={bgSources}
+      >
+        <InsightsHeatmapPreview />
       </CapabilityCard>
 
       <CapabilityCard
