@@ -4,6 +4,7 @@ import {
   Bar,
   Cell,
   ComposedChart,
+  Line,
   ReferenceDot,
   ReferenceLine,
   XAxis,
@@ -47,6 +48,8 @@ export type StackedChartPoint = {
 };
 
 const primaryChartColor = "var(--primary)";
+const revenueOverlayColor = "var(--brand)";
+const annotationMarkerColor = "var(--muted-foreground)";
 
 const chartConfig = {
   visitors: {
@@ -139,6 +142,7 @@ export function TrafficLineChart(props: {
   fitContainer?: boolean;
   /** Interactive note editor rendered inside the pinned annotation popover. */
   annotationFooter?: ReactNode;
+  showLegend?: boolean;
 }) {
   const {
     points,
@@ -153,6 +157,7 @@ export function TrafficLineChart(props: {
     previewPinnedIndex = null,
     fitContainer = false,
     annotationFooter = null,
+    showLegend = true,
   } = props;
   const hero = variant === "hero";
   const compact = variant === "compact";
@@ -349,6 +354,13 @@ export function TrafficLineChart(props: {
       : metric === "sessionTime" || metric === "revenue"
         ? chartCountAxisUpperBound(Math.ceil(maxMetric))
         : chartCountAxisUpperBound(maxMetric);
+  const hasRevenueOverlay =
+    metric !== "revenue" && data.some((point) => (point.revenue ?? 0) > 0);
+  const maxRevenueOverlay = Math.max(
+    1,
+    ...data.map((point) => point.revenue ?? 0),
+  );
+  const revenueOverlayYMax = chartCountAxisUpperBound(maxRevenueOverlay);
   const yAxisWidth =
     metric === "revenue" ? 60 : metric === "sessionTime" ? 44 : 40;
   const barMaxSize = chartBarMaxSize(data.length);
@@ -534,6 +546,15 @@ export function TrafficLineChart(props: {
               className: "fill-muted-foreground/80 font-medium",
             }}
           />
+          {hasRevenueOverlay ? (
+            <YAxis
+              yAxisId="revenue"
+              orientation="left"
+              hide
+              width={0}
+              domain={[0, revenueOverlayYMax]}
+            />
+          ) : null}
           <YAxis
             yAxisId="traffic"
             orientation="right"
@@ -592,6 +613,20 @@ export function TrafficLineChart(props: {
               <Cell key={`${point.t}-${metricKey}`} fill={metricColor} />
             ))}
           </Bar>
+          {hasRevenueOverlay ? (
+            <Line
+              yAxisId="revenue"
+              type="monotone"
+              dataKey="revenue"
+              stroke={revenueOverlayColor}
+              strokeWidth={hero ? 2 : 1.6}
+              strokeOpacity={0.75}
+              dot={false}
+              activeDot={false}
+              connectNulls
+              isAnimationActive={false}
+            />
+          ) : null}
           {annotationMarkers.map((marker) => (
             <ReferenceDot
               key={`annotation-dot-${marker.day}`}
@@ -709,6 +744,38 @@ export function TrafficLineChart(props: {
           />
         </div>
       ) : null}
+      {showLegend ? (
+        <div className="text-muted-foreground mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 px-1 text-[0.6875rem] leading-relaxed">
+          <span className="inline-flex items-center gap-1.5">
+            <span
+              className="size-2 rounded-[2px]"
+              style={{ backgroundColor: metricColor }}
+              aria-hidden
+            />
+            {getMetricLabel(metricKey) ?? metricKey}
+          </span>
+          {hasRevenueOverlay ? (
+            <span className="inline-flex items-center gap-1.5">
+              <span
+                className="size-2 rounded-[2px]"
+                style={{ backgroundColor: revenueOverlayColor }}
+                aria-hidden
+              />
+              Revenue
+            </span>
+          ) : null}
+          {annotationMarkers.length > 0 ? (
+            <span className="inline-flex items-center gap-1.5">
+              <span
+                className="size-2 rounded-[2px]"
+                style={{ backgroundColor: annotationMarkerColor }}
+                aria-hidden
+              />
+              Notes
+            </span>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -732,6 +799,7 @@ function TrafficChartTooltip({
       t?: number;
       label?: string;
       visitors?: number;
+      revenue?: number;
       annotationNotes?: string[] | null;
       topReferrer?: ChartTopReferrer | null;
     };
@@ -793,6 +861,16 @@ function TrafficChartTooltip({
           </span>
         </div>
       </div>
+      {metric !== "revenue" &&
+      typeof pl?.revenue === "number" &&
+      pl.revenue > 0 ? (
+        <div className="border-background/15 flex w-full items-center justify-between gap-4 border-t pt-1.5 leading-none">
+          <span className="text-background/70">Revenue</span>
+          <span className="text-background font-mono font-medium tabular-nums">
+            {formatMinorForTooltip(pl.revenue, revenueCurrency ?? null)}
+          </span>
+        </div>
+      ) : null}
       {topReferrer && topReferrerLabel ? (
         <div className="grid gap-1.5 border-t border-background/15 pt-1.5">
           <div className="text-background/70 text-[10px] font-medium tracking-wide uppercase">
@@ -867,7 +945,7 @@ function AnnotationDotShape(props: AnnotationDotShapeProps) {
         height={8}
         rx={2}
         ry={2}
-        fill="var(--brand)"
+        fill={annotationMarkerColor}
       />
     </g>
   );

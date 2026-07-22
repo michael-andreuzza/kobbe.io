@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -20,6 +21,7 @@ import {
   type TrafficChartAnnotation,
   type TrafficChartMetric,
 } from "./traffic-line-chart";
+import { ChartShareButton } from "./chart-share-button";
 
 type Props = {
   points: StackedChartPoint[];
@@ -31,9 +33,12 @@ type Props = {
   previewPinnedIndex?: number | null;
   annotations?: TrafficChartAnnotation[] | null;
   annotationFooter?: ReactNode;
+  showShare?: boolean;
 };
 
 export function DashboardTrafficChart(props: Props) {
+  const showShare = props.showShare ?? true;
+
   return (
     <Card
       variant="bordered"
@@ -47,6 +52,11 @@ export function DashboardTrafficChart(props: Props) {
           <CardDescription className={dashboardCardDescriptionClass}>
             {props.rangeLabel}
           </CardDescription>
+          {showShare ? (
+            <CardAction>
+              <ChartShareButton />
+            </CardAction>
+          ) : null}
         </CardHeader>
       ) : null}
       <CardContent className="h-auto min-w-0 !px-0 !pt-0 pb-4 sm:pb-5">

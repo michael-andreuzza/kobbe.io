@@ -162,9 +162,10 @@ function generatePreviewChartPoints(): StackedChartPoint[] {
     );
     const bounceRate = 0.28 + 0.08 * Math.sin(index * 0.19 + 1);
     const avgDurationMs = Math.round(95_000 + 45_000 * ratio);
-    const revenueMinor = Math.round(
-      visitors * (380 + 40 * Math.sin(index * 0.22)),
-    );
+    const revenueMinor =
+      index < 52
+        ? 0
+        : Math.round(visitors * (520 + 90 * Math.sin(index * 0.24 + 0.4)));
 
     const point: StackedChartPoint = {
       label: formatPreviewDayLabel(t),

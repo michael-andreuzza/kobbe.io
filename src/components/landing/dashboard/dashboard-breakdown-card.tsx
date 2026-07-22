@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { BreakdownCardPreviewActions } from "./breakdown-card-preview-actions";
 import { CardExpandButton } from "./dashboard-list-card";
 import {
   dashboardCardContentDefaultClass,
@@ -33,6 +34,7 @@ type EmptyState = {
 type ExpandAction = {
   onClick: () => void;
   ariaLabel: string;
+  decorative?: boolean;
 };
 
 type TabbedHeaderTabs = {
@@ -46,6 +48,7 @@ export function DashboardTabbedCardHeaderContent(props: {
   title: string;
   tabs: TabbedHeaderTabs;
   expandAction?: ExpandAction;
+  headerActions?: ReactNode;
   description?: ReactNode;
 }) {
   return (
@@ -62,10 +65,13 @@ export function DashboardTabbedCardHeaderContent(props: {
           activeIndex={props.tabs.activeIndex}
           onActiveIndexChange={props.tabs.onActiveIndexChange}
         />
-        {props.expandAction ? (
+        {props.headerActions ? (
+          <div className="flex items-center gap-0.5">{props.headerActions}</div>
+        ) : props.expandAction ? (
           <CardExpandButton
             onClick={props.expandAction.onClick}
             ariaLabel={props.expandAction.ariaLabel}
+            decorative={props.expandAction.decorative}
           />
         ) : null}
       </div>
@@ -90,9 +96,17 @@ export function DashboardTabbedBreakdownCard(props: {
   empty: EmptyState;
   tabs: TabbedHeaderTabs;
   expandAction?: ExpandAction;
+  headerActions?: ReactNode;
+  /** When true (default), shows decorative expand + share icons in the header. */
+  showPreviewActions?: boolean;
   children: ReactNode;
   className?: string;
 }) {
+  const showPreviewActions = props.showPreviewActions ?? true;
+  const headerActions =
+    props.headerActions ??
+    (showPreviewActions ? <BreakdownCardPreviewActions /> : undefined);
+
   return (
     <Card
       variant="bordered"
@@ -105,6 +119,7 @@ export function DashboardTabbedBreakdownCard(props: {
           title={props.title}
           tabs={props.tabs}
           expandAction={props.expandAction}
+          headerActions={headerActions}
         />
       </CardHeader>
       {props.isEmpty ? (
@@ -134,7 +149,15 @@ export function DashboardBreakdownCard(props: {
   children: ReactNode;
   className?: string;
   expandAction?: ExpandAction;
+  headerActions?: ReactNode;
+  /** When true (default), shows decorative expand + share icons in the header. */
+  showPreviewActions?: boolean;
 }) {
+  const showPreviewActions = props.showPreviewActions ?? true;
+  const headerActions =
+    props.headerActions ??
+    (showPreviewActions ? <BreakdownCardPreviewActions /> : undefined);
+
   return (
     <Card
       variant="bordered"
@@ -142,11 +165,16 @@ export function DashboardBreakdownCard(props: {
     >
       <CardHeader className={dashboardCardHeaderClass}>
         <CardTitle className={dashboardCardTitleClass}>{props.title}</CardTitle>
-        {props.expandAction ? (
+        {headerActions ? (
+          <CardAction className="flex items-center gap-0.5 self-start pt-0.5">
+            {headerActions}
+          </CardAction>
+        ) : props.expandAction ? (
           <CardAction className="self-start pt-0.5">
             <CardExpandButton
               onClick={props.expandAction.onClick}
               ariaLabel={props.expandAction.ariaLabel}
+              decorative={props.expandAction.decorative}
             />
           </CardAction>
         ) : null}

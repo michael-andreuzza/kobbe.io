@@ -22,15 +22,25 @@ const breakdownRevenueClassName =
   "text-foreground w-14 text-right text-[11px] leading-none font-medium tabular-nums sm:w-16";
 
 export function CardExpandButton(props: {
-  onClick: () => void;
+  onClick?: () => void;
   ariaLabel: string;
+  decorative?: boolean;
 }) {
+  const decorative = props.decorative ?? false;
+
   return (
     <button
       type="button"
       aria-label={props.ariaLabel}
-      onClick={props.onClick}
-      className="text-muted-foreground hover:bg-muted/60 hover:text-foreground inline-flex size-6 items-center justify-center rounded-md transition-colors"
+      tabIndex={decorative ? -1 : undefined}
+      aria-hidden={decorative ? true : undefined}
+      onClick={decorative ? undefined : props.onClick}
+      className={cn(
+        "inline-flex size-6 items-center justify-center rounded-md",
+        decorative
+          ? "text-muted-foreground"
+          : "text-muted-foreground hover:bg-muted/60 hover:text-foreground transition-colors",
+      )}
     >
       <HugeiconsIcon
         icon={FullScreenIcon}
