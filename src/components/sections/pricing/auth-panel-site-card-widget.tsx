@@ -1,19 +1,77 @@
-const authPanelSparkline = [
-  { visitors: 42, revenueMinor: 9900 },
-  { visitors: 58, revenueMinor: 14800 },
-  { visitors: 51, revenueMinor: 9900 },
-  { visitors: 74, revenueMinor: 24700 },
-  { visitors: 66, revenueMinor: 19800 },
-  { visitors: 88, revenueMinor: 29600 },
-  { visitors: 79, revenueMinor: 19800 },
-  { visitors: 95, revenueMinor: 34600 },
-  { visitors: 84, revenueMinor: 24700 },
-  { visitors: 108, revenueMinor: 39500 },
-  { visitors: 97, revenueMinor: 29600 },
-  { visitors: 121, revenueMinor: 44400 },
-  { visitors: 112, revenueMinor: 39500 },
-  { visitors: 134, revenueMinor: 54300 },
-] as const;
+import {
+  IndexSiteVisitorsSparkline,
+  type IndexSparklinePoint,
+} from "@/components/sections/pricing/index-site-visitors-sparkline";
+
+const SITE_CARD_SPARKLINE_DAYS = 60;
+
+function siteCardSparklineRatio(index: number, count: number): number {
+  const phase = index / Math.max(1, count - 1);
+  const trend = 0.26 + 0.68 * phase ** 0.9;
+  const weekly = 0.07 * Math.sin((index / 7) * Math.PI * 2);
+  const ripple = 0.06 * Math.sin(index * 0.81 + 0.6);
+  return Math.min(0.98, Math.max(0.16, trend + weekly + ripple));
+}
+
+function generateSiteCardSparkline(dayCount = SITE_CARD_SPARKLINE_DAYS) {
+  const visitorPeak = 760;
+
+  return Array.from({ length: dayCount }, (_, index) => {
+    const isLast = index === dayCount - 1;
+    const ratio = siteCardSparklineRatio(index, dayCount);
+    const visitors = isLast
+      ? Math.round(visitorPeak * 1.32)
+      : Math.round(ratio * visitorPeak);
+    const revenueMinor = Math.round(
+      visitors * (410 + 48 * Math.sin(index * 0.22 + 0.4)),
+    );
+
+    return { visitors, revenueMinor };
+  });
+}
+
+function formatAuthPanelCompact(value: number) {
+  return new Intl.NumberFormat("en", {
+    notation: value >= 10_000 ? "compact" : "standard",
+    maximumFractionDigits: 1,
+  }).format(value);
+}
+
+function formatAuthPanelRevenue(revenueMinor: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    notation: revenueMinor >= 1_000_000 ? "compact" : "standard",
+    maximumFractionDigits: 1,
+  }).format(revenueMinor / 100);
+}
+
+const authPanelSparklineRaw = generateSiteCardSparkline();
+
+const authPanelVisitorsTotal = authPanelSparklineRaw.reduce(
+  (total, point) => total + point.visitors,
+  0,
+);
+const authPanelRevenueTotal = authPanelSparklineRaw.reduce(
+  (total, point) => total + point.revenueMinor,
+  0,
+);
+
+const authPanelSparkline: IndexSparklinePoint[] = authPanelSparklineRaw.map(
+  (point, index) => ({
+    t: index,
+    visitors: point.visitors,
+    revenueMinor: point.revenueMinor,
+  }),
+);
+
+const authPanelSiteCard = {
+  name: "Kobbe",
+  domain: "kobbe.io",
+  faviconSrc: "/images/favicons/favicon-32x32.png",
+  visitors: formatAuthPanelCompact(authPanelVisitorsTotal),
+  revenue: formatAuthPanelRevenue(authPanelRevenueTotal),
+} as const;
 
 function AuthPanelMetricRow(props: {
   label: string;
@@ -35,88 +93,42 @@ function AuthPanelMetricRow(props: {
   );
 }
 
-function AuthPanelSparkline() {
-  const width = 320;
-  const height = 48;
-  const padding = { top: 7, right: 2, left: 2, bottom: 5 };
-  const innerWidth = width - padding.left - padding.right;
-  const innerHeight = height - padding.top - padding.bottom;
-  const maxVisitors = Math.max(...authPanelSparkline.map((p) => p.visitors));
-  const maxRevenue = Math.max(...authPanelSparkline.map((p) => p.revenueMinor));
-  const step = innerWidth / Math.max(authPanelSparkline.length - 1, 1);
-
-  const revenuePoints = authPanelSparkline
-    .map((point, index) => {
-      const x = padding.left + index * step;
-      const y =
-        padding.top +
-        innerHeight -
-        (point.revenueMinor / maxRevenue) * innerHeight;
-      return `${x},${y}`;
-    })
-    .join(" ");
-
-  return (
-    <svg
-      viewBox={`0 0 ${width} ${height}`}
-      className="h-12 min-h-12 w-full"
-      aria-hidden="true"
-    >
-      {authPanelSparkline.map((point, index) => {
-        const x = padding.left + index * step;
-        const barHeight = (point.visitors / maxVisitors) * innerHeight;
-        const y = padding.top + innerHeight - barHeight;
-        return (
-          <rect
-            key={index}
-            x={x - 2}
-            y={y}
-            width={4}
-            height={barHeight}
-            rx={2}
-            className="fill-foreground"
-          />
-        );
-      })}
-      <polyline
-        points={revenuePoints}
-        fill="none"
-        className="stroke-brand"
-        strokeWidth={1.4}
-        strokeOpacity={0.75}
-      />
-    </svg>
-  );
-}
-
 export function AuthPanelSiteCardWidget() {
   return (
-    <div className="pointer-events-none w-full max-w-xs rounded-xl border border-border/70 bg-card p-4 shadow-lg sm:p-5">
+    <div className="border-border/70 bg-card pointer-events-none w-full max-w-xs rounded-xl border p-4 shadow-lg sm:p-5">
       <div className="flex min-w-0 items-start gap-3">
-        <span className="bg-foreground text-background grid size-8 shrink-0 place-items-center rounded-md text-sm font-semibold">
-          S
-        </span>
+        <img
+          src={authPanelSiteCard.faviconSrc}
+          alt=""
+          width={32}
+          height={32}
+          className="size-8 shrink-0 rounded-md border-none object-cover"
+        />
         <div className="min-w-0 flex-1">
           <div className="text-foreground truncate text-sm leading-tight font-semibold">
-            Studio
+            {authPanelSiteCard.name}
           </div>
           <div className="text-muted-foreground truncate text-xs leading-snug">
-            studio.example
+            {authPanelSiteCard.domain}
           </div>
         </div>
       </div>
       <div className="mt-4">
-        <AuthPanelSparkline />
+        <IndexSiteVisitorsSparkline
+          points={authPanelSparkline}
+          showRevenue
+          className="h-12 min-h-12"
+        />
       </div>
       <div className="mt-4 space-y-2">
         <AuthPanelMetricRow
           label="Visitors"
-          value="1.2k"
+          value={authPanelSiteCard.visitors}
           chipClassName="bg-foreground"
         />
         <AuthPanelMetricRow
           label="Revenue"
-          value="$4.2k"
+          value={authPanelSiteCard.revenue}
           chipClassName="bg-brand"
         />
       </div>
