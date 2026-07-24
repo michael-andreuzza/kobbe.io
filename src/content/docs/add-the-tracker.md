@@ -18,7 +18,7 @@ After the site is created, Kobbe shows a site token. Copy it before leaving the 
 
 ## 2. Add the tracker script
 
-Paste this script on every page you want to track. Replace `YOUR_SITE_TOKEN` with the token from your site settings.
+The **Install** section on the same page gives you a minimal snippet (token only) or an explicit snippet with `data-*` attributes. Use **Tracking options** when you prefer dashboard control without editing HTML.
 
 ```html
 <script

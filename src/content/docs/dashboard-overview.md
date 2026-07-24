@@ -10,11 +10,11 @@ The site dashboard is the main place to understand traffic for one website. It c
 
 Use the sidebar to open dedicated pages when you need more detail:
 
-| Page | Doc |
-| ---- | --- |
-| **Events** | [Events activity log](/docs/events-activity-log) |
-| **Insights** | [Insights](/docs/insights) |
-| **Realtime** | [Realtime visitors](/docs/realtime-visitors) |
+| Page         | Doc                                              |
+| ------------ | ------------------------------------------------ |
+| **Events**   | [Events activity log](/docs/events-activity-log) |
+| **Insights** | [Insights](/docs/insights)                       |
+| **Realtime** | [Realtime visitors](/docs/realtime-visitors)     |
 
 ## Time range and filters
 

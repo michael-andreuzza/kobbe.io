@@ -14,11 +14,11 @@ Open it from the sidebar, or use **Activity log** on the overview **Events** car
 
 The log has three tabs:
 
-| Tab | What it lists |
-| --- | ------------- |
-| **All** | Pageviews and custom events together. |
-| **Views** | Pageviews only. |
-| **Events** | Custom events only. |
+| Tab        | What it lists                         |
+| ---------- | ------------------------------------- |
+| **All**    | Pageviews and custom events together. |
+| **Views**  | Pageviews only.                       |
+| **Events** | Custom events only.                   |
 
 A summary line above the table shows counts for the active tab and selected time range.
 
@@ -32,13 +32,13 @@ Event names come from your tracked custom events in the range. Unknown names in 
 
 Each row includes:
 
-| Column | Meaning |
-| ------ | ------- |
-| **Event** | Event name, or the page path on the **Views** tab. |
-| **Page** | Path where the event fired (hidden on **Views** when the path is the primary column). |
-| **Referrer** | Referrer origin when available. |
-| **Country** | Country flag when available. |
-| **Time** | When the event was recorded. |
+| Column       | Meaning                                                                               |
+| ------------ | ------------------------------------------------------------------------------------- |
+| **Event**    | Event name, or the page path on the **Views** tab.                                    |
+| **Page**     | Path where the event fired (hidden on **Views** when the path is the primary column). |
+| **Referrer** | Referrer origin when available.                                                       |
+| **Country**  | Country flag when available.                                                          |
+| **Time**     | When the event was recorded.                                                          |
 
 Use **Load more** at the bottom to fetch additional rows. Pagination keeps your tab, range, and event filter.
 

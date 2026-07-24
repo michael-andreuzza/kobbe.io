@@ -6,7 +6,7 @@ category: Tracking
 navLabel: Script
 ---
 
-Use `data-*` attributes on the `<script>` tag to configure the tracker.
+Use `data-*` attributes on the `<script>` tag to configure the tracker, **or** enable features in **Site settings → Installation → Tracking options** in the Kobbe dashboard. When you save a dashboard toggle, it overrides any hardcoded `data-*` value for that feature on your live site. Leave a feature on **Use script** to control it only from your HTML.
 
 The default `tracker.js` is lightweight and covers pageviews, custom events, custom endpoints, hash routes, UTM campaign capture, and debug logging. Advanced features such as cross-domain tracking, performance collection, and scroll tracking use `tracker.full.js`.
 
