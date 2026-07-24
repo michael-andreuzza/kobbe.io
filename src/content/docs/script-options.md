@@ -6,11 +6,13 @@ category: Tracking
 navLabel: Script
 ---
 
-Use `data-*` attributes on the `<script>` tag to configure the tracker, **or** enable features in **Site settings → Installation → Tracking options** in the Kobbe dashboard. When you save a dashboard toggle, it overrides any hardcoded `data-*` value for that feature on your live site. Leave a feature on **Use script** to control it only from your HTML.
+Use `data-*` attributes on the `<script>` tag to configure the tracker. You can also enable the same features from **Site settings → Installation → [Tracking options](/docs/tracking-options)** with **On / Off** toggles.
+
+When a toggle is **On** and saved, Kobbe overrides the matching `data-*` attribute on your live site. When a toggle is **Off**, the tracker uses your script tag (or the default for that feature).
 
 The default `tracker.js` is lightweight and covers pageviews, custom events, custom endpoints, hash routes, UTM campaign capture, and debug logging. Advanced features such as cross-domain tracking, performance collection, and scroll tracking use `tracker.full.js`.
 
-**See also:** [Custom events](/docs/custom-events) · [Conversions](/docs/conversions) · [First-party collect](/docs/first-party-collect) · [Scroll tracking](/docs/scroll-tracking) · [404 tracking](/docs/404-tracking) · [Hash page paths](/docs/hash-page-paths) · [UTM campaigns](/docs/utm-campaigns) · [Subdomains](/docs/track-subdomains) · [Cross-domain tracking](/docs/cross-domain-tracking) · [Performance and Web Vitals](/docs/performance-web-vitals) · [Filter your visits](/docs/exclude-visits)
+**See also:** [Tracking options](/docs/tracking-options) · [Custom events](/docs/custom-events) · [Conversions](/docs/conversions) · [First-party collect](/docs/first-party-collect) · [Scroll tracking](/docs/scroll-tracking) · [404 tracking](/docs/404-tracking) · [Hash page paths](/docs/hash-page-paths) · [UTM campaigns](/docs/utm-campaigns) · [Subdomains](/docs/track-subdomains) · [Cross-domain tracking](/docs/cross-domain-tracking) · [Performance and Web Vitals](/docs/performance-web-vitals) · [Filter your visits](/docs/exclude-visits)
 
 ## Required
 

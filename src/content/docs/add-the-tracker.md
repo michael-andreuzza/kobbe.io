@@ -18,7 +18,7 @@ After the site is created, Kobbe shows a site token. Copy it before leaving the 
 
 ## 2. Add the tracker script
 
-The **Install** section on the same page gives you a minimal snippet (token only) or an explicit snippet with `data-*` attributes. Use **Tracking options** when you prefer dashboard control without editing HTML.
+The **Install** section on the same page gives you a **Minimal** snippet (token only) or an **Explicit** snippet with `data-*` attributes. Use **[Tracking options](/docs/tracking-options)** when you prefer dashboard **On / Off** toggles instead of editing HTML.
 
 ```html
 <script
