@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import {
   buildSignupHref,
   buildSimplifiedPricingFeatureRows,
+  formatTierBillingPeriodLabel,
   formatTierTrialPriceNote,
   getTierDisplayAmount,
   MONTHLY_EMAIL_REPORTS_FEATURE,
@@ -52,17 +53,27 @@ export function SimplifiedPricingSection({
               across your workspace.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-end justify-between gap-4">
-              <p className="text-foreground font-display min-w-[5ch] text-4xl tracking-tight italic sm:text-5xl">
-                {tier.events}
-              </p>
+            <div className="mt-8 flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <p className="text-foreground font-display text-4xl tracking-tight italic sm:text-5xl">
+                  {tier.events}
+                </p>
+                <p className="text-muted-foreground text-sm font-medium">
+                  Events
+                </p>
+              </div>
 
-              <PricingPriceDisplay
-                period={period}
-                monthlyAmount={tier.monthly}
-                displayAmount={displayAmount}
-                className="text-foreground text-xl font-semibold tracking-tighter"
-              />
+              <div className="flex flex-col items-end">
+                <PricingPriceDisplay
+                  period={period}
+                  monthlyAmount={tier.monthly}
+                  displayAmount={displayAmount}
+                  className="text-foreground text-xl font-semibold tracking-tighter"
+                />
+                <p className="text-muted-foreground justify-endw-fit ml-auto text-sm font-medium">
+                  {formatTierBillingPeriodLabel(period)}
+                </p>
+              </div>
             </div>
 
             <div className="mt-4">

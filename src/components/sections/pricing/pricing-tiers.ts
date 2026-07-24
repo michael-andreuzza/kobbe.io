@@ -232,6 +232,10 @@ export function formatTierBillingNote(period: BillingPeriod) {
   return period === "monthly" ? "Billed monthly." : "Billed annually.";
 }
 
+export function formatTierBillingPeriodLabel(period: BillingPeriod) {
+  return period === "monthly" ? "Billed monthly" : "Per month, billed yearly";
+}
+
 export function formatTierTrialPriceNote(
   amount: number,
   period: BillingPeriod,
