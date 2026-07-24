@@ -6,7 +6,7 @@ category: Reports and alerts
 navLabel: Monthly reports
 ---
 
-Monthly reports send a concise month-in-review email for a site. They are off by default and can be enabled from **Site settings → Reports and alerts**.
+Monthly reports send a concise month-in-review email for a site. They are off by default and can be enabled from Site settings → Reports and alerts.
 
 Reports use analytics data Kobbe has already collected. They do not add browser tracking, cookies, or visitor identifiers.
 
@@ -26,7 +26,7 @@ The report is sent to the email address saved in the site's report and alert set
 
 ## Availability
 
-Monthly email reports are included from **5M monthly events** on the [pricing page](/#pricing). They are opt-in per site. You can disable them any time from site settings.
+Monthly email reports are included from 5M monthly events on the [pricing page](/#pricing). They are opt-in per site. You can disable them any time from site settings.
 
 ## Related docs
 

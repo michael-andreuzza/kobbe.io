@@ -18,7 +18,7 @@ After the site is created, Kobbe shows a site token. Copy it before leaving the 
 
 ## 2. Add the tracker script
 
-The **Install** section on the same page gives you a **Minimal** snippet (token only) or an **Explicit** snippet with `data-*` attributes. Use **[Tracking options](/docs/tracking-options)** when you prefer dashboard **On / Off** toggles instead of editing HTML.
+The Install section on the same page gives you a Minimal snippet (token only) or an Explicit snippet with `data-*` attributes. Use [Tracking options](/docs/tracking-options) when you prefer dashboard On / Off toggles instead of editing HTML.
 
 ```html
 <script
@@ -30,11 +30,11 @@ The **Install** section on the same page gives you a **Minimal** snippet (token 
 
 The script automatically records a pageview when the page loads.
 
-Use the **same snippet** on each subdomain you want in this site (for example `www`, `app`, or `blog`). See [Track across subdomains](/docs/track-subdomains).
+Use the same snippet on each subdomain you want in this site (for example `www`, `app`, or `blog`). See [Track across subdomains](/docs/track-subdomains).
 
 The default `tracker.js` is enough for pageviews and custom events. For optional features, use [Tracking options](/docs/tracking-options) in the dashboard or `data-*` attributes from [Script options](/docs/script-options). Switch to `tracker.full.js` when you need [scroll tracking](/docs/scroll-tracking), [cross-domain tracking](/docs/cross-domain-tracking), or [Web Vitals](/docs/performance-web-vitals).
 
-**Next steps**
+## Next steps
 
 - [Tracking options](/docs/tracking-options): enable features with dashboard toggles
 - [Script options](/docs/script-options): configure the install snippet with `data-*` attributes

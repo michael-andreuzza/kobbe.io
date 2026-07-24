@@ -6,7 +6,7 @@ category: Reports and alerts
 navLabel: Traffic alerts
 ---
 
-Traffic alerts email you when a site's recent pageview volume changes sharply compared with its recent baseline. They are off by default and can be enabled from **Site settings → Reports and alerts**.
+Traffic alerts email you when a site's recent pageview volume changes sharply compared with its recent baseline. They are off by default and can be enabled from Site settings → Reports and alerts.
 
 Alerts use aggregate analytics data Kobbe has already collected. They do not add browser tracking, cookies, or visitor identifiers.
 

@@ -6,7 +6,7 @@ category: Tracking
 navLabel: First-party collect
 ---
 
-By default, the tracker loads from `app.kobbe.io` and posts to `/api/collect` on the same origin. **First-party collect** moves both the script and ingest endpoint to a dedicated hostname so requests stay first-party to Kobbe or to a subdomain you control.
+By default, the tracker loads from `app.kobbe.io` and posts to `/api/collect` on the same origin. First-party collect moves both the script and ingest endpoint to a dedicated hostname so requests stay first-party to Kobbe or to a subdomain you control.
 
 This is useful when ad blockers or strict browser privacy lists interfere with third-party analytics domains, or when you want collect traffic on a neutral subdomain like `data.example.com`.
 
