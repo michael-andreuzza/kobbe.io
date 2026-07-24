@@ -124,7 +124,30 @@ export const defaultPricingTierIndex = 0;
 export const MONTHLY_EMAIL_REPORTS_MIN_TIER_KEY = "events_5m" as const satisfies PricingTierKey;
 
 export const MONTHLY_EMAIL_REPORTS_FEATURE =
-  "Monthly email reports from 5M events" as const;
+  "Monthly email reports" as const;
+
+/** Historical analytics window included with each volume tier. */
+export const TIER_DATA_RETENTION_YEARS = {
+  events_20k: 1,
+  events_100k: 1,
+  events_250k: 1,
+  events_500k: 1,
+  events_750k: 2,
+  events_1m: 2,
+  events_3m: 3,
+  events_5m: 3,
+  events_10m: 5,
+  events_15m: 5,
+  events_20m: 5,
+  events_25m: 5,
+} as const satisfies Record<PricingTierKey, number>;
+
+export function formatTierDataRetentionLabel(tierKey: PricingTierKey): string {
+  const years = TIER_DATA_RETENTION_YEARS[tierKey];
+  return years === 1
+    ? "1 year of data retention"
+    : `${years} years of data retention`;
+}
 
 /** Flat feature list for the simplified slider pricing card. */
 export const simplifiedPricingFeatures = [
@@ -144,6 +167,14 @@ export const simplifiedPricingFeatures = [
   "Team access, agent API, and CLI",
   MONTHLY_EMAIL_REPORTS_FEATURE,
 ] as const;
+
+export function buildSimplifiedPricingFeatureRows(tierKey: PricingTierKey) {
+  return [
+    ...simplifiedPricingFeatures.slice(0, 3),
+    formatTierDataRetentionLabel(tierKey),
+    ...simplifiedPricingFeatures.slice(3),
+  ];
+}
 
 export function tierIncludesMonthlyEmailReports(tierKey: PricingTierKey) {
   const tierIndex = pricingTiers.findIndex((entry) => entry.key === tierKey);

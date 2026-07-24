@@ -44,7 +44,7 @@ function PriceAmount({
         className,
       )}
     >
-      <span className="overflow-hidden py-0.5 mask-[linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]">
+      <span className="text-foreground font-display overflow-hidden mask-[linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] py-0.5 pr-2 text-4xl font-normal tracking-tight italic sm:text-5xl">
         <AnimatePresence mode="popLayout" initial={false} custom={direction}>
           <motion.span
             key={amount}
@@ -52,10 +52,14 @@ function PriceAmount({
             className="inline-block will-change-transform"
             variants={{
               enter: (dir: number) =>
-                reduceMotion ? {} : { y: dir > 0 ? "100%" : "-100%", opacity: 0 },
+                reduceMotion
+                  ? {}
+                  : { y: dir > 0 ? "100%" : "-100%", opacity: 0 },
               center: { y: "0%", opacity: 1 },
               exit: (dir: number) =>
-                reduceMotion ? {} : { y: dir > 0 ? "-100%" : "100%", opacity: 0 },
+                reduceMotion
+                  ? {}
+                  : { y: dir > 0 ? "-100%" : "100%", opacity: 0 },
             }}
             initial="enter"
             animate="center"

@@ -9,12 +9,12 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
   buildSignupHref,
+  buildSimplifiedPricingFeatureRows,
   formatTierTrialPriceNote,
   getTierDisplayAmount,
   MONTHLY_EMAIL_REPORTS_FEATURE,
   pricingTiers,
   pricingTrialDays,
-  simplifiedPricingFeatures,
   tierIncludesMonthlyEmailReports,
   type BillingPeriod,
 } from "@/components/sections/pricing/pricing-tiers";
@@ -31,13 +31,14 @@ export function SimplifiedPricingSection({
 
   const tier = pricingTiers[tierIndex]!;
   const displayAmount = getTierDisplayAmount(tier, period);
+  const featureRows = buildSimplifiedPricingFeatureRows(tier.key);
 
   const signupHref = buildSignupHref(appBaseUrl, tier.key, period);
   const trialCtaLabel = `Start free for ${pricingTrialDays} days`;
 
   return (
     <div className={cn("w-full min-w-0", className)}>
-      <article className="bg-card text-foreground relative w-full overflow-hidden rounded-lg">
+      <article className="bg-card text-foreground border-border relative w-full overflow-hidden rounded-lg border">
         <div className="flex flex-col lg:flex-row">
           <div className="flex flex-col p-4 lg:w-2/3 lg:p-8">
             <BillingPeriodTabs
@@ -46,7 +47,7 @@ export function SimplifiedPricingSection({
               className="shrink-0"
             />
 
-            <p className="text-muted-foreground mt-4 text-sm font-medium text-balance">
+            <p className="text-muted-foreground mt-12 text-sm font-medium text-balance">
               Pageviews, custom events, and Web Vitals share one monthly limit
               across your workspace.
             </p>
@@ -89,7 +90,7 @@ export function SimplifiedPricingSection({
               className="text-foreground mt-8 grid flex-1 list-none grid-cols-1 items-start gap-x-6 gap-y-1.5 font-medium sm:grid-cols-2 2xl:gap-y-2"
               role="list"
             >
-              {simplifiedPricingFeatures.map((feature) => {
+              {featureRows.map((feature) => {
                 const isEmailReportsFeature =
                   feature === MONTHLY_EMAIL_REPORTS_FEATURE;
                 const isIncluded =
@@ -113,7 +114,7 @@ export function SimplifiedPricingSection({
                 );
               })}
             </ul>
-            <p className="text-muted-foreground mt-8 text-xs font-medium text-balance">
+            <p className="text-muted-foreground border-border mt-4 border-t pt-4 text-xs font-medium text-balance">
               {formatTierTrialPriceNote(displayAmount, period)} Upgrade or
               downgrade anytime and cancel anytime
             </p>
