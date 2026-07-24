@@ -1,7 +1,12 @@
-export function PricingFeatureMark() {
+import { cn } from "@/lib/utils";
+
+export function PricingFeatureMark({ muted = false }: { muted?: boolean }) {
   return (
     <svg
-      className="mt-1.5 size-3 shrink-0"
+      className={cn(
+        "mt-1.5 size-3 shrink-0 transition-opacity",
+        muted && "opacity-40",
+      )}
       viewBox="0 0 542 542"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

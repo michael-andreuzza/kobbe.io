@@ -1,7 +1,11 @@
 export type BillingPeriod = "monthly" | "yearly";
 
 export type PricingTierKey =
+  | "events_20k"
   | "events_100k"
+  | "events_250k"
+  | "events_500k"
+  | "events_750k"
   | "events_1m"
   | "events_3m"
   | "events_5m"
@@ -23,6 +27,13 @@ export type PricingTier = {
 
 export const pricingTiers = [
   {
+    key: "events_20k",
+    events: "20K",
+    monthly: 8,
+    yearlyMonthly: 7,
+    yearly: 80,
+  },
+  {
     key: "events_100k",
     events: "100K",
     monthly: 15,
@@ -30,53 +41,74 @@ export const pricingTiers = [
     yearly: 150,
   },
   {
+    key: "events_250k",
+    events: "250K",
+    monthly: 25,
+    yearlyMonthly: 21,
+    yearly: 250,
+  },
+  {
+    key: "events_500k",
+    events: "500K",
+    monthly: 39,
+    yearlyMonthly: 33,
+    yearly: 390,
+  },
+  {
+    key: "events_750k",
+    events: "750K",
+    monthly: 59,
+    yearlyMonthly: 49,
+    yearly: 590,
+  },
+  {
     key: "events_1m",
     events: "1M",
-    monthly: 50,
-    yearlyMonthly: 42,
-    yearly: 500,
+    monthly: 79,
+    yearlyMonthly: 66,
+    yearly: 790,
   },
   {
     key: "events_3m",
     events: "3M",
-    monthly: 90,
-    yearlyMonthly: 75,
-    yearly: 900,
+    monthly: 119,
+    yearlyMonthly: 99,
+    yearly: 1190,
   },
   {
     key: "events_5m",
     events: "5M",
-    monthly: 130,
-    yearlyMonthly: 110,
-    yearly: 1300,
+    monthly: 169,
+    yearlyMonthly: 141,
+    yearly: 1690,
   },
   {
     key: "events_10m",
     events: "10M",
-    monthly: 200,
-    yearlyMonthly: 170,
-    yearly: 2000,
+    monthly: 249,
+    yearlyMonthly: 208,
+    yearly: 2490,
   },
   {
     key: "events_15m",
     events: "15M",
-    monthly: 280,
-    yearlyMonthly: 235,
-    yearly: 2800,
+    monthly: 329,
+    yearlyMonthly: 274,
+    yearly: 3290,
   },
   {
     key: "events_20m",
     events: "20M",
-    monthly: 350,
-    yearlyMonthly: 290,
-    yearly: 3500,
+    monthly: 399,
+    yearlyMonthly: 333,
+    yearly: 3990,
   },
   {
     key: "events_25m",
     events: "25M",
-    monthly: 420,
-    yearlyMonthly: 350,
-    yearly: 4200,
+    monthly: 469,
+    yearlyMonthly: 391,
+    yearly: 4690,
   },
 ] as const satisfies ReadonlyArray<PricingTier>;
 
@@ -88,68 +120,37 @@ export const pricingAmountSuffix = "/mo";
 
 export const defaultPricingTierIndex = 0;
 
-export const popularPricingTierIndices = [1, 2, 3] as const;
+/** Minimum event volume before monthly email reports are included. */
+export const MONTHLY_EMAIL_REPORTS_MIN_TIER_KEY = "events_5m" as const satisfies PricingTierKey;
 
-/** On the Lite card; Starter and Growth inherit via “Everything in …, plus:”. */
-export const pricingPrivacyFeatures = [
-  "Privacy-first, cookieless by default",
+export const MONTHLY_EMAIL_REPORTS_FEATURE =
+  "Monthly email reports from 5M events" as const;
+
+/** Flat feature list for the simplified slider pricing card. */
+export const simplifiedPricingFeatures = [
+  "Unlimited websites",
+  "Privacy-first, cookieless tracking",
   "GDPR-ready analytics (DPA included)",
+  "Realtime visitors and shared dashboards",
+  "Funnels, conversions, and custom events",
+  "Revenue attribution",
+  "UTM campaign and channel reports",
+  "First-party collect hostname",
+  "Traffic alerts",
+  "Web Vitals and performance insights",
+  "Data export and import",
+  "Team access, agent API, and CLI",
+  MONTHLY_EMAIL_REPORTS_FEATURE,
 ] as const;
 
-export const pricingPlanCards = [
-  {
-    id: "lite",
-    name: "Lite",
-    tagline: "Core analytics for a few personal sites.",
-    tierKey: "events_100k",
-    popular: false,
-    features: [
-      "Up to 100K monthly events",
-      "Up to 3 websites",
-      ...pricingPrivacyFeatures,
-      "Funnels, conversions, and custom events",
-      "Realtime visitors and shared dashboards",
-    ],
-  },
-  {
-    id: "starter",
-    name: "Starter",
-    tagline: "Everything you need for a real product site.",
-    tierKey: "events_1m",
-    popular: true,
-    features: [
-      "Everything in Lite, plus:",
-      "Up to 1M monthly events",
-      "Up to 30 websites",
-      "Revenue attribution",
-      "UTM campaign and channel reports",
-      "First-party collect hostname",
-      "Traffic alerts",
-      "Data export and import",
-      "Team access, agent API, and CLI",
-    ],
-  },
-  {
-    id: "growth",
-    name: "Growth",
-    tagline: "More volume, reports, and team workflows.",
-    tierKey: "events_3m",
-    popular: false,
-    features: [
-      "Everything in Starter, plus:",
-      "Up to 3M monthly events",
-      "Up to 50 websites",
-      "Monthly email reports",
-    ],
-  },
-] as const satisfies ReadonlyArray<{
-  id: string;
-  name: string;
-  tagline: string;
-  tierKey: PricingTierKey;
-  popular: boolean;
-  features: readonly string[];
-}>;
+export function tierIncludesMonthlyEmailReports(tierKey: PricingTierKey) {
+  const tierIndex = pricingTiers.findIndex((entry) => entry.key === tierKey);
+  const minIndex = pricingTiers.findIndex(
+    (entry) => entry.key === MONTHLY_EMAIL_REPORTS_MIN_TIER_KEY,
+  );
+
+  return tierIndex >= minIndex;
+}
 
 export function getPricingTierByKey(tierKey: PricingTierKey) {
   const tier = pricingTiers.find((entry) => entry.key === tierKey);
@@ -203,13 +204,13 @@ export function formatTierTrialPriceNote(
   period: BillingPeriod,
   trialDays: number = pricingTrialDays,
 ) {
-  const price = `$${formatPricingCurrency(amount)}${pricingAmountSuffix}`
+  const price = `$${formatPricingCurrency(amount)}${pricingAmountSuffix}`;
 
   if (period === "monthly") {
-    return `Free for ${trialDays} days · then ${price}, billed monthly + local taxes`
+    return `Free for ${trialDays} days · then ${price}, billed monthly + local taxes`;
   }
 
-  return `Free for ${trialDays} days · then ${price}, billed annually + local taxes`
+  return `Free for ${trialDays} days · then ${price}, billed annually + local taxes`;
 }
 
 export function formatIncludedEventsPhrase(events: string) {

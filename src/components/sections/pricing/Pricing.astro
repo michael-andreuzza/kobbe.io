@@ -1,11 +1,9 @@
 ---
-import { getImage } from "astro:assets";
-
-import { PricingSection } from "@/components/sections/pricing/pricing-section";
+import { SimplifiedPricingSection } from "@/components/sections/pricing/simplified-pricing-section";
+import { PricingComparisonTable } from "@/components/sections/pricing/pricing-comparison-table";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import SectionIntro from "@/components/landing/SectionIntro.astro";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
-import paintOne from "@/images/assets/background.svg";
 
 interface Props {
   headingTag?: "h1" | "h2";
@@ -13,12 +11,6 @@ interface Props {
 
 const appBaseUrl = "https://app.kobbe.io";
 const { headingTag = "h2" } = Astro.props;
-
-const paintBackground = await getImage({
-  src: paintOne,
-  width: paintOne.width,
-  quality: 85,
-});
 ---
 
 <section id="pricing" aria-labelledby="pricing-heading" class="pt-8">
@@ -28,19 +20,14 @@ const paintBackground = await getImage({
         <SectionIntro
           id="pricing-heading"
           tag={headingTag}
-          title="Minimal, powerful web analytics."
-          description={` Start with a ${pricingTrialDays}-day trial, no credit card required.`}
+          title="Simplified pricing"
+          description={`No confusing tiers. Pay for the events you need. Start with a ${pricingTrialDays}-day trial, no credit card required.`}
         />
       </div>
 
       <div class="mt-10 min-w-0">
-        <PricingSection
-          client:load
-          appBaseUrl={appBaseUrl}
-          paintSrc={paintBackground.src}
-          paintWidth={paintOne.width}
-          paintHeight={paintOne.height}
-        />
+        <SimplifiedPricingSection client:load appBaseUrl={appBaseUrl} />
+        <PricingComparisonTable client:load />
       </div>
     </div>
   </Wrapper>

@@ -27,7 +27,7 @@ function StaticPriceAmount({
   return (
     <span
       className={cn(
-        "inline-flex items-baseline tabular-nums leading-[1.45]",
+        "inline-flex items-baseline leading-[1.45] tabular-nums",
         className,
       )}
     >
@@ -67,7 +67,7 @@ export function PricingPriceDisplay({
       <span
         aria-hidden="true"
         className={cn(
-          "text-muted-foreground decoration-muted-foreground/50 font-medium line-through",
+          "text-muted-foreground decoration-muted-foreground font-medium line-through opacity-40",
           compareClassName ?? className,
         )}
       >

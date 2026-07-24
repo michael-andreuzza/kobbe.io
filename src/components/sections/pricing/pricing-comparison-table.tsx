@@ -3,21 +3,9 @@ import { CheckIcon, MinusIcon } from "lucide-react";
 
 import {
   pricingComparisonSections,
-  pricingComparisonTierLabels,
   type PricingComparisonCell,
-  type PricingComparisonTierId,
 } from "@/components/sections/pricing/pricing-comparison-data";
 import { cn } from "@/lib/utils";
-
-const tierColumnOrder: PricingComparisonTierId[] = [
-  "lite",
-  "starter",
-  "growth",
-];
-
-const featureValueOffsetClass = "mt-5";
-
-const tierColumnCount = tierColumnOrder.length + 1;
 
 function ComparisonCell({ value }: { value: PricingComparisonCell }) {
   if (typeof value === "string") {
@@ -53,32 +41,29 @@ export function PricingComparisonTable({
   return (
     <div
       className={cn(
-        "bg-card relative z-0 mt-12 hidden w-full scrollbar-none overflow-x-auto lg:block",
+        "relative z-0 mt-12 hidden w-full scrollbar-none overflow-x-auto lg:block",
         className,
       )}
     >
-      <div className="min-w-[768px] overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="min-w-[640px] overflow-hidden">
+        <table className="w-full border-separate border-spacing-0 text-sm">
           <caption className="sr-only">
-            Feature comparison across Lite, Starter, and Growth plans
+            Feature list included with every Kobbe event volume
           </caption>
           <thead className="text-center text-base font-medium tracking-wide">
             <tr>
               <th
                 scope="col"
-                className="text-foreground px-4 py-4 text-left font-medium tracking-tight"
+                className="bg-card text-foreground border-border rounded-l-lg border-t border-b border-l px-4 py-4 text-left font-medium tracking-tight"
               >
                 Features
               </th>
-              {tierColumnOrder.map((tierId) => (
-                <th
-                  key={tierId}
-                  scope="col"
-                  className="text-foreground px-4 py-4 font-medium tracking-tight"
-                >
-                  {pricingComparisonTierLabels[tierId]}
-                </th>
-              ))}
+              <th
+                scope="col"
+                className="bg-card text-foreground border-border rounded-r-lg border-t border-r border-b px-4 py-4 font-medium tracking-tight"
+              >
+                Included
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -86,51 +71,45 @@ export function PricingComparisonTable({
               <Fragment key={section.id}>
                 <tr>
                   <td
-                    colSpan={tierColumnCount}
+                    colSpan={2}
                     className="bg-muted text-foreground px-4 pt-12 pb-4 font-normal"
                   >
                     <div className="flex items-center gap-2">
-                      <div
-                        className="bg-foreground size-2.5"
-                        aria-hidden="true"
-                      ></div>
                       <h3 className="text-foreground text-sm font-medium uppercase">
                         {section.title}
                       </h3>
                     </div>
-                    <p className="text-foreground mt-1 max-w-xs text-sm text-balance">
+                    <p className="text-foreground mt-1 max-w-xl text-sm text-balance">
                       {section.description}
                     </p>
                   </td>
                 </tr>
-                {section.features.map((feature) => (
-                  <tr key={feature.id} className="even:bg-muted/50">
+                {section.features.map((feature, featureIndex) => (
+                  <tr key={feature.id}>
                     <th
                       scope="row"
-                      className="text-muted-foreground px-4 py-8 text-left align-top font-normal"
+                      className={cn(
+                        "text-muted-foreground px-4 py-8 text-left align-top font-normal",
+                        featureIndex % 2 === 0 ? "bg-card" : "bg-muted/50",
+                      )}
                     >
                       <h4 className="text-muted-foreground text-xs font-medium uppercase">
                         {feature.title}
                       </h4>
-                      <p className="text-foreground mt-1 max-w-xs text-sm text-balance">
+                      <p className="text-foreground mt-1 max-w-xl text-sm text-balance">
                         {feature.description}
                       </p>
                     </th>
-                    {tierColumnOrder.map((tierId) => (
-                      <td
-                        key={`${feature.id}-${tierId}`}
-                        className="px-4 py-8 text-center align-top"
-                      >
-                        <div
-                          className={cn(
-                            featureValueOffsetClass,
-                            "flex justify-center",
-                          )}
-                        >
-                          <ComparisonCell value={feature[tierId]} />
-                        </div>
-                      </td>
-                    ))}
+                    <td
+                      className={cn(
+                        "px-4 py-8 text-center align-top",
+                        featureIndex % 2 === 0 ? "bg-card" : "bg-muted/50",
+                      )}
+                    >
+                      <div className="flex justify-center">
+                        <ComparisonCell value={feature.included} />
+                      </div>
+                    </td>
                   </tr>
                 ))}
               </Fragment>

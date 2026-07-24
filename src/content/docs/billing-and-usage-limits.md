@@ -12,13 +12,13 @@ Plans and limits can change over time. The billing page in the app is the source
 
 ## Plans
 
-Kobbe offers event tiers from **100,000 monthly events** up to **25,000,000 monthly events**. Plans differ in monthly event allowance, site limits, and which features are included.
+Kobbe offers event tiers from **20,000 monthly events** up to **25,000,000 monthly events** on a single product. Pick the volume that fits your traffic on the [pricing page](/#pricing) — **every feature is included** at every step.
 
-**Lite** includes core analytics for up to **3 websites**. **Starter** includes everything in Lite, plus revenue attribution, first-party collect, UTM campaigns, traffic alerts, data export, Web Vitals, team access, and **Agent API and CLI access** for up to **30 websites**. **Growth** and higher tiers include everything in Starter, plus monthly email reports for up to **50 websites**. Tiers above Growth mainly increase event volume while keeping Growth features.
+Site limits do not apply on paid plans — you can add **unlimited websites** to a workspace at every tier. **Monthly email reports** are included from 5M events.
 
-The homepage shows Lite, Starter, and Growth as common starting points. For the complete list of all event volumes and prices, see [All event volumes](#all-event-volumes) below.
+The slider starts at 20K, then jumps to 100K before stepping through 250K, 500K, and 750K up to 1M so you can upgrade gradually. For the complete list of volumes and prices, see [All event volumes](#all-event-volumes) below.
 
-Yearly billing saves about **44%** compared to paying monthly at every tier. Need more than 25 million monthly events? Email support and we can help you pick the right setup.
+Yearly billing saves **2 months** compared to paying monthly at every tier. Need more than 25 million monthly events? Email support and we can help you pick the right setup.
 
 Checkout, subscriptions, receipts, and billing management run through **Polar** from the app's billing settings. The app billing page is the source of truth for your workspace's active tier.
 
@@ -30,7 +30,7 @@ Use [visit filters](/docs/exclude-visits) and [Reduce usage](/docs/reduce-usage)
 
 ## Site limits
 
-Plans can also limit how many websites you can create in one workspace. If you hit the site limit, upgrade the workspace or remove an unused site.
+Paid plans include **unlimited websites** per workspace. During a free trial or without an active subscription, the app may limit how many sites you can create — upgrade or start a trial to remove that cap.
 
 ## What counts as usage
 

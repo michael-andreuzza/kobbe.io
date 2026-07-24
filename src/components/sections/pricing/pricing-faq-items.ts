@@ -63,13 +63,13 @@ export const pricingFaqItems = [
     id: "features",
     question: "Do all plans include the same features?",
     answer:
-      "No. Lite includes core analytics for up to 3 websites. Starter adds revenue attribution, first-party collect, UTM campaigns, traffic alerts, data export, Web Vitals, team access, and agent API or CLI access for up to 30 websites. Growth and higher tiers add monthly email reports for up to 50 websites. Above Growth, plans mainly increase monthly event volume.",
+      "Yes. Every paid volume includes the same product features — unlimited websites, revenue attribution, first-party collect, UTM campaigns, traffic alerts, data export, Web Vitals, team access, and agent API or CLI access. Monthly email reports are included from 5M events.",
   },
   {
     id: "event-pricing",
     question: "How does event-based pricing work?",
     answer:
-      "Each plan includes a monthly event allowance for the whole workspace. You choose the tier that matches your traffic volume, and the product remains the same across tiers.",
+      "Move the slider to pick your monthly event allowance for the whole workspace. You pay for capacity, not feature tiers. Upgrade or downgrade any time as traffic changes.",
   },
   {
     id: "trial",

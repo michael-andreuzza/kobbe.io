@@ -33,9 +33,8 @@ export function PricingVolumeTable({
             All event volumes
           </h2>
           <p className="text-muted-foreground mt-2 text-base">
-            Growth features and higher site limits apply from Starter upward.
-            Choose the monthly event cap that fits, then compare billing
-            periods below.
+            Same features on every tier — choose the monthly event cap that fits,
+            then compare billing periods below.
           </p>
         </div>
       ) : null}
