@@ -32,7 +32,13 @@ The script automatically records a pageview when the page loads.
 
 Use the **same snippet** on each subdomain you want in this site (for example `www`, `app`, or `blog`). See [Track across subdomains](/docs/track-subdomains).
 
-Optional settings such as a custom collect URL (`data-endpoint`), [first-party collect](/docs/first-party-collect), [conversions](/docs/conversions) (`data-conversions`), or hash routes (`data-track-hash`) are described in [Script options](/docs/script-options); see [Hash page paths](/docs/hash-page-paths) for SPAs that use the URL hash as the route. Keep the default `tracker.js` for normal pageviews and custom events. Use `tracker.full.js` only when you enable advanced options such as [Scroll tracking](/docs/scroll-tracking), [Cross-domain tracking](/docs/cross-domain-tracking), or [Performance and Web Vitals](/docs/performance-web-vitals). To drop your own visits or filter by path, hostname, country, or IP, see [Filter your visits](/docs/exclude-visits).
+The default `tracker.js` is enough for pageviews and custom events. For optional features, use [Tracking options](/docs/tracking-options) in the dashboard or `data-*` attributes from [Script options](/docs/script-options). Switch to `tracker.full.js` when you need [scroll tracking](/docs/scroll-tracking), [cross-domain tracking](/docs/cross-domain-tracking), or [Web Vitals](/docs/performance-web-vitals).
+
+**Next steps**
+
+- [Tracking options](/docs/tracking-options): enable features with dashboard toggles
+- [Script options](/docs/script-options): configure the install snippet with `data-*` attributes
+- [Filter your visits](/docs/exclude-visits): ignore your own traffic or filter by path, hostname, country, or IP
 
 ## 3. Verify tracking
 
