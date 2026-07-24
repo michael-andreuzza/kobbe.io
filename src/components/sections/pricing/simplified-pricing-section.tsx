@@ -26,7 +26,7 @@ export function SimplifiedPricingSection({
   appBaseUrl?: string;
   className?: string;
 }) {
-  const [period, setPeriod] = useState<BillingPeriod>("yearly");
+  const [period, setPeriod] = useState<BillingPeriod>("monthly");
   const [tierIndex, setTierIndex] = useState(0);
 
   const tier = pricingTiers[tierIndex]!;
@@ -39,7 +39,7 @@ export function SimplifiedPricingSection({
     <div className={cn("w-full min-w-0", className)}>
       <article className="bg-card text-foreground relative w-full overflow-hidden rounded-lg">
         <div className="flex flex-col lg:flex-row">
-          <div className="flex flex-col p-4 lg:w-2/3 lg:p-6">
+          <div className="flex flex-col p-4 lg:w-2/3 lg:p-8">
             <BillingPeriodTabs
               period={period}
               onPeriodChange={setPeriod}
@@ -81,7 +81,7 @@ export function SimplifiedPricingSection({
                 href={signupHref}
                 data-kobbe-event={`Simplified pricing - ${tier.events} ${period}`}
                 className={cn(
-                  buttonVariants({ variant: "default", size: "sm" }),
+                  buttonVariants({ variant: "default", size: "lg" }),
                   "mt-2 w-full",
                 )}
               >

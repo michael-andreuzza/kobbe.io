@@ -1,6 +1,5 @@
 ---
 import { SimplifiedPricingSection } from "@/components/sections/pricing/simplified-pricing-section";
-import { PricingComparisonTable } from "@/components/sections/pricing/pricing-comparison-table";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import SectionIntro from "@/components/landing/SectionIntro.astro";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
@@ -15,20 +14,17 @@ const { headingTag = "h2" } = Astro.props;
 
 <section id="pricing" aria-labelledby="pricing-heading" class="pt-8">
   <Wrapper variant="default" class="py-20">
-    <div class="mx-auto min-w-0">
-      <div class="mx-auto max-w-2xl text-center">
-        <SectionIntro
-          id="pricing-heading"
-          tag={headingTag}
-          title="Simplified pricing"
-          description={`No confusing tiers. Pay for the events you need. Start with a ${pricingTrialDays}-day trial, no credit card required.`}
-        />
-      </div>
+    <div class="mx-auto max-w-2xl text-center">
+      <SectionIntro
+        id="pricing-heading"
+        tag={headingTag}
+        title="Simplified pricing"
+        description={`No confusing tiers. Pay for the events you need. Start with a ${pricingTrialDays}-day trial, no credit card required.`}
+      />
+    </div>
 
-      <div class="mt-10 min-w-0">
-        <SimplifiedPricingSection client:load appBaseUrl={appBaseUrl} />
-        <PricingComparisonTable client:load />
-      </div>
+    <div class="mt-10">
+      <SimplifiedPricingSection client:load appBaseUrl={appBaseUrl} />
     </div>
   </Wrapper>
 </section>
