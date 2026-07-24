@@ -52,20 +52,16 @@ export function SimplifiedPricingSection({
             </p>
 
             <div className="mt-8 flex flex-wrap items-end justify-between gap-4">
-              <p className="text-foreground font-display text-4xl tracking-tight italic sm:text-5xl">
+              <p className="text-foreground font-display min-w-[5ch] text-4xl tracking-tight italic sm:text-5xl">
                 {tier.events}
               </p>
-              <div className="flex items-baseline gap-2">
-                <span className="text-muted-foreground text-sm font-medium">
-                  for
-                </span>
-                <PricingPriceDisplay
-                  period={period}
-                  monthlyAmount={tier.monthly}
-                  displayAmount={displayAmount}
-                  className="text-foreground text-xl font-semibold tracking-tighter"
-                />
-              </div>
+
+              <PricingPriceDisplay
+                period={period}
+                monthlyAmount={tier.monthly}
+                displayAmount={displayAmount}
+                className="text-foreground text-xl font-semibold tracking-tighter"
+              />
             </div>
 
             <div className="mt-4">
