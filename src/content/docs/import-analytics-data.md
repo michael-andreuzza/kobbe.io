@@ -55,7 +55,7 @@ If you need another source, contact support with a sample export.
 
 ## Plan availability
 
-Analytics import is available on **Starter and higher** plans, the same as data export.
+Analytics import is included on every plan, the same as [data export](/docs/data-export).
 
 ## Related docs
 

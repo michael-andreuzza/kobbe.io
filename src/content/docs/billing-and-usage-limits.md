@@ -12,9 +12,15 @@ Plans and limits can change over time. The billing page in the app is the source
 
 ## Plans
 
-Kobbe offers event tiers from **20,000 monthly events** up to **25,000,000 monthly events** on a single product. Pick the volume that fits your traffic on the [pricing page](/#pricing) — **every feature is included** at every step.
+Kobbe offers event tiers from **20,000 monthly events** up to **25,000,000 monthly events** on a single product. Pick the volume that fits your traffic on the [pricing page](/#pricing). **Every product feature is included** at every step. You pay for monthly event capacity, not feature tiers.
 
-Site limits do not apply on paid plans — you can add **unlimited websites** to a workspace at every tier. **Monthly email reports** are included from 5M events.
+What changes as you move the slider:
+
+- **Monthly event cap** (the main difference between tiers).
+- **Data retention** (1 to 5 years of historical analytics, shown on the pricing page for each volume).
+- **Monthly email reports** (included from **5M monthly events**).
+
+Paid plans include **unlimited websites** per workspace.
 
 The slider starts at 20K, then jumps to 100K before stepping through 250K, 500K, and 750K up to 1M so you can upgrade gradually. For the complete list of volumes and prices, see [All event volumes](#all-event-volumes) below.
 
@@ -30,7 +36,7 @@ Use [visit filters](/docs/exclude-visits) and [Reduce usage](/docs/reduce-usage)
 
 ## Site limits
 
-Paid plans include **unlimited websites** per workspace. During a free trial or without an active subscription, the app may limit how many sites you can create — upgrade or start a trial to remove that cap.
+Paid plans include **unlimited websites** per workspace. During a free trial or without an active subscription, the app may limit how many sites you can create. Upgrade or start a trial to remove that cap.
 
 ## What counts as usage
 

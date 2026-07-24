@@ -34,9 +34,9 @@ After you save, the tracker loads merged settings from `/api/collect-config` on 
 
 | Tracking options toggle | Script attribute | Notes |
 | --- | --- | --- |
-| UTM campaigns | `data-campaigns="true"` | Requires a **Starter** plan or higher. |
+| UTM campaigns | `data-campaigns="true"` | See [UTM campaigns](/docs/utm-campaigns). |
 | Hash page paths | `data-track-hash="true"` | See [Hash page paths](/docs/hash-page-paths). |
-| Web Vitals | `data-performance="true"` | Requires `tracker.full.js` and a **Starter** plan or higher. See [Performance and Web Vitals](/docs/performance-web-vitals). |
+| Web Vitals | `data-performance="true"` | Requires `tracker.full.js`. See [Performance and Web Vitals](/docs/performance-web-vitals). |
 | Auto conversions | `data-conversions="true"` | See [Conversions](/docs/conversions). |
 | Debug logging | `data-analytics-debug="true"` | Logs failed collect responses in the browser console. Remove after debugging. |
 | Cross-domain | `data-allowed-hostnames="host1,host2"` | Requires `tracker.full.js`. When **On**, enter allowed hostnames in the dashboard field. See [Cross-domain tracking](/docs/cross-domain-tracking). |

@@ -8,7 +8,7 @@ navLabel: Overview
 
 Revenue attribution connects a visit to a later payment webhook. Pick your provider first, then follow the shared setup below.
 
-Revenue attribution is available on **Starter** plans and above. Enable it only on the pages that send visitors toward checkout, and review your privacy notice or consent setup before using it.
+Revenue attribution is included on every plan. Enable it only on the pages that send visitors toward checkout, and review your privacy notice or consent setup before using it.
 
 ## How it works
 

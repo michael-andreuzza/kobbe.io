@@ -12,7 +12,7 @@ This is useful when ad blockers or strict browser privacy lists interfere with t
 
 ## Kobbe collect subdomain
 
-The fastest option needs no DNS changes on your domain. It is available on **Starter** plans and above.
+The fastest option needs no DNS changes on your domain. First-party collect is included on every plan.
 
 1. Open **Site settings** in Kobbe.
 2. Under **First-party collect**, choose **Enable first-party collect**.

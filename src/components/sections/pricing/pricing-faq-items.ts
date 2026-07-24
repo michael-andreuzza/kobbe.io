@@ -51,7 +51,7 @@ export const pricingFaqItems = [
     id: "retention",
     question: "How long is analytics data retained?",
     answer:
-      "Paid workspaces keep analytics data for as long as the workspace remains active, unless you delete data or a legal requirement requires removal.",
+      "Data retention depends on your monthly event tier: from 1 year on smaller volumes up to 5 years on larger ones. See the feature list on the pricing slider for the exact window at each step.",
   },
   {
     id: "export",

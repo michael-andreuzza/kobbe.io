@@ -26,7 +26,7 @@ The report is sent to the email address saved in the site's report and alert set
 
 ## Availability
 
-Monthly reports are intended for paid workspaces and are opt-in per site. You can disable them any time from site settings.
+Monthly email reports are included from **5M monthly events** on the [pricing page](/#pricing). They are opt-in per site. You can disable them any time from site settings.
 
 ## Related docs
 

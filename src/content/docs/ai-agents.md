@@ -14,7 +14,7 @@ Agent access uses the same `@kobbe/cli` package as the [CLI](/docs/cli), but run
 
 Create an API token from the app **profile menu** (your avatar, top right) → **Agent access**. You can also open [app.kobbe.io/settings/agent-access](https://app.kobbe.io/settings/agent-access) directly. It is **not** under site settings or **Account** settings. Copy the token immediately; Kobbe only shows it once.
 
-**Agent access requires a Starter plan or higher.** On Lite, the menu item is hidden. Only workspace owners and managers can create tokens.
+Agent access is included on every plan. Only workspace owners and managers can create tokens.
 
 You can either log in once with the CLI:
 
