@@ -14,26 +14,27 @@ This is useful when ad blockers or strict browser privacy lists interfere with t
 
 The fastest option needs no DNS changes on your domain. First-party collect is included on every plan.
 
-1. Open **Site settings** in Kobbe.
-2. Under **First-party collect**, choose **Enable first-party collect**.
-3. Kobbe provisions a dedicated hostname such as `yoursite-collect.kobbe.io`.
-4. Copy the updated install snippet, it loads `tracker.js` from that hostname and posts to the same origin.
+- Open Site settings
+- Under First-party collect, choose Enable first-party collect
+- Kobbe provisions a hostname such as `yoursite-collect.kobbe.io`
+- Copy the updated install snippet
 
-Use **Disconnect** to return to the default `app.kobbe.io` snippet.
+Use Disconnect to return to the default `app.kobbe.io` snippet.
 
 ## Your collect subdomain
 
 For stricter first-party delivery on your own domain, point a subdomain at Kobbe with a CNAME record.
 
-1. In **Site settings**, enter a collect hostname such as `data.example.com`.
-2. Choose **Connect**.
-3. Add the CNAME record Kobbe shows (from your hostname to the Cloudflare target).
-4. Wait for DNS and SSL verification. Status appears in site settings.
-5. Update your site with the new install snippet once the hostname is active.
+- In Site settings, enter a collect hostname such as `data.example.com`
+- Choose Connect
+- Add the CNAME record Kobbe shows
+- Wait for DNS and SSL verification
+- Update your site with the new install snippet once the hostname is active
 
 Prefer neutral names like `data.` or `cdn.` rather than `analytics.` or `tracking.`.
 
-Disconnect the active Kobbe collect subdomain before connecting a custom hostname. Use **Cancel setup** while a custom hostname is still pending.
+- Disconnect the active Kobbe collect subdomain before connecting a custom hostname
+- Use Cancel setup while a custom hostname is still pending
 
 ## Install snippet
 
@@ -51,7 +52,7 @@ Optional tracker attributes such as `data-conversions`, `data-campaigns`, and `d
 
 ## What first-party collect is not
 
-First-party collect changes where the tracker script loads and where events are sent. It does **not** host your Kobbe dashboard on your domain.
+First-party collect changes where the tracker script loads and where events are sent. It does not host your Kobbe dashboard on your domain.
 
 ## Related docs
 

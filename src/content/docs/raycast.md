@@ -21,16 +21,12 @@ The extension can:
 
 ## Create an API token
 
-Open the app profile menu (your avatar, top right) and choose Agent access. You can also open [app.kobbe.io/settings/agent-access](https://app.kobbe.io/settings/agent-access) directly. It is not under site settings or Account settings. Workspace owners and managers can create tokens.
+- Open profile menu → Agent access (or go to [app.kobbe.io/settings/agent-access](https://app.kobbe.io/settings/agent-access))
+- Create a token named `Raycast`
+- Enable Read sites and Read analytics scopes only
+- Copy the token when shown (shown once)
 
-Create a token named `Raycast` and enable only the scopes the extension needs:
-
-- **Read sites**
-- **Read analytics**
-
-You do not need management scopes such as **Manage sites**, **Rotate tracker tokens**, or **Delete/reset sites** for the Raycast extension.
-
-Copy the token when Kobbe shows it. API tokens are only shown once.
+You do not need management scopes for the Raycast extension.
 
 ## Configure Raycast
 

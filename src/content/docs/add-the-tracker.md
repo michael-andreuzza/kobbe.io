@@ -12,9 +12,9 @@ For framework and builder-specific steps, see [Installation guides](/docs/instal
 
 ## 1. Create a site
 
-Sign in to Kobbe, create a site, and enter the domain you want to track.
-
-After the site is created, Kobbe shows a site token. Copy it before leaving the page. For security, the token cannot be shown again after the page reloads.
+- Sign in to Kobbe
+- Create a site and enter the domain you want to track
+- Copy the site token before leaving the page (it is not shown again after reload)
 
 ## 2. Add the tracker script
 
@@ -42,7 +42,9 @@ The default `tracker.js` is enough for pageviews and custom events. For optional
 
 ## 3. Verify tracking
 
-Open your site in a new tab, then return to Kobbe and check the dashboard. You should see the visit appear in real time.
+- Open your site in a new tab
+- Return to Kobbe and check the dashboard
+- The visit should appear in real time
 
 If you do not see traffic after a minute:
 

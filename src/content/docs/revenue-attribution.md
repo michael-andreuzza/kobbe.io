@@ -12,10 +12,10 @@ Revenue attribution is included on every plan. Enable it only on the pages that 
 
 ## How it works
 
-1. Enable a revenue source in Site settings → Revenue attribution.
-2. Load the full tracker with `data-revenue-attribution="true"`.
-3. For providers or custom checkouts that support metadata, pass `kobbe_attribution_id` to checkout.
-4. Add Kobbe's webhook URL and the provider signing secret.
+- Enable a revenue source in Site settings → Revenue attribution
+- Load the full tracker with `data-revenue-attribution="true"`
+- Pass `kobbe_attribution_id` to checkout when your provider supports metadata
+- Add Kobbe's webhook URL and the provider signing secret
 
 Kobbe hashes the tab-scoped attribution ID before storing it, so the raw value is never stored in D1.
 

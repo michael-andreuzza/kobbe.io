@@ -10,7 +10,11 @@ Kobbe can read tracker settings from your HTML or from the dashboard. Hardcode `
 
 ## Where to find it
 
-Open a site in Kobbe, go to Site settings, open the Installation tab, and scroll to Tracking options. Click Save tracking options after you change toggles.
+- Open a site in Kobbe
+- Go to Site settings
+- Open the Installation tab
+- Scroll to Tracking options
+- Change toggles, then click Save tracking options
 
 The Install block on the same tab shows your snippet:
 
@@ -47,19 +51,20 @@ The site token (`data-token`) and optional collect endpoint (`data-endpoint`) ar
 
 ### Dashboard-first (minimal snippet)
 
-1. Paste the Minimal install snippet once in your global layout.
-2. Turn features On in Tracking options and save.
-3. Switch to `tracker.full.js` only when you need Web Vitals, cross-domain handoff, or scroll tracking.
+- Paste the Minimal install snippet in your global layout
+- Turn features On in Tracking options and save
+- Use `tracker.full.js` only for Web Vitals, cross-domain handoff, or scroll tracking
 
 ### Code-first (explicit snippet)
 
-1. Add `data-*` attributes to your script tag (or copy the Explicit snippet from site settings).
-2. Leave matching toggles Off so the script tag remains the source of truth.
-3. Use dashboard toggles later if you want to enable a feature without editing deployed HTML.
+- Add `data-*` attributes to your script tag (or copy the Explicit snippet)
+- Leave matching toggles Off so the script tag stays in control
+- Use dashboard toggles later to enable a feature without redeploying HTML
 
 ### Mixed
 
-Leave toggles Off for features you control in code. Turn On only for features you want Kobbe to manage centrally (for example UTM campaigns on a marketing site where engineers prefer a token-only snippet).
+- Leave toggles Off for features you manage in code
+- Turn On only for features you want Kobbe to control from the dashboard
 
 ## See also
 
