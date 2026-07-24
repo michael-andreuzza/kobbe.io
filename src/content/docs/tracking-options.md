@@ -68,4 +68,6 @@ The site token (`data-token`) and optional collect endpoint (`data-endpoint`) ar
 
 ## See also
 
-[Add the tracker](/docs/add-the-tracker) · [Script options](/docs/script-options) · [Installation guides](/docs/installation-guides)
+- [Add the tracker](/docs/add-the-tracker)
+- [Script options](/docs/script-options)
+- [Installation guides](/docs/installation-guides)

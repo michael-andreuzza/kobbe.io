@@ -12,8 +12,6 @@ When a toggle is On and saved, Kobbe overrides the matching `data-*` attribute o
 
 The default `tracker.js` is lightweight and covers pageviews, custom events, custom endpoints, hash routes, UTM campaign capture, and debug logging. Advanced features such as cross-domain tracking, performance collection, and scroll tracking use `tracker.full.js`.
 
-See also: [Tracking options](/docs/tracking-options) · [Custom events](/docs/custom-events) · [Conversions](/docs/conversions) · [First-party collect](/docs/first-party-collect) · [Scroll tracking](/docs/scroll-tracking) · [404 tracking](/docs/404-tracking) · [Hash page paths](/docs/hash-page-paths) · [UTM campaigns](/docs/utm-campaigns) · [Subdomains](/docs/track-subdomains) · [Cross-domain tracking](/docs/cross-domain-tracking) · [Performance and Web Vitals](/docs/performance-web-vitals) · [Filter your visits](/docs/exclude-visits)
-
 ## Required
 
 ### Site token
@@ -176,3 +174,18 @@ There is no separate “localhost toggle”: if your dev site loads the snippet 
 - The referrer is reduced to the origin, so search queries and private URL data are not collected.
 - No cookies or persistent identifiers: optional `localStorage.kobbe_ignore === "true"` stops this browser from sending events (see [Filter your visits](/docs/exclude-visits)).
 - Custom events use the same tracker script and the same site token (see [Custom events](/docs/custom-events) and `window.kobbe.track`).
+
+## See also
+
+- [Tracking options](/docs/tracking-options)
+- [Custom events](/docs/custom-events)
+- [Conversions](/docs/conversions)
+- [First-party collect](/docs/first-party-collect)
+- [Scroll tracking](/docs/scroll-tracking)
+- [404 tracking](/docs/404-tracking)
+- [Hash page paths](/docs/hash-page-paths)
+- [UTM campaigns](/docs/utm-campaigns)
+- [Subdomains](/docs/track-subdomains)
+- [Cross-domain tracking](/docs/cross-domain-tracking)
+- [Performance and Web Vitals](/docs/performance-web-vitals)
+- [Filter your visits](/docs/exclude-visits)

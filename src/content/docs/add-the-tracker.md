@@ -34,11 +34,11 @@ Use the same snippet on each subdomain you want in this site (for example `www`,
 
 The default `tracker.js` is enough for pageviews and custom events. For optional features, use [Tracking options](/docs/tracking-options) in the dashboard or `data-*` attributes from [Script options](/docs/script-options). Switch to `tracker.full.js` when you need [scroll tracking](/docs/scroll-tracking), [cross-domain tracking](/docs/cross-domain-tracking), or [Web Vitals](/docs/performance-web-vitals).
 
-## Next steps
+## See also
 
-- [Tracking options](/docs/tracking-options): enable features with dashboard toggles
-- [Script options](/docs/script-options): configure the install snippet with `data-*` attributes
-- [Filter your visits](/docs/exclude-visits): ignore your own traffic or filter by path, hostname, country, or IP
+- [Tracking options](/docs/tracking-options)
+- [Script options](/docs/script-options)
+- [Filter your visits](/docs/exclude-visits)
 
 ## 3. Verify tracking
 
