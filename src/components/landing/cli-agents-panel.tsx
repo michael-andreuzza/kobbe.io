@@ -120,7 +120,7 @@ export function CliAgentsPanel() {
               {phase !== "typing" ? (
                 <div className="text-muted-foreground space-y-2 text-xs">
                   <p>
-                    Calling tools on the{" "}
+                    Calling tools on the
                     <span className="text-foreground font-mono">kobbe</span> MCP
                     server...
                   </p>
@@ -229,7 +229,7 @@ function AgentAnswer() {
   return (
     <div className="space-y-3 text-xs leading-6">
       <p>
-        Today you have <strong className="font-semibold">1,284 visitors</strong>{" "}
+        Today you have <strong className="font-semibold">1,284 visitors</strong>
         and <strong className="font-semibold">3,842 views</strong> across your
         top pages.
       </p>

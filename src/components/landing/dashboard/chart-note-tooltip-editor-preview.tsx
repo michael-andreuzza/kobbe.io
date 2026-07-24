@@ -5,34 +5,33 @@ import type { TrafficChartAnnotation } from "./traffic-line-chart";
 /** `inverted` matches the dark chart tooltip; `surface` sits on normal cards. */
 type NoteEditorTone = "inverted" | "surface";
 
+function chartNoteColorVar(colorId: string | undefined): string {
+  if (colorId && /^[1-6]$/.test(colorId)) {
+    return `var(--chart-${colorId})`;
+  }
+  return "var(--chart-1)";
+}
+
 const noteToneClasses = {
   inverted: {
     divider: "border-background/15",
     note: "text-background/85",
     iconButton:
       "rounded p-0.5 text-background/50 transition-colors hover:bg-background/10 hover:text-background disabled:opacity-50",
-    input:
-      "h-6 min-w-0 flex-1 rounded bg-background/15 px-1.5 text-xs text-background outline-none placeholder:text-background/45 focus:bg-background/25",
-    submit:
-      "h-6 shrink-0 rounded bg-background px-2 text-xs font-medium text-foreground transition-colors hover:bg-background/90 disabled:bg-background/25 disabled:text-background/70",
-    inputCompact:
-      "h-5 min-w-0 flex-1 rounded bg-background/15 px-1.5 text-[10px] text-background outline-none placeholder:text-background/45",
-    submitCompact:
-      "h-5 shrink-0 rounded bg-background px-1.5 text-[10px] font-medium text-foreground disabled:bg-background/25 disabled:text-background/70",
+    addNote:
+      "w-full rounded bg-background/10 px-2 py-1.5 text-center text-xs font-medium text-background transition-colors hover:bg-background/15 disabled:opacity-50",
+    addNoteCompact:
+      "w-full rounded bg-background/10 px-2 py-1 text-center text-[10px] font-medium text-background disabled:opacity-50",
   },
   surface: {
     divider: "border-border",
     note: "text-foreground/85",
     iconButton:
       "rounded p-0.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-50",
-    input:
-      "h-6 min-w-0 flex-1 rounded bg-muted px-1.5 text-xs text-foreground outline-none placeholder:text-muted-foreground/70 focus:bg-muted/70",
-    submit:
-      "h-6 shrink-0 rounded bg-foreground px-2 text-xs font-medium text-background transition-colors hover:bg-foreground/90 disabled:bg-foreground/25 disabled:text-background/70",
-    inputCompact:
-      "h-5 min-w-0 flex-1 rounded bg-muted px-1.5 text-[10px] text-foreground outline-none placeholder:text-muted-foreground/70",
-    submitCompact:
-      "h-5 shrink-0 rounded bg-foreground px-1.5 text-[10px] font-medium text-background disabled:bg-foreground/25 disabled:text-background/70",
+    addNote:
+      "w-full rounded bg-muted px-2 py-1.5 text-center text-xs font-medium text-foreground transition-colors hover:bg-muted/80 disabled:opacity-50",
+    addNoteCompact:
+      "w-full rounded bg-muted px-2 py-1 text-center text-[10px] font-medium text-foreground disabled:opacity-50",
   },
 } satisfies Record<NoteEditorTone, Record<string, string>>;
 
@@ -112,15 +111,22 @@ export function ChartNoteTooltipEditorPreview(props: {
 
   return (
     <div
-      className={`grid border-t ${tone.divider} ${compact ? "gap-1 pt-1" : "gap-1.5 pt-1.5"}`}
+      className={`grid min-w-0 border-t ${tone.divider} ${compact ? "gap-1 pt-1" : "gap-1.5 pt-1.5"}`}
     >
       {dayNotes.length > 0 ? (
-        <ul className="grid gap-1">
+        <ul className="grid min-w-0 gap-1">
           {dayNotes.map((annotation) => (
             <li
               key={annotation.id}
-              className={`flex items-center gap-1.5 ${tone.note}`}
+              className={`flex min-w-0 items-center gap-1.5 ${tone.note}`}
             >
+              <span
+                aria-hidden
+                className="size-2 shrink-0 rounded-[2px]"
+                style={{
+                  backgroundColor: chartNoteColorVar(annotation.color),
+                }}
+              />
               <span className="min-w-0 flex-1 truncate">{annotation.label}</span>
               <NoteIconButton
                 compact={compact}
@@ -140,23 +146,13 @@ export function ChartNoteTooltipEditorPreview(props: {
           ))}
         </ul>
       ) : null}
-      <div className="flex items-center gap-1.5">
-        <input
-          type="text"
-          readOnly
-          value=""
-          placeholder="Add a note for this day…"
-          aria-label="Note for this day"
-          className={compact ? tone.inputCompact : tone.input}
-        />
-        <button
-          type="button"
-          disabled
-          className={compact ? tone.submitCompact : tone.submit}
-        >
-          Add
-        </button>
-      </div>
+      <button
+        type="button"
+        disabled
+        className={compact ? tone.addNoteCompact : tone.addNote}
+      >
+        Add a note
+      </button>
     </div>
   );
 }

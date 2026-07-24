@@ -13,11 +13,13 @@ const previewAnnotations: TrafficChartAnnotation[] = [
     id: "preview-note-1",
     day: previewPinnedDay,
     label: "Product launch campaign went live",
+    color: "1",
   },
   {
     id: "preview-note-2",
     day: previewPinnedDay,
     label: "Newsletter sent to 12k subscribers",
+    color: "4",
   },
 ];
 

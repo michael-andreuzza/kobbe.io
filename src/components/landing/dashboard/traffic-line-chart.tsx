@@ -111,6 +111,8 @@ export type TrafficChartAnnotation = {
   /** UTC calendar day, YYYY-MM-DD. */
   day: string;
   label: string;
+  /** Chart palette id (`1`–`6`). */
+  color?: string;
 };
 
 function pointUtcDay(t: number): string {

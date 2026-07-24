@@ -225,6 +225,7 @@ export const heroChartAnnotations: TrafficChartAnnotation[] = [
     id: "hero-note-1",
     day: heroChartPinnedDay,
     label: "X launch on 28.5.26",
+    color: "4",
   },
 ];
 

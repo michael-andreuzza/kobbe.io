@@ -19,7 +19,7 @@ export function McpPreview() {
 
       <div className="bg-surface rounded-md px-2 py-1.5 leading-snug">
         <p className="text-muted-foreground truncate">
-          Kobbe · get_overview, get_top_pages
+          get_overview, get_top_pages
         </p>
         <p className="text-foreground mt-1 line-clamp-2">
           <strong className="font-semibold">
