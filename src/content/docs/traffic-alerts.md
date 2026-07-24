@@ -23,7 +23,7 @@ These alerts are designed to catch obvious changes, not explain every fluctuatio
 
 ## Availability
 
-Traffic alerts are intended for paid workspaces and are opt-in per site. You can disable them any time from site settings.
+Traffic alerts are included on every plan and are opt-in per site. You can disable them any time from site settings.
 
 ## Related docs
 
