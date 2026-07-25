@@ -113,12 +113,12 @@ type SidebarProps = {
 
 export default function Sidebar({ groups }: SidebarProps) {
   return (
-    <aside className="hidden w-52 min-w-52 shrink-0 lg:block">
+    <aside className="hidden w-40 min-w-40 shrink-0 lg:block">
       <div className="sticky top-24 flex max-h-[calc(100svh-6rem)] min-w-0 flex-col">
         <DocsCommandSearchTrigger className="mb-3 w-full shrink-0 self-stretch focus-visible:ring-0" />
         <nav
           aria-label="Docs navigation"
-          className="text-sidebar-foreground min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto pr-5 scrollbar-none!"
+          className="text-sidebar-foreground min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto pr-2 scrollbar-none!"
         >
           <SidebarGroups groups={groups} />
         </nav>

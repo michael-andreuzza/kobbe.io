@@ -6,7 +6,7 @@ interface Props {
 const { class: className = "" } = Astro.props;
 ---
 
-<aside class={`hidden xl:block ${className}`.trim()}>
+<aside class={`hidden w-36 min-w-36 shrink-0 xl:block ${className}`.trim()}>
   <div class="sticky top-24 space-y-8 w-full">
     <nav aria-label="Table of contents">
       <h3 class="text-foreground text-xs font-semibold tracking-wide uppercase">
