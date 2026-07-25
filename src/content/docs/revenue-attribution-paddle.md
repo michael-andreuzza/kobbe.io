@@ -13,7 +13,7 @@ Use Paddle when your checkout or overlay checkout is created through Paddle.
 
 ## Setup
 
-1. Enable **Paddle** in **Site settings → Revenue attribution**.
+1. Enable **Paddle** in **Site settings → Integrations → Revenue attribution**.
 2. Copy the Kobbe webhook URL.
 3. Add it as a Paddle notification destination.
 4. Copy the Paddle webhook secret into Kobbe.

@@ -12,7 +12,7 @@ Revenue attribution is included on every plan. Enable it only on the pages that 
 
 ## How it works
 
-- Enable a revenue source in Site settings → Revenue attribution
+- Enable a revenue source in Site settings → Integrations → Revenue attribution
 - Load the full tracker with `data-revenue-attribution="true"`
 - Pass `kobbe_attribution_id` to checkout when your provider supports metadata
 - Add Kobbe's webhook URL and the provider signing secret

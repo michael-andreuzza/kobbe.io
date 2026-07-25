@@ -39,7 +39,7 @@ Kobbe detects the export format automatically and writes the historical days int
 - Devices, browsers, and operating systems
 - Daily custom event totals
 
-Custom goals from Plausible are not recreated as live Kobbe goals automatically. Set up [conversions](/docs/conversions) or [custom events](/docs/custom-events) again after import if you still need them.
+Custom goals from Plausible are not recreated as live Kobbe goals automatically. Set up [conversions](/docs/conversions) under **Settings → Conversions** or [custom events](/docs/custom-events) again after import if you still need them.
 
 ## After the import
 

@@ -33,7 +33,7 @@ export function PricingVolumeTable({
             All event volumes
           </h2>
           <p className="text-muted-foreground mt-2 text-base">
-            Same features on every tier — choose the monthly event cap that fits,
+            Same features on every tier. Choose the monthly event cap that fits,
             then compare billing periods below.
           </p>
         </div>

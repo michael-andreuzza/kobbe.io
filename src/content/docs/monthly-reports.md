@@ -6,7 +6,7 @@ category: Reports and alerts
 navLabel: Monthly reports
 ---
 
-Monthly reports send a concise month-in-review email for a site. They are off by default and can be enabled from Site settings → Reports and alerts.
+Monthly reports send a concise month-in-review email for a site. They are off by default and can be enabled from Site settings → Reports & alerts.
 
 Reports use analytics data Kobbe has already collected. They do not add browser tracking, cookies, or visitor identifiers.
 

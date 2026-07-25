@@ -15,7 +15,8 @@ This is useful when ad blockers or strict browser privacy lists interfere with t
 The fastest option needs no DNS changes on your domain. First-party collect is included on every plan.
 
 - Open Site settings
-- Under First-party collect, choose Enable first-party collect
+- Open the **Installation** tab
+- Under **First-party collect**, choose **Enable first-party collect**
 - Kobbe provisions a hostname such as `yoursite-collect.kobbe.io`
 - Copy the updated install snippet
 
@@ -25,7 +26,8 @@ Use Disconnect to return to the default `app.kobbe.io` snippet.
 
 For stricter first-party delivery on your own domain, point a subdomain at Kobbe with a CNAME record.
 
-- In Site settings, enter a collect hostname such as `data.example.com`
+- In Site settings, open the **Installation** tab
+- Enter a collect hostname such as `data.example.com`
 - Choose Connect
 - Add the CNAME record Kobbe shows
 - Wait for DNS and SSL verification

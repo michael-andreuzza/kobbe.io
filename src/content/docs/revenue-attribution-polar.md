@@ -13,7 +13,7 @@ Use Polar when your checkout links or hosted product checkouts run through Polar
 
 ## Setup
 
-1. Enable **Polar** in **Site settings → Revenue attribution**.
+1. Enable **Polar** in **Site settings → Integrations → Revenue attribution**.
 2. Copy the Kobbe webhook URL.
 3. Add it as a Polar webhook endpoint.
 4. In Polar, select the `order.paid` event schema.

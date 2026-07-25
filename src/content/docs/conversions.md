@@ -12,7 +12,7 @@ Conversions are separate from [custom events](/docs/custom-events) you define wi
 
 ## Enable conversions
 
-Open your site in Kobbe and go to **Conversions**. Turn on the presets you want, or add a custom conversion with your own event name.
+Open your site in Kobbe, go to **Settings**, then open the **Conversions** tab. Turn on the presets you want, or add a custom conversion with your own event name.
 
 Then add `data-conversions="true"` to the tracker script. Kobbe also adds this attribute to the install snippet in **Site settings** when conversions are enabled.
 

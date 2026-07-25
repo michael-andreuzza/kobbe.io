@@ -36,7 +36,7 @@ Replaces rollup data for the imported days in the ZIP. Live raw events are not d
 - Top pages, referrers, countries, regions, cities, devices, browsers, and operating systems
 - Daily custom event totals when the export includes them
 
-Custom events and conversions from the old tool are not recreated automatically. Re-enable the goals you need in Kobbe after import.
+Custom events and conversions from the old tool are not recreated automatically. Re-enable the goals you need under **Settings → Conversions** after import.
 
 ## What does not fully carry over
 

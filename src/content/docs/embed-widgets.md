@@ -21,12 +21,13 @@ Widgets use a **separate embed token** from the [shared dashboard](/docs/shared-
 
 1. Open the site in Kobbe.
 2. Go to **Settings**.
-3. Open the **Widgets** card.
-4. Turn on **Enable embed widgets**.
-5. Pick **Chart** or **Realtime** to preview the design.
-6. Customize **Chart color** and **Theme** (light, dark, or system).
-7. Copy the **Embed code** snippet for the active tab.
-8. Paste the snippet into your site HTML where you want the card to appear.
+3. Open the **Sharing** tab.
+4. Find the **Widgets** section.
+5. Turn on **Enable embed widgets**.
+6. Pick **Chart** or **Realtime** to preview the design.
+7. Customize **Chart color** and **Theme** (light, dark, or system).
+8. Copy the **Embed code** snippet for the active tab.
+9. Paste the snippet into your site HTML where you want the card to appear.
 
 The snippet includes the iframe and a small resize script so the card height stays correct after the page loads.
 

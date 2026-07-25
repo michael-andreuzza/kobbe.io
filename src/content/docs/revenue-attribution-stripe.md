@@ -13,7 +13,7 @@ Use Stripe when your checkout is created through Checkout Sessions, Payment Link
 
 ## Setup
 
-1. Enable **Stripe** in **Site settings → Revenue attribution**.
+1. Enable **Stripe** in **Site settings → Integrations → Revenue attribution**.
 2. Copy the Kobbe webhook URL.
 3. Add that URL in the Stripe dashboard.
 4. Copy Stripe's webhook signing secret into Kobbe.

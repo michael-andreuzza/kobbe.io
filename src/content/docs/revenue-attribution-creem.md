@@ -13,7 +13,7 @@ Use Creem when your product checkout or payment link is handled by Creem.
 
 ## Setup
 
-1. Enable **Creem** in **Site settings → Revenue attribution**.
+1. Enable **Creem** in **Site settings → Integrations → Revenue attribution**.
 2. Copy the Kobbe webhook URL.
 3. Add it in Creem's webhook settings.
 4. Copy the Creem signing secret into Kobbe.

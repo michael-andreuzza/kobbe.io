@@ -14,7 +14,7 @@ Need a one-off share link instead? Use [Shared dashboards](/docs/shared-dashboar
 
 1. Sign in as the workspace owner.
 2. Open the project dashboard.
-3. Select **Team** in the project sidebar.
+3. Open **Settings**, then the **Team** tab.
 4. Enter the teammate's email address.
 5. Select **Send invite**.
 
@@ -45,9 +45,9 @@ Team members cannot:
 
 ## Manage members
 
-Workspace owners can return to **Team** in the project sidebar to revoke pending invitations or remove existing project dashboard viewers.
+Workspace owners can open **Settings → Team** for the project to revoke pending invitations or remove existing dashboard viewers.
 
-If a teammate no longer needs access, they can leave the workspace from the same Team settings page without asking the owner to remove them.
+If a teammate no longer needs access, they can leave from **Team** in the project sidebar (invited viewers) or from **Settings → Team** (workspace owners).
 
 ## Related docs
 
