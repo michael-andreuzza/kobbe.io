@@ -165,6 +165,7 @@ export const simplifiedPricingFeatures = [
   "Web Vitals and performance insights",
   "Data export and import",
   "Team access, agent API, and CLI",
+  "Raycast extension",
   MONTHLY_EMAIL_REPORTS_FEATURE,
 ] as const;
 
