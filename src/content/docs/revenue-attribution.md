@@ -60,3 +60,16 @@ Kobbe rejects webhooks when the signing secret is missing, wrong, or outside the
 - It stores payment amount, currency, provider event IDs, and a hashed attribution key.
 - It does not store customer email, name, or raw attribution ID.
 - It may require additional privacy notice or consent depending on your jurisdiction, audience, and checkout setup.
+
+## After setup
+
+Once webhooks are flowing, open the [Revenue](/docs/revenue) page in the sidebar to review attributed totals, product breakdowns, and purchase journeys. Overview KPIs and breakdown rows are described in [Revenue on the dashboard](/docs/dashboard-stats-revenue).
+
+## Related docs
+
+- [Revenue page](/docs/revenue)
+- [Revenue on the dashboard](/docs/dashboard-stats-revenue)
+- [Polar revenue attribution](/docs/revenue-attribution-polar)
+- [Stripe revenue attribution](/docs/revenue-attribution-stripe)
+- [Paddle revenue attribution](/docs/revenue-attribution-paddle)
+- [Creem revenue attribution](/docs/revenue-attribution-creem)

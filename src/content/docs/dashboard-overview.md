@@ -14,6 +14,7 @@ Use the sidebar to open dedicated pages when you need more detail:
 | ------------ | ------------------------------------------------ |
 | **Events**   | [Events activity log](/docs/events-activity-log) |
 | **Insights** | [Insights](/docs/insights)                       |
+| **Revenue**  | [Revenue](/docs/revenue)                         |
 | **Realtime** | [Realtime visitors](/docs/realtime-visitors)     |
 
 ## Time range and filters

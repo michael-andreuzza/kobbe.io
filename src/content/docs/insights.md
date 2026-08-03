@@ -12,7 +12,7 @@ The **Insights** page helps you spot patterns in traffic and conversions without
 
 ### Insight metrics
 
-A KPI strip at the top summarizes the selected range. Metrics can include average daily visitors, single-visit share, custom event totals, and pageviews. When revenue attribution is connected, Kobbe also shows average daily revenue, revenue per visitor, and median time to purchase.
+A KPI strip at the top summarizes the selected range. Metrics can include average daily visitors, single-visit share, custom event totals, and pageviews. When revenue attribution is connected, Kobbe also shows average daily revenue, revenue per visitor, and median time to purchase. For deeper attribution breakdowns and purchase journeys, use the dedicated [Revenue](/docs/revenue) page.
 
 Use **Add comparison** in the toolbar to compare the active range against a previous period. KPI values and breakdown tables follow the same comparison window as the overview dashboard.
 

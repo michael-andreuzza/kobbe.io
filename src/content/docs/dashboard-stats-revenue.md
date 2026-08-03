@@ -6,7 +6,9 @@ category: Dashboard stats
 navLabel: Revenue
 ---
 
-Revenue appears on the dashboard only after **paid events** exist for the site and [revenue attribution](/docs/revenue-attribution) is configured with your payment provider.
+Revenue appears on the **overview** dashboard only after **paid events** exist for the site and [revenue attribution](/docs/revenue-attribution) is configured with your payment provider.
+
+For attribution KPIs, product breakdowns, and purchase journeys, open the dedicated [Revenue](/docs/revenue) page in the sidebar.
 
 ## KPI strip
 
@@ -29,6 +31,7 @@ Attributed revenue can show on rows in **Pages**, **Sources**, **Locations**, **
 
 ## Related docs
 
+- [Revenue page](/docs/revenue)
 - [Dashboard overview](/docs/dashboard-overview)
 - [Revenue attribution](/docs/revenue-attribution)
 - [KPIs](/docs/dashboard-stats-kpis)
