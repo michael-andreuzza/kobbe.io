@@ -40,7 +40,9 @@ When channel data is available, source tabs may group referrers into traffic cha
 
 ### Revenue by product
 
-**Revenue by product** lists each product (or price) with orders, revenue, share of total revenue, and attributed share. Kobbe shows the product name when your payment provider sends it; otherwise the product ID is shown with price and type as secondary detail.
+**Revenue by product** lists each product (or price) with orders, revenue, share of total revenue, and attributed share. Kobbe shows the product name when your payment provider sends it in the webhook payload.
+
+For **Polar**, you can also add an optional [organization access token](/docs/revenue-attribution-polar#product-names-optional) with `products:read` in site settings so Kobbe can resolve names from your Polar catalog—including on orders that arrived before the token was saved. Without a name, the product ID is shown with price and type as secondary detail.
 
 ### Purchase journeys
 
