@@ -221,11 +221,9 @@ export function DocsCommandSearch({
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    document.documentElement.classList.add("lenis-stopped");
 
     return () => {
       document.body.style.overflow = previousOverflow;
-      document.documentElement.classList.remove("lenis-stopped");
     };
   }, [open]);
 
@@ -364,7 +362,6 @@ export function DocsCommandSearch({
         <Dialog.Portal>
           <Dialog.Backdrop className="bg-foreground/20 fixed inset-0 z-50 transition-opacity duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0" />
           <Dialog.Popup
-            data-lenis-prevent
             onWheel={(event) => {
               event.stopPropagation();
             }}
@@ -415,7 +412,6 @@ export function DocsCommandSearch({
 
               <div
                 ref={listRef}
-                data-lenis-prevent
                 className="mt-1 max-h-[min(19rem,calc(100svh-14rem))] min-h-0 flex-1 overflow-y-auto overscroll-y-contain p-1"
                 role="listbox"
                 aria-label="Search results"
