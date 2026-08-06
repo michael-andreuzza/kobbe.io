@@ -265,12 +265,12 @@ function formatRevenueKpi(points: StackedChartPoint[]) {
   return {
     revenue: {
       display: formatMoneyMinor(netMinor),
-      rightHint: `${paidOrders.toLocaleString()} paid`,
+      rightHint: paidOrders.toLocaleString(),
       label: "Net revenue",
     },
     refunds: {
       display: formatMoneyMinor(refundMinor),
-      rightHint: `${refundCount.toLocaleString()} refunds`,
+      rightHint: refundCount.toLocaleString(),
     },
   };
 }
