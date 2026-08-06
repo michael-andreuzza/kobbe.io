@@ -18,7 +18,9 @@ A KPI strip at the top summarizes the selected range:
 
 | Metric | What it shows |
 | ------ | ------------- |
-| **Total revenue** | Sum of paid amounts in the range, with a paid-order count. |
+| **Gross revenue** | Sum of paid amounts in the range, with a paid-order count. |
+| **Refunds** | Amount refunded in the range, with a refund count. |
+| **Net revenue** | Gross revenue minus refunds. |
 | **Attributed revenue** | Revenue Kobbe could link to a visit in the lookback window, with an attributed-order count. |
 | **Attribution rate** | Share of paid orders that Kobbe attributed to a journey. |
 | **Median time to purchase** | Typical elapsed time from first attributed touch to payment. |
@@ -44,6 +46,12 @@ When channel data is available, source tabs may group referrers into traffic cha
 
 For **Polar**, you can also add an optional [organization access token](/docs/revenue-attribution-polar#product-names-optional) with `products:read` in site settings so Kobbe can resolve names from your Polar catalog—including on orders that arrived before the token was saved. Without a name, the product ID is shown with price and type as secondary detail.
 
+### Recent refunds
+
+When refunds exist in the range, a **Recent refunds** card lists each refund with its date, product, order ID, and amount. Refunds arrive through your payment provider's webhook—for Polar, select the `refund.created` event schema (see [Polar revenue attribution](/docs/revenue-attribution-polar#refunds)).
+
+The card shows the 20 most recent refunds; select **Load more** to reveal older ones.
+
 ### Purchase journeys
 
 Two journey cards sit below the product table:
@@ -68,7 +76,7 @@ Changing either setting recalculates attribution breakdowns and journey cards fo
 
 ## Export and share
 
-Use the menu in a card header to **export CSV** or open **Share** for a branded table image. Share and export are available on the attribution breakdown, revenue by product, touches before purchase, and top purchase paths cards.
+Use the menu in a card header to **export CSV** or open **Share** for a branded table image. Share and export are available on the attribution breakdown, revenue by product, recent refunds, touches before purchase, and top purchase paths cards.
 
 See [Share metric images](/docs/share-metric-images) for background and copy options.
 

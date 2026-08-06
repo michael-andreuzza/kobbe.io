@@ -14,7 +14,8 @@ For attribution KPIs, product breakdowns, and purchase journeys, open the dedica
 
 | Item               | Behavior                                                                                |
 | ------------------ | --------------------------------------------------------------------------------------- |
-| **Total revenue**  | Sum of paid amounts in the selected range.                                              |
+| **Revenue**        | Sum of paid amounts in the selected range, minus refunds. Labeled **Net revenue** when refunds exist. |
+| **Refunds**        | Appears when refunds exist in the range; shows the refunded amount and count, and links to the [Revenue](/docs/revenue) page. |
 | **Paid events**    | Count of paid events Kobbe recorded for that range.                                     |
 | **Multi-currency** | If more than one currency appears, Kobbe avoids mixing amounts and labels this clearly. |
 
