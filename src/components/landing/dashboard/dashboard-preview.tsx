@@ -76,6 +76,7 @@ export function DashboardPreview() {
         bounceRate={heroChartKpi.bounceRate}
         sessionTime={heroChartKpi.sessionTime}
         revenue={heroChartKpi.revenue}
+        refunds={heroChartKpi.refunds}
         activeMetric={chartMetric}
         onMetricClick={handleMetricClick}
       />

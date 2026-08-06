@@ -25,7 +25,7 @@ type KpiTileBodyProps = Omit<KpiTile, "key" | "onClick">;
 function KpiStripGrid(props: {
   items: KpiTile[];
   ariaLabel: string;
-  lgCols: 4 | 5 | 6;
+  lgCols: 4 | 5 | 6 | 7;
   tileSurface?: "card" | "muted";
   tileClassName?: string;
 }) {
@@ -102,7 +102,8 @@ export function DashboardKpiStrip(props: {
   views: TrendKpi;
   bounceRate: TrendKpi;
   sessionTime: TrendKpi;
-  revenue?: { display: string; rightHint?: string };
+  revenue?: { display: string; rightHint?: string; label?: string };
+  refunds?: { display: string; rightHint?: string };
   activeMetric?: TrafficChartMetric;
   onMetricClick?: (metric: TrafficChartMetric) => void;
   tileClassName?: string;
@@ -171,7 +172,7 @@ export function DashboardKpiStrip(props: {
   if (props.revenue) {
     items.push({
       key: "revenue",
-      label: "Revenue",
+      label: props.revenue.label ?? "Revenue",
       valueDisplay: props.revenue.display,
       valueClassName: "text-base sm:text-lg",
       rightHint: props.revenue.rightHint,
@@ -179,11 +180,21 @@ export function DashboardKpiStrip(props: {
       onClick: props.onMetricClick ? () => props.onMetricClick?.("revenue") : undefined,
     });
   }
+  if (props.refunds) {
+    items.push({
+      key: "refunds",
+      label: "Refunds",
+      valueDisplay: props.refunds.display,
+      valueClassName: "text-base sm:text-lg text-destructive",
+      rightHint: props.refunds.rightHint,
+      rightHintTone: "bad",
+    });
+  }
   return (
     <KpiStripGrid
       items={items}
       ariaLabel="Key metrics"
-      lgCols={props.revenue ? 6 : 5}
+      lgCols={props.revenue ? (props.refunds ? 7 : 6) : 5}
       tileSurface="muted"
       tileClassName={props.tileClassName}
     />

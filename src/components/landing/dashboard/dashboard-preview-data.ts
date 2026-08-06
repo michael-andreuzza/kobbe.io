@@ -247,18 +247,31 @@ function formatCompact(value: number) {
   }).format(value);
 }
 
-function formatRevenueKpi(points: StackedChartPoint[]) {
-  const revenueMinor = sumMetric(points, "revenueMinor");
-  const display = new Intl.NumberFormat("en-US", {
+function formatMoneyMinor(minor: number) {
+  return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-    notation: revenueMinor >= 1_000_000 ? "compact" : "standard",
+    notation: minor >= 1_000_000 ? "compact" : "standard",
     maximumFractionDigits: 1,
-  }).format(revenueMinor / 100);
-  const paidOrders = Math.max(1, Math.round(revenueMinor / 41_700));
+  }).format(minor / 100);
+}
+
+function formatRevenueKpi(points: StackedChartPoint[]) {
+  const grossMinor = sumMetric(points, "revenueMinor");
+  const refundMinor = Math.round(grossMinor * 0.018);
+  const netMinor = grossMinor - refundMinor;
+  const paidOrders = Math.max(1, Math.round(grossMinor / 41_700));
+  const refundCount = Math.max(1, Math.round(paidOrders * 0.015));
   return {
-    display,
-    rightHint: `${paidOrders.toLocaleString()} paid`,
+    revenue: {
+      display: formatMoneyMinor(netMinor),
+      rightHint: `${paidOrders.toLocaleString()} paid`,
+      label: "Net revenue",
+    },
+    refunds: {
+      display: formatMoneyMinor(refundMinor),
+      rightHint: `${refundCount.toLocaleString()} refunds`,
+    },
   };
 }
 
@@ -297,7 +310,7 @@ function buildKpi(points: StackedChartPoint[]) {
       deltaPct: 9.8,
       tone: "good" as const,
     },
-    revenue: formatRevenueKpi(points),
+    ...formatRevenueKpi(points),
   };
 }
 

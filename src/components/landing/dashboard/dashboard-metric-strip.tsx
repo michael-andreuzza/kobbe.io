@@ -6,16 +6,18 @@ type DashboardMetricStripProps = {
   children: ReactNode;
   ariaLabel: string;
   className?: string;
-  lgCols: 4 | 5 | 6;
+  lgCols: 4 | 5 | 6 | 7;
 };
 
 export function DashboardMetricStrip(props: DashboardMetricStripProps) {
   const lgColsClass =
-    props.lgCols === 6
-      ? "lg:grid-cols-6"
-      : props.lgCols === 5
-        ? "lg:grid-cols-5"
-        : "lg:grid-cols-4";
+    props.lgCols === 7
+      ? "lg:grid-cols-7"
+      : props.lgCols === 6
+        ? "lg:grid-cols-6"
+        : props.lgCols === 5
+          ? "lg:grid-cols-5"
+          : "lg:grid-cols-4";
 
   return (
     <section
