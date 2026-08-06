@@ -48,7 +48,7 @@
     }
   }
   html {
-    @apply scroll-smooth font-sans antialiased;
+    @apply scroll-smooth font-sans;
   }
 }
 * {

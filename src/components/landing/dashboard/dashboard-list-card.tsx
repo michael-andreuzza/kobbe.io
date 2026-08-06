@@ -17,9 +17,9 @@ export type BreakdownRevenueFormat = (minor: number) => string;
 
 const breakdownRowBarFillClass = "bg-foreground/3";
 const breakdownValueClassName =
-  "text-muted-foreground w-12 text-right text-[11px] leading-none tabular-nums sm:w-14";
+  "text-muted-foreground w-12 text-right text-xs leading-none tabular-nums sm:w-14";
 const breakdownRevenueClassName =
-  "text-foreground w-14 text-right text-[11px] leading-none font-medium tabular-nums sm:w-16";
+  "text-foreground w-14 text-right text-xs leading-none font-medium tabular-nums sm:w-16";
 
 export function CardExpandButton(props: {
   onClick?: () => void;
@@ -128,6 +128,24 @@ function BreakdownListRow(props: {
   );
 }
 
+/** Decorative external-link icon after row metrics, matching the app's overview lists. */
+function BreakdownOpenIconSlot(props: { show?: boolean }) {
+  return (
+    <span
+      className="text-muted-foreground/70 inline-flex size-3.5 shrink-0 items-center justify-center"
+      aria-hidden
+    >
+      {props.show ? (
+        <HugeiconsIcon
+          icon={LinkSquare01Icon}
+          strokeWidth={1.8}
+          className="size-3 shrink-0"
+        />
+      ) : null}
+    </span>
+  );
+}
+
 function normalizedCountryCode(
   countryCode: string | null | undefined,
 ): string | null {
@@ -161,13 +179,14 @@ export function PageBreakdownList(props: {
               >
                 {row.path}
               </span>
-              <div className="flex shrink-0 items-baseline justify-end gap-2 sm:gap-4">
+              <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-4">
                 {showRev ? (
                   <p className={breakdownRevenueClassName}>{revText}</p>
                 ) : null}
                 <p className={breakdownValueClassName}>
                   {row.count.toLocaleString()}
                 </p>
+                <BreakdownOpenIconSlot show />
               </div>
             </BreakdownListRow>
           </li>
@@ -217,34 +236,16 @@ export function ReferrerBreakdownList(props: {
         return (
           <li key={row.referrer} className="list-none">
             <BreakdownListRow count={row.count} listTotal={listTotal}>
-              {openUrl ? (
+              <div className="flex min-w-0 flex-1 items-center gap-2">
+                <ReferrerFavicon referrer={row.referrer} title={hostLabel} />
                 <span
-                  className="group/referrer flex min-w-0 flex-1 cursor-default items-center gap-2 rounded-sm no-underline outline-offset-2 hover:underline"
-                  title={`${hostLabel} (preview, not a link)`}
+                  className="text-foreground min-w-0 flex-1 truncate text-xs"
+                  title={row.referrer}
                 >
-                  <ReferrerFavicon referrer={row.referrer} title={hostLabel} />
-                  <span className="text-foreground min-w-0 flex-1 truncate text-xs">
-                    {hostLabel}
-                  </span>
-                  <HugeiconsIcon
-                    icon={LinkSquare01Icon}
-                    strokeWidth={1.8}
-                    className="text-muted-foreground size-3 shrink-0 opacity-0 transition-opacity group-hover/referrer:opacity-100"
-                    aria-hidden
-                  />
+                  {hostLabel}
                 </span>
-              ) : (
-                <div className="flex min-w-0 flex-1 items-center gap-2">
-                  <ReferrerFavicon referrer={row.referrer} title={hostLabel} />
-                  <span
-                    className="min-w-0 flex-1 truncate text-xs"
-                    title={row.referrer}
-                  >
-                    {hostLabel}
-                  </span>
-                </div>
-              )}
-              <div className="flex shrink-0 items-baseline justify-end gap-2 sm:gap-4">
+              </div>
+              <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-4">
                 {props.revenueFormat && rowHasRevenueHit(row.revenueMinor) ? (
                   <span className={breakdownRevenueClassName}>
                     {props.revenueFormat(row.revenueMinor ?? 0)}
@@ -253,6 +254,7 @@ export function ReferrerBreakdownList(props: {
                 <span className={breakdownValueClassName}>
                   {row.count.toLocaleString()}
                 </span>
+                <BreakdownOpenIconSlot show={Boolean(openUrl)} />
               </div>
             </BreakdownListRow>
           </li>
@@ -280,7 +282,7 @@ export function TrafficChannelList(props: {
               <span className={breakdownValueClassName}>
                 {row.count.toLocaleString()}
               </span>
-              <span className="text-muted-foreground/90 w-12 text-right text-[11px] leading-none tabular-nums sm:w-14">
+              <span className="text-muted-foreground/90 w-12 text-right text-xs leading-none tabular-nums sm:w-14">
                 {row.percent}%
               </span>
             </div>
@@ -462,7 +464,7 @@ export function SearchTermsBreakdownList(props: {
             <span className="text-foreground min-w-0 flex-1 truncate text-xs">
               {row.query}
             </span>
-            <span className="text-muted-foreground w-12 shrink-0 text-right text-[11px] leading-none tabular-nums sm:w-14">
+            <span className="text-muted-foreground w-12 shrink-0 text-right text-xs leading-none tabular-nums sm:w-14">
               {row.clicks.toLocaleString()}
             </span>
           </BreakdownListRow>

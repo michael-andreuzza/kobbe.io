@@ -47,7 +47,7 @@ export const dashboardCardContentTableClass =
   "min-w-0 !px-3 !pt-0 pb-4 sm:!px-4 sm:pb-5";
 
 /** Pass to `Table` inside dashboard cards (border-collapse, no row spacing). */
-export const dashboardTableClass = "border-collapse border-spacing-0 text-sm";
+export const dashboardTableClass = "border-collapse border-spacing-0 text-xs";
 
 /** Pass to `TableBody` — row dividers, no zebra striping, hover on every row. */
 export const dashboardTableBodyClass =
@@ -58,4 +58,4 @@ export const dashboardTableHeadClass =
   "h-auto px-0 py-2 text-xs font-medium text-muted-foreground";
 
 /** Pass to `TableCell` inside dashboard cards. */
-export const dashboardTableCellClass = "px-0 py-2";
+export const dashboardTableCellClass = "px-0 py-2 text-xs";

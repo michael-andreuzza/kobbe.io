@@ -174,7 +174,6 @@ export function DashboardKpiStrip(props: {
       key: "revenue",
       label: props.revenue.label ?? "Revenue",
       valueDisplay: props.revenue.display,
-      valueClassName: "text-base sm:text-lg",
       rightHint: props.revenue.rightHint,
       active: props.activeMetric === "revenue",
       onClick: props.onMetricClick ? () => props.onMetricClick?.("revenue") : undefined,
@@ -185,7 +184,7 @@ export function DashboardKpiStrip(props: {
       key: "refunds",
       label: "Refunds",
       valueDisplay: props.refunds.display,
-      valueClassName: "text-base sm:text-lg text-destructive",
+      valueClassName: "text-destructive",
       rightHint: props.refunds.rightHint,
       rightHintTone: "bad",
     });
