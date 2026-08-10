@@ -262,10 +262,11 @@ function formatRevenueKpi(points: StackedChartPoint[]) {
   const netMinor = grossMinor - refundMinor;
   const paidOrders = Math.max(1, Math.round(grossMinor / 41_700));
   const refundCount = Math.max(1, Math.round(paidOrders * 0.015));
+  const netOrders = Math.max(0, paidOrders - refundCount);
   return {
     revenue: {
       display: formatMoneyMinor(netMinor),
-      rightHint: paidOrders.toLocaleString(),
+      rightHint: netOrders.toLocaleString(),
       label: "Net revenue",
     },
     refunds: {

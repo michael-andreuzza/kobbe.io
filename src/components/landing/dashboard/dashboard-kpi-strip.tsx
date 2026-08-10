@@ -193,7 +193,13 @@ export function DashboardKpiStrip(props: {
     <KpiStripGrid
       items={items}
       ariaLabel="Key metrics"
-      lgCols={props.revenue ? (props.refunds ? 7 : 6) : 5}
+      lgCols={
+        props.revenue && props.refunds
+          ? 7
+          : props.revenue || props.refunds
+            ? 6
+            : 5
+      }
       tileSurface="muted"
       tileClassName={props.tileClassName}
     />
