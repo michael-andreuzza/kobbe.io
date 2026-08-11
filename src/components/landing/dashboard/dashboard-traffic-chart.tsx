@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 import {
   Card,
@@ -22,6 +22,9 @@ import {
   type TrafficChartMetric,
 } from "./traffic-line-chart";
 import { ChartShareButton } from "./chart-share-button";
+import { TabsChrome } from "./dashboard-tabs-chrome";
+
+export type OverviewChartStyle = "bars" | "area";
 
 type Props = {
   points: StackedChartPoint[];
@@ -34,10 +37,14 @@ type Props = {
   annotations?: TrafficChartAnnotation[] | null;
   annotationFooter?: ReactNode;
   showShare?: boolean;
+  showChartStyleTabs?: boolean;
 };
 
 export function DashboardTrafficChart(props: Props) {
   const showShare = props.showShare ?? true;
+  const showChartStyleTabs = props.showChartStyleTabs ?? true;
+  const [chartStyle, setChartStyle] = useState<OverviewChartStyle>("bars");
+  const chartStyleIndex = chartStyle === "bars" ? 0 : 1;
 
   return (
     <Card
@@ -52,9 +59,21 @@ export function DashboardTrafficChart(props: Props) {
           <CardDescription className={dashboardCardDescriptionClass}>
             {props.rangeLabel}
           </CardDescription>
-          {showShare ? (
+          {showShare || showChartStyleTabs ? (
             <CardAction>
-              <ChartShareButton />
+              <div className="flex flex-wrap items-center justify-end gap-3">
+                {showChartStyleTabs ? (
+                  <TabsChrome
+                    label="Chart style"
+                    tabs={["Bars", "Area"]}
+                    activeIndex={chartStyleIndex}
+                    onActiveIndexChange={(index) =>
+                      setChartStyle(index === 0 ? "bars" : "area")
+                    }
+                  />
+                ) : null}
+                {showShare ? <ChartShareButton /> : null}
+              </div>
             </CardAction>
           ) : null}
         </CardHeader>
@@ -66,6 +85,7 @@ export function DashboardTrafficChart(props: Props) {
             bucket="day"
             variant="hero"
             metric={props.metric}
+            chartStyle={chartStyle}
             spotlightIndex={props.spotlightIndex}
             previewPinnedIndex={props.previewPinnedIndex}
             annotations={props.annotations}

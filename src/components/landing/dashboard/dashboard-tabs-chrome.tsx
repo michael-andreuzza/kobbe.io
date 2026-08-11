@@ -1,12 +1,22 @@
-import { useId } from "react";
+import { useId, type ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
+
+export function tabsChromeButtonClass(active = false): string {
+  return cn(
+    "rounded transition-colors",
+    active
+      ? "text-foreground"
+      : "text-muted-foreground hover:text-foreground/80",
+  );
+}
 
 export function TabsChrome(props: {
   tabs: string[];
   activeIndex: number;
   onActiveIndexChange: (index: number) => void;
   label: string;
+  trailing?: ReactNode;
 }) {
   const baseId = useId();
   return (
@@ -24,16 +34,12 @@ export function TabsChrome(props: {
           tabIndex={index === props.activeIndex ? 0 : -1}
           aria-selected={index === props.activeIndex}
           onClick={() => props.onActiveIndexChange(index)}
-          className={cn(
-            "rounded transition-colors",
-            index === props.activeIndex
-              ? "text-foreground"
-              : "text-muted-foreground hover:text-foreground/80",
-          )}
+          className={tabsChromeButtonClass(index === props.activeIndex)}
         >
           {tab}
         </button>
       ))}
+      {props.trailing}
     </div>
   );
 }

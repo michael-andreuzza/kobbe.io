@@ -11,7 +11,7 @@ import {
 
 import { cn } from "@/lib/utils";
 
-import { ChartShareButton } from "./chart-share-button";
+import { BreakdownCardPreviewMenu } from "./breakdown-card-preview-menu";
 import {
   dashboardCardContentDefaultClass,
   dashboardCardHeaderClass,
@@ -112,7 +112,7 @@ export function InsightsDimensionTable(props: {
   nameHeader?: string;
   showRevenue?: boolean;
   renderNameCell?: (row: DimensionRow) => ReactNode;
-  shareAriaLabel?: string;
+  menuAriaLabel?: string;
 }) {
   const visibleRows = props.rows.filter((row) => row.count > 0).slice(0, 8);
   const showRevenue = props.showRevenue ?? false;
@@ -134,9 +134,9 @@ export function InsightsDimensionTable(props: {
     <Card variant="bordered" className={cn(dashboardCardRootClass, "min-w-0")}>
       <CardHeader className={dashboardCardHeaderClass}>
         <CardTitle className={dashboardCardTitleClass}>{props.title}</CardTitle>
-        {props.shareAriaLabel ? (
+        {props.menuAriaLabel ? (
           <CardAction className="flex items-center gap-0.5 self-start pt-0.5">
-            <ChartShareButton ariaLabel={props.shareAriaLabel} />
+            <BreakdownCardPreviewMenu ariaLabel={props.menuAriaLabel} />
           </CardAction>
         ) : null}
       </CardHeader>

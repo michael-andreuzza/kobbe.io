@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { MouseLeftClick01Icon } from "@hugeicons/core-free-icons";
 
-import { ChartShareButton } from "../chart-share-button";
+import { BreakdownCardPreviewMenu } from "../breakdown-card-preview-menu";
 import { DashboardTabbedBreakdownCard } from "../dashboard-breakdown-card";
 import { EventsSummaryTable } from "../dashboard-list-card";
+import { tabsChromeButtonClass } from "../dashboard-tabs-chrome";
 import type { DashboardPreviewRangeData } from "../dashboard-preview-data";
 
 export function EventsCard({
@@ -27,19 +28,16 @@ export function EventsCard({
         tabs: ["Count", "Share"],
         activeIndex: activeTab,
         onActiveIndexChange: setActiveTab,
+        trailing: hasEvents ? (
+          <span className={tabsChromeButtonClass()} aria-hidden>
+            Activity log
+          </span>
+        ) : undefined,
       }}
       showPreviewActions={!hasEvents}
       headerActions={
         hasEvents ? (
-          <>
-            <span
-              className="text-muted-foreground text-xs font-medium underline decoration-dotted underline-offset-2"
-              aria-hidden
-            >
-              Activity log
-            </span>
-            <ChartShareButton ariaLabel="Share events breakdown" />
-          </>
+          <BreakdownCardPreviewMenu ariaLabel="Events breakdown actions" />
         ) : undefined
       }
       expandAction={

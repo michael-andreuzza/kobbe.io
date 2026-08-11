@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Bar,
+  CartesianGrid,
   Cell,
   ComposedChart,
   Line,
@@ -127,11 +128,14 @@ export type TrafficChartMetric =
   | "sessionTime"
   | "revenue";
 
+export type TrafficChartStyle = "bars" | "area";
+
 export function TrafficLineChart(props: {
   points: StackedChartPoint[];
   bucket: TrafficStackBucket;
   variant?: "default" | "hero" | "compact";
   metric?: TrafficChartMetric;
+  chartStyle?: TrafficChartStyle;
   spotlightIndex?: number;
   displayTimeZone?: string;
   revenueCurrency?: string | null;
@@ -151,6 +155,7 @@ export function TrafficLineChart(props: {
     bucket,
     variant = "default",
     metric = "visitors",
+    chartStyle = "bars",
     spotlightIndex,
     displayTimeZone = "UTC",
     revenueCurrency = null,
@@ -575,6 +580,9 @@ export function TrafficLineChart(props: {
             }}
             domain={[0, trafficYMax]}
           />
+          {chartStyle === "area" ? (
+            <CartesianGrid yAxisId="traffic" vertical={false} />
+          ) : null}
           {disableHoverChartInteraction ? null : (
             <ChartTooltip
               content={
@@ -588,33 +596,50 @@ export function TrafficLineChart(props: {
               cursor={false}
             />
           )}
-          <Bar
-            key={metricKey}
-            yAxisId="traffic"
-            dataKey={metricKey}
-            fill={metricColor}
-            maxBarSize={barMaxSize}
-            shape={(barProps) => (
-              <LollipopBarShape
-                {...barProps}
-                active={
-                  activeBarIndex != null && barProps.index === activeBarIndex
-                }
-              />
-            )}
-            activeBar={
-              disableHoverChartInteraction ? undefined : (
-                <BrandActiveLollipopBarShape />
-              )
-            }
-            isAnimationActive={!prefersReducedMotion}
-            animationDuration={320}
-            animationEasing="ease-out"
-          >
-            {data.map((point) => (
-              <Cell key={`${point.t}-${metricKey}`} fill={metricColor} />
-            ))}
-          </Bar>
+          {chartStyle === "area" ? (
+            <Line
+              key={metricKey}
+              yAxisId="traffic"
+              type="linear"
+              dataKey={metricKey}
+              stroke={metricColor}
+              strokeWidth={hero ? 2 : 1.6}
+              dot={false}
+              activeDot={false}
+              connectNulls
+              isAnimationActive={!prefersReducedMotion}
+              animationDuration={320}
+              animationEasing="ease-out"
+            />
+          ) : (
+            <Bar
+              key={metricKey}
+              yAxisId="traffic"
+              dataKey={metricKey}
+              fill={metricColor}
+              maxBarSize={barMaxSize}
+              shape={(barProps) => (
+                <LollipopBarShape
+                  {...barProps}
+                  active={
+                    activeBarIndex != null && barProps.index === activeBarIndex
+                  }
+                />
+              )}
+              activeBar={
+                disableHoverChartInteraction ? undefined : (
+                  <BrandActiveLollipopBarShape />
+                )
+              }
+              isAnimationActive={!prefersReducedMotion}
+              animationDuration={320}
+              animationEasing="ease-out"
+            >
+              {data.map((point) => (
+                <Cell key={`${point.t}-${metricKey}`} fill={metricColor} />
+              ))}
+            </Bar>
+          )}
           {hasRevenueOverlay ? (
             <Line
               yAxisId="revenue"

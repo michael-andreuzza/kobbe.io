@@ -1,14 +1,14 @@
+import { MoreVerticalIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Image01Icon } from "@hugeicons/core-free-icons";
 
-type ChartShareButtonProps = {
+type BreakdownCardPreviewMenuProps = {
   ariaLabel?: string;
 };
 
-/** Decorative chart image affordance for marketing dashboard previews. */
-export function ChartShareButton({
-  ariaLabel = "Chart image",
-}: ChartShareButtonProps) {
+/** Decorative 3-dot menu affordance for marketing dashboard previews. */
+export function BreakdownCardPreviewMenu({
+  ariaLabel = "Card actions",
+}: BreakdownCardPreviewMenuProps) {
   return (
     <button
       type="button"
@@ -18,7 +18,7 @@ export function ChartShareButton({
       className="inline-flex size-6 items-center justify-center rounded-md text-muted-foreground"
     >
       <HugeiconsIcon
-        icon={Image01Icon}
+        icon={MoreVerticalIcon}
         className="size-3.5"
         strokeWidth={1.8}
         aria-hidden

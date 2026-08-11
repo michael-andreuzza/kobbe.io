@@ -42,6 +42,7 @@ type TabbedHeaderTabs = {
   tabs: string[];
   activeIndex: number;
   onActiveIndexChange: (index: number) => void;
+  trailing?: ReactNode;
 };
 
 export function DashboardTabbedCardHeaderContent(props: {
@@ -64,6 +65,7 @@ export function DashboardTabbedCardHeaderContent(props: {
           tabs={props.tabs.tabs}
           activeIndex={props.tabs.activeIndex}
           onActiveIndexChange={props.tabs.onActiveIndexChange}
+          trailing={props.tabs.trailing}
         />
         {props.expandAction || props.headerActions ? (
           <div className="flex items-center gap-0.5">

@@ -95,7 +95,7 @@ export function InsightsDashboardPreview() {
           pageviewTotal={pageviewTotal}
           nameHeader="Source"
           showRevenue
-          shareAriaLabel="Share Top sources"
+          menuAriaLabel="Top sources actions"
           renderNameCell={(row) => <ReferrerNameCell referrer={row.name} />}
         />
         <InsightsDimensionTable
@@ -104,7 +104,7 @@ export function InsightsDashboardPreview() {
           pageviewTotal={pageviewTotal}
           nameHeader="Country"
           showRevenue
-          shareAriaLabel="Share Top countries"
+          menuAriaLabel="Top countries actions"
           renderNameCell={(row) => (
             <CountryNameCell
               label={row.name}
@@ -117,14 +117,14 @@ export function InsightsDashboardPreview() {
           rows={deviceRows}
           pageviewTotal={pageviewTotal}
           showRevenue
-          shareAriaLabel="Share Devices"
+          menuAriaLabel="Devices actions"
         />
         <InsightsDimensionTable
           title="Browsers"
           rows={browserRows}
           pageviewTotal={pageviewTotal}
           showRevenue
-          shareAriaLabel="Share Browsers"
+          menuAriaLabel="Browsers actions"
         />
         <InsightsDimensionTable
           title="Top pages"
@@ -132,7 +132,7 @@ export function InsightsDashboardPreview() {
           pageviewTotal={pageviewTotal}
           nameHeader="Page"
           showRevenue
-          shareAriaLabel="Share Top pages"
+          menuAriaLabel="Top pages actions"
           renderNameCell={(row) => <InsightsPageNameCell path={row.name} />}
         />
         <InsightsDimensionTable
@@ -140,7 +140,7 @@ export function InsightsDashboardPreview() {
           rows={eventRows}
           pageviewTotal={eventsPageviewTotal}
           nameHeader="Event"
-          shareAriaLabel="Share Top converting events"
+          menuAriaLabel="Top converting events actions"
         />
       </div>
 
@@ -148,7 +148,7 @@ export function InsightsDashboardPreview() {
         <CardHeader className={dashboardCardHeaderClass}>
           <CardTitle className={dashboardCardTitleClass}>Conversion peak</CardTitle>
           <CardAction className="flex items-center gap-0.5 self-start pt-0.5">
-            <ChartShareButton ariaLabel="Share conversion peak" />
+            <ChartShareButton ariaLabel="Conversion peak chart image" />
           </CardAction>
         </CardHeader>
         <CardContent className={dashboardCardContentListClass}>
