@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { ChevronDownIcon } from "lucide-react";
 
-import { Logo } from "@/components/assets/Logo";
+import { Logo } from "@/components/assets/logo";
 import { SiteMobileNavDialog } from "@/components/global/docs-mobile-nav-dialog";
 import { SiteMegaMenuPanel } from "@/components/global/site-mega-menu-panel";
 import { SiteMobileMenu } from "@/components/global/site-mobile-menu";

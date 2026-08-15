@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Dialog } from "@base-ui/react/dialog";
 import { MenuIcon, XIcon } from "lucide-react";
 
+import { Logo } from "@/components/assets/logo";
 import { siteMobilePrimaryLinks } from "@/components/global/site-header-nav";
 import {
   MegaMenuColumnTitle,
@@ -58,9 +59,19 @@ export function SiteMobileMenu({ links }: SiteMobileMenuProps) {
             )}
           >
             <div className="flex items-center justify-between gap-3 border-b px-4 py-3">
-              <Dialog.Title className="text-foreground text-sm font-semibold">
-                Explore
-              </Dialog.Title>
+              <Dialog.Close
+                nativeButton={false}
+                render={
+                  <a
+                    href="/"
+                    aria-label="Homepage"
+                    className="text-foreground flex items-center"
+                  >
+                    <Logo className="h-5 rounded" />
+                  </a>
+                }
+              />
+              <Dialog.Title className="sr-only">Site menu</Dialog.Title>
               <Dialog.Close className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 inline-flex size-8 items-center justify-center rounded-md transition-colors outline-none focus-visible:ring-2">
                 <XIcon className="size-4" aria-hidden="true" />
                 <span className="sr-only">Close menu</span>
