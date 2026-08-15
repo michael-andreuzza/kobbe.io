@@ -20,14 +20,14 @@ export function siteMobilePrimaryLinks() {
   return [
     { href: "/#pricing", label: "Pricing" },
     {
-      href: APP_SIGNUP_URL,
-      label: "Start free trial",
+      href: APP_SIGNIN_URL,
+      label: "Sign in",
       target: "_blank",
       rel: "noopener noreferrer",
     },
     {
-      href: APP_SIGNIN_URL,
-      label: "Sign in",
+      href: APP_SIGNUP_URL,
+      label: "Start free trial",
       target: "_blank",
       rel: "noopener noreferrer",
     },
