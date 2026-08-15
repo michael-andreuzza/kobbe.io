@@ -32,7 +32,7 @@ export function SiteMegaMenuPanel() {
     <>
       <div className="grid gap-8 lg:grid-cols-3 lg:gap-10">
         {siteMegaMenuGroups.map((group) => (
-          <div key={group.id} className="space-y-12">
+          <div key={group.id} className="space-y-6 lg:space-y-12">
             {group.columns.map((column) => (
               <MegaMenuColumnSection key={column.title} column={column} />
             ))}

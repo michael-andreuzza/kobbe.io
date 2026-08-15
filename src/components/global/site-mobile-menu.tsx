@@ -1,11 +1,16 @@
+import { useEffect, useState } from "react";
+import { Dialog } from "@base-ui/react/dialog";
+import { MenuIcon, XIcon } from "lucide-react";
+
 import { siteMobilePrimaryLinks } from "@/components/global/site-header-nav";
+import {
+  MegaMenuColumnTitle,
+  MegaMenuLinkContent,
+} from "@/components/global/site-mega-menu-link";
 import { siteMegaMenuGroups } from "@/lib/site-mega-menu";
 import { cn } from "@/lib/utils";
 
 import type { SiteMobileNavLink } from "@/components/global/docs-mobile-nav-dialog";
-import { MegaMenuLinkContent, MegaMenuColumnTitle } from "@/components/global/site-mega-menu-link";
-import { Menu } from "@base-ui/react/menu";
-import { MenuIcon } from "lucide-react";
 
 type SiteMobileMenuProps = {
   links?: SiteMobileNavLink[];
@@ -15,83 +20,122 @@ const menuItemClassName =
   "text-foreground hover:bg-muted focus-visible:bg-muted flex w-full cursor-pointer items-center rounded-md px-3 py-2 text-sm font-medium outline-none transition-colors";
 
 const megaLinkClassName =
-  "hover:bg-muted flex w-full items-start gap-2 rounded-lg px-2 py-2.5 text-left outline-none transition-colors";
+  "hover:bg-muted block w-full rounded-lg px-2 py-2.5 text-left outline-none transition-colors";
+
+const megaCompactLinkClassName =
+  "hover:bg-muted flex w-full items-center gap-2 rounded-lg px-2 py-2.5 text-left outline-none transition-colors";
 
 export function SiteMobileMenu({ links }: SiteMobileMenuProps) {
   const primaryLinks = links ?? siteMobilePrimaryLinks();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
 
   return (
-    <div className="overflow-visible md:hidden">
-      <Menu.Root>
-        <Menu.Trigger className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 inline-flex size-8 items-center justify-center rounded-md transition-colors outline-none focus-visible:ring-2">
+    <div className="md:hidden">
+      <Dialog.Root open={open} onOpenChange={setOpen}>
+        <Dialog.Trigger className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 inline-flex size-8 items-center justify-center rounded-md transition-colors outline-none focus-visible:ring-2">
           <MenuIcon className="size-4" aria-hidden="true" />
           <span className="sr-only">Open menu</span>
-        </Menu.Trigger>
-        <Menu.Portal>
-          <Menu.Positioner
-            align="end"
-            side="bottom"
-            sideOffset={10}
-            className="isolate z-[100] outline-none"
+        </Dialog.Trigger>
+        <Dialog.Portal>
+          <Dialog.Backdrop className="bg-background/70 fixed inset-0 z-[100] backdrop-blur-sm transition-opacity duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0" />
+          <Dialog.Popup
+            className={cn(
+              "mega-menu-inverted border-border bg-popover text-popover-foreground fixed inset-y-0 right-0 z-[101] flex w-[min(24rem,calc(100vw-1rem))] flex-col border-l shadow-lg outline-none",
+              "transition-transform duration-200 ease-out data-ending-style:translate-x-full data-starting-style:translate-x-full motion-reduce:transition-none",
+            )}
           >
-            <Menu.Popup
-              className={cn(
-                "mega-menu-inverted border-border bg-popover text-popover-foreground max-h-[min(32rem,calc(100dvh-5rem))] w-[min(calc(100vw-1.5rem),24rem)] overflow-y-auto rounded-xl border p-3 shadow-lg outline-none",
-                "origin-(--transform-origin) transition-[transform,scale,opacity] duration-150 ease-out",
-                "data-starting-style:scale-95 data-starting-style:opacity-0",
-                "data-ending-style:scale-95 data-ending-style:opacity-0",
-              )}
+            <div className="flex items-center justify-between gap-3 border-b px-4 py-3">
+              <Dialog.Title className="text-foreground text-sm font-semibold">
+                Explore
+              </Dialog.Title>
+              <Dialog.Close className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 inline-flex size-8 items-center justify-center rounded-md transition-colors outline-none focus-visible:ring-2">
+                <XIcon className="size-4" aria-hidden="true" />
+                <span className="sr-only">Close menu</span>
+              </Dialog.Close>
+            </div>
+
+            <nav
+              aria-label="Site navigation"
+              className="min-h-0 flex-1 overscroll-y-contain touch-pan-y overflow-y-auto px-3 py-4"
             >
-              <div className="space-y-5">
+              <div className="space-y-8">
                 {siteMegaMenuGroups.map((group) => (
-                  <div key={group.id} className="space-y-4">
+                  <div key={group.id} className="space-y-5">
                     {group.columns.map((column) => (
                       <div key={column.title}>
-                        <MegaMenuColumnTitle column={column} className="px-3" />
-                        <div className="mt-2 grid gap-0.5 px-1">
-                          {column.links.map((link) => (
-                            <Menu.LinkItem
+                        <MegaMenuColumnTitle column={column} className="px-2" />
+                        <div className="mt-2 grid gap-0.5">
+                          {column.links.map((link) => {
+                            const isCompact =
+                              column.layout === "compact" ||
+                              column.layout === "compact-grid";
+
+                            return (
+                            <Dialog.Close
                               key={link.id}
-                              href={link.href}
-                              target={link.target}
-                              rel={link.rel}
-                              closeOnClick
-                              className={megaLinkClassName}
-                            >
-                              <MegaMenuLinkContent
-                                link={link}
-                                compact={
-                                  column.layout === "compact" ||
-                                  column.layout === "compact-grid"
-                                }
-                              />
-                            </Menu.LinkItem>
-                          ))}
+                              nativeButton={false}
+                              render={
+                                <a
+                                  href={link.href}
+                                  target={link.target}
+                                  rel={link.rel}
+                                  className={
+                                    isCompact
+                                      ? megaCompactLinkClassName
+                                      : megaLinkClassName
+                                  }
+                                >
+                                  <MegaMenuLinkContent
+                                    link={link}
+                                    compact={isCompact}
+                                  />
+                                </a>
+                              }
+                            />
+                            );
+                          })}
                         </div>
                       </div>
                     ))}
                   </div>
                 ))}
               </div>
+            </nav>
 
-              <div className="border-border mt-4 space-y-1 border-t pt-3">
-                {primaryLinks.map((link) => (
-                  <Menu.LinkItem
-                    key={link.href}
-                    href={link.href}
-                    target={link.target}
-                    rel={link.rel}
-                    closeOnClick
-                    className={menuItemClassName}
-                  >
-                    {link.label}
-                  </Menu.LinkItem>
-                ))}
-              </div>
-            </Menu.Popup>
-          </Menu.Positioner>
-        </Menu.Portal>
-      </Menu.Root>
+            <div className="border-border shrink-0 space-y-1 border-t px-3 py-3">
+              {primaryLinks.map((link) => (
+                <Dialog.Close
+                  key={link.href}
+                  nativeButton={false}
+                  render={
+                    <a
+                      href={link.href}
+                      target={link.target}
+                      rel={link.rel}
+                      className={menuItemClassName}
+                    >
+                      {link.label}
+                    </a>
+                  }
+                />
+              ))}
+            </div>
+          </Dialog.Popup>
+        </Dialog.Portal>
+      </Dialog.Root>
     </div>
   );
 }
