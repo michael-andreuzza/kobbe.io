@@ -12,10 +12,11 @@ Imports write **daily rollup data** into Kobbe. That means KPIs, charts, and bre
 
 ## Before you import
 
-- Use a **full site export ZIP**, not a quick chart export with row limits.
+- For ZIP imports, use a **full site export ZIP**, not a quick chart export with row limits.
+- For DataFast, use a **read-only website API key** that starts with `df_`. See [Import from DataFast](/docs/import-from-datafast).
 - Import on the **same site** where you will collect new Kobbe traffic.
 - Pick a merge mode so you do not overwrite days Kobbe already has.
-- Keep the ZIP under **25 MB**. If your export is larger, split it into shorter date ranges.
+- Keep ZIP uploads under **25 MB**. If your export is larger, split it into shorter date ranges.
 
 Imports run in the background. Large exports can take a minute to process, and the settings page reports the result when the import finishes.
 
@@ -50,6 +51,7 @@ Custom events and conversions from the old tool are not recreated automatically.
 - [Import from Plausible](/docs/import-from-plausible)
 - [Import from Fathom](/docs/import-from-fathom)
 - [Import from Umami](/docs/import-from-umami)
+- [Import from DataFast](/docs/import-from-datafast)
 
 If you need another source, contact support with a sample export.
 

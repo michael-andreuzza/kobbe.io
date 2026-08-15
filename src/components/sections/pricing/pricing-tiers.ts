@@ -2,17 +2,10 @@ export type BillingPeriod = "monthly" | "yearly";
 
 export type PricingTierKey =
   | "events_20k"
-  | "events_100k"
-  | "events_250k"
   | "events_500k"
-  | "events_750k"
   | "events_1m"
-  | "events_3m"
   | "events_5m"
-  | "events_10m"
-  | "events_15m"
-  | "events_20m"
-  | "events_25m";
+  | "events_10m";
 
 export type PricingTier = {
   key: PricingTierKey;
@@ -34,81 +27,32 @@ export const pricingTiers = [
     yearly: 80,
   },
   {
-    key: "events_100k",
-    events: "100K",
-    monthly: 15,
-    yearlyMonthly: 13,
-    yearly: 150,
-  },
-  {
-    key: "events_250k",
-    events: "250K",
-    monthly: 25,
-    yearlyMonthly: 21,
-    yearly: 250,
-  },
-  {
     key: "events_500k",
     events: "500K",
-    monthly: 39,
-    yearlyMonthly: 33,
-    yearly: 390,
-  },
-  {
-    key: "events_750k",
-    events: "750K",
-    monthly: 59,
-    yearlyMonthly: 49,
-    yearly: 590,
+    monthly: 14,
+    yearlyMonthly: 12,
+    yearly: 140,
   },
   {
     key: "events_1m",
     events: "1M",
-    monthly: 79,
-    yearlyMonthly: 66,
-    yearly: 790,
-  },
-  {
-    key: "events_3m",
-    events: "3M",
-    monthly: 119,
-    yearlyMonthly: 99,
-    yearly: 1190,
+    monthly: 20,
+    yearlyMonthly: 17,
+    yearly: 200,
   },
   {
     key: "events_5m",
     events: "5M",
-    monthly: 169,
-    yearlyMonthly: 141,
-    yearly: 1690,
+    monthly: 49,
+    yearlyMonthly: 41,
+    yearly: 490,
   },
   {
     key: "events_10m",
     events: "10M",
-    monthly: 249,
-    yearlyMonthly: 208,
-    yearly: 2490,
-  },
-  {
-    key: "events_15m",
-    events: "15M",
-    monthly: 329,
-    yearlyMonthly: 274,
-    yearly: 3290,
-  },
-  {
-    key: "events_20m",
-    events: "20M",
-    monthly: 399,
-    yearlyMonthly: 333,
-    yearly: 3990,
-  },
-  {
-    key: "events_25m",
-    events: "25M",
-    monthly: 469,
-    yearlyMonthly: 391,
-    yearly: 4690,
+    monthly: 79,
+    yearlyMonthly: 66,
+    yearly: 790,
   },
 ] as const satisfies ReadonlyArray<PricingTier>;
 
@@ -121,25 +65,21 @@ export const pricingAmountSuffix = "/mo";
 export const defaultPricingTierIndex = 0;
 
 /** Minimum event volume before monthly email reports are included. */
-export const MONTHLY_EMAIL_REPORTS_MIN_TIER_KEY = "events_5m" as const satisfies PricingTierKey;
+export const MONTHLY_EMAIL_REPORTS_MIN_TIER_KEY = "events_20k" as const satisfies PricingTierKey;
 
 export const MONTHLY_EMAIL_REPORTS_FEATURE =
   "Monthly email reports" as const;
 
-/** Historical analytics window included with each volume tier. */
+/** Historical analytics window included with every plan. */
+export const PRICING_DATA_RETENTION_YEARS = 3;
+
+/** Per-tier retention labels (uniform today; keyed for future tiering). */
 export const TIER_DATA_RETENTION_YEARS = {
-  events_20k: 1,
-  events_100k: 1,
-  events_250k: 1,
-  events_500k: 1,
-  events_750k: 2,
-  events_1m: 2,
-  events_3m: 3,
-  events_5m: 3,
-  events_10m: 5,
-  events_15m: 5,
-  events_20m: 5,
-  events_25m: 5,
+  events_20k: PRICING_DATA_RETENTION_YEARS,
+  events_500k: PRICING_DATA_RETENTION_YEARS,
+  events_1m: PRICING_DATA_RETENTION_YEARS,
+  events_5m: PRICING_DATA_RETENTION_YEARS,
+  events_10m: PRICING_DATA_RETENTION_YEARS,
 } as const satisfies Record<PricingTierKey, number>;
 
 export function formatTierDataRetentionLabel(tierKey: PricingTierKey): string {

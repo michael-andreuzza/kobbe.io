@@ -14,10 +14,8 @@ import {
   formatTierTrialPriceNote,
   formatYearlyEquivalentBillingLabel,
   getTierDisplayAmount,
-  MONTHLY_EMAIL_REPORTS_FEATURE,
   pricingTiers,
   pricingTrialDays,
-  tierIncludesMonthlyEmailReports,
   type BillingPeriod,
 } from "@/components/sections/pricing/pricing-tiers";
 
@@ -104,29 +102,14 @@ export function SimplifiedPricingSection({
               className="text-foreground mt-8 grid flex-1 list-none grid-cols-1 items-start gap-x-6 gap-y-1.5 font-medium sm:grid-cols-2 2xl:gap-y-2"
               role="list"
             >
-              {featureRows.map((feature) => {
-                const isEmailReportsFeature =
-                  feature === MONTHLY_EMAIL_REPORTS_FEATURE;
-                const isIncluded =
-                  !isEmailReportsFeature ||
-                  tierIncludesMonthlyEmailReports(tier.key);
-
-                return (
-                  <li key={feature} className="flex items-start gap-2">
-                    <PricingFeatureMark muted={!isIncluded} />
-                    <p
-                      className={cn(
-                        "text-sm tracking-tight transition-colors",
-                        isIncluded
-                          ? "text-foreground"
-                          : "text-muted-foreground/50 decoration-muted-foreground/40 line-through",
-                      )}
-                    >
-                      {feature}
-                    </p>
-                  </li>
-                );
-              })}
+              {featureRows.map((feature) => (
+                <li key={feature} className="flex items-start gap-2">
+                  <PricingFeatureMark />
+                  <p className="text-sm tracking-tight text-foreground">
+                    {feature}
+                  </p>
+                </li>
+              ))}
             </ul>
             <p className="text-muted-foreground border-border mt-4 border-t pt-4 text-xs font-medium text-balance">
               {formatTierTrialPriceNote(displayAmount, period)} Upgrade or
