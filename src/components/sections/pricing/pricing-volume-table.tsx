@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import {
   buildSignupHref,
   formatTierLimitLabel,
+  formatYearlyEquivalentBillingLabel,
   getTierDisplayAmount,
   pricingTiers,
   type BillingPeriod,
@@ -75,13 +76,23 @@ export function PricingVolumeTable({
                     {formatTierLimitLabel(tier.events)}
                   </td>
                   <td className="text-foreground py-2 tabular-nums">
-                    <PricingPriceDisplay
-                      period={period}
-                      monthlyAmount={tier.monthly}
-                      displayAmount={getTierDisplayAmount(tier, period)}
-                      className="text-sm font-medium"
-                      compareClassName="text-sm"
-                    />
+                    <div className="flex flex-col gap-0.5">
+                      <PricingPriceDisplay
+                        period={period}
+                        displayAmount={getTierDisplayAmount(tier, period)}
+                        yearlyTotalAmount={
+                          period === "yearly" ? tier.yearly : undefined
+                        }
+                        className="text-sm font-medium"
+                      />
+                      {period === "yearly" ? (
+                        <span className="text-muted-foreground text-xs font-medium">
+                          {formatYearlyEquivalentBillingLabel(
+                            getTierDisplayAmount(tier, period),
+                          )}
+                        </span>
+                      ) : null}
+                    </div>
                   </td>
                   <td className="py-2 text-right">
                     <a

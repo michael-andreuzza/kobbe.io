@@ -1,4 +1,6 @@
 ---
+import BrandLogo from "@/components/foundations/BrandLogo.astro";
+
 type DocsLinkListItem = {
   title: string;
   href: string;
@@ -41,11 +43,10 @@ const { sections, showLogos = false, className = "mt-8" } = Astro.props;
               {showLogos ? (
                 <span class="flex size-5 shrink-0 items-center justify-center">
                   {item.logo ? (
-                    <img
+                    <BrandLogo
                       src={item.logo.src}
                       alt={item.logo.alt}
                       class="size-4 rounded-[0.2rem] object-contain"
-                      loading="lazy"
                     />
                   ) : (
                     <span class="text-muted-foreground text-xs">

@@ -229,12 +229,20 @@ export function formatTierPricePeriod(_period: BillingPeriod) {
   return pricingAmountSuffix;
 }
 
+export function formatTierYearlyTotalPrice(tier: PricingTier) {
+  return `$${formatPricingCurrency(tier.yearly)}/yr`;
+}
+
 export function formatTierBillingNote(period: BillingPeriod) {
   return period === "monthly" ? "Billed monthly." : "Billed annually.";
 }
 
 export function formatTierBillingPeriodLabel(period: BillingPeriod) {
   return period === "monthly" ? "Billed monthly" : "Per month, billed yearly";
+}
+
+export function formatYearlyEquivalentBillingLabel(monthlyAmount: number) {
+  return `Per month at $${formatPricingCurrency(monthlyAmount)}, billed annually`;
 }
 
 export function formatTierTrialPriceNote(

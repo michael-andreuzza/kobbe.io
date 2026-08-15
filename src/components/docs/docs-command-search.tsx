@@ -7,6 +7,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
+import { BrandLogo } from "@/components/foundations/brand-logo";
 import { Input } from "@/components/ui/input";
 import {
   filterDocsSearchItems,
@@ -86,11 +87,9 @@ function ItemIcon({ item }: { item: DocsSearchItem }) {
   }
 
   return (
-    <img
+    <BrandLogo
       src={item.logo.src}
-      alt=""
       className="size-4 shrink-0 rounded-sm object-contain"
-      loading="lazy"
       width={16}
       height={16}
     />

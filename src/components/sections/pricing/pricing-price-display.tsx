@@ -10,10 +10,10 @@ import {
 
 type PricingPriceDisplayProps = {
   period: BillingPeriod;
-  monthlyAmount: number;
   displayAmount: number;
+  /** Full annual charge when `period` is yearly. */
+  yearlyTotalAmount?: number;
   className?: string;
-  compareClassName?: string;
 };
 
 const tickerSpring = {
@@ -27,15 +27,22 @@ function PriceAmount({
   amount,
   className,
   suffix = pricingAmountSuffix,
+  animate = true,
 }: {
   amount: number;
   className?: string;
   suffix?: string;
+  animate?: boolean;
 }) {
   const reduceMotion = useReducedMotion();
   const previousAmount = useRef(amount);
   const direction = amount >= previousAmount.current ? 1 : -1;
   previousAmount.current = amount;
+
+  const amountClassName =
+    "text-foreground font-display overflow-hidden mask-[linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] py-0.5 pr-2 text-4xl font-normal tracking-tight italic sm:text-5xl";
+
+  const formattedAmount = `$${formatPricingCurrency(amount)}`;
 
   return (
     <span
@@ -44,31 +51,35 @@ function PriceAmount({
         className,
       )}
     >
-      <span className="text-foreground font-display overflow-hidden mask-[linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] py-0.5 pr-2 text-4xl font-normal tracking-tight italic sm:text-5xl">
-        <AnimatePresence mode="popLayout" initial={false} custom={direction}>
-          <motion.span
-            key={amount}
-            custom={direction}
-            className="inline-block will-change-transform"
-            variants={{
-              enter: (dir: number) =>
-                reduceMotion
-                  ? {}
-                  : { y: dir > 0 ? "100%" : "-100%", opacity: 0 },
-              center: { y: "0%", opacity: 1 },
-              exit: (dir: number) =>
-                reduceMotion
-                  ? {}
-                  : { y: dir > 0 ? "-100%" : "100%", opacity: 0 },
-            }}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={reduceMotion ? { duration: 0 } : tickerSpring}
-          >
-            ${formatPricingCurrency(amount)}
-          </motion.span>
-        </AnimatePresence>
+      <span className={amountClassName}>
+        {animate ? (
+          <AnimatePresence mode="popLayout" initial={false} custom={direction}>
+            <motion.span
+              key={amount}
+              custom={direction}
+              className="inline-block will-change-transform"
+              variants={{
+                enter: (dir: number) =>
+                  reduceMotion
+                    ? {}
+                    : { y: dir > 0 ? "100%" : "-100%", opacity: 0 },
+                center: { y: "0%", opacity: 1 },
+                exit: (dir: number) =>
+                  reduceMotion
+                    ? {}
+                    : { y: dir > 0 ? "-100%" : "100%", opacity: 0 },
+              }}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={reduceMotion ? { duration: 0 } : tickerSpring}
+            >
+              {formattedAmount}
+            </motion.span>
+          </AnimatePresence>
+        ) : (
+          formattedAmount
+        )}
       </span>
       {suffix ? (
         <span className="text-muted-foreground ml-0.5 text-sm font-medium">
@@ -81,34 +92,32 @@ function PriceAmount({
 
 export function PricingPriceDisplay({
   period,
-  monthlyAmount,
   displayAmount,
+  yearlyTotalAmount,
   className,
-  compareClassName,
 }: PricingPriceDisplayProps) {
-  const showYearlyCompare =
-    period === "yearly" && monthlyAmount !== displayAmount;
+  const showYearlyTotal =
+    period === "yearly" && yearlyTotalAmount != null;
 
-  if (!showYearlyCompare) {
-    return <PriceAmount amount={displayAmount} className={className} />;
+  const ariaLabel =
+    period === "yearly" && yearlyTotalAmount != null
+      ? `$${formatPricingCurrency(yearlyTotalAmount)} per year, $${formatPricingCurrency(displayAmount)} per month, billed annually`
+      : `$${formatPricingCurrency(displayAmount)} per month, billed monthly`;
+
+  if (showYearlyTotal) {
+    return (
+      <span aria-label={ariaLabel} className="inline-flex">
+        <PriceAmount
+          amount={yearlyTotalAmount}
+          className={className}
+          suffix="/yr"
+        />
+      </span>
+    );
   }
 
-  const compareLabel = `$${formatPricingCurrency(monthlyAmount)}`;
-
   return (
-    <span
-      className="inline-flex items-baseline gap-1.5 leading-[1.45] tabular-nums"
-      aria-label={`$${formatPricingCurrency(displayAmount)} per month, billed annually, regular price ${compareLabel} per month`}
-    >
-      <span
-        aria-hidden="true"
-        className={cn(
-          "text-muted-foreground decoration-muted-foreground font-medium line-through opacity-40",
-          compareClassName ?? className,
-        )}
-      >
-        {compareLabel}
-      </span>
+    <span aria-label={ariaLabel} className="inline-flex">
       <PriceAmount amount={displayAmount} className={className} />
     </span>
   );

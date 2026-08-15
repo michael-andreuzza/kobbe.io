@@ -1,7 +1,6 @@
 ---
-import Logo from "@/components/assets/Logo.astro";
+import SiteHeaderNav from "@/components/global/site-header-nav";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import SiteNavigation from "@/components/global/site-navigation";
 
 interface Props {
   docsNavGroups?: {
@@ -19,16 +18,6 @@ const { docsNavGroups } = Astro.props;
 
 <header data-site-header class="bg-muted sticky top-0 z-40 overflow-visible">
   <Wrapper variant="nav" class="overflow-visible">
-    <div class="flex items-center justify-between gap-3 overflow-visible py-4">
-      <a
-        href="/"
-        aria-label="Homepage"
-        class="text-foreground flex min-w-0 items-center gap-1 font-semibold tracking-tight"
-      >
-        <Logo class="h-5 rounded" />
-        <span>kobbe</span>
-      </a>
-      <SiteNavigation client:load docsNavGroups={docsNavGroups} />
-    </div>
+    <SiteHeaderNav client:load docsNavGroups={docsNavGroups} />
   </Wrapper>
 </header>

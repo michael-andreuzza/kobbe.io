@@ -2,6 +2,7 @@ import { Collapsible } from "@base-ui/react/collapsible";
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
+import { BrandLogo } from "@/components/foundations/brand-logo";
 import { DocsCommandSearchTrigger } from "@/components/docs/docs-command-search";
 import { cn } from "@/lib/utils";
 
@@ -85,11 +86,9 @@ export function SidebarGroups({
                   >
                     {item.logo ? (
                       <span className="flex size-3.5 shrink-0 items-center justify-center">
-                        <img
+                        <BrandLogo
                           src={item.logo.src}
-                          alt=""
                           className="size-3 rounded-[0.15rem] object-contain"
-                          loading="lazy"
                           width={12}
                           height={12}
                         />

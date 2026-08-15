@@ -12,6 +12,7 @@ import {
   buildSimplifiedPricingFeatureRows,
   formatTierBillingPeriodLabel,
   formatTierTrialPriceNote,
+  formatYearlyEquivalentBillingLabel,
   getTierDisplayAmount,
   MONTHLY_EMAIL_REPORTS_FEATURE,
   pricingTiers,
@@ -66,12 +67,14 @@ export function SimplifiedPricingSection({
               <div className="flex flex-col items-end">
                 <PricingPriceDisplay
                   period={period}
-                  monthlyAmount={tier.monthly}
                   displayAmount={displayAmount}
+                  yearlyTotalAmount={period === "yearly" ? tier.yearly : undefined}
                   className="text-foreground text-xl font-semibold tracking-tighter"
                 />
-                <p className="text-muted-foreground justify-endw-fit ml-auto text-sm font-medium">
-                  {formatTierBillingPeriodLabel(period)}
+                <p className="text-muted-foreground ml-auto text-sm font-medium">
+                  {period === "monthly"
+                    ? formatTierBillingPeriodLabel(period)
+                    : formatYearlyEquivalentBillingLabel(displayAmount)}
                 </p>
               </div>
             </div>

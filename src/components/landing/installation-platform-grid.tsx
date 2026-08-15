@@ -1,3 +1,4 @@
+import { BrandLogo } from "@/components/foundations/brand-logo";
 import { motion, useReducedMotion } from "motion/react";
 
 type InstallationPlatform = {
@@ -47,13 +48,12 @@ export function InstallationPlatformGrid({
             delay: 0.24 + index * 0.035 + (index % 5) * 0.015,
           }}
         >
-          <img
+          <BrandLogo
             src={platform.logoSrc}
             alt={`${platform.name} logo`}
             className="size-6 rounded object-contain"
-            loading="lazy"
-            width="24"
-            height="24"
+            width={24}
+            height={24}
           />
         </motion.div>
       ))}

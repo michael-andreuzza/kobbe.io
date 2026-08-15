@@ -1,0 +1,136 @@
+import { BrandLogo } from "@/components/foundations/brand-logo";
+import { NavigationMenuLink } from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
+import type { MegaMenuColumn, MegaMenuLink } from "@/lib/site-mega-menu";
+
+type SiteMegaMenuLinkProps = {
+  link: MegaMenuLink;
+  compact?: boolean;
+  className?: string;
+  onNavigate?: () => void;
+};
+
+const detailedLinkClassName =
+  "hover:bg-muted block rounded-lg px-2.5 py-2 transition-colors focus:bg-transparent focus-visible:ring-0";
+
+const compactLinkClassName =
+  "hover:bg-muted flex items-center gap-2 rounded-md px-2.5 py-1.5 transition-colors focus:bg-transparent focus-visible:ring-0";
+
+const columnTitleClassName =
+  "text-foreground text-sm font-semibold tracking-tight transition-colors";
+
+const brandLogoClassName =
+  "size-4 shrink-0 rounded-[0.2rem] object-contain";
+
+export function MegaMenuColumnTitle({
+  column,
+  className,
+}: {
+  column: MegaMenuColumn;
+  className?: string;
+}) {
+  const titleClassName = cn(columnTitleClassName, className);
+
+  if (column.href) {
+    return (
+      <a href={column.href} className={cn(titleClassName, "hover:text-foreground/80")}>
+        {column.title}
+      </a>
+    );
+  }
+
+  return <p className={titleClassName}>{column.title}</p>;
+}
+
+export function MegaMenuLinkContent({
+  link,
+  compact = false,
+}: {
+  link: MegaMenuLink;
+  compact?: boolean;
+}) {
+  if (compact) {
+    return (
+      <>
+        {link.logo ? (
+          <BrandLogo
+            src={link.logo.src}
+            className={brandLogoClassName}
+            width={16}
+            height={16}
+          />
+        ) : null}
+        <span className="text-foreground text-sm font-medium leading-snug">
+          {link.label}
+        </span>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <span className="flex items-center gap-2">
+        {link.logo ? (
+          <BrandLogo
+            src={link.logo.src}
+            className={brandLogoClassName}
+            width={16}
+            height={16}
+          />
+        ) : null}
+        <span className="text-foreground text-sm font-medium leading-snug">
+          {link.label}
+        </span>
+      </span>
+      {link.description ? (
+        <span className="text-muted-foreground mt-0.5 block text-xs leading-normal">
+          {link.description}
+        </span>
+      ) : null}
+    </>
+  );
+}
+
+export function SiteMegaMenuPlainLink({
+  link,
+  compact = false,
+  className,
+  onNavigate,
+}: SiteMegaMenuLinkProps) {
+  return (
+    <a
+      href={link.href}
+      target={link.target}
+      rel={link.rel}
+      onClick={onNavigate}
+      className={cn(
+        compact ? compactLinkClassName : detailedLinkClassName,
+        className,
+      )}
+    >
+      <MegaMenuLinkContent link={link} compact={compact} />
+    </a>
+  );
+}
+
+export function SiteMegaMenuLink({
+  link,
+  compact = false,
+  className,
+  onNavigate,
+}: SiteMegaMenuLinkProps) {
+  return (
+    <NavigationMenuLink
+      href={link.href}
+      target={link.target}
+      rel={link.rel}
+      onClick={onNavigate}
+      className={cn(
+        compact ? compactLinkClassName : detailedLinkClassName,
+        className,
+      )}
+    >
+      <MegaMenuLinkContent link={link} compact={compact} />
+    </NavigationMenuLink>
+  );
+}

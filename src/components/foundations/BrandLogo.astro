@@ -1,0 +1,30 @@
+---
+import { brandLogoImageClass } from "@/lib/brand-logos";
+
+interface Props {
+  src: string;
+  alt?: string;
+  class?: string;
+  loading?: "lazy" | "eager";
+  width?: number;
+  height?: number;
+}
+
+const {
+  src,
+  alt = "",
+  class: className,
+  loading = "lazy",
+  width,
+  height,
+} = Astro.props;
+---
+
+<img
+  src={src}
+  alt={alt}
+  class={brandLogoImageClass(src, className)}
+  loading={loading}
+  width={width}
+  height={height}
+/>
