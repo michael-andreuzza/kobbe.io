@@ -1,4 +1,7 @@
-import { SiteMegaMenuPlainLink, MegaMenuColumnTitle } from "@/components/global/site-mega-menu-link";
+import {
+  SiteMegaMenuPlainLink,
+  MegaMenuColumnTitle,
+} from "@/components/global/site-mega-menu-link";
 import { siteMegaMenuGroups, type MegaMenuColumn } from "@/lib/site-mega-menu";
 import { cn } from "@/lib/utils";
 
@@ -12,9 +15,7 @@ function MegaMenuColumnSection({ column }: { column: MegaMenuColumn }) {
       <ul
         className={cn(
           "mt-3",
-          isCompactGrid
-            ? "grid grid-cols-2 gap-x-1 gap-y-1"
-            : "grid gap-y-1",
+          isCompactGrid ? "grid grid-cols-2 gap-x-1 gap-y-1" : "grid gap-y-1",
         )}
       >
         {column.links.map((link) => (

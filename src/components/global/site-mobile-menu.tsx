@@ -80,7 +80,7 @@ export function SiteMobileMenu({ links }: SiteMobileMenuProps) {
 
             <nav
               aria-label="Site navigation"
-              className="min-h-0 flex-1 overscroll-y-contain touch-pan-y overflow-y-auto px-3 py-4"
+              className="min-h-0 flex-1 touch-pan-y overflow-y-auto overscroll-y-contain px-3 py-4"
             >
               <div className="space-y-8">
                 {siteMegaMenuGroups.map((group) => (
@@ -102,27 +102,27 @@ export function SiteMobileMenu({ links }: SiteMobileMenuProps) {
                               column.layout === "compact-grid";
 
                             return (
-                            <Dialog.Close
-                              key={link.id}
-                              nativeButton={false}
-                              render={
-                                <a
-                                  href={link.href}
-                                  target={link.target}
-                                  rel={link.rel}
-                                  className={
-                                    isCompact
-                                      ? megaCompactLinkClassName
-                                      : megaLinkClassName
-                                  }
-                                >
-                                  <MegaMenuLinkContent
-                                    link={link}
-                                    compact={isCompact}
-                                  />
-                                </a>
-                              }
-                            />
+                              <Dialog.Close
+                                key={link.id}
+                                nativeButton={false}
+                                render={
+                                  <a
+                                    href={link.href}
+                                    target={link.target}
+                                    rel={link.rel}
+                                    className={
+                                      isCompact
+                                        ? megaCompactLinkClassName
+                                        : megaLinkClassName
+                                    }
+                                  >
+                                    <MegaMenuLinkContent
+                                      link={link}
+                                      compact={isCompact}
+                                    />
+                                  </a>
+                                }
+                              />
                             );
                           })}
                         </div>

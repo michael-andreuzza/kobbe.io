@@ -5,10 +5,7 @@ import { Logo } from "@/components/assets/logo";
 import { SiteMobileNavDialog } from "@/components/global/docs-mobile-nav-dialog";
 import { SiteMegaMenuPanel } from "@/components/global/site-mega-menu-panel";
 import { SiteMobileMenu } from "@/components/global/site-mobile-menu";
-import {
-  APP_SIGNIN_URL,
-  APP_SIGNUP_URL,
-} from "@/lib/site-mega-menu";
+import { APP_SIGNIN_URL, APP_SIGNUP_URL } from "@/lib/site-mega-menu";
 import type { NavGroup } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
@@ -158,7 +155,7 @@ export function SiteHeaderNav({ docsNavGroups }: SiteHeaderNavProps) {
               aria-hidden={!megaOpen}
               {...(!megaOpen ? { inert: true } : {})}
               className={cn(
-                "mega-menu-inverted border-border bg-card text-foreground max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-y-contain touch-pan-y rounded-xl border p-6 transition-opacity duration-300 motion-reduce:transition-none sm:p-8",
+                "mega-menu-inverted border-border bg-card text-foreground max-h-[calc(100dvh-6rem)] touch-pan-y overflow-y-auto overscroll-y-contain rounded-xl border p-6 transition-opacity duration-300 motion-reduce:transition-none sm:p-8",
                 megaOpen ? "opacity-100" : "pointer-events-none opacity-0",
               )}
             >
