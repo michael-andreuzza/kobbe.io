@@ -88,7 +88,14 @@ export function SiteMobileMenu({ links }: SiteMobileMenuProps) {
                     {group.columns.map((column) => (
                       <div key={column.title}>
                         <MegaMenuColumnTitle column={column} className="px-2" />
-                        <div className="mt-2 grid gap-0.5">
+                        <div
+                          className={cn(
+                            "mt-2",
+                            column.layout === "compact-grid"
+                              ? "grid grid-cols-2 gap-x-1 gap-y-1"
+                              : "grid gap-0.5",
+                          )}
+                        >
                           {column.links.map((link) => {
                             const isCompact =
                               column.layout === "compact" ||
