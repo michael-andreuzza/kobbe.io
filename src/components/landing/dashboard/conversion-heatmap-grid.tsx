@@ -1,5 +1,9 @@
 import { Fragment } from "react";
 
+import {
+  HEATMAP_LEGEND_INTENSITIES,
+  heatmapIntensityCellClass,
+} from "@/lib/heatmap-intensity-class";
 import { cn } from "@/lib/utils";
 
 export const CONVERSION_HEATMAP_DAY_LABELS = [
@@ -43,17 +47,6 @@ function formatHeatmapTooltipTitle(dayLabel: string, hour: number): string {
   return `${dayLabel} ${hour}:00 UTC`;
 }
 
-const HEATMAP_LEGEND_INTENSITIES = [0, 0.25, 0.5, 0.75, 1] as const;
-
-function heatmapCellOpacity(intensity: number): number | undefined {
-  return intensity > 0 ? 0.15 + intensity * 0.85 : undefined;
-}
-
-function heatmapLegendChipColor(intensity: number): string | undefined {
-  if (intensity <= 0) return undefined;
-  return `color-mix(in oklch, var(--foreground) ${Math.round(15 + intensity * 85)}%, var(--muted))`;
-}
-
 function ConversionHeatmapLegendRow() {
   return (
     <>
@@ -69,13 +62,8 @@ function ConversionHeatmapLegendRow() {
               key={intensity}
               className={cn(
                 "size-2 shrink-0 rounded-[2px]",
-                intensity === 0 && "bg-muted/20",
+                heatmapIntensityCellClass(intensity),
               )}
-              style={
-                intensity > 0
-                  ? { backgroundColor: heatmapLegendChipColor(intensity) }
-                  : undefined
-              }
             />
           ))}
         </div>
@@ -99,8 +87,8 @@ export function ConversionHeatmapGrid(props: {
         props.className,
       )}
     >
-      <div className={cn("min-w-[640px]", props.minWidthClass)}>
-        <div className="grid grid-cols-[2.5rem_repeat(24,minmax(0,1fr))] gap-0.5 text-[10px] text-muted-foreground">
+      <div className={cn("w-full min-w-0", props.minWidthClass)}>
+        <div className="grid w-full min-w-0 grid-cols-[2rem_repeat(24,minmax(0,1fr))] gap-0.5 text-[10px] text-muted-foreground">
           <div />
           {Array.from({ length: 24 }, (_, hour) => (
             <div key={`hour-${hour}`} className="text-center tabular-nums">
@@ -109,29 +97,21 @@ export function ConversionHeatmapGrid(props: {
           ))}
           {grid.map((dayRow, dayIndex) => (
             <Fragment key={`day-${dayIndex}`}>
-              <div className="flex items-center pr-1 text-xs text-muted-foreground">
+              <div className="flex items-center pr-1 text-[0.625rem] leading-none text-muted-foreground">
                 {CONVERSION_HEATMAP_DAY_LABELS[dayIndex]}
               </div>
               {dayRow.map((count, hour) => {
                 const intensity = max > 0 ? count / max : 0;
                 const dayLabel = CONVERSION_HEATMAP_DAY_LABELS[dayIndex] ?? "?";
-                const tooltipLabel =
-                  count > 0
-                    ? `${formatHeatmapTooltipTitle(dayLabel, hour)}, ${count.toLocaleString()} events`
-                    : undefined;
+                const tooltipLabel = `${formatHeatmapTooltipTitle(dayLabel, hour)}, ${count.toLocaleString()} events`;
 
                 return (
-                  <div
+                  <span
                     key={`${dayIndex}-${hour}`}
                     className={cn(
-                      "aspect-square min-h-3 rounded-sm border border-border/30",
-                      count > 0 ? "bg-foreground" : "bg-muted/20",
+                      "block aspect-square w-full min-w-0 rounded-[2px]",
+                      heatmapIntensityCellClass(intensity),
                     )}
-                    style={
-                      count > 0
-                        ? { opacity: heatmapCellOpacity(intensity) }
-                        : undefined
-                    }
                     title={tooltipLabel}
                     aria-label={tooltipLabel}
                   />

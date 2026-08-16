@@ -2,13 +2,14 @@
 
 import { useReducedMotion } from "motion/react";
 
+import { heatmapIntensityCellClass } from "@/lib/heatmap-intensity-class";
 import { cn } from "@/lib/utils";
 
 import { capabilityMockupSurfaceClass } from "./dashboard-card-layout";
 
 /**
  * Cropped slice of the app's conversion peak heatmap (7 days x 12 midday hours)
- * so cells render at their real size instead of shrinking into dots.
+ * at the same compact cell size as the live dashboard chart.
  */
 const PREVIEW_HOURS = 12;
 
@@ -62,7 +63,7 @@ export function InsightsHeatmapPreview() {
               transform: scale(0.78);
             }
             to {
-              opacity: var(--kobbe-heatmap-preview-opacity, 1);
+              opacity: 1;
               transform: scale(1);
             }
           }
@@ -77,31 +78,24 @@ export function InsightsHeatmapPreview() {
           }
         `}</style>
       ) : null}
-      <div className="grid grid-cols-12 gap-0.5">
+      <div className="grid w-full min-w-0 grid-cols-12 gap-0.5">
         {PREVIEW_GRID.flatMap((dayRow, dayIndex) =>
           dayRow.map((intensity, col) => {
-            const opacity = intensity > 0 ? 0.15 + intensity * 0.85 : undefined;
             const cellIndex = dayIndex * PREVIEW_HOURS + col;
 
             return (
               <div
                 key={`${dayIndex}-${col}`}
                 className={cn(
-                  "aspect-square rounded-sm border border-border/30",
-                  intensity > 0 ? "bg-foreground" : "bg-muted/20",
+                  "aspect-square w-full min-w-0 rounded-[2px]",
+                  heatmapIntensityCellClass(intensity),
                   motionEnabled && "kobbe-heatmap-preview-cell",
                 )}
-                style={{
-                  ...(opacity != null
-                    ? {
-                        opacity,
-                        ["--kobbe-heatmap-preview-opacity" as string]: opacity,
-                      }
-                    : undefined),
-                  ...(motionEnabled
+                style={
+                  motionEnabled
                     ? { animationDelay: `${cellIndex * 16}ms` }
-                    : undefined),
-                }}
+                    : undefined
+                }
               />
             );
           }),
