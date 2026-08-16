@@ -21,7 +21,7 @@ Add the `data-kobbe-not-found` attribute to any element that only renders on you
 That's the whole setup. When the tracker loads on a flagged page, it sends a `404` event with:
 
 - The **missing path** the visitor requested.
-- The **page that linked to it**, the internal page for same-site navigation, or the referring site for external links.
+- The **page that linked to it** — an internal path for same-site navigation, or the full external URL for off-site links.
 
 No extra payload, cookies, or identifiers are collected; the event uses the same privacy-friendly shape as a pageview.
 
