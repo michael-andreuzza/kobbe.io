@@ -17,6 +17,7 @@ const NAV_GROUP_ORDER = [
   "Installation guides",
   "Tracking",
   "Analyze",
+  "Data",
   "Sharing",
   "Revenue attribution",
   "Reports and alerts",

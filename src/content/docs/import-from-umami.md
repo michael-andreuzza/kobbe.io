@@ -2,7 +2,7 @@
 title: Import from Umami
 description: Move historical Umami Analytics data into Kobbe with a ZIP export from Umami Cloud.
 order: 39
-category: Analyze
+category: Data
 navLabel: Import from Umami
 ---
 

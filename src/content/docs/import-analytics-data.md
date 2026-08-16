@@ -2,7 +2,7 @@
 title: Import analytics data
 description: Bring historical traffic from Plausible, Fathom, and other exports into Kobbe without overwriting live data.
 order: 36
-category: Analyze
+category: Data
 navLabel: Import analytics data
 ---
 

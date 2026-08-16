@@ -2,7 +2,7 @@
 title: Data export
 description: Export Kobbe analytics data as CSV for backups, reports, and spreadsheet analysis.
 order: 35
-category: Analyze
+category: Data
 navLabel: Data export
 ---
 

@@ -2,7 +2,7 @@
 title: Import from Plausible
 description: Move historical Plausible Analytics data into Kobbe with a ZIP export from site settings.
 order: 37
-category: Analyze
+category: Data
 navLabel: Import from Plausible
 ---
 

@@ -15,12 +15,13 @@ import { buildSiteSearchItems } from "@/lib/site-search";
 interface Props {
   title?: string;
   description?: string;
+  pageTitle?: string;
   navItems: CollectionEntry<"docs">[];
 }
 
-const { title, description, navItems } = Astro.props;
+const { title, description, pageTitle, navItems } = Astro.props;
 const currentPath = Astro.url.pathname.replace(/\/$/, "");
-const displayTitle = title?.replace(/\s+: Kobbe Docs$/, "");
+const displayTitle = pageTitle ?? title?.replace(/\s+: Kobbe$/, "");
 const filteredNavItems = filterDocsNavigationItems(navItems);
 
 const resolvedNavLinks = filteredNavItems.map((item) => {
@@ -76,6 +77,7 @@ const NAV_GROUP_ORDER = [
   "Installation guides",
   "Tracking",
   "Analyze",
+  "Data",
   "Sharing",
   "Revenue attribution",
   "Manage",

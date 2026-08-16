@@ -2,7 +2,7 @@
 title: Import from Fathom
 description: Move historical Fathom Analytics data into Kobbe with a daily ZIP export.
 order: 38
-category: Analyze
+category: Data
 navLabel: Import from Fathom
 ---
 
