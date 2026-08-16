@@ -55,7 +55,7 @@ function prettyReferrer(url: string): string {
 }
 
 function formatSharePct(value: number | null | undefined): string {
-  if (value == null) return "—";
+  if (value == null) return "-";
   return `${value}%`;
 }
 
@@ -166,7 +166,7 @@ export function InsightsDimensionTable(props: {
               const revenueDisplay =
                 revenueMinor > 0
                   ? formatDashboardPreviewRevenue(revenueMinor)
-                  : "—";
+                  : "-";
 
               return (
                 <DashboardTableRow key={row.key}>

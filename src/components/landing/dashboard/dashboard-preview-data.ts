@@ -562,7 +562,7 @@ function buildInsightsMetrics(
     {
       key: "median-time-to-purchase",
       label: "Median time to purchase",
-      valueDisplay: "—",
+      valueDisplay: "-",
     },
   ];
 }

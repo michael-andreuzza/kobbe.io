@@ -44,13 +44,13 @@ When channel data is available, source tabs may group referrers into traffic cha
 
 **Revenue by product** lists each product (or price) with orders, revenue, share of total revenue, and attributed share. Kobbe shows the product name when your payment provider sends it in the webhook payload.
 
-For **Polar**, you can also add an optional [organization access token](/docs/revenue-attribution-polar#product-names-optional) with `products:read` in site settings so Kobbe can resolve names from your Polar catalog—including on orders that arrived before the token was saved. Without a name, the product ID is shown with price and type as secondary detail.
+For **Polar**, you can also add an optional [organization access token](/docs/revenue-attribution-polar#product-names-optional) with `products:read` in site settings so Kobbe can resolve names from your Polar catalog, including on orders that arrived before the token was saved. Without a name, the product ID is shown with price and type as secondary detail.
 
 For **Revolut**, Kobbe reads the order description from the Merchant API after `ORDER_COMPLETED` webhooks. See [Revolut revenue attribution](/docs/revenue-attribution-revolut#merchant-api-secret) for the required Merchant API secret setup.
 
 ### Recent refunds
 
-When refunds exist in the range, a **Recent refunds** card lists each refund with its date, product, order ID, and amount. Refunds arrive through your payment provider's webhook—for Polar, select the `refund.created` event schema (see [Polar revenue attribution](/docs/revenue-attribution-polar#refunds)).
+When refunds exist in the range, a **Recent refunds** card lists each refund with its date, product, order ID, and amount. Refunds arrive through your payment provider's webhook. For Polar, select the `refund.created` event schema (see [Polar revenue attribution](/docs/revenue-attribution-polar#refunds)).
 
 The card shows the 20 most recent refunds; select **Load more** to reveal older ones.
 

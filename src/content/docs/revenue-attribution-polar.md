@@ -36,7 +36,7 @@ Do not paste the site tracker token into Polar. The webhook secret is separate a
 
 ## Refunds
 
-When Polar sends a `refund.created` event, Kobbe records the refunded amount against the original order. Partial refunds are supported—only the refunded amount is deducted.
+When Polar sends a `refund.created` event, Kobbe records the refunded amount against the original order. Partial refunds are supported. Only the refunded amount is deducted.
 
 Refunds show up in Kobbe as:
 
@@ -49,7 +49,7 @@ Kobbe links each refund to the original paid order by its order ID, so refunds k
 
 Polar `order.paid` webhooks usually include a product ID. They do not always include the display name Kobbe needs for **Revenue by product**.
 
-To show product names—and backfill names on orders that already arrived—you can add a Polar **organization access token** in Kobbe:
+To show product names, and backfill names on orders that already arrived, you can add a Polar **organization access token** in Kobbe:
 
 1. In Polar, open **Developers** and create an **Organization access token** with the **`products:read`** scope.
 2. In Kobbe, go to **Site settings → Integrations → Revenue attribution**, select **Polar**, and open the **Organization access token** card.
