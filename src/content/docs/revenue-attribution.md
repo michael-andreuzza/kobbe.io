@@ -53,6 +53,9 @@ Add Kobbe’s generated webhook URL to your provider, then paste the provider si
 - Creem uses the `creem-signature` header.
 - Mollie uses the `X-Mollie-Signature` header.
 - Revolut uses the `Revolut-Signature` and `Revolut-Request-Timestamp` headers.
+- Whop and Superwall use Standard Webhooks signing (`webhook-*` or `svix-*` headers).
+- RevenueCat accepts an **Authorization** header or **X-RevenueCat-Webhook-Signature** HMAC.
+- Shopify uses the `X-Shopify-Hmac-Sha256` header.
 
 Kobbe rejects webhooks when the signing secret is missing, wrong, or outside the replay window.
 
@@ -78,3 +81,7 @@ Once webhooks are flowing, open the [Revenue](/docs/revenue) page in the sidebar
 - [Creem revenue attribution](/docs/revenue-attribution-creem)
 - [Mollie revenue attribution](/docs/revenue-attribution-mollie)
 - [Revolut revenue attribution](/docs/revenue-attribution-revolut)
+- [Whop revenue attribution](/docs/revenue-attribution-whop)
+- [RevenueCat revenue attribution](/docs/revenue-attribution-revenuecat)
+- [Superwall revenue attribution](/docs/revenue-attribution-superwall)
+- [Shopify revenue attribution](/docs/revenue-attribution-shopify)

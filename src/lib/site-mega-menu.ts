@@ -13,8 +13,11 @@ import datafastLogo from "@/images/brands/datafast.svg";
 import polarLogo from "@/images/brands/polar.svg";
 import replitLogo from "@/images/brands/replit.svg";
 import revolutLogo from "@/images/brands/revolut.svg";
+import revenuecatLogo from "@/images/brands/revenuecat.svg";
 import shopifyLogo from "@/images/brands/shopify.svg";
 import stripeLogo from "@/images/brands/stripe.svg";
+import superwallLogo from "@/images/brands/superwall.svg";
+import whopLogo from "@/images/brands/whop.svg";
 import v0Logo from "@/images/brands/v0.svg";
 import vueLogo from "@/images/brands/vue.svg";
 import webflowLogo from "@/images/brands/webflow.svg";
@@ -146,10 +149,34 @@ const revenueGuideLinks = sortMegaMenuLinksByLabel([
     logo: { src: revolutLogo.src, alt: "Revolut logo" },
   },
   {
+    id: "revenue-attribution-revenuecat",
+    href: "/docs/revenue-attribution-revenuecat",
+    label: "RevenueCat",
+    logo: { src: revenuecatLogo.src, alt: "RevenueCat logo" },
+  },
+  {
+    id: "revenue-attribution-shopify",
+    href: "/docs/revenue-attribution-shopify",
+    label: "Shopify",
+    logo: { src: shopifyLogo.src, alt: "Shopify logo" },
+  },
+  {
     id: "revenue-attribution-stripe",
     href: "/docs/revenue-attribution-stripe",
     label: "Stripe",
     logo: { src: stripeLogo.src, alt: "Stripe logo" },
+  },
+  {
+    id: "revenue-attribution-superwall",
+    href: "/docs/revenue-attribution-superwall",
+    label: "Superwall",
+    logo: { src: superwallLogo.src, alt: "Superwall logo" },
+  },
+  {
+    id: "revenue-attribution-whop",
+    href: "/docs/revenue-attribution-whop",
+    label: "Whop",
+    logo: { src: whopLogo.src, alt: "Whop logo" },
   },
 ]);
 
