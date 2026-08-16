@@ -1,7 +1,6 @@
 ---
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import FeatureTabs from "@/components/features/feature-tabs";
-import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
+import AllFeaturesSection from "@/components/landing/all-features-section";
 import SectionIntro from "@/components/landing/SectionIntro.astro";
 
 const featureGroups = [
@@ -333,18 +332,17 @@ const featureGroups = [
 ] as const;
 ---
 
-<section id="benefits" class="pt-8">
+<section id="benefits" aria-labelledby="benefits-heading" class="pt-8">
   <Wrapper variant="default" class="py-20">
-    <div class="max-w-xl">
+    <div class="mx-auto max-w-2xl text-center">
       <SectionIntro
-        title="Everything you need to understand your website."
-        description="Private by default. Extended features are opt-in when you need them."
+        id="benefits-heading"
+        title="Everything included, on every plan"
+        description="Same full toolkit at every event volume. Extended tracking stays opt-in."
       />
     </div>
-    <div class="mt-8">
-      <AnimatedPanelReveal client:load trigger="view">
-        <FeatureTabs client:load groups={featureGroups} />
-      </AnimatedPanelReveal>
+    <div class="mt-10">
+      <AllFeaturesSection client:load groups={featureGroups} />
     </div>
   </Wrapper>
 </section>
