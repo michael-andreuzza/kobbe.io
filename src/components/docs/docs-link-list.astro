@@ -13,6 +13,7 @@ type DocsLinkListItem = {
 type DocsLinkListSection = {
   title: string;
   items: DocsLinkListItem[];
+  showLogos?: boolean;
 };
 
 interface Props {
@@ -37,10 +38,10 @@ const { sections, showLogos = false, className = "mt-8" } = Astro.props;
               href={item.href}
               class:list={[
                 "text-muted-foreground hover:text-foreground text-sm font-medium transition-colors",
-                showLogos && "flex items-center gap-2",
+                (showLogos || section.showLogos) && "flex items-center gap-2",
               ]}
             >
-              {showLogos ? (
+              {showLogos || section.showLogos ? (
                 <span class="flex size-5 shrink-0 items-center justify-center">
                   {item.logo ? (
                     <BrandLogo

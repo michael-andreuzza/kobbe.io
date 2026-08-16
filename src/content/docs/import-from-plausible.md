@@ -4,6 +4,9 @@ description: Move historical Plausible Analytics data into Kobbe with a ZIP expo
 order: 37
 category: Data
 navLabel: Import from Plausible
+brandLogo:
+  url: ../../images/brands/plausible.svg
+  alt: Plausible logo
 ---
 
 Keep your historical Plausible data when you switch to Kobbe. The import takes a few minutes once your export is ready.

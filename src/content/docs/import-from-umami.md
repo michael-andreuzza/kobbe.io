@@ -4,6 +4,9 @@ description: Move historical Umami Analytics data into Kobbe with a ZIP export f
 order: 39
 category: Data
 navLabel: Import from Umami
+brandLogo:
+  url: ../../images/brands/umami.svg
+  alt: Umami logo
 ---
 
 Keep your historical Umami data when you switch to Kobbe.

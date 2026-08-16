@@ -50,6 +50,7 @@ Add Kobbe’s generated webhook URL to your provider, then paste the provider si
 - Polar uses Polar’s signed webhook headers.
 - Paddle uses the `Paddle-Signature` header.
 - Creem uses the `creem-signature` header.
+- Mollie uses the `X-Mollie-Signature` header.
 
 Kobbe rejects webhooks when the signing secret is missing, wrong, or outside the replay window.
 
@@ -73,3 +74,4 @@ Once webhooks are flowing, open the [Revenue](/docs/revenue) page in the sidebar
 - [Stripe revenue attribution](/docs/revenue-attribution-stripe)
 - [Paddle revenue attribution](/docs/revenue-attribution-paddle)
 - [Creem revenue attribution](/docs/revenue-attribution-creem)
+- [Mollie revenue attribution](/docs/revenue-attribution-mollie)

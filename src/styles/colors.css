@@ -161,17 +161,3 @@
     --background: oklch(1 0 0);
   }
 }
-
-/* Black-background brand marks invert on dark surfaces and in dark mode. */
-@media (prefers-color-scheme: dark) {
-  .brand-logo-invert-on-dark {
-    filter: invert(1);
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  .mega-menu-inverted .brand-logo-invert-on-dark,
-  .on-dark-surface .brand-logo-invert-on-dark {
-    filter: invert(1);
-  }
-}

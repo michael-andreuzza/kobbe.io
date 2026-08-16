@@ -4,6 +4,9 @@ description: Move historical Fathom Analytics data into Kobbe with a daily ZIP e
 order: 38
 category: Data
 navLabel: Import from Fathom
+brandLogo:
+  url: ../../images/brands/fathom.svg
+  alt: Fathom logo
 ---
 
 Keep your historical Fathom data when you switch to Kobbe.

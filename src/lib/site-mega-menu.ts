@@ -7,7 +7,12 @@ import kajabiLogo from "@/images/brands/kajabi.svg";
 import laravelLogo from "@/images/brands/laravel.svg";
 import lovableLogo from "@/images/brands/lovable.svg";
 import nextjsLogo from "@/images/brands/nextjs.svg";
+import mollieLogo from "@/images/brands/mollie.svg";
 import paddleLogo from "@/images/brands/paddle.svg";
+import plausibleLogo from "@/images/brands/plausible.svg";
+import fathomLogo from "@/images/brands/fathom.svg";
+import umamiLogo from "@/images/brands/umami.svg";
+import datafastLogo from "@/images/brands/datafast.svg";
 import podiaLogo from "@/images/brands/podia.svg";
 import polarLogo from "@/images/brands/polar.svg";
 import reactRouterLogo from "@/images/brands/reactrouter.svg";
@@ -166,6 +171,12 @@ const revenueGuideLinks = sortMegaMenuLinksByLabel([
     logo: { src: creemLogo.src, alt: "Creem logo" },
   },
   {
+    id: "revenue-attribution-mollie",
+    href: "/docs/revenue-attribution-mollie",
+    label: "Mollie",
+    logo: { src: mollieLogo.src, alt: "Mollie logo" },
+  },
+  {
     id: "revenue-attribution-paddle",
     href: "/docs/revenue-attribution-paddle",
     label: "Paddle",
@@ -182,6 +193,33 @@ const revenueGuideLinks = sortMegaMenuLinksByLabel([
     href: "/docs/revenue-attribution-stripe",
     label: "Stripe",
     logo: { src: stripeLogo.src, alt: "Stripe logo" },
+  },
+]);
+
+const importGuideLinks = sortMegaMenuLinksByLabel([
+  {
+    id: "import-from-plausible",
+    href: "/docs/import-from-plausible",
+    label: "Plausible",
+    logo: { src: plausibleLogo.src, alt: "Plausible logo" },
+  },
+  {
+    id: "import-from-fathom",
+    href: "/docs/import-from-fathom",
+    label: "Fathom",
+    logo: { src: fathomLogo.src, alt: "Fathom logo" },
+  },
+  {
+    id: "import-from-umami",
+    href: "/docs/import-from-umami",
+    label: "Umami",
+    logo: { src: umamiLogo.src, alt: "Umami logo" },
+  },
+  {
+    id: "import-from-datafast",
+    href: "/docs/import-from-datafast",
+    label: "DataFast",
+    logo: { src: datafastLogo.src, alt: "DataFast logo" },
   },
 ]);
 
@@ -307,6 +345,12 @@ export const siteMegaMenuColumns: MegaMenuColumn[] = [
     href: "/docs/revenue-attribution",
     layout: "compact-grid",
     links: revenueGuideLinks,
+  },
+  {
+    title: "Import guides",
+    href: "/docs/import-analytics-data",
+    layout: "compact-grid",
+    links: importGuideLinks,
   },
 ];
 

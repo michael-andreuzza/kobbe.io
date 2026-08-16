@@ -48,10 +48,7 @@ Custom events and conversions from the old tool are not recreated automatically.
 
 ## Supported providers
 
-- [Import from Plausible](/docs/import-from-plausible)
-- [Import from Fathom](/docs/import-from-fathom)
-- [Import from Umami](/docs/import-from-umami)
-- [Import from DataFast](/docs/import-from-datafast)
+Pick your previous analytics tool below for export steps and merge tips.
 
 If you need another source, contact support with a sample export.
 

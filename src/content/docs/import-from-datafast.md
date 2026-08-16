@@ -4,6 +4,9 @@ description: Pull historical DataFast analytics into Kobbe with a read-only webs
 order: 40
 category: Data
 navLabel: Import from DataFast
+brandLogo:
+  url: ../../images/brands/datafast.svg
+  alt: DataFast logo
 ---
 
 DataFast does not offer a dashboard export, but it does provide a read-only Website API. Kobbe can pull your historical traffic directly from that API and write it into daily dashboard rollups.

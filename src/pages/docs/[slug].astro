@@ -5,6 +5,7 @@ import DocsLayout from "@/layouts/DocsLayout.astro";
 import InstallationGuidesList from "@/components/docs/installation-guides-list.astro";
 import McpClientTabs from "@/components/docs/mcp-client-tabs.astro";
 import RevenueProvidersList from "@/components/docs/revenue-providers-list.astro";
+import ImportProvidersList from "@/components/docs/import-providers-list.astro";
 import { PricingVolumeTable } from "@/components/sections/pricing/pricing-volume-table";
 import { NotificationCard } from "@/components/ui/notification-card";
 import { filterDocsNavigationItems, isStandaloneDoc } from "@/lib/standalone-docs";
@@ -29,6 +30,9 @@ const docsNavItems = filterDocsNavigationItems(docs);
 const installationGuides = docs.filter((doc) => doc.id.startsWith("install-"));
 const revenueProviders = docs.filter((doc) =>
   doc.id.startsWith("revenue-attribution-"),
+);
+const importProviders = docs.filter((doc) =>
+  doc.id.startsWith("import-from-"),
 );
 const { Content } = await render(entry);
 
@@ -147,6 +151,11 @@ const bottomNotifications =
   {
     entry.id === "revenue-attribution" && (
       <RevenueProvidersList providers={revenueProviders} />
+    )
+  }
+  {
+    entry.id === "import-analytics-data" && (
+      <ImportProvidersList providers={importProviders} />
     )
   }
   {
