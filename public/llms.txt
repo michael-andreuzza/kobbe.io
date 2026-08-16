@@ -89,6 +89,7 @@ Kobbe provides a CLI and MCP server through the `@kobbe/cli` package. Use it whe
 
 CLI docs: https://kobbe.io/docs/cli
 AI agent docs: https://kobbe.io/docs/ai-agents
+Cursor plugin: https://github.com/michael-andreuzza/kobbe-cursor-plugin
 
 Install:
 

@@ -10,7 +10,24 @@ Kobbe exposes a scoped API for local AI agents. Use it when you want Cursor, Cla
 
 Agent access uses the same `@kobbe/cli` package as the [CLI](/docs/cli), but runs it in MCP server mode.
 
-## Setup
+## Cursor Marketplace
+
+The fastest way to use Kobbe in Cursor is the official plugin:
+
+1. Open **Customize** in Cursor
+2. Search for **Kobbe**
+3. Install the plugin
+4. Open **Plugins → Configure** and paste your `kbpat_` API token
+
+Plugin repository: [github.com/michael-andreuzza/kobbe-cursor-plugin](https://github.com/michael-andreuzza/kobbe-cursor-plugin)
+
+The plugin includes focused commands such as `/kobbe-overview`, `/kobbe-revenue`, `/kobbe-health`, and `/kobbe-next-actions`.
+
+## Manual MCP setup
+
+Use manual MCP setup if you are not using the Cursor plugin, or if you use another MCP-compatible client.
+
+### Create a token
 
 - Open profile menu → Agent access (or go to [app.kobbe.io/settings/agent-access](https://app.kobbe.io/settings/agent-access))
 - Copy the token immediately (shown once)
@@ -42,6 +59,7 @@ MCP tools include:
 | ------------------- | ---------------------------------------------------------------------- |
 | `list_sites`        | List sites the token can access.                                       |
 | `get_overview`      | Read headline traffic KPIs for one site.                               |
+| `get_revenue`       | Read revenue totals and attribution health for one site.               |
 | `get_top_pages`     | Inspect top pages for a site and time range.                           |
 | `get_sources`       | Inspect referrers, channels, and source breakdowns.                    |
 | `get_setup_health`  | Check whether tracking and optional features are configured correctly. |
