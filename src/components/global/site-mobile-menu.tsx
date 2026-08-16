@@ -91,15 +91,19 @@ export function SiteMobileMenu({ links }: SiteMobileMenuProps) {
                         <div
                           className={cn(
                             "mt-2",
-                            column.layout === "compact-grid"
-                              ? "grid grid-cols-2 gap-x-1 gap-y-1"
-                              : "grid gap-0.5",
+                            column.layout === "compact-grid-4"
+                              ? "grid grid-cols-2 gap-x-1 gap-y-1 sm:grid-cols-3"
+                              : column.layout === "compact-grid-3"
+                                ? "grid grid-cols-2 gap-x-1 gap-y-1 sm:grid-cols-3"
+                                : column.layout === "compact-grid"
+                                  ? "grid grid-cols-2 gap-x-1 gap-y-1"
+                                  : "grid gap-0.5",
                           )}
                         >
                           {column.links.map((link) => {
                             const isCompact =
                               column.layout === "compact" ||
-                              column.layout === "compact-grid";
+                              column.layout?.startsWith("compact-grid");
 
                             return (
                               <Dialog.Close

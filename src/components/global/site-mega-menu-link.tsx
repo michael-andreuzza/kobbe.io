@@ -29,17 +29,21 @@ export function MegaMenuColumnTitle({
   column: MegaMenuColumn;
   className?: string;
 }) {
-  const titleClassName = cn(columnTitleClassName, className);
-
-  if (column.href) {
+  if (column.seeAllHref) {
     return (
-      <a href={column.href} className={cn(titleClassName, "hover:text-foreground/80")}>
-        {column.title}
-      </a>
+      <div className={cn("flex items-center justify-between gap-3", className)}>
+        <p className={columnTitleClassName}>{column.title}</p>
+        <a
+          href={column.seeAllHref}
+          className="text-muted-foreground hover:text-foreground shrink-0 text-xs font-medium transition-colors"
+        >
+          {column.seeAllLabel ?? "See all"}
+        </a>
+      </div>
     );
   }
 
-  return <p className={titleClassName}>{column.title}</p>;
+  return <p className={cn(columnTitleClassName, className)}>{column.title}</p>;
 }
 
 export function MegaMenuLinkContent({
