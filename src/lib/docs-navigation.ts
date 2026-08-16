@@ -5,17 +5,10 @@ const ALPHABETICAL_NAV_CATEGORIES = new Set([
   "Revenue attribution",
 ]);
 
-const NAV_CATEGORIES_WITHOUT_LOGOS = new Set([
-  "Installation guides",
-  "Revenue attribution",
-]);
-
 const NAV_HUB_HREF_BY_CATEGORY: Partial<Record<string, string>> = {
   "Installation guides": "/docs/installation-guides",
   "Revenue attribution": "/docs/revenue-attribution",
 };
-
-const DATA_NAV_ORDER = ["/docs/import-analytics-data", "/docs/data-export"];
 
 export function docsNavLabel(item: CollectionEntry<"docs">): string {
   if (item.id === "import-analytics-data") return "Import";
@@ -26,11 +19,6 @@ export function docsNavLabel(item: CollectionEntry<"docs">): string {
 export function docsNavLogo(
   item: CollectionEntry<"docs">,
 ): { src: string; alt: string } | undefined {
-  const category = item.data.category;
-  if (category && NAV_CATEGORIES_WITHOUT_LOGOS.has(category)) {
-    return undefined;
-  }
-
   const logo = item.data.brandLogo;
   if (!logo) return undefined;
 
@@ -81,13 +69,6 @@ function sortGuideGroupItems(category: string, items: DocsNavLink[]) {
   return [...hubItems, ...rest];
 }
 
-function sortDataGroupItems(items: DocsNavLink[]) {
-  const byHref = new Map(items.map((item) => [item.href, item]));
-  return DATA_NAV_ORDER.map((href) => byHref.get(href)).filter(
-    (item): item is DocsNavLink => Boolean(item),
-  );
-}
-
 export function groupDocsNavLinks(links: DocsNavLink[]) {
   const groups = links.reduce(
     (acc, item) => {
@@ -103,11 +84,6 @@ export function groupDocsNavLinks(links: DocsNavLink[]) {
   );
 
   for (const group of groups) {
-    if (group.category === "Data") {
-      group.items = sortDataGroupItems(group.items);
-      continue;
-    }
-
     if (ALPHABETICAL_NAV_CATEGORIES.has(group.category)) {
       group.items = sortGuideGroupItems(group.category, group.items);
     }

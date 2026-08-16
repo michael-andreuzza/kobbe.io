@@ -69,9 +69,7 @@ export function getStandaloneDocId(section: StandaloneDocSection, slug: string) 
 export function filterDocsNavigationItems(
   items: CollectionEntry<"docs">[],
 ) {
-  return items.filter(
-    (item) => !isStandaloneDoc(item) && !item.id.startsWith("import-from-"),
-  );
+  return items.filter((item) => !isStandaloneDoc(item));
 }
 
 export const STANDALONE_DOC_REDIRECTS = [

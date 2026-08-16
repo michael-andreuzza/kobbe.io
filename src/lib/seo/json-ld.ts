@@ -128,10 +128,10 @@ export function buildSiteJsonLdGraph({
       description,
       offers: {
         "@type": "AggregateOffer",
-        lowPrice: "15",
-        highPrice: "470",
+        lowPrice: "8",
+        highPrice: "219",
         priceCurrency: "USD",
-        offerCount: "10",
+        offerCount: "5",
         url: new URL("/pricing", site).toString(),
       },
       publisher: { "@id": `${site}/#organization` },

@@ -43,16 +43,16 @@ export const pricingTiers = [
   {
     key: "events_5m",
     events: "5M",
-    monthly: 49,
-    yearlyMonthly: 41,
-    yearly: 490,
+    monthly: 129,
+    yearlyMonthly: 108,
+    yearly: 1290,
   },
   {
     key: "events_10m",
     events: "10M",
-    monthly: 79,
-    yearlyMonthly: 66,
-    yearly: 790,
+    monthly: 219,
+    yearlyMonthly: 183,
+    yearly: 2190,
   },
 ] as const satisfies ReadonlyArray<PricingTier>;
 

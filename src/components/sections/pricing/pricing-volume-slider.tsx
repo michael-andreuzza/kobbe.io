@@ -2,6 +2,12 @@ import { motion, useReducedMotion } from "motion/react";
 
 import { cn } from "@/lib/utils";
 import { pricingTiers } from "@/components/sections/pricing/pricing-tiers";
+import {
+  pricingSliderScaleStopOffsetClass,
+  pricingSliderScaleStopPercent,
+  pricingSliderTierStopOffsetClass,
+  pricingSliderTierStopPercent,
+} from "@/components/sections/pricing/pricing-slider-stops";
 
 type PricingVolumeSliderProps = {
   value: number;
@@ -24,12 +30,12 @@ export function PricingVolumeSlider({
   className,
 }: PricingVolumeSliderProps) {
   const reduceMotion = useReducedMotion();
-  const maxIndex = pricingTiers.length - 1;
-  const stepCount = pricingTiers.length;
-  // Ticks sit at cell centers, so the fill edge stops there; at the top
-  // tier the bar fills completely instead of stopping at the last tick.
-  const fillPercent =
-    value === maxIndex ? "100%" : `${((value + 0.5) / stepCount) * 100}%`;
+  const tierCount = pricingTiers.length;
+  const maxIndex = tierCount - 1;
+  const scaleLabels = ["0", ...pricingTiers.map((tier) => tier.events)];
+  const maxScaleIndex = scaleLabels.length - 1;
+  const stopPercent = pricingSliderTierStopPercent(value, tierCount);
+  const fillWidth = value === maxIndex ? "100%" : `${stopPercent}%`;
 
   return (
     <div className={cn("min-w-0", className)}>
@@ -39,37 +45,37 @@ export function PricingVolumeSlider({
             aria-hidden="true"
             className="bg-primary absolute inset-y-0 left-0 rounded-r-lg"
             initial={false}
-            animate={{ width: fillPercent }}
+            animate={{ width: fillWidth }}
             transition={reduceMotion ? { duration: 0 } : fillSpring}
           />
         </div>
 
-        <div
-          className="relative grid h-full items-center"
-          style={{
-            gridTemplateColumns: `repeat(${stepCount}, minmax(0, 1fr))`,
-          }}
-          aria-hidden="true"
-        >
+        <div className="relative h-full" aria-hidden="true">
           {pricingTiers.map((tier, index) => (
-            <div key={tier.key} className="flex justify-center">
-              <span
-                className={cn(
-                  "h-2.5 w-px rounded-full transition-colors duration-200",
-                  index <= value ? "bg-transparent" : "bg-muted-foreground/45",
-                )}
-              />
-            </div>
+            <span
+              key={tier.key}
+              className={cn(
+                "absolute top-1/2 z-[1] h-2.5 w-px -translate-y-1/2 rounded-full transition-colors duration-200",
+                pricingSliderTierStopOffsetClass(index, maxIndex),
+                index <= value ? "bg-transparent" : "bg-muted-foreground/45",
+              )}
+              style={{
+                left: `${pricingSliderTierStopPercent(index, tierCount)}%`,
+              }}
+            />
           ))}
 
           <motion.span
             aria-hidden="true"
-            className="pointer-events-none absolute top-1/2 z-10 -translate-y-1/2"
+            className={cn(
+              "pointer-events-none absolute top-1/2 z-10 -translate-y-1/2",
+              pricingSliderTierStopOffsetClass(value, maxIndex),
+            )}
             initial={false}
-            animate={{ left: fillPercent }}
+            animate={{ left: `${stopPercent}%` }}
             transition={reduceMotion ? { duration: 0 } : fillSpring}
           >
-            <span className="bg-background block h-7 w-1.5 -translate-x-[calc(100%+4px)] rounded-full shadow-sm" />
+            <span className="bg-background block h-7 w-1.5 rounded-full shadow-sm" />
           </motion.span>
         </div>
 
@@ -86,6 +92,31 @@ export function PricingVolumeSlider({
           aria-valuetext={`${valueLabel} monthly events`}
           className="absolute inset-0 z-20 h-full w-full cursor-grab appearance-none bg-transparent opacity-0 active:cursor-grabbing"
         />
+      </div>
+
+      <div className="relative mt-2 h-4 w-full" aria-hidden="true">
+        {scaleLabels.map((label, scaleIndex) => {
+          const tierIndex = scaleIndex - 1;
+          const isSelected = scaleIndex > 0 && tierIndex === value;
+
+          return (
+            <span
+              key={label}
+              className={cn(
+                "absolute text-xs tabular-nums transition-colors duration-200",
+                pricingSliderScaleStopOffsetClass(scaleIndex, maxScaleIndex),
+                isSelected
+                  ? "font-semibold text-foreground"
+                  : "font-medium text-muted-foreground",
+              )}
+              style={{
+                left: `${pricingSliderScaleStopPercent(scaleIndex, scaleLabels.length)}%`,
+              }}
+            >
+              {label}
+            </span>
+          );
+        })}
       </div>
     </div>
   );

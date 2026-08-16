@@ -66,6 +66,12 @@ const sections = [
             ? "Export"
             : (doc.data.navLabel ?? doc.data.title),
       href: `/docs/${doc.id === "overview" ? "" : doc.id}`,
+      logo: doc.data.brandLogo
+        ? {
+            src: doc.data.brandLogo.url.src,
+            alt: doc.data.brandLogo.alt,
+          }
+        : undefined,
     })),
   showLogos: false,
 }));
