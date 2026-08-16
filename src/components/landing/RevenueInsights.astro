@@ -4,8 +4,10 @@ import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal"
 import RevenueInsightsPreview from "@/components/landing/dashboard/revenue-insights-preview";
 import SectionIntro from "@/components/landing/SectionIntro.astro";
 import creemLogo from "@/images/brands/creem.svg";
+import mollieLogo from "@/images/brands/mollie.svg";
 import paddleLogo from "@/images/brands/paddle.svg";
 import polarLogo from "@/images/brands/polar.svg";
+import revolutLogo from "@/images/brands/revolut.svg";
 import stripeLogo from "@/images/brands/stripe.svg";
 
 const revenueProviders = [
@@ -13,13 +15,15 @@ const revenueProviders = [
   { name: "Polar", logo: polarLogo },
   { name: "Paddle", logo: paddleLogo },
   { name: "Creem", logo: creemLogo },
+  { name: "Mollie", logo: mollieLogo },
+  { name: "Revolut", logo: revolutLogo },
 ];
 
 const revenueInsightsPoints = [
   {
     title: "Connect a source",
     description:
-      "Add a signed webhook from Stripe, Polar, Paddle, or Creem in site settings.",
+      "Add a signed webhook from Stripe, Polar, Paddle, Creem, Mollie, or Revolut in site settings.",
   },
   {
     title: "Keep attribution scoped",

@@ -42,19 +42,17 @@ const { sections, showLogos = false, className = "mt-8" } = Astro.props;
               ]}
             >
               {showLogos || section.showLogos ? (
-                <span class="flex size-5 shrink-0 items-center justify-center">
-                  {item.logo ? (
+                item.logo ? (
+                  <span class="flex size-5 shrink-0 items-center justify-center">
                     <BrandLogo
                       src={item.logo.src}
                       alt={item.logo.alt}
                       class="size-4 rounded-[0.2rem] object-contain"
+                      width={16}
+                      height={16}
                     />
-                  ) : (
-                    <span class="text-muted-foreground text-xs">
-                      {item.title.slice(0, 1)}
-                    </span>
-                  )}
-                </span>
+                  </span>
+                ) : null
               ) : null}
               <span>{item.title}</span>
             </a>

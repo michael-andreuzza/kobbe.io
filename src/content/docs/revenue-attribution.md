@@ -16,6 +16,7 @@ Revenue attribution is included on every plan. Enable it only on the pages that 
 - Load the full tracker with `data-revenue-attribution="true"`
 - Pass `kobbe_attribution_id` to checkout when your provider supports metadata
 - Add Kobbe's webhook URL and the provider signing secret
+- For **Revolut**, also add your Merchant API secret so Kobbe can fetch order details from thin webhooks
 
 Kobbe hashes the tab-scoped attribution ID before storing it, so the raw value is never stored in D1.
 
@@ -51,6 +52,7 @@ Add Kobbe’s generated webhook URL to your provider, then paste the provider si
 - Paddle uses the `Paddle-Signature` header.
 - Creem uses the `creem-signature` header.
 - Mollie uses the `X-Mollie-Signature` header.
+- Revolut uses the `Revolut-Signature` and `Revolut-Request-Timestamp` headers.
 
 Kobbe rejects webhooks when the signing secret is missing, wrong, or outside the replay window.
 
@@ -75,3 +77,4 @@ Once webhooks are flowing, open the [Revenue](/docs/revenue) page in the sidebar
 - [Paddle revenue attribution](/docs/revenue-attribution-paddle)
 - [Creem revenue attribution](/docs/revenue-attribution-creem)
 - [Mollie revenue attribution](/docs/revenue-attribution-mollie)
+- [Revolut revenue attribution](/docs/revenue-attribution-revolut)

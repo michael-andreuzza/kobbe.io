@@ -10,6 +10,10 @@ import TableOfContents from "@/components/foundations/navigation/TableOfContents
 import { DocsCommandSearch } from "@/components/docs/docs-command-search";
 import type { JsonLdBreadcrumb } from "@/lib/seo/json-ld";
 import { filterDocsNavigationItems } from "@/lib/standalone-docs";
+import {
+  buildDocsNavLinks,
+  groupDocsNavLinks,
+} from "@/lib/docs-navigation";
 import { buildSiteSearchItems } from "@/lib/site-search";
 
 interface Props {
@@ -23,41 +27,8 @@ const { title, description, pageTitle, navItems } = Astro.props;
 const currentPath = Astro.url.pathname.replace(/\/$/, "");
 const displayTitle = pageTitle ?? title?.replace(/\s+: Kobbe$/, "");
 const filteredNavItems = filterDocsNavigationItems(navItems);
-
-const resolvedNavLinks = filteredNavItems.map((item) => {
-  const logo = item.data.brandLogo;
-
-  return {
-    href: item.id === "overview" ? "/docs" : `/docs/${item.id}`,
-    label: item.data.navLabel ?? item.data.title,
-    category: item.data.category ?? "Docs",
-    isActive:
-      currentPath ===
-      (item.id === "overview" ? "/docs" : `/docs/${item.id}`).replace(
-        /\/$/,
-        "",
-      ),
-    logo: logo
-      ? {
-          src: logo.url.src,
-          alt: logo.alt,
-        }
-      : undefined,
-  };
-});
-
-const groupedNavLinks = resolvedNavLinks.reduce(
-  (groups, item) => {
-    const existing = groups.find((group) => group.category === item.category);
-    if (existing) {
-      existing.items.push(item);
-      return groups;
-    }
-    groups.push({ category: item.category, items: [item] });
-    return groups;
-  },
-  [] as { category: string; items: typeof resolvedNavLinks }[],
-);
+const resolvedNavLinks = buildDocsNavLinks(filteredNavItems, currentPath);
+const groupedNavLinks = groupDocsNavLinks(resolvedNavLinks);
 const currentNavLink = resolvedNavLinks.find((item) => item.isActive);
 const jsonLdBreadcrumbs: JsonLdBreadcrumb[] =
   currentPath === "/docs"

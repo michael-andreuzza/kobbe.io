@@ -65,6 +65,10 @@ Start here:
 - Polar: https://kobbe.io/docs/revenue-attribution-polar
 - Paddle: https://kobbe.io/docs/revenue-attribution-paddle
 - Creem: https://kobbe.io/docs/revenue-attribution-creem
+- Mollie: https://kobbe.io/docs/revenue-attribution-mollie
+- Revolut: https://kobbe.io/docs/revenue-attribution-revolut
+
+Revolut Merchant webhooks only include the order id. Kobbe also needs your Merchant API secret in site settings to fetch order amount, currency, and metadata after `ORDER_COMPLETED`.
 
 Revenue attribution requires the full tracker:
 

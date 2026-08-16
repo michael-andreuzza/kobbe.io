@@ -1,31 +1,3 @@
-import astroLogo from "@/images/brands/astro.svg";
-import boltLogo from "@/images/brands/bolt.svg";
-import creemLogo from "@/images/brands/creem.svg";
-import framerLogo from "@/images/brands/framer.svg";
-import ghostLogo from "@/images/brands/ghost.png";
-import kajabiLogo from "@/images/brands/kajabi.svg";
-import laravelLogo from "@/images/brands/laravel.svg";
-import lovableLogo from "@/images/brands/lovable.svg";
-import nextjsLogo from "@/images/brands/nextjs.svg";
-import mollieLogo from "@/images/brands/mollie.svg";
-import paddleLogo from "@/images/brands/paddle.svg";
-import plausibleLogo from "@/images/brands/plausible.svg";
-import fathomLogo from "@/images/brands/fathom.svg";
-import umamiLogo from "@/images/brands/umami.svg";
-import datafastLogo from "@/images/brands/datafast.svg";
-import podiaLogo from "@/images/brands/podia.svg";
-import polarLogo from "@/images/brands/polar.svg";
-import reactRouterLogo from "@/images/brands/reactrouter.svg";
-import replitLogo from "@/images/brands/replit.svg";
-import shopifyLogo from "@/images/brands/shopify.svg";
-import squarespaceLogo from "@/images/brands/squarespace.svg";
-import stripeLogo from "@/images/brands/stripe.svg";
-import v0Logo from "@/images/brands/v0.svg";
-import vueLogo from "@/images/brands/vue.svg";
-import webflowLogo from "@/images/brands/webflow.svg";
-import wixLogo from "@/images/brands/wix.svg";
-import wordpressLogo from "@/images/brands/wordpress.svg";
-
 export type MegaMenuLinkLogo = {
   src: string;
   alt: string;
@@ -53,114 +25,48 @@ function sortMegaMenuLinksByLabel(links: MegaMenuLink[]) {
 }
 
 const installationGuideLinks = sortMegaMenuLinksByLabel([
+  { id: "install-astro", href: "/docs/install-astro", label: "Astro" },
+  { id: "install-bolt", href: "/docs/install-bolt", label: "Bolt" },
+  { id: "install-bubble", href: "/docs/install-bubble", label: "Bubble" },
+  { id: "install-django", href: "/docs/install-django", label: "Django" },
+  { id: "install-framer", href: "/docs/install-framer", label: "Framer" },
   {
-    id: "install-astro",
-    href: "/docs/install-astro",
-    label: "Astro",
-    logo: { src: astroLogo.src, alt: "Astro logo" },
+    id: "install-google-tag-manager",
+    href: "/docs/install-google-tag-manager",
+    label: "Google Tag Manager",
   },
-  {
-    id: "install-bolt",
-    href: "/docs/install-bolt",
-    label: "Bolt",
-    logo: { src: boltLogo.src, alt: "Bolt logo" },
-  },
-  {
-    id: "install-framer",
-    href: "/docs/install-framer",
-    label: "Framer",
-    logo: { src: framerLogo.src, alt: "Framer logo" },
-  },
-  {
-    id: "install-ghost",
-    href: "/docs/install-ghost",
-    label: "Ghost",
-    logo: { src: ghostLogo.src, alt: "Ghost logo" },
-  },
-  {
-    id: "install-kajabi",
-    href: "/docs/install-kajabi",
-    label: "Kajabi",
-    logo: { src: kajabiLogo.src, alt: "Kajabi logo" },
-  },
-  {
-    id: "install-laravel",
-    href: "/docs/install-laravel",
-    label: "Laravel",
-    logo: { src: laravelLogo.src, alt: "Laravel logo" },
-  },
-  {
-    id: "install-lovable",
-    href: "/docs/install-lovable",
-    label: "Lovable",
-    logo: { src: lovableLogo.src, alt: "Lovable logo" },
-  },
-  {
-    id: "install-nextjs",
-    href: "/docs/install-nextjs",
-    label: "Next.js",
-    logo: { src: nextjsLogo.src, alt: "Next.js logo" },
-  },
-  {
-    id: "install-podia",
-    href: "/docs/install-podia",
-    label: "Podia",
-    logo: { src: podiaLogo.src, alt: "Podia logo" },
-  },
+  { id: "install-ghost", href: "/docs/install-ghost", label: "Ghost" },
+  { id: "install-kajabi", href: "/docs/install-kajabi", label: "Kajabi" },
+  { id: "install-laravel", href: "/docs/install-laravel", label: "Laravel" },
+  { id: "install-lovable", href: "/docs/install-lovable", label: "Lovable" },
+  { id: "install-nextjs", href: "/docs/install-nextjs", label: "Next.js" },
+  { id: "install-podia", href: "/docs/install-podia", label: "Podia" },
   {
     id: "install-react-router",
     href: "/docs/install-react-router",
     label: "React Router",
-    logo: { src: reactRouterLogo.src, alt: "React Router logo" },
   },
-  {
-    id: "install-replit",
-    href: "/docs/install-replit",
-    label: "Replit",
-    logo: { src: replitLogo.src, alt: "Replit logo" },
-  },
-  {
-    id: "install-shopify",
-    href: "/docs/install-shopify",
-    label: "Shopify",
-    logo: { src: shopifyLogo.src, alt: "Shopify logo" },
-  },
+  { id: "install-replit", href: "/docs/install-replit", label: "Replit" },
+  { id: "install-shopify", href: "/docs/install-shopify", label: "Shopify" },
   {
     id: "install-squarespace",
     href: "/docs/install-squarespace",
     label: "Squarespace",
-    logo: { src: squarespaceLogo.src, alt: "Squarespace logo" },
   },
   {
     id: "install-vercel-v0",
     href: "/docs/install-vercel-v0",
     label: "Vercel v0",
-    logo: { src: v0Logo.src, alt: "Vercel v0 logo" },
   },
+  { id: "install-vue", href: "/docs/install-vue", label: "Vue.js" },
+  { id: "install-webflow", href: "/docs/install-webflow", label: "Webflow" },
+  { id: "install-wix", href: "/docs/install-wix", label: "Wix" },
   {
-    id: "install-vue",
-    href: "/docs/install-vue",
-    label: "Vue.js",
-    logo: { src: vueLogo.src, alt: "Vue.js logo" },
+    id: "install-woocommerce",
+    href: "/docs/install-woocommerce",
+    label: "WooCommerce",
   },
-  {
-    id: "install-webflow",
-    href: "/docs/install-webflow",
-    label: "Webflow",
-    logo: { src: webflowLogo.src, alt: "Webflow logo" },
-  },
-  {
-    id: "install-wix",
-    href: "/docs/install-wix",
-    label: "Wix",
-    logo: { src: wixLogo.src, alt: "Wix logo" },
-  },
-  {
-    id: "install-wordpress",
-    href: "/docs/install-wordpress",
-    label: "WordPress",
-    logo: { src: wordpressLogo.src, alt: "WordPress logo" },
-  },
+  { id: "install-wordpress", href: "/docs/install-wordpress", label: "WordPress" },
 ]);
 
 const revenueGuideLinks = sortMegaMenuLinksByLabel([
@@ -168,58 +74,44 @@ const revenueGuideLinks = sortMegaMenuLinksByLabel([
     id: "revenue-attribution-creem",
     href: "/docs/revenue-attribution-creem",
     label: "Creem",
-    logo: { src: creemLogo.src, alt: "Creem logo" },
   },
   {
     id: "revenue-attribution-mollie",
     href: "/docs/revenue-attribution-mollie",
     label: "Mollie",
-    logo: { src: mollieLogo.src, alt: "Mollie logo" },
   },
   {
     id: "revenue-attribution-paddle",
     href: "/docs/revenue-attribution-paddle",
     label: "Paddle",
-    logo: { src: paddleLogo.src, alt: "Paddle logo" },
   },
   {
     id: "revenue-attribution-polar",
     href: "/docs/revenue-attribution-polar",
     label: "Polar",
-    logo: { src: polarLogo.src, alt: "Polar logo" },
+  },
+  {
+    id: "revenue-attribution-revolut",
+    href: "/docs/revenue-attribution-revolut",
+    label: "Revolut",
   },
   {
     id: "revenue-attribution-stripe",
     href: "/docs/revenue-attribution-stripe",
     label: "Stripe",
-    logo: { src: stripeLogo.src, alt: "Stripe logo" },
   },
 ]);
 
-const importGuideLinks = sortMegaMenuLinksByLabel([
+const dataGuideLinks = sortMegaMenuLinksByLabel([
   {
-    id: "import-from-plausible",
-    href: "/docs/import-from-plausible",
-    label: "Plausible",
-    logo: { src: plausibleLogo.src, alt: "Plausible logo" },
+    id: "import-analytics-data",
+    href: "/docs/import-analytics-data",
+    label: "Import",
   },
   {
-    id: "import-from-fathom",
-    href: "/docs/import-from-fathom",
-    label: "Fathom",
-    logo: { src: fathomLogo.src, alt: "Fathom logo" },
-  },
-  {
-    id: "import-from-umami",
-    href: "/docs/import-from-umami",
-    label: "Umami",
-    logo: { src: umamiLogo.src, alt: "Umami logo" },
-  },
-  {
-    id: "import-from-datafast",
-    href: "/docs/import-from-datafast",
-    label: "DataFast",
-    logo: { src: datafastLogo.src, alt: "DataFast logo" },
+    id: "data-export",
+    href: "/docs/data-export",
+    label: "Export",
   },
 ]);
 
@@ -266,7 +158,7 @@ export const siteMegaMenuColumns: MegaMenuColumn[] = [
         id: "revenue",
         href: "/docs/revenue-attribution",
         label: "Revenue attribution",
-        description: "Connect Stripe, Polar, Paddle, or Creem.",
+        description: "Connect Stripe, Polar, Paddle, Creem, Mollie, or Revolut.",
       },
       {
         id: "conversions",
@@ -347,10 +239,9 @@ export const siteMegaMenuColumns: MegaMenuColumn[] = [
     links: revenueGuideLinks,
   },
   {
-    title: "Import guides",
-    href: "/docs/import-analytics-data",
+    title: "Data",
     layout: "compact-grid",
-    links: importGuideLinks,
+    links: dataGuideLinks,
   },
 ];
 
@@ -367,7 +258,11 @@ export const siteMegaMenuGroups: MegaMenuGroup[] = [
   },
   {
     id: "setup",
-    columns: [siteMegaMenuColumns[3]!, siteMegaMenuColumns[5]!],
+    columns: [
+      siteMegaMenuColumns[3]!,
+      siteMegaMenuColumns[5]!,
+      siteMegaMenuColumns[6]!,
+    ],
   },
 ];
 
