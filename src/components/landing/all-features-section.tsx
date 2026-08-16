@@ -19,6 +19,14 @@ type AllFeaturesSectionProps = {
   className?: string;
 };
 
+function sortFeaturesWithOptInLast(features: readonly Feature[]) {
+  return [...features].sort((left, right) => {
+    const leftExtended = left.trackingMode === "extended" ? 1 : 0;
+    const rightExtended = right.trackingMode === "extended" ? 1 : 0;
+    return leftExtended - rightExtended;
+  });
+}
+
 export function AllFeaturesSection({
   groups,
   className,
@@ -35,7 +43,7 @@ export function AllFeaturesSection({
               className="text-foreground mt-3 grid list-none gap-y-4"
               role="list"
             >
-              {group.features.map((feature) => (
+              {sortFeaturesWithOptInLast(group.features).map((feature) => (
                 <li key={feature.title} className="flex items-start gap-2">
                   <PricingFeatureMark />
                   <div className="min-w-0">
