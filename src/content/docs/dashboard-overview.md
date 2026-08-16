@@ -39,6 +39,14 @@ The main chart shows the selected KPI over time. Hover a point to inspect that b
 
 Use the **share** icon in the chart header to copy or download a branded image of the current metric and range. See [Share metric images](/docs/share-metric-images).
 
+## Chart notes
+
+Pin a day on the traffic chart to keep its tooltip open while you move around the chart. From the pinned tooltip you can add labeled notes for that day, such as a product launch, pricing change, or campaign start.
+
+Each note has a color and short label. Notes appear as markers on day-bucket charts in the selected range. You can edit or delete notes from the pinned tooltip.
+
+Chart notes are disabled on demo workspaces and read-only shared dashboards.
+
 ## Breakdown cards
 
 Each card has a dedicated reference page under **Dashboard stats** in the sidebar:

@@ -17,6 +17,7 @@ Each monthly report includes:
 - Visitors and pageviews for the previous calendar month.
 - Top page.
 - Top source.
+- Revenue totals when revenue attribution is connected.
 
 Kobbe sends one report per enabled site and deduplicates each month so the same report is not sent repeatedly.
 
@@ -26,7 +27,7 @@ The report is sent to the email address saved in the site's report and alert set
 
 ## Availability
 
-Monthly email reports are included from 5M monthly events on the [pricing page](/#pricing). They are opt-in per site. You can disable them any time from site settings.
+Monthly email reports are included on Starter plans and higher on the [pricing page](/#pricing). They are opt-in per site. You can disable them any time from site settings.
 
 ## Related docs
 

@@ -186,8 +186,8 @@ export const APP_DEMO_URL = "https://app.kobbe.io/demo/kobbe-studio";
 export const APP_SIGNIN_URL = "https://app.kobbe.io";
 export const APP_SIGNUP_URL = "https://app.kobbe.io/signup";
 
-const exploreColumn: MegaMenuColumn = {
-  title: "Explore",
+const productColumn: MegaMenuColumn = {
+  title: "Product",
   links: [
     {
       id: "demo",
@@ -212,32 +212,32 @@ const exploreColumn: MegaMenuColumn = {
   ],
 };
 
-const getStartedColumn: MegaMenuColumn = {
-  title: "Get started",
+const documentationColumn: MegaMenuColumn = {
+  title: "Documentation",
   links: [
     {
       id: "docs-home",
       href: "/docs",
       label: "Documentation",
-      description: "Guides for setup, tracking, and dashboards.",
+      description: "Setup, tracking, dashboards, and guides.",
     },
     {
-      id: "add-tracker",
-      href: "/docs/add-the-tracker",
-      label: "Add the tracker",
-      description: "Copy the snippet and verify pageviews.",
+      id: "dashboard-overview",
+      href: "/docs/dashboard-overview",
+      label: "Dashboard overview",
+      description: "KPIs, charts, breakdowns, and time ranges.",
     },
     {
-      id: "install-guides",
-      href: "/docs/installation-guides",
-      label: "All installation guides",
-      description: "Every platform and framework we support.",
+      id: "privacy",
+      href: "/docs/privacy-and-cookieless-tracking",
+      label: "Privacy and cookieless tracking",
+      description: "How Kobbe tracks visits without cookies by default.",
     },
   ],
 };
 
-const capabilitiesColumn: MegaMenuColumn = {
-  title: "Capabilities",
+const featuresColumn: MegaMenuColumn = {
+  title: "Features",
   links: [
     {
       id: "funnels",
@@ -320,11 +320,11 @@ const dataGuidesColumn: MegaMenuColumn = {
 export const siteMegaMenuGroups: MegaMenuGroup[] = [
   {
     id: "product",
-    columns: [exploreColumn, capabilitiesColumn],
+    columns: [productColumn, featuresColumn],
   },
   {
     id: "docs",
-    columns: [getStartedColumn, trackingColumn],
+    columns: [documentationColumn, trackingColumn],
   },
   {
     id: "setup",
