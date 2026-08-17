@@ -1,6 +1,10 @@
-import { Bar, ComposedChart, Line, XAxis, YAxis } from "recharts";
+import { Bar, ComposedChart, XAxis, YAxis } from "recharts";
 
-import { LollipopBarShape } from "@/components/landing/dashboard/chart-lollipop";
+import {
+  LollipopBarShape,
+  StackedRevenueBarShape,
+  StackedTrafficBarShape,
+} from "@/components/landing/dashboard/chart-lollipop";
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 import { chartCountAxisUpperBound } from "@/lib/chart-y-axis";
 import { cn } from "@/lib/utils";
@@ -16,11 +20,30 @@ const sparklineChartConfig = {
   },
 } satisfies ChartConfig;
 
+const REVENUE_BAR_BAND_RATIO = 0.28;
+const REVENUE_BAR_DATA_KEY = "revenueBarValue";
+const trafficBarStackColor = "var(--traffic-bar-stack)";
+const revenueBarStackColor = "var(--revenue-bar-stack)";
+
 export type IndexSparklinePoint = {
   t: number;
   visitors: number;
   revenueMinor: number;
 };
+
+function sparklineRevenueStackValue(input: {
+  visitors: number;
+  revenueMinor: number;
+  maxRevenue: number;
+  trafficYMax: number;
+}): number {
+  if (input.revenueMinor <= 0 || input.visitors <= 0) return 0;
+  return (
+    (input.revenueMinor / input.maxRevenue) *
+    input.trafficYMax *
+    REVENUE_BAR_BAND_RATIO
+  );
+}
 
 export function IndexSiteVisitorsSparkline(props: {
   points: IndexSparklinePoint[];
@@ -41,18 +64,28 @@ export function IndexSiteVisitorsSparkline(props: {
     );
   }
 
-  const data = points.map((p, index) => ({
-    slot: String(index),
-    t: p.t,
-    visitors: p.visitors,
-    revenueMinor: p.revenueMinor,
-  }));
   const maxV = Math.max(1, ...points.map((p) => p.visitors));
   const yMax = chartCountAxisUpperBound(maxV);
   const hasRevenue =
     Boolean(props.showRevenue) && points.some((p) => p.revenueMinor > 0);
   const maxRevenue = Math.max(1, ...points.map((p) => p.revenueMinor));
-  const revenueYMax = chartCountAxisUpperBound(maxRevenue);
+  const chartYMax = hasRevenue ? yMax * (1 + REVENUE_BAR_BAND_RATIO) : yMax;
+  const data = points.map((p, index) => ({
+    slot: String(index),
+    t: p.t,
+    visitors: p.visitors,
+    revenueMinor: p.revenueMinor,
+    ...(hasRevenue
+      ? {
+          [REVENUE_BAR_DATA_KEY]: sparklineRevenueStackValue({
+            visitors: p.visitors,
+            revenueMinor: p.revenueMinor,
+            maxRevenue,
+            trafficYMax: yMax,
+          }),
+        }
+      : {}),
+  }));
   const barSize = points.length > 45 ? 2 : points.length > 28 ? 3 : 4;
 
   return (
@@ -78,29 +111,47 @@ export function IndexSiteVisitorsSparkline(props: {
           axisLine={false}
           tickLine={false}
         />
-        <YAxis yAxisId="visitors" hide domain={[0, yMax]} />
-        {hasRevenue ? (
-          <YAxis yAxisId="revenue" hide domain={[0, revenueYMax]} />
-        ) : null}
+        <YAxis yAxisId="visitors" hide domain={[0, chartYMax]} />
         <Bar
           yAxisId="visitors"
           dataKey="visitors"
-          fill="var(--foreground)"
+          stackId={hasRevenue ? "sparkline" : undefined}
+          fill={trafficBarStackColor}
           barSize={barSize}
-          shape={<LollipopBarShape solid />}
+          shape={(barProps) => {
+            if (!hasRevenue) {
+              return <LollipopBarShape {...barProps} widget solid />;
+            }
+            const payload = barProps.payload as Record<string, unknown>;
+            const hasRevenueSegment =
+              Number(payload[REVENUE_BAR_DATA_KEY] ?? 0) > 0;
+            return (
+              <StackedTrafficBarShape
+                {...barProps}
+                widget
+                solid
+                roundedTop={!hasRevenueSegment}
+                fill={trafficBarStackColor}
+              />
+            );
+          }}
           isAnimationActive={false}
         />
         {hasRevenue ? (
-          <Line
-            yAxisId="revenue"
-            type="monotone"
-            dataKey="revenueMinor"
-            stroke="var(--brand)"
-            strokeWidth={1.4}
-            strokeOpacity={0.75}
-            dot={false}
-            activeDot={false}
-            connectNulls
+          <Bar
+            yAxisId="visitors"
+            dataKey={REVENUE_BAR_DATA_KEY}
+            stackId="sparkline"
+            fill={revenueBarStackColor}
+            barSize={barSize}
+            shape={(barProps) => (
+              <StackedRevenueBarShape
+                {...barProps}
+                widget
+                solid
+                fill={revenueBarStackColor}
+              />
+            )}
             isAnimationActive={false}
           />
         ) : null}
