@@ -398,9 +398,6 @@ export function TrafficLineChart(props: {
         }),
       }))
     : data;
-  const pinBackground = !disableHoverChartInteraction
-    ? ({ fill: "transparent", style: { cursor: "pointer" } } as const)
-    : false;
 
   const annotationMarkers = (() => {
     if (annotationsByDay.size === 0) {
@@ -442,6 +439,9 @@ export function TrafficLineChart(props: {
   const heroPinnedIndex =
     hero && previewPinnedIndex != null ? previewPinnedIndex : null;
   const disableHoverChartInteraction = hero && heroPinnedIndex != null;
+  const pinBackground = !disableHoverChartInteraction
+    ? ({ fill: "transparent", style: { cursor: "pointer" } } as const)
+    : false;
   const activeBarIndex =
     heroPinnedIndex ?? pinnedAnnotationIndex ?? pinnedTooltip?.index ?? null;
   const pinnedAnnotationPoint =
