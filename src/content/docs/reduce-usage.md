@@ -6,7 +6,7 @@ category: Manage
 navLabel: Reduce usage
 ---
 
-If event volume is high, cut noise with [visit filters](/docs/exclude-visits) so unwanted hits never count toward quotas.
+If event volume is high, cut noise with [visit filters](/docs/exclude-visits) so unwanted hits never count toward quotas. Kobbe also filters bots automatically before events are stored—open **Bots** in the site sidebar to see what was kept out of your stats.
 
 ## Start with low-value traffic
 

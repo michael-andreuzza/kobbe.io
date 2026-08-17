@@ -156,6 +156,8 @@ See [Scroll tracking](/docs/scroll-tracking) for privacy guidance and examples.
 
 Kobbe applies **automatic bot detection** on every collect request (e.g. headless clients and common crawler signals). Suspicious requests return a success response but **do not** increment usage or store an event.
 
+Filtered bot hits are kept in a separate audit trail. Open **Bots** in the site sidebar to review volume over time, why traffic was filtered, and which pages, sources, locations, and devices bots attempted. Filtered bot traffic does not count toward event quotas.
+
 **Visit filters** are separate: per-site rules you set in the Kobbe app (path, hostname, country, IP, or “ignore my browser” via `localStorage`). Those are evaluated after the bot filter and after your site is resolved. See [Filter your visits](/docs/exclude-visits) and [Reduce usage](/docs/reduce-usage).
 
 ## Local development

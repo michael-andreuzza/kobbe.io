@@ -12,7 +12,7 @@ Kobbe is a privacy-friendly analytics dashboard for understanding your website t
 
 ### Traffic overview
 
-Kobbe shows visitors, visits, views, top pages, referrers, channels, locations, devices, and opt-in UTM campaigns so you can understand where traffic comes from and what people view.
+Kobbe shows visitors, visits, views, top pages, referrers, channels, locations, devices, and opt-in UTM campaigns so you can understand where traffic comes from and what people view. Open **Bots** in the site sidebar to review automated traffic Kobbe filters out before it reaches those stats.
 
 ### Events and conversions
 

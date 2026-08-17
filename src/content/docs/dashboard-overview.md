@@ -16,6 +16,7 @@ Use the sidebar to open dedicated pages when you need more detail:
 | **Insights** | [Insights](/docs/insights)                       |
 | **Revenue**  | [Revenue](/docs/revenue)                         |
 | **Realtime** | [Realtime visitors](/docs/realtime-visitors)     |
+| **Bots**     | [Bot filtering](/docs/script-options#bot-filtering-and-exclusions) — review filtered automated traffic |
 
 ## Time range and filters
 
