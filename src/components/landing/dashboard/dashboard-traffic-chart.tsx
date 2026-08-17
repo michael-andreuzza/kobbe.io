@@ -14,6 +14,7 @@ import {
   dashboardCardHeaderClass,
   dashboardCardRootClass,
   dashboardCardTitleClass,
+  dashboardTabbedCardHeaderClass,
 } from "./dashboard-card-layout";
 import {
   TrafficLineChart,
@@ -52,7 +53,14 @@ export function DashboardTrafficChart(props: Props) {
       className={cn(dashboardCardRootClass, "h-auto", props.className)}
     >
       {props.children ? (
-        <CardHeader className={dashboardCardHeaderClass}>
+        <CardHeader
+          className={cn(
+            dashboardCardHeaderClass,
+            showShare || showChartStyleTabs
+              ? dashboardTabbedCardHeaderClass
+              : undefined,
+          )}
+        >
           <CardTitle className={dashboardCardTitleClass}>
             {props.children} over time
           </CardTitle>
