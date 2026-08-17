@@ -1,6 +1,6 @@
 import { Bar, ComposedChart, Line, XAxis, YAxis } from "recharts";
 
-import { RoundedBarShape } from "@/components/landing/dashboard/chart-lollipop";
+import { LollipopBarShape } from "@/components/landing/dashboard/chart-lollipop";
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 import { chartCountAxisUpperBound } from "@/lib/chart-y-axis";
 import { cn } from "@/lib/utils";
@@ -87,7 +87,7 @@ export function IndexSiteVisitorsSparkline(props: {
           dataKey="visitors"
           fill="var(--foreground)"
           barSize={barSize}
-          shape={<RoundedBarShape solid />}
+          shape={<LollipopBarShape solid />}
           isAnimationActive={false}
         />
         {hasRevenue ? (

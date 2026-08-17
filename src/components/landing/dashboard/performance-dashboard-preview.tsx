@@ -1,6 +1,6 @@
 import { ComputerPhoneSyncIcon, Globe02Icon } from "@hugeicons/core-free-icons";
 import { useMemo, useState } from "react";
-import { Bar, CartesianGrid, Cell, ComposedChart, XAxis, YAxis } from "recharts";
+import { Bar, Cell, ComposedChart, XAxis, YAxis } from "recharts";
 
 import {
   Card,
@@ -43,9 +43,8 @@ import {
   dashboardCardDescriptionClass,
 } from "./dashboard-card-layout";
 import {
-  PreserveFillActiveRoundedBarShape,
-  RoundedBarShape,
-  chartAxisEdgePadding,
+  BrandActiveLollipopBarShape,
+  LollipopBarShape,
   chartBarCategoryGap,
   chartBarMaxSize,
 } from "./chart-lollipop";
@@ -484,11 +483,6 @@ function PerformanceTrendPreview(props: {
     ),
   );
   const barCategoryGap = chartBarCategoryGap(props.points.length);
-  const axisPadding = chartAxisEdgePadding(
-    props.points.length,
-    barMaxSize,
-    visibleSeries.length,
-  );
 
   return (
     <div className="relative min-w-0 w-full">
@@ -506,7 +500,7 @@ function PerformanceTrendPreview(props: {
           <XAxis
             dataKey="label"
             scale="point"
-            padding={axisPadding}
+            padding={{ left: 6, right: 6 }}
             tickLine={false}
             axisLine={false}
             tickMargin={12}
@@ -532,13 +526,6 @@ function PerformanceTrendPreview(props: {
               className: "fill-muted-foreground/70 font-medium tabular-nums",
             }}
           />
-          <CartesianGrid
-            vertical={false}
-            syncWithTicks
-            stroke="var(--chart-grid-stroke)"
-            strokeOpacity={1}
-            strokeWidth={1}
-          />
           <ChartTooltip
             cursor={false}
             content={<PerformanceChartTooltip metric={metric} />}
@@ -549,12 +536,8 @@ function PerformanceTrendPreview(props: {
               dataKey={key}
               fill="var(--foreground)"
               maxBarSize={barMaxSize}
-              shape={(barProps) => (
-                <RoundedBarShape {...barProps} solid />
-              )}
-              activeBar={(barProps) => (
-                <PreserveFillActiveRoundedBarShape {...barProps} />
-              )}
+              shape={<LollipopBarShape />}
+              activeBar={<BrandActiveLollipopBarShape />}
               isAnimationActive={false}
             >
               {props.points.map((point) => (

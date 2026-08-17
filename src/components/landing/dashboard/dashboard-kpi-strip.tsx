@@ -59,7 +59,7 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
         ? "text-destructive"
         : "text-muted-foreground";
   return (
-    <div className="flex min-w-0 flex-col gap-1.5">
+    <div className="flex h-full min-w-0 flex-col gap-1">
       <div className="flex w-full min-w-0 items-baseline justify-between gap-2">
         <span
           className={cn(
@@ -80,7 +80,7 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
           </span>
         ) : null}
       </div>
-      <div className="min-w-0">
+      <div className="mt-auto min-w-0">
         <span
           className={cn(
             "text-base leading-tight font-medium tracking-tight tabular-nums",

@@ -47,7 +47,7 @@ type DashboardMetricTileProps = {
 const metricTileBorderClass = "border border-border/70";
 
 const metricTileBaseClass =
-  "relative min-w-0 p-4 text-left text-foreground transition-[background-color,color,border-color] duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none";
+  "relative flex min-h-0 min-w-0 flex-col p-4 lg:aspect-square text-left text-foreground transition-[background-color,color,border-color] duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none";
 
 const metricTileCardClass = cn(
   metricTileBaseClass,
