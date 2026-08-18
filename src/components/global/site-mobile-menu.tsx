@@ -67,7 +67,7 @@ export function SiteMobileMenu({ links }: SiteMobileMenuProps) {
                     aria-label="Homepage"
                     className="text-foreground flex items-center"
                   >
-                    <Logo className="h-5 rounded" />
+                    <Logo className="h-8 w-auto" />
                   </a>
                 }
               />

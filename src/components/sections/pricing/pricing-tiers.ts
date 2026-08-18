@@ -4,6 +4,7 @@ export type PricingTierKey =
   | "events_20k"
   | "events_500k"
   | "events_1m"
+  | "events_3m"
   | "events_5m"
   | "events_10m";
 
@@ -41,6 +42,13 @@ export const pricingTiers = [
     yearly: 200,
   },
   {
+    key: "events_3m",
+    events: "3M",
+    monthly: 49,
+    yearlyMonthly: 41,
+    yearly: 490,
+  },
+  {
     key: "events_5m",
     events: "5M",
     monthly: 129,
@@ -57,6 +65,9 @@ export const pricingTiers = [
 ] as const satisfies ReadonlyArray<PricingTier>;
 
 export const pricingTrialDays = 15;
+
+/** Maximum websites per workspace on paid plans. */
+export const PRICING_MAX_SITES_PER_WORKSPACE = 30;
 
 export const yearlyBillingSavingsLabel = "2 months free";
 
@@ -78,6 +89,7 @@ export const TIER_DATA_RETENTION_YEARS = {
   events_20k: PRICING_DATA_RETENTION_YEARS,
   events_500k: PRICING_DATA_RETENTION_YEARS,
   events_1m: PRICING_DATA_RETENTION_YEARS,
+  events_3m: PRICING_DATA_RETENTION_YEARS,
   events_5m: PRICING_DATA_RETENTION_YEARS,
   events_10m: PRICING_DATA_RETENTION_YEARS,
 } as const satisfies Record<PricingTierKey, number>;
@@ -91,7 +103,7 @@ export function formatTierDataRetentionLabel(tierKey: PricingTierKey): string {
 
 /** Flat feature list for the simplified slider pricing card. */
 export const simplifiedPricingFeatures = [
-  "Unlimited websites",
+  `Up to ${PRICING_MAX_SITES_PER_WORKSPACE} websites`,
   "Privacy-first, cookieless tracking",
   "GDPR-ready analytics (DPA included)",
   "Realtime visitors map",

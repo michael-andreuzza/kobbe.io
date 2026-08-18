@@ -1,3 +1,4 @@
+import { useCallback, useRef, type PointerEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 import { cn } from "@/lib/utils";
@@ -5,6 +6,7 @@ import { pricingTiers } from "@/components/sections/pricing/pricing-tiers";
 import {
   pricingSliderScaleStopOffsetClass,
   pricingSliderScaleStopPercent,
+  pricingSliderTierIndexFromPercent,
   pricingSliderTierStopOffsetClass,
   pricingSliderTierStopPercent,
 } from "@/components/sections/pricing/pricing-slider-stops";
@@ -30,6 +32,7 @@ export function PricingVolumeSlider({
   className,
 }: PricingVolumeSliderProps) {
   const reduceMotion = useReducedMotion();
+  const trackRef = useRef<HTMLDivElement>(null);
   const tierCount = pricingTiers.length;
   const maxIndex = tierCount - 1;
   const scaleLabels = ["0", ...pricingTiers.map((tier) => tier.events)];
@@ -37,9 +40,39 @@ export function PricingVolumeSlider({
   const stopPercent = pricingSliderTierStopPercent(value, tierCount);
   const fillWidth = value === maxIndex ? "100%" : `${stopPercent}%`;
 
+  const setTierFromClientX = useCallback(
+    (clientX: number) => {
+      const track = trackRef.current;
+      if (!track) return;
+
+      const rect = track.getBoundingClientRect();
+      if (rect.width <= 0) return;
+
+      const percent = ((clientX - rect.left) / rect.width) * 100;
+      onChange(pricingSliderTierIndexFromPercent(percent, tierCount));
+    },
+    [onChange, tierCount],
+  );
+
+  const handleTrackPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setTierFromClientX(event.clientX);
+  };
+
+  const handleTrackPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (!event.currentTarget.hasPointerCapture(event.pointerId)) return;
+    setTierFromClientX(event.clientX);
+  };
+
   return (
     <div className={cn("min-w-0", className)}>
-      <div className="group relative h-11 w-full">
+      <div
+        ref={trackRef}
+        className="group relative h-11 w-full touch-none cursor-grab active:cursor-grabbing"
+        onPointerDown={handleTrackPointerDown}
+        onPointerMove={handleTrackPointerMove}
+      >
         <div className="bg-muted absolute inset-0 overflow-hidden rounded-lg">
           <motion.div
             aria-hidden="true"
@@ -90,7 +123,7 @@ export function PricingVolumeSlider({
           aria-valuemax={maxIndex}
           aria-valuenow={value}
           aria-valuetext={`${valueLabel} monthly events`}
-          className="absolute inset-0 z-20 h-full w-full cursor-grab appearance-none bg-transparent opacity-0 active:cursor-grabbing"
+          className="sr-only"
         />
       </div>
 

@@ -63,7 +63,7 @@ export const pricingFaqItems = [
     id: "features",
     question: "Do all plans include the same features?",
     answer:
-      "Yes. Every paid volume includes the same product features: unlimited websites, revenue attribution, first-party collect, UTM campaigns, traffic alerts, data export, Web Vitals, team access, and agent API or CLI access. Monthly email reports are included from 5M events.",
+      "Yes. Every paid volume includes the same product features: up to 30 websites per workspace, revenue attribution, first-party collect, UTM campaigns, traffic alerts, data export, Web Vitals, team access, and agent API or CLI access. Monthly email reports are included from 5M events.",
   },
   {
     id: "event-pricing",

@@ -2,9 +2,16 @@
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import SectionIntro from "@/components/landing/SectionIntro.astro";
 import { PricingFaq } from "@/components/sections/pricing/pricing-faq";
+import { cn } from "@/lib/utils";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
 ---
 
-<section id="faq" aria-labelledby="faq-heading" class="pt-8">
+<section id="faq" aria-labelledby="faq-heading" class={cn("pt-8", className)}>
   <Wrapper
     variant="default"
     class="py-20"

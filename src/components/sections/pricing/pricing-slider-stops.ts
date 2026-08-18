@@ -15,6 +15,34 @@ export function pricingSliderTierStopOffsetClass(
   return "-translate-x-1/2";
 }
 
+/** Map a pointer position on the track (0–100%) to the nearest tier index. */
+export function pricingSliderTierIndexFromPercent(
+  percent: number,
+  tierCount: number,
+): number {
+  if (tierCount <= 0) return 0;
+  const maxIndex = tierCount - 1;
+  const clamped = Math.min(100, Math.max(0, percent));
+
+  for (let index = 0; index <= maxIndex; index++) {
+    const stop = pricingSliderTierStopPercent(index, tierCount);
+    const prevStop =
+      index === 0 ? 0 : pricingSliderTierStopPercent(index - 1, tierCount);
+    const nextStop =
+      index === maxIndex
+        ? 100
+        : pricingSliderTierStopPercent(index + 1, tierCount);
+    const lower = (prevStop + stop) / 2;
+    const upper = (stop + nextStop) / 2;
+
+    if (clamped >= lower && clamped <= upper) {
+      return index;
+    }
+  }
+
+  return maxIndex;
+}
+
 /** Evenly spaced scale labels including the visual "0" anchor at the start. */
 export function pricingSliderScaleStopPercent(
   scaleIndex: number,

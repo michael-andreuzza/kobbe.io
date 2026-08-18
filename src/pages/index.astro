@@ -9,43 +9,13 @@ import FunnelInsights from "@/components/landing/FunnelInsights.astro";
 import PerformanceInsights from "@/components/landing/PerformanceInsights.astro";
 import DataImportInsights from "@/components/landing/DataImportInsights.astro";
 import CliAgents from "@/components/landing/CliAgents.astro";
-import PricingSection from "@/components/sections/pricing/Pricing.astro";
-import FaqSection from "@/components/landing/FaqSection.astro";
 import TestimonialsSection from "@/components/landing/TestimonialsSection.astro";
 import AllFeatures from "@/components/landing/AllFeatures.astro";
-import {
-  buildPricingJsonLdOffers,
-  pricingTiers,
-} from "@/components/sections/pricing/pricing-tiers";
-
-const pricingJsonLd = [
-  {
-    "@type": "SoftwareApplication",
-    "@id": "https://kobbe.io/#software",
-    name: "Kobbe",
-    applicationCategory: "BusinessApplication",
-    operatingSystem: "Web",
-    url: "https://kobbe.io",
-    description:
-      "Website analytics pricing from $8/month with 20K monthly events. Event-based plans with privacy-friendly tracking and every feature included.",
-    offers: {
-      "@type": "AggregateOffer",
-      lowPrice: "8",
-      highPrice: "219",
-      priceCurrency: "USD",
-      offerCount: String(pricingTiers.length),
-      url: "https://kobbe.io/#pricing",
-      offers: buildPricingJsonLdOffers("https://kobbe.io/#pricing"),
-    },
-    publisher: { "@id": "https://kobbe.io/#organization" },
-  },
-];
 ---
 
 <BaseLayout
   title="Kobbe: Web analytics that respect your visitors"
   description="Privacy-friendly website analytics for traffic, pages, referrers, locations, devices, custom events, and revenue insights."
-  jsonLdExtra={pricingJsonLd}
 >
   <Hero />
   <DashboardCapabilities />
@@ -56,8 +26,6 @@ const pricingJsonLd = [
   <DataImportInsights />
   <CliAgents />
   <HowItWorks />
-  <PricingSection />
   <AllFeatures />
-  <FaqSection />
   <TestimonialsSection />
 </BaseLayout>

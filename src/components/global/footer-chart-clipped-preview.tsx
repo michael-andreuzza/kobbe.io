@@ -37,7 +37,6 @@ export function FooterChartClippedPreview() {
               />
             }
             showShare={false}
-            showChartStyleTabs={false}
           >
             Bounce rate
           </DashboardTrafficChart>

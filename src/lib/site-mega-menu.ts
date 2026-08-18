@@ -232,7 +232,7 @@ const productColumn: MegaMenuColumn = {
     },
     {
       id: "pricing",
-      href: "/#pricing",
+      href: "/pricing",
       label: "Pricing",
       description: "Event-based plans with every feature included.",
     },

@@ -1,7 +1,5 @@
 /** Shared lollipop bar shape and sizing used by landing dashboard previews. */
 
-import { usePlotArea, useXAxisScale } from "recharts";
-
 export type LollipopShapeProps = {
   x?: number;
   y?: number;
@@ -394,80 +392,6 @@ export function BrandActiveRoundedBarShape(props: LollipopShapeProps) {
 
 export function PreserveFillActiveRoundedBarShape(props: LollipopShapeProps) {
   return <LollipopBarShape {...props} solid active />;
-}
-
-/** Full-height faint rails behind area charts — same look as bar-mode lollipop rails. */
-export function AreaChartLollipopRails(props: {
-  labels: readonly string[];
-  fill?: string;
-}) {
-  const xScale = useXAxisScale();
-  const plotArea = usePlotArea();
-  const { labels, fill = "var(--foreground)" } = props;
-
-  if (!xScale || !plotArea || labels.length === 0) {
-    return null;
-  }
-
-  const railTop = plotArea.y;
-  const railBottom = plotArea.y + plotArea.height;
-
-  return (
-    <g className="kobbe-area-chart-rails" aria-hidden="true">
-      {labels.map((label, index) => {
-        const cx = xScale(label);
-        if (cx == null || !Number.isFinite(cx)) {
-          return null;
-        }
-
-        return (
-          <line
-            key={`area-rail-${label}-${index}`}
-            x1={cx}
-            y1={railTop}
-            x2={cx}
-            y2={railBottom}
-            stroke={fill}
-            strokeOpacity={LOLLIPOP_RAIL_OPACITY}
-            strokeWidth={LOLLIPOP_STEM_WIDTH}
-            strokeLinecap="butt"
-          />
-        );
-      })}
-    </g>
-  );
-}
-
-/** Full-height brand stem for a pinned chart day (area mode). Matches lollipop width. */
-export function PinnedFullHeightBarShape(props: {
-  x?: number;
-  width?: number;
-  background?: { y?: number; height?: number };
-  fill?: string;
-  fillOpacity?: number;
-}) {
-  const x = Number(props.x) || 0;
-  const slotWidth = Number(props.width) || 0;
-  const top =
-    typeof props.background?.y === "number" ? props.background.y : null;
-  const height =
-    typeof props.background?.height === "number"
-      ? props.background.height
-      : null;
-  if (top == null || height == null || height <= 0 || slotWidth <= 0) return null;
-  const cx = x + slotWidth / 2;
-  return (
-    <line
-      x1={cx}
-      y1={top}
-      x2={cx}
-      y2={top + height}
-      stroke={props.fill ?? "var(--brand)"}
-      strokeWidth={LOLLIPOP_STEM_WIDTH}
-      strokeOpacity={props.fillOpacity ?? 1}
-      strokeLinecap="butt"
-    />
-  );
 }
 
 export function chartBarMaxSize(pointCount: number): number {

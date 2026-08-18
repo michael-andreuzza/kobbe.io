@@ -24,14 +24,14 @@ const SITE_MARKETING_ITEMS: DocsSearchItem[] = [
     title: "Pricing",
     description: "Compare plans, trials, and billing options for Kobbe.",
     category: "Site",
-    href: "/#pricing",
+    href: "/pricing",
   },
   {
     id: "faq",
     title: "FAQ",
     description: "Answers to common questions about setup, billing, and privacy.",
     category: "Site",
-    href: "/#faq",
+    href: "/pricing#faq",
   },
   {
     id: "documentation",

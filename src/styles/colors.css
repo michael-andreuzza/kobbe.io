@@ -87,10 +87,6 @@
   --traffic-bar-stack: var(--chart-6);
   --revenue-bar-stack: var(--brand);
   --revenue-bar-stack-active: var(--chart-4);
-  --traffic-area-stroke: var(--primary);
-  --traffic-area-fill: var(--traffic-area-stroke);
-  --revenue-area-stroke: var(--brand);
-  --revenue-area-fill: var(--revenue-area-stroke);
   --chart-grid-stroke: oklch(0.922 0 0 / 0.55);
 
   --sidebar: oklch(0.985 0 0);
@@ -135,10 +131,6 @@
     --traffic-bar-stack: oklch(0.92 0 0);
     --revenue-bar-stack: var(--brand);
     --revenue-bar-stack-active: var(--chart-4);
-    --traffic-area-stroke: var(--primary);
-    --traffic-area-fill: var(--traffic-area-stroke);
-    --revenue-area-stroke: var(--brand);
-    --revenue-area-fill: var(--revenue-area-stroke);
     --chart-grid-stroke: oklch(1 0 0 / 0.14);
 
     --sidebar: oklch(0.18 0 0);

@@ -18,7 +18,7 @@ const navLinkClassName =
 
 export function siteMobilePrimaryLinks() {
   return [
-    { href: "/#pricing", label: "Pricing" },
+    { href: "/pricing", label: "Pricing" },
     {
       href: APP_SIGNIN_URL,
       label: "Sign in",
@@ -78,11 +78,13 @@ export function SiteHeaderNav({ docsNavGroups }: SiteHeaderNavProps) {
       <div className="flex items-center justify-between gap-3 py-4">
         <a
           href="/"
-          aria-label="Homepage"
-          className="text-foreground flex min-w-0 items-center gap-1 font-semibold tracking-tight"
+          aria-label="Kobbe homepage"
+          className="text-foreground flex min-w-0 shrink-0 items-center gap-2"
         >
-          <Logo className="h-5 rounded" />
-          <span>kobbe</span>
+          <Logo className="h-5 w-auto" />
+          <span className="text-base font-medium tracking-tight sm:text-lg">
+            kobbe
+          </span>
         </a>
 
         <div className="flex items-center gap-2 sm:gap-3">
@@ -110,7 +112,7 @@ export function SiteHeaderNav({ docsNavGroups }: SiteHeaderNavProps) {
                 aria-hidden="true"
               />
             </button>
-            <a href="/#pricing" className={navLinkClassName}>
+            <a href="/pricing" className={navLinkClassName}>
               Pricing
             </a>
             <a

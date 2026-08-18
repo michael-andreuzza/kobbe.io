@@ -1,0 +1,45 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PricingSection from "@/components/sections/pricing/Pricing.astro";
+import FaqSection from "@/components/landing/FaqSection.astro";
+import {
+  buildPricingJsonLdOffers,
+  pricingTiers,
+  pricingTrialDays,
+} from "@/components/sections/pricing/pricing-tiers";
+
+const pricingUrl = "https://kobbe.io/pricing";
+
+const pricingJsonLd = [
+  {
+    "@type": "SoftwareApplication",
+    "@id": `${pricingUrl}#software`,
+    name: "Kobbe",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    url: pricingUrl,
+    description:
+      "Website analytics pricing from $8/month with 20K monthly events. Event-based plans with privacy-friendly tracking and every feature included.",
+    offers: {
+      "@type": "AggregateOffer",
+      lowPrice: "8",
+      highPrice: "219",
+      priceCurrency: "USD",
+      offerCount: String(pricingTiers.length),
+      url: pricingUrl,
+      offers: buildPricingJsonLdOffers(pricingUrl),
+    },
+    publisher: { "@id": "https://kobbe.io/#organization" },
+  },
+];
+---
+
+<BaseLayout
+  title="Pricing"
+  description={`Event-based analytics plans from $8/month. Same features on every tier. Start with a ${pricingTrialDays}-day free trial, no credit card required.`}
+  jsonLdBreadcrumbs={[{ name: "Pricing", item: "/pricing" }]}
+  jsonLdExtra={pricingJsonLd}
+>
+  <PricingSection headingTag="h1" />
+  <FaqSection class="pt-0" />
+</BaseLayout>
