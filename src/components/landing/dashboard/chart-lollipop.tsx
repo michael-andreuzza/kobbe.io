@@ -27,19 +27,24 @@ export type LollipopShapeProps = {
 
 /** Fixed orange head radius when a day has revenue (not scaled by amount). */
 const REVENUE_LOLLIPOP_HEAD_RADIUS = 3;
-/** Sentinel for dense charts — head renders as a square cap matching stem width. */
-const REVENUE_LOLLIPOP_HEAD_RADIUS_DENSE = 1;
+/** Sentinel for ultra-dense charts — head renders as a square cap matching stem width. */
+const REVENUE_LOLLIPOP_HEAD_RADIUS_ULTRA_DENSE = 1;
 const REVENUE_LOLLIPOP_HEAD_RADIUS_WIDGET = 1.5;
-/** Thin stems + small heads when bars are packed — line-like with a dot on top. */
-const DENSE_LOLLIPOP_POINT_THRESHOLD = 90;
+/** Thin stems + square caps only when bars are packed (≈12mo+ / All time). */
+const ULTRA_DENSE_LOLLIPOP_POINT_THRESHOLD = 200;
 export const LOLLIPOP_STEM_WIDTH_DENSE = 1.5;
 
+export function isUltraDenseLollipopChart(pointCount: number): boolean {
+  return pointCount > ULTRA_DENSE_LOLLIPOP_POINT_THRESHOLD;
+}
+
+/** @deprecated Prefer {@link isUltraDenseLollipopChart}. */
 export function isDenseLollipopChart(pointCount: number): boolean {
-  return pointCount > DENSE_LOLLIPOP_POINT_THRESHOLD;
+  return isUltraDenseLollipopChart(pointCount);
 }
 
 export function lollipopStemWidth(pointCount?: number): number {
-  if (pointCount != null && isDenseLollipopChart(pointCount)) {
+  if (pointCount != null && isUltraDenseLollipopChart(pointCount)) {
     return LOLLIPOP_STEM_WIDTH_DENSE;
   }
   return LOLLIPOP_STEM_WIDTH;
@@ -53,8 +58,8 @@ export function revenueLollipopHeadRadius(
 ): number {
   if (revenue <= 0) return 0;
   if (widget) return REVENUE_LOLLIPOP_HEAD_RADIUS_WIDGET;
-  if (pointCount != null && isDenseLollipopChart(pointCount)) {
-    return REVENUE_LOLLIPOP_HEAD_RADIUS_DENSE;
+  if (pointCount != null && isUltraDenseLollipopChart(pointCount)) {
+    return REVENUE_LOLLIPOP_HEAD_RADIUS_ULTRA_DENSE;
   }
   return REVENUE_LOLLIPOP_HEAD_RADIUS;
 }
@@ -74,6 +79,7 @@ function resolveStemWidth(props: LollipopShapeProps): number {
 function usesSquareRevenueHead(stemWidth: number, revenueHeadRadius: number): boolean {
   return (
     revenueHeadRadius > 0 &&
+    revenueHeadRadius <= REVENUE_LOLLIPOP_HEAD_RADIUS_ULTRA_DENSE &&
     stemWidth <= LOLLIPOP_STEM_WIDTH_DENSE + 0.01
   );
 }
