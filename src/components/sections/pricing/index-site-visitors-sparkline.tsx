@@ -4,6 +4,7 @@ import {
   LollipopBarShape,
   lollipopWidgetStemWidth,
   revenueLollipopHeadRadius,
+  sparklineBarSize,
 } from "@/components/landing/dashboard/chart-lollipop";
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 import { chartCountAxisUpperBound } from "@/lib/chart-y-axis";
@@ -59,8 +60,8 @@ export function IndexSiteVisitorsSparkline(props: {
     visitors: p.visitors,
     revenueMinor: p.revenueMinor,
   }));
-  const barSize = points.length > 45 ? 2 : points.length > 28 ? 3 : 4;
-  const stemWidth = lollipopWidgetStemWidth(barSize);
+  const barSize = sparklineBarSize(points.length);
+  const stemWidth = lollipopWidgetStemWidth(barSize, points.length);
 
   return (
     <ChartContainer

@@ -51,7 +51,22 @@ export function lollipopStemWidth(pointCount?: number): number {
 }
 
 /** Match embed / home-card sparkline stems to Recharts `barSize`. */
-export function lollipopWidgetStemWidth(barSize: number): number {
+export function sparklineBarSize(pointCount: number): number {
+  if (pointCount > ULTRA_DENSE_LOLLIPOP_POINT_THRESHOLD) {
+    return LOLLIPOP_STEM_WIDTH_DENSE;
+  }
+  if (pointCount > 45) return 2;
+  if (pointCount > 28) return 3;
+  return 4;
+}
+
+export function lollipopWidgetStemWidth(
+  barSize: number,
+  pointCount?: number,
+): number {
+  if (pointCount != null && isUltraDenseLollipopChart(pointCount)) {
+    return LOLLIPOP_STEM_WIDTH_DENSE;
+  }
   return Math.max(1.5, Math.min(LOLLIPOP_STEM_WIDTH, barSize));
 }
 
@@ -64,7 +79,7 @@ export function revenueLollipopHeadRadius(
 ): number {
   if (revenue <= 0) return 0;
   if (widget && barSize != null) {
-    const stemWidth = lollipopWidgetStemWidth(barSize);
+    const stemWidth = lollipopWidgetStemWidth(barSize, pointCount);
     if (stemWidth <= 2) return REVENUE_LOLLIPOP_HEAD_RADIUS_ULTRA_DENSE;
     return Math.min(REVENUE_LOLLIPOP_HEAD_RADIUS, stemWidth / 2);
   }
