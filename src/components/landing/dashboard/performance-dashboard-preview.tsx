@@ -1,6 +1,13 @@
 import { ComputerPhoneSyncIcon, Globe02Icon } from "@hugeicons/core-free-icons";
 import { useMemo, useState } from "react";
-import { Bar, Cell, ComposedChart, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  CartesianGrid,
+  Cell,
+  ComposedChart,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import {
   Card,
@@ -525,6 +532,14 @@ function PerformanceTrendPreview(props: {
               fontSize: 10.5,
               className: "fill-muted-foreground/70 font-medium tabular-nums",
             }}
+          />
+          <CartesianGrid
+            vertical={false}
+            syncWithTicks
+            zIndex={350}
+            stroke="var(--chart-grid-stroke)"
+            strokeOpacity={1}
+            strokeWidth={1}
           />
           <ChartTooltip
             cursor={false}
