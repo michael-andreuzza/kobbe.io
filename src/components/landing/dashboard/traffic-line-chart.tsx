@@ -59,6 +59,8 @@ const revenueAreaStrokeColor = "var(--revenue-area-stroke)";
 const revenueAreaFillColor = "var(--revenue-area-fill)";
 const REVENUE_AREA_BAND_RATIO = 0.22;
 const REVENUE_AREA_DATA_KEY = "revenueAreaOverlay";
+const TRAFFIC_AREA_STACK_KEY = "trafficAreaStack";
+const TRAFFIC_AREA_STACK_ID = "trafficAreaStack";
 const TRAFFIC_AREA_CURVE_TYPE = "monotone" as const;
 const annotationMarkerColor = "var(--muted-foreground)";
 
@@ -105,6 +107,34 @@ function revenueAreaOverlayValue(input: {
     input.trafficYMax *
     REVENUE_AREA_BAND_RATIO
   );
+}
+
+function attachTrafficAreaStackValues(input: {
+  point: {
+    revenue?: number;
+    visits?: number;
+    visitors?: number;
+    pageviews?: number;
+    bounceRate?: number | null;
+    sessionTime?: number;
+  };
+  metricKey: string;
+  maxRevenueOverlay: number;
+  trafficYMax: number;
+}) {
+  const metricValue = input.point[input.metricKey as keyof typeof input.point];
+  const metricNumber =
+    typeof metricValue === "number" && Number.isFinite(metricValue)
+      ? metricValue
+      : 0;
+  const revenueOverlay = revenueAreaOverlayValue(input);
+  return {
+    [REVENUE_AREA_DATA_KEY]: revenueOverlay ?? 0,
+    [TRAFFIC_AREA_STACK_KEY]:
+      revenueOverlay != null
+        ? Math.max(0, metricNumber - revenueOverlay)
+        : metricNumber,
+  };
 }
 
 const chartConfig = {
@@ -398,7 +428,7 @@ export function TrafficLineChart(props: {
     hasRevenueData && chartStyle === "area"
       ? data.map((point) => ({
           ...point,
-          [REVENUE_AREA_DATA_KEY]: revenueAreaOverlayValue({
+          ...attachTrafficAreaStackValues({
             point,
             metricKey,
             maxRevenueOverlay,
@@ -691,46 +721,66 @@ export function TrafficLineChart(props: {
                 }
               />
               {hasRevenueData ? (
+                <>
+                  <Area
+                    yAxisId="traffic"
+                    stackId={TRAFFIC_AREA_STACK_ID}
+                    type={TRAFFIC_AREA_CURVE_TYPE}
+                    dataKey={REVENUE_AREA_DATA_KEY}
+                    fill={revenueAreaFillColor}
+                    stroke="none"
+                    strokeWidth={0}
+                    fillOpacity={1}
+                    dot={false}
+                    activeDot={false}
+                    connectNulls
+                    isAnimationActive={false}
+                  />
+                  <Area
+                    yAxisId="traffic"
+                    stackId={TRAFFIC_AREA_STACK_ID}
+                    type={TRAFFIC_AREA_CURVE_TYPE}
+                    dataKey={TRAFFIC_AREA_STACK_KEY}
+                    fill={trafficAreaFillColor}
+                    stroke="none"
+                    strokeWidth={0}
+                    fillOpacity={1}
+                    dot={false}
+                    activeDot={{
+                      r: 4,
+                      fill: trafficAreaStrokeColor,
+                      stroke: "var(--background)",
+                      strokeWidth: 2,
+                    }}
+                    connectNulls
+                    isAnimationActive={!prefersReducedMotion}
+                    animationDuration={320}
+                    animationEasing="ease-out"
+                  />
+                </>
+              ) : (
                 <Area
+                  key={metricKey}
                   yAxisId="traffic"
                   type={TRAFFIC_AREA_CURVE_TYPE}
-                  dataKey={REVENUE_AREA_DATA_KEY}
-                  fill={revenueAreaFillColor}
+                  dataKey={metricKey}
+                  fill={trafficAreaFillColor}
                   stroke="none"
                   strokeWidth={0}
                   fillOpacity={1}
                   dot={false}
                   activeDot={{
                     r: 4,
-                    fill: revenueAreaStrokeColor,
+                    fill: trafficAreaStrokeColor,
                     stroke: "var(--background)",
                     strokeWidth: 2,
                   }}
                   connectNulls
-                  isAnimationActive={false}
+                  isAnimationActive={!prefersReducedMotion}
+                  animationDuration={320}
+                  animationEasing="ease-out"
                 />
-              ) : null}
-              <Area
-                key={metricKey}
-                yAxisId="traffic"
-                type={TRAFFIC_AREA_CURVE_TYPE}
-                dataKey={metricKey}
-                fill={trafficAreaFillColor}
-                stroke="none"
-                strokeWidth={0}
-                fillOpacity={1}
-                dot={false}
-                activeDot={{
-                  r: 4,
-                  fill: trafficAreaStrokeColor,
-                  stroke: "var(--background)",
-                  strokeWidth: 2,
-                }}
-                connectNulls
-                isAnimationActive={!prefersReducedMotion}
-                animationDuration={320}
-                animationEasing="ease-out"
-              />
+              )}
               {areaPinnedBarIndex != null && chartData[areaPinnedBarIndex] ? (
                 <ReferenceLine
                   yAxisId="traffic"
@@ -978,7 +1028,7 @@ export function TrafficLineChart(props: {
             <span className="inline-flex items-center gap-1.5">
               <span
                 className="size-2 rounded-[2px]"
-                style={{ backgroundColor: "var(--revenue-area-stroke)" }}
+                style={{ backgroundColor: revenueAreaStrokeColor }}
                 aria-hidden
               />
               Revenue
