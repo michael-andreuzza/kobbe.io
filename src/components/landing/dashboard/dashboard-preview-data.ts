@@ -151,9 +151,42 @@ export type DashboardPreviewRangeData = {
 };
 
 const MS_DAY = 86_400_000;
-const HERO_CHART_DAY_COUNT = 79;
-const HERO_CHART_START_MS = Date.UTC(2026, 4, 2);
-const HERO_CHART_PINNED_OFFSET = 3;
+
+type PreviewChartConfig = {
+  dayCount: number;
+  startMs: number;
+  pinnedOffset: number;
+  visitorPeak: number;
+  revenueStartIndex: number;
+};
+
+const defaultPreviewChartConfig: PreviewChartConfig = {
+  dayCount: 79,
+  startMs: Date.UTC(2026, 4, 2),
+  pinnedOffset: 3,
+  visitorPeak: 890,
+  revenueStartIndex: 52,
+};
+
+/** High-traffic marketplace shape for local chart QA (Lexington Themes–scale bars). */
+const densePreviewChartConfig: PreviewChartConfig = {
+  dayCount: 180,
+  startMs: Date.UTC(2026, 1, 4),
+  pinnedOffset: 8,
+  visitorPeak: 18_500,
+  revenueStartIndex: 0,
+};
+
+function shouldUseDensePreviewChart(): boolean {
+  const flag = import.meta.env.PUBLIC_DENSE_DASHBOARD_PREVIEW;
+  if (flag === "0" || flag === "false") return false;
+  if (flag === "1" || flag === "true") return true;
+  return import.meta.env.DEV;
+}
+
+const activePreviewChartConfig = shouldUseDensePreviewChart()
+  ? densePreviewChartConfig
+  : defaultPreviewChartConfig;
 
 function formatPreviewDayLabel(timestamp: number): string {
   return new Date(timestamp).toLocaleDateString("en-US", {
@@ -163,32 +196,70 @@ function formatPreviewDayLabel(timestamp: number): string {
   });
 }
 
-function previewVisitorRatio(index: number, count: number): number {
+function formatPreviewRangeLabel(points: StackedChartPoint[]): string {
+  const first = points[0];
+  const last = points[points.length - 1];
+  if (!first || !last) return "";
+  return `${formatPreviewDayLabel(first.t)} – ${formatPreviewDayLabel(last.t)}`;
+}
+
+function pointUtcDay(t: number): string {
+  return new Date(t).toISOString().slice(0, 10);
+}
+
+function previewVisitorRatio(index: number, count: number, dense: boolean): number {
   const phase = index / Math.max(1, count - 1);
+  if (dense) {
+    const baseline = 0.56;
+    const waveA = 0.24 * Math.sin(phase * Math.PI * 8.4);
+    const waveB = 0.14 * Math.sin(index * 0.93 + 1.1);
+    const weekly = 0.1 * Math.sin((index / 7) * Math.PI * 2 + 0.35);
+    const launchSpike =
+      index % 11 === 0
+        ? 0.32
+        : index % 17 === 0
+          ? 0.22
+          : index % 23 === 0
+            ? 0.28
+            : 0;
+    const growth = 0.2 * phase ** 1.25;
+    return Math.min(
+      0.99,
+      Math.max(0.44, baseline + waveA + waveB + weekly + launchSpike + growth),
+    );
+  }
+
   const primary = 0.42 + 0.32 * Math.sin(phase * Math.PI * 5.2);
   const secondary = 0.08 * Math.sin(index * 0.81 + 0.6);
   const weekly = 0.06 * Math.sin((index / 7) * Math.PI * 2);
   return Math.min(0.94, Math.max(0.12, primary + secondary + weekly));
 }
 
-function generatePreviewChartPoints(): StackedChartPoint[] {
-  const visitorPeak = 890;
+function generatePreviewChartPoints(config: PreviewChartConfig): StackedChartPoint[] {
+  const dense = config.visitorPeak >= 2_000;
 
-  return Array.from({ length: HERO_CHART_DAY_COUNT }, (_, index) => {
-    const t = HERO_CHART_START_MS + index * MS_DAY;
-    const isPinnedDay = index === HERO_CHART_PINNED_OFFSET;
-    const ratio = previewVisitorRatio(index, HERO_CHART_DAY_COUNT);
-    const visitors = isPinnedDay ? 846 : Math.round(ratio * visitorPeak);
+  return Array.from({ length: config.dayCount }, (_, index) => {
+    const t = config.startMs + index * MS_DAY;
+    const phase = index / Math.max(1, config.dayCount - 1);
+    const isPinnedDay = index === config.pinnedOffset;
+    const ratio = previewVisitorRatio(index, config.dayCount, dense);
+    const visitors = isPinnedDay
+      ? Math.round(config.visitorPeak * 0.94)
+      : Math.round(ratio * config.visitorPeak);
     const visits = Math.round(visitors * (1.02 + 0.08 * Math.sin(index * 0.4)));
     const pageviews = Math.round(
       visits * (2.05 + 0.15 * Math.sin(index * 0.31)),
     );
     const bounceRate = 0.28 + 0.08 * Math.sin(index * 0.19 + 1);
     const avgDurationMs = Math.round(95_000 + 45_000 * ratio);
-    const revenueMinor =
-      index < 52
-        ? 0
-        : Math.round(visitors * (520 + 90 * Math.sin(index * 0.24 + 0.4)));
+    const revenueMinor = Math.round(
+      visitors *
+        (dense
+          ? 920 + 260 * Math.sin(index * 0.31 + 0.55) + 180 * phase
+          : index < config.revenueStartIndex
+            ? 0
+            : 520 + 90 * Math.sin(index * 0.24 + 0.4)),
+    );
 
     const point: StackedChartPoint = {
       label: formatPreviewDayLabel(t),
@@ -202,23 +273,31 @@ function generatePreviewChartPoints(): StackedChartPoint[] {
     };
 
     if (isPinnedDay) {
-      point.topReferrer = { host: "lexingtonthemes.com", count: 312 };
+      point.topReferrer = {
+        host: "lexingtonthemes.com",
+        count: dense ? 4_820 : 312,
+      };
     }
 
     return point;
   });
 }
 
-const basePoints = generatePreviewChartPoints();
+const basePoints = generatePreviewChartPoints(activePreviewChartConfig);
 
-/** Hero dashboard preview: pinned chart day (May 5) with note + top referrer. */
+/** Hero dashboard preview: pinned chart day with note + top referrer. */
 export const heroChartPoints = basePoints;
 
-export const heroChartRangeLabel = "May 2 – Jul 19";
+export const heroChartRangeLabel = formatPreviewRangeLabel(basePoints);
 
-export const heroChartPinnedIndex = HERO_CHART_PINNED_OFFSET;
+export const heroChartPinnedIndex = activePreviewChartConfig.pinnedOffset;
 
-export const heroChartPinnedDay = "2026-05-05";
+export const heroChartPinnedDay =
+  pointUtcDay(
+    basePoints[activePreviewChartConfig.pinnedOffset]?.t ??
+      activePreviewChartConfig.startMs +
+        activePreviewChartConfig.pinnedOffset * MS_DAY,
+  );
 
 export const heroChartAnnotations: TrafficChartAnnotation[] = [
   {

@@ -1,5 +1,7 @@
 /** Shared lollipop bar shape and sizing used by landing dashboard previews. */
 
+import { usePlotArea, useXAxisScale } from "recharts";
+
 export type LollipopShapeProps = {
   x?: number;
   y?: number;
@@ -16,12 +18,33 @@ export type LollipopShapeProps = {
   /** Embed widgets, solid stems only, no faint background rails. */
   widget?: boolean;
   background?: { y?: number; height?: number };
+  /** Orange lollipop head radius when revenue overlays traffic bars. */
+  revenueHeadRadius?: number;
+  revenueHeadFill?: string;
 };
 
+/** Fixed orange head radius when a day has revenue (not scaled by amount). */
+const REVENUE_LOLLIPOP_HEAD_RADIUS = 3;
+const REVENUE_LOLLIPOP_HEAD_RADIUS_WIDGET = 1.5;
+
+export function revenueLollipopHeadRadius(
+  revenue: number,
+  _maxRevenue?: number,
+  widget = false,
+): number {
+  if (revenue <= 0) return 0;
+  return widget
+    ? REVENUE_LOLLIPOP_HEAD_RADIUS_WIDGET
+    : REVENUE_LOLLIPOP_HEAD_RADIUS;
+}
+
 /** Opacity for the full-height background rail behind lollipop stems. */
-const LOLLIPOP_RAIL_OPACITY = 0.06;
-const STEM_WIDTH = 2.5;
+export const LOLLIPOP_RAIL_OPACITY = 0.06;
+export const LOLLIPOP_STEM_WIDTH = 2.5;
+const STEM_WIDTH = LOLLIPOP_STEM_WIDTH;
 const STEM_TOP_RADIUS = 1;
+/** Visible stem when a zero-value bar is pinned or hovered. */
+const PINNED_MIN_STEM_HEIGHT = 10;
 
 function stemBarPath(
   cx: number,
@@ -87,6 +110,14 @@ export function LollipopBarShape(props: LollipopShapeProps) {
       : y + height;
   const stemOpacity = props.widget ? baseOpacity : baseOpacity;
   const railOpacity = props.widget ? 0 : LOLLIPOP_RAIL_OPACITY * baseOpacity;
+  const revenueHeadRadius = props.revenueHeadRadius ?? 0;
+  const revenueHeadFill = highlighted
+    ? (props.activeFill ?? "var(--brand)")
+    : (props.revenueHeadFill ?? "var(--revenue-bar-stack)");
+  const showStem =
+    height > 0 || (highlighted && !props.widget);
+  const stemTop =
+    height > 0 ? y : Math.max(railTop, railBottom - PINNED_MIN_STEM_HEIGHT);
 
   return (
     <g>
@@ -102,14 +133,22 @@ export function LollipopBarShape(props: LollipopShapeProps) {
           strokeLinecap="butt"
         />
       ) : null}
-      {height > 0 ? (
+      {showStem ? (
         <StemBar
           cx={cx}
-          top={y}
+          top={stemTop}
           bottom={railBottom}
           fill={stemFill}
           fillOpacity={stemOpacity}
-          roundTop
+          roundTop={revenueHeadRadius <= 0}
+        />
+      ) : null}
+      {revenueHeadRadius > 0 ? (
+        <circle
+          cx={cx}
+          cy={y}
+          r={revenueHeadRadius}
+          fill={revenueHeadFill}
         />
       ) : null}
     </g>
@@ -245,6 +284,80 @@ export function BrandActiveRoundedBarShape(props: LollipopShapeProps) {
 
 export function PreserveFillActiveRoundedBarShape(props: LollipopShapeProps) {
   return <LollipopBarShape {...props} solid active />;
+}
+
+/** Full-height faint rails behind area charts — same look as bar-mode lollipop rails. */
+export function AreaChartLollipopRails(props: {
+  labels: readonly string[];
+  fill?: string;
+}) {
+  const xScale = useXAxisScale();
+  const plotArea = usePlotArea();
+  const { labels, fill = "var(--foreground)" } = props;
+
+  if (!xScale || !plotArea || labels.length === 0) {
+    return null;
+  }
+
+  const railTop = plotArea.y;
+  const railBottom = plotArea.y + plotArea.height;
+
+  return (
+    <g className="kobbe-area-chart-rails" aria-hidden="true">
+      {labels.map((label, index) => {
+        const cx = xScale(label);
+        if (cx == null || !Number.isFinite(cx)) {
+          return null;
+        }
+
+        return (
+          <line
+            key={`area-rail-${label}-${index}`}
+            x1={cx}
+            y1={railTop}
+            x2={cx}
+            y2={railBottom}
+            stroke={fill}
+            strokeOpacity={LOLLIPOP_RAIL_OPACITY}
+            strokeWidth={LOLLIPOP_STEM_WIDTH}
+            strokeLinecap="butt"
+          />
+        );
+      })}
+    </g>
+  );
+}
+
+/** Full-height brand stem for a pinned chart day (area mode). Matches lollipop width. */
+export function PinnedFullHeightBarShape(props: {
+  x?: number;
+  width?: number;
+  background?: { y?: number; height?: number };
+  fill?: string;
+  fillOpacity?: number;
+}) {
+  const x = Number(props.x) || 0;
+  const slotWidth = Number(props.width) || 0;
+  const top =
+    typeof props.background?.y === "number" ? props.background.y : null;
+  const height =
+    typeof props.background?.height === "number"
+      ? props.background.height
+      : null;
+  if (top == null || height == null || height <= 0 || slotWidth <= 0) return null;
+  const cx = x + slotWidth / 2;
+  return (
+    <line
+      x1={cx}
+      y1={top}
+      x2={cx}
+      y2={top + height}
+      stroke={props.fill ?? "var(--brand)"}
+      strokeWidth={STEM_WIDTH}
+      strokeOpacity={props.fillOpacity ?? 1}
+      strokeLinecap="butt"
+    />
+  );
 }
 
 export function chartBarMaxSize(pointCount: number): number {

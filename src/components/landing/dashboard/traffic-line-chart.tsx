@@ -1,11 +1,11 @@
 import type { CSSProperties, ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  Area,
   Bar,
   CartesianGrid,
   Cell,
   ComposedChart,
-  Line,
   ReferenceDot,
   ReferenceLine,
   XAxis,
@@ -20,12 +20,9 @@ import {
 import { hostnameFromReferrer } from "@/lib/referrer-favicon";
 
 import {
-  BrandActiveLollipopBarShape,
-  BrandActiveStackedRevenueBarShape,
-  BrandActiveStackedTrafficBarShape,
+  AreaChartLollipopRails,
   LollipopBarShape,
-  StackedRevenueBarShape,
-  StackedTrafficBarShape,
+  revenueLollipopHeadRadius,
   chartBarCategoryGap,
   chartBarMaxSize,
   resolveTrafficChartClickIndex,
@@ -56,8 +53,13 @@ export type StackedChartPoint = {
 const primaryChartColor = "var(--primary)";
 const trafficBarStackColor = "var(--traffic-bar-stack)";
 const revenueBarStackColor = "var(--revenue-bar-stack)";
-const REVENUE_BAR_BAND_RATIO = 0.28;
-const REVENUE_BAR_DATA_KEY = "revenueBarValue";
+const trafficAreaStrokeColor = "var(--traffic-area-stroke)";
+const trafficAreaFillColor = "var(--traffic-area-fill)";
+const revenueAreaStrokeColor = "var(--revenue-area-stroke)";
+const revenueAreaFillColor = "var(--revenue-area-fill)";
+const REVENUE_AREA_BAND_RATIO = 0.22;
+const REVENUE_AREA_DATA_KEY = "revenueAreaOverlay";
+const TRAFFIC_AREA_CURVE_TYPE = "monotone" as const;
 const annotationMarkerColor = "var(--muted-foreground)";
 
 function shouldStackRevenueBarOnPoint(
@@ -83,18 +85,25 @@ function shouldStackRevenueBarOnPoint(
   );
 }
 
-function revenueBarStackValue(input: {
-  point: { revenue?: number; visits?: number; [key: string]: unknown };
+function revenueAreaOverlayValue(input: {
+  point: {
+    revenue?: number;
+    visits?: number;
+    visitors?: number;
+    pageviews?: number;
+    bounceRate?: number | null;
+    sessionTime?: number;
+  };
   metricKey: string;
   maxRevenueOverlay: number;
   trafficYMax: number;
-}): number {
-  if (!shouldStackRevenueBarOnPoint(input.point, input.metricKey)) return 0;
+}): number | null {
+  if (!shouldStackRevenueBarOnPoint(input.point, input.metricKey)) return null;
   const revenue = input.point.revenue ?? 0;
   return (
     (revenue / input.maxRevenueOverlay) *
     input.trafficYMax *
-    REVENUE_BAR_BAND_RATIO
+    REVENUE_AREA_BAND_RATIO
   );
 }
 
@@ -384,20 +393,19 @@ export function TrafficLineChart(props: {
     ...data.map((point) => point.revenue ?? 0),
   );
   const revenueOverlayYMax = chartCountAxisUpperBound(maxRevenueOverlay);
-  const chartYMax = hasRevenueOverlay
-    ? trafficYMax * (1 + REVENUE_BAR_BAND_RATIO)
-    : trafficYMax;
-  const chartData = hasRevenueOverlay
-    ? data.map((point) => ({
-        ...point,
-        [REVENUE_BAR_DATA_KEY]: revenueBarStackValue({
-          point,
-          metricKey,
-          maxRevenueOverlay,
-          trafficYMax,
-        }),
-      }))
-    : data;
+  const chartYMax = trafficYMax;
+  const chartData =
+    hasRevenueData && chartStyle === "area"
+      ? data.map((point) => ({
+          ...point,
+          [REVENUE_AREA_DATA_KEY]: revenueAreaOverlayValue({
+            point,
+            metricKey,
+            maxRevenueOverlay,
+            trafficYMax,
+          }),
+        }))
+      : data;
 
   const annotationMarkers = (() => {
     if (annotationsByDay.size === 0) {
@@ -444,6 +452,8 @@ export function TrafficLineChart(props: {
     : false;
   const activeBarIndex =
     heroPinnedIndex ?? pinnedAnnotationIndex ?? pinnedTooltip?.index ?? null;
+  const areaPinnedBarIndex =
+    chartStyle === "area" ? activeBarIndex : null;
   const pinnedAnnotationPoint =
     pinnedAnnotationIndex != null &&
     pinnedAnnotationIndex >= 0 &&
@@ -557,7 +567,7 @@ export function TrafficLineChart(props: {
         <ComposedChart
           accessibilityLayer={false}
           data={chartData}
-          barCategoryGap={barCategoryGap}
+          {...(chartStyle === "bars" ? { barCategoryGap } : {})}
           onClick={(nextState) => {
             const bounds = chartRootRef.current?.getBoundingClientRect();
             const margins = trafficChartMargins(variant, compactLayout);
@@ -601,7 +611,11 @@ export function TrafficLineChart(props: {
           <XAxis
             dataKey="label"
             scale="point"
-            padding={{ left: compactLayout ? 4 : 6, right: compactLayout ? 4 : 6 }}
+            padding={
+              chartStyle === "area"
+                ? { left: 0, right: 0 }
+                : { left: compactLayout ? 4 : 6, right: compactLayout ? 4 : 6 }
+            }
             tickLine={false}
             axisLine={false}
             tickMargin={compactLayout ? 8 : 12}
@@ -617,7 +631,7 @@ export function TrafficLineChart(props: {
               className: "fill-muted-foreground/80 font-medium",
             }}
           />
-          {hasRevenueData && chartStyle === "area" ? (
+          {hasRevenueData && chartStyle === "bars" ? (
             <YAxis
               yAxisId="revenue"
               orientation="left"
@@ -635,12 +649,7 @@ export function TrafficLineChart(props: {
               compactLayout ? Math.max(yAxisWidth, 32) : yAxisWidth
             }
             allowDecimals={false}
-            tickCount={hasRevenueOverlay ? undefined : 3}
-            ticks={
-              hasRevenueOverlay
-                ? [0, trafficYMax / 2, trafficYMax]
-                : undefined
-            }
+            tickCount={3}
             tickMargin={2}
             tickFormatter={(value) =>
               formatTrafficYAxisTick(metric, Number(value), revenueCurrency)
@@ -675,18 +684,25 @@ export function TrafficLineChart(props: {
           )}
           {chartStyle === "area" ? (
             <>
+              <AreaChartLollipopRails
+                labels={chartData.map((point) => point.label)}
+                fill={
+                  hasRevenueData ? trafficBarStackColor : metricColor
+                }
+              />
               {hasRevenueData ? (
-                <Line
-                  yAxisId="revenue"
-                  type="monotone"
-                  dataKey="revenue"
-                  stroke="var(--revenue-area-stroke)"
-                  strokeWidth={1.5}
-                  strokeOpacity={0.8}
+                <Area
+                  yAxisId="traffic"
+                  type={TRAFFIC_AREA_CURVE_TYPE}
+                  dataKey={REVENUE_AREA_DATA_KEY}
+                  fill={revenueAreaFillColor}
+                  stroke="none"
+                  strokeWidth={0}
+                  fillOpacity={1}
                   dot={false}
                   activeDot={{
                     r: 4,
-                    fill: "var(--revenue-area-stroke)",
+                    fill: revenueAreaStrokeColor,
                     stroke: "var(--background)",
                     strokeWidth: 2,
                   }}
@@ -694,17 +710,19 @@ export function TrafficLineChart(props: {
                   isAnimationActive={false}
                 />
               ) : null}
-              <Line
+              <Area
                 key={metricKey}
                 yAxisId="traffic"
-                type="monotone"
+                type={TRAFFIC_AREA_CURVE_TYPE}
                 dataKey={metricKey}
-                stroke={metricColor}
-                strokeWidth={hero ? 2 : 1.5}
+                fill={trafficAreaFillColor}
+                stroke="none"
+                strokeWidth={0}
+                fillOpacity={1}
                 dot={false}
                 activeDot={{
                   r: 4,
-                  fill: metricColor,
+                  fill: trafficAreaStrokeColor,
                   stroke: "var(--background)",
                   strokeWidth: 2,
                 }}
@@ -713,6 +731,15 @@ export function TrafficLineChart(props: {
                 animationDuration={320}
                 animationEasing="ease-out"
               />
+              {areaPinnedBarIndex != null && chartData[areaPinnedBarIndex] ? (
+                <ReferenceLine
+                  yAxisId="traffic"
+                  x={chartData[areaPinnedBarIndex]!.label}
+                  stroke="var(--brand)"
+                  strokeWidth={2.5}
+                  ifOverflow="visible"
+                />
+              ) : null}
             </>
           ) : (
             <>
@@ -720,59 +747,82 @@ export function TrafficLineChart(props: {
                 key={metricKey}
                 yAxisId="traffic"
                 dataKey={metricKey}
-                stackId={hasRevenueOverlay ? "traffic" : undefined}
                 fill={metricColor}
                 maxBarSize={barMaxSize}
                 background={pinBackground}
                 shape={(barProps) => {
-                  if (!hasRevenueOverlay) {
-                    return (
-                      <LollipopBarShape
-                        {...barProps}
-                        solid
-                        active={
-                          activeBarIndex != null &&
-                          barProps.index === activeBarIndex
-                        }
-                        activeFill="var(--brand)"
-                      />
-                    );
-                  }
                   const payload = barProps.payload as Record<string, unknown>;
-                  const hasRevenueSegment =
-                    Number(payload[REVENUE_BAR_DATA_KEY] ?? 0) > 0;
                   const highlighted =
-                    activeBarIndex != null && barProps.index === activeBarIndex;
-                    return (
-                      <StackedTrafficBarShape
-                        {...barProps}
-                        solid
-                        roundedTop={!hasRevenueSegment}
-                        fill={highlighted ? "var(--brand)" : trafficBarStackColor}
-                        active={highlighted}
-                        activeFill="var(--brand)"
-                      />
+                    activeBarIndex != null &&
+                    barProps.index === activeBarIndex;
+                  const revenue = Number(payload.revenue ?? 0);
+                  const showRevenueHead =
+                    hasRevenueOverlay &&
+                    shouldStackRevenueBarOnPoint(
+                      payload as Parameters<typeof shouldStackRevenueBarOnPoint>[0],
+                      metricKey,
                     );
+                  return (
+                    <LollipopBarShape
+                      {...barProps}
+                      solid
+                      active={highlighted}
+                      activeFill="var(--brand)"
+                      fill={
+                        highlighted
+                          ? "var(--brand)"
+                          : hasRevenueOverlay
+                            ? trafficBarStackColor
+                            : metricColor
+                      }
+                      revenueHeadRadius={
+                        showRevenueHead
+                          ? revenueLollipopHeadRadius(
+                              revenue,
+                              maxRevenueOverlay,
+                            )
+                          : 0
+                      }
+                      revenueHeadFill={revenueBarStackColor}
+                    />
+                  );
                 }}
                 activeBar={
                   disableHoverChartInteraction
                     ? undefined
-                    : hasRevenueOverlay
-                      ? (barProps) => {
-                          const payload = barProps.payload as Record<
-                            string,
-                            unknown
-                          >;
-                          const hasRevenueSegment =
-                            Number(payload[REVENUE_BAR_DATA_KEY] ?? 0) > 0;
-                          return (
-                            <BrandActiveStackedTrafficBarShape
-                              {...barProps}
-                              roundedTop={!hasRevenueSegment}
-                            />
+                    : (barProps) => {
+                        const payload = barProps.payload as Record<
+                          string,
+                          unknown
+                        >;
+                        const revenue = Number(payload.revenue ?? 0);
+                        const showRevenueHead =
+                          hasRevenueOverlay &&
+                          shouldStackRevenueBarOnPoint(
+                            payload as Parameters<
+                              typeof shouldStackRevenueBarOnPoint
+                            >[0],
+                            metricKey,
                           );
-                        }
-                      : <BrandActiveLollipopBarShape />
+                        return (
+                          <LollipopBarShape
+                            {...barProps}
+                            solid
+                            active
+                            activeFill="var(--brand)"
+                            fill="var(--brand)"
+                            revenueHeadRadius={
+                              showRevenueHead
+                                ? revenueLollipopHeadRadius(
+                                    revenue,
+                                    maxRevenueOverlay,
+                                  )
+                                : 0
+                            }
+                            revenueHeadFill="var(--brand)"
+                          />
+                        );
+                      }
                 }
                 isAnimationActive={!prefersReducedMotion}
                 animationDuration={320}
@@ -782,35 +832,6 @@ export function TrafficLineChart(props: {
                   <Cell key={`${point.t}-${metricKey}`} fill={metricColor} />
                 ))}
               </Bar>
-              {hasRevenueOverlay ? (
-                <Bar
-                  yAxisId="traffic"
-                  dataKey={REVENUE_BAR_DATA_KEY}
-                  stackId="traffic"
-                  fill={revenueBarStackColor}
-                  maxBarSize={barMaxSize}
-                  shape={(barProps) => {
-                    const highlighted =
-                      activeBarIndex != null &&
-                      barProps.index === activeBarIndex;
-                      return (
-                        <StackedRevenueBarShape
-                          {...barProps}
-                          solid
-                          fill={highlighted ? "var(--brand)" : revenueBarStackColor}
-                          active={highlighted}
-                          activeFill="var(--brand)"
-                        />
-                      );
-                  }}
-                  isAnimationActive={false}
-                  activeBar={
-                    disableHoverChartInteraction ? undefined : (
-                      <BrandActiveStackedRevenueBarShape />
-                    )
-                  }
-                />
-              ) : null}
             </>
           )}
           {annotationMarkers.map((marker) => (
