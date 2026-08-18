@@ -21,42 +21,104 @@ export type LollipopShapeProps = {
   /** Orange lollipop head radius when revenue overlays traffic bars. */
   revenueHeadRadius?: number;
   revenueHeadFill?: string;
+  /** Override stem/rail width (dense charts use a thinner line + dot). */
+  stemWidth?: number;
 };
 
 /** Fixed orange head radius when a day has revenue (not scaled by amount). */
 const REVENUE_LOLLIPOP_HEAD_RADIUS = 3;
+/** Sentinel for dense charts — head renders as a square cap matching stem width. */
+const REVENUE_LOLLIPOP_HEAD_RADIUS_DENSE = 1;
 const REVENUE_LOLLIPOP_HEAD_RADIUS_WIDGET = 1.5;
+/** Thin stems + small heads when bars are packed — line-like with a dot on top. */
+const DENSE_LOLLIPOP_POINT_THRESHOLD = 90;
+export const LOLLIPOP_STEM_WIDTH_DENSE = 1.5;
+
+export function isDenseLollipopChart(pointCount: number): boolean {
+  return pointCount > DENSE_LOLLIPOP_POINT_THRESHOLD;
+}
+
+export function lollipopStemWidth(pointCount?: number): number {
+  if (pointCount != null && isDenseLollipopChart(pointCount)) {
+    return LOLLIPOP_STEM_WIDTH_DENSE;
+  }
+  return LOLLIPOP_STEM_WIDTH;
+}
 
 export function revenueLollipopHeadRadius(
   revenue: number,
   _maxRevenue?: number,
   widget = false,
+  pointCount?: number,
 ): number {
   if (revenue <= 0) return 0;
-  return widget
-    ? REVENUE_LOLLIPOP_HEAD_RADIUS_WIDGET
-    : REVENUE_LOLLIPOP_HEAD_RADIUS;
+  if (widget) return REVENUE_LOLLIPOP_HEAD_RADIUS_WIDGET;
+  if (pointCount != null && isDenseLollipopChart(pointCount)) {
+    return REVENUE_LOLLIPOP_HEAD_RADIUS_DENSE;
+  }
+  return REVENUE_LOLLIPOP_HEAD_RADIUS;
 }
 
 /** Opacity for the full-height background rail behind lollipop stems. */
 export const LOLLIPOP_RAIL_OPACITY = 0.06;
 export const LOLLIPOP_STEM_WIDTH = 2.5;
-const STEM_WIDTH = LOLLIPOP_STEM_WIDTH;
 const STEM_TOP_RADIUS = 1;
 /** Visible stem when a zero-value bar is pinned or hovered. */
 const PINNED_MIN_STEM_HEIGHT = 10;
+
+function resolveStemWidth(props: LollipopShapeProps): number {
+  const width = props.stemWidth ?? LOLLIPOP_STEM_WIDTH;
+  return width > 0 ? width : LOLLIPOP_STEM_WIDTH;
+}
+
+function usesSquareRevenueHead(stemWidth: number, revenueHeadRadius: number): boolean {
+  return (
+    revenueHeadRadius > 0 &&
+    stemWidth <= LOLLIPOP_STEM_WIDTH_DENSE + 0.01
+  );
+}
+
+function RevenueHead(props: {
+  cx: number;
+  y: number;
+  stemWidth: number;
+  fill: string;
+  revenueHeadRadius: number;
+}) {
+  if (usesSquareRevenueHead(props.stemWidth, props.revenueHeadRadius)) {
+    return (
+      <rect
+        x={props.cx - props.stemWidth / 2}
+        y={props.y - props.stemWidth}
+        width={props.stemWidth}
+        height={props.stemWidth}
+        fill={props.fill}
+      />
+    );
+  }
+
+  return (
+    <circle
+      cx={props.cx}
+      cy={props.y}
+      r={props.revenueHeadRadius}
+      fill={props.fill}
+    />
+  );
+}
 
 function stemBarPath(
   cx: number,
   top: number,
   bottom: number,
   roundTop: boolean,
+  stemWidth: number,
 ): string {
   if (bottom <= top) return "";
-  const left = cx - STEM_WIDTH / 2;
-  const right = cx + STEM_WIDTH / 2;
+  const left = cx - stemWidth / 2;
+  const right = cx + stemWidth / 2;
   const radius = roundTop
-    ? Math.min(STEM_TOP_RADIUS, STEM_WIDTH / 2, (bottom - top) / 2)
+    ? Math.min(STEM_TOP_RADIUS, stemWidth / 2, (bottom - top) / 2)
     : 0;
 
   if (radius <= 0) {
@@ -81,8 +143,15 @@ function StemBar(props: {
   fill: string;
   fillOpacity: number;
   roundTop: boolean;
+  stemWidth: number;
 }) {
-  const d = stemBarPath(props.cx, props.top, props.bottom, props.roundTop);
+  const d = stemBarPath(
+    props.cx,
+    props.top,
+    props.bottom,
+    props.roundTop,
+    props.stemWidth,
+  );
   if (!d) return null;
   return (
     <path d={d} fill={props.fill} fillOpacity={props.fillOpacity} />
@@ -102,6 +171,7 @@ export function LollipopBarShape(props: LollipopShapeProps) {
   const railFill = defaultFill;
   const baseOpacity = Number(props.fillOpacity ?? 1) || 1;
   const cx = x + width / 2;
+  const stemWidth = resolveStemWidth(props);
   const railTop =
     typeof props.background?.y === "number" ? props.background.y : y;
   const railBottom =
@@ -129,7 +199,7 @@ export function LollipopBarShape(props: LollipopShapeProps) {
           y2={railBottom}
           stroke={railFill}
           strokeOpacity={railOpacity}
-          strokeWidth={STEM_WIDTH}
+          strokeWidth={stemWidth}
           strokeLinecap="butt"
         />
       ) : null}
@@ -141,14 +211,16 @@ export function LollipopBarShape(props: LollipopShapeProps) {
           fill={stemFill}
           fillOpacity={stemOpacity}
           roundTop={revenueHeadRadius <= 0}
+          stemWidth={stemWidth}
         />
       ) : null}
       {revenueHeadRadius > 0 ? (
-        <circle
+        <RevenueHead
           cx={cx}
-          cy={y}
-          r={revenueHeadRadius}
+          y={y}
+          stemWidth={stemWidth}
           fill={revenueHeadFill}
+          revenueHeadRadius={revenueHeadRadius}
         />
       ) : null}
     </g>
@@ -170,6 +242,7 @@ function SegmentLollipopBarShape(props: LollipopShapeProps) {
     : defaultFill;
   const railFill = defaultFill;
   const cx = x + width / 2;
+  const stemWidth = resolveStemWidth(props);
   const railTop =
     typeof props.background?.y === "number" ? props.background.y : y;
   const railBottom =
@@ -188,7 +261,7 @@ function SegmentLollipopBarShape(props: LollipopShapeProps) {
           y2={railBottom}
           stroke={railFill}
           strokeOpacity={LOLLIPOP_RAIL_OPACITY}
-          strokeWidth={STEM_WIDTH}
+          strokeWidth={stemWidth}
           strokeLinecap="butt"
         />
       ) : null}
@@ -200,6 +273,7 @@ function SegmentLollipopBarShape(props: LollipopShapeProps) {
           fill={stemFill}
           fillOpacity={1}
           roundTop={false}
+          stemWidth={stemWidth}
         />
       ) : null}
     </g>
@@ -234,6 +308,7 @@ export function StackedRevenueBarShape(props: LollipopShapeProps) {
     ? (props.activeFill ?? "var(--brand)")
     : (props.fill ?? "var(--revenue-bar-stack)");
   const cx = x + width / 2;
+  const stemWidth = resolveStemWidth(props);
 
   return (
     <StemBar
@@ -243,6 +318,7 @@ export function StackedRevenueBarShape(props: LollipopShapeProps) {
       fill={stroke}
       fillOpacity={1}
       roundTop
+      stemWidth={stemWidth}
     />
   );
 }
@@ -353,7 +429,7 @@ export function PinnedFullHeightBarShape(props: {
       x2={cx}
       y2={top + height}
       stroke={props.fill ?? "var(--brand)"}
-      strokeWidth={STEM_WIDTH}
+      strokeWidth={LOLLIPOP_STEM_WIDTH}
       strokeOpacity={props.fillOpacity ?? 1}
       strokeLinecap="butt"
     />

@@ -22,6 +22,7 @@ import { hostnameFromReferrer } from "@/lib/referrer-favicon";
 import {
   AreaChartLollipopRails,
   LollipopBarShape,
+  lollipopStemWidth,
   revenueLollipopHeadRadius,
   chartBarCategoryGap,
   chartBarMaxSize,
@@ -473,6 +474,7 @@ export function TrafficLineChart(props: {
     metric === "revenue" ? 60 : metric === "sessionTime" ? 44 : 40;
   const barMaxSize = chartBarMaxSize(data.length);
   const barCategoryGap = chartBarCategoryGap(data.length);
+  const lollipopStem = lollipopStemWidth(data.length);
   const pinnedAnnotationIndex = pinnedAnnotation?.index ?? null;
   const heroPinnedIndex =
     hero && previewPinnedIndex != null ? previewPinnedIndex : null;
@@ -818,6 +820,7 @@ export function TrafficLineChart(props: {
                       solid
                       active={highlighted}
                       activeFill="var(--brand)"
+                      stemWidth={lollipopStem}
                       fill={
                         highlighted
                           ? "var(--brand)"
@@ -830,6 +833,8 @@ export function TrafficLineChart(props: {
                           ? revenueLollipopHeadRadius(
                               revenue,
                               maxRevenueOverlay,
+                              false,
+                              chartData.length,
                             )
                           : 0
                       }
@@ -860,12 +865,15 @@ export function TrafficLineChart(props: {
                             solid
                             active
                             activeFill="var(--brand)"
+                            stemWidth={lollipopStem}
                             fill="var(--brand)"
                             revenueHeadRadius={
                               showRevenueHead
                                 ? revenueLollipopHeadRadius(
                                     revenue,
                                     maxRevenueOverlay,
+                                    false,
+                                    chartData.length,
                                   )
                                 : 0
                             }
