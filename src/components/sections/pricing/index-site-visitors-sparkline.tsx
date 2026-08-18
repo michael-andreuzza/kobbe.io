@@ -2,6 +2,7 @@ import { Bar, ComposedChart, XAxis, YAxis } from "recharts";
 
 import {
   LollipopBarShape,
+  lollipopWidgetStemWidth,
   revenueLollipopHeadRadius,
 } from "@/components/landing/dashboard/chart-lollipop";
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
@@ -59,6 +60,7 @@ export function IndexSiteVisitorsSparkline(props: {
     revenueMinor: p.revenueMinor,
   }));
   const barSize = points.length > 45 ? 2 : points.length > 28 ? 3 : 4;
+  const stemWidth = lollipopWidgetStemWidth(barSize);
 
   return (
     <ChartContainer
@@ -104,12 +106,15 @@ export function IndexSiteVisitorsSparkline(props: {
                 widget
                 solid
                 fill={trafficBarStackColor}
+                stemWidth={stemWidth}
                 revenueHeadRadius={
                   showRevenueHead
                     ? revenueLollipopHeadRadius(
                         payload.revenueMinor ?? 0,
                         maxRevenue,
                         true,
+                        points.length,
+                        barSize,
                       )
                     : 0
                 }
