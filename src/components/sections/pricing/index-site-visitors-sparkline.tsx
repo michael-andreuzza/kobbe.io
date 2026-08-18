@@ -1,11 +1,5 @@
-import { Bar, ComposedChart, XAxis, YAxis } from "recharts";
+import { Area, ComposedChart, XAxis, YAxis } from "recharts";
 
-import {
-  LollipopBarShape,
-  lollipopWidgetStemWidth,
-  revenueLollipopHeadRadius,
-  sparklineBarSize,
-} from "@/components/landing/dashboard/chart-lollipop";
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 import { chartCountAxisUpperBound } from "@/lib/chart-y-axis";
 import { cn } from "@/lib/utils";
@@ -21,8 +15,44 @@ const sparklineChartConfig = {
   },
 } satisfies ChartConfig;
 
-const trafficBarStackColor = "var(--traffic-bar-stack)";
-const revenueBarStackColor = "var(--revenue-bar-stack)";
+const trafficAreaFillColor = "var(--traffic-area-fill)";
+const revenueAreaFillColor = "var(--revenue-area-fill)";
+const REVENUE_AREA_BAND_RATIO = 0.22;
+const REVENUE_AREA_DATA_KEY = "revenueAreaOverlay";
+const TRAFFIC_AREA_STACK_KEY = "trafficAreaStack";
+const TRAFFIC_AREA_STACK_ID = "trafficAreaStack";
+const TRAFFIC_AREA_CURVE_TYPE = "monotone" as const;
+
+function shouldStackRevenueOnPoint(
+  point: { revenue?: number; visitors?: number },
+  metricKey: "visitors",
+): boolean {
+  if ((point.revenue ?? 0) <= 0) return false;
+  const metricValue = point[metricKey];
+  return typeof metricValue === "number" && Number.isFinite(metricValue) && metricValue > 0;
+}
+
+function attachSparklineAreaStackValues(input: {
+  point: { revenue?: number; visitors: number };
+  maxRevenueOverlay: number;
+  trafficYMax: number;
+}) {
+  const metricNumber = input.point.visitors;
+  if (!shouldStackRevenueOnPoint(input.point, "visitors")) {
+    return {
+      [REVENUE_AREA_DATA_KEY]: 0,
+      [TRAFFIC_AREA_STACK_KEY]: metricNumber,
+    };
+  }
+  const revenueOverlay =
+    (input.point.revenue! / input.maxRevenueOverlay) *
+    input.trafficYMax *
+    REVENUE_AREA_BAND_RATIO;
+  return {
+    [REVENUE_AREA_DATA_KEY]: revenueOverlay,
+    [TRAFFIC_AREA_STACK_KEY]: Math.max(0, metricNumber - revenueOverlay),
+  };
+}
 
 export type IndexSparklinePoint = {
   t: number;
@@ -53,29 +83,38 @@ export function IndexSiteVisitorsSparkline(props: {
   const yMax = chartCountAxisUpperBound(maxV);
   const hasRevenue =
     Boolean(props.showRevenue) && points.some((p) => p.revenueMinor > 0);
-  const maxRevenue = Math.max(1, ...points.map((p) => p.revenueMinor));
-  const data = points.map((p, index) => ({
-    slot: String(index),
-    t: p.t,
-    visitors: p.visitors,
-    revenueMinor: p.revenueMinor,
-  }));
-  const barSize = sparklineBarSize(points.length);
-  const stemWidth = lollipopWidgetStemWidth(barSize, points.length);
+  const maxRevenueOverlay = Math.max(1, ...points.map((p) => p.revenueMinor));
+  const data = points.map((p, index) => {
+    const point = {
+      slot: String(index),
+      t: p.t,
+      visitors: p.visitors,
+      revenue: p.revenueMinor,
+    };
+    if (!hasRevenue) return point;
+    return {
+      ...point,
+      ...attachSparklineAreaStackValues({
+        point,
+        maxRevenueOverlay,
+        trafficYMax: yMax,
+      }),
+    };
+  });
 
   return (
     <ChartContainer
       config={sparklineChartConfig}
       initialDimension={{ width: 320, height: 48 }}
       className={cn(
-        "pointer-events-none h-12 min-h-12 w-full min-w-0",
+        "pointer-events-none h-12 min-h-12 w-full min-w-0 overflow-hidden rounded-md",
         className,
       )}
       aria-hidden
     >
       <ComposedChart
         data={data}
-        margin={{ top: 8, right: 2, left: 2, bottom: 5 }}
+        margin={{ top: 2, right: 0, left: 0, bottom: 0 }}
         accessibilityLayer
       >
         <XAxis
@@ -87,44 +126,52 @@ export function IndexSiteVisitorsSparkline(props: {
           tickLine={false}
         />
         <YAxis yAxisId="visitors" hide domain={[0, yMax]} />
-        <Bar
-          yAxisId="visitors"
-          dataKey="visitors"
-          fill={trafficBarStackColor}
-          barSize={barSize}
-          shape={(barProps) => {
-            const payload = barProps.payload as {
-              visitors?: number;
-              revenueMinor?: number;
-            };
-            const showRevenueHead =
-              hasRevenue &&
-              (payload.visitors ?? 0) > 0 &&
-              (payload.revenueMinor ?? 0) > 0;
-            return (
-              <LollipopBarShape
-                {...barProps}
-                widget
-                solid
-                fill={trafficBarStackColor}
-                stemWidth={stemWidth}
-                revenueHeadRadius={
-                  showRevenueHead
-                    ? revenueLollipopHeadRadius(
-                        payload.revenueMinor ?? 0,
-                        maxRevenue,
-                        true,
-                        points.length,
-                        barSize,
-                      )
-                    : 0
-                }
-                revenueHeadFill={revenueBarStackColor}
-              />
-            );
-          }}
-          isAnimationActive={false}
-        />
+        {hasRevenue ? (
+          <>
+            <Area
+              yAxisId="visitors"
+              stackId={TRAFFIC_AREA_STACK_ID}
+              type={TRAFFIC_AREA_CURVE_TYPE}
+              dataKey={REVENUE_AREA_DATA_KEY}
+              fill={revenueAreaFillColor}
+              stroke="none"
+              strokeWidth={0}
+              fillOpacity={1}
+              dot={false}
+              activeDot={false}
+              connectNulls
+              isAnimationActive={false}
+            />
+            <Area
+              yAxisId="visitors"
+              stackId={TRAFFIC_AREA_STACK_ID}
+              type={TRAFFIC_AREA_CURVE_TYPE}
+              dataKey={TRAFFIC_AREA_STACK_KEY}
+              fill={trafficAreaFillColor}
+              stroke="none"
+              strokeWidth={0}
+              fillOpacity={1}
+              dot={false}
+              activeDot={false}
+              connectNulls
+              isAnimationActive={false}
+            />
+          </>
+        ) : (
+          <Area
+            yAxisId="visitors"
+            type={TRAFFIC_AREA_CURVE_TYPE}
+            dataKey="visitors"
+            fill={trafficAreaFillColor}
+            stroke="none"
+            strokeWidth={0}
+            fillOpacity={1}
+            dot={false}
+            activeDot={false}
+            connectNulls
+            isAnimationActive={false}
+          />
+        )}
       </ComposedChart>
     </ChartContainer>
   );
