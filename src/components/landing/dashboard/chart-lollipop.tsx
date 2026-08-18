@@ -67,6 +67,7 @@ export function lollipopWidgetStemWidth(
   if (pointCount != null && isUltraDenseLollipopChart(pointCount)) {
     return LOLLIPOP_STEM_WIDTH_DENSE;
   }
+  // Keep card stems hairline — barSize only controls Recharts slot spacing.
   return Math.max(1.5, Math.min(LOLLIPOP_STEM_WIDTH, barSize));
 }
 
@@ -79,9 +80,10 @@ export function revenueLollipopHeadRadius(
 ): number {
   if (revenue <= 0) return 0;
   if (widget && barSize != null) {
-    const stemWidth = lollipopWidgetStemWidth(barSize, pointCount);
-    if (stemWidth <= 2) return REVENUE_LOLLIPOP_HEAD_RADIUS_ULTRA_DENSE;
-    return Math.min(REVENUE_LOLLIPOP_HEAD_RADIUS, stemWidth / 2);
+    if (pointCount != null && isUltraDenseLollipopChart(pointCount)) {
+      return REVENUE_LOLLIPOP_HEAD_RADIUS_ULTRA_DENSE;
+    }
+    return REVENUE_LOLLIPOP_HEAD_RADIUS;
   }
   if (widget) return REVENUE_LOLLIPOP_HEAD_RADIUS_WIDGET;
   if (pointCount != null && isUltraDenseLollipopChart(pointCount)) {
