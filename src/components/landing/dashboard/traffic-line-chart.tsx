@@ -17,6 +17,7 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import { hostnameFromReferrer } from "@/lib/referrer-favicon";
+import { CHART_LEGEND_CHIP_RADIUS_CLASS } from "@/lib/chart-legend-chip";
 
 import {
   LollipopBarShape,
@@ -851,7 +852,7 @@ export function TrafficLineChart(props: {
         <div className="text-muted-foreground mt-1 flex flex-col gap-2 px-1 text-[0.6875rem] leading-relaxed sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-3 sm:gap-y-1">
           <span className="inline-flex items-center gap-1.5">
             <span
-              className="size-2 rounded-[2px]"
+              className={`size-2 ${CHART_LEGEND_CHIP_RADIUS_CLASS}`}
               style={{
                 backgroundColor: hasRevenueOverlay
                   ? trafficBarStackColor
@@ -864,7 +865,7 @@ export function TrafficLineChart(props: {
           {hasRevenueOverlay ? (
             <span className="inline-flex items-center gap-1.5">
               <span
-                className="size-2 rounded-[2px]"
+                className={`size-2 ${CHART_LEGEND_CHIP_RADIUS_CLASS}`}
                 style={{ backgroundColor: revenueBarStackColor }}
                 aria-hidden
               />
@@ -874,7 +875,7 @@ export function TrafficLineChart(props: {
           {annotationMarkers.length > 0 ? (
             <span className="inline-flex items-center gap-1.5">
               <span
-                className="size-2 rounded-[2px]"
+                className={`size-2 ${CHART_LEGEND_CHIP_RADIUS_CLASS}`}
                 style={{ backgroundColor: annotationMarkerColor }}
                 aria-hidden
               />

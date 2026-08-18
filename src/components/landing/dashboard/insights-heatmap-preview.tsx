@@ -2,7 +2,10 @@
 
 import { useReducedMotion } from "motion/react";
 
-import { heatmapIntensityCellClass } from "@/lib/heatmap-intensity-class";
+import {
+  HEATMAP_CELL_RADIUS_CLASS,
+  heatmapIntensityCellClass,
+} from "@/lib/heatmap-intensity-class";
 import { cn } from "@/lib/utils";
 
 import { capabilityMockupSurfaceClass } from "./dashboard-card-layout";
@@ -87,7 +90,8 @@ export function InsightsHeatmapPreview() {
               <div
                 key={`${dayIndex}-${col}`}
                 className={cn(
-                  "aspect-square w-full min-w-0 rounded-[2px]",
+                  "aspect-square w-full min-w-0",
+                  HEATMAP_CELL_RADIUS_CLASS,
                   heatmapIntensityCellClass(intensity),
                   motionEnabled && "kobbe-heatmap-preview-cell",
                 )}

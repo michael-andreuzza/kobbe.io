@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import type { TrafficChartAnnotation } from "./traffic-line-chart";
+import { CHART_LEGEND_CHIP_RADIUS_CLASS } from "@/lib/chart-legend-chip";
 
 /** `inverted` matches the dark chart tooltip; `surface` sits on normal cards. */
 type NoteEditorTone = "inverted" | "surface";
@@ -122,7 +123,7 @@ export function ChartNoteTooltipEditorPreview(props: {
             >
               <span
                 aria-hidden
-                className="size-2 shrink-0 rounded-[2px]"
+                className={`size-2 shrink-0 ${CHART_LEGEND_CHIP_RADIUS_CLASS}`}
                 style={{
                   backgroundColor: chartNoteColorVar(annotation.color),
                 }}

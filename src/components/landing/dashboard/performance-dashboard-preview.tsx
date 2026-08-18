@@ -32,6 +32,7 @@ import {
   formatPerfTooltipValue,
   type WebVitalName,
 } from "@/lib/performance-metrics";
+import { CHART_LEGEND_CHIP_RADIUS_CLASS } from "@/lib/chart-legend-chip";
 import { cn } from "@/lib/utils";
 import type { DashboardPreviewRangeData } from "./dashboard-preview-data";
 import {
@@ -568,15 +569,15 @@ function PerformanceTrendPreview(props: {
       </ChartContainer>
       <div className="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-1 px-1 pt-2 text-[0.6875rem] leading-relaxed">
         <span className="inline-flex items-center gap-1.5">
-          <span className="bg-success size-2 rounded-[2px]" aria-hidden />
+          <span className={`bg-success size-2 ${CHART_LEGEND_CHIP_RADIUS_CLASS}`} aria-hidden />
           Good
         </span>
         <span className="inline-flex items-center gap-1.5">
-          <span className="bg-warning size-2 rounded-[2px]" aria-hidden />
+          <span className={`bg-warning size-2 ${CHART_LEGEND_CHIP_RADIUS_CLASS}`} aria-hidden />
           Watch
         </span>
         <span className="inline-flex items-center gap-1.5">
-          <span className="bg-destructive size-2 rounded-[2px]" aria-hidden />
+          <span className={`bg-destructive size-2 ${CHART_LEGEND_CHIP_RADIUS_CLASS}`} aria-hidden />
           Poor
         </span>
       </div>
@@ -624,7 +625,7 @@ function PerformanceChartTooltip({
           return (
             <div key={key} className="flex items-center gap-2 leading-none">
               <div
-                className="h-2.5 w-2.5 shrink-0 rounded-[2px]"
+                className={`h-2.5 w-2.5 shrink-0 ${CHART_LEGEND_CHIP_RADIUS_CLASS}`}
                 style={{ backgroundColor: color }}
                 aria-hidden
               />

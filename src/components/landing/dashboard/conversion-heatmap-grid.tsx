@@ -1,9 +1,11 @@
 import { Fragment } from "react";
 
 import {
+  HEATMAP_CELL_RADIUS_CLASS,
   HEATMAP_LEGEND_INTENSITIES,
   heatmapIntensityCellClass,
 } from "@/lib/heatmap-intensity-class";
+import { CHART_LEGEND_CHIP_RADIUS_CLASS } from "@/lib/chart-legend-chip";
 import { cn } from "@/lib/utils";
 
 export const CONVERSION_HEATMAP_DAY_LABELS = [
@@ -61,7 +63,8 @@ function ConversionHeatmapLegendRow() {
             <span
               key={intensity}
               className={cn(
-                "size-2 shrink-0 rounded-[2px]",
+                "size-2 shrink-0",
+                CHART_LEGEND_CHIP_RADIUS_CLASS,
                 heatmapIntensityCellClass(intensity),
               )}
             />
@@ -109,7 +112,8 @@ export function ConversionHeatmapGrid(props: {
                   <span
                     key={`${dayIndex}-${hour}`}
                     className={cn(
-                      "block aspect-square w-full min-w-0 rounded-[2px]",
+                      "block aspect-square w-full min-w-0",
+                      HEATMAP_CELL_RADIUS_CLASS,
                       heatmapIntensityCellClass(intensity),
                     )}
                     title={tooltipLabel}
