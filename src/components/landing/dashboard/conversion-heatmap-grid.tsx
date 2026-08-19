@@ -4,18 +4,24 @@ import {
   HEATMAP_CELL_RADIUS_CLASS,
   HEATMAP_LEGEND_INTENSITIES,
   heatmapIntensityCellClass,
+  heatmapIntensityLabelClass,
+  scaleHeatmapIntensity,
+  type HeatmapIntensityTone,
 } from "@/lib/heatmap-intensity-class";
 import { CHART_LEGEND_CHIP_RADIUS_CLASS } from "@/lib/chart-legend-chip";
 import { cn } from "@/lib/utils";
 
+/** SQLite / JS weekday index: 0 = Sun … 6 = Sat. Display Mon → Sun. */
+export const CONVERSION_HEATMAP_DAY_ORDER = [1, 2, 3, 4, 5, 6, 0] as const;
+
 export const CONVERSION_HEATMAP_DAY_LABELS = [
-  "Sun",
   "Mon",
   "Tue",
   "Wed",
   "Thu",
   "Fri",
   "Sat",
+  "Sun",
 ] as const;
 
 export type ConversionHeatmapCell = {
@@ -38,15 +44,36 @@ function buildHeatmapGrid(cells: ConversionHeatmapCell[]) {
       grid[cell.dayOfWeek]![cell.hour] = cell.count;
     }
   }
-  const max = grid.reduce(
+
+  const rowTotals = grid.map((dayRow) =>
+    dayRow.reduce((sum, count) => sum + count, 0),
+  );
+  const columnTotals = Array.from({ length: 24 }, (_, hour) =>
+    grid.reduce((sum, dayRow) => sum + dayRow[hour]!, 0),
+  );
+  const grandTotal = rowTotals.reduce((sum, count) => sum + count, 0);
+  const maxCell = grid.reduce(
     (peak, dayRow) => Math.max(peak, ...dayRow),
     0,
   );
-  return { grid, max };
-}
+  const maxRowTotal = rowTotals.reduce(
+    (peak, count) => Math.max(peak, count),
+    0,
+  );
+  const maxColumnTotal = columnTotals.reduce(
+    (peak, count) => Math.max(peak, count),
+    0,
+  );
 
-function formatHeatmapTooltipTitle(dayLabel: string, hour: number): string {
-  return `${dayLabel} ${hour}:00 UTC`;
+  return {
+    grid,
+    rowTotals,
+    columnTotals,
+    grandTotal,
+    maxCell,
+    maxRowTotal,
+    maxColumnTotal,
+  };
 }
 
 function ConversionHeatmapLegendRow() {
@@ -72,7 +99,37 @@ function ConversionHeatmapLegendRow() {
         </div>
         <span>More</span>
       </div>
+      <div />
     </>
+  );
+}
+
+function HeatmapCell(props: {
+  count: number;
+  intensity: number;
+  tone?: HeatmapIntensityTone;
+  tooltipTitle: string;
+  compact?: boolean;
+  className?: string;
+}) {
+  const tone = props.tone ?? "grid";
+  const tooltipLabel = `${props.tooltipTitle}, ${props.count.toLocaleString()} events`;
+
+  return (
+    <span
+      className={cn(
+        "flex aspect-square w-full min-w-0 items-center justify-center font-medium tabular-nums leading-none",
+        props.compact ? "text-[0.5rem]" : "text-[0.5625rem]",
+        HEATMAP_CELL_RADIUS_CLASS,
+        heatmapIntensityCellClass(props.intensity, tone),
+        heatmapIntensityLabelClass(props.intensity, tone),
+        props.className,
+      )}
+      title={tooltipLabel}
+      aria-label={tooltipLabel}
+    >
+      {props.count}
+    </span>
   );
 }
 
@@ -81,7 +138,15 @@ export function ConversionHeatmapGrid(props: {
   className?: string;
   minWidthClass?: string;
 }) {
-  const { grid, max } = buildHeatmapGrid(props.cells);
+  const {
+    grid,
+    rowTotals,
+    columnTotals,
+    grandTotal,
+    maxCell,
+    maxRowTotal,
+    maxColumnTotal,
+  } = buildHeatmapGrid(props.cells);
 
   return (
     <div
@@ -91,38 +156,66 @@ export function ConversionHeatmapGrid(props: {
       )}
     >
       <div className={cn("w-full min-w-0", props.minWidthClass)}>
-        <div className="grid w-full min-w-0 grid-cols-[2rem_repeat(24,minmax(0,1fr))] gap-0.5 text-[10px] text-muted-foreground">
+        <div className="grid w-full min-w-0 grid-cols-[2rem_repeat(24,minmax(0,1fr))_2.25rem] gap-0.5 text-[10px] text-muted-foreground">
           <div />
           {Array.from({ length: 24 }, (_, hour) => (
             <div key={`hour-${hour}`} className="text-center tabular-nums">
               {hour % 3 === 0 ? `${hour}` : ""}
             </div>
           ))}
-          {grid.map((dayRow, dayIndex) => (
-            <Fragment key={`day-${dayIndex}`}>
-              <div className="flex items-center pr-1 text-[0.625rem] leading-none text-muted-foreground">
-                {CONVERSION_HEATMAP_DAY_LABELS[dayIndex]}
-              </div>
-              {dayRow.map((count, hour) => {
-                const intensity = max > 0 ? count / max : 0;
-                const dayLabel = CONVERSION_HEATMAP_DAY_LABELS[dayIndex] ?? "?";
-                const tooltipLabel = `${formatHeatmapTooltipTitle(dayLabel, hour)}, ${count.toLocaleString()} events`;
+          <div className="text-center text-[0.625rem] leading-none">All</div>
 
-                return (
-                  <span
+          {CONVERSION_HEATMAP_DAY_ORDER.map((dayIndex, displayIndex) => {
+            const dayRow = grid[dayIndex]!;
+            const dayLabel = CONVERSION_HEATMAP_DAY_LABELS[displayIndex] ?? "?";
+            const rowTotal = rowTotals[dayIndex] ?? 0;
+
+            return (
+              <Fragment key={`day-${dayIndex}`}>
+                <div className="flex items-center pr-1 text-[0.625rem] leading-none text-muted-foreground">
+                  {dayLabel}
+                </div>
+                {dayRow.map((count, hour) => (
+                  <HeatmapCell
                     key={`${dayIndex}-${hour}`}
-                    className={cn(
-                      "block aspect-square w-full min-w-0",
-                      HEATMAP_CELL_RADIUS_CLASS,
-                      heatmapIntensityCellClass(intensity),
-                    )}
-                    title={tooltipLabel}
-                    aria-label={tooltipLabel}
+                    count={count}
+                    intensity={scaleHeatmapIntensity(count, maxCell)}
+                    compact
+                    tooltipTitle={`${dayLabel} ${hour}:00 UTC`}
                   />
-                );
-              })}
-            </Fragment>
+                ))}
+                <HeatmapCell
+                  count={rowTotal}
+                  intensity={scaleHeatmapIntensity(rowTotal, maxRowTotal)}
+                  tone="total"
+                  tooltipTitle={`${dayLabel} total`}
+                />
+              </Fragment>
+            );
+          })}
+
+          <div className="flex items-center pr-1 text-[0.625rem] leading-none text-muted-foreground">
+            All
+          </div>
+          {columnTotals.map((count, hour) => (
+            <HeatmapCell
+              key={`col-total-${hour}`}
+              count={count}
+              intensity={scaleHeatmapIntensity(count, maxColumnTotal)}
+              tone="total"
+              tooltipTitle={`${hour}:00 UTC total`}
+            />
           ))}
+          <HeatmapCell
+            count={grandTotal}
+            intensity={scaleHeatmapIntensity(
+              grandTotal,
+              Math.max(maxRowTotal, maxColumnTotal, grandTotal),
+            )}
+            tone="total"
+            tooltipTitle="Total"
+          />
+
           <ConversionHeatmapLegendRow />
         </div>
       </div>

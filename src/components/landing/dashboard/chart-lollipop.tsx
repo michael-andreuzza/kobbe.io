@@ -24,7 +24,7 @@ export type LollipopShapeProps = {
 };
 
 /** Fixed orange head radius when a day has revenue (not scaled by amount). */
-const REVENUE_LOLLIPOP_HEAD_RADIUS = 3;
+const REVENUE_LOLLIPOP_HEAD_RADIUS = 5;
 /** Sentinel for ultra-dense charts — head renders as a square cap matching stem width. */
 const REVENUE_LOLLIPOP_HEAD_RADIUS_ULTRA_DENSE = 1;
 const REVENUE_LOLLIPOP_HEAD_RADIUS_WIDGET = 1.5;
@@ -90,8 +90,8 @@ export function revenueLollipopHeadRadius(
   return REVENUE_LOLLIPOP_HEAD_RADIUS;
 }
 
-/** Opacity for the full-height background rail behind lollipop stems. */
-export const LOLLIPOP_RAIL_OPACITY = 0.06;
+/** Opacity for the full-height background rail behind lollipop stems (disabled). */
+export const LOLLIPOP_RAIL_OPACITY = 0;
 export const LOLLIPOP_STEM_WIDTH = 2.5;
 const STEM_TOP_RADIUS = 1;
 /** Visible stem when a zero-value bar is pinned or hovered. */
@@ -200,7 +200,6 @@ export function LollipopBarShape(props: LollipopShapeProps) {
   const stemFill = highlighted
     ? (props.activeFill ?? "var(--brand)")
     : defaultFill;
-  const railFill = defaultFill;
   const baseOpacity = Number(props.fillOpacity ?? 1) || 1;
   const cx = x + width / 2;
   const stemWidth = resolveStemWidth(props);
@@ -211,7 +210,6 @@ export function LollipopBarShape(props: LollipopShapeProps) {
       ? railTop + props.background.height
       : y + height;
   const stemOpacity = props.widget ? baseOpacity : baseOpacity;
-  const railOpacity = props.widget ? 0 : LOLLIPOP_RAIL_OPACITY * baseOpacity;
   const revenueHeadRadius = props.revenueHeadRadius ?? 0;
   const revenueHeadFill = highlighted
     ? (props.activeFill ?? "var(--brand)")
@@ -223,18 +221,6 @@ export function LollipopBarShape(props: LollipopShapeProps) {
 
   return (
     <g>
-      {!props.widget ? (
-        <line
-          x1={cx}
-          y1={railTop}
-          x2={cx}
-          y2={railBottom}
-          stroke={railFill}
-          strokeOpacity={railOpacity}
-          strokeWidth={stemWidth}
-          strokeLinecap="butt"
-        />
-      ) : null}
       {showStem ? (
         <StemBar
           cx={cx}
@@ -272,31 +258,12 @@ function SegmentLollipopBarShape(props: LollipopShapeProps) {
   const stemFill = highlighted
     ? (props.activeFill ?? "var(--brand)")
     : defaultFill;
-  const railFill = defaultFill;
   const cx = x + width / 2;
   const stemWidth = resolveStemWidth(props);
-  const railTop =
-    typeof props.background?.y === "number" ? props.background.y : y;
-  const railBottom =
-    typeof props.background?.height === "number"
-      ? railTop + props.background.height
-      : y + height;
   const segmentBottom = y + height;
 
   return (
     <g>
-      {!props.widget ? (
-        <line
-          x1={cx}
-          y1={railTop}
-          x2={cx}
-          y2={railBottom}
-          stroke={railFill}
-          strokeOpacity={LOLLIPOP_RAIL_OPACITY}
-          strokeWidth={stemWidth}
-          strokeLinecap="butt"
-        />
-      ) : null}
       {height > 0 ? (
         <StemBar
           cx={cx}

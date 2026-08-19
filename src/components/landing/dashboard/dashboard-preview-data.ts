@@ -161,11 +161,11 @@ type PreviewChartConfig = {
 };
 
 const defaultPreviewChartConfig: PreviewChartConfig = {
-  dayCount: 79,
-  startMs: Date.UTC(2026, 4, 2),
-  pinnedOffset: 3,
-  visitorPeak: 890,
-  revenueStartIndex: 52,
+  dayCount: 90,
+  startMs: Date.UTC(2026, 4, 21),
+  pinnedOffset: 14,
+  visitorPeak: 720,
+  revenueStartIndex: 42,
 };
 
 /** High-traffic marketplace shape for local chart QA (Lexington Themes–scale bars). */
@@ -179,9 +179,7 @@ const densePreviewChartConfig: PreviewChartConfig = {
 
 function shouldUseDensePreviewChart(): boolean {
   const flag = import.meta.env.PUBLIC_DENSE_DASHBOARD_PREVIEW;
-  if (flag === "0" || flag === "false") return false;
-  if (flag === "1" || flag === "true") return true;
-  return import.meta.env.DEV;
+  return flag === "1" || flag === "true";
 }
 
 const activePreviewChartConfig = shouldUseDensePreviewChart()
@@ -207,59 +205,78 @@ function pointUtcDay(t: number): string {
   return new Date(t).toISOString().slice(0, 10);
 }
 
-function previewVisitorRatio(index: number, count: number, dense: boolean): number {
-  const phase = index / Math.max(1, count - 1);
-  if (dense) {
-    const baseline = 0.56;
-    const waveA = 0.24 * Math.sin(phase * Math.PI * 8.4);
-    const waveB = 0.14 * Math.sin(index * 0.93 + 1.1);
-    const weekly = 0.1 * Math.sin((index / 7) * Math.PI * 2 + 0.35);
-    const launchSpike =
-      index % 11 === 0
-        ? 0.32
-        : index % 17 === 0
-          ? 0.22
-          : index % 23 === 0
-            ? 0.28
-            : 0;
-    const growth = 0.2 * phase ** 1.25;
-    return Math.min(
-      0.99,
-      Math.max(0.44, baseline + waveA + waveB + weekly + launchSpike + growth),
-    );
-  }
+const PREVIEW_CHART_SEED = 0x4b0bb4;
 
-  const primary = 0.42 + 0.32 * Math.sin(phase * Math.PI * 5.2);
-  const secondary = 0.08 * Math.sin(index * 0.81 + 0.6);
-  const weekly = 0.06 * Math.sin((index / 7) * Math.PI * 2);
-  return Math.min(0.94, Math.max(0.12, primary + secondary + weekly));
+function previewRng(seed: number): () => number {
+  let s = seed >>> 0;
+  return () => {
+    s = (s + 0x6d2b79f5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function utcDayOfWeek(ms: number): number {
+  return new Date(ms).getUTCDay();
 }
 
 function generatePreviewChartPoints(config: PreviewChartConfig): StackedChartPoint[] {
   const dense = config.visitorPeak >= 2_000;
+  const rng = previewRng(PREVIEW_CHART_SEED + config.dayCount + config.visitorPeak);
+  const count = config.dayCount;
 
-  return Array.from({ length: config.dayCount }, (_, index) => {
+  return Array.from({ length: count }, (_, index) => {
     const t = config.startMs + index * MS_DAY;
-    const phase = index / Math.max(1, config.dayCount - 1);
     const isPinnedDay = index === config.pinnedOffset;
-    const ratio = previewVisitorRatio(index, config.dayCount, dense);
+    const dayOfWeek = utcDayOfWeek(t);
+    const trend = 0.52 + 0.36 * (index / Math.max(1, count - 1));
+    const weekendFactor = dayOfWeek === 0 || dayOfWeek === 6 ? 0.7 : 1;
+    const midweekBoost = dayOfWeek >= 2 && dayOfWeek <= 4 ? 1.05 : 1;
+    const noise = 0.76 + rng() * 0.48;
+    const spikeRoll = rng();
+    const spike =
+      spikeRoll > 0.968 ? 1.38 : spikeRoll > 0.905 ? 1.14 : 1;
+    const dip = rng() > 0.972 ? 0.52 : 1;
+
+    let ratio = trend * weekendFactor * midweekBoost * noise * spike * dip;
+    ratio = Math.min(0.96, Math.max(0.12, ratio));
+
     const visitors = isPinnedDay
-      ? Math.round(config.visitorPeak * 0.94)
-      : Math.round(ratio * config.visitorPeak);
-    const visits = Math.round(visitors * (1.02 + 0.08 * Math.sin(index * 0.4)));
-    const pageviews = Math.round(
-      visits * (2.05 + 0.15 * Math.sin(index * 0.31)),
+      ? Math.round(config.visitorPeak * 0.91)
+      : Math.max(8, Math.round(ratio * config.visitorPeak));
+
+    const visits = Math.max(
+      visitors,
+      Math.round(visitors * (1.01 + rng() * 0.13)),
     );
-    const bounceRate = 0.28 + 0.08 * Math.sin(index * 0.19 + 1);
-    const avgDurationMs = Math.round(95_000 + 45_000 * ratio);
-    const revenueMinor = Math.round(
-      visitors *
-        (dense
-          ? 920 + 260 * Math.sin(index * 0.31 + 0.55) + 180 * phase
-          : index < config.revenueStartIndex
-            ? 0
-            : 520 + 90 * Math.sin(index * 0.24 + 0.4)),
+    const pageviews = Math.max(
+      visits,
+      Math.round(visits * (1.82 + rng() * 0.62)),
     );
+
+    const bounceBase =
+      0.3 + (dayOfWeek === 0 || dayOfWeek === 6 ? 0.05 : 0);
+    const bounceRate = Math.min(
+      0.56,
+      Math.max(0.22, bounceBase + (rng() - 0.5) * 0.11),
+    );
+
+    const avgDurationMs = Math.round(86_000 + ratio * 54_000 + rng() * 16_000);
+
+    let revenueMinor = 0;
+    if (index >= config.revenueStartIndex && rng() > 0.4) {
+      revenueMinor = Math.round(
+        visitors * (0.48 + rng() * 0.92) * (420 + rng() * 360),
+      );
+    }
+    if (isPinnedDay) {
+      revenueMinor = Math.max(
+        revenueMinor,
+        Math.round(visitors * (dense ? 640 : 520)),
+      );
+    }
 
     const point: StackedChartPoint = {
       label: formatPreviewDayLabel(t),
@@ -275,7 +292,7 @@ function generatePreviewChartPoints(config: PreviewChartConfig): StackedChartPoi
     if (isPinnedDay) {
       point.topReferrer = {
         host: "lexingtonthemes.com",
-        count: dense ? 4_820 : 312,
+        count: dense ? 4_820 : Math.round(visitors * 0.48),
       };
     }
 

@@ -14,12 +14,6 @@
   --color-chart-3: var(--chart-3);
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
-  --color-sky: var(--chart-1);
-  --color-emerald: var(--chart-2);
-  --color-gold: var(--chart-3);
-  --color-orange: var(--chart-4);
-  --color-paper: var(--chart-5);
-  --color-ink: var(--chart-6);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -76,14 +70,12 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.723 0.162 238.815);
-  --chart-2: oklch(0.735 0.178 156.1);
-  --chart-3: oklch(0.871 0.128 81.767);
-  --chart-4: oklch(0.672 0.22 37.09);
+  --chart-1: oklch(0.631 0.18 260.16);
+  --chart-2: oklch(0.648 0.159 148.514);
+  --chart-3: oklch(0.83 0.17 83.072);
+  --chart-4: oklch(0.628 0.201 28.211);
   --chart-5: oklch(0.985 0 0);
   --chart-6: oklch(0.205 0 0);
-
-  /** Bicolor traffic chart: ink traffic base + orange revenue cap. */
   --traffic-bar-stack: var(--chart-6);
   --revenue-bar-stack: var(--brand);
   --revenue-bar-stack-active: var(--chart-4);
@@ -128,10 +120,17 @@
     --input: oklch(1 0 0 / 0.12);
     --ring: oklch(0.556 0 0);
 
-    --traffic-bar-stack: oklch(0.92 0 0);
+    --traffic-bar-stack: var(--chart-6);
     --revenue-bar-stack: var(--brand);
     --revenue-bar-stack-active: var(--chart-4);
     --chart-grid-stroke: oklch(1 0 0 / 0.14);
+
+    --chart-1: oklch(0.794 0.127 231.482);
+    --chart-2: oklch(0.802 0.191 146.226);
+    --chart-3: oklch(0.884 0.174 93.67);
+    --chart-4: oklch(0.752 0.168 356.423);
+    --chart-5: oklch(0.985 0 0);
+    --chart-6: oklch(0.92 0 0);
 
     --sidebar: oklch(0.18 0 0);
     --sidebar-foreground: oklch(0.985 0 0);
