@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Dialog } from "@base-ui/react/dialog";
 import { MenuIcon, XIcon } from "lucide-react";
 
@@ -30,19 +30,6 @@ const megaCompactLinkClassName =
 export function SiteMobileMenu({ links }: SiteMobileMenuProps) {
   const primaryLinks = links ?? siteMobilePrimaryLinks();
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [open]);
 
   return (
     <div className="md:hidden">

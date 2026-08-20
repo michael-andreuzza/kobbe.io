@@ -1,0 +1,330 @@
+---
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import SectionIntro from "@/components/landing/SectionIntro.astro";
+import astroLogo from "@/images/brands/astro.svg";
+import boltLogo from "@/images/brands/bolt.svg";
+import bubbleLogo from "@/images/brands/buble.svg";
+import claudeLogo from "@/images/brands/claude.svg";
+import codexLogo from "@/images/brands/codex.svg";
+import copilotLogo from "@/images/brands/copilot.svg";
+import creemLogo from "@/images/brands/creem.svg";
+import cursorLogo from "@/images/brands/cursor.svg";
+import datafastLogo from "@/images/brands/datafast.svg";
+import djangoLogo from "@/images/brands/django.svg";
+import fathomLogo from "@/images/brands/fathom.svg";
+import framerLogo from "@/images/brands/framer.svg";
+import ghostLogo from "@/images/brands/ghost.png";
+import googleTagManagerLogo from "@/images/brands/gtag manager.svg";
+import kajabiLogo from "@/images/brands/kajabi.svg";
+import laravelLogo from "@/images/brands/laravel.svg";
+import lovableLogo from "@/images/brands/lovable.svg";
+import mollieLogo from "@/images/brands/mollie.svg";
+import nextjsLogo from "@/images/brands/nextjs.svg";
+import opencodeLogo from "@/images/brands/opencode.svg";
+import paddleLogo from "@/images/brands/paddle.svg";
+import plausibleLogo from "@/images/brands/plausible.svg";
+import podiaLogo from "@/images/brands/podia.svg";
+import polarLogo from "@/images/brands/polar.svg";
+import reactRouterLogo from "@/images/brands/reactrouter.svg";
+import replitLogo from "@/images/brands/replit.svg";
+import revenuecatLogo from "@/images/brands/revenuecat.svg";
+import revolutLogo from "@/images/brands/revolut.svg";
+import rooCodeLogo from "@/images/brands/roo code.svg";
+import shopifyLogo from "@/images/brands/shopify.svg";
+import squarespaceLogo from "@/images/brands/squarespace.svg";
+import stripeLogo from "@/images/brands/stripe.svg";
+import superwallLogo from "@/images/brands/superwall.svg";
+import umamiLogo from "@/images/brands/umami.svg";
+import v0Logo from "@/images/brands/v0.svg";
+import vueLogo from "@/images/brands/vue.svg";
+import webflowLogo from "@/images/brands/webflow.svg";
+import whopLogo from "@/images/brands/whop.svg";
+import windsurfLogo from "@/images/brands/windsurf.svg";
+import wixLogo from "@/images/brands/wix.svg";
+import wooCommerceLogo from "@/images/brands/woo.svg";
+import wordpressLogo from "@/images/brands/wordpress.svg";
+import zedLogo from "@/images/brands/zed.svg";
+
+const revenueProviders = [
+  { name: "Stripe", logo: stripeLogo },
+  { name: "Polar", logo: polarLogo },
+  { name: "Paddle", logo: paddleLogo },
+  { name: "Creem", logo: creemLogo },
+  { name: "Mollie", logo: mollieLogo },
+  { name: "Revolut", logo: revolutLogo },
+  { name: "Whop", logo: whopLogo },
+  { name: "RevenueCat", logo: revenuecatLogo },
+  { name: "Superwall", logo: superwallLogo },
+  { name: "Shopify", logo: shopifyLogo },
+];
+
+const importProviders = [
+  { name: "Plausible", logo: plausibleLogo },
+  { name: "Fathom", logo: fathomLogo },
+  { name: "Umami", logo: umamiLogo },
+  { name: "DataFast", logo: datafastLogo },
+];
+
+const codeEditors = [
+  { name: "Cursor", logo: cursorLogo },
+  { name: "Claude Code", logo: claudeLogo },
+  { name: "Codex", logo: codexLogo },
+  { name: "GitHub Copilot", logo: copilotLogo },
+  { name: "Zed", logo: zedLogo },
+  { name: "OpenCode", logo: opencodeLogo },
+  { name: "Roo Code", logo: rooCodeLogo },
+  { name: "Windsurf", logo: windsurfLogo },
+];
+
+const installationPlatforms = [
+  { name: "Next.js", logo: nextjsLogo },
+  { name: "React Router", logo: reactRouterLogo },
+  { name: "Astro", logo: astroLogo },
+  { name: "Vue", logo: vueLogo },
+  { name: "Laravel", logo: laravelLogo },
+  { name: "Django", logo: djangoLogo },
+  { name: "WordPress", logo: wordpressLogo },
+  { name: "Webflow", logo: webflowLogo },
+  { name: "Framer", logo: framerLogo },
+  { name: "Ghost", logo: ghostLogo },
+  { name: "Shopify", logo: shopifyLogo },
+  { name: "WooCommerce", logo: wooCommerceLogo },
+  { name: "Bubble", logo: bubbleLogo },
+  { name: "Podia", logo: podiaLogo },
+  { name: "Kajabi", logo: kajabiLogo },
+  { name: "Wix", logo: wixLogo },
+  { name: "Squarespace", logo: squarespaceLogo },
+  { name: "Lovable", logo: lovableLogo },
+  { name: "Bolt", logo: boltLogo },
+  { name: "Vercel v0", logo: v0Logo },
+  { name: "Replit", logo: replitLogo },
+  { name: "Google Tag Manager", logo: googleTagManagerLogo },
+];
+
+const funnelSteps = [
+  { label: "/", rate: "100%", width: "100%" },
+  { label: "/pricing", rate: "85%", width: "85%" },
+  { label: "signup", rate: "52%", width: "52%" },
+];
+
+const webVitals = [
+  { label: "LCP", value: "1.8s" },
+  { label: "INP", value: "120ms" },
+  { label: "CLS", value: "0.02" },
+];
+---
+
+<section class="pt-8">
+  <Wrapper class="py-20">
+    <div class="mx-auto max-w-xl text-center">
+      <SectionIntro
+        title="Deeper than pageviews."
+        description="Revenue attribution, funnels, performance, history import, agent access, and a one-line install, all in the same dashboard."
+      />
+    </div>
+
+    <div class="mt-12 grid items-stretch gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <!-- Revenue -->
+      <div class="bg-card flex min-h-64 flex-col overflow-hidden rounded-lg">
+        <div class="space-y-1 p-5">
+          <p class="text-foreground text-base font-medium">
+            See which traffic drives revenue.
+          </p>
+          <p class="text-muted-foreground text-sm text-pretty">
+            Pass attribution through checkout and review revenue on a dedicated
+            page or beside your traffic breakdowns.
+          </p>
+        </div>
+        <div class="flex flex-1 items-end p-5 pt-0">
+          <div
+            class="flex flex-wrap items-center gap-x-4 gap-y-2"
+            aria-label="Supported revenue providers"
+          >
+            {
+              revenueProviders.map((provider) => (
+                <span>
+                  <img
+                    src={provider.logo.src}
+                    alt={`${provider.name} logo`}
+                    class="size-6 rounded object-contain"
+                    loading="lazy"
+                    width="24"
+                    height="24"
+                  />
+                  <span class="sr-only">{provider.name}</span>
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Funnels -->
+      <div class="bg-card flex min-h-64 flex-col overflow-hidden rounded-lg">
+        <div class="space-y-1 p-5">
+          <p class="text-foreground text-base font-medium">
+            See where visitors continue or drop off.
+          </p>
+          <p class="text-muted-foreground text-sm text-pretty">
+            Build funnels from pages and custom events, then trace UTM
+            campaigns, sources, and mediums in the same view.
+          </p>
+        </div>
+        <div class="flex flex-1 items-end p-5 pt-0">
+          <div class="w-full space-y-2.5" aria-hidden="true">
+            {
+              funnelSteps.map((step) => (
+                <div class="flex items-center gap-3 text-xs">
+                  <span class="text-foreground w-16 shrink-0 truncate">
+                    {step.label}
+                  </span>
+                  <span class="bg-brand/15 relative h-2 flex-1 overflow-hidden rounded-full">
+                    <span
+                      class="bg-brand absolute inset-y-0 left-0 rounded-full"
+                      style={`width: ${step.width}`}
+                    />
+                  </span>
+                  <span class="text-muted-foreground w-10 shrink-0 text-right tabular-nums">
+                    {step.rate}
+                  </span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance -->
+      <div class="bg-card flex min-h-64 flex-col overflow-hidden rounded-lg">
+        <div class="space-y-1 p-5">
+          <p class="text-foreground text-base font-medium">
+            Keep performance beside your traffic.
+          </p>
+          <p class="text-muted-foreground text-sm text-pretty">
+            Track Core Web Vitals with the same dashboard language: percentile
+            trends, slow pages, and environment breakdowns.
+          </p>
+        </div>
+        <div class="flex flex-1 items-end p-5 pt-0">
+          <div class="flex flex-wrap gap-2" aria-hidden="true">
+            {
+              webVitals.map((vital) => (
+                <span class="border-border/60 bg-background inline-flex items-baseline gap-1.5 rounded-md border px-2.5 py-1.5 text-xs">
+                  <span class="text-muted-foreground">{vital.label}</span>
+                  <span class="text-foreground font-medium tabular-nums">
+                    {vital.value}
+                  </span>
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Import -->
+      <div class="bg-card flex min-h-64 flex-col overflow-hidden rounded-lg">
+        <div class="space-y-1 p-5">
+          <p class="text-foreground text-base font-medium">
+            Bring your analytics history with you.
+          </p>
+          <p class="text-muted-foreground text-sm text-pretty">
+            Import historical traffic from Plausible, Fathom, Umami, or
+            DataFast and keep collecting new data on the same site.
+          </p>
+        </div>
+        <div class="flex flex-1 items-end p-5 pt-0">
+          <div
+            class="flex flex-wrap items-center gap-x-4 gap-y-2"
+            aria-label="Supported import providers"
+          >
+            {
+              importProviders.map((provider) => (
+                <span>
+                  <img
+                    src={provider.logo.src}
+                    alt={`${provider.name} logo`}
+                    class="size-6 rounded object-contain"
+                    loading="lazy"
+                    width="24"
+                    height="24"
+                  />
+                  <span class="sr-only">{provider.name}</span>
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- CLI + MCP -->
+      <div class="bg-card flex min-h-64 flex-col overflow-hidden rounded-lg">
+        <div class="space-y-1 p-5">
+          <p class="text-foreground text-base font-medium">
+            CLI access, with MCP built in.
+          </p>
+          <p class="text-muted-foreground text-sm text-pretty">
+            Inspect analytics from your terminal, then run the same package in
+            MCP mode so compatible editors and agents can query Kobbe for you.
+          </p>
+        </div>
+        <div class="flex flex-1 items-end p-5 pt-0">
+          <div
+            class="flex flex-wrap items-center gap-x-4 gap-y-2"
+            aria-label="Supported code editors and agents"
+          >
+            {
+              codeEditors.map((editor) => (
+                <span>
+                  <img
+                    src={editor.logo.src}
+                    alt={`${editor.name} logo`}
+                    class="size-6 rounded object-contain"
+                    loading="lazy"
+                    width="24"
+                    height="24"
+                  />
+                  <span class="sr-only">{editor.name}</span>
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Install -->
+      <div class="bg-card flex min-h-64 flex-col overflow-hidden rounded-lg">
+        <div class="space-y-1 p-5">
+          <p class="text-foreground text-base font-medium">
+            That's the whole install.
+          </p>
+          <p class="text-muted-foreground text-sm text-pretty">
+            One script tag on any platform, then flip extended tracking on or
+            off from site settings. No code changes required.
+          </p>
+        </div>
+        <div class="flex flex-1 items-end p-5 pt-0">
+          <div
+            class="flex flex-wrap items-center gap-x-4 gap-y-2"
+            aria-label="Supported installation platforms"
+          >
+            {
+              installationPlatforms.map((platform) => (
+                <span>
+                  <img
+                    src={platform.logo.src}
+                    alt={`${platform.name} logo`}
+                    class="size-6 rounded object-contain"
+                    loading="lazy"
+                    width="24"
+                    height="24"
+                  />
+                  <span class="sr-only">{platform.name}</span>
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </Wrapper>
+</section>
