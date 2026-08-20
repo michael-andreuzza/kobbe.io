@@ -1,4 +1,4 @@
-import type { StackedChartPoint, TrafficChartAnnotation } from "./traffic-line-chart";
+import type { StackedChartPoint, TrafficChartAnnotation } from "./traffic-chart-types";
 
 const MS_DAY = 86_400_000;
 

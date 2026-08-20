@@ -3,7 +3,7 @@ import {
   DashboardMetricStrip,
   DashboardMetricTile,
 } from "./dashboard-metric-strip";
-import type { TrafficChartMetric } from "./traffic-line-chart";
+import type { TrafficChartMetric } from "./traffic-chart-types";
 
 type KpiPillTone = "good" | "bad" | "neutral";
 type TrendKpi = { display: string; deltaPct: number | null; tone: KpiPillTone };

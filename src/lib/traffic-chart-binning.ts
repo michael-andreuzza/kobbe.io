@@ -2,7 +2,7 @@ import type {
   ChartTopReferrer,
   StackedChartPoint,
   TrafficStackBucket,
-} from "@/components/landing/dashboard/traffic-line-chart";
+} from "@/components/landing/dashboard/traffic-chart-types";
 
 const MS_DAY = 86_400_000;
 
