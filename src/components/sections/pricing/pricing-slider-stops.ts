@@ -24,18 +24,18 @@ export function pricingSliderTierIndexFromPercent(
   const maxIndex = tierCount - 1;
   const clamped = Math.min(100, Math.max(0, percent));
 
+  // Walk stops left to right and return the first bucket whose upper midpoint
+  // the pointer hasn't passed. Positions left of the first stop (including the
+  // 0-anchor zone) must resolve to tier 0, not fall through to the max.
   for (let index = 0; index <= maxIndex; index++) {
     const stop = pricingSliderTierStopPercent(index, tierCount);
-    const prevStop =
-      index === 0 ? 0 : pricingSliderTierStopPercent(index - 1, tierCount);
     const nextStop =
       index === maxIndex
         ? 100
         : pricingSliderTierStopPercent(index + 1, tierCount);
-    const lower = (prevStop + stop) / 2;
     const upper = (stop + nextStop) / 2;
 
-    if (clamped >= lower && clamped <= upper) {
+    if (clamped <= upper) {
       return index;
     }
   }
