@@ -1,4 +1,9 @@
-import { type ReactNode } from "react";
+import { type ReactNode, useMemo } from "react";
+
+import {
+  finalizeTrafficChartSeries,
+  resolveDisplayPinnedIndex,
+} from "@/lib/traffic-chart-binning";
 
 import {
   Card,
@@ -31,6 +36,8 @@ type Props = {
   className?: string;
   spotlightIndex?: number;
   previewPinnedIndex?: number | null;
+  /** UTC calendar day (YYYY-MM-DD) for pinned note when index is daily grain. */
+  previewPinnedDay?: string | null;
   annotations?: TrafficChartAnnotation[] | null;
   annotationFooter?: ReactNode;
   showShare?: boolean;
@@ -38,6 +45,29 @@ type Props = {
 
 export function DashboardTrafficChart(props: Props) {
   const showShare = props.showShare ?? true;
+  const displayTimeZone = "UTC";
+  const { points: chartPoints, bucket } = useMemo(
+    () =>
+      finalizeTrafficChartSeries(props.points, "day", displayTimeZone),
+    [props.points],
+  );
+  const previewPinnedIndex = useMemo(
+    () =>
+      resolveDisplayPinnedIndex(
+        props.points,
+        chartPoints,
+        bucket,
+        props.previewPinnedIndex,
+        props.previewPinnedDay ?? null,
+      ),
+    [
+      props.points,
+      chartPoints,
+      bucket,
+      props.previewPinnedIndex,
+      props.previewPinnedDay,
+    ],
+  );
 
   return (
     <Card
@@ -62,15 +92,15 @@ export function DashboardTrafficChart(props: Props) {
       <CardContent className="h-auto min-w-0 !px-0 !pt-0 pb-4 sm:pb-5">
         <div className="min-w-0 px-3 sm:px-4">
           <TrafficLineChart
-            points={props.points}
-            bucket="day"
+            points={chartPoints}
+            bucket={bucket}
             variant="hero"
             metric={props.metric}
             spotlightIndex={props.spotlightIndex}
-            previewPinnedIndex={props.previewPinnedIndex}
+            previewPinnedIndex={previewPinnedIndex}
             annotations={props.annotations}
             annotationFooter={props.annotationFooter}
-            displayTimeZone="UTC"
+            displayTimeZone={displayTimeZone}
             revenueCurrency="USD"
           />
         </div>

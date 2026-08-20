@@ -3,9 +3,8 @@ import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import SectionIntro from "@/components/landing/SectionIntro.astro";
 import HeroDashboardPreview from "@/components/landing/hero-dashboard-preview";
 import { buttonVariants } from "@/components/ui/button";
-import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
+import { cn } from "@/lib/utils";
 ---
-
 <section>
   <Wrapper variant="default" class="pt-20 lg:pt-28">
     <div class="mx-auto max-w-2xl text-center">
@@ -13,31 +12,19 @@ import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
         title="Privacy-first web analytics with traffic and revenue in one place."
         description="Pages, sources, funnels, conversions, and revenue attribution. Private by default. Set up in seconds."
       />
-      <div class="mx-auto mt-4 flex w-fit flex-wrap gap-2">
-        <a
-          href="/pricing"
-          data-kobbe-event="Hero - start trial"
-          class={buttonVariants({ variant: "default", size: "xs" })}
-        >
-          Start a {pricingTrialDays}-day free trial
-        </a>
-        <a
-          href="https://app.kobbe.io/demo/kobbe-studio"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-kobbe-event="Hero - see demo"
-          class={buttonVariants({ variant: "outline", size: "xs" })}
-        >
-          See the demo
-        </a>
-      </div>
-      <div class="mt-4 flex flex-wrap justify-center gap-2">
-        <p class="text-muted-foreground text-sm text-balance">
-          No credit card required , GDPR-ready and Cookieless by default
-        </p>
-      </div>
+      <p class="text-muted-foreground text-sm text-balance mt-4">
+        No credit card required , GDPR-ready and Cookieless by default
+      </p>
+      <a
+        href="https://app.kobbe.io/demo/kobbe-studio"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-kobbe-event="Hero - see demo"
+        class={cn(buttonVariants({ variant: "outline", size: "xs" }), "flex mt-8 w-fit mx-auto")}
+      >
+        See the demo
+      </a>
     </div>
-
     <div class="relative mt-12">
       <HeroDashboardPreview client:load />
     </div>

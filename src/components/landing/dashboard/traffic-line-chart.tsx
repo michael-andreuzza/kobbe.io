@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/chart";
 import { hostnameFromReferrer } from "@/lib/referrer-favicon";
 import { CHART_LEGEND_CHIP_RADIUS_CLASS } from "@/lib/chart-legend-chip";
+import { annotationDayMatchesBucket } from "@/lib/traffic-chart-binning";
 
 import {
   LollipopBarShape,
@@ -26,12 +27,32 @@ import {
   chartBarCategoryGap,
   chartBarMaxSize,
   resolveTrafficChartClickIndex,
+  TRAFFIC_CHART_HOVER_GUIDE_Z_INDEX,
+  chartVerticalGuideProps,
 } from "./chart-lollipop";
 import { ReferrerFavicon } from "./referrer-favicon";
 
 const TRAFFIC_CHART_TOOLTIP_LINE_GAP = 16;
 
-export type TrafficStackBucket = "hour" | "day";
+function HoverGuideSync(props: {
+  active?: boolean;
+  activeIndex?: number | string | null;
+  onChange: (index: number | null) => void;
+}) {
+  const { active, activeIndex, onChange } = props;
+  useEffect(() => {
+    if (!active || activeIndex == null) {
+      onChange(null);
+      return;
+    }
+    const index = Number(activeIndex);
+    onChange(Number.isInteger(index) && index >= 0 ? index : null);
+  }, [active, activeIndex, onChange]);
+
+  return null;
+}
+
+export type TrafficStackBucket = "hour" | "day" | "week" | "month";
 
 export type ChartTopReferrer = {
   host: string;
@@ -197,6 +218,7 @@ export function TrafficLineChart(props: {
   );
   const [pinnedAnnotation, setPinnedAnnotation] =
     useState<PinnedTooltipState | null>(null);
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const annotationsByDay = (() => {
@@ -324,7 +346,13 @@ export function TrafficLineChart(props: {
   }
 
   const data = points.map((point) => {
-    const day = pointUtcDay(point.t);
+    const annotationNotes = annotations?.length
+      ? annotations
+          .filter((annotation) =>
+            annotationDayMatchesBucket(annotation.day, point.t, bucket),
+          )
+          .map((annotation) => annotation.label)
+      : null;
     return {
       label: point.label,
       visitors: point.visitors,
@@ -334,9 +362,7 @@ export function TrafficLineChart(props: {
       sessionTime: point.avgDurationMs / 1000,
       revenue: point.revenueMinor ?? 0,
       t: point.t,
-      annotationNotes:
-        annotationsByDay.get(day)?.map((annotation) => annotation.label) ??
-        null,
+      annotationNotes: annotationNotes?.length ? annotationNotes : null,
       topReferrer: point.topReferrer ?? null,
     };
   });
@@ -369,9 +395,16 @@ export function TrafficLineChart(props: {
     }
     const firstIndexByDay = new Map<string, number>();
     data.forEach((point, index) => {
-      const day = pointUtcDay(point.t);
-      if (annotationsByDay.has(day) && !firstIndexByDay.has(day)) {
-        firstIndexByDay.set(day, index);
+      if (!annotations?.length) {
+        return;
+      }
+      for (const annotation of annotations) {
+        if (
+          annotationDayMatchesBucket(annotation.day, point.t, bucket) &&
+          !firstIndexByDay.has(annotation.day)
+        ) {
+          firstIndexByDay.set(annotation.day, index);
+        }
       }
     });
     return [...firstIndexByDay.entries()]
@@ -409,6 +442,13 @@ export function TrafficLineChart(props: {
     : false;
   const activeBarIndex =
     heroPinnedIndex ?? pinnedAnnotationIndex ?? pinnedTooltip?.index ?? null;
+  const guideIndex = activeBarIndex ?? hoverIndex;
+  const guidePoint =
+    guideIndex != null &&
+    guideIndex >= 0 &&
+    guideIndex < chartData.length
+      ? chartData[guideIndex]
+      : null;
   const pinnedAnnotationPoint =
     pinnedAnnotationIndex != null &&
     pinnedAnnotationIndex >= 0 &&
@@ -516,7 +556,7 @@ export function TrafficLineChart(props: {
               : compact
                 ? "h-40 w-full"
                 : "h-52 w-full") +
-          " min-w-0 [&_.recharts-label-list]:hidden [&_.recharts-curve.recharts-tooltip-cursor]:hidden [&_.recharts-rectangle.recharts-tooltip-cursor]:hidden [&_.recharts-tooltip-cursor]:hidden"
+          " min-w-0 [&_.recharts-label-list]:hidden"
         }
       >
         <ComposedChart
@@ -623,16 +663,34 @@ export function TrafficLineChart(props: {
             strokeOpacity={1}
             strokeWidth={1}
           />
+          {guidePoint ? (
+            <ReferenceLine
+              yAxisId="traffic"
+              x={guidePoint.label}
+              zIndex={TRAFFIC_CHART_HOVER_GUIDE_Z_INDEX}
+              ifOverflow="extendDomain"
+              {...chartVerticalGuideProps}
+            />
+          ) : null}
           {disableHoverChartInteraction ? null : (
             <ChartTooltip
-              content={
-                <TrafficChartTooltip
-                  bucket={bucket}
-                  displayTimeZone={displayTimeZone}
-                  metric={metric}
-                  revenueCurrency={revenueCurrency}
-                />
-              }
+              content={(tooltipProps) => (
+                <>
+                  <HoverGuideSync
+                    active={tooltipProps.active}
+                    activeIndex={tooltipProps.activeIndex}
+                    onChange={setHoverIndex}
+                  />
+                  <TrafficChartTooltip
+                    active={tooltipProps.active}
+                    payload={tooltipProps.payload}
+                    bucket={bucket}
+                    displayTimeZone={displayTimeZone}
+                    metric={metric}
+                    revenueCurrency={revenueCurrency}
+                  />
+                </>
+              )}
               cursor={false}
             />
           )}
@@ -753,17 +811,6 @@ export function TrafficLineChart(props: {
               )}
             />
           ))}
-          {displayPoint && !disableHoverChartInteraction ? (
-            <ReferenceLine
-              key={`spotlight-line-${metricKey}-${displayPoint.label}`}
-              yAxisId="traffic"
-              x={displayPoint.label}
-              stroke="var(--brand)"
-              strokeWidth={1}
-              strokeOpacity={0.45}
-              strokeDasharray="3 3"
-            />
-          ) : null}
         </ComposedChart>
       </ChartContainer>
       {spotlightCursor && !pinnedTooltip ? (
@@ -1304,6 +1351,29 @@ function formatTrafficChartTooltipTitle(
       timeZone,
       month: "long",
       day: "numeric",
+      year: "numeric",
+    });
+  }
+  if (bucket === "week") {
+    const weekEnd = timestamp + 6 * 86_400_000;
+    const start = new Date(timestamp).toLocaleDateString("en-US", {
+      timeZone,
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+    const end = new Date(weekEnd).toLocaleDateString("en-US", {
+      timeZone,
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+    return `${start} – ${end}`;
+  }
+  if (bucket === "month") {
+    return new Date(timestamp).toLocaleDateString("en-US", {
+      timeZone,
+      month: "long",
       year: "numeric",
     });
   }

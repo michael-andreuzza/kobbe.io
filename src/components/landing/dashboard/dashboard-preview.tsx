@@ -86,6 +86,7 @@ export function DashboardPreview() {
           metric={chartMetric}
           rangeLabel={heroChartRangeLabel}
           previewPinnedIndex={heroChartPinnedIndex}
+          previewPinnedDay={heroChartPinnedDay}
           annotations={heroChartAnnotations}
           annotationFooter={
             <ChartNoteTooltipEditorPreview

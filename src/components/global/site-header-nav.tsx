@@ -5,7 +5,9 @@ import { Logo } from "@/components/assets/logo";
 import { SiteMobileNavDialog } from "@/components/global/docs-mobile-nav-dialog";
 import { SiteMegaMenuPanel } from "@/components/global/site-mega-menu-panel";
 import { SiteMobileMenu } from "@/components/global/site-mobile-menu";
-import { APP_SIGNIN_URL, APP_SIGNUP_URL } from "@/lib/site-mega-menu";
+import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
+import { buttonVariants } from "@/components/ui/button";
+import { APP_SIGNIN_URL } from "@/lib/site-mega-menu";
 import type { NavGroup } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
@@ -16,18 +18,16 @@ export type SiteHeaderNavProps = {
 const navLinkClassName =
   "text-sm font-medium text-muted-foreground transition-colors hover:text-foreground";
 
+const trialCtaLabel = `Start a ${pricingTrialDays}-day free trial`;
+
+const trialCtaClassName = buttonVariants({ variant: "default", size: "xs" });
+
 export function siteMobilePrimaryLinks() {
   return [
     { href: "/pricing", label: "Pricing" },
     {
       href: APP_SIGNIN_URL,
       label: "Sign in",
-      target: "_blank",
-      rel: "noopener noreferrer",
-    },
-    {
-      href: APP_SIGNUP_URL,
-      label: "Start free trial",
       target: "_blank",
       rel: "noopener noreferrer",
     },
@@ -75,19 +75,31 @@ export function SiteHeaderNav({ docsNavGroups }: SiteHeaderNavProps) {
 
   return (
     <div ref={headerRef}>
-      <div className="flex items-center justify-between gap-3 py-4">
+      <div className="grid grid-cols-3
+       items-center gap-x-2 py-4 md:flex md:justify-between md:gap-3">
         <a
           href="/"
           aria-label="Kobbe homepage"
-          className="text-foreground flex min-w-0 shrink-0 items-center gap-2"
+          className="text-foreground flex min-w-0 items-center gap-2 justify-self-start"
         >
-          <Logo className="h-5 w-auto" />
-          <span className="text-base font-medium tracking-tight sm:text-lg">
+          <Logo className="h-5 w-auto shrink-0" />
+          <span className="truncate text-base font-medium tracking-tight sm:text-lg">
             kobbe
           </span>
         </a>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <a
+          href="/pricing"
+          data-kobbe-event="Nav - start trial"
+          className={cn(
+            trialCtaClassName,
+            "md:hidden w-fit",
+          )}
+        >
+          {trialCtaLabel}
+        </a>
+
+        <div className="flex items-center justify-end justify-self-end gap-2 sm:gap-3">
           <nav
             aria-label="Primary"
             className="hidden items-center gap-3 overflow-visible md:flex lg:gap-4"
@@ -116,20 +128,19 @@ export function SiteHeaderNav({ docsNavGroups }: SiteHeaderNavProps) {
               Pricing
             </a>
             <a
-              href={APP_SIGNUP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={navLinkClassName}
-            >
-              Start free trial
-            </a>
-            <a
               href={APP_SIGNIN_URL}
               target="_blank"
               rel="noopener noreferrer"
               className={cn(navLinkClassName, "hidden sm:inline")}
             >
               Sign in
+            </a>
+            <a
+              href="/pricing"
+              data-kobbe-event="Nav - start trial"
+              className={trialCtaClassName}
+            >
+              {trialCtaLabel}
             </a>
           </nav>
 

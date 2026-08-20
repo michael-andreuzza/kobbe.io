@@ -9,6 +9,7 @@ import {
   MegaMenuLinkContent,
 } from "@/components/global/site-mega-menu-link";
 import { siteMegaMenuGroups } from "@/lib/site-mega-menu";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 import type { SiteMobileNavLink } from "@/components/global/docs-mobile-nav-dialog";
@@ -140,14 +141,26 @@ export function SiteMobileMenu({ links }: SiteMobileMenuProps) {
             <div className="border-border shrink-0 space-y-1 border-t px-3 py-3">
               {primaryLinks.map((link) => (
                 <Dialog.Close
-                  key={link.href}
+                  key={`${link.href}-${link.label}`}
                   nativeButton={false}
                   render={
                     <a
                       href={link.href}
                       target={link.target}
                       rel={link.rel}
-                      className={menuItemClassName}
+                      data-kobbe-event={
+                        link.variant === "button"
+                          ? "Nav - start trial"
+                          : undefined
+                      }
+                      className={cn(
+                        link.variant === "button"
+                          ? cn(
+                              buttonVariants({ variant: "default", size: "xs" }),
+                              "w-full justify-center",
+                            )
+                          : menuItemClassName,
+                      )}
                     >
                       {link.label}
                     </a>

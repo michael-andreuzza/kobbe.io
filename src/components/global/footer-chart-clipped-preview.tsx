@@ -29,6 +29,7 @@ export function FooterChartClippedPreview() {
             metric="bounceRate"
             rangeLabel={heroChartRangeLabel}
             previewPinnedIndex={heroChartPinnedIndex}
+            previewPinnedDay={heroChartPinnedDay}
             annotations={heroChartAnnotations}
             annotationFooter={
               <ChartNoteTooltipEditorPreview

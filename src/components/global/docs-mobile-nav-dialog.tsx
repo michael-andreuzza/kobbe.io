@@ -3,12 +3,15 @@ import { PanelLeftCloseIcon, PanelLeftIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import { SidebarGroups, type NavGroup } from "@/components/ui/sidebar";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type SiteMobileNavLink = {
   href: string;
   label: string;
   target?: string;
   rel?: string;
+  variant?: "link" | "button";
 };
 
 export type { SiteMobileNavLink };
@@ -60,14 +63,23 @@ export function SiteMobileNavDialog({
               <div className="flex flex-col gap-2">
                 {links.map((link) => (
                   <Dialog.Close
-                    key={link.href}
+                    key={`${link.href}-${link.label}`}
                     nativeButton={false}
                     render={
                       <a
                         href={link.href}
                         target={link.target}
                         rel={link.rel}
-                        className="text-foreground hover:text-muted-foreground text-sm font-medium transition-colors"
+                        data-kobbe-event={
+                          link.variant === "button"
+                            ? "Nav - start trial"
+                            : undefined
+                        }
+                        className={cn(
+                          link.variant === "button"
+                            ? buttonVariants({ variant: "default", size: "xs" })
+                            : "text-foreground hover:text-muted-foreground text-sm font-medium transition-colors",
+                        )}
                       >
                         {link.label}
                       </a>

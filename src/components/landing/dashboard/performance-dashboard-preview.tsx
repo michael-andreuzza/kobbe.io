@@ -1,10 +1,9 @@
 import { ComputerPhoneSyncIcon, Globe02Icon } from "@hugeicons/core-free-icons";
 import { useMemo, useState } from "react";
 import {
-  Bar,
   CartesianGrid,
-  Cell,
   ComposedChart,
+  Line,
   XAxis,
   YAxis,
 } from "recharts";
@@ -25,7 +24,6 @@ import {
 import { buttonVariants } from "@/components/ui/button";
 import {
   formatPerfValue,
-  ratingColorForValue,
   ratingDisplayLabel,
   ratingForMetric,
   ratingLabelForValue,
@@ -50,12 +48,7 @@ import {
   dashboardCardTitleClass,
   dashboardCardDescriptionClass,
 } from "./dashboard-card-layout";
-import {
-  BrandActiveLollipopBarShape,
-  LollipopBarShape,
-  chartBarCategoryGap,
-  chartBarMaxSize,
-} from "./chart-lollipop";
+import { chartVerticalGuideProps } from "./chart-lollipop";
 import {
   PerformanceEnvBreakdownList,
   type PerformanceEnvBreakdownRow,
@@ -82,9 +75,9 @@ type PerformancePercentileVisibility = {
 
 const defaultPerformancePercentileVisibility: PerformancePercentileVisibility =
   {
-    p50: false,
+    p50: true,
     p75: true,
-    p95: false,
+    p95: true,
   };
 
 function PerformancePercentileToggles(props: {
@@ -210,9 +203,9 @@ function performanceEnvListRows(
 }
 
 const performanceChartConfig = {
-  p50: { label: "Median (p50)", color: "var(--foreground)" },
-  p75: { label: "p75", color: "var(--foreground)" },
-  p95: { label: "p95", color: "var(--foreground)" },
+  p50: { label: "Median (p50)", color: "var(--success)" },
+  p75: { label: "p75", color: "var(--warning)" },
+  p95: { label: "p95", color: "var(--destructive)" },
 } satisfies ChartConfig;
 
 const performancePercentileLabels = {
@@ -252,6 +245,53 @@ function formatAxisTick(v: number): string {
   }
   return rounded.toLocaleString();
 }
+
+const PERF_LINE_CURVE = "monotone" as const;
+
+const performanceChartTooltipCursor = chartVerticalGuideProps;
+
+function percentileStrokeWidth(key: PerformancePercentileKey): number {
+  if (key === "p75") return 2.5;
+  return 2;
+}
+
+function renderPerformanceLineDot(
+  key: PerformancePercentileKey,
+  seriesColor: string,
+) {
+  return (dotProps: {
+    cx?: number;
+    cy?: number;
+    payload?: PerformanceTrendPoint;
+  }) => {
+    const value =
+      dotProps.payload && dotProps.payload[key] != null
+        ? dotProps.payload[key]
+        : null;
+    if (
+      value == null ||
+      !Number.isFinite(value) ||
+      dotProps.cx == null ||
+      dotProps.cy == null
+    ) {
+      return null;
+    }
+
+    return (
+      <circle
+        cx={dotProps.cx}
+        cy={dotProps.cy}
+        r={3.5}
+        fill={seriesColor}
+        stroke="var(--background)"
+        strokeWidth={1.5}
+      />
+    );
+  };
+}
+
+type PerformancePercentileKey = keyof typeof performanceChartConfig;
+type PerformanceTrendPoint = (typeof trendPoints)[number];
 
 function kobbeRatingClassName(
   rating: ReturnType<typeof ratingForMetric>,
@@ -478,37 +518,26 @@ function PerformanceTrendPreview(props: {
   const yTicks = useMemo(() => linearYTicksMs(maxY, 6), [maxY]);
   const yMax = yTicks[yTicks.length - 1] ?? maxY;
   const visibleSeries = useMemo(() => {
-    const keys: Array<keyof typeof performanceChartConfig> = [];
+    const keys: PerformancePercentileKey[] = [];
     if (showP50) keys.push("p50");
     if (showP75) keys.push("p75");
     if (showP95) keys.push("p95");
     return keys;
   }, [showP50, showP75, showP95]);
-  const barMaxSize = Math.min(
-    24,
-    Math.floor(
-      chartBarMaxSize(props.points.length) / Math.max(1, visibleSeries.length),
-    ),
-  );
-  const barCategoryGap = chartBarCategoryGap(props.points.length);
 
   return (
     <div className="relative min-w-0 w-full">
       <ChartContainer
         config={performanceChartConfig}
-        className="h-64 w-full min-w-0 sm:h-72 [&_.recharts-label-list]:hidden [&_.recharts-curve.recharts-tooltip-cursor]:hidden [&_.recharts-rectangle.recharts-tooltip-cursor]:hidden [&_.recharts-tooltip-cursor]:hidden"
+        className="h-64 w-full min-w-0 sm:h-72 [&_.recharts-label-list]:hidden [&_.recharts-rectangle.recharts-tooltip-cursor]:hidden"
       >
         <ComposedChart
           accessibilityLayer
           data={props.points}
           margin={{ top: 20, right: 12, left: 0, bottom: 16 }}
-          barCategoryGap={barCategoryGap}
-          barGap={visibleSeries.length > 1 ? 2 : 0}
         >
           <XAxis
             dataKey="label"
-            scale="point"
-            padding={{ left: 6, right: 6 }}
             tickLine={false}
             axisLine={false}
             tickMargin={12}
@@ -537,49 +566,55 @@ function PerformanceTrendPreview(props: {
           <CartesianGrid
             vertical={false}
             syncWithTicks
-            zIndex={350}
+            zIndex={-100}
             stroke="var(--chart-grid-stroke)"
             strokeOpacity={1}
             strokeWidth={1}
           />
           <ChartTooltip
-            cursor={false}
-            content={<PerformanceChartTooltip metric={metric} />}
+            cursor={performanceChartTooltipCursor}
+            content={
+              <PerformanceChartTooltip
+                metric={metric}
+                visibleSeries={visibleSeries}
+              />
+            }
           />
-          {visibleSeries.map((key) => (
-            <Bar
-              key={key}
-              dataKey={key}
-              fill="var(--foreground)"
-              maxBarSize={barMaxSize}
-              shape={<LollipopBarShape />}
-              activeBar={<BrandActiveLollipopBarShape />}
-              isAnimationActive={false}
-            >
-              {props.points.map((point) => (
-                <Cell
-                  key={`${key}-${point.t}`}
-                  fill={ratingColorForValue(metric, point[key])}
-                  fillOpacity={0.85}
-                />
-              ))}
-            </Bar>
-          ))}
+          {visibleSeries.map((key) => {
+            const seriesColor =
+              performanceChartConfig[key].color ?? "var(--foreground)";
+            return (
+              <Line
+                key={key}
+                type={PERF_LINE_CURVE}
+                dataKey={key}
+                stroke={seriesColor}
+                strokeWidth={percentileStrokeWidth(key)}
+                dot={renderPerformanceLineDot(key, seriesColor)}
+                connectNulls
+                activeDot={{
+                  r: 5,
+                  fill: seriesColor,
+                  stroke: "var(--background)",
+                  strokeWidth: 2,
+                }}
+                isAnimationActive={false}
+              />
+            );
+          })}
         </ComposedChart>
       </ChartContainer>
       <div className="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-1 px-1 pt-2 text-[0.6875rem] leading-relaxed">
-        <span className="inline-flex items-center gap-1.5">
-          <span className={`bg-success size-2 ${CHART_LEGEND_CHIP_RADIUS_CLASS}`} aria-hidden />
-          Good
-        </span>
-        <span className="inline-flex items-center gap-1.5">
-          <span className={`bg-warning size-2 ${CHART_LEGEND_CHIP_RADIUS_CLASS}`} aria-hidden />
-          Watch
-        </span>
-        <span className="inline-flex items-center gap-1.5">
-          <span className={`bg-destructive size-2 ${CHART_LEGEND_CHIP_RADIUS_CLASS}`} aria-hidden />
-          Poor
-        </span>
+        {visibleSeries.map((key) => (
+          <span key={key} className="inline-flex items-center gap-1.5">
+            <span
+              className={`size-2 ${CHART_LEGEND_CHIP_RADIUS_CLASS}`}
+              style={{ backgroundColor: performanceChartConfig[key].color }}
+              aria-hidden
+            />
+            {performanceChartConfig[key].label}
+          </span>
+        ))}
       </div>
     </div>
   );
@@ -587,46 +622,47 @@ function PerformanceTrendPreview(props: {
 
 function PerformanceChartTooltip({
   metric,
+  visibleSeries,
   active,
   payload,
 }: {
   metric: WebVitalName;
+  visibleSeries: PerformancePercentileKey[];
   active?: boolean;
   payload?: Array<{
-    dataKey?: string | number;
-    value?: number | string | null;
-    payload?: Record<string, unknown> & { label?: string };
+    payload?: PerformanceTrendPoint;
   }>;
 }) {
   if (!active || !payload?.length) {
     return null;
   }
 
-  const title = String(payload[0]?.payload?.label ?? "");
+  const point = payload[0]?.payload;
+  const title = String(point?.label ?? "");
 
   return (
     <div className="border-background/10 bg-foreground text-background grid max-w-xs min-w-48 gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-md">
       <div className="text-background font-medium">{title}</div>
       <div className="grid gap-1">
-        {payload.map((row) => {
-          const key = String(row.dataKey ?? "");
+        {visibleSeries.map((key) => {
           const label =
             performancePercentileLabels[
               key as keyof typeof performancePercentileLabels
             ] ?? key;
+          const seriesColor =
+            performanceChartConfig[key].color ?? "var(--foreground)";
           const metricValue =
-            typeof row.value === "number" && Number.isFinite(row.value)
-              ? row.value
+            point && point[key] != null && Number.isFinite(point[key])
+              ? point[key]
               : null;
-          const color = ratingColorForValue(metric, metricValue);
           const rating = ratingLabelForValue(metric, metricValue);
-          const raw = row.payload?.[key] != null ? row.payload[key] : row.value;
+          const raw = point?.[key] ?? null;
 
           return (
             <div key={key} className="flex items-center gap-2 leading-none">
               <div
                 className={`h-2.5 w-2.5 shrink-0 ${CHART_LEGEND_CHIP_RADIUS_CLASS}`}
-                style={{ backgroundColor: color }}
+                style={{ backgroundColor: seriesColor }}
                 aria-hidden
               />
               <div className="flex flex-1 items-baseline justify-between gap-4 leading-none">

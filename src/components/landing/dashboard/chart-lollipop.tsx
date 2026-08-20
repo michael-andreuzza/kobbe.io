@@ -427,3 +427,14 @@ export function resolveTrafficChartClickIndex(
   const index = Math.round(ratio * (pointCount - 1));
   return Math.max(0, Math.min(pointCount - 1, index));
 }
+
+/** Below bar layer (300) so hover guide sits behind lollipop stems and heads. */
+export const TRAFFIC_CHART_HOVER_GUIDE_Z_INDEX = 250;
+
+/** Vertical hover/pin guide — dashed; uses full-opacity grid hue for readability. */
+export const chartVerticalGuideProps = {
+  stroke: "var(--chart-guide-stroke)",
+  strokeWidth: 1,
+  strokeOpacity: 1,
+  strokeDasharray: "4 4",
+} as const;
