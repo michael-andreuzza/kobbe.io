@@ -5,6 +5,7 @@ import {
   lollipopWidgetStemWidth,
   revenueLollipopHeadRadius,
   sparklineBarSize,
+  useCompactChartLayout,
 } from "@/components/landing/dashboard/chart-lollipop";
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 import { chartCountAxisUpperBound } from "@/lib/chart-y-axis";
@@ -36,6 +37,7 @@ export function IndexSiteVisitorsSparkline(props: {
   className?: string;
 }) {
   const { points, className } = props;
+  const compactChart = useCompactChartLayout();
 
   if (points.length === 0) {
     return (
@@ -116,6 +118,7 @@ export function IndexSiteVisitorsSparkline(props: {
                         true,
                         points.length,
                         barSize,
+                        compactChart,
                       )
                     : 0
                 }

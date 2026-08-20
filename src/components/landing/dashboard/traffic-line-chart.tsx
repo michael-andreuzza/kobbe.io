@@ -734,6 +734,8 @@ export function TrafficLineChart(props: {
                           maxRevenueOverlay,
                           false,
                           chartData.length,
+                          undefined,
+                          compactLayout,
                         )
                       : 0
                   }
@@ -773,6 +775,8 @@ export function TrafficLineChart(props: {
                                 maxRevenueOverlay,
                                 false,
                                 chartData.length,
+                                undefined,
+                                compactLayout,
                               )
                             : 0
                         }

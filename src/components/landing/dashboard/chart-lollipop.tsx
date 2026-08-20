@@ -1,5 +1,7 @@
 /** Shared lollipop bar shape and sizing used by landing dashboard previews. */
 
+import { useEffect, useState } from "react";
+
 export type LollipopShapeProps = {
   x?: number;
   y?: number;
@@ -28,6 +30,10 @@ const REVENUE_LOLLIPOP_HEAD_RADIUS = 5;
 /** Sentinel for ultra-dense charts — head renders as a square cap matching stem width. */
 const REVENUE_LOLLIPOP_HEAD_RADIUS_ULTRA_DENSE = 1;
 const REVENUE_LOLLIPOP_HEAD_RADIUS_WIDGET = 1.5;
+/** Outline around revenue heads so they separate from nearby stems. */
+const REVENUE_LOLLIPOP_HEAD_STROKE = "var(--background)";
+/** Slightly shrink revenue heads on narrow viewports. */
+const REVENUE_LOLLIPOP_HEAD_COMPACT_SCALE = 0.72;
 /** Thin stems + square caps only when bars are packed (≈12mo+ / All time). */
 const ULTRA_DENSE_LOLLIPOP_POINT_THRESHOLD = 200;
 export const LOLLIPOP_STEM_WIDTH_DENSE = 1.5;
@@ -75,19 +81,32 @@ export function revenueLollipopHeadRadius(
   widget = false,
   pointCount?: number,
   barSize?: number,
+  compact = false,
 ): number {
   if (revenue <= 0) return 0;
+  let radius = 0;
   if (widget && barSize != null) {
     if (pointCount != null && isUltraDenseLollipopChart(pointCount)) {
-      return REVENUE_LOLLIPOP_HEAD_RADIUS_ULTRA_DENSE;
+      radius = REVENUE_LOLLIPOP_HEAD_RADIUS_ULTRA_DENSE;
+    } else {
+      radius = REVENUE_LOLLIPOP_HEAD_RADIUS;
     }
-    return REVENUE_LOLLIPOP_HEAD_RADIUS;
+  } else if (widget) {
+    radius = REVENUE_LOLLIPOP_HEAD_RADIUS_WIDGET;
+  } else if (pointCount != null && isUltraDenseLollipopChart(pointCount)) {
+    radius = REVENUE_LOLLIPOP_HEAD_RADIUS_ULTRA_DENSE;
+  } else {
+    radius = REVENUE_LOLLIPOP_HEAD_RADIUS;
   }
-  if (widget) return REVENUE_LOLLIPOP_HEAD_RADIUS_WIDGET;
-  if (pointCount != null && isUltraDenseLollipopChart(pointCount)) {
-    return REVENUE_LOLLIPOP_HEAD_RADIUS_ULTRA_DENSE;
+
+  if (compact && radius > REVENUE_LOLLIPOP_HEAD_RADIUS_ULTRA_DENSE) {
+    radius = Math.max(
+      REVENUE_LOLLIPOP_HEAD_RADIUS_ULTRA_DENSE,
+      radius * REVENUE_LOLLIPOP_HEAD_COMPACT_SCALE,
+    );
   }
-  return REVENUE_LOLLIPOP_HEAD_RADIUS;
+
+  return radius;
 }
 
 /** Opacity for the full-height background rail behind lollipop stems (disabled). */
@@ -110,6 +129,19 @@ function usesSquareRevenueHead(stemWidth: number, revenueHeadRadius: number): bo
   );
 }
 
+function revenueHeadStrokeWidth(
+  revenueHeadRadius: number,
+  stemWidth: number,
+): number {
+  if (usesSquareRevenueHead(stemWidth, revenueHeadRadius)) {
+    return 0;
+  }
+  if (revenueHeadRadius <= 2) {
+    return 1;
+  }
+  return 1.5;
+}
+
 function RevenueHead(props: {
   cx: number;
   y: number;
@@ -117,6 +149,11 @@ function RevenueHead(props: {
   fill: string;
   revenueHeadRadius: number;
 }) {
+  const strokeWidth = revenueHeadStrokeWidth(
+    props.revenueHeadRadius,
+    props.stemWidth,
+  );
+
   if (usesSquareRevenueHead(props.stemWidth, props.revenueHeadRadius)) {
     return (
       <rect
@@ -135,6 +172,8 @@ function RevenueHead(props: {
       cy={props.y}
       r={props.revenueHeadRadius}
       fill={props.fill}
+      stroke={strokeWidth > 0 ? REVENUE_LOLLIPOP_HEAD_STROKE : undefined}
+      strokeWidth={strokeWidth > 0 ? strokeWidth : undefined}
     />
   );
 }
@@ -438,3 +477,18 @@ export const chartVerticalGuideProps = {
   strokeOpacity: 1,
   strokeDasharray: "4 4",
 } as const;
+
+/** Narrow viewports: tighter chart chrome and smaller revenue heads. */
+export function useCompactChartLayout() {
+  const [compact, setCompact] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 639px)");
+    const update = () => setCompact(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  return compact;
+}
