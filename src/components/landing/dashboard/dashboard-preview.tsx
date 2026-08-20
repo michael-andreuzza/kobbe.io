@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { DashboardKpiStrip } from "./dashboard-kpi-strip";
@@ -27,6 +27,16 @@ const trafficChartMetricLabels = {
 export function DashboardPreview() {
   const [chartMetric, setChartMetric] =
     useState<TrafficChartMetric>("visitors");
+  // The pinned annotation tooltip covers half the chart on small screens.
+  const [showPinnedNote, setShowPinnedNote] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 640px)");
+    const sync = () => setShowPinnedNote(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
 
   const handleMetricClick = (metric: TrafficChartMetric) => {
     setChartMetric(metric);
@@ -50,8 +60,8 @@ export function DashboardPreview() {
           points={heroChartPoints}
           metric={chartMetric}
           rangeLabel={heroChartRangeLabel}
-          previewPinnedIndex={heroChartPinnedIndex}
-          previewPinnedDay={heroChartPinnedDay}
+          previewPinnedIndex={showPinnedNote ? heroChartPinnedIndex : null}
+          previewPinnedDay={showPinnedNote ? heroChartPinnedDay : null}
           annotations={heroChartAnnotations}
           annotationFooter={
             <ChartNoteTooltipEditorPreview
