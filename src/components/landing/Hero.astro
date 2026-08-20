@@ -3,47 +3,43 @@ import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import SectionIntro from "@/components/landing/SectionIntro.astro";
 import HeroDashboardPreview from "@/components/landing/hero-dashboard-preview";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 ---
 <section>
   <Wrapper variant="default" class="pt-20 lg:pt-28">
     <div class="mx-auto max-w-xl text-center">
       <SectionIntro
-        title="Privacy-first web analytics with traffic and revenue in one place."
-        description="Pages, sources, funnels, conversions, and revenue attribution. Private by default. Set up in seconds."
+        title="Know what every visit is worth."
+        description="Privacy-first web analytics with traffic and revenue in one place. Pages, sources, funnels, conversions, and attribution. Set up in seconds."
       />
-      <p class="text-muted-foreground text-sm text-balance mt-4">
-        No credit card required , GDPR-ready and Cookieless by default
-      </p>
-      <a
-        href="https://app.kobbe.io/demo/kobbe-studio"
-        target="_blank"
-        rel="noopener noreferrer"
-        data-kobbe-event="Hero - see demo"
-        class={cn(buttonVariants({ variant: "outline", size: "xs" }), "flex mt-8 w-fit mx-auto")}
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="https://app.kobbe.io/demo/kobbe-studio"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-kobbe-event="Hero - see demo"
+          class={buttonVariants({ variant: "outline", size: "xs" })}
+        >
+          See the demo
+        </a>
+      </div>
+      <ul
+        class="text-muted-foreground mx-auto mt-6 flex w-fit flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs font-medium"
       >
-        See the demo
-      </a>
+        <li>No credit card required</li>
+        <li aria-hidden="true">·</li>
+        <li>1.8KB tracker</li>
+        <li aria-hidden="true">·</li>
+        <li>EU-operated</li>
+        <li aria-hidden="true">·</li>
+        <li>Cookieless by default</li>
+        <li aria-hidden="true">·</li>
+        <li>GDPR-ready</li>
+        <li aria-hidden="true">·</li>
+        <li>0 raw IPs stored</li>
+      </ul>
     </div>
     <div class="relative mt-12">
       <HeroDashboardPreview client:load />
     </div>
-  </Wrapper>
-</section>
-<section>
-  <Wrapper variant="default" class="py-4">
-    <ul
-      class="text-foreground mx-auto flex w-fit flex-wrap gap-2 text-center text-lg font-medium"
-    >
-      <li>1.8KB default tracker gzip</li>
-      <li aria-hidden="true" class="text-muted-foreground">·</li>
-      <li>EU-operated</li>
-      <li aria-hidden="true" class="text-muted-foreground">·</li>
-      <li>Cookieless by default</li>
-      <li aria-hidden="true" class="text-muted-foreground">·</li>
-      <li>GDPR-ready</li>
-      <li aria-hidden="true" class="text-muted-foreground">·</li>
-      <li>0 raw IPs stored</li>
-    </ul>
   </Wrapper>
 </section>

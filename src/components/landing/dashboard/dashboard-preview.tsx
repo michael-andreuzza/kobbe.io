@@ -24,12 +24,25 @@ const trafficChartMetricLabels = {
   revenue: "Revenue",
 } satisfies Record<TrafficChartMetric, string>;
 
-export function DashboardPreview() {
+type DashboardPreviewProps = {
+  /** Desktop: swap the preview for the embedded live demo instead of navigating. */
+  onOpenDemo?: () => void;
+};
+
+export function DashboardPreview({ onOpenDemo }: DashboardPreviewProps) {
   const [chartMetric, setChartMetric] =
     useState<TrafficChartMetric>("visitors");
 
   const handleMetricClick = (metric: TrafficChartMetric) => {
     setChartMetric(metric);
+  };
+
+  const handleDemoClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!onOpenDemo || !window.matchMedia("(min-width: 1024px)").matches) {
+      return;
+    }
+    event.preventDefault();
+    onOpenDemo();
   };
 
   return (
@@ -45,7 +58,7 @@ export function DashboardPreview() {
         activeMetric={chartMetric}
         onMetricClick={handleMetricClick}
       />
-      <div className={cn(dashboardCardStackClass, "mt-2")}>
+      <div className={cn(dashboardCardStackClass, "group/demo relative mt-2")}>
         <DashboardTrafficChart
           points={heroChartPoints}
           metric={chartMetric}
@@ -62,6 +75,19 @@ export function DashboardPreview() {
         >
           {trafficChartMetricLabels[chartMetric]}
         </DashboardTrafficChart>
+        <a
+          href="https://app.kobbe.io/demo/kobbe-studio"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-kobbe-event="Hero - dashboard preview demo"
+          aria-label="Open the live demo"
+          className="absolute inset-0 z-10 rounded-[inherit]"
+          onClick={handleDemoClick}
+        >
+          <span className="border-border bg-background/90 text-foreground pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border px-3.5 py-1.5 text-xs font-medium opacity-0 shadow-sm backdrop-blur transition-opacity duration-200 group-hover/demo:opacity-100">
+            Open the live demo
+          </span>
+        </a>
       </div>
     </div>
   );
