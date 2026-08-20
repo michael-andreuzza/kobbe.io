@@ -121,7 +121,7 @@ const axisLabelIndexes = [
 
 export function HeroStaticChart() {
   return (
-    <Card variant="bordered" className={cn(dashboardCardRootClass, "h-auto")}>
+    <Card className={cn(dashboardCardRootClass, "h-auto")}>
       <CardHeader className={dashboardCardHeaderClass}>
         <CardTitle className={dashboardCardTitleClass}>
           Visitors over time
@@ -130,7 +130,7 @@ export function HeroStaticChart() {
           {heroChartRangeLabel}
         </CardDescription>
       </CardHeader>
-      <CardContent className="h-auto min-w-0 !px-0 !pt-0 pb-4 sm:pb-5">
+      <CardContent className="h-auto min-w-0 px-0! pt-0! pb-4 sm:pb-5">
         <div className="min-w-0 px-3 sm:px-4">
           <div className="relative mt-8 h-48 sm:h-56">
             {[0, 0.5].map((fraction) => (
@@ -139,7 +139,7 @@ export function HeroStaticChart() {
                 className="border-border/60 pointer-events-none absolute inset-x-0 border-t"
                 style={{ top: `${fraction * 100}%` }}
               >
-                <span className="text-muted-foreground absolute right-0 -top-4 text-[10px] tabular-nums">
+                <span className="text-muted-foreground absolute -top-4 right-0 text-[10px] tabular-nums">
                   {formatAxisCount(Math.round(yMax * (1 - fraction)))}
                 </span>
               </div>
@@ -147,10 +147,7 @@ export function HeroStaticChart() {
             <div className="absolute inset-0 flex items-end">
               {points.map((point, index) => {
                 const active = index === pinnedIndex;
-                const heightPct = Math.max(
-                  2,
-                  (point.visitors / yMax) * 100,
-                );
+                const heightPct = Math.max(2, (point.visitors / yMax) * 100);
                 return (
                   <div
                     key={point.t}
@@ -191,7 +188,7 @@ export function HeroStaticChart() {
               >
                 <div
                   className={cn(
-                    "border-background/10 bg-foreground text-background grid min-w-52 max-w-64 -translate-y-3 gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl",
+                    "border-background/10 bg-foreground text-background grid max-w-64 min-w-52 -translate-y-3 gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl",
                     tooltipTranslateClass,
                   )}
                 >
@@ -229,13 +226,16 @@ export function HeroStaticChart() {
                             referrer={pinnedTopReferrer.host}
                             title={pinnedReferrerLabel}
                           />
-                          <span className="truncate">{pinnedReferrerLabel}</span>
+                          <span className="truncate">
+                            {pinnedReferrerLabel}
+                          </span>
                         </span>
                         <span className="text-background shrink-0 font-mono font-medium tabular-nums">
                           {Math.round(pinnedTopReferrer.count).toLocaleString()}
                         </span>
                       </div>
-                      {pinnedReferrerShare != null && pinnedReferrerShare > 0 ? (
+                      {pinnedReferrerShare != null &&
+                      pinnedReferrerShare > 0 ? (
                         <p className="text-background/65 text-[11px] leading-snug">
                           Accounted for {pinnedReferrerShare}% of visitors that
                           day.
