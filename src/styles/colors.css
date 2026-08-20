@@ -43,13 +43,15 @@
   --color-surface-foreground: var(--surface-foreground);
 }
 :root {
-  --background: oklch(1 0 0);
+  /* Light gray canvas with white cards: borderless cards stay separated
+     without swapping card/muted into unexpected places. */
+  --background: oklch(0.979 0 0);
   --foreground: oklch(0.145 0 0);
   --surface: oklch(0.988 0 0);
   --surface-foreground: oklch(0.145 0 0);
-  --card: oklch(0.979 0 0);
+  --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
-  --toolbar-control: oklch(0.979 0 0);
+  --toolbar-control: oklch(1 0 0);
   --toolbar-control-hover: oklch(0.96 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
@@ -57,9 +59,9 @@
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(1 0 0);
+  --muted: oklch(0.979 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
+  --accent: oklch(0.955 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --brand: oklch(0.657 0.23 35.095);
   --success: oklch(0.565 0.11 164.584);
@@ -111,7 +113,8 @@
     --secondary-foreground: oklch(0.985 0 0);
     --muted: oklch(0.22 0 0);
     --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
+    /* Lighter than --card (0.269) so hover states stay visible on cards. */
+    --accent: oklch(0.32 0 0);
     --accent-foreground: oklch(0.985 0 0);
     --success: oklch(0.60 0.065 164.584);
 --destructive: oklch(0.60 0.095 12.263);
