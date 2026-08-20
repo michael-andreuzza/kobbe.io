@@ -1,228 +1,115 @@
-"use client";
-
-import maplibregl from "maplibre-gl";
-import { useEffect, useRef } from "react";
-
 import { cn } from "@/lib/utils";
 
 import { capabilityMockupSurfaceClass } from "./dashboard-card-layout";
 
-import "maplibre-gl/dist/maplibre-gl.css";
-
-const MAP_STYLE_LIGHT =
-  "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
-const MAP_STYLE_DARK =
-  "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
-
-const VISITOR_LOCATIONS = [
-  { lon: -122.4194, lat: 37.7749 },
-  { lon: -74.006, lat: 40.7128 },
-  { lon: -0.1276, lat: 51.5074 },
-  { lon: 13.405, lat: 52.52 },
+/** Dotted-texture land patches on the visible top of the sphere (impressionistic continents). */
+const LAND_PATCHES = [
+  {
+    left: "8%",
+    top: "6%",
+    width: "30%",
+    height: "34%",
+    radius: "58% 42% 55% 45% / 52% 48% 58% 42%",
+  },
+  {
+    left: "44%",
+    top: "2%",
+    width: "38%",
+    height: "30%",
+    radius: "45% 55% 48% 52% / 55% 45% 52% 48%",
+  },
+  {
+    left: "58%",
+    top: "34%",
+    width: "24%",
+    height: "30%",
+    radius: "52% 48% 60% 40% / 48% 52% 45% 55%",
+  },
+  {
+    left: "22%",
+    top: "44%",
+    width: "18%",
+    height: "24%",
+    radius: "60% 40% 50% 50% / 45% 55% 60% 40%",
+  },
 ] as const;
 
-function isDarkTheme() {
-  if (typeof window === "undefined") {
-    return false;
-  }
+/** Live-visitor pins over the land patches (percentages of the card). */
+const VISITOR_DOTS = [
+  { left: "31%", top: "44%", larger: false },
+  { left: "51%", top: "34%", larger: true },
+  { left: "62%", top: "52%", larger: false },
+  { left: "42%", top: "64%", larger: false },
+] as const;
 
-  return (
-    document.documentElement.classList.contains("dark") ||
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-  );
-}
+/** Sparse starfield around the globe. */
+const STARS = [
+  { left: "7%", top: "18%" },
+  { left: "14%", top: "62%" },
+  { left: "21%", top: "10%" },
+  { left: "36%", top: "16%" },
+  { left: "58%", top: "8%" },
+  { left: "72%", top: "20%" },
+  { left: "84%", top: "12%" },
+  { left: "91%", top: "48%" },
+  { left: "88%", top: "74%" },
+  { left: "5%", top: "84%" },
+] as const;
 
-function watchThemeChange(onChange: () => void) {
-  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-  mediaQuery.addEventListener("change", onChange);
-
-  const classObserver = new MutationObserver(onChange);
-  classObserver.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ["class"],
-  });
-
-  return () => {
-    mediaQuery.removeEventListener("change", onChange);
-    classObserver.disconnect();
-  };
-}
-
-function mapStyleForTheme() {
-  return isDarkTheme() ? MAP_STYLE_DARK : MAP_STYLE_LIGHT;
-}
-
-function createMarkerElement(larger = false) {
-  const el = document.createElement("div");
-  const size = larger ? 16 : 14;
-  el.style.width = `${size}px`;
-  el.style.height = `${size}px`;
-  el.style.borderRadius = "9999px";
-  el.style.backgroundColor = "var(--foreground)";
-  el.style.border = "2px solid var(--card)";
-  el.style.boxShadow = "0 1px 2px rgb(0 0 0 / 0.18)";
-  return el;
-}
-
-function setPaintProperty(
-  map: maplibregl.Map,
-  layerId: string,
-  property: string,
-  value: unknown,
-) {
-  try {
-    if (map.getLayer(layerId)) {
-      map.setPaintProperty(layerId, property, value);
-    }
-  } catch {
-    // CARTO layer ids can differ between style versions.
-  }
-}
-
-function applyKobbeMapTheme(map: maplibregl.Map) {
-  const dark = isDarkTheme();
-  const colors = {
-    water: dark ? "#161616" : "#fbfbfa",
-    land: dark ? "#262626" : "#e2e2df",
-    landDetail: dark ? "#2e2e2e" : "#d9d9d6",
-    boundary: dark ? "#484848" : "#b8b8b4",
-    road: dark ? "#3a3a3a" : "#ccccca",
-    label: dark ? "#ececec" : "#343430",
-    labelHalo: dark ? "#161616" : "#fbfbfa",
-  };
-
-  for (const layer of map.getStyle().layers ?? []) {
-    const layerMeta = layer as maplibregl.LayerSpecification & {
-      "source-layer"?: string;
-    };
-    const name = `${layer.id} ${layerMeta["source-layer"] ?? ""}`.toLowerCase();
-
-    if (layer.type === "background") {
-      setPaintProperty(map, layer.id, "background-color", colors.land);
-      setPaintProperty(map, layer.id, "background-opacity", 1);
-      continue;
-    }
-
-    if (name.includes("water")) {
-      setPaintProperty(map, layer.id, "fill-color", colors.water);
-      setPaintProperty(map, layer.id, "line-color", colors.water);
-      setPaintProperty(map, layer.id, "fill-opacity", 1);
-      continue;
-    }
-
-    if (
-      name.includes("land") ||
-      name.includes("park") ||
-      name.includes("wood") ||
-      name.includes("grass")
-    ) {
-      setPaintProperty(map, layer.id, "fill-color", colors.landDetail);
-      setPaintProperty(map, layer.id, "fill-opacity", 1);
-      continue;
-    }
-
-    if (layer.type === "fill") {
-      setPaintProperty(map, layer.id, "fill-color", colors.land);
-      setPaintProperty(map, layer.id, "fill-opacity", 1);
-      continue;
-    }
-
-    if (name.includes("boundary") || name.includes("admin")) {
-      setPaintProperty(map, layer.id, "line-color", colors.boundary);
-      setPaintProperty(map, layer.id, "line-opacity", 0.55);
-      continue;
-    }
-
-    if (name.includes("road") || name.includes("transport")) {
-      setPaintProperty(map, layer.id, "line-color", colors.road);
-      setPaintProperty(map, layer.id, "line-opacity", 0.55);
-      continue;
-    }
-
-    if (layer.type === "symbol") {
-      setPaintProperty(map, layer.id, "text-color", colors.label);
-      setPaintProperty(map, layer.id, "text-halo-color", colors.labelHalo);
-      setPaintProperty(map, layer.id, "text-halo-width", 1.1);
-    }
-  }
-}
-
+/**
+ * Static mockup of the Realtime globe (the product renders a Three.js globe;
+ * the landing preview fakes the same look with CSS only — no WebGL bundle).
+ */
 export function RealtimePreview() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) {
-      return;
-    }
-
-    const map = new maplibregl.Map({
-      container,
-      style: mapStyleForTheme(),
-      center: [-35, 48],
-      zoom: 1.35,
-      minZoom: 1,
-      maxZoom: 4,
-      interactive: false,
-      attributionControl: false,
-      fadeDuration: 0,
-      renderWorldCopies: false,
-    });
-
-    const markers: maplibregl.Marker[] = [];
-
-    const syncMarkers = () => {
-      markers.splice(0).forEach((marker) => marker.remove());
-      VISITOR_LOCATIONS.forEach((location, index) => {
-        markers.push(
-          new maplibregl.Marker({
-            element: createMarkerElement(index === 1),
-          })
-            .setLngLat([location.lon, location.lat])
-            .addTo(map),
-        );
-      });
-    };
-
-    const onLoad = () => {
-      applyKobbeMapTheme(map);
-      syncMarkers();
-      map.resize();
-    };
-
-    map.on("load", onLoad);
-
-    const resizeObserver = new ResizeObserver(() => {
-      map.resize();
-    });
-    resizeObserver.observe(container);
-
-    const onThemeChange = () => {
-      map.setStyle(mapStyleForTheme());
-      map.once("styledata", () => {
-        applyKobbeMapTheme(map);
-        syncMarkers();
-      });
-    };
-
-    const stopWatchingTheme = watchThemeChange(onThemeChange);
-
-    return () => {
-      stopWatchingTheme();
-      resizeObserver.disconnect();
-      markers.forEach((marker) => marker.remove());
-      map.remove();
-    };
-  }, []);
-
   return (
     <div
       className={cn(
         capabilityMockupSurfaceClass,
-        "relative aspect-5/2 max-h-36 w-full overflow-hidden [&_.maplibregl-canvas]:outline-none [&_.maplibregl-ctrl-bottom-left]:hidden [&_.maplibregl-ctrl-bottom-right]:hidden [&_.maplibregl-ctrl-logo]:hidden",
+        "bg-background relative aspect-5/2 max-h-36 w-full overflow-hidden",
       )}
     >
-      <div ref={containerRef} className="h-full w-full" aria-hidden />
+      <div aria-hidden className="absolute inset-0">
+        {STARS.map((star, index) => (
+          <span
+            key={index}
+            className="bg-muted-foreground/40 absolute size-px rounded-full"
+            style={{ left: star.left, top: star.top }}
+          />
+        ))}
+
+        {/* Sphere rising from the bottom of the card, like the product's hero view. */}
+        <div
+          className={cn(
+            "bg-card absolute left-1/2 top-[16%] aspect-square w-[78%] -translate-x-1/2 overflow-hidden rounded-full",
+            "shadow-[inset_0_-18px_36px_-18px_rgb(0_0_0/0.14),0_10px_30px_-12px_rgb(0_0_0/0.25)]",
+          )}
+        >
+          {LAND_PATCHES.map((patch, index) => (
+            <span
+              key={index}
+              className="absolute bg-[radial-gradient(var(--color-muted-foreground)_1px,transparent_1.1px)] bg-size-[6px_6px] opacity-35"
+              style={{
+                left: patch.left,
+                top: patch.top,
+                width: patch.width,
+                height: patch.height,
+                borderRadius: patch.radius,
+              }}
+            />
+          ))}
+        </div>
+
+        {VISITOR_DOTS.map((dot, index) => (
+          <span
+            key={index}
+            className={cn(
+              "bg-brand ring-card absolute rounded-full ring-2",
+              dot.larger ? "size-2.5" : "size-2",
+            )}
+            style={{ left: dot.left, top: dot.top }}
+          />
+        ))}
+      </div>
 
       <div className="border-border bg-card/95 pointer-events-none absolute top-2 right-2 flex flex-col overflow-hidden rounded-md border">
         <span className="border-border text-muted-foreground flex size-6 items-center justify-center border-b text-xs leading-none">

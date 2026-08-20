@@ -18,7 +18,6 @@ import {
   dashboardCardStackClass,
   dashboardCardTitleClass,
 } from "./dashboard-card-layout";
-import { DashboardCustomKpiStrip } from "./dashboard-kpi-strip";
 import { dashboardPreviewData } from "./dashboard-preview-data";
 import {
   CountryNameCell,
@@ -81,12 +80,19 @@ export function InsightsDashboardPreview() {
 
   return (
     <div className={cn(dashboardCardStackClass, "w-full")}>
-      <DashboardCustomKpiStrip
-        presentation="mutedBand"
-        ariaLabel="Insight metrics"
-        lgCols={6}
-        items={data.insights.metrics}
-      />
+      <Card variant="bordered" className={cn(dashboardCardRootClass, "min-w-0")}>
+        <CardHeader className={dashboardCardHeaderClass}>
+          <CardTitle className={dashboardCardTitleClass}>Conversion peak</CardTitle>
+          <CardAction className="flex items-center gap-0.5 self-start pt-0.5">
+            <ChartShareButton ariaLabel="Conversion peak chart image" />
+          </CardAction>
+        </CardHeader>
+        <CardContent className={dashboardCardContentListClass}>
+          <div className={dashboardCardRowInsetXClass}>
+            <ConversionHeatmapGrid cells={data.insights.heatmap} />
+          </div>
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <InsightsDimensionTable
@@ -143,20 +149,6 @@ export function InsightsDashboardPreview() {
           menuAriaLabel="Top converting events actions"
         />
       </div>
-
-      <Card variant="bordered" className={cn(dashboardCardRootClass, "min-w-0")}>
-        <CardHeader className={dashboardCardHeaderClass}>
-          <CardTitle className={dashboardCardTitleClass}>Conversion peak</CardTitle>
-          <CardAction className="flex items-center gap-0.5 self-start pt-0.5">
-            <ChartShareButton ariaLabel="Conversion peak chart image" />
-          </CardAction>
-        </CardHeader>
-        <CardContent className={dashboardCardContentListClass}>
-          <div className={dashboardCardRowInsetXClass}>
-            <ConversionHeatmapGrid cells={data.insights.heatmap} />
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }

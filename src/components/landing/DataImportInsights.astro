@@ -1,7 +1,5 @@
 ---
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
-import ImportInsightsPreview from "@/components/landing/dashboard/import-insights-preview";
 import SectionIntro from "@/components/landing/SectionIntro.astro";
 import datafastLogo from "@/images/brands/datafast.svg";
 import fathomLogo from "@/images/brands/fathom.svg";
@@ -65,13 +63,7 @@ const importInsightsPoints = [
         </div>
       </div>
     </div>
-    <div class="relative mt-8">
-      <AnimatedPanelReveal client:load trigger="scroll" mask={false}>
-        <ImportInsightsPreview client:load />
-      </AnimatedPanelReveal>
-    </div>
-
-    <div class="mt-8 grid gap-4 text-balance sm:grid-cols-3 lg:text-center">
+    <div class="mt-12 grid gap-4 text-balance sm:grid-cols-3 lg:text-center">
       {
         importInsightsPoints.map((point) => (
           <div data-kobbe-stagger>
@@ -84,13 +76,5 @@ const importInsightsPoints = [
       }
     </div>
 
-    <p class="text-muted-foreground mt-8 text-center text-sm font-medium">
-      <a
-        href="/docs/import-analytics-data"
-        class="text-foreground underline-offset-4 hover:underline"
-      >
-        Read the import guides
-      </a>
-    </p>
   </Wrapper>
 </section>

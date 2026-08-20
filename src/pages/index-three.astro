@@ -1,0 +1,598 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import {
+  pricingTiers,
+  pricingTrialDays,
+} from "@/components/sections/pricing/pricing-tiers";
+import { APP_DEMO_URL, APP_SIGNUP_URL } from "@/lib/site-mega-menu";
+
+// Landing page design study: industrial spec-label language. Heavy grotesk
+// reserved for display type and banner bars; everything else runs in tracked
+// uppercase mono. White paper, orange accents. Noindexed while in study.
+
+const statusPairs = [
+  { label: "Script installed", status: "Status – Active" },
+  { label: "Events ingested", status: "Status – Stable" },
+  { label: "Cookieless mode", status: "Status – Online" },
+  { label: "GDPR certified", status: "Status – Operational" },
+];
+
+const featureLabels = [
+  {
+    code: "MAP-01",
+    ref: "KBB-204",
+    title: "Realtime",
+    lines: ["Live visitors on a 3D globe", "Country, page and referrer feed"],
+  },
+  {
+    code: "FNL-02",
+    ref: "KBB-317",
+    title: "Funnels",
+    lines: ["Step-by-step conversion paths", "Drop-off located per stage"],
+  },
+  {
+    code: "REV-03",
+    ref: "KBB-552",
+    title: "Revenue",
+    lines: ["Attribution to page and source", "Stripe and custom events"],
+  },
+  {
+    code: "VIT-04",
+    ref: "KBB-681",
+    title: "Web Vitals",
+    lines: ["LCP, INP and CLS per route", "Field data, not lab scores"],
+  },
+  {
+    code: "UTM-05",
+    ref: "KBB-733",
+    title: "Campaigns",
+    lines: ["UTM and channel reports", "Source to revenue in one view"],
+  },
+  {
+    code: "IMP-06",
+    ref: "KBB-808",
+    title: "Data import",
+    lines: ["Bring history from other tools", "Export everything, anytime"],
+  },
+];
+
+const steps = [
+  {
+    title: "Add the script",
+    detail: "One tag — 1.8KB tracker, gzip",
+  },
+  {
+    title: "Collect visits and events",
+    detail: "Cookieless by default, no banners",
+  },
+  {
+    title: "Read the dashboard",
+    detail: "Traffic, funnels and revenue in one place",
+  },
+];
+
+const allFeatures = [
+  "Up to 30 websites",
+  "Cookieless, privacy-first",
+  "3 years data retention",
+  "Realtime visitors globe",
+  "Funnels & conversions",
+  "Custom events",
+  "Revenue attribution",
+  "UTM & channel reports",
+  "Web Vitals insights",
+  "Traffic alerts",
+  "Data export & import",
+  "Team access, API & CLI",
+];
+
+const testimonials = [
+  { quote: "Best looking analytics out there.", name: "Eelco" },
+  { quote: "It looks really nice, clean and clear.", name: "Pawel Olek" },
+];
+
+const heroLetters = "ANALYTICS".split("");
+---
+
+<BaseLayout
+  title="Kobbe: industrial label study"
+  description="A design study of the Kobbe landing page."
+  noindex
+  nofollow
+>
+  <section
+    class="ind w-full bg-(--ind-paper) text-(--ind-ink)"
+    style="--ind-paper: #ffffff; --ind-ink: #131312; --ind-hairline: rgb(19 19 18 / 0.16);"
+  >
+    <Wrapper variant="default" class="pt-24">
+      <!-- Top banner: SPEC | orange bar | index -->
+      <div class="flex items-stretch gap-4 sm:gap-6">
+        <span class="ind-fig self-center">Spec</span>
+        <div class="min-w-0 flex-1 bg-brand px-4 py-2.5 sm:px-6">
+          <p class="text-center text-[13px] font-bold tracking-tight text-(--ind-paper) sm:text-lg">
+            Privacy-first web analytics
+          </p>
+        </div>
+        <span class="ind-fig self-center">08.2</span>
+      </div>
+
+      <!-- Registration crosshairs -->
+      <div class="ind-plus-row mt-10" aria-hidden="true">
+        <span>+</span><span>+</span><span>+</span>
+      </div>
+
+      <!-- Spread word row -->
+      <div class="mt-8 flex items-baseline justify-between font-mono text-[10px] tracking-[0.18em] uppercase sm:text-[11px]">
+        <span>Traffic</span>
+        <span>Funnels</span>
+        <span>Revenue</span>
+        <span>Vitals</span>
+      </div>
+
+      <!-- Status readouts -->
+      <div class="mt-10 flex flex-wrap items-start justify-between gap-6 font-mono text-[10px] leading-relaxed tracking-[0.14em] uppercase">
+        <p>
+          Field tested<br /><span class="opacity-55">Status – Active</span>
+        </p>
+        <p class="text-right">
+          Cookieless<br /><span class="opacity-55">Telemetry</span>
+        </p>
+      </div>
+
+      <div class="ind-plus-row mt-10" aria-hidden="true">
+        <span>+</span><span>+</span><span>+</span>
+      </div>
+
+      <!-- Hero display type inside bracket frame -->
+      <div class="relative mt-6 px-6 py-14 sm:px-12 sm:py-20">
+        <span class="ind-bracket ind-bracket-tl" aria-hidden="true"></span>
+        <span class="ind-bracket ind-bracket-tr" aria-hidden="true"></span>
+        <span class="ind-bracket ind-bracket-bl" aria-hidden="true"></span>
+        <span class="ind-bracket ind-bracket-br" aria-hidden="true"></span>
+        <span class="ind-notch top-[26%] -left-px" aria-hidden="true"></span>
+        <span class="ind-notch top-[62%] -right-px" aria-hidden="true"></span>
+
+        <h1 class="ind-display">
+          <span class="flex justify-between">
+            <span>KBB</span>
+            <span>01</span>
+          </span>
+          <span class="mt-1 flex justify-between sm:mt-2">
+            {heroLetters.map((letter) => <span>{letter}</span>)}
+          </span>
+        </h1>
+      </div>
+
+      <div class="ind-plus-row mt-6" aria-hidden="true">
+        <span>+</span><span>+</span><span>+</span><span>+</span>
+      </div>
+
+      <!-- Spec paragraph + restricted block -->
+      <div class="mt-14 grid grid-cols-1 items-start gap-10 sm:grid-cols-2">
+        <div>
+          <p class="max-w-sm text-justify text-[13px] leading-relaxed opacity-80">
+            Pages, sources, funnels, conversions, and revenue attribution in
+            one dashboard. Collection is cookieless and first-party by
+            default, resilient against content blockers and signal loss.
+            Realtime visualization operates at scale with no consent banner
+            required.
+          </p>
+          <a
+            href={APP_DEMO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-6 inline-block border border-(--ind-ink) px-4 py-2 font-mono text-[10px] tracking-[0.14em] uppercase transition-colors hover:bg-(--ind-ink) hover:text-(--ind-paper)"
+            data-kobbe-event="Index-three hero - see demo"
+          >
+            See the demo
+          </a>
+        </div>
+        <div class="flex flex-col items-start gap-6 sm:items-end">
+          <p class="font-mono text-[11px] leading-relaxed tracking-[0.14em] uppercase sm:text-right">
+            For site operators only<br />no cookies required zone
+          </p>
+          <span class="bg-(--ind-ink) px-3 py-1.5 font-mono text-[10px] tracking-[0.12em] text-(--ind-paper) uppercase">
+            GDPR — DPA included
+          </span>
+        </div>
+      </div>
+
+      <!-- Feed status row -->
+      <div class="mt-14 flex flex-wrap items-end justify-between gap-6 font-mono text-[10px] leading-relaxed tracking-[0.14em] uppercase">
+        <p>
+          Data feed status:<br /><span class="opacity-55">Synchronized</span>
+        </p>
+        <span class="ind-display-sm">V3</span>
+        <p class="text-right">
+          Events retained:<br /><span class="opacity-55">3 years</span>
+        </p>
+      </div>
+    </Wrapper>
+
+    <!-- Dark status band -->
+    <Wrapper variant="default" class="mt-16">
+      <div class="bg-(--ind-ink) text-(--ind-paper)">
+        <div class="ind-hazard h-8 w-full" aria-hidden="true"></div>
+        <div class="grid grid-cols-1 gap-x-10 gap-y-6 px-6 py-8 font-mono text-[11px] leading-relaxed tracking-[0.14em] uppercase sm:grid-cols-2 sm:px-10">
+          {statusPairs.map((pair) => (
+            <p>
+              {pair.label}<br />
+              <span class="opacity-55">{pair.status}</span>
+            </p>
+          ))}
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-2 px-6 pb-6 font-mono text-[9px] tracking-[0.14em] uppercase opacity-55 sm:px-10">
+          <span>Internal use only</span>
+          <span>Authorized personnel</span>
+          <span>EU – 2026</span>
+        </div>
+      </div>
+    </Wrapper>
+
+    <!-- Feature labels sheet -->
+    <Wrapper variant="default" class="mt-16">
+      <div class="flex items-baseline justify-between">
+        <span class="ind-fig">Unit inventory</span>
+        <span class="ind-fig">6 modules</span>
+      </div>
+      <div class="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {featureLabels.map((label) => (
+          <div class="border border-(--ind-ink)">
+            <div class="flex items-stretch justify-between border-b border-(--ind-ink)">
+              <span class="px-3 py-2 font-mono text-[11px] tracking-[0.12em] uppercase">
+                {label.title}
+              </span>
+              <span class="flex items-center border-l border-(--ind-ink) bg-(--ind-ink) px-3 font-mono text-[9px] tracking-[0.12em] text-(--ind-paper) uppercase">
+                {label.code}
+              </span>
+            </div>
+            <div class="ind-barcode mx-3 mt-3 h-7" aria-hidden="true"></div>
+            <div class="px-3 py-3 font-mono text-[10px] leading-relaxed tracking-[0.04em] uppercase opacity-75">
+              {label.lines.map((line) => <div>{line}</div>)}
+            </div>
+            <div class="flex items-center justify-between border-t border-(--ind-hairline) px-3 py-2 font-mono text-[9px] tracking-[0.12em] uppercase opacity-50">
+              <span>Ref {label.ref}</span>
+              <span>Lot 2026</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Wrapper>
+
+    <!-- How it works -->
+    <Wrapper variant="default" class="mt-16">
+      <span class="ind-fig">Deployment sequence</span>
+      <div class="mt-2 border border-(--ind-ink)">
+        {steps.map((step, index) => (
+          <div class:list={["flex items-baseline gap-4 px-4 py-3.5 sm:gap-6 sm:px-6", index > 0 && "border-t border-(--ind-hairline)"]}>
+            <span class="font-mono text-[11px] tracking-[0.12em] text-brand">{String(index + 1).padStart(2, "0")}</span>
+            <span class="w-44 shrink-0 font-mono text-[11px] tracking-[0.12em] uppercase sm:w-56">{step.title}</span>
+            <span class="ind-leader hidden min-w-0 flex-1 self-center sm:block" aria-hidden="true"></span>
+            <span class="font-mono text-[10px] tracking-[0.06em] uppercase opacity-60">{step.detail}</span>
+          </div>
+        ))}
+      </div>
+    </Wrapper>
+
+    <!-- All features -->
+    <Wrapper variant="default" class="mt-16">
+      <span class="ind-fig">Full manifest — every tier</span>
+      <div class="mt-2 border border-(--ind-ink)">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {allFeatures.map((feature, index) => (
+            <div
+              class:list={[
+                "flex items-center gap-3 px-4 py-2.5 sm:px-5",
+                index > 0 && "border-t border-(--ind-hairline)",
+                index < 2 && "sm:border-t-0",
+                index < 3 && "lg:border-t-0",
+                index % 2 === 0 && "sm:border-r sm:border-(--ind-hairline)",
+                "lg:border-r-0",
+                index % 3 !== 2 && "lg:border-r lg:border-(--ind-hairline)",
+              ]}
+            >
+              <span class="h-[3px] w-[3px] shrink-0 bg-(--ind-ink)" aria-hidden="true"></span>
+              <span class="truncate font-mono text-[10px] tracking-[0.06em] uppercase opacity-80">{feature}</span>
+            </div>
+          ))}
+        </div>
+        <div class="border-t border-(--ind-ink) px-4 py-2.5 font-mono text-[9px] tracking-[0.14em] uppercase opacity-55 sm:px-5">
+          No feature gates — volume is the only variable
+        </div>
+      </div>
+    </Wrapper>
+
+    <!-- Field reports -->
+    <Wrapper variant="default" class="mt-16">
+      <span class="ind-fig">Field reports</span>
+      <div class="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {testimonials.map((entry, index) => (
+          <div class="border border-(--ind-ink) px-5 py-5">
+            <p class="text-[15px] leading-snug tracking-tight">“{entry.quote}”</p>
+            <div class="mt-4 flex items-center justify-between font-mono text-[9px] tracking-[0.14em] uppercase opacity-55">
+              <span>{entry.name}</span>
+              <span>Report {String(index + 1).padStart(2, "0")}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Wrapper>
+
+    <!-- Rates + orange price label -->
+    <Wrapper variant="default" class="mt-16">
+      <div class="flex items-baseline justify-between">
+        <span class="ind-fig">Rates</span>
+        <span class="ind-fig">USD / taxes excl.</span>
+      </div>
+      <div class="mt-2 grid grid-cols-1 gap-4 lg:grid-cols-[3fr_2fr]">
+        <div class="border border-(--ind-ink)">
+          <div class="flex items-baseline gap-3 px-4 py-2 font-mono text-[9px] tracking-[0.14em] uppercase opacity-55 sm:px-5">
+            <span class="w-5 shrink-0"></span>
+            <span class="min-w-0 flex-1">Events / mo</span>
+            <span class="w-12 shrink-0 text-right">Monthly</span>
+            <span class="w-16 shrink-0 text-right">Yearly</span>
+          </div>
+          {pricingTiers.map((tier, index) => (
+            <div class="flex items-baseline gap-3 border-t border-(--ind-hairline) px-4 py-2.5 sm:px-5">
+              <span class="w-5 shrink-0 font-mono text-[9px] tabular-nums opacity-45">{String(index + 1).padStart(2, "0")}</span>
+              <span class="w-24 shrink-0 font-mono text-[11px] tracking-[0.06em] uppercase">{tier.events} events</span>
+              <span class="ind-leader min-w-0 flex-1 self-center" aria-hidden="true"></span>
+              <span class:list={["w-12 shrink-0 text-right font-mono text-[11px] tabular-nums", index === 0 && "text-brand"]}>${tier.monthly}</span>
+              <span class="w-16 shrink-0 text-right font-mono text-[11px] tabular-nums opacity-50">${tier.yearlyMonthly}/mo</span>
+            </div>
+          ))}
+          <div class="border-t border-(--ind-ink) px-4 py-2.5 font-mono text-[9px] tracking-[0.14em] uppercase opacity-55 sm:px-5">
+            Same features on every tier — yearly billing: 2 months free
+          </div>
+        </div>
+
+        <div class="relative bg-brand text-(--ind-ink)">
+          <span class="ind-plus-corner top-2 left-3" aria-hidden="true">+</span>
+          <span class="ind-plus-corner top-2 right-3" aria-hidden="true">+</span>
+          <span class="ind-plus-corner bottom-2 left-3" aria-hidden="true">+</span>
+          <span class="ind-plus-corner right-3 bottom-2" aria-hidden="true">+</span>
+          <div class="flex h-full flex-col justify-between gap-8 px-6 py-8 sm:px-8">
+            <div>
+              <div class="ind-hazard-ink h-5 w-32" aria-hidden="true"></div>
+              <p class="ind-display-sm mt-5">From<br />$8/mo</p>
+              <div class="mt-5 space-y-1.5 font-mono text-[10px] tracking-widest uppercase sm:text-[11px]">
+                <p>[ 20K events / mo ]</p>
+                <p>[ Every feature — every tier ]</p>
+              </div>
+            </div>
+            <div class="flex items-end justify-between gap-6">
+              <div class="font-mono text-[9px] leading-relaxed tracking-widest uppercase">
+                {pricingTrialDays}-day trial<br />no credit card<br />cancel anytime
+              </div>
+              <div class="ind-barcode-ink h-12 w-28 shrink-0" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Wrapper>
+
+    <!-- CTA: full-bleed register rule -->
+    <div class="mt-20">
+      <Wrapper variant="default">
+        <span class="ind-fig">Start</span>
+        <p class="mt-3 text-[13px] leading-relaxed opacity-80">
+          Free for {pricingTrialDays} days. No credit card required.
+        </p>
+      </Wrapper>
+      <div class="relative mt-8">
+        <div class="h-px w-full bg-brand"></div>
+        <div class="pointer-events-none absolute inset-0 flex items-center">
+          <div class="mx-auto flex w-full max-w-280 justify-end px-8">
+            <a
+              href={APP_SIGNUP_URL}
+              class="pointer-events-auto border border-brand bg-(--ind-paper) px-4 py-2 font-mono text-[10px] tracking-[0.14em] text-brand uppercase transition-colors hover:bg-brand hover:text-(--ind-paper)"
+              data-kobbe-event="Index-three CTA - start free trial"
+            >
+              Start free trial
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom banner -->
+    <Wrapper variant="default" class="pb-24">
+      <div class="mt-16 flex items-stretch gap-4 sm:gap-6">
+        <span class="ind-fig self-center">Unit</span>
+        <div class="min-w-0 flex-1 bg-brand px-4 py-2.5 sm:px-6">
+          <p class="text-center text-[13px] font-bold tracking-tight text-(--ind-paper) sm:text-lg">
+            Built for the new era of web analytics
+          </p>
+        </div>
+        <span class="ind-fig self-center">KB-26</span>
+      </div>
+
+      <p class="mt-10 text-center font-mono text-[9px] tracking-[0.18em] uppercase opacity-45">
+        Design study — internal use only / Kobbe 2026
+      </p>
+    </Wrapper>
+  </section>
+</BaseLayout>
+
+<style>
+  .ind {
+    font-family:
+      "InterVariable", "Inter", system-ui, -apple-system, sans-serif;
+  }
+
+  .ind-fig {
+    font-family: var(--font-mono, monospace);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .ind-display {
+    font-size: clamp(3.5rem, 13vw, 9rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 0.92;
+    text-transform: uppercase;
+  }
+  .ind-display-sm {
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  /* Registration crosshair marks spread across the sheet. */
+  .ind-plus-row {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono, monospace);
+    font-size: 14px;
+    font-weight: 300;
+    opacity: 0.75;
+  }
+  .ind-plus-corner {
+    position: absolute;
+    font-family: var(--font-mono, monospace);
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* Corner brackets with orange notches around the hero type. */
+  .ind-bracket {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    pointer-events: none;
+  }
+  .ind-bracket::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  /* Orange notch riding each bracket arm. */
+  .ind-bracket::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 6px;
+    background: var(--brand);
+  }
+  .ind-bracket-tl {
+    top: 0;
+    left: 0;
+  }
+  .ind-bracket-tl::before {
+    border-top: 2px solid var(--ind-ink);
+    border-left: 2px solid var(--ind-ink);
+  }
+  .ind-bracket-tl::after {
+    top: -4px;
+    left: 26px;
+  }
+  .ind-bracket-tr {
+    top: 0;
+    right: 0;
+  }
+  .ind-bracket-tr::before {
+    border-top: 2px solid var(--ind-ink);
+    border-right: 2px solid var(--ind-ink);
+  }
+  .ind-bracket-tr::after {
+    top: 12px;
+    right: -4px;
+    width: 6px;
+    height: 16px;
+  }
+  .ind-bracket-bl {
+    bottom: 0;
+    left: 0;
+  }
+  .ind-bracket-bl::before {
+    border-bottom: 2px solid var(--ind-ink);
+    border-left: 2px solid var(--ind-ink);
+  }
+  .ind-bracket-bl::after {
+    bottom: 12px;
+    left: -4px;
+    width: 6px;
+    height: 16px;
+  }
+  .ind-bracket-br {
+    bottom: 0;
+    right: 0;
+  }
+  .ind-bracket-br::before {
+    border-bottom: 2px solid var(--ind-ink);
+    border-right: 2px solid var(--ind-ink);
+  }
+  .ind-bracket-br::after {
+    bottom: -4px;
+    right: 26px;
+  }
+
+  /* Free-standing orange notches on the frame's long edges. */
+  .ind-notch {
+    position: absolute;
+    width: 6px;
+    height: 18px;
+    background: var(--brand);
+  }
+
+  /* Hazard stripes: paper diagonals over ink, or ink diagonals over orange. */
+  .ind-hazard {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgb(255 255 255 / 0.5) 0 9px,
+      transparent 9px 20px
+    );
+  }
+  .ind-hazard-ink {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--ind-ink) 0 7px,
+      transparent 7px 15px
+    );
+  }
+
+  /* Barcode texture: two overlaid stripe rhythms read as irregular bars. */
+  .ind-barcode {
+    background-image:
+      repeating-linear-gradient(
+        90deg,
+        var(--ind-ink) 0 2px,
+        transparent 2px 5px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        var(--ind-ink) 0 1px,
+        transparent 1px 8px
+      );
+  }
+  .ind-barcode-ink {
+    background-image:
+      repeating-linear-gradient(
+        90deg,
+        var(--ind-ink) 0 3px,
+        transparent 3px 6px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        var(--ind-ink) 0 1px,
+        transparent 1px 9px
+      );
+  }
+
+  /* Dotted leader between a label and its value. */
+  .ind-leader {
+    height: 1px;
+    background-image: repeating-linear-gradient(
+      90deg,
+      var(--ind-ink) 0 1px,
+      transparent 1px 4px
+    );
+    opacity: 0.3;
+  }
+</style>

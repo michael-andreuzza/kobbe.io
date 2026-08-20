@@ -1,5 +1,4 @@
 ---
-import Text from "@/components/foundations/elements/Text.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import SectionIntro from "@/components/landing/SectionIntro.astro";
 import InstallationPlatformGrid from "@/components/landing/installation-platform-grid";
@@ -25,27 +24,6 @@ import webflowLogo from "@/images/brands/webflow.svg";
 import wixLogo from "@/images/brands/wix.svg";
 import wordpressLogo from "@/images/brands/wordpress.svg";
 import wooCommerceLogo from "@/images/brands/woo.svg";
-
-const steps = [
-  {
-    number: "01",
-    title: "Add the script",
-    description:
-      "Drop a lightweight async tracker on your site. Privacy-friendly defaults with no raw IP storage and no persistent visitor profiles.",
-  },
-  {
-    number: "02",
-    title: "Collect visits and events",
-    description:
-      "Page views, events, sources, devices, and locations start flowing into one scoped analytics dataset.",
-  },
-  {
-    number: "03",
-    title: "Read the dashboard",
-    description:
-      "See traffic trends, realtime visitors, top pages, and sources. Toggle UTM campaigns, Web Vitals, auto conversions, and other tracking options from site settings without redeploying your snippet.",
-  },
-] as const;
 
 const installationPlatforms = [
   { name: "Next.js", logo: nextjsLogo },
@@ -94,40 +72,22 @@ const installationPlatformItems = installationPlatforms.map((platform) => ({
           platforms={installationPlatformItems}
         />
       </div>
+
+      <!-- The whole install, verbatim -->
+      <div class="mx-auto w-fit max-w-full">
+        <code
+          class="border-border bg-card text-foreground block rounded-lg border px-4 py-3 font-mono text-xs leading-relaxed wrap-break-word"
+        >
+          <span class="text-muted-foreground">&lt;script</span> defer
+          data-token=<span class="text-muted-foreground">"YOUR_SITE_TOKEN"</span
+          >{" "}src=<span class="text-muted-foreground"
+            >"https://app.kobbe.io/tracker.js"</span
+          ><span class="text-muted-foreground">&gt;&lt;/script&gt;</span>
+        </code>
+        <p class="text-muted-foreground mt-2 text-center text-xs">
+          That's the whole install.
+        </p>
+      </div>
     </div>
-    <dl class="divide-border border-border mx-auto max-w-2xl divide-y border-y">
-      {
-        steps.map((step) => (
-          <div class="grid grid-cols-[3rem_1fr] gap-4 py-6 sm:gap-8">
-            <span
-              aria-hidden="true"
-              class="text-foreground font-display text-2xl font-medium italic tabular-nums"
-            >
-              {step.number}
-            </span>
-            <div>
-              <dt>
-                <Text
-                  tag="p"
-                  variant="textSM"
-                  class="text-foreground font-medium"
-                >
-                  {step.title}
-                </Text>
-              </dt>
-              <dd>
-                <Text
-                  tag="p"
-                  variant="textSM"
-                  class="text-muted-foreground mt-1 text-pretty"
-                >
-                  {step.description}
-                </Text>
-              </dd>
-            </div>
-          </div>
-        ))
-      }
-    </dl>
   </Wrapper>
 </section>

@@ -32,7 +32,6 @@ const testimonials: Testimonial[] = [
 <section id="testimonials" aria-labelledby="testimonials-heading">
   <Wrapper variant="default" class="py-10">
     <Text
-     
       tag="h2"
       variant="displayMD"
       class="text-foreground font-display text-center sr-only"
@@ -40,43 +39,36 @@ const testimonials: Testimonial[] = [
       Testimonials
     </Text>
     <div
-      class="mx-auto  grid  grid-cols-1 gap-8 md:grid-cols-2 "
+      class="mx-auto flex w-fit flex-col items-start gap-x-14 gap-y-5 md:flex-row md:items-center"
     >
       {
         testimonials.map((testimonial) => (
-          <figure class="flex flex-col">
-            <blockquote class="flex-1">
-              <Text
-                tag="p"
-                variant="textBase"
-                class="text-foreground text-center text-pretty font-normal"
-              >
-                “{testimonial.quote}”
-              </Text>
-            </blockquote>
-            <figcaption class="mt-6 flex items-center justify-center gap-3">
-              <Image
-                src={testimonial.avatar}
-                alt=""
-                width={40}
-                height={40}
-                class="border-border size-10 shrink-0 rounded-full border object-cover"
-                loading="lazy"
-                decoding="async"
-              />
-              <div class="text-left">
+          <figure class="flex items-center gap-3">
+            <Image
+              src={testimonial.avatar}
+              alt=""
+              width={32}
+              height={32}
+              class="border-border size-8 shrink-0 rounded-full border object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="min-w-0">
+              <blockquote>
                 <Text
                   tag="p"
                   variant="textSM"
-                  class="text-foreground font-medium"
+                  class="text-foreground font-medium text-pretty"
                 >
-                  {testimonial.name}
+                  “{testimonial.quote}”
                 </Text>
+              </blockquote>
+              <figcaption>
                 <Text tag="p" variant="textSM" class="text-muted-foreground">
-                  {testimonial.company}
+                  {testimonial.name} · {testimonial.company}
                 </Text>
-              </div>
-            </figcaption>
+              </figcaption>
+            </div>
           </figure>
         ))
       }

@@ -1,0 +1,11 @@
+---
+description: Keep assistant responses brief and concise
+alwaysApply: true
+---
+
+# Concise Responses
+
+- Keep responses brief and concise.
+- Avoid unnecessary explanations, preamble, and recap.
+- Skip follow-up offers unless the user is blocked or asked for options.
+- Prefer short paragraphs and tight lists over long sections.

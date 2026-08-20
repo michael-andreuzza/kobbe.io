@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 type Feature = {
   title: string;
-  description: string;
+  description?: string;
   href: string;
   trackingMode?: TrackingMode;
 };
@@ -40,30 +40,25 @@ export function AllFeaturesSection({
               {group.category}
             </h3>
             <ul
-              className="text-foreground mt-3 grid list-none gap-y-4"
+              className="text-foreground mt-3 grid list-none gap-y-2.5"
               role="list"
             >
               {sortFeaturesWithOptInLast(group.features).map((feature) => (
                 <li key={feature.title} className="flex items-start gap-2">
                   <PricingFeatureMark />
-                  <div className="min-w-0">
-                    <p className="text-foreground text-sm font-medium tracking-tight">
-                      <a
-                        href={feature.href}
-                        className="outline-none hover:underline focus-visible:underline"
-                      >
-                        {feature.title}
-                      </a>
-                      {feature.trackingMode === "extended" ? (
-                        <span className="text-brand ml-1.5 text-xs font-medium">
-                          Opt in
-                        </span>
-                      ) : null}
-                    </p>
-                    <p className="text-muted-foreground mt-0.5 text-xs leading-snug font-medium text-pretty">
-                      {feature.description}
-                    </p>
-                  </div>
+                  <p className="text-foreground min-w-0 text-sm font-medium tracking-tight">
+                    <a
+                      href={feature.href}
+                      className="outline-none hover:underline focus-visible:underline"
+                    >
+                      {feature.title}
+                    </a>
+                    {feature.trackingMode === "extended" ? (
+                      <span className="text-brand ml-1.5 text-xs font-medium">
+                        Opt in
+                      </span>
+                    ) : null}
+                  </p>
                 </li>
               ))}
             </ul>

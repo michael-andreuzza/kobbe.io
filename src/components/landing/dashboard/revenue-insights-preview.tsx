@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CreditCardIcon, File01Icon } from "@hugeicons/core-free-icons";
+import { File01Icon } from "@hugeicons/core-free-icons";
 
 import { cn } from "@/lib/utils";
 import {
@@ -50,13 +50,6 @@ const productRows = [
   { name: "Growth plan", orders: 214, revenue: "$8.9K", share: "46%" },
   { name: "Starter plan", orders: 141, revenue: "$5.6K", share: "29%" },
   { name: "Lifetime deal", orders: 57, revenue: "$4.9K", share: "25%" },
-];
-
-const refundRows = [
-  { date: "Aug 6", product: "Growth plan", orderId: "polar_order_9f21c8", amount: "−$49" },
-  { date: "Aug 5", product: "Lifetime deal", orderId: "polar_order_b4e07a", amount: "−$129" },
-  { date: "Aug 3", product: "Starter plan", orderId: "polar_order_27d3f5", amount: "−$29" },
-  { date: "Jul 28", product: "Growth plan", orderId: "polar_order_e81b92", amount: "−$49" },
 ];
 
 const metricHeadRightClass = "text-right";
@@ -135,44 +128,6 @@ export function RevenueInsightsPreview() {
             </DashboardTable>
           </DashboardBreakdownCard>
         </div>
-        <DashboardBreakdownCard
-          title="Recent refunds"
-          isEmpty={false}
-          empty={{ icon: CreditCardIcon, title: "No refunds in this period" }}
-        >
-          <DashboardTable>
-            <DashboardTableHeader>
-              <DashboardTableRow>
-                <DashboardTableHead>Date</DashboardTableHead>
-                <DashboardTableHead>Product</DashboardTableHead>
-                <DashboardTableHead>Order ID</DashboardTableHead>
-                <DashboardTableHead className={metricHeadRightClass}>
-                  Amount
-                </DashboardTableHead>
-              </DashboardTableRow>
-            </DashboardTableHeader>
-            <DashboardTableBody>
-              {refundRows.map((row) => (
-                <DashboardTableRow key={row.orderId}>
-                  <DashboardTableCell className="text-foreground font-medium">
-                    {row.date}
-                  </DashboardTableCell>
-                  <DashboardTableCell className="text-foreground font-medium">
-                    {row.product}
-                  </DashboardTableCell>
-                  <DashboardTableCell className="text-muted-foreground pr-6 font-mono text-xs">
-                    {row.orderId}
-                  </DashboardTableCell>
-                  <DashboardTableCell
-                    className={cn(metricCellRightClass, "text-destructive font-medium")}
-                  >
-                    {row.amount}
-                  </DashboardTableCell>
-                </DashboardTableRow>
-              ))}
-            </DashboardTableBody>
-          </DashboardTable>
-        </DashboardBreakdownCard>
       </div>
     </div>
   );

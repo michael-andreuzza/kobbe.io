@@ -40,7 +40,7 @@ function PriceAmount({
   previousAmount.current = amount;
 
   const amountClassName =
-    "text-foreground font-display overflow-hidden mask-[linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] py-0.5 pr-2 text-4xl font-normal tracking-tight italic sm:text-5xl";
+    "text-foreground font-display overflow-hidden mask-[linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] py-0.5 pr-2 text-4xl font-medium tracking-tight sm:text-5xl";
 
   const formattedAmount = `$${formatPricingCurrency(amount)}`;
 

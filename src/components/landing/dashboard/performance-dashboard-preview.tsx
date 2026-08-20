@@ -1,4 +1,3 @@
-import { ComputerPhoneSyncIcon, Globe02Icon } from "@hugeicons/core-free-icons";
 import { useMemo, useState } from "react";
 import {
   CartesianGrid,
@@ -38,10 +37,6 @@ import {
   DashboardMetricTile,
 } from "./dashboard-metric-strip";
 import {
-  DashboardBreakdownCard,
-  DashboardTabbedBreakdownCard,
-} from "./dashboard-breakdown-card";
-import {
   dashboardCardHeaderClass,
   dashboardCardRootClass,
   dashboardCardStackClass,
@@ -49,19 +44,6 @@ import {
   dashboardCardDescriptionClass,
 } from "./dashboard-card-layout";
 import { chartVerticalGuideProps } from "./chart-lollipop";
-import {
-  PerformanceEnvBreakdownList,
-  type PerformanceEnvBreakdownRow,
-} from "./dashboard-list-card";
-import {
-  DashboardCardTable,
-  DashboardTable,
-  DashboardTableBody,
-  DashboardTableCell,
-  DashboardTableHead,
-  DashboardTableHeader,
-  DashboardTableRow,
-} from "./dashboard-table";
 
 type Props = {
   webVitals: DashboardPreviewRangeData["webVitals"];
@@ -169,43 +151,10 @@ const trendPoints = [
   },
 ];
 
-const attentionRows = [
-  { path: "/pricing", p75: 2800, n: 184 },
-  { path: "/docs/install-nextjs", p75: 2400, n: 142 },
-  { path: "/demo/kobbe-studio", p75: 2100, n: 96 },
-  { path: "/docs/overview", p75: 2000, n: 82 },
-];
-
-const perfBrowserRows: PerformanceEnvBreakdownRow[] = [
-  { key: "browser:Safari", label: "Safari", p75: 2140, n: 318 },
-  { key: "browser:Chrome", label: "Chrome", p75: 1680, n: 624 },
-  { key: "browser:Firefox", label: "Firefox", p75: 1980, n: 144 },
-  { key: "browser:Edge", label: "Edge", p75: 1860, n: 96 },
-];
-
-const perfCountryRows: PerformanceEnvBreakdownRow[] = [
-  { key: "country:US", label: "US", p75: 2400, n: 412, countryCode: "US" },
-  { key: "country:DE", label: "DE", p75: 2280, n: 180, countryCode: "DE" },
-  { key: "country:GB", label: "GB", p75: 2160, n: 166, countryCode: "GB" },
-  { key: "country:ES", label: "ES", p75: 2040, n: 121, countryCode: "ES" },
-];
-
-function performanceEnvListRows(
-  rows: { name: string; p75: number; n: number }[],
-  kind: "device" | "browser",
-): PerformanceEnvBreakdownRow[] {
-  return rows.map((row) => ({
-    key: `${kind}:${row.name}`,
-    label: row.name,
-    p75: row.p75,
-    n: row.n,
-  }));
-}
-
 const performanceChartConfig = {
-  p50: { label: "Median (p50)", color: "var(--success)" },
-  p75: { label: "p75", color: "var(--warning)" },
-  p95: { label: "p95", color: "var(--destructive)" },
+  p50: { label: "Median (p50)", color: "var(--foreground)" },
+  p75: { label: "p75", color: "var(--muted-foreground)" },
+  p95: { label: "p95", color: "var(--brand)" },
 } satisfies ChartConfig;
 
 const performancePercentileLabels = {
@@ -304,14 +253,8 @@ function kobbeRatingClassName(
 export function PerformanceDashboardPreview({ webVitals }: Props) {
   const metrics = webVitals.metrics.slice(0, 5);
   const [activeMetricIndex, setActiveMetricIndex] = useState(0);
-  const [envTab, setEnvTab] = useState(0);
   const activeMetric = (metrics[activeMetricIndex]?.name ??
     "LCP") as WebVitalName;
-  const envRows =
-    envTab === 0
-      ? perfBrowserRows
-      : performanceEnvListRows(webVitals.environments, "device");
-  const formatActiveP75 = (value: number) => formatPerfValue(activeMetric, value);
 
   return (
     <div className="relative mx-auto min-w-0">
@@ -375,87 +318,6 @@ export function PerformanceDashboardPreview({ webVitals }: Props) {
 
       <div className={cn(dashboardCardStackClass, "mt-2")}>
         <PerformanceTrendCard metric={activeMetric} points={trendPoints} />
-
-        <Card variant="bordered" className={cn(dashboardCardRootClass, "h-auto min-h-0")}>
-          <CardHeader className={dashboardCardHeaderClass}>
-            <CardTitle className={dashboardCardTitleClass}>
-              Needs attention
-            </CardTitle>
-            <CardDescription className={dashboardCardDescriptionClass}>
-              Pages with the highest p75 for {activeMetric} (min. 3 samples per
-              path)
-            </CardDescription>
-          </CardHeader>
-          <DashboardCardTable className="h-auto">
-            <DashboardTable>
-              <DashboardTableHeader>
-                <DashboardTableRow>
-                  <DashboardTableHead>Page</DashboardTableHead>
-                  <DashboardTableHead className="text-right">
-                    p75
-                  </DashboardTableHead>
-                  <DashboardTableHead className="text-right">
-                    Samples
-                  </DashboardTableHead>
-                </DashboardTableRow>
-              </DashboardTableHeader>
-              <DashboardTableBody>
-                {attentionRows.map((row) => (
-                  <DashboardTableRow key={row.path}>
-                    <DashboardTableCell className="max-w-[min(100%,20rem)] font-medium">
-                      <span className="truncate">{row.path}</span>
-                    </DashboardTableCell>
-                    <DashboardTableCell className="text-right tabular-nums">
-                      {formatPerfValue(activeMetric, row.p75)}
-                    </DashboardTableCell>
-                    <DashboardTableCell className="text-muted-foreground text-right tabular-nums">
-                      {row.n.toLocaleString()}
-                    </DashboardTableCell>
-                  </DashboardTableRow>
-                ))}
-              </DashboardTableBody>
-            </DashboardTable>
-          </DashboardCardTable>
-        </Card>
-
-        <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <DashboardTabbedBreakdownCard
-            title="Devices"
-            isEmpty={envRows.length === 0}
-            empty={{
-              icon: ComputerPhoneSyncIcon,
-              title:
-                envTab === 0
-                  ? "No browsers in range"
-                  : "No device types in range",
-            }}
-            tabs={{
-              label: "Devices",
-              tabs: ["Browsers", "Devices"],
-              activeIndex: envTab,
-              onActiveIndexChange: setEnvTab,
-            }}
-          >
-            <PerformanceEnvBreakdownList
-              rows={envRows}
-              formatP75={formatActiveP75}
-            />
-          </DashboardTabbedBreakdownCard>
-          <DashboardBreakdownCard
-            title="Country"
-            description={`Slowest dimensions by p75 · ${activeMetric}`}
-            isEmpty={perfCountryRows.length === 0}
-            empty={{
-              icon: Globe02Icon,
-              title: "No countries in range",
-            }}
-          >
-            <PerformanceEnvBreakdownList
-              rows={perfCountryRows}
-              formatP75={formatActiveP75}
-            />
-          </DashboardBreakdownCard>
-        </section>
       </div>
     </div>
   );
@@ -661,7 +523,7 @@ function PerformanceChartTooltip({
           return (
             <div key={key} className="flex items-center gap-2 leading-none">
               <div
-                className={`h-2.5 w-2.5 shrink-0 ${CHART_LEGEND_CHIP_RADIUS_CLASS}`}
+                className={`h-2.5 w-2.5 shrink-0 ring-1 ring-background/30 ring-inset ${CHART_LEGEND_CHIP_RADIUS_CLASS}`}
                 style={{ backgroundColor: seriesColor }}
                 aria-hidden
               />

@@ -11,7 +11,6 @@ import {
 } from "./dashboard-list-card";
 import { ChartAnnotationsPreview } from "./chart-annotations-preview";
 import { InsightsHeatmapPreview } from "./insights-heatmap-preview";
-import { McpPreview } from "./mcp-preview";
 import { RealtimePreview } from "./realtime-preview";
 import { DashboardMetricTile } from "./dashboard-metric-strip";
 import { capabilityMockupStackSurfaceClass } from "./dashboard-card-layout";
@@ -25,7 +24,6 @@ import bgSearchKeywords from "@/images/assets/backgrounds/5.png";
 import bgCustomEvents from "@/images/assets/backgrounds/6.png";
 import bgRealtime from "@/images/assets/backgrounds/7.png";
 import bgNotFound from "@/images/assets/backgrounds/8.png";
-import bgMcp from "@/images/assets/backgrounds/9.png";
 
 const data = dashboardPreviewData["14d"];
 
@@ -205,15 +203,6 @@ export function DashboardCapabilityGrid() {
             rows={data.notFoundPages.rows.slice(0, capabilityPreviewRowLimit)}
           />
         </CapabilityListPreview>
-      </CapabilityCard>
-
-      <CapabilityCard
-        title="MCP for agents"
-        description="Connect Cursor, Claude Code, or Codex to pull traffic, pages, and setup health without leaving your editor."
-        mockupClassName="w-full max-w-md"
-        background={bgMcp}
-      >
-        <McpPreview />
       </CapabilityCard>
     </div>
   );

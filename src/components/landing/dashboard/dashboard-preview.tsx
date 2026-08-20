@@ -1,15 +1,8 @@
 import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
-import { DevicesCard } from "./cards/devices-card";
-import { EventsCard } from "./cards/events-card";
-import { LocationsCard } from "./cards/locations-card";
-import { PagesCard } from "./cards/pages-card";
-import { SearchKeywordsCard } from "./cards/search-keywords-card";
-import { SourcesCard } from "./cards/sources-card";
 import { DashboardKpiStrip } from "./dashboard-kpi-strip";
 import {
-  dashboardPreviewData,
   heroChartAnnotations,
   heroChartKpi,
   heroChartPinnedDay,
@@ -44,7 +37,6 @@ export function DashboardPreview() {
   const [autoplayStep, setAutoplayStep] = useState(0);
   const [autoplayPaused, setAutoplayPaused] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
-  const data = dashboardPreviewData["30d"];
 
   useEffect(() => {
     if (autoplayPaused || prefersReducedMotion) return;
@@ -76,7 +68,6 @@ export function DashboardPreview() {
         bounceRate={heroChartKpi.bounceRate}
         sessionTime={heroChartKpi.sessionTime}
         revenue={heroChartKpi.revenue}
-        refunds={heroChartKpi.refunds}
         activeMetric={chartMetric}
         onMetricClick={handleMetricClick}
       />
@@ -97,16 +88,6 @@ export function DashboardPreview() {
         >
           {trafficChartMetricLabels[chartMetric]}
         </DashboardTrafficChart>
-        <div className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
-          <PagesCard pages={data.pages} />
-          <SourcesCard sources={data.sources} />
-        </div>
-        <div className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
-          <LocationsCard locations={data.locations} />
-          <DevicesCard devices={data.devices} />
-          <SearchKeywordsCard rows={data.searchKeywords} />
-          <EventsCard rows={data.events} />
-        </div>
       </div>
     </div>
   );

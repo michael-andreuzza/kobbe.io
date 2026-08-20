@@ -54,7 +54,7 @@ export function SimplifiedPricingSection({
 
             <div className="mt-8 flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="text-foreground font-display text-4xl tracking-tight italic sm:text-5xl">
+                <p className="text-foreground font-display text-4xl font-medium tracking-tight sm:text-5xl">
                   {tier.events}
                 </p>
                 <p className="text-muted-foreground text-sm font-medium">
