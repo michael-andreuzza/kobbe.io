@@ -167,7 +167,7 @@ const footerLinkGroups: FooterLinkGroup[] = [
 ];
 ---
 
-<footer class="relative overflow-x-clip pt-20 pb-8">
+<footer class="bg-brand relative overflow-x-clip pt-20 pb-8">
   <img
     src={juncosImg.src}
     width={juncosImg.width}
@@ -204,7 +204,7 @@ const footerLinkGroups: FooterLinkGroup[] = [
               <Text
                 tag="p"
                 variant="displaySubtitle"
-                class="text-muted-foreground font-medium text-balance"
+                class="text-foreground font-medium text-balance"
               >
                 Privacy-first web analytics with traffic and revenue in one
                 place.
@@ -229,7 +229,7 @@ const footerLinkGroups: FooterLinkGroup[] = [
     </div>
     <div class="mt-24 w-full">
       <nav class="grid grid-cols-2 gap-8 text-sm md:grid-cols-4 lg:grid-cols-5">
-        <Logo class="text-foreground h-12 w-fit shrink-0" aria-hidden="true" />
+        <Logo class="text-muted h-12 w-fit shrink-0" aria-hidden="true" />
 
         {
           footerLinkGroups.map((group) => (
@@ -248,7 +248,7 @@ const footerLinkGroups: FooterLinkGroup[] = [
                       href={link.href}
                       target={link.target}
                       rel={link.rel}
-                      class="text-muted-foreground hover:text-foreground text-xs font-medium transition-colors"
+                      class="text-muted hover:text-foreground text-xs font-medium transition-colors"
                     >
                       {link.label}
                     </a>
@@ -279,7 +279,7 @@ const footerLinkGroups: FooterLinkGroup[] = [
                       href={link.href}
                       target={link.target}
                       rel={link.rel}
-                      class="text-muted-foreground hover:text-foreground text-xs font-medium transition-colors"
+                      class="text-muted hover:text-foreground text-xs font-medium transition-colors"
                     >
                       {link.label}
                     </a>
@@ -293,7 +293,7 @@ const footerLinkGroups: FooterLinkGroup[] = [
       <div
         class="border-border mt-24 flex flex-wrap items-center justify-between gap-2 border-t pt-4 text-xs font-semibold uppercase lg:mt-48"
       >
-        <div class="text-muted-foreground flex items-center gap-2">
+        <div class="text-muted flex items-center gap-2">
           <svg
             class="h-6"
             viewBox="0 0 124 155"
