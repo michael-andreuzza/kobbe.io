@@ -1,26 +1,38 @@
 ---
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import SectionIntro from "@/components/landing/SectionIntro.astro";
+import Text from "@/components/foundations/elements/Text.astro";
 import DashboardPreview from "@/components/landing/dashboard/dashboard-preview";
 import { buttonVariants } from "@/components/ui/button";
 ---
 <section>
   <Wrapper variant="default" class="pt-20 lg:pt-28">
-    <div class="mx-auto max-w-xl text-center">
-      <SectionIntro
+    <div class="mx-auto max-w-2xl text-center text-balance">
+      <Text
         tag="h1"
-        title="Know what every visit is worth."
-        description="Privacy-first web analytics with traffic and revenue in one place. Pages, sources, funnels, conversions, and attribution. Set up in seconds."
-      />
+        variant="displayLG"
+        class="text-foreground font-display font-medium tracking-tight"
+      >
+        Stop counting visitors.<br />
+        Start counting <span class="text-brand">revenue</span>.
+      </Text>
+      <Text
+        tag="p"
+        variant="textBase"
+        class="text-muted-foreground mx-auto mt-4 max-w-xl font-normal"
+      >
+        Kobbe is privacy-first analytics that ties every page, source, and
+        funnel to actual money — cookieless, GDPR-ready, live with one script
+        tag.
+      </Text>
       <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
         <a
           href="https://app.kobbe.io/demo/kobbe-studio"
           target="_blank"
           rel="noopener noreferrer"
           data-kobbe-event="Hero - see demo"
-          class={buttonVariants({ variant: "outline", size: "xs" })}
+          class={buttonVariants({ variant: "brand" })}
         >
-          See the demo
+          Poke around the demo
         </a>
       </div>
       <ul
