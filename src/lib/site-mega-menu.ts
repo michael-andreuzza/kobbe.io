@@ -273,12 +273,6 @@ const featuresColumn: MegaMenuColumn = {
       description: "See where visitors drop off step by step.",
     },
     {
-      id: "insights",
-      href: "/docs/insights",
-      label: "Insights",
-      description: "Engagement KPIs, breakdown tables, and heatmaps.",
-    },
-    {
       id: "conversions",
       href: "/docs/conversions",
       label: "Conversions",

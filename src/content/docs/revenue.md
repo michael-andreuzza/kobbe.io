@@ -96,7 +96,6 @@ If more than one currency appears in the range, Kobbe avoids mixing amounts and 
 
 - [Revenue attribution setup](/docs/revenue-attribution)
 - [Revenue on the dashboard overview](/docs/dashboard-stats-revenue)
-- [Insights](/docs/insights)
 - [Dashboard overview](/docs/dashboard-overview)
 - [Share metric images](/docs/share-metric-images)
 - [Data export](/docs/data-export)

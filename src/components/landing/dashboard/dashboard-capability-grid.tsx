@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 import { AnimatedPanelReveal } from "@/components/landing/animated-panel-reveal";
 import {
   AnnotationsVignette,
+  ConversionPeakVignette,
   ConversionsVignette,
-  InsightsVignette,
   NotFoundVignette,
   RealtimeVignette,
   SearchKeywordsVignette,
@@ -43,10 +43,10 @@ export function DashboardCapabilityGrid() {
       </CapabilityCard>
 
       <CapabilityCard
-        title="Insights"
-        description="See when conversions peak by day and hour, with engagement metrics and breakdowns for sources, pages, and events."
+        title="Conversion peak"
+        description="See when conversions happen most, by day of week and hour of day, so you can time launches, posts, and campaigns."
       >
-        <InsightsVignette />
+        <ConversionPeakVignette />
       </CapabilityCard>
 
       <CapabilityCard

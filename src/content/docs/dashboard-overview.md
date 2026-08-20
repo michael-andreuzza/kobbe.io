@@ -13,7 +13,6 @@ Use the sidebar to open dedicated pages when you need more detail:
 | Page         | Doc                                              |
 | ------------ | ------------------------------------------------ |
 | **Events**   | [Events activity log](/docs/events-activity-log) |
-| **Insights** | [Insights](/docs/insights)                       |
 | **Revenue**  | [Revenue](/docs/revenue)                         |
 | **Realtime** | [Realtime visitors](/docs/realtime-visitors)     |
 | **Bots**     | [Bot filtering](/docs/script-options#bot-filtering-and-exclusions) — review filtered automated traffic |
@@ -63,13 +62,18 @@ Each card has a dedicated reference page under **Dashboard stats** in the sideba
 
 Cards show a small preview. Use the expand control when available to open the full list.
 
+## Conversion peak
+
+The **Conversion peak** heatmap at the bottom of the dashboard shows when custom events happen most often by day of week and hour of day. Darker cells mean more events in that bucket. Hover a cell for the exact count.
+
+The heatmap uses custom events only. If you have not sent custom events in the range, the card stays empty.
+
 ## Page drill-down
 
 Click a page row to inspect a single path. See [Pages on the dashboard](/docs/dashboard-stats-pages).
 
 ## Related docs
 
-- [Insights](/docs/insights)
 - [Events activity log](/docs/events-activity-log)
 - [Realtime visitors](/docs/realtime-visitors)
 - [Custom events](/docs/custom-events)

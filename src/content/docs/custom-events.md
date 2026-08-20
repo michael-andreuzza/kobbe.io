@@ -93,6 +93,5 @@ window.kobbe?.track("Signup completed", { email: "person@example.com" });
 
 - [Events on the dashboard](/docs/dashboard-stats-events)
 - [Events activity log](/docs/events-activity-log)
-- [Insights](/docs/insights)
 - [Conversions](/docs/conversions)
 - [Funnels](/docs/funnels)

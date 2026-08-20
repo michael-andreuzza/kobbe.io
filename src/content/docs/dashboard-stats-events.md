@@ -26,7 +26,6 @@ Do **not** put personal data in event names or properties. See [Custom events](/
 
 - [Events activity log](/docs/events-activity-log)
 - [Dashboard overview](/docs/dashboard-overview)
-- [Insights](/docs/insights)
 - [Custom events](/docs/custom-events)
 - [Conversions](/docs/conversions)
 - [Funnels](/docs/funnels)

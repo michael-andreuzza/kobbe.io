@@ -80,5 +80,6 @@ export const STANDALONE_DOC_REDIRECTS = [
   ["/docs/support-contact", "/support/contact"],
   ["/docs/support-charges", "/support/charges"],
   ["/docs/support-faq", "/support/faq"],
+  ["/docs/insights", "/docs/dashboard-overview"],
   ["/contact", "/support/contact"],
 ] as const satisfies ReadonlyArray<readonly [string, string]>;

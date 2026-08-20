@@ -125,7 +125,7 @@ export function SearchKeywordsVignette() {
 }
 
 /** Conversion heatmap cells with the peak hours in brand orange. */
-export function InsightsVignette() {
+export function ConversionPeakVignette() {
   const cols = 8;
   const rows = 5;
   const level = (col: number, row: number) => {
