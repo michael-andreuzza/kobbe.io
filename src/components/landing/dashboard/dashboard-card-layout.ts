@@ -1,8 +1,15 @@
 /**
+ * Elevated card chrome shared with the app dashboard: AlignUI shadow plus a
+ * subtle top-lit gradient sheen in dark mode.
+ */
+export const dashboardCardElevatedClass =
+  "shadow-sm dark:bg-linear-to-b dark:from-white/3 dark:to-white/0";
+
+/**
  * Class fragments for analytics dashboard cards: use with `Card variant="bordered"` and
  * {@link dashboardCardRootClass} so padding and gaps match the app dashboard.
  */
-export const dashboardCardRootClass = "mt-0 gap-0 px-0 py-0";
+export const dashboardCardRootClass = `mt-0 gap-0 px-0 py-0 ${dashboardCardElevatedClass}`;
 
 /** Vertical rhythm between stacked dashboard cards (overview, performance, etc.). */
 export const dashboardCardStackClass = "space-y-4";

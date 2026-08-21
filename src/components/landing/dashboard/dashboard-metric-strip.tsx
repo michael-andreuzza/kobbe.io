@@ -49,15 +49,21 @@ const metricTileBorderClass = "";
 const metricTileBaseClass =
   "relative flex min-h-0 min-w-0 flex-col p-4 lg:aspect-square text-left text-foreground transition-[background-color,color,border-color] duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none";
 
+/* Same elevated chrome as the app KPI tiles: AlignUI shadow + dark sheen. */
+const metricTileElevatedClass =
+  "shadow-sm dark:bg-linear-to-b dark:from-white/3 dark:to-white/0";
+
 const metricTileCardClass = cn(
   metricTileBaseClass,
   "rounded-xl bg-card",
+  metricTileElevatedClass,
   metricTileBorderClass,
 );
 
 const metricTileMutedClass = cn(
   metricTileBaseClass,
   "rounded-xl bg-card",
+  metricTileElevatedClass,
   metricTileBorderClass,
 );
 
@@ -71,7 +77,8 @@ export function DashboardMetricTile(props: DashboardMetricTileProps) {
     surface === "muted" ? metricTileMutedClass : metricTileCardClass,
     surface === "muted" && isInteractive && metricTileInteractiveMutedClass,
     props.active &&
-      "border-transparent bg-foreground text-background ring-0 hover:bg-foreground",
+      // dark:bg-none drops the sheen so the active tile stays a solid fill.
+      "border-transparent bg-foreground text-background ring-0 hover:bg-foreground dark:bg-none",
     props.className,
   );
 

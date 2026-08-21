@@ -38,7 +38,7 @@ export function SimplifiedPricingSection({
 
   return (
     <div className={cn("w-full min-w-0", className)}>
-      <article className="bg-card text-foreground border-border relative w-full overflow-hidden rounded-lg border">
+      <article className="bg-card text-foreground relative w-full overflow-hidden rounded-lg shadow-sm dark:bg-linear-to-b dark:from-white/3 dark:to-white/0">
         <div className="flex flex-col lg:flex-row">
           <div className="flex flex-col p-4 lg:w-2/3 lg:p-8">
             <BillingPeriodTabs

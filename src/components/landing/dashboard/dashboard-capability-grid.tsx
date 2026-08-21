@@ -71,7 +71,7 @@ function CapabilityCard(props: CapabilityCardProps) {
     <div className="group h-full min-w-0 overflow-visible">
       <AnimatedPanelReveal trigger="scroll" mask={false} className="h-full">
         <div className="h-full transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none">
-          <div className="bg-card relative flex h-full min-h-80 w-full flex-col overflow-hidden rounded-lg">
+          <div className="bg-card relative flex h-full min-h-80 w-full flex-col overflow-hidden rounded-lg shadow-sm dark:bg-linear-to-b dark:from-white/3 dark:to-white/0">
             <div className="space-y-1 p-5">
               <p className="text-foreground text-base font-medium">
                 {props.title}

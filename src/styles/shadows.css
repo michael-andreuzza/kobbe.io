@@ -1,4 +1,6 @@
-/* Elevation tokens + Tailwind shadow-* theme bridge. */
+/* Elevation tokens + Tailwind shadow-* theme bridge.
+   Mirrors app.kobbe.io/app/styles/shadows.css (AlignUI-derived scale); the app
+   uses a `.dark` class while this site keys off `prefers-color-scheme`. */
 
 @theme inline {
   --shadow-2xs: var(--shadow-elevation-2xs);
@@ -8,65 +10,100 @@
   --shadow-lg: var(--shadow-elevation-lg);
   --shadow-xl: var(--shadow-elevation-xl);
   --shadow-2xl: var(--shadow-elevation-2xl);
-  --shadow: var(--shadow-elevation-xs);
+  --shadow: var(--shadow-elevation);
 }
 
 :root {
-  --shadow-elevation-2xs: 0px 1px 6px 0px rgba(15, 12, 12, 0.04),
-    0px 2px 4px -2px rgba(15, 12, 12, 0.06), 0px 0px 1px 0px rgba(15, 12, 12, 0.08);
-  --shadow-elevation-xs: 0px 2px 10px 0px rgba(15, 12, 12, 0.05),
-    0px 4px 6px -3px rgba(15, 12, 12, 0.07), 0px 0px 1px 0px rgba(15, 12, 12, 0.08),
-    0px 1px 1px 0px rgba(15, 12, 12, 0.08);
-  --shadow-elevation-sm: 0px 3px 14px 0px rgba(15, 12, 12, 0.06),
-    0px 6px 8px -4px rgba(15, 12, 12, 0.08), 0px 0px 2px 0px rgba(15, 12, 12, 0.09),
-    0px 1px 2px 0px rgba(15, 12, 12, 0.09);
-  --shadow-elevation: 0px 4px 20px 0px rgba(15, 12, 12, 0.08),
-    0px 8px 12px -4px rgba(15, 12, 12, 0.1), 0px 0px 2px 0px rgba(15, 12, 12, 0.1),
-    0px 1px 2px 0px rgba(15, 12, 12, 0.1);
+  /* Light-mode elevations adapted from AlignUI's shadow scale
+     (regular-* and layered custom-* tokens, github.com/alignui). */
+  --shadow-elevation-2xs: 0 1px 2px 0 rgba(10, 13, 20, 0.03);
+  --shadow-elevation-xs: 0 2px 4px rgba(27, 28, 29, 0.04);
+  --shadow-elevation-sm: 0 0 0 1px rgba(51, 51, 51, 0.04),
+    0 4px 8px -2px rgba(51, 51, 51, 0.06), 0 2px 4px rgba(51, 51, 51, 0.04),
+    0 1px 2px rgba(51, 51, 51, 0.04),
+    inset 0 -1px 1px -0.5px rgba(51, 51, 51, 0.06);
+  --shadow-elevation: 0 0 0 1px rgba(51, 51, 51, 0.04),
+    0 16px 8px -8px rgba(51, 51, 51, 0.01), 0 12px 6px -6px rgba(51, 51, 51, 0.02),
+    0 5px 5px -2.5px rgba(51, 51, 51, 0.08), 0 1px 3px -1.5px rgba(51, 51, 51, 0.16),
+    inset 0 -0.5px 0.5px rgba(51, 51, 51, 0.08);
   --shadow-elevation-md: var(--shadow-elevation);
-  --shadow-elevation-lg: 0px 8px 28px 0px rgba(15, 12, 12, 0.1),
-    0px 12px 18px -6px rgba(15, 12, 12, 0.12), 0px 0px 2px 0px rgba(15, 12, 12, 0.1),
-    0px 1px 3px 0px rgba(15, 12, 12, 0.1);
-  --shadow-elevation-xl: 0px 12px 36px 0px rgba(15, 12, 12, 0.12),
-    0px 18px 24px -8px rgba(15, 12, 12, 0.14), 0px 0px 2px 0px rgba(15, 12, 12, 0.1),
-    0px 2px 4px 0px rgba(15, 12, 12, 0.1);
-  --shadow-elevation-2xl: 0px 18px 48px 0px rgba(15, 12, 12, 0.14),
-    0px 24px 32px -10px rgba(15, 12, 12, 0.16), 0px 0px 2px 0px rgba(15, 12, 12, 0.1),
-    0px 2px 5px 0px rgba(15, 12, 12, 0.12);
+  --shadow-elevation-lg: 0 0 0 1px rgba(51, 51, 51, 0.04),
+    0 1px 1px 0.5px rgba(51, 51, 51, 0.04), 0 3px 3px -1.5px rgba(51, 51, 51, 0.02),
+    0 6px 6px -3px rgba(51, 51, 51, 0.04), 0 12px 12px -6px rgba(51, 51, 51, 0.04),
+    0 24px 24px -12px rgba(51, 51, 51, 0.04), 0 48px 48px -24px rgba(51, 51, 51, 0.04),
+    inset 0 -1px 1px -0.5px rgba(51, 51, 51, 0.06);
+  --shadow-elevation-xl: 0 0 0 1px rgba(51, 51, 51, 0.04),
+    0 1px 1px 0.5px rgba(51, 51, 51, 0.04), 0 3px 3px -1.5px rgba(51, 51, 51, 0.02),
+    0 6px 6px -3px rgba(51, 51, 51, 0.04), 0 12px 12px -6px rgba(51, 51, 51, 0.04),
+    0 24px 24px -12px rgba(51, 51, 51, 0.04), 0 48px 48px -24px rgba(51, 51, 51, 0.04),
+    0 96px 96px -32px rgba(51, 51, 51, 0.06),
+    inset 0 -1px 1px -0.5px rgba(51, 51, 51, 0.06);
+  --shadow-elevation-2xl: 0 16px 32px -12px rgba(14, 18, 27, 0.1),
+    var(--shadow-elevation-xl);
   --theme-shadow-elevated: var(--shadow-elevation-lg);
-  --theme-shadow-popover: var(--shadow-elevation-md);
-  --theme-shadow-card: var(--shadow-elevation);
-  --theme-shadow-dialog: 0 0 0 1px var(--border), var(--shadow-elevation-lg);
+  --theme-shadow-popover: 0 12px 24px 0 rgba(14, 18, 27, 0.06),
+    0 1px 2px 0 rgba(14, 18, 27, 0.03);
+  --theme-shadow-card: var(--shadow-elevation-sm);
+  --theme-shadow-dialog: var(--shadow-elevation-xl);
   --theme-shadow-command: var(--shadow-elevation-xl);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --shadow-elevation-2xs: 0px 1px 4px 0px rgba(0, 0, 0, 0.2),
-      0px 1px 2px -1px rgba(0, 0, 0, 0.16);
-    --shadow-elevation-xs: 0px 2px 7px 0px rgba(0, 0, 0, 0.22),
-      0px 2px 4px -2px rgba(0, 0, 0, 0.18),
-      0px 0px 0px 1px rgba(255, 255, 255, 0.06);
-    --shadow-elevation-sm: 0px 3px 10px 0px rgba(0, 0, 0, 0.26),
-      0px 5px 7px -3px rgba(0, 0, 0, 0.22),
-      0px 0px 0px 1px rgba(255, 255, 255, 0.07);
-    --shadow-elevation: 0px 4px 16px 0px rgba(0, 0, 0, 0.28),
-      0px 8px 12px -4px rgba(0, 0, 0, 0.24),
-      0px 0px 0px 1px rgba(255, 255, 255, 0.08);
+    /* Same AlignUI layering as light mode, adapted for dark surfaces:
+       black drop layers, faint white outline ring, white inset bottom edge. */
+    /* Glassy inset: soft inner glow + 1px white highlights on the top/bottom edges. */
+    --shadow-inset: inset 6px 84px 79px -40px hsla(0, 0%, 100%, 0.015),
+      inset 0 -4px 1px -3px hsla(0, 0%, 100%, 0.14),
+      inset 0 4px 1px -3px hsla(0, 0%, 100%, 0.14);
+    --shadow-elevation-2xs: 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+    --shadow-elevation-xs: 0 2px 4px rgba(0, 0, 0, 0.28);
+    --shadow-elevation-sm: 0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 4px 8px -2px rgba(0, 0, 0, 0.32), 0 2px 4px rgba(0, 0, 0, 0.24),
+      0 1px 2px rgba(0, 0, 0, 0.24), var(--shadow-inset);
+    --shadow-elevation: 0 0 0 1px rgba(255, 255, 255, 0.07),
+      0 16px 8px -8px rgba(0, 0, 0, 0.1), 0 12px 6px -6px rgba(0, 0, 0, 0.14),
+      0 5px 5px -2.5px rgba(0, 0, 0, 0.36), 0 1px 3px -1.5px rgba(0, 0, 0, 0.48),
+      inset 0 -0.5px 0.5px rgba(255, 255, 255, 0.05);
     --shadow-elevation-md: var(--shadow-elevation);
-    --shadow-elevation-lg: 0px 8px 24px 0px rgba(0, 0, 0, 0.32),
-      0px 12px 18px -6px rgba(0, 0, 0, 0.28),
-      0px 0px 0px 1px rgba(255, 255, 255, 0.08);
-    --shadow-elevation-xl: 0px 12px 32px 0px rgba(0, 0, 0, 0.36),
-      0px 18px 24px -8px rgba(0, 0, 0, 0.32),
-      0px 0px 0px 1px rgba(255, 255, 255, 0.09);
-    --shadow-elevation-2xl: 0px 18px 44px 0px rgba(0, 0, 0, 0.4),
-      0px 24px 32px -10px rgba(0, 0, 0, 0.36),
-      0px 0px 0px 1px rgba(255, 255, 255, 0.09);
+    --shadow-elevation-lg: 0 0 0 1px rgba(255, 255, 255, 0.07),
+      0 1px 1px 0.5px rgba(0, 0, 0, 0.24), 0 3px 3px -1.5px rgba(0, 0, 0, 0.14),
+      0 6px 6px -3px rgba(0, 0, 0, 0.24), 0 12px 12px -6px rgba(0, 0, 0, 0.24),
+      0 24px 24px -12px rgba(0, 0, 0, 0.24), 0 48px 48px -24px rgba(0, 0, 0, 0.24),
+      inset 0 -1px 1px -0.5px rgba(255, 255, 255, 0.04);
+    --shadow-elevation-xl: 0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 1px 1px 0.5px rgba(0, 0, 0, 0.24), 0 3px 3px -1.5px rgba(0, 0, 0, 0.14),
+      0 6px 6px -3px rgba(0, 0, 0, 0.24), 0 12px 12px -6px rgba(0, 0, 0, 0.24),
+      0 24px 24px -12px rgba(0, 0, 0, 0.24), 0 48px 48px -24px rgba(0, 0, 0, 0.24),
+      0 96px 96px -32px rgba(0, 0, 0, 0.32),
+      inset 0 -1px 1px -0.5px rgba(255, 255, 255, 0.04);
+    --shadow-elevation-2xl: 0 16px 32px -12px rgba(0, 0, 0, 0.4),
+      var(--shadow-elevation-xl);
     --theme-shadow-elevated: var(--shadow-elevation-lg);
-    --theme-shadow-popover: var(--shadow-elevation-md);
-    --theme-shadow-card: var(--shadow-elevation);
-    --theme-shadow-dialog: 0 0 0 1px var(--border), var(--shadow-elevation-lg);
+    --theme-shadow-popover: 0 12px 24px 0 rgba(0, 0, 0, 0.32),
+      0 1px 2px 0 rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(255, 255, 255, 0.07);
+    --theme-shadow-card: var(--shadow-elevation-sm);
+    --theme-shadow-dialog: var(--shadow-elevation-xl);
     --theme-shadow-command: var(--shadow-elevation-xl);
+  }
+}
+
+/* Inverted megamenu surfaces (dark panel on light pages and vice versa):
+   flip the elevation so the shadow style matches the panel, not the page. */
+.mega-menu-inverted {
+  --shadow-elevation-lg: 0 0 0 1px rgba(255, 255, 255, 0.07),
+    0 1px 1px 0.5px rgba(0, 0, 0, 0.24), 0 3px 3px -1.5px rgba(0, 0, 0, 0.14),
+    0 6px 6px -3px rgba(0, 0, 0, 0.24), 0 12px 12px -6px rgba(0, 0, 0, 0.24),
+    0 24px 24px -12px rgba(0, 0, 0, 0.24), 0 48px 48px -24px rgba(0, 0, 0, 0.24),
+    inset 0 -1px 1px -0.5px rgba(255, 255, 255, 0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  .mega-menu-inverted {
+    --shadow-elevation-lg: 0 0 0 1px rgba(51, 51, 51, 0.04),
+      0 1px 1px 0.5px rgba(51, 51, 51, 0.04), 0 3px 3px -1.5px rgba(51, 51, 51, 0.02),
+      0 6px 6px -3px rgba(51, 51, 51, 0.04), 0 12px 12px -6px rgba(51, 51, 51, 0.04),
+      0 24px 24px -12px rgba(51, 51, 51, 0.04), 0 48px 48px -24px rgba(51, 51, 51, 0.04),
+      inset 0 -1px 1px -0.5px rgba(51, 51, 51, 0.06);
   }
 }

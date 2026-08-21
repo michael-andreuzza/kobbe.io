@@ -168,7 +168,9 @@ export function SiteHeaderNav({ docsNavGroups }: SiteHeaderNavProps) {
               aria-hidden={!megaOpen}
               {...(!megaOpen ? { inert: true } : {})}
               className={cn(
-                "mega-menu-inverted border-border bg-card text-foreground max-h-[calc(100dvh-6rem)] touch-pan-y overflow-y-auto overscroll-y-contain rounded-xl border p-6 transition-opacity duration-300 motion-reduce:transition-none sm:p-8",
+                // Panel is dark in light mode, so the sheen is un-prefixed and
+                // dropped in dark mode (where the inverted panel is light).
+                "mega-menu-inverted bg-card text-foreground max-h-[calc(100dvh-6rem)] touch-pan-y overflow-y-auto overscroll-y-contain rounded-xl bg-linear-to-b from-white/3 to-white/0 shadow-lg transition-opacity duration-300 motion-reduce:transition-none dark:bg-none p-6 sm:p-8",
                 megaOpen ? "opacity-100" : "pointer-events-none opacity-0",
               )}
             >
