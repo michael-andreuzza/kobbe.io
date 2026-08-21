@@ -7,7 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 
 <section>
   <Wrapper variant="default" class="pt-20 lg:pt-28">
-    <div class="text center mx-auto max-w-xl text-balance text-center">
+    <div class="text center mx-auto max-w-xl text-center text-balance">
       <Text
         tag="h1"
         variant="displayMD"
@@ -25,19 +25,8 @@ import { buttonVariants } from "@/components/ui/button";
         funnel to actual money — cookieless, GDPR-ready, live with one script
         tag.
       </Text>
-      <div class="mt-8 flex w-fit mx-auto">
-        <a
-          href="https://app.kobbe.io/demo/kobbe-studio"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-kobbe-event="Hero - see demo"
-          class={buttonVariants({ variant: "link" })}
-        >
-          Poke around the demo
-        </a>
-      </div>
       <ul
-        class="text-muted-foreground mt-6 flex w-fit justify-center max-w-sm mx-auto flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium"
+        class="text-muted-foreground mx-auto mt-4 flex w-fit max-w-md flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs font-medium"
       >
         <li>No credit card required</li>
         <li aria-hidden="true">·</li>
@@ -51,6 +40,17 @@ import { buttonVariants } from "@/components/ui/button";
         <li aria-hidden="true">·</li>
         <li>0 raw IPs stored</li>
       </ul>
+      <div class="mx-auto mt-8 flex w-fit">
+        <a
+          href="https://app.kobbe.io/demo/kobbe-studio"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-kobbe-event="Hero - see demo"
+          class={buttonVariants({ variant: "link" })}
+        >
+          Poke around the demo
+        </a>
+      </div>
     </div>
     <div class="relative mt-12">
       <DashboardPreview />
