@@ -24,7 +24,7 @@ const trialCtaClassName = buttonVariants({ variant: "default", size: "xs" });
 
 export function siteMobilePrimaryLinks() {
   return [
-    { href: "/pricing", label: "Pricing" },
+    { href: "/#pricing", label: "Pricing" },
     {
       href: APP_SIGNIN_URL,
       label: "Sign in",
@@ -89,7 +89,7 @@ export function SiteHeaderNav({ docsNavGroups }: SiteHeaderNavProps) {
         </a>
 
         <a
-          href="/pricing"
+          href="/#pricing"
           data-kobbe-event="Nav - start trial"
           className={cn(
             trialCtaClassName,
@@ -124,7 +124,7 @@ export function SiteHeaderNav({ docsNavGroups }: SiteHeaderNavProps) {
                 aria-hidden="true"
               />
             </button>
-            <a href="/pricing" className={navLinkClassName}>
+            <a href="/#pricing" className={navLinkClassName}>
               Pricing
             </a>
             <a
@@ -136,7 +136,7 @@ export function SiteHeaderNav({ docsNavGroups }: SiteHeaderNavProps) {
               Sign in
             </a>
             <a
-              href="/pricing"
+              href="/#pricing"
               data-kobbe-event="Nav - start trial"
               className={trialCtaClassName}
             >

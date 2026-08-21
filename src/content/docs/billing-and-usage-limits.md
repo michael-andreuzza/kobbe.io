@@ -12,7 +12,7 @@ Plans and limits can change over time. The billing page in the app is the source
 
 ## Plans
 
-Kobbe offers event tiers from 20,000 monthly events up to 25,000,000 monthly events on a single product. Pick the volume that fits your traffic on the [pricing page](/pricing). Every product feature is included at every step. You pay for monthly event capacity, not feature tiers.
+Kobbe offers event tiers from 20,000 monthly events up to 25,000,000 monthly events on a single product. Pick the volume that fits your traffic on the [pricing section](/#pricing). Every product feature is included at every step. You pay for monthly event capacity, not feature tiers.
 
 What changes as you move the slider:
 

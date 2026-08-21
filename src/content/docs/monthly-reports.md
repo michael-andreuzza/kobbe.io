@@ -27,7 +27,7 @@ The report is sent to the email address saved in the site's report and alert set
 
 ## Availability
 
-Monthly email reports are included on Starter plans and higher on the [pricing page](/pricing). They are opt-in per site. You can disable them any time from site settings.
+Monthly email reports are included on Starter plans and higher on the [pricing section](/#pricing). They are opt-in per site. You can disable them any time from site settings.
 
 ## Related docs
 

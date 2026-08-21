@@ -132,7 +132,7 @@ export function buildSiteJsonLdGraph({
         highPrice: "219",
         priceCurrency: "USD",
         offerCount: "5",
-        url: new URL("/pricing", site).toString(),
+        url: new URL("/#pricing", site).toString(),
       },
       publisher: { "@id": `${site}/#organization` },
     });
