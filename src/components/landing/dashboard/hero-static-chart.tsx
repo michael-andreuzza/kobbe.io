@@ -28,10 +28,13 @@ import {
 } from "./dashboard-preview-data";
 import type { TrafficStackBucket } from "./traffic-chart-types";
 import { ReferrerFavicon } from "./referrer-favicon";
+import { GRADIENT_ACCENT, TRAFFIC_GRADIENT_STOPS } from "./traffic-gradient";
 
 /**
- * Zero-JS replacement for the recharts hero chart: the same lollipop series
- * rendered as plain markup so the landing page ships no chart runtime.
+ * Zero-JS replacement for the recharts hero chart: the same gradient-line
+ * series rendered as static SVG so the landing page ships no chart runtime.
+ * Mirrors the app's TrafficGradientChart (cool-to-warm stroke, faint wash,
+ * dotted foreground revenue line).
  */
 
 const { points, bucket } = finalizeTrafficChartSeries(
@@ -99,7 +102,7 @@ const pinnedReferrerShare =
     : null;
 const pinnedRatio =
   pinnedIndex != null && points.length > 1
-    ? (pinnedIndex + 0.5) / points.length
+    ? pinnedIndex / (points.length - 1)
     : 0.5;
 /** Keep the tooltip inside the card when the pinned day is near an edge. */
 const tooltipTranslateClass =
@@ -109,8 +112,39 @@ const tooltipTranslateClass =
       ? "-translate-x-full"
       : "-translate-x-1/2";
 
-const denseSeries = points.length > 45;
-const headClass = denseSeries ? "size-1.5" : "size-2.5";
+/** Fixed drawing space; the svg stretches to the container (non-scaling strokes). */
+const VIEW_W = 600;
+const VIEW_H = 224;
+
+function xAt(index: number): number {
+  return points.length > 1 ? (index / (points.length - 1)) * VIEW_W : VIEW_W / 2;
+}
+
+function yAt(visitors: number): number {
+  return VIEW_H - (visitors / yMax) * VIEW_H;
+}
+
+const linePath = points
+  .map(
+    (point, index) =>
+      `${index === 0 ? "M" : "L"} ${xAt(index).toFixed(2)} ${yAt(point.visitors).toFixed(2)}`,
+  )
+  .join(" ");
+
+const areaPath = `${linePath} L ${VIEW_W} ${VIEW_H} L 0 ${VIEW_H} Z`;
+
+const revenueMax = Math.max(...points.map((point) => point.revenueMinor ?? 0));
+/** Revenue rides its own scale in the lower part of the plot, like the app chart. */
+const revenuePath =
+  revenueMax > 0
+    ? points
+        .map((point, index) => {
+          const ratio = (point.revenueMinor ?? 0) / revenueMax;
+          const y = VIEW_H - ratio * VIEW_H * 0.45;
+          return `${index === 0 ? "M" : "L"} ${xAt(index).toFixed(2)} ${y.toFixed(2)}`;
+        })
+        .join(" ")
+    : null;
 
 const axisLabelIndexes = [
   0,
@@ -144,43 +178,85 @@ export function HeroStaticChart() {
                 </span>
               </div>
             ))}
-            <div className="absolute inset-0 flex items-end">
-              {points.map((point, index) => {
-                const active = index === pinnedIndex;
-                const heightPct = Math.max(2, (point.visitors / yMax) * 100);
-                return (
-                  <div
-                    key={point.t}
-                    className="relative flex h-full min-w-0 flex-1 items-end justify-center"
-                  >
-                    {active ? (
-                      <div
-                        className="border-foreground/25 pointer-events-none absolute inset-y-0 left-1/2 hidden border-l border-dashed sm:block"
-                        aria-hidden="true"
-                      />
-                    ) : null}
-                    <div
-                      className="flex flex-col items-center"
-                      style={{ height: `${heightPct}%` }}
-                    >
-                      <div
-                        className={cn(
-                          "shrink-0 rounded-full",
-                          headClass,
-                          active ? "bg-brand" : "bg-foreground/75",
-                        )}
-                      />
-                      <div
-                        className={cn(
-                          "w-px flex-1",
-                          active ? "bg-brand" : "bg-foreground/40",
-                        )}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            <svg
+              className="absolute inset-0 h-full w-full"
+              viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <defs>
+                <linearGradient
+                  id="hero-traffic-stroke"
+                  x1="0"
+                  y1="0"
+                  x2="1"
+                  y2="0"
+                >
+                  {TRAFFIC_GRADIENT_STOPS.map((stop) => (
+                    <stop
+                      key={stop.offset}
+                      offset={stop.offset}
+                      stopColor={stop.color}
+                    />
+                  ))}
+                </linearGradient>
+                <linearGradient
+                  id="hero-traffic-fill"
+                  x1="0"
+                  y1="0"
+                  x2="1"
+                  y2="0"
+                >
+                  {TRAFFIC_GRADIENT_STOPS.map((stop) => (
+                    <stop
+                      key={stop.offset}
+                      offset={stop.offset}
+                      stopColor={stop.color}
+                      stopOpacity={0.1}
+                    />
+                  ))}
+                </linearGradient>
+              </defs>
+              <path d={areaPath} fill="url(#hero-traffic-fill)" />
+              {revenuePath ? (
+                <path
+                  d={revenuePath}
+                  fill="none"
+                  stroke="var(--foreground)"
+                  strokeWidth={1.5}
+                  strokeDasharray="1 5"
+                  strokeLinecap="round"
+                  vectorEffect="non-scaling-stroke"
+                />
+              ) : null}
+              <path
+                d={linePath}
+                fill="none"
+                stroke="url(#hero-traffic-stroke)"
+                strokeWidth={2}
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
+            {pinnedPoint ? (
+              <>
+                <div
+                  className="border-foreground/25 pointer-events-none absolute inset-y-0 hidden border-l border-dashed sm:block"
+                  style={{ left: `${pinnedRatio * 100}%` }}
+                  aria-hidden="true"
+                />
+                <div
+                  className="border-background pointer-events-none absolute hidden size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 sm:block"
+                  style={{
+                    left: `${pinnedRatio * 100}%`,
+                    top: `${(yAt(pinnedPoint.visitors) / VIEW_H) * 100}%`,
+                    background: GRADIENT_ACCENT,
+                  }}
+                  aria-hidden="true"
+                />
+              </>
+            ) : null}
             {pinnedPoint ? (
               <div
                 className="pointer-events-none absolute top-0 z-10 hidden sm:block"

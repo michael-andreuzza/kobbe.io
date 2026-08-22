@@ -51,8 +51,9 @@ function KpiStripGrid(props: {
 }
 
 function KpiTileBody(kpi: KpiTileBodyProps) {
+  // Active tile is inverted in light mode only; dark keeps normal text.
   const toneClass = kpi.active
-    ? "text-background/70"
+    ? "text-background/70 dark:text-muted-foreground"
     : kpi.rightHintTone === "good"
       ? "text-success"
       : kpi.rightHintTone === "bad"
@@ -64,7 +65,9 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
         <span
           className={cn(
             "truncate text-xs leading-tight font-medium",
-            kpi.active ? "text-background/70" : "text-muted-foreground",
+            kpi.active
+              ? "text-background/70 dark:text-muted-foreground"
+              : "text-muted-foreground",
           )}
         >
           {kpi.label}
@@ -84,7 +87,7 @@ function KpiTileBody(kpi: KpiTileBodyProps) {
         <span
           className={cn(
             "text-base leading-tight font-medium tracking-tight tabular-nums",
-            kpi.active ? "text-background" : "text-foreground",
+            kpi.active ? "text-background dark:text-foreground" : "text-foreground",
             kpi.valueClassName,
           )}
         >

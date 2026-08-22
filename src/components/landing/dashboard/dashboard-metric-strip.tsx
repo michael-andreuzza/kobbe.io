@@ -21,12 +21,12 @@ export function DashboardMetricStrip(props: DashboardMetricStripProps) {
 
   return (
     <section
-      className={cn("-mx-2 mt-2 p-2", props.className)}
+      className={cn("-mx-2 p-2", props.className)}
       aria-label={props.ariaLabel}
     >
       <div
         className={cn(
-          "relative grid grid-cols-2 gap-3 sm:grid-cols-3",
+          "relative grid grid-cols-2 gap-4 sm:grid-cols-3",
           lgColsClass,
         )}
       >
@@ -47,7 +47,7 @@ type DashboardMetricTileProps = {
 const metricTileBorderClass = "";
 
 const metricTileBaseClass =
-  "relative flex min-h-0 min-w-0 flex-col p-4 lg:aspect-square text-left text-foreground transition-[background-color,color,border-color] duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none";
+  "relative flex min-h-0 min-w-0 flex-col p-4 lg:min-h-32 text-left text-foreground transition-[background-color,box-shadow,color,transform,border-color] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none";
 
 /* Same elevated chrome as the app KPI tiles: AlignUI shadow + dark sheen. */
 const metricTileElevatedClass =
@@ -68,7 +68,7 @@ const metricTileMutedClass = cn(
 );
 
 const metricTileInteractiveMutedClass =
-  "cursor-pointer hover:bg-background/50 hover:ring-0";
+  "cursor-pointer hover:shadow-md hover:ring-0 dark:hover:bg-accent dark:hover:shadow-sm";
 
 export function DashboardMetricTile(props: DashboardMetricTileProps) {
   const surface = props.surface ?? "card";
@@ -77,8 +77,9 @@ export function DashboardMetricTile(props: DashboardMetricTileProps) {
     surface === "muted" ? metricTileMutedClass : metricTileCardClass,
     surface === "muted" && isInteractive && metricTileInteractiveMutedClass,
     props.active &&
-      // dark:bg-none drops the sheen so the active tile stays a solid fill.
-      "border-transparent bg-foreground text-background ring-0 hover:bg-foreground dark:bg-none",
+      // Light: inverted (dark tile, light text). Dark: soft wash slightly
+      // lighter than the hover accent — no full white inversion.
+      "border-transparent bg-foreground text-background ring-0 hover:bg-foreground hover:shadow-sm dark:bg-foreground/20 dark:text-foreground dark:ring-1 dark:ring-foreground/10 dark:bg-none dark:hover:bg-foreground/20",
     props.className,
   );
 

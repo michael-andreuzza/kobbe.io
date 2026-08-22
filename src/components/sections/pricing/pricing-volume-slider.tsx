@@ -2,6 +2,7 @@ import { useCallback, useRef, type PointerEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 import { cn } from "@/lib/utils";
+import { TRAFFIC_GRADIENT_STOPS } from "@/components/landing/dashboard/traffic-gradient";
 import { pricingTiers } from "@/components/sections/pricing/pricing-tiers";
 import {
   pricingSliderScaleStopOffsetClass,
@@ -25,6 +26,11 @@ const fillSpring = {
   damping: 45,
 };
 
+/** Cool-to-warm chart ramp pinned to the full track; the fill reveals it. */
+const trackGradient = `linear-gradient(to right, ${TRAFFIC_GRADIENT_STOPS.map(
+  (stop) => `${stop.color} ${stop.offset}`,
+).join(", ")})`;
+
 export function PricingVolumeSlider({
   value,
   onChange,
@@ -38,7 +44,7 @@ export function PricingVolumeSlider({
   const scaleLabels = ["0", ...pricingTiers.map((tier) => tier.events)];
   const maxScaleIndex = scaleLabels.length - 1;
   const stopPercent = pricingSliderTierStopPercent(value, tierCount);
-  const fillWidth = value === maxIndex ? "100%" : `${stopPercent}%`;
+  const fillPercent = value === maxIndex ? 100 : stopPercent;
 
   const setTierFromClientX = useCallback(
     (clientX: number) => {
@@ -74,11 +80,18 @@ export function PricingVolumeSlider({
         onPointerMove={handleTrackPointerMove}
       >
         <div className="bg-muted absolute inset-0 overflow-hidden rounded-lg">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0"
+            style={{ backgroundImage: trackGradient }}
+          />
+          {/* Muted cover shrinks from the right so the gradient stays pinned
+              to the track instead of stretching with the fill. */}
           <motion.div
             aria-hidden="true"
-            className="bg-primary absolute inset-y-0 left-0 rounded-r-lg"
+            className="bg-muted absolute inset-y-0 right-0"
             initial={false}
-            animate={{ width: fillWidth }}
+            animate={{ width: `${100 - fillPercent}%` }}
             transition={reduceMotion ? { duration: 0 } : fillSpring}
           />
         </div>

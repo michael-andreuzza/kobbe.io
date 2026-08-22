@@ -2,12 +2,9 @@
 import Logo from "@/components/assets/Logo.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import Text from "@/components/foundations/elements/Text.astro";
-import FooterCtaVisual from "@/components/global/footer-cta-visual";
-import { buttonVariants } from "@/components/ui/button";
+import FlowGradient from "@/components/landing/flow-gradient";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
 import { marketingPaths } from "@/lib/marketing-urls";
-import { cn } from "@/lib/utils";
-import juncosImg from "@/images/assets/backgrounds/juncos.png";
 
 type FooterLink = {
   href: string;
@@ -171,48 +168,59 @@ const footerLinkGroups: FooterLinkGroup[] = [
   
   <Wrapper variant="default" class="relative z-10">
     <div
-      class="bg-card text-foreground overflow-hidden rounded-xl shadow-sm dark:bg-linear-to-b dark:from-white/3 dark:to-white/0"
+      class="bg-card text-foreground relative overflow-hidden rounded-xl shadow-sm"
     >
-      <div class="grid lg:grid-cols-3">
+      <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+        <FlowGradient client:visible className="h-full w-full" />
+        <!-- Card-colored fade keeps the copy readable on the left, like the
+             Croisette CTA where the gradient lives on the right half. -->
         <div
-          class="flex flex-col justify-center p-8 text-balance lg:col-span-2 lg:p-20 lg:text-left"
+          class="from-card via-card/80 absolute inset-0 bg-linear-to-r to-transparent"
         >
-          <div class="max-w-md">
-            <div class="flex flex-col gap-3">
-            
-              <Text
-                tag="h2"
-                variant="displayMD"
-                class="text-foreground font-display  font-medium tracking-tight"
-              >
-                Set up in 5 minutes. <br /> Back to marketing by <span
-                  data-setup-time>soon</span
-                >
-              </Text>
-              <Text
-                tag="p"
-                variant="displaySubtitle"
-                class="text-muted-foreground font-medium text-balance"
-              >
-                Privacy-first web analytics with traffic and revenue in one
-                place.
-              </Text>
-            </div>
-
-            <a
-              href="/#pricing"
-              data-kobbe-event="Footer CTA - start free trial"
-              class={cn(
-                buttonVariants({ variant: "default", size: "sm" }),
-                "mt-8 lg:mt-24 w-fit lg:mx-0",
-              )}
-            >
-              Start a {pricingTrialDays}-day trial
-            </a>
-          </div>
         </div>
+      </div>
+      <div
+        class="relative flex flex-col items-start p-8 pb-32 text-balance lg:p-16 lg:pb-40"
+      >
+        <Text
+          tag="h2"
+          variant="displayMD"
+          class="font-display font-medium tracking-tight"
+        >
+          Set up in 5 minutes. <br /> Back to marketing by <span
+            data-setup-time>soon</span
+          >
+        </Text>
+        <Text
+          tag="p"
+          variant="displaySubtitle"
+          class="text-muted-foreground mt-3 font-medium text-balance"
+        >
+          Privacy-first web analytics with traffic and revenue in one place.
+        </Text>
 
-        <FooterCtaVisual client:visible />
+        <a
+          href="/#pricing"
+          data-kobbe-event="Footer CTA - start free trial"
+          class="border-foreground/25 hover:bg-foreground/5 mt-10 inline-flex w-fit items-center gap-1.5 rounded-md border px-4 py-2 text-xs font-semibold tracking-wide uppercase transition-colors"
+        >
+          Start a {pricingTrialDays}-day trial
+          <svg
+            viewBox="0 0 12 12"
+            class="size-3"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M3 3h6v6M9 3 3 9"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              transform="rotate(90 6 6)"
+            ></path>
+          </svg>
+        </a>
       </div>
     </div>
     <div class="mt-24 w-full">

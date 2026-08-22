@@ -23,39 +23,38 @@ const tickerSpring = {
   mass: 0.8,
 };
 
-function PriceAmount({
-  amount,
+/**
+ * Per-character rolling ticker (NumberFlow-style) built on motion. Each
+ * character position animates independently: unchanged characters stay put,
+ * changed ones roll up or down following the value's direction.
+ */
+export function PricingTickerText({
+  text,
+  value,
   className,
-  suffix = pricingAmountSuffix,
-  animate = true,
 }: {
-  amount: number;
+  text: string;
+  /** Numeric value behind the text; drives the roll direction. */
+  value: number;
   className?: string;
-  suffix?: string;
-  animate?: boolean;
 }) {
   const reduceMotion = useReducedMotion();
-  const previousAmount = useRef(amount);
-  const direction = amount >= previousAmount.current ? 1 : -1;
-  previousAmount.current = amount;
-
-  const amountClassName =
-    "text-foreground font-display overflow-hidden mask-[linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] py-0.5 pr-2 text-4xl font-medium tracking-tight sm:text-5xl";
-
-  const formattedAmount = `$${formatPricingCurrency(amount)}`;
+  const previousValue = useRef(value);
+  const direction = value >= previousValue.current ? 1 : -1;
+  previousValue.current = value;
 
   return (
     <span
       className={cn(
-        "inline-flex items-baseline leading-[1.45] tabular-nums",
+        "inline-flex overflow-hidden mask-[linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] py-0.5 tabular-nums",
         className,
       )}
     >
-      <span className={amountClassName}>
-        {animate ? (
+      {text.split("").map((char, index) => (
+        <span key={index} className="inline-block overflow-hidden">
           <AnimatePresence mode="popLayout" initial={false} custom={direction}>
             <motion.span
-              key={amount}
+              key={char}
               custom={direction}
               className="inline-block will-change-transform"
               variants={{
@@ -74,13 +73,38 @@ function PriceAmount({
               exit="exit"
               transition={reduceMotion ? { duration: 0 } : tickerSpring}
             >
-              {formattedAmount}
+              {char}
             </motion.span>
           </AnimatePresence>
-        ) : (
-          formattedAmount
-        )}
-      </span>
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function PriceAmount({
+  amount,
+  className,
+  suffix = pricingAmountSuffix,
+}: {
+  amount: number;
+  className?: string;
+  suffix?: string;
+}) {
+  const formattedAmount = `$${formatPricingCurrency(amount)}`;
+
+  return (
+    <span
+      className={cn(
+        "inline-flex items-baseline leading-[1.45] tabular-nums",
+        className,
+      )}
+    >
+      <PricingTickerText
+        text={formattedAmount}
+        value={amount}
+        className="text-foreground font-display pr-2 text-4xl font-medium tracking-tight sm:text-5xl"
+      />
       {suffix ? (
         <span className="text-muted-foreground ml-0.5 text-sm font-medium">
           {suffix}

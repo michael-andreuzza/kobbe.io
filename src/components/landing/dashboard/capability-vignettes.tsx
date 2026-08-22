@@ -1,10 +1,67 @@
 import { cn } from "@/lib/utils";
+import { GRADIENT_ACCENT, TRAFFIC_GRADIENT_STOPS } from "./traffic-gradient";
 
 /**
  * Radically simplified fragments of Kobbe's own dashboard UI, used as the
  * capability grid mockups. Built from the product's design tokens (cards,
- * chips, lollipops, heatmap cells, inverted tooltips) instead of imagery.
+ * chips, gradient charts, inverted tooltips) instead of imagery.
  */
+
+/** Shared defs + paths for the mini gradient line charts in the vignettes. */
+function VignetteGradientChart(props: {
+  idPrefix: string;
+  /** Values on a 0-100 scale, evenly spaced along the x axis. */
+  values: number[];
+  className?: string;
+}) {
+  const W = 200;
+  const H = 80;
+  const xAt = (index: number) => (index / (props.values.length - 1)) * W;
+  const yAt = (value: number) => H - (value / 100) * H;
+  const linePath = props.values
+    .map(
+      (value, index) =>
+        `${index === 0 ? "M" : "L"} ${xAt(index).toFixed(2)} ${yAt(value).toFixed(2)}`,
+    )
+    .join(" ");
+  const areaPath = `${linePath} L ${W} ${H} L 0 ${H} Z`;
+  return (
+    <svg
+      className={cn("absolute inset-0 h-full w-full", props.className)}
+      viewBox={`0 0 ${W} ${H}`}
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id={`${props.idPrefix}-stroke`} x1="0" y1="0" x2="1" y2="0">
+          {TRAFFIC_GRADIENT_STOPS.map((stop) => (
+            <stop key={stop.offset} offset={stop.offset} stopColor={stop.color} />
+          ))}
+        </linearGradient>
+        <linearGradient id={`${props.idPrefix}-fill`} x1="0" y1="0" x2="1" y2="0">
+          {TRAFFIC_GRADIENT_STOPS.map((stop) => (
+            <stop
+              key={stop.offset}
+              offset={stop.offset}
+              stopColor={stop.color}
+              stopOpacity={0.1}
+            />
+          ))}
+        </linearGradient>
+      </defs>
+      <path d={areaPath} fill={`url(#${props.idPrefix}-fill)`} />
+      <path
+        d={linePath}
+        fill="none"
+        stroke={`url(#${props.idPrefix}-stroke)`}
+        strokeWidth={2}
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
+}
 
 /** Goal filter chips with one selected: auto-tracked conversions become filters. */
 export function ConversionsVignette() {
@@ -43,52 +100,37 @@ export function ConversionsVignette() {
   );
 }
 
-/** Mini lollipop chart with an inverted tooltip pinned to one day. */
+/** Mini gradient line chart with an inverted tooltip pinned to one day. */
 export function AnnotationsVignette() {
-  const stems = [42, 58, 34, 70, 96, 52, 64];
+  const values = [42, 58, 34, 70, 96, 52, 64];
   const highlighted = 4;
+  const pinnedLeft = (highlighted / (values.length - 1)) * 100;
+  const pinnedTop = 100 - values[highlighted];
   return (
     <div className="w-full pt-8">
-      <div className="relative flex h-24 items-end justify-between px-1">
-        {stems.map((height, index) => {
-          const active = index === highlighted;
-          return (
-            <div
-              key={index}
-              className="relative flex h-full w-3 items-end justify-center"
-            >
-              {active ? (
-                <>
-                  <div
-                    className="border-foreground/25 absolute inset-y-0 left-1/2 border-l border-dashed"
-                    aria-hidden="true"
-                  />
-                  <div className="bg-foreground text-background absolute -top-7 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-md px-2 py-1 text-[10px] font-medium whitespace-nowrap shadow-md">
-                    <span className="bg-brand size-1.5 rounded-[2px]" aria-hidden="true" />
-                    Launch day
-                  </div>
-                </>
-              ) : null}
-              <div
-                className="relative flex flex-col items-center"
-                style={{ height: `${height}%` }}
-              >
-                <div
-                  className={cn(
-                    "size-2.5 shrink-0 rounded-full",
-                    active ? "bg-brand" : "bg-foreground/75",
-                  )}
-                />
-                <div
-                  className={cn(
-                    "w-px flex-1",
-                    active ? "bg-brand" : "bg-foreground/40",
-                  )}
-                />
-              </div>
-            </div>
-          );
-        })}
+      <div className="relative h-24">
+        <VignetteGradientChart idPrefix="vignette-annotations" values={values} />
+        <div
+          className="border-foreground/25 pointer-events-none absolute inset-y-0 border-l border-dashed"
+          style={{ left: `${pinnedLeft}%` }}
+          aria-hidden="true"
+        />
+        <div
+          className="border-background pointer-events-none absolute size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2"
+          style={{
+            left: `${pinnedLeft}%`,
+            top: `${pinnedTop}%`,
+            background: GRADIENT_ACCENT,
+          }}
+          aria-hidden="true"
+        />
+        <div
+          className="bg-foreground text-background absolute -top-7 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-md px-2 py-1 text-[10px] font-medium whitespace-nowrap shadow-md"
+          style={{ left: `${pinnedLeft}%` }}
+        >
+          <span className="bg-brand size-1.5 rounded-[2px]" aria-hidden="true" />
+          Launch day
+        </div>
       </div>
     </div>
   );
@@ -124,42 +166,37 @@ export function SearchKeywordsVignette() {
   );
 }
 
-/** Conversion heatmap cells with the peak hours in brand orange. */
+/** Hourly conversion profile: gradient curve peaking in the evening. */
 export function ConversionPeakVignette() {
-  const cols = 8;
-  const rows = 5;
-  const level = (col: number, row: number) => {
-    if ((col === 4 && row === 1) || (col === 5 && row === 1)) return 4;
-    if (col === 4 && row === 2) return 3;
-    // Everything outside the peak stays on the gray ramp.
-    return (col * 5 + row * 3) % 3;
-  };
-  const cellClass = (value: number) =>
-    value === 4
-      ? "bg-brand"
-      : value === 3
-        ? "bg-brand/50"
-        : value === 2
-          ? "bg-foreground/20"
-          : value === 1
-            ? "bg-foreground/10"
-            : "bg-foreground/5";
+  // 24 hourly values (0-100): quiet night, midday bump, evening peak.
+  const values = [
+    8, 6, 5, 4, 5, 8, 14, 22, 32, 40, 46, 52, 56, 52, 48, 52, 62, 78, 96, 84,
+    62, 42, 26, 14,
+  ];
+  const peak = values.indexOf(Math.max(...values));
+  const peakLeft = (peak / (values.length - 1)) * 100;
+  const peakTop = 100 - values[peak];
   return (
-    <div
-      className="grid w-full gap-1.5"
-      style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
-    >
-      {Array.from({ length: rows }, (_, row) =>
-        Array.from({ length: cols }, (_, col) => (
-          <div
-            key={`${col}-${row}`}
-            className={cn(
-              "aspect-square w-full rounded-sm",
-              cellClass(level(col, row)),
-            )}
-          />
-        )),
-      )}
+    <div className="w-full">
+      <div className="relative h-24">
+        <VignetteGradientChart idPrefix="vignette-peak" values={values} />
+        <div
+          className="border-background pointer-events-none absolute size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2"
+          style={{
+            left: `${peakLeft}%`,
+            top: `${peakTop}%`,
+            background: GRADIENT_ACCENT,
+          }}
+          aria-hidden="true"
+        />
+      </div>
+      <div className="text-muted-foreground mt-2 flex justify-between text-[10px] tabular-nums">
+        <span>00:00</span>
+        <span>06:00</span>
+        <span>12:00</span>
+        <span>18:00</span>
+        <span>23:00</span>
+      </div>
     </div>
   );
 }
