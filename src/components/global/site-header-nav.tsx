@@ -74,7 +74,7 @@ export function SiteHeaderNav({ docsNavGroups }: SiteHeaderNavProps) {
   }, [megaOpen]);
 
   return (
-    <div ref={headerRef}>
+    <div ref={headerRef} className="relative">
       <div className="grid grid-cols-3
        items-center gap-x-2 py-4 md:flex md:justify-between md:gap-3">
         <a
@@ -155,14 +155,18 @@ export function SiteHeaderNav({ docsNavGroups }: SiteHeaderNavProps) {
         </div>
       </div>
 
+      {/* Floats over the page content instead of expanding the header, so the
+          header background never paints a slab behind the panel. */}
+      {/* Overhangs the panel width (-inset-x-10 / px-11 / pb-10) so the
+          collapse animation's overflow-hidden doesn't clip the shadow. */}
       <div
         className={cn(
-          "hidden transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none md:grid",
+          "absolute -inset-x-10 top-full z-50 hidden transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none md:grid",
           megaOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
         )}
       >
         <div className="min-h-0 overflow-hidden">
-          <div className="px-1 pt-2 pb-2">
+          <div className="px-11 pt-2 pb-10">
             <div
               id={panelId}
               aria-hidden={!megaOpen}

@@ -16,7 +16,10 @@ interface Props {
 const { docsNavGroups } = Astro.props;
 ---
 
-<header data-site-header class="bg-muted sticky top-0 z-40 overflow-visible">
+<header
+  data-site-header
+  class="bg-background sticky top-0 z-40 overflow-visible"
+>
   <Wrapper variant="nav" class="overflow-visible">
     <SiteHeaderNav client:load docsNavGroups={docsNavGroups} />
   </Wrapper>
