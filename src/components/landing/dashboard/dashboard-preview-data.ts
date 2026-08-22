@@ -10,31 +10,14 @@ type PreviewChartConfig = {
   revenueStartIndex: number;
 };
 
-const defaultPreviewChartConfig: PreviewChartConfig = {
-  dayCount: 90,
-  startMs: Date.UTC(2026, 4, 21),
-  pinnedOffset: 14,
-  visitorPeak: 720,
-  revenueStartIndex: 42,
-};
-
-/** High-traffic marketplace shape for local chart QA (Lexington Themes–scale bars). */
-const densePreviewChartConfig: PreviewChartConfig = {
+/** High-traffic marketplace shape (Lexington Themes–scale numbers). */
+const activePreviewChartConfig: PreviewChartConfig = {
   dayCount: 180,
   startMs: Date.UTC(2026, 1, 4),
   pinnedOffset: 8,
   visitorPeak: 18_500,
   revenueStartIndex: 0,
 };
-
-function shouldUseDensePreviewChart(): boolean {
-  const flag = import.meta.env.PUBLIC_DENSE_DASHBOARD_PREVIEW;
-  return flag === "1" || flag === "true";
-}
-
-const activePreviewChartConfig = shouldUseDensePreviewChart()
-  ? densePreviewChartConfig
-  : defaultPreviewChartConfig;
 
 function formatPreviewDayLabel(timestamp: number): string {
   return new Date(timestamp).toLocaleDateString("en-US", {
