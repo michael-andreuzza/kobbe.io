@@ -163,20 +163,25 @@ const { effectiveDateDefault } = Astro.props;
       setText("dpa-out-date", dateVal, false);
     }
 
+    // Delegated on the document (which persists across ClientRouter swaps):
+    // also catches the date picker's hidden input, mounted by React later.
+    document.addEventListener("input", sync);
+    document.addEventListener("change", sync);
+
     function init() {
-      // Delegated: also catches the date picker's hidden input, which is
-      // mounted by React after this script runs.
-      document.addEventListener("input", sync);
-      document.addEventListener("change", sync);
       var btn = document.getElementById("dpa-print-btn");
-      if (btn)
-        btn.addEventListener("click", function () {
-          sync();
-          window.print();
-        });
+      if (!btn) return;
+      // Assignment (not addEventListener) so re-inits never double-bind.
+      btn.onclick = function () {
+        sync();
+        window.print();
+      };
       sync();
     }
 
+    // The button is fresh DOM on every SPA visit to this page, so rebind on
+    // each page load; the direct call covers the initial full load.
+    document.addEventListener("astro:page-load", init);
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", init);
     } else {

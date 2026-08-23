@@ -1,4 +1,5 @@
 import NumberFlow from "@number-flow/react";
+import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import {
@@ -6,6 +7,42 @@ import {
   pricingAmountSuffix,
   type BillingPeriod,
 } from "@/components/sections/pricing/pricing-tiers";
+
+/**
+ * NumberFlow's custom element attaches a shadow root, which throws when the
+ * ClientRouter swaps server-rendered markup back into the live document
+ * (attachShadow on a host that already has one) and kills the whole island.
+ * So the server renders the same value as plain text and NumberFlow mounts
+ * client-side only, where it always creates its element fresh.
+ */
+export function AnimatedNumber({
+  value,
+  format,
+  className,
+}: {
+  value: number;
+  format?: Intl.NumberFormatOptions;
+  className?: string;
+}) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return (
+      <span className={className}>
+        {new Intl.NumberFormat("en-US", format).format(value)}
+      </span>
+    );
+  }
+  return (
+    <NumberFlow
+      value={value}
+      locales="en-US"
+      format={format}
+      className={className}
+    />
+  );
+}
 
 type PricingPriceDisplayProps = {
   period: BillingPeriod;
@@ -38,9 +75,8 @@ function PriceAmount({
         className,
       )}
     >
-      <NumberFlow
+      <AnimatedNumber
         value={amount}
-        locales="en-US"
         format={priceFormat}
         className="text-foreground font-display pr-2 text-xl font-medium tracking-tight sm:text-2xl"
       />

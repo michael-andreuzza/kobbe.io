@@ -1,9 +1,11 @@
 import { useState } from "react";
-import NumberFlow from "@number-flow/react";
 
 import { BillingPeriodTabs } from "@/components/sections/pricing/billing-period-tabs";
 import { PricingFeatureMark } from "@/components/sections/pricing/pricing-feature-mark";
-import { PricingPriceDisplay } from "@/components/sections/pricing/pricing-price-display";
+import {
+  AnimatedNumber,
+  PricingPriceDisplay,
+} from "@/components/sections/pricing/pricing-price-display";
 import { PricingVolumeSlider } from "@/components/sections/pricing/pricing-volume-slider";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -71,9 +73,8 @@ export function SimplifiedPricingSection({
           <div className="mt-8 flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-foreground font-display text-xl font-medium tracking-tight sm:text-2xl">
-                <NumberFlow
+                <AnimatedNumber
                   value={tier.eventsCount}
-                  locales="en-US"
                   format={{ notation: "compact" }}
                   className="tabular-nums"
                 />

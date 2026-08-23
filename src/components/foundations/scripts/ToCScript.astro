@@ -1,63 +1,15 @@
 <script is:inline type="module">
-  const tocLists = document.querySelectorAll("[data-toc-list]");
-  const tocEmptyItems = document.querySelectorAll("[data-toc-empty]");
-  const headings = document.querySelectorAll(
-    "#markdown-content h2, #markdown-content h3",
-  );
-
-  if (tocLists.length === 0) {
-    throw new Error("Missing TOC list.");
-  }
-
-  const items = Array.from(headings).map((heading) => {
-    if (!heading.id) {
-      heading.id = heading.textContent
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, "-")
-        .replace(/[^a-z0-9-]/g, "");
-    }
-
-    const headingText = heading.textContent;
-
-    return {
-      id: heading.id,
-      text: headingText,
-      level: heading.tagName.toLowerCase(),
-    };
-  });
-
+  // Runs once per session (the ClientRouter dedupes identical scripts), so
+  // all page-specific state is rebuilt in init() on every astro:page-load.
   const inactiveClassName =
     "flex text-xs/5 text-muted-foreground transition-colors hover:text-foreground";
   const activeClassName = "flex text-xs/5 text-foreground transition-colors";
-
-  tocLists.forEach((tocList) => {
-    items.forEach((item) => {
-      const link = document.createElement("a");
-      link.href = `#${item.id}`;
-      link.textContent = item.text;
-      link.dataset.tocLink = item.id;
-      link.className = inactiveClassName;
-
-      const li = document.createElement("li");
-      li.className = item.level === "h3" ? "pl-3" : "";
-      li.appendChild(link);
-      tocList.appendChild(li);
-    });
-  });
-
-  if (headings.length > 0) {
-    tocEmptyItems.forEach((item) => item.remove());
-  }
-
-  // Scroll spy: highlight the section currently at the top of the docs
-  // panel (the inner scroll container on desktop, the window otherwise).
-  const scrollContainer = document.querySelector(
-    "[data-progressive-blur-scroll]",
-  );
   const activationOffset = 96;
 
+  let items = [];
+  let scrollContainer = null;
   let activeId = null;
+
   const setActive = (id) => {
     if (id === activeId) return;
     activeId = id;
@@ -116,17 +68,72 @@
     setActive(currentId);
   };
 
-  if (headings.length > 0) {
-    syncActive();
-    (scrollContainer ?? window).addEventListener("scroll", syncActive, {
-      passive: true,
+  const init = () => {
+    items = [];
+    activeId = null;
+    suppressSyncUntil = 0;
+
+    const tocLists = document.querySelectorAll("[data-toc-list]");
+    if (tocLists.length === 0) return;
+
+    const headings = document.querySelectorAll(
+      "#markdown-content h2, #markdown-content h3",
+    );
+    items = Array.from(headings).map((heading) => {
+      if (!heading.id) {
+        heading.id = heading.textContent
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "");
+      }
+      return {
+        id: heading.id,
+        text: heading.textContent,
+        level: heading.tagName.toLowerCase(),
+      };
     });
-    window.addEventListener("resize", syncActive, { passive: true });
-    document.querySelectorAll("[data-toc-link]").forEach((link) => {
-      link.addEventListener("click", () => {
-        suppressSyncUntil = Date.now() + 700;
-        setActive(link.dataset.tocLink);
+
+    tocLists.forEach((tocList) => {
+      // Guard against double-building on the initial load, where both the
+      // direct call below and astro:page-load fire on the same DOM.
+      if (tocList.dataset.tocBuilt) return;
+      tocList.dataset.tocBuilt = "true";
+      items.forEach((item) => {
+        const link = document.createElement("a");
+        link.href = `#${item.id}`;
+        link.textContent = item.text;
+        link.dataset.tocLink = item.id;
+        link.className = inactiveClassName;
+
+        const li = document.createElement("li");
+        li.className = item.level === "h3" ? "pl-3" : "";
+        li.appendChild(link);
+        tocList.appendChild(li);
       });
     });
-  }
+
+    if (headings.length > 0) {
+      document
+        .querySelectorAll("[data-toc-empty]")
+        .forEach((item) => item.remove());
+    }
+
+    // Scroll spy reference: an inner scroll container if the page has one,
+    // otherwise the window.
+    scrollContainer = document.querySelector("[data-progressive-blur-scroll]");
+    syncActive();
+  };
+
+  window.addEventListener("scroll", syncActive, { passive: true });
+  window.addEventListener("resize", syncActive, { passive: true });
+  document.addEventListener("click", (event) => {
+    const link = event.target?.closest?.("[data-toc-link]");
+    if (!link) return;
+    suppressSyncUntil = Date.now() + 700;
+    setActive(link.dataset.tocLink);
+  });
+
+  document.addEventListener("astro:page-load", init);
+  init();
 </script>

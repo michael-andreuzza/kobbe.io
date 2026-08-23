@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import { ClientRouter } from "astro:transitions";
 import Navigation from "@/components/global/Navigation.astro";
 import ProgressiveBlur from "@/components/global/ProgressiveBlur.astro";
 import SiteSeo from "@/components/foundations/head/SiteSeo.astro";
@@ -71,6 +72,11 @@ const {
       data-campaigns="true"
       data-performance="true"
       defer></script>
+    {/* SPA-style navigation: pages swap in-place instead of full document
+        loads. This sidesteps Chrome's input suppression during cross-document
+        paint holding, which was eating rapid clicks on the docs pagination.
+        Inline scripts re-initialize on the astro:page-load event. */}
+    <ClientRouter />
   </head>
   <body class="bg-background flex min-h-svh min-w-0 flex-col ">
     <Navigation docsNavGroups={docsNavGroups} />

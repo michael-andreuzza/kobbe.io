@@ -69,5 +69,7 @@ const containedClass = contained ? "progressive-blur-contained" : "";
     // Re-check once styles and fonts have settled; scrollability can
     // change after first paint.
     window.addEventListener("load", sync);
+    // New page height after every ClientRouter swap.
+    document.addEventListener("astro:page-load", sync);
   })();
 </script>

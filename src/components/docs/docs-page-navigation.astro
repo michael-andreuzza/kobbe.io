@@ -23,7 +23,8 @@ const getHref = (doc: CollectionEntry<"docs">) =>
   doc.id === "overview" ? "/docs" : `/docs/${doc.id}`;
 
 /* Bottom prev/next: quiet text links. `select-none` and no dragging keep
-   rapid click-through paging from stalling (see script below). */
+   rapid click-through paging from triggering text selection or drags; the
+   ClientRouter handles the navigation itself (SPA swap, no dropped clicks). */
 const linkClass =
   "text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm transition-colors select-none [-webkit-user-drag:none]";
 
@@ -97,35 +98,3 @@ const iconLinkClass = cn(
     </nav>
   )
 }
-
-<script>
-  // Navigate on pointerdown instead of waiting for the native click.
-  // Rapid successive clicks can be swallowed by the browser (drag
-  // detection, double/triple-click grouping, input suppression during
-  // navigation), which made click-through paging stall; pointerdown
-  // always fires, so paging keeps up no matter how fast you click.
-  let navigating = false;
-  document.addEventListener("pointerdown", (event) => {
-    if (
-      event.button !== 0 ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey
-    ) {
-      return;
-    }
-    const target = event.target as HTMLElement | null;
-    const link = target?.closest<HTMLAnchorElement>(
-      'a[data-slot="pagination-link"]',
-    );
-    if (!link?.href) return;
-    event.preventDefault();
-    // Chrome holds the old page's pixels until the next page paints, so
-    // extra presses during that window would silently skip pages; only
-    // the first press per document navigates.
-    if (navigating) return;
-    navigating = true;
-    window.location.assign(link.href);
-  });
-</script>

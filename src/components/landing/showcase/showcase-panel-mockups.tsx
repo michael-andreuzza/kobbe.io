@@ -99,7 +99,7 @@ export function PanelLogoStrip(props: {
           <img
             src={brand.logo.src}
             alt={`${brand.name} logo`}
-            className="size-5 rounded object-contain grayscale"
+            className="size-5 rounded object-contain"
             loading="lazy"
             width="20"
             height="20"

@@ -155,60 +155,74 @@ args = ["-y", "@kobbe/cli@latest", "mcp"]`,
 </section>
 
 <script>
-  for (const root of document.querySelectorAll("[data-docs-code-tabs]")) {
-    const tablist = root.querySelector<HTMLElement>("[data-docs-tablist]");
-    const highlight = tablist?.querySelector<HTMLElement>(
-      "[data-docs-tab-highlight]",
-    );
-    const triggers = Array.from(
-      root.querySelectorAll<HTMLButtonElement>("[data-docs-tab-trigger]"),
-    );
-    const panels = Array.from(
-      root.querySelectorAll<HTMLElement>("[data-docs-tab-panel]"),
-    );
+  // The ClientRouter runs this script once per session, so tab wiring lives
+  // in an init that re-runs on every page load; sync callbacks for the roots
+  // currently in the DOM are collected here for the shared resize listener.
+  let highlightSyncs: (() => void)[] = [];
 
-    function activeTrigger(): HTMLButtonElement | null {
-      return triggers.find((t) => t.hasAttribute("data-active")) ?? null;
-    }
+  function initTabs() {
+    highlightSyncs = [];
+    for (const root of document.querySelectorAll("[data-docs-code-tabs]")) {
+      const tablist = root.querySelector<HTMLElement>("[data-docs-tablist]");
+      const highlight = tablist?.querySelector<HTMLElement>(
+        "[data-docs-tab-highlight]",
+      );
+      const triggers = Array.from(
+        root.querySelectorAll<HTMLButtonElement>("[data-docs-tab-trigger]"),
+      );
+      const panels = Array.from(
+        root.querySelectorAll<HTMLElement>("[data-docs-tab-panel]"),
+      );
 
-    function syncHighlight() {
-      if (!tablist || !highlight) {
-        return;
-      }
-      const tab = activeTrigger();
-      if (!tab) {
-        return;
-      }
-      highlight.style.width = `${tab.offsetWidth}px`;
-      highlight.style.transform = `translateX(${tab.offsetLeft}px)`;
-    }
-
-    function selectTab(value: string) {
-      for (const trigger of triggers) {
-        const isActive = trigger.dataset.value === value;
-        trigger.toggleAttribute("data-active", isActive);
-        trigger.setAttribute("aria-selected", String(isActive));
-        trigger.tabIndex = isActive ? 0 : -1;
+      function activeTrigger(): HTMLButtonElement | null {
+        return triggers.find((t) => t.hasAttribute("data-active")) ?? null;
       }
 
-      for (const panel of panels) {
-        panel.hidden = panel.dataset.value !== value;
-      }
-
-      requestAnimationFrame(() => {
-        syncHighlight();
-      });
-    }
-
-    syncHighlight();
-    window.addEventListener("resize", syncHighlight);
-
-    for (const trigger of triggers) {
-      trigger.addEventListener("click", () => {
-        if (trigger.dataset.value) {
-          selectTab(trigger.dataset.value);
+      function syncHighlight() {
+        if (!tablist || !highlight) {
+          return;
         }
-      });
+        const tab = activeTrigger();
+        if (!tab) {
+          return;
+        }
+        highlight.style.width = `${tab.offsetWidth}px`;
+        highlight.style.transform = `translateX(${tab.offsetLeft}px)`;
+      }
+
+      function selectTab(value: string) {
+        for (const trigger of triggers) {
+          const isActive = trigger.dataset.value === value;
+          trigger.toggleAttribute("data-active", isActive);
+          trigger.setAttribute("aria-selected", String(isActive));
+          trigger.tabIndex = isActive ? 0 : -1;
+        }
+
+        for (const panel of panels) {
+          panel.hidden = panel.dataset.value !== value;
+        }
+
+        requestAnimationFrame(() => {
+          syncHighlight();
+        });
+      }
+
+      syncHighlight();
+      highlightSyncs.push(syncHighlight);
+
+      for (const trigger of triggers) {
+        trigger.addEventListener("click", () => {
+          if (trigger.dataset.value) {
+            selectTab(trigger.dataset.value);
+          }
+        });
+      }
     }
   }
+
+  window.addEventListener("resize", () => {
+    for (const syncHighlight of highlightSyncs) syncHighlight();
+  });
+  document.addEventListener("astro:page-load", initTabs);
+  initTabs();
 </script>
