@@ -38,7 +38,7 @@ export function SimplifiedPricingSection({
 
   /** Muted panels matching the showcase feed cards: copy top, content bottom. */
   const panelClassName =
-    "bg-muted text-foreground relative flex min-w-0 flex-col justify-between gap-10 overflow-hidden rounded-lg   p-4 sm:p-6";
+    "bg-card text-foreground relative flex min-w-0 flex-col justify-between gap-10 overflow-hidden rounded-lg p-4 shadow-sm sm:p-6";
 
   return (
     <div
@@ -50,7 +50,7 @@ export function SimplifiedPricingSection({
     >
       {/* Carbon box, shown after the feature list on desktop. */}
       <article
-        className={cn(panelClassName, "inverted bg-card lg:order-2")}
+        className={cn(panelClassName, "inverted bg-card ")}
         aria-label="Pricing plans"
       >
         <div className="max-w-md space-y-1">
@@ -126,7 +126,7 @@ export function SimplifiedPricingSection({
       </article>
 
       <article
-        className={cn(panelClassName, "lg:order-1")}
+        className={cn(panelClassName)}
         aria-label="Included features"
       >
         <div className="max-w-md space-y-1">

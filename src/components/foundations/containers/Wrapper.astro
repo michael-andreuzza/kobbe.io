@@ -21,20 +21,19 @@ const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
     "max-w-none",
     "text-muted-foreground",
     // Headings
-    "prose-headings:font-normal",
-    // Softened a step below pure foreground so headings on the inverted
-    // docs panel don't glare white, while staying above the muted body text.
-    "prose-headings:text-foreground/80",
+    "prose-headings:font-semibold",
+    "prose-headings:text-foreground",
     "prose-headings:first:mt-0",
     // Paragraphs
-    "prose-p:muted-foreground",
+    "prose-p:font-medium",
+    "prose-p:text-muted-foreground",
     // Blockquotes
     "prose-blockquote:border-border",
     "prose-blockquote:text-muted-foreground",
     "prose-blockquote:font-normal",
     "prose-blockquote:tracking-normal",
     // Links
-    "prose-a:text-muted-foreground",
+    "prose-a:text-foreground",
     "prose-a:duration-200",
     // Images
     "prose-img:border",
@@ -68,15 +67,15 @@ const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
     "prose-td:align-top",
     "prose-td:text-muted-foreground",
     "[&_td_code]:rounded-md",
-    "[&_td_code]:bg-card",
+    "[&_td_code]:bg-muted",
     "[&_td_code]:px-1.5",
     "[&_td_code]:py-0.5",
     // Code & Pre
     "prose-code:font-medium",
     "prose-code:text-foreground",
     "prose-strong:font-semibold",
-    "prose-strong:text-foreground/80",
-    "prose-pre:bg-card",
+    "prose-strong:text-foreground",
+    "prose-pre:bg-muted",
     "prose-pre:text-foreground",
     "prose-pre:rounded-md",
     "prose-pre:scrollbar-hide prose-pre:border-none",

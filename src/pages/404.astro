@@ -1,10 +1,10 @@
 ---
-import SidebarLayout from "@/layouts/SidebarLayout.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
-<SidebarLayout title="Not found: Kobbe" noindex nofollow>
+<BaseLayout title="Not found: Kobbe" noindex nofollow>
   <section
-    class="bg-muted flex min-h-[calc(100svh-1rem)] flex-col items-center justify-center rounded-lg p-6 text-center"
+    class="flex min-h-[60svh] flex-col items-center justify-center p-6 text-center"
     data-kobbe-not-found
   >
     <p class="text-foreground text-6xl font-semibold">404</p>
@@ -18,4 +18,4 @@ import SidebarLayout from "@/layouts/SidebarLayout.astro";
       Back to home
     </a>
   </section>
-</SidebarLayout>
+</BaseLayout>

@@ -2,11 +2,11 @@
 import "@/styles/blur.css";
 
 /**
- * Progressive blur along the top and bottom edges, scroll-aware like the
- * app's settings panels: the top edge fades in once you scroll down, the
- * bottom edge fades out at the end.
+ * Progressive blur along the bottom edge, scroll-aware: it fades out once
+ * you reach the end of the page. (No top blur: the sticky desktop nav sits
+ * at the top instead.)
  *
- * Default: fixed to the viewport edges, tracking window scroll.
+ * Default: fixed to the viewport edge, tracking window scroll.
  * `contained`: absolute inside the nearest positioned ancestor, tracking a
  * sibling scroll container marked with `data-progressive-blur-scroll`.
  */
@@ -19,19 +19,6 @@ const { class: className = "", contained = false } = Astro.props;
 const containedClass = contained ? "progressive-blur-contained" : "";
 ---
 
-<div
-  class={`progressive-blur-top ${containedClass} ${className}`.trim()}
-  data-progressive-blur="top"
-  data-progressive-blur-contained={contained ? "" : undefined}
-  aria-hidden="true"
->
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
 <div
   class={`progressive-blur-bottom ${containedClass} ${className}`.trim()}
   data-progressive-blur="bottom"
@@ -70,10 +57,7 @@ const containedClass = contained ? "progressive-blur-contained" : "";
               document.documentElement.scrollHeight - window.innerHeight;
             y = window.scrollY;
           }
-          var edge = el.getAttribute("data-progressive-blur");
-          var show =
-            maxScroll > 1 &&
-            (edge === "top" ? y > threshold : y < maxScroll - threshold);
+          var show = maxScroll > 1 && y < maxScroll - threshold;
           el.style.opacity = show ? "1" : "0";
         });
     };

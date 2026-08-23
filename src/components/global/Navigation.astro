@@ -1,0 +1,29 @@
+---
+import SiteHeaderNav from "@/components/global/site-header-nav";
+import { SiteMobileMenu } from "@/components/global/site-mobile-menu";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+
+interface Props {
+  docsNavGroups?: {
+    category: string;
+    items: { href: string; label: string; isActive: boolean }[];
+  }[];
+}
+
+const { docsNavGroups } = Astro.props;
+---
+
+{/* Desktop: sticky top header with the floating mega menu. */}
+<header
+  data-site-header
+  class="bg-background sticky top-0 z-40 hidden overflow-visible lg:block print:hidden"
+>
+  <Wrapper variant="nav" class="overflow-visible">
+    <SiteHeaderNav client:load />
+  </Wrapper>
+</header>
+
+{/* Mobile: pinned carbon card opening the side panel (docs tree on docs pages). */}
+<div class="p-2 pb-0 lg:hidden print:hidden">
+  <SiteMobileMenu client:load docsGroups={docsNavGroups} />
+</div>

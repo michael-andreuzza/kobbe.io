@@ -5,7 +5,7 @@ import { feature } from "topojson-client";
 import type { Topology, GeometryCollection } from "topojson-specification";
 import countriesAtlas from "world-atlas/countries-110m.json";
 
-import { KLEIN_RAMP } from "../dashboard/traffic-gradient";
+import { APP_RAMP } from "../dashboard/traffic-gradient";
 
 /**
  * Decorative version of the app's realtime globe for the landing showcase:
@@ -136,7 +136,7 @@ function readColors(): GlobeColors {
     ),
     points: RAMP_SAMPLES.map((t, index) =>
       resolveCssColor(
-        KLEIN_RAMP.sample(t),
+        APP_RAMP.sample(t),
         RAMP_FALLBACKS[index] ?? RAMP_FALLBACKS[0],
       ),
     ),

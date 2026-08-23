@@ -1,7 +1,7 @@
 :root {
   /* Astro / Shiki `theme: "css-variables"` mapped to semantic grayscale tokens. */
-  /* Card surface so code blocks stand out on the muted docs panels. */
-  --color-syntax-surface: var(--background);
+  /* Lighter cream surface so code blocks stand out on the sand canvas. */
+  --color-syntax-surface: var(--muted);
   --color-syntax-foreground: var(--foreground);
   --color-syntax-muted: var(--muted-foreground);
   --color-syntax-comment: color-mix(

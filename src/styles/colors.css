@@ -23,50 +23,47 @@
   --color-carbon: var(--carbon);
 }
 :root {
-  /* Solomon-style sand/cream neutrals: cream canvas (#FAF9F2), deeper cream
-     panels (#F0EFE8), sand borders (#DDDCD6), and pure-neutral carbon darks
-     (#2B2B2B, chroma 0) so text never drifts yellow or blue. */
-  /* Sand canvas (#DDDCD6). */
-  --background: oklch(0.895 0.007 96);
+  /* Pure-neutral gray palette (chroma 0 throughout): gray canvas, lighter
+     gray panels, and carbon darks (#2B2B2B) so nothing drifts warm. */
+  /* Gray canvas. */
+  --background: oklch(0.895 0 0);
   --foreground: oklch(0.289 0 0);
-  /* Fixed accents (same in both themes): sand canvas tone (#DDDCD6) and its
+  /* Fixed accents (same in both themes): the gray canvas tone and its
      dark carbon counterpart (#2B2B2B). */
-  --sand: oklch(0.895 0.007 96);
+  --sand: oklch(0.895 0 0);
   --carbon: oklch(0.289 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.289 0 0);
   --primary: oklch(0.289 0 0);
-  --primary-foreground: oklch(0.982 0.004 102);
+  --primary-foreground: oklch(0.982 0 0);
   /* Secondary surfaces reuse the fixed sand/carbon accents, so they look
      the same on the light canvas and inside inverted carbon panels. */
   --secondary: var(--sand);
   --secondary-foreground: var(--carbon);
-  /* Solomon panel tone (#F0EFE8). */
-  --muted: oklch(0.951 0.009 99.987);
+  /* Light gray panel tone. */
+  --muted: oklch(0.951 0 0);
   --muted-foreground: oklch(0.51 0 0);
-  /* Army green accent sampled from the traffic chart gradient. */
-  --brand: #BDB688;
+  /* Mid-ramp blue from the app gradient; shared with the app. */
+  --brand: oklch(0.58 0.16 255);
   --success: oklch(0.565 0.11 164.584);
   --destructive: oklch(0.566 0.197 12.263);
   /* Orange caution tier between warning (amber) and destructive (red). */
   --caution: oklch(0.7 0.17 45);
   --warning: oklch(0.661 0.121 71.707);
   --info: oklch(0.565 0.098 243.005);
-  --border: oklch(0.895 0.007 96);
-  --input: oklch(0.895 0.007 96);
-  --ring: oklch(0.77 0.006 97);
-  --revenue-bar-stack: var(--brand);
-  --chart-grid-stroke: oklch(0.895 0.007 96 / 0.55);
-  /** Vertical hover/pin guides (dashed); full-opacity match to grid hue. */
-  --chart-guide-stroke: oklch(0.895 0.007 96);
+  --border: oklch(0.895 0 0);
+  /* One step darker than --border so field borders still read on sand
+     surfaces (which share the border tone). Mirrors the app. */
+  --input: oklch(0.83 0 0);
+  --ring: oklch(0.77 0 0);
 }
 /* Inverted surface: carbon panel (#2B2B2B) on the sand canvas, Solomon
    style — light warm-gray text that brightens to near-white. */
 .inverted {
-  --foreground: oklch(0.96 0.002 96);
-  --muted-foreground: oklch(0.61 0.003 84.565);
+  --foreground: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.61 0 0);
   --card: oklch(0.289 0 0);
-  --card-foreground: oklch(0.96 0.002 96);
+  --card-foreground: oklch(0.96 0 0);
   --muted: oklch(0.34 0 0);
   --border: oklch(1 0 0 / 0.1);
   /* Field borders slightly stronger than dividers so inputs read on carbon. */
@@ -80,8 +77,8 @@
   --muted-foreground: oklch(0.51 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.289 0 0);
-  --muted: oklch(0.951 0.009 99.987);
-  --border: oklch(0.895 0.007 96);
-  --input: oklch(0.895 0.007 96);
-  --background: oklch(0.895 0.007 96);
+  --muted: oklch(0.951 0 0);
+  --border: oklch(0.895 0 0);
+  --input: oklch(0.83 0 0);
+  --background: oklch(0.895 0 0);
 }

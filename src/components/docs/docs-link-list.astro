@@ -32,7 +32,7 @@ const { sections, showLogos = false, className = "mt-8" } = Astro.props;
         <h2 class="text-foreground/80 text-xl font-normal tracking-tight">
           {section.title}
         </h2>
-        <div class="mt-3 grid gap-2 sm:grid-cols-2">
+        <div class="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {section.items.map((item) => (
             <a
               href={item.href}

@@ -1,7 +1,7 @@
 /**
- * Gradient ramps for the landing chart mockups. Each chart on the showcase
- * can use its own ramp; the army ramp stays the default and is kept in sync
- * with TRAFFIC_GRADIENT_STOP_VALUES in the app's traffic-gradient-chart.
+ * Gradient ramp for the landing chart mockups. All showcase charts share the
+ * app ramp, kept in sync with TRAFFIC_GRADIENT_STOP_VALUES in the app's
+ * traffic-gradient-chart so mockups match the real dashboard.
  */
 
 type GradientStopValue = { at: number; l: number; c: number; h: number };
@@ -45,55 +45,26 @@ function makeRamp(
   };
 }
 
-/** Klein ramp: single electric ultramarine hue, light → saturated dark. */
-export const KLEIN_RAMP = makeRamp(
+/**
+ * App ramp: the real dashboard's indigo → cyan gradient. Mirrors
+ * TRAFFIC_GRADIENT_STOP_VALUES in the app's traffic-gradient-chart so the
+ * hero mockup matches what users actually see.
+ */
+export const APP_RAMP = makeRamp(
   [
-    { at: 0, l: 0.82, c: 0.08, h: 264 },
-    { at: 0.38, l: 0.62, c: 0.18, h: 264 },
-    { at: 0.7, l: 0.48, c: 0.25, h: 264 },
-    { at: 1, l: 0.38, c: 0.22, h: 264 },
+    { at: 0, l: 0.45, c: 0.17, h: 285 },
+    { at: 0.38, l: 0.58, c: 0.16, h: 255 },
+    { at: 0.7, l: 0.68, c: 0.14, h: 230 },
+    { at: 1, l: 0.78, c: 0.12, h: 200 },
   ],
-  "oklch(0.5 0.24 264)",
-);
-
-/** Signal ramp: the old Kobbe brand orange as a single hue, light → deep. */
-export const SIGNAL_RAMP = makeRamp(
-  [
-    { at: 0, l: 0.88, c: 0.06, h: 35 },
-    { at: 0.38, l: 0.74, c: 0.16, h: 35 },
-    { at: 0.7, l: 0.62, c: 0.22, h: 35 },
-    { at: 1, l: 0.5, c: 0.19, h: 35 },
-  ],
-  "oklch(0.657 0.23 35.095)",
-);
-
-/** Rose ramp: single dusty old-rose hue, light → deep (funnels). */
-export const ROSE_RAMP = makeRamp(
-  [
-    { at: 0, l: 0.9, c: 0.03, h: 15 },
-    { at: 0.38, l: 0.74, c: 0.08, h: 15 },
-    { at: 0.7, l: 0.6, c: 0.1, h: 15 },
-    { at: 1, l: 0.46, c: 0.09, h: 15 },
-  ],
-  "oklch(0.64 0.09 15)",
-);
-
-/** Volt ramp: single highlighter yellow-green hue, bright → deep. */
-export const VOLT_RAMP = makeRamp(
-  [
-    { at: 0, l: 0.95, c: 0.11, h: 125 },
-    { at: 0.38, l: 0.84, c: 0.22, h: 125 },
-    { at: 0.7, l: 0.68, c: 0.2, h: 125 },
-    { at: 1, l: 0.5, c: 0.14, h: 125 },
-  ],
-  "oklch(0.74 0.21 125)",
+  "oklch(0.58 0.16 255)",
 );
 
 /** Default ramp used where a chart has not picked its own. */
-export const TRAFFIC_GRADIENT_STOPS = KLEIN_RAMP.stops;
+export const TRAFFIC_GRADIENT_STOPS = APP_RAMP.stops;
 
 /** Sample the default traffic gradient at position `t` (0-1). */
-export const sampleTrafficGradient = KLEIN_RAMP.sample;
+export const sampleTrafficGradient = APP_RAMP.sample;
 
 /** Active-dot accent from the middle of the default ramp. */
-export const GRADIENT_ACCENT = KLEIN_RAMP.accent;
+export const GRADIENT_ACCENT = APP_RAMP.accent;

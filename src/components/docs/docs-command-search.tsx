@@ -57,13 +57,13 @@ export function DocsCommandSearchTrigger({
   const shortcutLabel = getDocsSearchShortcutLabel();
 
   return (
-    // Plain text row in the mega menu language: no box, no border; the row
-    // just brightens on hover, with the shortcut as a quiet hint.
+    // Quiet field: white box on the light canvas; inside inverted panels
+    // bg-card matches the panel so only the border outlines the field.
     <button
       type="button"
       onClick={openDocsSearch}
       className={cn(
-        "text-muted-foreground hover:text-foreground flex h-8 w-full items-center gap-2 text-left text-xs transition-colors outline-none",
+        "border-border bg-card text-muted-foreground hover:text-foreground flex h-8 w-full items-center gap-2 rounded-md border px-2.5 text-left text-xs transition-colors outline-none",
         className,
       )}
       aria-label="Search"

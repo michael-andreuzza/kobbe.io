@@ -36,9 +36,7 @@ import {
   dashboardCardTitleClass,
 } from "../dashboard/dashboard-card-layout";
 import {
-  ROSE_RAMP,
-  SIGNAL_RAMP,
-  VOLT_RAMP,
+  APP_RAMP,
   type GradientRamp,
 } from "../dashboard/traffic-gradient";
 
@@ -409,7 +407,7 @@ export function AnnotationsPanelMockup() {
             <PanelGradientChart
               idPrefix="showcase-annotations"
               values={values}
-              ramp={SIGNAL_RAMP}
+              ramp={APP_RAMP}
             />
             <div
               className="border-foreground/25 pointer-events-none absolute inset-y-0 border-l border-dashed"
@@ -421,7 +419,7 @@ export function AnnotationsPanelMockup() {
               style={{
                 left: `${pinnedLeft}%`,
                 top: `${pinnedTop}%`,
-                background: SIGNAL_RAMP.accent,
+                background: APP_RAMP.accent,
               }}
               aria-hidden="true"
             />
@@ -431,7 +429,7 @@ export function AnnotationsPanelMockup() {
             >
               <span
                 className="size-1.5 rounded-[2px]"
-                style={{ background: SIGNAL_RAMP.accent }}
+                style={{ background: APP_RAMP.accent }}
                 aria-hidden="true"
               />
               Uneed launch
@@ -486,14 +484,14 @@ export function ConversionPeakPanelMockup() {
             <PanelGradientChart
               idPrefix="showcase-peak"
               values={values}
-              ramp={VOLT_RAMP}
+              ramp={APP_RAMP}
             />
             <div
               className="border-background pointer-events-none absolute size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2"
               style={{
                 left: `${peakLeft}%`,
                 top: `${peakTop}%`,
-                background: VOLT_RAMP.accent,
+                background: APP_RAMP.accent,
               }}
               aria-hidden="true"
             />
@@ -672,7 +670,7 @@ export function FunnelsPanelMockup() {
                 y2="0"
                 gradientUnits="userSpaceOnUse"
               >
-                {ROSE_RAMP.stops.map((stop) => (
+                {APP_RAMP.stops.map((stop) => (
                   <stop
                     key={stop.offset}
                     offset={stop.offset}

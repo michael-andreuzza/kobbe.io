@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import Navigation from "@/components/global/Navigation.astro";
 import ProgressiveBlur from "@/components/global/ProgressiveBlur.astro";
 import SiteSeo from "@/components/foundations/head/SiteSeo.astro";
 import type { JsonLdBreadcrumb } from "@/lib/seo/json-ld";
@@ -18,8 +19,13 @@ interface Props {
   nofollow?: boolean;
   jsonLdBreadcrumbs?: JsonLdBreadcrumb[];
   jsonLdExtra?: Record<string, unknown>[];
-  /** Extra classes for the bottom progressive blur (e.g. sidebar offset). */
+  /** Extra classes for the bottom progressive blur. */
   blurClass?: string;
+  /** On docs pages the mobile panel lists the docs tree instead of the mega menu. */
+  docsNavGroups?: {
+    category: string;
+    items: { href: string; label: string; isActive: boolean }[];
+  }[];
 }
 
 const {
@@ -37,6 +43,7 @@ const {
   jsonLdBreadcrumbs,
   jsonLdExtra,
   blurClass,
+  docsNavGroups,
 } = Astro.props;
 ---
 
@@ -66,8 +73,9 @@ const {
       defer></script>
   </head>
   <body class="bg-background flex min-h-svh min-w-0 flex-col ">
+    <Navigation docsNavGroups={docsNavGroups} />
     {/* No `isolate` here: it would trap the page's fixed UI (mobile nav card,
-        sidebar mega menu) in main's stacking context, painting it below the
+        floating mega menu) in main's stacking context, painting it below the
         body-level progressive blur. */}
     <main class="min-w-0 grow">
       <slot />
