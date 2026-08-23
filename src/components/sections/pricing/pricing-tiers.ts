@@ -11,6 +11,8 @@ export type PricingTierKey =
 export type PricingTier = {
   key: PricingTierKey;
   events: string;
+  /** Numeric event volume, for animated number displays. */
+  eventsCount: number;
   /** Billed monthly. */
   monthly: number;
   /** Shown as $X/mo when yearly billing is selected. */
@@ -23,6 +25,7 @@ export const pricingTiers = [
   {
     key: "events_20k",
     events: "20K",
+    eventsCount: 20_000,
     monthly: 8,
     yearlyMonthly: 7,
     yearly: 80,
@@ -30,6 +33,7 @@ export const pricingTiers = [
   {
     key: "events_500k",
     events: "500K",
+    eventsCount: 500_000,
     monthly: 14,
     yearlyMonthly: 12,
     yearly: 140,
@@ -37,6 +41,7 @@ export const pricingTiers = [
   {
     key: "events_1m",
     events: "1M",
+    eventsCount: 1_000_000,
     monthly: 20,
     yearlyMonthly: 17,
     yearly: 200,
@@ -44,6 +49,7 @@ export const pricingTiers = [
   {
     key: "events_3m",
     events: "3M",
+    eventsCount: 3_000_000,
     monthly: 49,
     yearlyMonthly: 41,
     yearly: 490,
@@ -51,6 +57,7 @@ export const pricingTiers = [
   {
     key: "events_5m",
     events: "5M",
+    eventsCount: 5_000_000,
     monthly: 129,
     yearlyMonthly: 108,
     yearly: 1290,
@@ -58,6 +65,7 @@ export const pricingTiers = [
   {
     key: "events_10m",
     events: "10M",
+    eventsCount: 10_000_000,
     monthly: 219,
     yearlyMonthly: 183,
     yearly: 2190,

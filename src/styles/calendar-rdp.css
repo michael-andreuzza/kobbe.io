@@ -1,0 +1,50 @@
+/**
+ * Force theme tokens over react-day-picker’s bundled defaults
+ * (literal `blue` / #f0f0ff) which otherwise win when utilities don’t.
+ * Mirrors app.kobbe.io/app/styles/calendar-rdp.css.
+ */
+.calendar-rdp.rdp-root {
+  --rdp-accent-color: var(--brand);
+  --rdp-accent-background-color: color-mix(in oklab, var(--brand) 20%, var(--card));
+  --rdp-range_middle-background-color: color-mix(in oklab, var(--brand) 20%, var(--card));
+  --rdp-range_middle-color: var(--foreground);
+  --rdp-range_start-color: var(--primary-foreground);
+  --rdp-range_end-color: var(--primary-foreground);
+  /* Today uses accent in defaults; use normal foreground so it doesn’t look
+     like a second “selection”. */
+  --rdp-today-color: var(--foreground);
+  --rdp-outside-opacity: 0.4;
+  --rdp-day-width: 2rem;
+  --rdp-day-height: 2rem;
+  --rdp-day_button-width: 2rem;
+  --rdp-day_button-height: 2rem;
+  --rdp-day_button-border-radius: 0.375rem;
+  --rdp-months-gap: 1.5rem;
+  --rdp-selected-border: 2px solid transparent;
+}
+
+/* Package sets `.rdp-selected { font-size: large }`, that blows up all
+   selected day numbers. */
+.calendar-rdp .rdp-day {
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+.calendar-rdp .rdp-day.rdp-selected {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.calendar-rdp .rdp-day_button {
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+.calendar-rdp .rdp-weekday {
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.calendar-rdp .rdp-chevron {
+  fill: var(--muted-foreground);
+}

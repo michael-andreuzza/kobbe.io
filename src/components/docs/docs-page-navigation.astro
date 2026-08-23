@@ -1,14 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationNext,
-  PaginationNextIcon,
-  PaginationPrevious,
-  PaginationPreviousIcon,
-} from "@/components/ui/pagination";
+import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 interface Props {
   docs: CollectionEntry<"docs">[];
@@ -26,59 +19,107 @@ const nextDoc =
 
 const getHref = (doc: CollectionEntry<"docs">) =>
   doc.id === "overview" ? "/docs" : `/docs/${doc.id}`;
+
+/* Quiet text links instead of buttons: muted ink that brightens on hover,
+   in line with the rest of the docs chrome. `select-none` and no dragging
+   keep rapid click-through paging from stalling (see script below). */
+const linkClass =
+  "text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm transition-colors select-none [-webkit-user-drag:none]";
+
+const iconLinkClass =
+  "text-muted-foreground hover:text-foreground inline-flex size-8 items-center justify-center transition-colors select-none [-webkit-user-drag:none]";
 ---
 
 {
   (previousDoc || nextDoc) && (
-    <Pagination
-      className={
+    <nav
+      aria-label="pagination"
+      class={
         variant === "compact"
-          ? "not-prose w-auto justify-end"
-          : "not-prose border-border mt-10 border-t pt-6"
+          ? "not-prose flex items-center gap-1"
+          : "not-prose border-border mt-10 flex items-center justify-between gap-4 border-t pt-6"
       }
     >
-      <PaginationContent className="w-full justify-between">
-        <PaginationItem>
-          {previousDoc ? (
-            variant === "compact" ? (
-              <PaginationPreviousIcon
-                href={getHref(previousDoc)}
-                size="icon-xs"
-                variant="outline"
-                aria-label={`Previous: ${previousDoc.data.navLabel ?? previousDoc.data.title}`}
-              />
-            ) : (
-              <PaginationPrevious href={getHref(previousDoc)} size="default">
-                {previousDoc.data.navLabel ?? previousDoc.data.title}
-              </PaginationPrevious>
-            )
-          ) : variant === "compact" ? (
-            <span class="block size-8" aria-hidden="true" />
-          ) : (
-            <span />
-          )}
-        </PaginationItem>
-        <PaginationItem>
-          {nextDoc ? (
-            variant === "compact" ? (
-              <PaginationNextIcon
-                href={getHref(nextDoc)}
-                size="icon-xs"
-                variant="outline"
-                aria-label={`Next: ${nextDoc.data.navLabel ?? nextDoc.data.title}`}
-              />
-            ) : (
-              <PaginationNext href={getHref(nextDoc)} size="default">
-                {nextDoc.data.navLabel ?? nextDoc.data.title}
-              </PaginationNext>
-            )
-          ) : variant === "compact" ? (
-            <span class="block size-8" aria-hidden="true" />
-          ) : (
-            <span />
-          )}
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+      {previousDoc ? (
+        <a
+          href={getHref(previousDoc)}
+          data-slot="pagination-link"
+          data-astro-prefetch="viewport"
+          draggable="false"
+          aria-label={`Previous: ${previousDoc.data.navLabel ?? previousDoc.data.title}`}
+          class={variant === "compact" ? iconLinkClass : linkClass}
+        >
+          <HugeiconsIcon
+            icon={ArrowLeft01Icon}
+            size={14}
+            strokeWidth={1.8}
+            aria-hidden="true"
+          />
+          {variant === "compact"
+            ? null
+            : (previousDoc.data.navLabel ?? previousDoc.data.title)}
+        </a>
+      ) : variant === "compact" ? (
+        <span class="block size-8" aria-hidden="true" />
+      ) : (
+        <span />
+      )}
+      {nextDoc ? (
+        <a
+          href={getHref(nextDoc)}
+          data-slot="pagination-link"
+          data-astro-prefetch="viewport"
+          draggable="false"
+          aria-label={`Next: ${nextDoc.data.navLabel ?? nextDoc.data.title}`}
+          class={variant === "compact" ? iconLinkClass : linkClass}
+        >
+          {variant === "compact"
+            ? null
+            : (nextDoc.data.navLabel ?? nextDoc.data.title)}
+          <HugeiconsIcon
+            icon={ArrowRight01Icon}
+            size={14}
+            strokeWidth={1.8}
+            aria-hidden="true"
+          />
+        </a>
+      ) : variant === "compact" ? (
+        <span class="block size-8" aria-hidden="true" />
+      ) : (
+        <span />
+      )}
+    </nav>
   )
 }
+
+<script>
+  // Navigate on pointerdown instead of waiting for the native click.
+  // Rapid successive clicks can be swallowed by the browser (drag
+  // detection, double/triple-click grouping, input suppression during
+  // navigation), which made click-through paging stall; pointerdown
+  // always fires, so paging keeps up no matter how fast you click.
+  let navigating = false;
+  document.addEventListener("pointerdown", (event) => {
+    if (
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+    const target = event.target as HTMLElement | null;
+    const link = target?.closest<HTMLAnchorElement>(
+      'a[data-slot="pagination-link"]',
+    );
+    if (!link?.href) return;
+    event.preventDefault();
+    // Chrome holds the old page's pixels until the next page paints, so
+    // extra presses during that window would silently skip pages; only
+    // the first press per document navigates.
+    if (navigating) return;
+    navigating = true;
+    window.location.assign(link.href);
+  });
+</script>

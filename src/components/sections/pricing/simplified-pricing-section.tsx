@@ -1,14 +1,11 @@
 import { useState } from "react";
+import NumberFlow from "@number-flow/react";
 
 import { BillingPeriodTabs } from "@/components/sections/pricing/billing-period-tabs";
 import { PricingFeatureMark } from "@/components/sections/pricing/pricing-feature-mark";
-import {
-  PricingPriceDisplay,
-  PricingTickerText,
-} from "@/components/sections/pricing/pricing-price-display";
+import { PricingPriceDisplay } from "@/components/sections/pricing/pricing-price-display";
 import { PricingVolumeSlider } from "@/components/sections/pricing/pricing-volume-slider";
 import { buttonVariants } from "@/components/ui/button";
-import { sampleTrafficGradient } from "@/components/landing/dashboard/traffic-gradient";
 import { cn } from "@/lib/utils";
 import {
   buildSignupHref,
@@ -39,37 +36,47 @@ export function SimplifiedPricingSection({
   const signupHref = buildSignupHref(appBaseUrl, tier.key, period);
   const trialCtaLabel = `Start free for ${pricingTrialDays} days`;
 
-  const cardClassName =
-    "bg-card text-foreground relative flex min-w-0 flex-col overflow-hidden rounded-lg p-4 shadow-sm lg:p-8 dark:bg-linear-to-b dark:from-white/3 dark:to-white/0";
-
-  // Aurora glow along the bottom of the features card: soft radial blobs
-  // sampled from the traffic chart ramp (violet -> magenta -> pink -> orange).
-  const auroraGlow = [
-    `radial-gradient(55% 90% at 8% 100%, ${sampleTrafficGradient(0)}, transparent 70%)`,
-    `radial-gradient(45% 75% at 38% 100%, ${sampleTrafficGradient(0.38)}, transparent 70%)`,
-    `radial-gradient(50% 80% at 70% 100%, ${sampleTrafficGradient(0.7)}, transparent 70%)`,
-    `radial-gradient(55% 95% at 100% 100%, ${sampleTrafficGradient(1)}, transparent 70%)`,
-  ].join(", ");
+  /** Muted panels matching the showcase feed cards: copy top, content bottom. */
+  const panelClassName =
+    "bg-muted text-foreground relative flex min-w-0 flex-col justify-between gap-10 overflow-hidden rounded-lg   p-4 sm:p-6";
 
   return (
-    <div className={cn("w-full min-w-0", className)}>
-      <div className="grid items-stretch gap-4 lg:grid-cols-2">
-        <article className={cardClassName}>
+    <div
+      id="pricing"
+      className={cn(
+        "grid w-full min-w-0 grid-cols-1 items-stretch gap-2 lg:grid-cols-2",
+        className,
+      )}
+    >
+      {/* Carbon box, shown after the feature list on desktop. */}
+      <article
+        className={cn(panelClassName, "inverted bg-card lg:order-2")}
+        aria-label="Pricing plans"
+      >
+        <div className="max-w-md space-y-1">
+          <p className="text-foreground text-xs font-medium">Pricing</p>
+          <p className="text-muted-foreground text-xs text-balance">
+            Same features on every plan. Start with a {pricingTrialDays}-day
+            free trial, no credit card required.
+          </p>
+        </div>
+
+        <div className="flex min-w-0 flex-col">
           <BillingPeriodTabs
             period={period}
             onPeriodChange={setPeriod}
-            className="shrink-0"
+            className="mt-6 shrink-0"
           />
-
-          <p className="text-muted-foreground mt-12 text-sm font-medium text-balance">
-            Pageviews, custom events, and Web Vitals share one monthly limit
-            across your workspace.
-          </p>
 
           <div className="mt-8 flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="text-foreground font-display text-4xl font-medium tracking-tight sm:text-5xl">
-                <PricingTickerText text={tier.events} value={tierIndex} />
+              <p className="text-foreground font-display text-xl font-medium tracking-tight sm:text-2xl">
+                <NumberFlow
+                  value={tier.eventsCount}
+                  locales="en-US"
+                  format={{ notation: "compact" }}
+                  className="tabular-nums"
+                />
               </p>
               <p className="text-muted-foreground text-sm font-medium">
                 Events
@@ -80,8 +87,10 @@ export function SimplifiedPricingSection({
               <PricingPriceDisplay
                 period={period}
                 displayAmount={displayAmount}
-                yearlyTotalAmount={period === "yearly" ? tier.yearly : undefined}
-                className="text-foreground text-xl font-semibold tracking-tighter"
+                yearlyTotalAmount={
+                  period === "yearly" ? tier.yearly : undefined
+                }
+                className="text-foreground text-lg font-semibold tracking-tighter"
               />
               <p className="text-muted-foreground ml-auto text-sm font-medium">
                 {period === "monthly"
@@ -91,7 +100,8 @@ export function SimplifiedPricingSection({
             </div>
           </div>
 
-          <div className="mt-4">
+          {/* Sand fill on a dark muted rail inside the inverted panel. */}
+          <div className="mt-4 [--background:var(--sand)] [--card:var(--muted)]">
             <PricingVolumeSlider
               value={tierIndex}
               onChange={setTierIndex}
@@ -99,53 +109,48 @@ export function SimplifiedPricingSection({
             />
           </div>
 
-          <div className="mt-auto pt-8">
+          <div className="mt-4">
             <a
               href={signupHref}
               data-kobbe-event={`Simplified pricing - ${tier.events} ${period}`}
-              className={cn(
-                buttonVariants({ variant: "default", size: "lg" }),
-                "w-full",
-              )}
+              className={cn(buttonVariants({ variant: "secondary" }), "w-full")}
             >
               {trialCtaLabel}
             </a>
-            <p className="text-muted-foreground border-border mt-4 border-t pt-4 text-xs font-medium text-balance">
+            <p className="text-muted-foreground mt-4 text-xs text-balance">
               {formatTierTrialPriceNote(displayAmount, period)} Upgrade or
               downgrade anytime and cancel anytime
             </p>
           </div>
-        </article>
+        </div>
+      </article>
 
-        <article className={cardClassName}>
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 -bottom-16 h-56 opacity-25 blur-2xl saturate-150 dark:opacity-40"
-            style={{ backgroundImage: auroraGlow }}
-          />
-          <div className="relative">
-            <p className="text-foreground text-base font-medium">
-              Everything included
-            </p>
-            <p className="text-muted-foreground mt-1 text-sm text-pretty">
-              Same features on every plan; only the event volume changes.
-            </p>
-            <ul
-              className="text-foreground mt-6 grid list-none grid-cols-1 items-start gap-y-1.5 font-medium"
-              role="list"
-            >
-              {featureRows.map((feature) => (
-                <li key={feature} className="flex items-start gap-2">
-                  <PricingFeatureMark />
-                  <p className="text-sm tracking-tight text-foreground">
-                    {feature}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </article>
-      </div>
+      <article
+        className={cn(panelClassName, "lg:order-1")}
+        aria-label="Included features"
+      >
+        <div className="max-w-md space-y-1">
+          <p className="text-foreground text-xs font-medium">
+            Everything included
+          </p>
+          <p className="text-muted-foreground text-xs text-pretty">
+            Same features on every plan; only the event volume changes.
+          </p>
+        </div>
+        <ul
+          className="text-foreground grid list-none grid-cols-1 items-start gap-y-1.5 font-medium"
+          role="list"
+        >
+          {featureRows.map((feature) => (
+            <li key={feature} className="flex items-start gap-2">
+              <PricingFeatureMark />
+              <p className="text-foreground text-sm tracking-tight">
+                {feature}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </article>
     </div>
   );
 }

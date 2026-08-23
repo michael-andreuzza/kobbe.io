@@ -53,7 +53,7 @@ const topNotificationsById = {
   ],
   "custom-events": [
     {
-      state: "destructive",
+      state: "caution",
       title: "Do not send personal data",
       body: "Do not include emails, names, user IDs, phone numbers, addresses, or other personal data in event names or properties.",
     },
@@ -67,7 +67,7 @@ const topNotificationsById = {
   ],
   "ai-agents": [
     {
-      state: "destructive",
+      state: "caution",
       title: "Limit dangerous permissions",
       body: "Only give danger:write to agents you fully trust. That scope can delete sites or reset analytics data.",
     },
@@ -111,7 +111,7 @@ const bottomNotifications =
   title={`${entry.data.title}: Kobbe`}
   pageTitle={entry.data.title}
   description={entry.data.description}
-  navItems={docsNavItems}
+  navItems={docs}
 >
   <DocsPageNavigation
     slot="header-actions"

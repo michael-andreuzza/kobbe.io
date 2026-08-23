@@ -4,6 +4,8 @@ export type DocsSearchItem = {
   description: string;
   category: string;
   href: string;
+  /** Compact word bag from the page body, so content terms also match. */
+  keywords?: string;
   logo?: {
     src: string;
     alt: string;
@@ -40,12 +42,28 @@ export function filterDocsSearchItems(
     return [...items];
   }
 
-  return items.filter((item) => {
-    const haystack = normalize(
-      [item.title, item.description, item.category, item.id].join(" "),
-    );
-    return tokens.every((token) => haystack.includes(token));
-  });
+  return items
+    .map((item) => {
+      const primary = normalize(
+        [item.title, item.description, item.category, item.id].join(" "),
+      );
+      const title = normalize(item.title);
+      const body = normalize(item.keywords ?? "");
+      if (!tokens.every((token) => primary.includes(token) || body.includes(token))) {
+        return null;
+      }
+      // Title hits outrank description/category hits, which outrank
+      // body-keyword-only hits.
+      const score = tokens.every((token) => title.includes(token))
+        ? 2
+        : tokens.every((token) => primary.includes(token))
+          ? 1
+          : 0;
+      return { item, score };
+    })
+    .filter((entry) => entry != null)
+    .sort((a, b) => b.score - a.score)
+    .map((entry) => entry.item);
 }
 
 export function groupDocsSearchItems(items: readonly DocsSearchItem[]) {

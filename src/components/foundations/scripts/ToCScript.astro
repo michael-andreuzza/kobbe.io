@@ -27,13 +27,17 @@
     };
   });
 
+  const inactiveClassName =
+    "flex text-xs/5 text-muted-foreground transition-colors hover:text-foreground";
+  const activeClassName = "flex text-xs/5 text-foreground transition-colors";
+
   tocLists.forEach((tocList) => {
     items.forEach((item) => {
       const link = document.createElement("a");
       link.href = `#${item.id}`;
       link.textContent = item.text;
-      link.className =
-        "flex text-xs/5 text-muted-foreground transition-colors hover:text-foreground";
+      link.dataset.tocLink = item.id;
+      link.className = inactiveClassName;
 
       const li = document.createElement("li");
       li.className = item.level === "h3" ? "pl-3" : "";
@@ -44,5 +48,85 @@
 
   if (headings.length > 0) {
     tocEmptyItems.forEach((item) => item.remove());
+  }
+
+  // Scroll spy: highlight the section currently at the top of the docs
+  // panel (the inner scroll container on desktop, the window otherwise).
+  const scrollContainer = document.querySelector(
+    "[data-progressive-blur-scroll]",
+  );
+  const activationOffset = 96;
+
+  let activeId = null;
+  const setActive = (id) => {
+    if (id === activeId) return;
+    activeId = id;
+    document.querySelectorAll("[data-toc-link]").forEach((link) => {
+      link.className =
+        link.dataset.tocLink === id ? activeClassName : inactiveClassName;
+    });
+  };
+
+  // After clicking a ToC link, keep that section active through the anchor
+  // jump; otherwise the sweep line can land on a later section at page end.
+  let suppressSyncUntil = 0;
+  let pendingSync = 0;
+
+  const syncActive = () => {
+    if (items.length === 0) return;
+    const remaining = suppressSyncUntil - Date.now();
+    if (remaining > 0) {
+      // Re-sync once the suppression window ends so scrolls during the
+      // window aren't lost.
+      clearTimeout(pendingSync);
+      pendingSync = setTimeout(syncActive, remaining + 50);
+      return;
+    }
+    const referenceTop = scrollContainer
+      ? scrollContainer.getBoundingClientRect().top
+      : 0;
+    const viewportHeight = scrollContainer
+      ? scrollContainer.clientHeight
+      : window.innerHeight;
+    const scrollTop = scrollContainer
+      ? scrollContainer.scrollTop
+      : window.scrollY;
+    const maxScroll = scrollContainer
+      ? scrollContainer.scrollHeight - scrollContainer.clientHeight
+      : document.documentElement.scrollHeight - window.innerHeight;
+
+    // The activation line starts near the top and sweeps down with scroll
+    // progress, so sections that can never reach the top edge (short pages,
+    // end of page) still activate as you approach the bottom.
+    const progress = maxScroll > 0 ? Math.min(scrollTop / maxScroll, 1) : 0;
+    const activationLine =
+      activationOffset +
+      progress * Math.max(viewportHeight - activationOffset * 2, 0);
+
+    let currentId = items[0].id;
+    for (const item of items) {
+      const heading = document.getElementById(item.id);
+      if (!heading) continue;
+      if (heading.getBoundingClientRect().top - referenceTop <= activationLine) {
+        currentId = item.id;
+      } else {
+        break;
+      }
+    }
+    setActive(currentId);
+  };
+
+  if (headings.length > 0) {
+    syncActive();
+    (scrollContainer ?? window).addEventListener("scroll", syncActive, {
+      passive: true,
+    });
+    window.addEventListener("resize", syncActive, { passive: true });
+    document.querySelectorAll("[data-toc-link]").forEach((link) => {
+      link.addEventListener("click", () => {
+        suppressSyncUntil = Date.now() + 700;
+        setActive(link.dataset.tocLink);
+      });
+    });
   }
 </script>

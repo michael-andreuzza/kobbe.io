@@ -1,0 +1,178 @@
+---
+import { SidebarMegaMenu } from "@/components/global/sidebar-mega-menu";
+import { SiteMobileMenu } from "@/components/global/site-mobile-menu";
+import { DocsCommandSearchTrigger } from "@/components/docs/docs-command-search";
+import { SidebarGroups } from "@/components/ui/sidebar";
+import { buttonVariants } from "@/components/ui/button";
+import {
+  APP_DEMO_URL,
+  APP_SIGNIN_URL,
+  APP_SIGNUP_URL,
+} from "@/lib/site-mega-menu";
+import { cn } from "@/lib/utils";
+
+interface Props {
+  /**
+   * Hide the full sidebar on small screens and show a slim logo + menu row
+   * instead. Used by content pages (docs, legal); the landing keeps the
+   * full stacked sidebar on mobile.
+   */
+  compactMobile?: boolean;
+  /**
+   * When set, the sidebar swaps the marketing pitch for the docs
+   * navigation (search + collapsible groups).
+   */
+  docsNavGroups?: {
+    category: string;
+    items: { href: string; label: string; isActive: boolean }[];
+  }[];
+}
+
+const { compactMobile = false, docsNavGroups } = Astro.props;
+const isDocs = Boolean(docsNavGroups?.length);
+
+const sidebarLinks = [
+  { label: "Live demo", href: APP_DEMO_URL, external: true },
+  { label: "Sign in", href: APP_SIGNIN_URL, external: true },
+];
+
+const year = new Date().getFullYear();
+---
+
+<aside
+  class={cn(
+    // z-40 so the fixed aside (its own stacking context) paints above the
+    // feed sections; otherwise the Explore mega panel renders behind them.
+    // p-2 matches the showcase feed gutter on mobile; desktop keeps p-4.
+    "flex-col gap-8 p-2 lg:fixed lg:inset-y-0 lg:left-0 lg:z-60 lg:flex lg:w-80 lg:justify-between lg:overflow-hidden lg:p-4",
+    compactMobile ? "hidden" : "flex",
+  )}
+>
+  <div class="flex min-h-0 flex-1 flex-col gap-6">
+    {/* Mobile header: Solomon-style carbon card with the brand, the trial
+        button, and the grip trigger; the links roll down accordion-style.
+        Desktop keeps the flat logo row. */}
+    {
+      !compactMobile && (
+        <SiteMobileMenu client:load className="shrink-0 lg:hidden" />
+      )
+    }
+    <div class="hidden shrink-0 items-center justify-between lg:flex">
+      <a href="/" aria-label="Kobbe homepage" class="text-foreground w-fit font-semibold">
+       KOBBE
+      </a>
+      <SidebarMegaMenu client:load />
+    </div>
+    {
+      !isDocs && (
+        <div>
+          <p class="text-foreground text-xl font-medium tracking-tight">
+            Privacy-first web analytics 
+          <span class="text-muted-foreground block">
+             and revenue in one place.
+          </span>
+          </p>
+        </div>
+      )
+    }
+    {
+      isDocs && (
+        <DocsCommandSearchTrigger
+          client:load
+          className="w-full shrink-0 self-stretch focus-visible:ring-0"
+        />
+      )
+    }
+    <nav aria-label="Site" class="flex shrink-0 flex-col items-start gap-1.5">
+      {
+        sidebarLinks
+          .filter((link) => !(isDocs && link.label === "Docs"))
+          .map((link) => (
+            <a
+              href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
+              class={cn(
+                "text-foreground hover:text-foreground/70 text-sm transition-colors",
+                // On mobile the sheet menu covers these; only Live demo stays.
+                link.label !== "Live demo" && "hidden lg:inline",
+              )}
+            >
+              {link.label}
+            </a>
+          ))
+      }
+    </nav>
+    {
+      docsNavGroups?.length && (
+        <div class="flex min-h-0 flex-1 flex-col gap-3">
+          <nav
+            aria-label="Docs navigation"
+            class="scrollbar-none! min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto pr-2"
+          >
+            <SidebarGroups client:load groups={docsNavGroups} />
+          </nav>
+          {/* Applies the session's remembered open/closed groups to the
+              server-rendered markup before first paint, so the accordion
+              doesn't visibly snap when React hydrates and re-applies it. */}
+          <script is:inline>
+            (() => {
+              try {
+                const stored = JSON.parse(
+                  sessionStorage.getItem("kobbe-docs-nav-open") || "{}",
+                );
+                const nav = document.querySelector(
+                  'nav[aria-label="Docs navigation"]',
+                );
+                if (!nav) return;
+                for (const button of nav.querySelectorAll("button")) {
+                  const category = (button.textContent || "").trim();
+                  const choice = stored[category];
+                  const panel = button.nextElementSibling;
+                  if (typeof choice !== "boolean" || !panel) continue;
+                  if (choice) {
+                    panel.removeAttribute("hidden");
+                    button.setAttribute("data-panel-open", "");
+                  } else {
+                    panel.setAttribute("hidden", "");
+                    button.removeAttribute("data-panel-open");
+                  }
+                }
+              } catch {
+                /* Session storage unavailable; keep the server defaults. */
+              }
+            })();
+          </script>
+        </div>
+      )
+    }
+  </div>
+  <div
+    class="inverted bg-card hidden shrink-0 space-y-3 rounded-lg p-4 lg:block"
+  >
+    <a
+      href={APP_SIGNUP_URL}
+      data-kobbe-event="Landing sidebar - start trial"
+      class={cn(
+        buttonVariants({ variant: "secondary", size: "xs" }),
+        "w-fit",
+      )}
+    >
+      Start a 15-day free trial
+    </a>
+    <p class="text-muted-foreground text-balance text-[0.60rem] max-w-42 leading-tight">
+      Cookieless by default, GDPR-ready, 0 raw IPs stored. Live with one script
+      tag, no cookie banner required.
+    </p>
+    <p class="text-muted-foreground/70 text-xs mt-8 ">©Kobbe {year}</p>
+  </div>
+</aside>
+
+{
+  /* Same pinned card as the landing; on docs the panel lists the docs tree. */
+  compactMobile && (
+    <div class="p-2 pb-0 lg:hidden print:hidden">
+      <SiteMobileMenu client:load docsGroups={docsNavGroups} />
+    </div>
+  )
+}

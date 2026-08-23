@@ -1,0 +1,89 @@
+---
+import "@/styles/blur.css";
+
+/**
+ * Progressive blur along the top and bottom edges, scroll-aware like the
+ * app's settings panels: the top edge fades in once you scroll down, the
+ * bottom edge fades out at the end.
+ *
+ * Default: fixed to the viewport edges, tracking window scroll.
+ * `contained`: absolute inside the nearest positioned ancestor, tracking a
+ * sibling scroll container marked with `data-progressive-blur-scroll`.
+ */
+interface Props {
+  class?: string;
+  contained?: boolean;
+}
+
+const { class: className = "", contained = false } = Astro.props;
+const containedClass = contained ? "progressive-blur-contained" : "";
+---
+
+<div
+  class={`progressive-blur-top ${containedClass} ${className}`.trim()}
+  data-progressive-blur="top"
+  data-progressive-blur-contained={contained ? "" : undefined}
+  aria-hidden="true"
+>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+<div
+  class={`progressive-blur-bottom ${containedClass} ${className}`.trim()}
+  data-progressive-blur="bottom"
+  data-progressive-blur-contained={contained ? "" : undefined}
+  aria-hidden="true"
+>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<script is:inline>
+  (function () {
+    if (window.__progressiveBlurInit) return;
+    window.__progressiveBlurInit = true;
+
+    var threshold = 8;
+    var sync = function () {
+      document
+        .querySelectorAll("[data-progressive-blur]")
+        .forEach(function (el) {
+          var maxScroll;
+          var y;
+          if (el.hasAttribute("data-progressive-blur-contained")) {
+            var source =
+              el.parentElement &&
+              el.parentElement.querySelector("[data-progressive-blur-scroll]");
+            if (!source) return;
+            maxScroll = source.scrollHeight - source.clientHeight;
+            y = source.scrollTop;
+          } else {
+            maxScroll =
+              document.documentElement.scrollHeight - window.innerHeight;
+            y = window.scrollY;
+          }
+          var edge = el.getAttribute("data-progressive-blur");
+          var show =
+            maxScroll > 1 &&
+            (edge === "top" ? y > threshold : y < maxScroll - threshold);
+          el.style.opacity = show ? "1" : "0";
+        });
+    };
+    sync();
+    // Capture phase so scrolls of inner containers are caught too
+    // (element scroll events don't bubble).
+    window.addEventListener("scroll", sync, { passive: true, capture: true });
+    window.addEventListener("resize", sync, { passive: true });
+    // Re-check once styles and fonts have settled; scrollability can
+    // change after first paint.
+    window.addEventListener("load", sync);
+  })();
+</script>

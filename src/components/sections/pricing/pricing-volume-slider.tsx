@@ -2,7 +2,6 @@ import { useCallback, useRef, type PointerEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 import { cn } from "@/lib/utils";
-import { TRAFFIC_GRADIENT_STOPS } from "@/components/landing/dashboard/traffic-gradient";
 import { pricingTiers } from "@/components/sections/pricing/pricing-tiers";
 import {
   pricingSliderScaleStopOffsetClass,
@@ -25,11 +24,6 @@ const fillSpring = {
   stiffness: 550,
   damping: 45,
 };
-
-/** Cool-to-warm chart ramp pinned to the full track; the fill reveals it. */
-const trackGradient = `linear-gradient(to right, ${TRAFFIC_GRADIENT_STOPS.map(
-  (stop) => `${stop.color} ${stop.offset}`,
-).join(", ")})`;
 
 export function PricingVolumeSlider({
   value,
@@ -75,21 +69,17 @@ export function PricingVolumeSlider({
     <div className={cn("min-w-0", className)}>
       <div
         ref={trackRef}
-        className="group relative h-11 w-full touch-none cursor-grab active:cursor-grabbing"
+        className="group relative h-9 w-full touch-none cursor-grab active:cursor-grabbing"
         onPointerDown={handleTrackPointerDown}
         onPointerMove={handleTrackPointerMove}
       >
-        <div className="bg-muted absolute inset-0 overflow-hidden rounded-lg">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0"
-            style={{ backgroundImage: trackGradient }}
-          />
-          {/* Muted cover shrinks from the right so the gradient stays pinned
+        <div className="bg-card absolute inset-0 overflow-hidden rounded-lg">
+          <div aria-hidden="true" className="bg-background absolute inset-0" />
+          {/* Cover shrinks from the right so the gradient stays pinned
               to the track instead of stretching with the fill. */}
           <motion.div
             aria-hidden="true"
-            className="bg-muted absolute inset-y-0 right-0"
+            className="bg-card absolute inset-y-0 right-0"
             initial={false}
             animate={{ width: `${100 - fillPercent}%` }}
             transition={reduceMotion ? { duration: 0 } : fillSpring}
@@ -121,7 +111,7 @@ export function PricingVolumeSlider({
             animate={{ left: `${stopPercent}%` }}
             transition={reduceMotion ? { duration: 0 } : fillSpring}
           >
-            <span className="bg-background block h-7 w-1.5 rounded-full shadow-sm" />
+            <span className="bg-foreground block h-5 w-1.5 rounded-full shadow-sm" />
           </motion.span>
         </div>
 

@@ -8,18 +8,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
-        brand: "bg-brand text-primary-foreground hover:bg-brand/90",
+        default: "bg-carbon text-primary-foreground [a]:hover:bg-carbon/80",
+        /* Quiet outlined button: thin border in the context's ink color on a
+           transparent fill, so it adapts inside inverted carbon panels. */
         outline:
-          "border-border bg-muted text-foreground hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground",
+          "border-foreground bg-transparent text-foreground hover:bg-foreground/5 aria-expanded:bg-foreground/5",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
-        secondaryDark:
-          "bg-primary text-primary-foreground hover:bg-secondary/10 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
-        ghost:
-          "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground",
-        destructive:
-          "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20",
         link: "text-primary underline-offset-4 hover:underline !p-0",
       },
       size: {

@@ -1,182 +1,87 @@
 /* Semantic palette + chart tokens; mirrors app.kobbe.io/app/styles/colors.css. */
 @theme inline {
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-6: var(--chart-6);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-caution: var(--caution);
   --color-success: var(--success);
   --color-warning: var(--warning);
-  --color-warning-on-inverted: var(--warning-on-inverted);
   --color-info: var(--info);
   --color-brand: var(--brand);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --color-toolbar-control-hover: var(--toolbar-control-hover);
-  --color-toolbar-control: var(--toolbar-control);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-surface-foreground: var(--surface-foreground);
+  --color-sand: var(--sand);
+  --color-carbon: var(--carbon);
 }
 :root {
-  /* Light gray canvas with white cards: borderless cards stay separated
-     without swapping card/muted into unexpected places. */
-  --background: oklch(0.979 0 0);
-  --foreground: oklch(0.145 0 0);
-  --surface: oklch(0.988 0 0);
-  --surface-foreground: oklch(0.145 0 0);
+  /* Solomon-style sand/cream neutrals: cream canvas (#FAF9F2), deeper cream
+     panels (#F0EFE8), sand borders (#DDDCD6), and pure-neutral carbon darks
+     (#2B2B2B, chroma 0) so text never drifts yellow or blue. */
+  /* Sand canvas (#DDDCD6). */
+  --background: oklch(0.895 0.007 96);
+  --foreground: oklch(0.289 0 0);
+  /* Fixed accents (same in both themes): sand canvas tone (#DDDCD6) and its
+     dark carbon counterpart (#2B2B2B). */
+  --sand: oklch(0.895 0.007 96);
+  --carbon: oklch(0.289 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --toolbar-control: oklch(1 0 0);
-  --toolbar-control-hover: oklch(0.96 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.960 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.955 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  /* Magenta accent sampled from the traffic chart gradient (was orange). */
-  --brand: oklch(0.62 0.28 330);
+  --card-foreground: oklch(0.289 0 0);
+  --primary: oklch(0.289 0 0);
+  --primary-foreground: oklch(0.982 0.004 102);
+  /* Secondary surfaces reuse the fixed sand/carbon accents, so they look
+     the same on the light canvas and inside inverted carbon panels. */
+  --secondary: var(--sand);
+  --secondary-foreground: var(--carbon);
+  /* Solomon panel tone (#F0EFE8). */
+  --muted: oklch(0.951 0.009 99.987);
+  --muted-foreground: oklch(0.51 0 0);
+  /* Army green accent sampled from the traffic chart gradient. */
+  --brand: #BDB688;
   --success: oklch(0.565 0.11 164.584);
   --destructive: oklch(0.566 0.197 12.263);
+  /* Orange caution tier between warning (amber) and destructive (red). */
+  --caution: oklch(0.7 0.17 45);
   --warning: oklch(0.661 0.121 71.707);
-  --warning-on-inverted: var(--warning);
   --info: oklch(0.565 0.098 243.005);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.631 0.18 260.16);
-  --chart-2: oklch(0.648 0.159 148.514);
-  --chart-3: oklch(0.83 0.17 83.072);
-  --chart-4: oklch(0.628 0.201 28.211);
-  --chart-5: oklch(0.985 0 0);
-  --chart-6: oklch(0.205 0 0);
-  --traffic-bar-stack: var(--chart-6);
+  --border: oklch(0.895 0.007 96);
+  --input: oklch(0.895 0.007 96);
+  --ring: oklch(0.77 0.006 97);
   --revenue-bar-stack: var(--brand);
-  --revenue-bar-stack-active: var(--chart-4);
-  --chart-grid-stroke: oklch(0.922 0 0 / 0.55);
+  --chart-grid-stroke: oklch(0.895 0.007 96 / 0.55);
   /** Vertical hover/pin guides (dashed); full-opacity match to grid hue. */
-  --chart-guide-stroke: oklch(0.922 0 0);
-
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --chart-guide-stroke: oklch(0.895 0.007 96);
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --surface: oklch(0.18 0 0);
-    --surface-foreground: oklch(0.985 0 0);
-    --card: oklch(0.269 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --toolbar-control: oklch(0.269 0 0);
-    --toolbar-control-hover: oklch(0.235 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.985 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.33 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.22 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    /* Lighter than --card (0.269) so hover states stay visible on cards. */
-    --accent: oklch(0.32 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --success: oklch(0.60 0.065 164.584);
---destructive: oklch(0.60 0.095 12.263);
---warning: oklch(0.66 0.065 71.707);
-    --warning-on-inverted: oklch(0.54 0.13 82);
-    --info: oklch(0.65 0.12 250);
-    --border: oklch(0.6 0 0 / 0.1);
-    --input: oklch(1 0 0 / 0.12);
-    --ring: oklch(0.556 0 0);
-
-    --traffic-bar-stack: var(--chart-6);
-    --revenue-bar-stack: var(--brand);
-    --revenue-bar-stack-active: var(--chart-4);
-    --chart-grid-stroke: oklch(1 0 0 / 0.14);
-    --chart-guide-stroke: oklch(1 0 0 / 0.28);
-
-    --chart-1: oklch(0.794 0.127 231.482);
-    --chart-2: oklch(0.802 0.191 146.226);
-    --chart-3: oklch(0.884 0.174 93.67);
-    --chart-4: oklch(0.72 0.19 24);
-    --chart-5: oklch(0.985 0 0);
-    --chart-6: oklch(0.92 0 0);
-
-    --sidebar: oklch(0.18 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.985 0 0);
-    --sidebar-primary-foreground: oklch(0.205 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 0.1);
-    --sidebar-ring: oklch(0.439 0 0);
-  }
-}
-
-/* Megamenu: dark surface in light mode, light surface in dark mode. */
-.mega-menu-inverted {
-  --foreground: oklch(0.96 0 0);
-  --muted-foreground: oklch(0.75 0 0);
-  --card: oklch(0.27 0 0);
-  --card-foreground: oklch(0.96 0 0);
-  --popover: oklch(0.27 0 0);
-  --popover-foreground: oklch(0.96 0 0);
-  --muted: oklch(0.33 0 0);
-  --accent: oklch(0.31 0 0);
-  --accent-foreground: oklch(0.96 0 0);
+/* Inverted surface: carbon panel (#2B2B2B) on the sand canvas, Solomon
+   style — light warm-gray text that brightens to near-white. */
+.inverted {
+  --foreground: oklch(0.96 0.002 96);
+  --muted-foreground: oklch(0.61 0.003 84.565);
+  --card: oklch(0.289 0 0);
+  --card-foreground: oklch(0.96 0.002 96);
+  --muted: oklch(0.34 0 0);
   --border: oklch(1 0 0 / 0.1);
-  --background: oklch(0.10 0 0);
+  /* Field borders slightly stronger than dividers so inputs read on carbon. */
+  --input: oklch(1 0 0 / 0.16);
+  --background: oklch(0.289 0 0);
 }
-
-@media (prefers-color-scheme: dark) {
-  .mega-menu-inverted {
-    --foreground: oklch(0.145 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --muted: oklch(0.979 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --border: oklch(0.922 0 0);
-    --background: oklch(1 0 0);
-  }
+/* Restores the light palette for a subtree inside an .inverted scope
+   (e.g. a light card sitting on a carbon panel). */
+.uninverted {
+  --foreground: oklch(0.289 0 0);
+  --muted-foreground: oklch(0.51 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.289 0 0);
+  --muted: oklch(0.951 0.009 99.987);
+  --border: oklch(0.895 0.007 96);
+  --input: oklch(0.895 0.007 96);
+  --background: oklch(0.895 0.007 96);
 }

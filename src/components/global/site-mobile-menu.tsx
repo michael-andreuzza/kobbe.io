@@ -1,163 +1,189 @@
 import { useState } from "react";
 import { Dialog } from "@base-ui/react/dialog";
-import { MenuIcon, XIcon } from "lucide-react";
+import { Cancel01Icon, GripIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
-import { Logo } from "@/components/assets/logo";
-import { siteMobilePrimaryLinks } from "@/components/global/site-header-nav";
-import {
-  MegaMenuColumnTitle,
-  MegaMenuLinkContent,
-} from "@/components/global/site-mega-menu-link";
-import { siteMegaMenuGroups } from "@/lib/site-mega-menu";
 import { buttonVariants } from "@/components/ui/button";
+import { DocsCommandSearchTrigger } from "@/components/docs/docs-command-search";
+import {
+  APP_SIGNIN_URL,
+  APP_SIGNUP_URL,
+  siteMegaMenuColumns,
+} from "@/lib/site-mega-menu";
 import { cn } from "@/lib/utils";
 
-import type { SiteMobileNavLink } from "@/components/global/docs-mobile-nav-dialog";
-
-type SiteMobileMenuProps = {
-  links?: SiteMobileNavLink[];
+export type SiteMobileDocsGroup = {
+  category: string;
+  items: { href: string; label: string; isActive: boolean }[];
 };
 
-const menuItemClassName =
-  "text-foreground hover:bg-muted focus-visible:bg-muted flex w-full cursor-pointer items-center rounded-md px-3 py-2 text-sm font-medium outline-none transition-colors";
+type SiteMobileMenuProps = {
+  /** When set, the panel lists the docs navigation instead of the mega menu. */
+  docsGroups?: SiteMobileDocsGroup[];
+  className?: string;
+};
 
-const megaLinkClassName =
-  "hover:bg-muted block w-full rounded-lg px-2 py-2.5 text-left outline-none transition-colors";
-
-const megaCompactLinkClassName =
-  "hover:bg-muted flex w-full items-center gap-2 rounded-lg px-2 py-2.5 text-left outline-none transition-colors";
-
-export function SiteMobileMenu({ links }: SiteMobileMenuProps) {
-  const primaryLinks = links ?? siteMobilePrimaryLinks();
+/**
+ * Mobile navigation: the pinned carbon header card opens a side panel with
+ * the mega menu groups (or the docs tree on docs pages) and a sticky
+ * account row at the bottom.
+ */
+export function SiteMobileMenu({ docsGroups, className }: SiteMobileMenuProps) {
   const [open, setOpen] = useState(false);
+  const isDocs = Boolean(docsGroups?.length);
 
   return (
-    <div className="md:hidden">
-      <Dialog.Root open={open} onOpenChange={setOpen}>
-        <Dialog.Trigger className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 inline-flex size-8 items-center justify-center rounded-md transition-colors outline-none focus-visible:ring-2">
-          <MenuIcon className="size-4" aria-hidden="true" />
-          <span className="sr-only">Open menu</span>
-        </Dialog.Trigger>
-        <Dialog.Portal>
-          <Dialog.Backdrop className="bg-background/70 fixed inset-0 z-[100] backdrop-blur-sm transition-opacity duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0" />
-          <Dialog.Popup
-            className={cn(
-              "mega-menu-inverted border-border bg-popover text-popover-foreground fixed inset-y-0 right-0 z-[101] flex w-[min(24rem,calc(100vw-1rem))] flex-col border-l shadow-lg outline-none",
-              "transition-transform duration-200 ease-out data-ending-style:translate-x-full data-starting-style:translate-x-full motion-reduce:transition-none",
-            )}
-          >
-            <div className="flex items-center justify-between gap-3 border-b px-4 py-3">
-              <Dialog.Close
-                nativeButton={false}
-                render={
-                  <a
-                    href="/"
-                    aria-label="Homepage"
-                    className="text-foreground flex items-center"
-                  >
-                    <Logo className="h-8 w-auto" />
-                  </a>
-                }
-              />
-              <Dialog.Title className="sr-only">Site menu</Dialog.Title>
-              <Dialog.Close className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 inline-flex size-8 items-center justify-center rounded-md transition-colors outline-none focus-visible:ring-2">
-                <XIcon className="size-4" aria-hidden="true" />
-                <span className="sr-only">Close menu</span>
-              </Dialog.Close>
-            </div>
-
-            <nav
-              aria-label="Site navigation"
-              className="min-h-0 flex-1 touch-pan-y overflow-y-auto overscroll-y-contain px-3 py-4"
+    <div className={className}>
+      {/* Holds the card's height in the page flow while the card itself is
+          fixed to the viewport, keeping the nav pinned while scrolling. */}
+      <div aria-hidden="true" className="h-16" />
+      <div className="fixed inset-x-2 top-2 z-50">
+        <div className="inverted bg-card rounded-lg p-4">
+          <div className="flex items-center justify-between gap-3">
+            <a
+              href="/"
+              aria-label="Kobbe homepage"
+              className="text-foreground w-fit font-semibold"
             >
-              <div className="space-y-8">
-                {siteMegaMenuGroups.map((group) => (
-                  <div key={group.id} className="space-y-5">
-                    {group.columns.map((column) => (
-                      <div key={column.title}>
-                        <MegaMenuColumnTitle column={column} className="px-2" />
-                        <div
-                          className={cn(
-                            "mt-2",
-                            column.layout === "compact-grid-4"
-                              ? "grid grid-cols-2 gap-x-1 gap-y-1 sm:grid-cols-3"
-                              : column.layout === "compact-grid-3"
-                                ? "grid grid-cols-2 gap-x-1 gap-y-1 sm:grid-cols-3"
-                                : column.layout === "compact-grid"
-                                  ? "grid grid-cols-2 gap-x-1 gap-y-1"
-                                  : "grid gap-0.5",
-                          )}
-                        >
-                          {column.links.map((link) => {
-                            const isCompact =
-                              column.layout === "compact" ||
-                              column.layout?.startsWith("compact-grid");
-
-                            return (
-                              <Dialog.Close
-                                key={link.id}
-                                nativeButton={false}
-                                render={
-                                  <a
-                                    href={link.href}
-                                    target={link.target}
-                                    rel={link.rel}
-                                    className={
-                                      isCompact
-                                        ? megaCompactLinkClassName
-                                        : megaLinkClassName
-                                    }
-                                  >
-                                    <MegaMenuLinkContent
-                                      link={link}
-                                      compact={isCompact}
-                                    />
-                                  </a>
-                                }
-                              />
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </nav>
-
-            <div className="border-border shrink-0 space-y-1 border-t px-3 py-3">
-              {primaryLinks.map((link) => (
-                <Dialog.Close
-                  key={`${link.href}-${link.label}`}
-                  nativeButton={false}
-                  render={
-                    <a
-                      href={link.href}
-                      target={link.target}
-                      rel={link.rel}
-                      data-kobbe-event={
-                        link.variant === "button"
-                          ? "Nav - start trial"
-                          : undefined
-                      }
-                      className={cn(
-                        link.variant === "button"
-                          ? cn(
-                              buttonVariants({ variant: "default", size: "xs" }),
-                              "w-full justify-center",
-                            )
-                          : menuItemClassName,
-                      )}
-                    >
-                      {link.label}
-                    </a>
-                  }
+              KOBBE
+            </a>
+            <a
+              href={APP_SIGNUP_URL}
+              data-kobbe-event="Landing sidebar - start trial"
+              className={buttonVariants({ variant: "secondary", size: "xs" })}
+            >
+              Start a 15-day free trial
+            </a>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
+              <Dialog.Trigger className="text-foreground hover:text-foreground/70 inline-flex items-center transition-colors outline-none">
+                <HugeiconsIcon
+                  icon={GripIcon}
+                  className="size-7"
+                  aria-hidden="true"
                 />
-              ))}
-            </div>
-          </Dialog.Popup>
-        </Dialog.Portal>
-      </Dialog.Root>
+                <span className="sr-only">Open menu</span>
+              </Dialog.Trigger>
+              <Dialog.Portal>
+                {/* Near-transparent: the site stays visible behind the panel. */}
+                <Dialog.Backdrop className="bg-background/1 fixed inset-0 z-100 backdrop-blur transition-opacity duration-300 data-ending-style:opacity-0 data-starting-style:opacity-0 motion-reduce:transition-none" />
+                <Dialog.Popup
+                  className={cn(
+                    "inverted bg-card text-foreground fixed inset-y-2 right-2 z-101 flex w-[min(22rem,calc(100vw-1rem))] flex-col rounded-lg shadow-lg outline-none",
+                    "transition-transform duration-300 ease-out data-ending-style:translate-x-[calc(100%+0.5rem)] data-starting-style:translate-x-[calc(100%+0.5rem)] motion-reduce:transition-none",
+                  )}
+                >
+                  <div className="flex shrink-0 items-center justify-between gap-3 p-4">
+                    <Dialog.Title className="text-foreground font-semibold tracking-tight">
+                      Kobbe.
+                    </Dialog.Title>
+                    <Dialog.Close className="text-muted-foreground hover:text-foreground inline-flex size-8 items-center justify-center rounded-md transition-colors outline-none">
+                      <HugeiconsIcon
+                        icon={Cancel01Icon}
+                        className="size-5"
+                        aria-hidden="true"
+                      />
+                      <span className="sr-only">Close menu</span>
+                    </Dialog.Close>
+                  </div>
+
+                  <nav
+                    aria-label="Site navigation"
+                    className="min-h-0 flex-1 touch-pan-y space-y-6 overflow-y-auto overscroll-y-contain px-4 pb-4"
+                  >
+                    {isDocs ? (
+                      <>
+                        <DocsCommandSearchTrigger className="w-full focus-visible:ring-0" />
+                        {docsGroups!.map((group) => (
+                          <div key={group.category}>
+                            <p className="text-muted-foreground/60 text-sm">
+                              {group.category}
+                            </p>
+                            <ul className="mt-2 flex flex-col gap-1.5">
+                              {group.items.map((item) => (
+                                <li key={item.href}>
+                                  <a
+                                    href={item.href}
+                                    className={cn(
+                                      "text-sm transition-colors",
+                                      item.isActive
+                                        ? "text-foreground"
+                                        : "text-muted-foreground hover:text-foreground",
+                                    )}
+                                  >
+                                    {item.label}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </>
+                    ) : (
+                      siteMegaMenuColumns.map((column) => (
+                        <div key={column.title}>
+                          <p className="text-muted-foreground/60 text-sm">
+                            {column.title}
+                          </p>
+                          <ul className="mt-2 flex flex-col gap-1.5">
+                            {column.links.map((link) => (
+                              <li key={link.id}>
+                                <a
+                                  href={link.href}
+                                  target={link.target}
+                                  rel={link.rel}
+                                  onClick={() => setOpen(false)}
+                                  className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                                >
+                                  {link.label}
+                                </a>
+                              </li>
+                            ))}
+                            {column.seeAllHref ? (
+                              <li>
+                                <a
+                                  href={column.seeAllHref}
+                                  onClick={() => setOpen(false)}
+                                  className="text-muted-foreground/60 hover:text-foreground text-sm transition-colors"
+                                >
+                                  {column.seeAllLabel ?? "See all"}
+                                </a>
+                              </li>
+                            ) : null}
+                          </ul>
+                        </div>
+                      ))
+                    )}
+                  </nav>
+
+                  {/* Sticky account row. */}
+                  <div className="border-border flex shrink-0 items-center justify-between gap-3 border-t p-4">
+                    <a
+                      href={APP_SIGNIN_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                    >
+                      Sign in
+                    </a>
+                    <a
+                      href={APP_SIGNUP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-kobbe-event="Nav - start trial"
+                      className={buttonVariants({
+                        variant: "secondary",
+                        size: "xs",
+                      })}
+                    >
+                      Start a free trial
+                    </a>
+                  </div>
+                </Dialog.Popup>
+              </Dialog.Portal>
+            </Dialog.Root>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

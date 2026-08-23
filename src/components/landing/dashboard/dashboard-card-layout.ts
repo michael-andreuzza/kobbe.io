@@ -1,9 +1,5 @@
-/**
- * Elevated card chrome shared with the app dashboard: AlignUI shadow plus a
- * subtle top-lit gradient sheen in dark mode.
- */
-export const dashboardCardElevatedClass =
-  "shadow-sm dark:bg-linear-to-b dark:from-white/3 dark:to-white/0";
+/** Elevated card chrome shared with the app dashboard: AlignUI shadow, flat matte surface. */
+export const dashboardCardElevatedClass = "shadow-sm";
 
 /**
  * Class fragments for analytics dashboard cards: use with `Card variant="bordered"` and

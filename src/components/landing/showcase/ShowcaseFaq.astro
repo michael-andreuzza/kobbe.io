@@ -1,0 +1,31 @@
+---
+import { PricingFaq } from "@/components/sections/pricing/pricing-faq";
+---
+
+{/* No overflow-hidden here: it would keep the sticky title column from
+    pinning to the viewport. */}
+<section
+  id="faq"
+  aria-labelledby="faq-heading"
+  class="bg-muted relative rounded-lg p-4 sm:p-6"
+>
+  <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-6">
+    {/* Title column: pins while the accordion list scrolls past. */}
+    <div class="lg:self-start lg:sticky lg:top-6">
+      <div class="max-w-md space-y-1">
+        <p id="faq-heading" class="text-foreground text-xs font-medium">FAQ</p>
+        <p class="text-muted-foreground text-xs text-balance">
+          Quick answers about privacy, plans, setup, and support.
+        </p>
+      </div>
+    </div>
+    <PricingFaq client:load headingId="faq-heading" />
+  </div>
+  {/* Footnote pinned to the card bottom, same tone as the opt-in note. */}
+  <p class="text-muted-foreground/50 mt-10 text-xs">
+    Still have questions? <a
+      href="/support/contact"
+      class="hover:text-foreground transition-colors">Contact support</a
+    >.
+  </p>
+</section>

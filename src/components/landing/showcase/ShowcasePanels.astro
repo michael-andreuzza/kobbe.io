@@ -1,0 +1,105 @@
+---
+import {
+  AnnotationsPanelMockup,
+  CliLogoStrip,
+  ConversionPeakPanelMockup,
+  ConversionsPanelMockup,
+  FunnelsPanelMockup,
+  CliPanelMockup,
+  ImportLogoStrip,
+  ImportPanelMockup,
+  PerformancePanelMockup,
+  RevenueLogoStrip,
+  RevenuePanelMockup,
+  SearchKeywordsPanelMockup,
+} from "@/components/landing/showcase/showcase-panel-mockups";
+import { RealtimeGlobe } from "@/components/landing/showcase/realtime-globe";
+
+const mockupPanels = [
+  {
+    title: "Realtime",
+    description:
+      "See who is on your site right now, where they are, and what pages they are viewing as activity comes in.",
+    // Rendered as the interactive globe island in the template below.
+    globe: true,
+  },
+  {
+    title: "Conversions",
+    description:
+      "Auto-track form submits, contact clicks, outbound links, and messaging taps, plus custom events for anything else, then filter the dashboard by goal.",
+    Mockup: ConversionsPanelMockup,
+  },
+  {
+    title: "Chart annotations",
+    description:
+      "Pin notes to specific days on your traffic chart so launches, campaigns, and incidents stay tied to the numbers.",
+    Mockup: AnnotationsPanelMockup,
+  },
+  {
+    title: "Conversion peak",
+    description:
+      "See when conversions happen most, by day of week and hour of day, so you can time launches, posts, and campaigns.",
+    Mockup: ConversionPeakPanelMockup,
+  },
+  {
+    title: "Google search keywords",
+    description:
+      "Connect Search Console to see which queries bring people to your site and tie search demand back to traffic.",
+    Mockup: SearchKeywordsPanelMockup,
+  },
+  {
+    title: "Funnels",
+    description:
+      "Build funnels from pages and custom events, then see where visitors continue or drop off, step by step.",
+    Mockup: FunnelsPanelMockup,
+  },
+  {
+    title: "Revenue attribution",
+    description:
+      "Pass attribution through checkout and see which pages, sources, and campaigns actually drive money.",
+    Mockup: RevenuePanelMockup,
+    Logos: RevenueLogoStrip,
+  },
+  {
+    title: "Performance",
+    description:
+      "Track Core Web Vitals with the same dashboard language: percentile trends, slow pages, and environment breakdowns.",
+    Mockup: PerformancePanelMockup,
+  },
+  {
+    title: "Bring your history",
+    description:
+      "Import historical traffic from Plausible, Fathom, Umami, or DataFast and keep collecting new data on the same site.",
+    Mockup: ImportPanelMockup,
+    Logos: ImportLogoStrip,
+  },
+  {
+    title: "CLI access, with MCP built in",
+    description:
+      "Inspect analytics from your terminal, then run the same package in MCP mode so editors and agents can query Kobbe for you.",
+    Mockup: CliPanelMockup,
+    Logos: CliLogoStrip,
+  },
+];
+---
+
+<div class="grid grid-cols-1 gap-2 lg:grid lg:grid-cols-2">
+  {
+    mockupPanels.map(({ title, description, Mockup, Logos, globe }) => (
+      <section class="bg-muted relative flex gap-12 flex-col justify-between lg:gap-8 overflow-hidden rounded-lg p-4 sm:p-6 lg:min-h-160">
+        <div class="max-w-md space-y-1">
+          <p class="text-foreground text-xs font-medium">{title}</p>
+          <p class="text-muted-foreground text-xs text-balance">
+            {description}
+          </p>
+          {Logos ? <Logos className="pt-3" /> : null}
+        </div>
+        <div class="w-full">
+          {/* Dynamic tags can't take client directives, so the globe
+              island is rendered explicitly. */}
+          {globe ? <RealtimeGlobe client:visible /> : Mockup ? <Mockup /> : null}
+        </div>
+      </section>
+    ))
+  }
+</div>

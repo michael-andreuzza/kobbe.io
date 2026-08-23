@@ -1,14 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Dialog } from "@base-ui/react/dialog";
 import {
-  ArrowLeft01Icon,
-  ArrowRight01Icon,
+  ArrowLeft02Icon,
+  ArrowRight02Icon,
   Search01Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import { BrandLogo } from "@/components/foundations/brand-logo";
-import { Input } from "@/components/ui/input";
 import {
   filterDocsSearchItems,
   flattenGroupedDocsSearchItems,
@@ -58,11 +57,13 @@ export function DocsCommandSearchTrigger({
   const shortcutLabel = getDocsSearchShortcutLabel();
 
   return (
+    // Plain text row in the mega menu language: no box, no border; the row
+    // just brightens on hover, with the shortcut as a quiet hint.
     <button
       type="button"
       onClick={openDocsSearch}
       className={cn(
-        "border-border/70 bg-card/60 text-muted-foreground hover:text-foreground flex h-8 w-full items-center gap-2 rounded-md border px-2.5 text-left text-xs transition-colors outline-none",
+        "text-muted-foreground hover:text-foreground flex h-8 w-full items-center gap-2 text-left text-xs transition-colors outline-none",
         className,
       )}
       aria-label="Search"
@@ -74,7 +75,7 @@ export function DocsCommandSearchTrigger({
         aria-hidden
       />
       <span className="min-w-0 flex-1 truncate">Search</span>
-      <kbd className="border-border/70 text-muted-foreground shrink-0 rounded border px-1 py-0.5 font-mono text-[0.65rem] leading-none">
+      <kbd className="text-muted-foreground/60 shrink-0 font-mono text-[0.65rem] leading-none">
         {shortcutLabel}
       </kbd>
     </button>
@@ -322,22 +323,20 @@ export function DocsCommandSearch({
         onClick={() => {
           navigateTo(item.href);
         }}
-        className={cn(
-          "flex min-h-8 w-full cursor-default items-center rounded-md py-1.5 pr-1.5 pl-2.5 text-left text-xs leading-snug transition-colors outline-none",
-          isSelected && "bg-foreground/6 dark:bg-foreground/10",
-        )}
+        className="flex min-h-8 w-full cursor-default items-center py-1.5 text-left text-xs leading-snug transition-colors outline-none"
       >
-        <span className="flex min-w-0 flex-1 items-center gap-2">
+        <span className="flex min-w-0 flex-1 items-center gap-2.5">
           <ItemIcon item={item} />
           <span className="min-w-0">
-            <span className="text-foreground block truncate text-xs font-medium">
+            {/* Mega menu link states: selected brightens, the rest stay gray. */}
+            <span
+              className={cn(
+                "block truncate text-sm transition-colors",
+                isSelected ? "text-foreground" : "text-muted-foreground",
+              )}
+            >
               {item.title}
             </span>
-            {item.description ? (
-              <span className="text-muted-foreground mt-0.5 block truncate text-[0.7rem]">
-                {item.description}
-              </span>
-            ) : null}
           </span>
         </span>
       </button>
@@ -359,24 +358,26 @@ export function DocsCommandSearch({
         }}
       >
         <Dialog.Portal>
-          <Dialog.Backdrop className="bg-foreground/20 fixed inset-0 z-50 transition-opacity duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0" />
+          {/* Same soft page blur as the mega menu overlay, no dark scrim. */}
+          <Dialog.Backdrop className="bg-background/1 fixed inset-0 z-50 backdrop-blur transition-opacity duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0 motion-reduce:transition-none" />
           <Dialog.Popup
             onWheel={(event) => {
               event.stopPropagation();
             }}
-            className="bg-card fixed top-[min(22%,9rem)] left-1/2 z-50 flex max-h-[min(28rem,calc(100svh-6rem))] w-full max-w-lg -translate-x-1/2 flex-col overflow-hidden rounded-xl shadow-md outline-none max-sm:w-[calc(100vw-2rem)]"
+            className="inverted bg-background text-foreground fixed top-[min(22%,9rem)] left-1/2 z-50 flex max-h-[min(30rem,calc(100svh-6rem))] w-full max-w-lg -translate-x-1/2 flex-col overflow-hidden rounded-lg shadow-lg outline-none max-sm:w-[calc(100vw-2rem)]"
           >
-            <div className="border-border/60 border-b px-3 py-2">
-              <div className="border-border/70 bg-background/70 dark:bg-background/40 flex h-8 items-center rounded-md border px-2">
+            <div className="flex min-h-0 flex-col p-4">
+              {/* Light sand field on the carbon panel, like the ToC box. */}
+              <div className="uninverted bg-background flex h-14 shrink-0 items-center gap-2.5 rounded-md px-3">
                 {activeGroup && !isSearching ? (
                   <button
                     type="button"
                     onClick={goBack}
-                    className="text-muted-foreground hover:text-foreground mr-1.5 inline-flex size-5 shrink-0 items-center justify-center rounded transition-colors outline-none"
+                    className="text-muted-foreground hover:text-foreground inline-flex size-5 shrink-0 items-center justify-center transition-colors outline-none"
                     aria-label="Back to categories"
                   >
                     <HugeiconsIcon
-                      icon={ArrowLeft01Icon}
+                      icon={ArrowLeft02Icon}
                       strokeWidth={1.7}
                       className="size-4"
                       aria-hidden
@@ -385,12 +386,12 @@ export function DocsCommandSearch({
                 ) : (
                   <HugeiconsIcon
                     icon={Search01Icon}
-                    strokeWidth={2}
-                    className="text-muted-foreground pointer-events-none mr-1.5 size-4 shrink-0"
+                    strokeWidth={1.7}
+                    className="text-muted-foreground pointer-events-none size-4 shrink-0"
                     aria-hidden
                   />
                 )}
-                <Input
+                <input
                   ref={inputRef}
                   value={query}
                   onChange={(event) => {
@@ -405,13 +406,13 @@ export function DocsCommandSearch({
                       : "Search docs and pages..."
                   }
                   aria-label="Search"
-                  className="h-8 min-w-0 border-0 bg-transparent px-0 text-sm leading-tight shadow-none focus-visible:ring-0"
+                  className="text-foreground placeholder:text-muted-foreground/60 h-6 min-w-0 flex-1 bg-transparent text-sm leading-tight outline-none"
                 />
               </div>
 
               <div
                 ref={listRef}
-                className="mt-1 max-h-[min(19rem,calc(100svh-14rem))] min-h-0 flex-1 overflow-y-auto overscroll-y-contain p-1"
+                className="mt-3 max-h-[min(20rem,calc(100svh-14rem))] min-h-0 flex-1 overflow-y-auto overscroll-y-contain"
                 role="listbox"
                 aria-label="Search results"
                 onWheel={(event) => {
@@ -419,13 +420,14 @@ export function DocsCommandSearch({
                 }}
               >
                 {listEntries.length === 0 ? (
-                  <p className="text-muted-foreground px-3 py-2.5 text-center text-xs">
+                  <p className="text-muted-foreground/60 py-2.5 text-sm">
                     No pages matched your search.
                   </p>
                 ) : isSearching ? (
                   searchGroups.map((group) => (
-                    <div key={group.category} className="py-0.5">
-                      <p className="text-muted-foreground px-2 pt-1.5 pb-1 text-[0.7rem] font-medium tracking-wide uppercase">
+                    <div key={group.category} className="py-1.5">
+                      {/* Mega menu column labels: quiet, no uppercase. */}
+                      <p className="text-muted-foreground/60 pb-1 text-sm">
                         {group.category}
                       </p>
                       <ul>
@@ -445,8 +447,8 @@ export function DocsCommandSearch({
                     </div>
                   ))
                 ) : activeGroup ? (
-                  <div className="py-0.5">
-                    <p className="text-muted-foreground px-2 pt-1.5 pb-1 text-[0.7rem] font-medium tracking-wide uppercase">
+                  <div className="py-1.5">
+                    <p className="text-muted-foreground/60 pb-1 text-sm">
                       {activeGroup}
                     </p>
                     <ul>
@@ -462,8 +464,8 @@ export function DocsCommandSearch({
                     </ul>
                   </div>
                 ) : (
-                  <div className="py-0.5">
-                    <p className="text-muted-foreground px-2 pt-1.5 pb-1 text-[0.7rem] font-medium tracking-wide uppercase">
+                  <div className="py-1.5">
+                    <p className="text-muted-foreground/60 pb-1 text-sm">
                       Browse
                     </p>
                     <ul>
@@ -486,19 +488,20 @@ export function DocsCommandSearch({
                                 activateEntry(entry);
                               }}
                               className={cn(
-                                "text-foreground flex min-h-8 w-full cursor-default items-center gap-2 rounded-md py-1.5 pr-1.5 pl-2.5 text-left text-xs font-medium transition-colors outline-none",
-                                isSelected &&
-                                  "bg-foreground/6 dark:bg-foreground/10",
+                                "flex min-h-8 w-full cursor-default items-center gap-2 py-1.5 text-left text-sm transition-colors outline-none",
+                                isSelected
+                                  ? "text-foreground"
+                                  : "text-muted-foreground",
                               )}
                             >
                               <span className="min-w-0 flex-1 truncate">
                                 {entry.category}
                               </span>
                               <HugeiconsIcon
-                                icon={ArrowRight01Icon}
+                                icon={ArrowRight02Icon}
                                 strokeWidth={1.7}
                                 className={cn(
-                                  "text-muted-foreground size-3.5 shrink-0 transition-opacity",
+                                  "text-muted-foreground size-4 shrink-0 transition-opacity",
                                   isSelected ? "opacity-100" : "opacity-0",
                                 )}
                                 aria-hidden
@@ -513,28 +516,20 @@ export function DocsCommandSearch({
               </div>
             </div>
 
-            <div className="border-border/60 text-muted-foreground flex items-center justify-between gap-3 px-3 py-2 text-[0.7rem]">
-              <div className="flex min-w-0 items-center gap-2">
-                <span className="inline-flex items-center gap-1">
-                  <kbd className="border-border/70 rounded border px-1 font-mono">
-                    ↑
-                  </kbd>
-                  <kbd className="border-border/70 rounded border px-1 font-mono">
-                    ↓
-                  </kbd>
+            {/* Quiet hint line, no bordered key chips. */}
+            <div className="text-muted-foreground/60 flex items-center justify-between gap-3 p-4 text-xs">
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="inline-flex items-center gap-1.5">
+                  <kbd className="font-mono">↑↓</kbd>
                   Navigate
                 </span>
-                <span className="hidden items-center gap-1 sm:inline-flex">
-                  <kbd className="border-border/70 rounded border px-1 font-mono">
-                    ↵
-                  </kbd>
+                <span className="hidden items-center gap-1.5 sm:inline-flex">
+                  <kbd className="font-mono">↵</kbd>
                   {enterLabel}
                 </span>
               </div>
-              <span className="inline-flex shrink-0 items-center gap-1">
-                <kbd className="border-border/70 rounded border px-1 font-mono">
-                  Esc
-                </kbd>
+              <span className="inline-flex shrink-0 items-center gap-1.5">
+                <kbd className="font-mono">esc</kbd>
                 Close
               </span>
             </div>

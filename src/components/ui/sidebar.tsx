@@ -1,3 +1,4 @@
+import { useLayoutEffect, useState } from "react";
 import { Collapsible } from "@base-ui/react/collapsible";
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -26,6 +27,30 @@ type SidebarGroupsProps = {
   forceOpen?: boolean;
 };
 
+/**
+ * Open/closed choices the user made by clicking group triggers, remembered
+ * for the session so navigating between docs pages doesn't reset them.
+ */
+const NAV_OPEN_STORAGE_KEY = "kobbe-docs-nav-open";
+
+function readStoredOpenState(): Record<string, boolean> {
+  try {
+    const raw = window.sessionStorage.getItem(NAV_OPEN_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as Record<string, boolean>) : {};
+  } catch {
+    return {};
+  }
+}
+
+function storeOpenChoice(category: string, open: boolean) {
+  try {
+    const next = { ...readStoredOpenState(), [category]: open };
+    window.sessionStorage.setItem(NAV_OPEN_STORAGE_KEY, JSON.stringify(next));
+  } catch {
+    // Session storage unavailable; state just won't persist.
+  }
+}
+
 export function SidebarGroups({
   groups,
   forceOpen = false,
@@ -34,22 +59,60 @@ export function SidebarGroups({
     group.items.some((item) => item.isActive),
   );
 
+  // SSR and first client render use the defaults (active group open) so
+  // hydration matches; the session's manual choices are merged in after
+  // mount and win over the defaults.
+  const [openMap, setOpenMap] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(
+      groups.map((group, index) => [
+        group.category,
+        forceOpen ||
+          group.items.some((item) => item.isActive) ||
+          (!hasActiveItem && index === 0),
+      ]),
+    ),
+  );
+
+  // Panels stay unanimated until the stored state has painted, so restoring
+  // a remembered open/closed group on page load snaps instead of sliding.
+  const [animationsReady, setAnimationsReady] = useState(false);
+
+  useLayoutEffect(() => {
+    if (!forceOpen) {
+      const stored = readStoredOpenState();
+      setOpenMap((prev) => {
+        const next = { ...prev };
+        for (const group of groups) {
+          const choice = stored[group.category];
+          if (typeof choice === "boolean") next[group.category] = choice;
+        }
+        return next;
+      });
+    }
+    const id = requestAnimationFrame(() => setAnimationsReady(true));
+    return () => cancelAnimationFrame(id);
+    // Groups are static per page; run once after mount.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="flex min-w-0 flex-col gap-1.5">
-      {groups.map((group, index) => {
+      {groups.map((group) => {
         const isActiveGroup = group.items.some((item) => item.isActive);
-        const defaultOpen =
-          forceOpen || isActiveGroup || (!hasActiveItem && index === 0);
 
         return (
           <Collapsible.Root
-            key={`${group.category}:${forceOpen ? "open" : "default"}`}
-            defaultOpen={defaultOpen}
+            key={group.category}
+            open={openMap[group.category] ?? false}
+            onOpenChange={(open) => {
+              setOpenMap((prev) => ({ ...prev, [group.category]: open }));
+              if (!forceOpen) storeOpenChoice(group.category, open);
+            }}
             className="min-w-0 w-full"
           >
             <Collapsible.Trigger
               className={cn(
-                "text-muted-foreground flex min-h-7 w-full min-w-0 items-center gap-2 text-left text-sm leading-5 font-medium transition-colors outline-none focus-visible:ring-0",
+                "text-muted-foreground flex w-full min-w-0 items-center gap-2 py-0 text-left text-sm leading-5 transition-colors outline-none focus-visible:ring-0",
                 "hover:text-foreground",
                 isActiveGroup
                   ? "text-foreground"
@@ -68,7 +131,12 @@ export function SidebarGroups({
             </Collapsible.Trigger>
             <Collapsible.Panel
               keepMounted
-              className="h-(--collapsible-panel-height) overflow-hidden opacity-100 transition-[height,opacity] duration-200 ease-out outline-none data-ending-style:h-0 data-[ending-style]:opacity-0 data-[starting-style]:h-0 data-[starting-style]:opacity-0 motion-reduce:transition-none"
+              className={cn(
+                "h-(--collapsible-panel-height) overflow-hidden opacity-100 outline-none data-ending-style:h-0 data-[ending-style]:opacity-0 data-[starting-style]:h-0 data-[starting-style]:opacity-0",
+                animationsReady
+                  ? "transition-[height,opacity] duration-200 ease-out motion-reduce:transition-none"
+                  : "transition-none",
+              )}
             >
               <div className="mt-0.5 flex flex-col gap-1 pl-2">
                 {group.items.map((item) => (
@@ -77,7 +145,7 @@ export function SidebarGroups({
                     href={item.href}
                     aria-current={item.isActive ? "page" : undefined}
                     className={cn(
-                      "text-xs leading-5 font-medium transition-colors",
+                      "text-xs leading-5 transition-colors",
                       item.logo ? "flex min-w-0 items-center gap-1.5" : "block",
                       item.isActive
                         ? "text-foreground"
@@ -117,7 +185,7 @@ export default function Sidebar({ groups }: SidebarProps) {
         <DocsCommandSearchTrigger className="mb-3 w-full shrink-0 self-stretch focus-visible:ring-0" />
         <nav
           aria-label="Docs navigation"
-          className="text-sidebar-foreground min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto pr-2 scrollbar-none!"
+          className="text-foreground min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto pr-2 scrollbar-none!"
         >
           <SidebarGroups groups={groups} />
         </nav>

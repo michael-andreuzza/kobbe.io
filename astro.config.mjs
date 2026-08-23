@@ -15,6 +15,7 @@ const redirects = Object.fromEntries(
 export default defineConfig({
   site: "https://kobbe.io",
   build: { format: "file" },
+  prefetch: true,
   trailingSlash: "ignore",
   redirects,
   markdown: {

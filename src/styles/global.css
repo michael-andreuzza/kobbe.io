@@ -28,7 +28,7 @@
 }
 @layer base {
   :root {
-    color-scheme: light dark;
+    color-scheme: light;
   }
   * {
     @apply border-border outline-ring/50;
@@ -39,16 +39,12 @@
   header[data-site-header] {
     @apply bg-background overflow-visible;
   }
-  @media (prefers-color-scheme: dark) {
-    body {
-      @apply bg-muted;
-    }
-    header[data-site-header] {
-      @apply bg-muted;
-    }
-  }
   html {
     @apply scroll-smooth font-sans;
+    /* Keep layout width identical on pages with and without a scrollbar,
+       so centered columns (and the pinned docs pagination) never shift
+       sideways between page loads. */
+    scrollbar-gutter: stable;
   }
 }
 * {

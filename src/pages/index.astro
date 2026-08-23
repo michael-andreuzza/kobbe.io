@@ -1,21 +1,37 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import Hero from "@/components/landing/Hero.astro";
-import DashboardCapabilities from "@/components/landing/DashboardCapabilities.astro";
-import PricingSection from "@/components/sections/pricing/Pricing.astro";
-import FaqSection from "@/components/landing/FaqSection.astro";
-import AllFeatures from "@/components/landing/AllFeatures.astro";
-import FounderNote from "@/components/landing/FounderNote.astro";
+import SiteSidebar from "@/components/global/SiteSidebar.astro";
+import ShowcaseOverview from "@/components/landing/showcase/ShowcaseOverview.astro";
+import ShowcasePanels from "@/components/landing/showcase/ShowcasePanels.astro";
+import ShowcaseFeatures from "@/components/landing/showcase/ShowcaseFeatures.astro";
+import ShowcaseFounderNote from "@/components/landing/showcase/ShowcaseFounderNote.astro";
+import ShowcaseFaq from "@/components/landing/showcase/ShowcaseFaq.astro";
+import ShowcaseFooter from "@/components/landing/showcase/ShowcaseFooter.astro";
+import { SimplifiedPricingSection } from "@/components/sections/pricing/simplified-pricing-section";
+
+const appBaseUrl = "https://app.kobbe.io";
 ---
 
 <BaseLayout
   title="Kobbe: Web analytics that respect your visitors"
   description="Privacy-friendly website analytics for traffic, pages, referrers, locations, devices, custom events, and revenue insights."
+  blurClass="lg:[--progressive-blur-left:20rem]"
 >
-  <Hero />
-  <DashboardCapabilities />
-  <FounderNote />
-  <PricingSection />
-  <FaqSection />
-  <AllFeatures />
+  <div class="min-h-svh lg:pl-80">
+    <!-- Sidebar: fixed on desktop, stacked header on mobile -->
+    <SiteSidebar />
+
+    <!-- Showcase feed -->
+    <main class="flex flex-col gap-2 p-2 lg:py-2 lg:pr-2 lg:pl-0">
+      <ShowcaseOverview />
+      <ShowcasePanels />
+      <ShowcaseFeatures />
+      <ShowcaseFounderNote />
+      <!-- Pricing panels: slider + features as two cards in the feed grid -->
+      <SimplifiedPricingSection client:load appBaseUrl={appBaseUrl} />
+      <ShowcaseFaq />
+      <!-- Footer panel: index only; repeats the feature catalog for SEO -->
+      <ShowcaseFooter />
+    </main>
+  </div>
 </BaseLayout>

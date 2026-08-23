@@ -9,7 +9,7 @@ function Card({
   ...props
 }: React.ComponentProps<"div"> & {
   size?: "default" | "sm";
-  variant?: "default" | "bordered" | "surface" | "muted";
+  variant?: "default" | "bordered" | "muted";
 }) {
   return (
     <div
@@ -19,7 +19,6 @@ function Card({
       className={cn(
         "group/card bg-card text-card-foreground flex h-full flex-col gap-4 rounded-xl px-2 py-4 text-sm has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-md *:[img:last-child]:rounded-b-xl",
         variant === "bordered" && "border border-border/70",
-        variant === "surface" && "bg-surface",
         variant === "muted" && "bg-muted",
         className,
       )}
@@ -46,7 +45,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-title"
       className={cn(
-        "font-sans text-base leading-snug font-medium group-data-[size=sm]/card:text-sm",
+        "font-sans text-foreground leading-snug font-medium group-data-[size=sm]/card:text-sm",
         className,
       )}
       {...props}

@@ -3,6 +3,7 @@ import {
   resolveDisplayPinnedIndex,
 } from "@/lib/traffic-chart-binning";
 import { chartCountAxisUpperBound } from "@/lib/chart-y-axis";
+import { monotoneLinePath } from "@/lib/monotone-path";
 import { hostnameFromReferrer } from "@/lib/referrer-favicon";
 
 import {
@@ -124,12 +125,9 @@ function yAt(visitors: number): number {
   return VIEW_H - (visitors / yMax) * VIEW_H;
 }
 
-const linePath = points
-  .map(
-    (point, index) =>
-      `${index === 0 ? "M" : "L"} ${xAt(index).toFixed(2)} ${yAt(point.visitors).toFixed(2)}`,
-  )
-  .join(" ");
+const linePath = monotoneLinePath(
+  points.map((point, index) => ({ x: xAt(index), y: yAt(point.visitors) })),
+);
 
 const areaPath = `${linePath} L ${VIEW_W} ${VIEW_H} L 0 ${VIEW_H} Z`;
 
@@ -137,13 +135,12 @@ const revenueMax = Math.max(...points.map((point) => point.revenueMinor ?? 0));
 /** Revenue rides its own scale in the lower part of the plot, like the app chart. */
 const revenuePath =
   revenueMax > 0
-    ? points
-        .map((point, index) => {
-          const ratio = (point.revenueMinor ?? 0) / revenueMax;
-          const y = VIEW_H - ratio * VIEW_H * 0.45;
-          return `${index === 0 ? "M" : "L"} ${xAt(index).toFixed(2)} ${y.toFixed(2)}`;
-        })
-        .join(" ")
+    ? monotoneLinePath(
+        points.map((point, index) => ({
+          x: xAt(index),
+          y: VIEW_H - ((point.revenueMinor ?? 0) / revenueMax) * VIEW_H * 0.45,
+        })),
+      )
     : null;
 
 const axisLabelIndexes = [
@@ -153,10 +150,22 @@ const axisLabelIndexes = [
   points.length - 1,
 ];
 
-export function HeroStaticChart() {
+export function HeroStaticChart(props: {
+  /** Render without the card surface: no background, padding, or shadow. */
+  frameless?: boolean;
+}) {
+  const frameless = props.frameless ?? false;
+  const Shell = frameless ? "div" : Card;
   return (
-    <Card className={cn(dashboardCardRootClass, "h-auto")}>
-      <CardHeader className={dashboardCardHeaderClass}>
+    <Shell
+      className={cn(
+        frameless ? "flex w-full flex-col" : dashboardCardRootClass,
+        "h-auto",
+      )}
+    >
+      <CardHeader
+        className={frameless ? "px-0! pt-0 pb-3 sm:pb-4" : dashboardCardHeaderClass}
+      >
         <CardTitle className={dashboardCardTitleClass}>
           Visitors over time
         </CardTitle>
@@ -164,16 +173,33 @@ export function HeroStaticChart() {
           {heroChartRangeLabel}
         </CardDescription>
       </CardHeader>
-      <CardContent className="h-auto min-w-0 px-0! pt-0! pb-4 sm:pb-5">
-        <div className="min-w-0 px-3 sm:px-4">
-          <div className="relative mt-8 h-48 sm:h-56">
+      <CardContent
+        className={cn(
+          "h-auto min-w-0 px-0! pt-0!",
+          frameless ? "pb-0" : "pb-4 sm:pb-5",
+        )}
+      >
+        <div className={cn("min-w-0", !frameless && "px-3 sm:px-4")}>
+          <div
+            className={cn(
+              "relative mt-8 h-48 sm:h-56",
+              // Full bleed on the panel: cancel its padding so the area
+              // reaches both sides and the bottom edge.
+              frameless && "-mx-4 -mb-4 sm:-mx-6 sm:-mb-6",
+            )}
+          >
             {[0, 0.5].map((fraction) => (
               <div
                 key={fraction}
                 className="border-border/60 pointer-events-none absolute inset-x-0 border-t"
                 style={{ top: `${fraction * 100}%` }}
               >
-                <span className="text-muted-foreground absolute -top-4 right-0 text-[10px] tabular-nums">
+                <span
+                  className={cn(
+                    "text-muted-foreground absolute -top-4 text-[10px] tabular-nums",
+                    frameless ? "right-4 sm:right-6" : "right-0",
+                  )}
+                >
                   {formatAxisCount(Math.round(yMax * (1 - fraction)))}
                 </span>
               </div>
@@ -233,7 +259,7 @@ export function HeroStaticChart() {
                 d={linePath}
                 fill="none"
                 stroke="url(#hero-traffic-stroke)"
-                strokeWidth={2}
+                strokeWidth={1.5}
                 strokeLinejoin="round"
                 strokeLinecap="round"
                 vectorEffect="non-scaling-stroke"
@@ -334,14 +360,16 @@ export function HeroStaticChart() {
               </div>
             ) : null}
           </div>
-          <div className="text-muted-foreground mt-2 flex justify-between text-[10px] tabular-nums">
-            {axisLabelIndexes.map((index) => (
-              <span key={index}>{points[index]?.label}</span>
-            ))}
-          </div>
+          {!frameless && (
+            <div className="text-muted-foreground mt-2 flex justify-between text-[10px] tabular-nums">
+              {axisLabelIndexes.map((index) => (
+                <span key={index}>{points[index]?.label}</span>
+              ))}
+            </div>
+          )}
         </div>
       </CardContent>
-    </Card>
+    </Shell>
   );
 }
 

@@ -1,18 +1,13 @@
 import * as React from "react";
 
+import { fieldChromeClassName } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-function Textarea({
-  className,
-  ...props
-}: React.ComponentProps<"textarea">) {
+function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
   return (
     <textarea
       data-slot="textarea"
-      className={cn(
-        "border-input bg-background text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 flex min-h-16 w-full rounded-md border px-3 py-2 text-sm  outline-none focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50",
-        className,
-      )}
+      className={cn(fieldChromeClassName, "min-h-16 px-3 py-2", className)}
       {...props}
     />
   );

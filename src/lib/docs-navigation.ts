@@ -1,5 +1,7 @@
 import type { CollectionEntry } from "astro:content";
 
+import { getStandaloneDocHref } from "@/lib/standalone-docs";
+
 const ALPHABETICAL_NAV_CATEGORIES = new Set([
   "Installation guides",
   "Revenue attribution",
@@ -39,22 +41,27 @@ export type DocsNavLink = {
   };
 };
 
+function docsNavHref(item: CollectionEntry<"docs">) {
+  // Legal and support docs live on their own routes (/legal/*, /support/*).
+  const standaloneHref = getStandaloneDocHref(item);
+  if (standaloneHref) return standaloneHref;
+  return item.id === "overview" ? "/docs" : `/docs/${item.id}`;
+}
+
 export function buildDocsNavLinks(
   items: CollectionEntry<"docs">[],
   currentPath: string,
 ): DocsNavLink[] {
-  return items.map((item) => ({
-    href: item.id === "overview" ? "/docs" : `/docs/${item.id}`,
-    label: docsNavLabel(item),
-    category: item.data.category ?? "Docs",
-    isActive:
-      currentPath ===
-      (item.id === "overview" ? "/docs" : `/docs/${item.id}`).replace(
-        /\/$/,
-        "",
-      ),
-    logo: docsNavLogo(item),
-  }));
+  return items.map((item) => {
+    const href = docsNavHref(item);
+    return {
+      href,
+      label: docsNavLabel(item),
+      category: item.data.category ?? "Docs",
+      isActive: currentPath === href.replace(/\/$/, ""),
+      logo: docsNavLogo(item),
+    };
+  });
 }
 
 function sortGuideGroupItems(category: string, items: DocsNavLink[]) {

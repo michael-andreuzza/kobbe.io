@@ -1,7 +1,8 @@
 ---
 import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
@@ -12,100 +13,103 @@ interface Props {
 const { effectiveDateDefault } = Astro.props;
 ---
 
-<Card className="not-prose no-print bg-card mt-8 rounded-xl py-0 h-auto">
-  <CardContent className="space-y-6">
-    <p class="text-muted-foreground text-sm leading-relaxed">
-      Part of our <a
-        href="/legal/terms"
-        class="text-foreground decoration-border hover:decoration-foreground underline underline-offset-2"
-        >Terms</a
-      >. Using the hosted service at
-      <a
-        href="https://app.kobbe.io"
-        class="text-foreground decoration-border hover:decoration-foreground underline underline-offset-2"
-        >app.kobbe.io</a
+<section class="not-prose no-print mt-8 space-y-6">
+  <p class="text-muted-foreground text-sm leading-relaxed">
+    Part of our <a
+      href="/legal/terms"
+      class="text-foreground decoration-border hover:decoration-foreground underline underline-offset-2"
+      >Terms</a
+    >. Using the hosted service at
+    <a
+      href="https://app.kobbe.io"
+      class="text-foreground decoration-border hover:decoration-foreground underline underline-offset-2"
+      >app.kobbe.io</a
+    >
+    accepts this DPA as posted here. Optionally add your details and use <strong
+      >Download PDF</strong
+    > → Save as PDF for records only.
+  </p>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div class="space-y-2 sm:col-span-2">
+      <Label htmlFor="dpa-in-company">Customer legal name</Label>
+      <Input
+        id="dpa-in-company"
+        type="text"
+        autoComplete="organization"
+        placeholder="Example Corp Oy"
+      />
+    </div>
+    <div class="space-y-2">
+      <Label htmlFor="dpa-in-name">Signatory name</Label>
+      <Input
+        id="dpa-in-name"
+        type="text"
+        autoComplete="name"
+        placeholder="Jane Doe"
+      />
+    </div>
+    <div class="space-y-2">
+      <Label htmlFor="dpa-in-title">Signatory title</Label>
+      <Input
+        id="dpa-in-title"
+        type="text"
+        autoComplete="organization-title"
+        placeholder="Founder"
+      />
+    </div>
+    <div class="space-y-2 sm:col-span-2">
+      <Label htmlFor="dpa-in-country">Country / region</Label>
+      <Input
+        id="dpa-in-country"
+        type="text"
+        autoComplete="country-name"
+        placeholder="Finland"
+      />
+    </div>
+    <div class="space-y-2 sm:col-span-2">
+      <Label htmlFor="dpa-in-address">Address</Label>
+      <Textarea
+        id="dpa-in-address"
+        rows={2}
+        autoComplete="street-address"
+        placeholder="Street, city, postal code"
+      />
+    </div>
+    <div class="space-y-2">
+      <span class="text-foreground flex text-xs leading-none font-medium select-none"
+        >Effective date</span
       >
-      accepts this DPA as posted here. Optionally add your details and use <strong
-        >Download PDF</strong
-      > → Save as PDF for records only.
+      <DatePicker
+        client:load
+        id="dpa-in-date"
+        defaultValue={effectiveDateDefault}
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-3">
+    <button
+      type="button"
+      id="dpa-print-btn"
+      class={cn(buttonVariants({ variant: "secondary", size: "xs" }))}
+    >
+      Download PDF
+    </button>
+    <p class="text-muted-foreground text-xs">
+      PDF is optional (for records or procurement). Involve your counsel for
+      enterprise reviews if needed.
     </p>
-
-    <div class="grid gap-4 sm:grid-cols-2">
-      <label class="block space-y-1.5 sm:col-span-2">
-        <span class="text-foreground text-xs font-medium"
-          >Customer legal name</span
-        >
-        <Input
-          id="dpa-in-company"
-          type="text"
-          autoComplete="organization"
-          placeholder="Example Corp Oy"
-        />
-      </label>
-      <label class="block space-y-1.5">
-        <span class="text-foreground text-xs font-medium">Signatory name</span>
-        <Input
-          id="dpa-in-name"
-          type="text"
-          autoComplete="name"
-          placeholder="Jane Doe"
-        />
-      </label>
-      <label class="block space-y-1.5">
-        <span class="text-foreground text-xs font-medium">Signatory title</span>
-        <Input
-          id="dpa-in-title"
-          type="text"
-          autoComplete="organization-title"
-          placeholder="Founder"
-        />
-      </label>
-      <label class="block space-y-1.5 sm:col-span-2">
-        <span class="text-foreground text-xs font-medium">Country / region</span
-        >
-        <Input
-          id="dpa-in-country"
-          type="text"
-          autoComplete="country-name"
-          placeholder="Finland"
-        />
-      </label>
-      <label class="block space-y-1.5 sm:col-span-2">
-        <span class="text-foreground text-xs font-medium">Address</span>
-        <Textarea
-          id="dpa-in-address"
-          rows={2}
-          autoComplete="street-address"
-          placeholder="Street, city, postal code"
-        />
-      </label>
-      <label class="block space-y-1.5">
-        <span class="text-foreground text-xs font-medium">Effective date</span>
-        <Input id="dpa-in-date" type="date" value={effectiveDateDefault} />
-      </label>
-    </div>
-
-    <div class="flex flex-wrap items-center gap-3">
-      <button
-        type="button"
-        id="dpa-print-btn"
-        class={cn(buttonVariants({ variant: "default", size: "xs" }))}
-      >
-        Download PDF
-      </button>
-      <p class="text-muted-foreground text-xs">
-        PDF is optional (for records or procurement). Involve your counsel for
-        enterprise reviews if needed.
-      </p>
-    </div>
-  </CardContent>
-</Card>
+  </div>
+</section>
 
 <style is:global>
   @media print {
-    .no-print {
-      display: none !important;
-    }
+    .no-print,
+    /* Site chrome: the marketing sidebar (with the mobile nav card) and the
+       docs table of contents are both asides. */
+    aside,
+    [data-progressive-blur],
     header[class*="sticky"],
     header.sticky,
     body > footer {
@@ -114,17 +118,18 @@ const { effectiveDateDefault } = Astro.props;
     main {
       display: block !important;
     }
-    body {
+    body,
+    .inverted {
       background: white !important;
     }
-    :global(.dark) body {
-      background: white !important;
-    }
-    #dpa-printable {
+    /* Descendants too: the on-screen ink classes (text-foreground/80,
+       text-muted-foreground) would otherwise print washed-out gray. Covers
+       the page title and description above the printable region as well. */
+    .inverted,
+    .inverted * {
       color: #111 !important;
     }
     #dpa-printable a {
-      color: #111 !important;
       text-decoration: none !important;
     }
   }
@@ -157,20 +162,10 @@ const { effectiveDateDefault } = Astro.props;
     }
 
     function init() {
-      var inputs = [
-        "dpa-in-company",
-        "dpa-in-name",
-        "dpa-in-title",
-        "dpa-in-country",
-        "dpa-in-address",
-        "dpa-in-date",
-      ];
-      for (var i = 0; i < inputs.length; i++) {
-        var node = document.getElementById(inputs[i]);
-        if (!node) continue;
-        node.addEventListener("input", sync);
-        node.addEventListener("change", sync);
-      }
+      // Delegated: also catches the date picker's hidden input, which is
+      // mounted by React after this script runs.
+      document.addEventListener("input", sync);
+      document.addEventListener("change", sync);
       var btn = document.getElementById("dpa-print-btn");
       if (btn)
         btn.addEventListener("click", function () {

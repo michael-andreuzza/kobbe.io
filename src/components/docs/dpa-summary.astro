@@ -1,6 +1,4 @@
 ---
-import { Card, CardContent } from "@/components/ui/card";
-
 interface Props {
   effectiveDateDefault: string;
 }
@@ -8,8 +6,10 @@ interface Props {
 const { effectiveDateDefault } = Astro.props;
 ---
 
-<Card className="not-prose bg-card mt-8 rounded-xl py-0">
-  <CardContent className="text-foreground space-y-3 text-sm leading-relaxed">
+{/* Muted body like the docs prose; strongs use the softened heading ink. */}
+<section
+  class="not-prose text-muted-foreground mt-8 space-y-3 text-sm leading-relaxed [&_a]:text-foreground/80 [&_strong]:text-foreground/80 [&_strong]:font-medium"
+>
     <p
       class="text-muted-foreground text-xs font-medium tracking-wide uppercase"
     >
@@ -78,5 +78,4 @@ const { effectiveDateDefault } = Astro.props;
         >
       </li>
     </ul>
-  </CardContent>
-</Card>
+</section>

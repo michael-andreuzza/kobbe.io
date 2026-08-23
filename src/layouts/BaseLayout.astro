@@ -1,7 +1,6 @@
 ---
 import "@/styles/global.css";
-import Navigation from "@/components/global/Navigation.astro";
-import Footer from "@/components/global/Footer.astro";
+import ProgressiveBlur from "@/components/global/ProgressiveBlur.astro";
 import SiteSeo from "@/components/foundations/head/SiteSeo.astro";
 import type { JsonLdBreadcrumb } from "@/lib/seo/json-ld";
 
@@ -19,12 +18,8 @@ interface Props {
   nofollow?: boolean;
   jsonLdBreadcrumbs?: JsonLdBreadcrumb[];
   jsonLdExtra?: Record<string, unknown>[];
-  hideNavigation?: boolean;
-  hideFooter?: boolean;
-  docsNavGroups?: {
-    category: string;
-    items: { href: string; label: string; isActive: boolean }[];
-  }[];
+  /** Extra classes for the bottom progressive blur (e.g. sidebar offset). */
+  blurClass?: string;
 }
 
 const {
@@ -41,9 +36,7 @@ const {
   nofollow,
   jsonLdBreadcrumbs,
   jsonLdExtra,
-  hideNavigation = false,
-  hideFooter = false,
-  docsNavGroups,
+  blurClass,
 } = Astro.props;
 ---
 
@@ -72,85 +65,13 @@ const {
       data-performance="true"
       defer></script>
   </head>
-  <body class="bg-background flex min-h-svh min-w-0 flex-col">
-    {!hideNavigation && <Navigation docsNavGroups={docsNavGroups} />}
-    <main class="isolate min-w-0 grow">
+  <body class="bg-background flex min-h-svh min-w-0 flex-col ">
+    {/* No `isolate` here: it would trap the page's fixed UI (mobile nav card,
+        sidebar mega menu) in main's stacking context, painting it below the
+        body-level progressive blur. */}
+    <main class="min-w-0 grow">
       <slot />
     </main>
-    {!hideFooter && <Footer />}
-    <div class="progressive-blur-bottom" aria-hidden="true">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+    <ProgressiveBlur class={blurClass} />
   </body>
 </html>
-
-<style>
-  .progressive-blur-bottom {
-    position: fixed;
-    inset-inline: 0;
-    bottom: 0;
-    height: 5rem;
-    z-index: 40;
-    pointer-events: none;
-  }
-
-  .progressive-blur-bottom > div {
-    position: absolute;
-    inset: 0;
-  }
-
-  /* Stacked backdrop blurs with staggered gradient masks: each layer only
-     covers a lower band, so the blur ramps up smoothly toward the edge. */
-  .progressive-blur-bottom > div:nth-child(1) {
-    backdrop-filter: blur(0.5px);
-    mask-image: linear-gradient(
-      to bottom,
-      transparent 0%,
-      black 20%,
-      black 40%,
-      transparent 60%
-    );
-  }
-  .progressive-blur-bottom > div:nth-child(2) {
-    backdrop-filter: blur(1px);
-    mask-image: linear-gradient(
-      to bottom,
-      transparent 20%,
-      black 40%,
-      black 60%,
-      transparent 80%
-    );
-  }
-  .progressive-blur-bottom > div:nth-child(3) {
-    backdrop-filter: blur(2px);
-    mask-image: linear-gradient(
-      to bottom,
-      transparent 40%,
-      black 60%,
-      black 80%,
-      transparent 100%
-    );
-  }
-  .progressive-blur-bottom > div:nth-child(4) {
-    backdrop-filter: blur(4px);
-    mask-image: linear-gradient(
-      to bottom,
-      transparent 60%,
-      black 80%,
-      black 100%
-    );
-  }
-  .progressive-blur-bottom > div:nth-child(5) {
-    backdrop-filter: blur(8px);
-    mask-image: linear-gradient(to bottom, transparent 75%, black 100%);
-  }
-  .progressive-blur-bottom > div:nth-child(6) {
-    backdrop-filter: blur(16px);
-    mask-image: linear-gradient(to bottom, transparent 88%, black 100%);
-  }
-</style>

@@ -1,10 +1,7 @@
 :root {
   /* Astro / Shiki `theme: "css-variables"` mapped to semantic grayscale tokens. */
-  --color-syntax-surface: color-mix(
-    in oklch,
-    var(--muted) 72%,
-    var(--background)
-  );
+  /* Card surface so code blocks stand out on the muted docs panels. */
+  --color-syntax-surface: var(--background);
   --color-syntax-foreground: var(--foreground);
   --color-syntax-muted: var(--muted-foreground);
   --color-syntax-comment: color-mix(
@@ -48,5 +45,52 @@
   --astro-code-token-bold: inherit;
   --astro-code-token-italic: italic;
   --astro-code-token-underline: underline;
+}
+
+/* Inverted panels: the :root values above are resolved at :root, so they
+   must be re-declared here to pick up the inverted tokens. Surface uses the
+   slightly-lighter carbon so code blocks sit subtly on the panel. */
+.inverted {
+  --color-syntax-surface: var(--muted);
+  --color-syntax-foreground: var(--foreground);
+  --color-syntax-muted: var(--muted-foreground);
+  --color-syntax-comment: color-mix(
+    in oklch,
+    var(--muted-foreground) 70%,
+    var(--background)
+  );
+  --color-syntax-string: color-mix(
+    in oklch,
+    var(--foreground) 78%,
+    var(--muted-foreground)
+  );
+  --color-syntax-string-expression: var(--color-syntax-string);
+  --color-syntax-keyword: var(--foreground);
+  --color-syntax-function: color-mix(
+    in oklch,
+    var(--foreground) 88%,
+    var(--muted-foreground)
+  );
+  --color-syntax-constant: color-mix(
+    in oklch,
+    var(--foreground) 72%,
+    var(--muted-foreground)
+  );
+  --color-syntax-parameter: var(--muted-foreground);
+  --color-syntax-punctuation: var(--muted-foreground);
+  --color-syntax-link: var(--foreground);
+
+  --astro-code-color-text: var(--color-syntax-foreground);
+  --astro-code-token-link: var(--color-syntax-link);
+  --astro-code-token-comment: var(--color-syntax-comment);
+  --astro-code-token-string: var(--color-syntax-string);
+  --astro-code-token-constant: var(--color-syntax-constant);
+  --astro-code-background: var(--color-syntax-surface);
+  --astro-code-token-keyword: var(--color-syntax-keyword);
+  --astro-code-token-function: var(--color-syntax-function);
+  --astro-code-foreground: var(--color-syntax-foreground);
+  --astro-code-token-parameter: var(--color-syntax-parameter);
+  --astro-code-token-punctuation: var(--color-syntax-punctuation);
+  --astro-code-token-string-expression: var(--color-syntax-string-expression);
 }
 

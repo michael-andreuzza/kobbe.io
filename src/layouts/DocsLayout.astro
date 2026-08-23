@@ -1,7 +1,7 @@
 ---
 import Text from "@/components/foundations/elements/Text.astro";
-import BaseLayout from "./BaseLayout.astro";
-import Sidebar from "@/components/ui/sidebar";
+import SidebarLayout from "./SidebarLayout.astro";
+import ProgressiveBlur from "@/components/global/ProgressiveBlur.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
@@ -9,11 +9,7 @@ import ToCScript from "@/components/foundations/scripts/ToCScript.astro";
 import TableOfContents from "@/components/foundations/navigation/TableOfContents.astro";
 import { DocsCommandSearch } from "@/components/docs/docs-command-search";
 import type { JsonLdBreadcrumb } from "@/lib/seo/json-ld";
-import { filterDocsNavigationItems } from "@/lib/standalone-docs";
-import {
-  buildDocsNavLinks,
-  groupDocsNavLinks,
-} from "@/lib/docs-navigation";
+import { buildDocsNavLinks, groupDocsNavLinks } from "@/lib/docs-navigation";
 import { buildSiteSearchItems } from "@/lib/site-search";
 
 interface Props {
@@ -26,8 +22,9 @@ interface Props {
 const { title, description, pageTitle, navItems } = Astro.props;
 const currentPath = Astro.url.pathname.replace(/\/$/, "");
 const displayTitle = pageTitle ?? title?.replace(/\s+: Kobbe$/, "");
-const filteredNavItems = filterDocsNavigationItems(navItems);
-const resolvedNavLinks = buildDocsNavLinks(filteredNavItems, currentPath);
+// Legal and support docs are included: they render on their own routes but
+// still show as sidebar groups.
+const resolvedNavLinks = buildDocsNavLinks(navItems, currentPath);
 const groupedNavLinks = groupDocsNavLinks(resolvedNavLinks);
 const currentNavLink = resolvedNavLinks.find((item) => item.isActive);
 const jsonLdBreadcrumbs: JsonLdBreadcrumb[] =
@@ -52,6 +49,7 @@ const NAV_GROUP_ORDER = [
   "Sharing",
   "Revenue attribution",
   "Manage",
+  "Reports and alerts",
   "Support",
   "Legal",
   "Docs",
@@ -72,25 +70,36 @@ const allDocs = await getCollection("docs");
 const siteSearchItems = buildSiteSearchItems(allDocs);
 ---
 
-<BaseLayout
+<SidebarLayout
   title={title}
   description={description}
   jsonLdBreadcrumbs={jsonLdBreadcrumbs}
   docsNavGroups={groupedNavLinks}
 >
-  <Wrapper variant="default">
+  <section
+    class="inverted bg-card relative min-h-svh overflow-hidden rounded-lg lg:h-[calc(100svh-1rem)] lg:min-h-0"
+  >
     <div
-      class="grid w-full grid-cols-1 gap-x-4 py-12 lg:grid-cols-[10rem_minmax(0,1fr)] xl:grid-cols-[10rem_minmax(0,1fr)_9rem] 2xl:gap-x-10"
+      class="p-4 lg:h-full lg:overflow-y-auto lg:p-6 lg:pr-4"
+      data-progressive-blur-scroll
     >
-      <Sidebar client:load groups={groupedNavLinks} />
-      <Wrapper
-        variant="prose"
-        id="markdown-content"
-        class="w-full max-w-none min-w-0"
-      >
+    {/* Right padding reserves room for the floating full-height ToC. */}
+    <div class="w-full xl:pr-80">
+      <div class="relative mx-auto w-full max-w-4xl min-w-0">
+        {/* Pinned to the article corner so the prev/next buttons sit at the
+            exact same spot on every page, letting you click through without
+            moving the cursor (in-flow they shift with the header height). */}
+        <div class="absolute top-0 right-0 z-10">
+          <slot name="header-actions" />
+        </div>
+        <Wrapper
+          variant="prose"
+          id="markdown-content"
+          class="w-full max-w-none min-w-0"
+        >
         {
           displayTitle && (
-            <header class="not-prose flex w-full items-start justify-between gap-4">
+            <header class="not-prose flex w-full items-start justify-between gap-4 pr-20">
               <div class="min-w-0">
                 <Text
                   tag="h1"
@@ -109,17 +118,17 @@ const siteSearchItems = buildSiteSearchItems(allDocs);
                   </Text>
                 )}
               </div>
-              <div class="mt-1 ml-auto w-fit shrink-0">
-                <slot name="header-actions" />
-              </div>
             </header>
           )
         }
-        <slot />
-      </Wrapper>
-      <TableOfContents />
+          <slot />
+        </Wrapper>
+      </div>
     </div>
-  </Wrapper>
+    </div>
+    <TableOfContents />
+    <ProgressiveBlur contained />
+  </section>
   <DocsCommandSearch client:load hideTrigger items={siteSearchItems} />
   <ToCScript />
-</BaseLayout>
+</SidebarLayout>
