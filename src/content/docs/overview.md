@@ -18,7 +18,7 @@ Kobbe shows visitors, visits, views, top pages, referrers, channels, locations, 
 
 Track custom events for clicks, signups, purchases, downloads, and important sections. [Conversions](/docs/conversions) can auto-track common goals like contact clicks and form submits. Funnels help you measure drop-off across page paths and events, and [UTM campaigns](/docs/utm-campaigns) can connect marketing links to conversions.
 
-Use the [Events activity log](/docs/events-activity-log) to browse individual pageviews and custom events, filter by event name, and export CSV. The [overview dashboard](/docs/dashboard-overview#conversion-peak) also includes a conversion peak heatmap that shows when custom events happen most by day and hour.
+Use the [Events activity log](/docs/events-activity-log) to browse individual pageviews and custom events and filter by event name. The [overview dashboard](/docs/dashboard-overview#conversion-peak) also includes a conversion peak chart that shows when custom events happen most by day and hour.
 
 ### First-party collect
 
@@ -30,7 +30,7 @@ Optional Web Vitals and Search Console data help you review slow pages, browsers
 
 ### Sharing and exports
 
-Create read-only dashboards for clients or teammates, invite team viewers without giving them workspace settings access, copy or download branded chart images from the overview dashboard, and export site analytics as CSV when you need reports or backups.
+Create read-only dashboards for clients or teammates, invite team viewers without giving them workspace settings access, and export site analytics as CSV when you need reports or backups.
 
 [Monthly reports](/docs/monthly-reports) and [traffic alerts](/docs/traffic-alerts) can be enabled per site when you want opt-in email summaries or obvious spike/drop notifications.
 

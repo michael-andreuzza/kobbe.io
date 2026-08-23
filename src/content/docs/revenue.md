@@ -76,12 +76,6 @@ Two attribution-specific controls appear in the toolbar for live sites (not the 
 
 Changing either setting recalculates attribution breakdowns and journey cards for the active range. Overview revenue overlays and breakdown rows may still use the site default until you align settings across surfaces.
 
-## Export and share
-
-Use the menu in a card header to **export CSV** or open **Share** for a branded table image. Share and export are available on the attribution breakdown, revenue by product, recent refunds, touches before purchase, and top purchase paths cards.
-
-See [Share metric images](/docs/share-metric-images) for background and copy options.
-
 ## Setup checklist
 
 If a provider is not connected yet, Kobbe shows a short checklist on the page with links to **revenue integrations** in site settings and reminders to enable `data-revenue-attribution="true"` on your tracker snippet.
@@ -97,5 +91,4 @@ If more than one currency appears in the range, Kobbe avoids mixing amounts and 
 - [Revenue attribution setup](/docs/revenue-attribution)
 - [Revenue on the dashboard overview](/docs/dashboard-stats-revenue)
 - [Dashboard overview](/docs/dashboard-overview)
-- [Share metric images](/docs/share-metric-images)
 - [Data export](/docs/data-export)

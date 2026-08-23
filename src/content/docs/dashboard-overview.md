@@ -37,8 +37,6 @@ The headline metrics (visitors, visits, views, bounce rate, and session time) ar
 
 The main chart shows the selected KPI over time. Hover a point to inspect that bucket. Click a point to pin it while you move around the chart, then click the same point again to unpin.
 
-Use the **share** icon in the chart header to copy or download a branded image of the current metric and range. See [Share metric images](/docs/share-metric-images).
-
 ## Chart notes
 
 Pin a day on the traffic chart to keep its tooltip open while you move around the chart. From the pinned tooltip you can add labeled notes for that day, such as a product launch, pricing change, or campaign start.
@@ -79,4 +77,3 @@ Click a page row to inspect a single path. See [Pages on the dashboard](/docs/da
 - [Custom events](/docs/custom-events)
 - [Funnels](/docs/funnels)
 - [Shared dashboards](/docs/shared-dashboards)
-- [Share metric images](/docs/share-metric-images)

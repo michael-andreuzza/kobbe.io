@@ -18,7 +18,7 @@ The **Events** card summarizes **custom events** you send from the tracker (clic
 
 Kobbe does not treat every automatic page signal as a named "custom event" in this card. The focus is on **events you define**.
 
-Use **Activity log** on the card to open the full [Events activity log](/docs/events-activity-log) for row-by-row browsing, event filters, and CSV export.
+Use **Activity log** on the card to open the full [Events activity log](/docs/events-activity-log) for row-by-row browsing and event filters.
 
 Do **not** put personal data in event names or properties. See [Custom events](/docs/custom-events).
 

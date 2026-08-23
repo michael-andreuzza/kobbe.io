@@ -1,6 +1,6 @@
 ---
 title: Events activity log
-description: Browse pageviews and custom events in a paginated log with filters, context columns, and CSV export.
+description: Browse pageviews and custom events in a paginated log with filters and context columns.
 order: 12.09
 category: Dashboard stats
 navLabel: Events activity log
@@ -44,10 +44,9 @@ Use **Load more** at the bottom to fetch additional rows. Pagination keeps your 
 
 ## Toolbar actions
 
-The top toolbar matches other dashboard pages:
+The top toolbar matches other dashboard pages. **Top events** returns to the overview dashboard **Events** card for the same range.
 
-- **Top events** returns to the overview dashboard **Events** card for the same range.
-- **Export CSV** downloads pageviews and custom events for preset ranges (same export as site settings). Custom date ranges hide export because CSV export currently supports preset windows only.
+If you need this data as a file, use the [CSV export in site settings](/docs/data-export).
 
 ## Time range
 

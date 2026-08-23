@@ -136,7 +136,6 @@ export const landingFeatureCard = {
       items: [
         { label: "Team access", href: "/docs/team-access" },
         { label: "Shared dashboards", href: "/docs/shared-dashboards" },
-        { label: "Share metric images", href: "/docs/share-metric-images" },
         { label: "Embed widgets", href: "/docs/embed-widgets" },
         {
           label: "Monthly reports and alerts",
