@@ -128,8 +128,9 @@ export function SiteHeaderNav() {
 
       {/* Floats over the page content instead of expanding the header, so the
           header background never paints a slab behind the panel. */}
-      {/* Overhangs the panel width (-inset-x-10 / px-11 / pb-10) so the
-          collapse animation's overflow-hidden doesn't clip the shadow. */}
+      {/* Overhangs the panel width (-inset-x-10 / px-11 / pb-20) so the
+          collapse animation's overflow-hidden doesn't clip the layered
+          shadow, whose largest layer reaches ~72px below the panel. */}
       <div
         className={cn(
           "absolute -inset-x-10 top-full z-50 grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none",
@@ -137,7 +138,7 @@ export function SiteHeaderNav() {
         )}
       >
         <div className="min-h-0 overflow-hidden">
-          <div className="px-11 pt-2 pb-10">
+          <div className="px-11 pt-2 pb-20">
             <div
               id={panelId}
               aria-hidden={!megaOpen}

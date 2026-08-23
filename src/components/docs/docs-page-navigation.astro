@@ -2,6 +2,8 @@
 import type { CollectionEntry } from "astro:content";
 import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface Props {
   docs: CollectionEntry<"docs">[];
@@ -20,14 +22,18 @@ const nextDoc =
 const getHref = (doc: CollectionEntry<"docs">) =>
   doc.id === "overview" ? "/docs" : `/docs/${doc.id}`;
 
-/* Quiet text links instead of buttons: muted ink that brightens on hover,
-   in line with the rest of the docs chrome. `select-none` and no dragging
-   keep rapid click-through paging from stalling (see script below). */
+/* Bottom prev/next: quiet text links. `select-none` and no dragging keep
+   rapid click-through paging from stalling (see script below). */
 const linkClass =
   "text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm transition-colors select-none [-webkit-user-drag:none]";
 
-const iconLinkClass =
-  "text-muted-foreground hover:text-foreground inline-flex size-8 items-center justify-center transition-colors select-none [-webkit-user-drag:none]";
+/* Top corner pager: quiet chip buttons with the soft field border (the
+   default outline variant's full-ink border is too harsh here). */
+const iconLinkClass = cn(
+  buttonVariants({ variant: "outline", size: "icon-xs" }),
+  "border-border bg-card text-muted-foreground hover:bg-card hover:text-foreground",
+  "select-none [-webkit-user-drag:none]",
+);
 ---
 
 {
