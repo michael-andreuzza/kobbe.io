@@ -37,12 +37,22 @@ function isEditableTarget(target: EventTarget | null) {
   );
 }
 
-export function getDocsSearchShortcutLabel() {
-  if (typeof navigator === "undefined") {
-    return "⌘K";
-  }
+/**
+ * Resolved on the client only: Node also defines a global `navigator` at
+ * build time, so a plain platform check bakes the build machine's answer
+ * into the HTML (CI is Linux → "Ctrl K") and mismatches Mac visitors on
+ * hydration. SSR always says ⌘K; non-Mac clients correct it after mount.
+ */
+export function useDocsSearchShortcutLabel() {
+  const [label, setLabel] = useState("⌘K");
 
-  return /Mac|iPhone|iPad|iPod/.test(navigator.platform) ? "⌘K" : "Ctrl K";
+  useEffect(() => {
+    if (!/Mac|iPhone|iPad|iPod/.test(navigator.platform)) {
+      setLabel("Ctrl K");
+    }
+  }, []);
+
+  return label;
 }
 
 export function openDocsSearch() {
@@ -54,7 +64,7 @@ export function DocsCommandSearchTrigger({
 }: {
   className?: string;
 }) {
-  const shortcutLabel = getDocsSearchShortcutLabel();
+  const shortcutLabel = useDocsSearchShortcutLabel();
 
   return (
     // Quiet field: white box on the light canvas; inside inverted panels
