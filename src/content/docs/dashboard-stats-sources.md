@@ -6,7 +6,7 @@ category: Dashboard stats
 navLabel: Sources
 ---
 
-The **Sources** breakdown explains **where visits came from**: sites that linked to you, your own hostnames, grouped **channels**, and traffic attributed to **AI tools** when referrers match known patterns.
+The **Sources** breakdown explains **where visits came from**: sites that linked to you, your own hostnames, grouped **channels**, traffic attributed to **AI tools** when referrers match known patterns, and a **Bots** tab summarizing automated traffic Kobbe filtered out before it reached your stats.
 
 For marketing links with UTM parameters, use the dedicated [UTM campaigns](/docs/utm-campaigns) page. Campaign tracking is opt-in and stores only allowlisted UTM fields, not full query strings.
 
@@ -18,6 +18,7 @@ For marketing links with UTM parameters, use the dedicated [UTM campaigns](/docs
 | **Hostnames**  | The hostname visitors used to reach your site.                      |
 | **Channels**   | Grouped classes such as direct, search, social, and referrals.      |
 | **AI / tools** | Referrals from assistants and search-style tools when identifiable. |
+| **Bots**       | Filtered automated traffic: how many hits were kept out of your stats, their share of requests, and why they were filtered. See [Bot filtering](/docs/script-options#bot-filtering-and-exclusions). |
 
 ## Subdomains
 
