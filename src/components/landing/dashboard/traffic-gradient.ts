@@ -46,18 +46,17 @@ function makeRamp(
 }
 
 /**
- * App ramp: the real dashboard's indigo → cyan gradient. Mirrors
- * TRAFFIC_GRADIENT_STOP_VALUES in the app's traffic-gradient-chart so the
- * hero mockup matches what users actually see.
+ * App ramp: the real dashboard's single azure-blue chart color. Mirrors
+ * TRAFFIC_CHART_COLOR in the app's traffic-gradient-chart so the hero mockup
+ * matches what users actually see (the ramp structure is kept so gradient
+ * consumers keep working — every position resolves to the same color).
  */
 export const APP_RAMP = makeRamp(
   [
-    { at: 0, l: 0.45, c: 0.17, h: 285 },
-    { at: 0.38, l: 0.58, c: 0.16, h: 255 },
-    { at: 0.7, l: 0.68, c: 0.14, h: 230 },
-    { at: 1, l: 0.78, c: 0.12, h: 200 },
+    { at: 0, l: 0.6, c: 0.15, h: 240 },
+    { at: 1, l: 0.6, c: 0.15, h: 240 },
   ],
-  "oklch(0.58 0.16 255)",
+  "oklch(0.6 0.15 240)",
 );
 
 /** Default ramp used where a chart has not picked its own. */

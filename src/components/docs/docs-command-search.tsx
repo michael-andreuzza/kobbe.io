@@ -37,22 +37,9 @@ function isEditableTarget(target: EventTarget | null) {
   );
 }
 
-/**
- * Resolved on the client only: Node also defines a global `navigator` at
- * build time, so a plain platform check bakes the build machine's answer
- * into the HTML (CI is Linux → "Ctrl K") and mismatches Mac visitors on
- * hydration. SSR always says ⌘K; non-Mac clients correct it after mount.
- */
+/** Plain `F` opens Find on every platform (⌘K/Ctrl K still works, unlabeled). */
 export function useDocsSearchShortcutLabel() {
-  const [label, setLabel] = useState("⌘K");
-
-  useEffect(() => {
-    if (!/Mac|iPhone|iPad|iPod/.test(navigator.platform)) {
-      setLabel("Ctrl K");
-    }
-  }, []);
-
-  return label;
+  return "F";
 }
 
 export function openDocsSearch() {
@@ -76,7 +63,7 @@ export function DocsCommandSearchTrigger({
         "border-border bg-card text-muted-foreground hover:text-foreground flex h-8 w-full items-center gap-2 rounded-md border px-2.5 text-left text-xs transition-colors outline-none",
         className,
       )}
-      aria-label="Search"
+      aria-label="Find"
     >
       <HugeiconsIcon
         icon={Search01Icon}
@@ -84,7 +71,7 @@ export function DocsCommandSearchTrigger({
         className="size-4 shrink-0"
         aria-hidden
       />
-      <span className="min-w-0 flex-1 truncate">Search</span>
+      <span className="min-w-0 flex-1 truncate">Find...</span>
       <kbd className="text-muted-foreground/60 shrink-0 font-mono text-[0.65rem] leading-none">
         {shortcutLabel}
       </kbd>
@@ -202,13 +189,19 @@ export function DocsCommandSearch({
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (
+      // Plain `F` opens Find (Vercel-style); ⌘K/Ctrl K kept as a fallback.
+      const plainF =
+        event.key.toLowerCase() === "f" &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.shiftKey &&
+        !event.altKey;
+      const cmdK =
         event.key.toLowerCase() === "k" &&
         (event.metaKey || event.ctrlKey) &&
         !event.shiftKey &&
-        !event.altKey &&
-        !isEditableTarget(event.target)
-      ) {
+        !event.altKey;
+      if ((plainF || cmdK) && !isEditableTarget(event.target)) {
         event.preventDefault();
         if (open) {
           close();
@@ -412,10 +405,10 @@ export function DocsCommandSearch({
                   onKeyDown={onInputKeyDown}
                   placeholder={
                     activeGroup && !isSearching
-                      ? `Search in ${activeGroup}...`
-                      : "Search docs and pages..."
+                      ? `Find in ${activeGroup}...`
+                      : "Find docs and pages..."
                   }
-                  aria-label="Search"
+                  aria-label="Find"
                   className="text-foreground placeholder:text-muted-foreground/60 h-6 min-w-0 flex-1 bg-transparent text-sm leading-tight outline-none"
                 />
               </div>

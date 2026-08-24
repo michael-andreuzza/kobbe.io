@@ -32,9 +32,9 @@ import { ReferrerFavicon } from "./referrer-favicon";
 import { GRADIENT_ACCENT, TRAFFIC_GRADIENT_STOPS } from "./traffic-gradient";
 
 /**
- * Zero-JS replacement for the recharts hero chart: the same gradient-line
- * series rendered as static SVG so the landing page ships no chart runtime.
- * Mirrors the app's TrafficGradientChart (cool-to-warm stroke, faint wash,
+ * Zero-JS replacement for the recharts hero chart: the same line series
+ * rendered as static SVG so the landing page ships no chart runtime.
+ * Mirrors the app's TrafficGradientChart (single-color stroke, faint wash,
  * dotted foreground revenue line).
  */
 
