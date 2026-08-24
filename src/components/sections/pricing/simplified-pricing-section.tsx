@@ -14,7 +14,7 @@ import {
   buildSimplifiedPricingFeatureRows,
   formatTierBillingPeriodLabel,
   formatTierTrialPriceNote,
-  formatYearlyEquivalentBillingLabel,
+  formatYearlyBillingBreakdownLabel,
   getTierDisplayAmount,
   pricingTiers,
   pricingTrialDays,
@@ -96,7 +96,7 @@ export function SimplifiedPricingSection({
               <p className="text-muted-foreground ml-auto text-sm font-medium">
                 {period === "monthly"
                   ? formatTierBillingPeriodLabel(period)
-                  : formatYearlyEquivalentBillingLabel(displayAmount)}
+                  : formatYearlyBillingBreakdownLabel(tier)}
               </p>
             </div>
           </div>
@@ -119,7 +119,7 @@ export function SimplifiedPricingSection({
               {trialCtaLabel}
             </a>
             <p className="text-muted-foreground mt-4 text-xs text-balance">
-              {formatTierTrialPriceNote(displayAmount, period)} Upgrade or
+              {formatTierTrialPriceNote(tier, period)} Upgrade or
               downgrade anytime and cancel anytime
             </p>
           </div>

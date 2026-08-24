@@ -98,9 +98,11 @@ export function PricingPriceDisplay({
   const showYearlyTotal =
     period === "yearly" && yearlyTotalAmount != null;
 
+  // No rounded per-month equivalent here: it reads as a price and never
+  // multiplies back to the total. The breakdown label carries the math.
   const ariaLabel =
     period === "yearly" && yearlyTotalAmount != null
-      ? `$${formatPricingCurrency(yearlyTotalAmount)} per year, $${formatPricingCurrency(displayAmount)} per month, billed annually`
+      ? `$${formatPricingCurrency(yearlyTotalAmount)} per year, billed annually — 2 months free`
       : `$${formatPricingCurrency(displayAmount)} per month, billed monthly`;
 
   if (showYearlyTotal) {

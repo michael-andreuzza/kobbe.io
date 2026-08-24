@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import {
   buildSignupHref,
   formatTierLimitLabel,
-  formatYearlyEquivalentBillingLabel,
+  formatYearlyBillingBreakdownLabel,
   getTierDisplayAmount,
   pricingTiers,
   type BillingPeriod,
@@ -87,9 +87,7 @@ export function PricingVolumeTable({
                       />
                       {period === "yearly" ? (
                         <span className="text-muted-foreground text-xs font-medium">
-                          {formatYearlyEquivalentBillingLabel(
-                            getTierDisplayAmount(tier, period),
-                          )}
+                          {formatYearlyBillingBreakdownLabel(tier)}
                         </span>
                       ) : null}
                     </div>

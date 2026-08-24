@@ -201,22 +201,25 @@ export function formatTierBillingPeriodLabel(period: BillingPeriod) {
   return period === "monthly" ? "Billed monthly" : "Per month, billed yearly";
 }
 
-export function formatYearlyEquivalentBillingLabel(monthlyAmount: number) {
-  return `Per month at $${formatPricingCurrency(monthlyAmount)}, billed annually`;
+/**
+ * Yearly sublabel that makes the math self-evident: the yearly total is
+ * 10 × the real monthly price. A rounded "$X/mo equivalent" reads as a
+ * price and never multiplies back to the total (confused real customers).
+ */
+export function formatYearlyBillingBreakdownLabel(tier: PricingTier) {
+  return `10 × $${formatPricingCurrency(tier.monthly)}/mo — 2 months free`;
 }
 
 export function formatTierTrialPriceNote(
-  amount: number,
+  tier: PricingTier,
   period: BillingPeriod,
   trialDays: number = pricingTrialDays,
 ) {
-  const price = `$${formatPricingCurrency(amount)}${pricingAmountSuffix}`;
-
   if (period === "monthly") {
-    return `Free for ${trialDays} days · then ${price}, billed monthly + local taxes`;
+    return `Free for ${trialDays} days, then $${formatPricingCurrency(tier.monthly)}/mo, billed monthly + local taxes`;
   }
 
-  return `Free for ${trialDays} days · then ${price}, billed annually + local taxes`;
+  return `Free for ${trialDays} days, then $${formatPricingCurrency(tier.yearly)}/yr, billed annually + local taxes`;
 }
 
 export function formatIncludedEventsPhrase(events: string) {
