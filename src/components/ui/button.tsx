@@ -8,10 +8,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        /* Untitled UI primary chrome (mirrors the app button): carbon fill,
-           skeuomorphic inset shadow + hairline inner highlight fading down. */
-        default:
-          "bg-carbon text-primary-foreground shadow-xs-skeuomorphic relative hover:bg-carbon/90 before:pointer-events-none before:absolute before:inset-px before:rounded-[inherit] before:border before:border-white/12 before:mask-b-from-0%",
+        /* Flat carbon primary: plain fill, xs shadow, no skeuomorphic chrome. */
+        default: "bg-carbon text-primary-foreground shadow-xs hover:bg-carbon/90",
         /* App outline chrome; border-input so the hairline reads on the sand
            canvas, and .inverted redefines --input for carbon panels. */
         outline:
