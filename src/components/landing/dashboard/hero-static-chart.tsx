@@ -105,13 +105,6 @@ const pinnedRatio =
   pinnedIndex != null && points.length > 1
     ? pinnedIndex / (points.length - 1)
     : 0.5;
-/** Keep the tooltip inside the card when the pinned day is near an edge. */
-const tooltipTranslateClass =
-  pinnedRatio < 0.2
-    ? "translate-x-0"
-    : pinnedRatio > 0.8
-      ? "-translate-x-full"
-      : "-translate-x-1/2";
 
 /** Fixed drawing space; the svg stretches to the container (non-scaling strokes). */
 const VIEW_W = 600;
@@ -289,16 +282,14 @@ export function HeroStaticChart(props: {
             ) : null}
             {pinnedPoint ? (
               <div
-                className="pointer-events-none absolute top-0 z-10 hidden sm:block"
-                style={{ left: `${pinnedRatio * 100}%` }}
+                className={cn(
+                  // Parked at the card's right edge, off the pinned marker.
+                  "pointer-events-none absolute top-0 z-10 hidden sm:block",
+                  frameless ? "right-4 sm:right-6" : "right-2",
+                )}
               >
                 {/* Card-style tooltip, banded like the app's chart tooltips. */}
-                <div
-                  className={cn(
-                    "bg-card text-card-foreground grid max-w-64 min-w-52 -translate-y-3 overflow-hidden rounded-xl text-xs shadow-lg",
-                    tooltipTranslateClass,
-                  )}
-                >
+                <div className="bg-card text-card-foreground grid max-w-64 min-w-52 -translate-y-3 overflow-hidden rounded-xl text-xs shadow-lg">
                   <div className="border-border/60 border-b px-4 pt-3 pb-2.5">
                     <div className="text-muted-foreground text-[10px] font-medium tracking-wide uppercase">
                       Pinned

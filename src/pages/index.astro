@@ -1,9 +1,11 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import ShowcaseOverview from "@/components/landing/showcase/ShowcaseOverview.astro";
 import ShowcasePanels from "@/components/landing/showcase/ShowcasePanels.astro";
 import ShowcaseFeatures from "@/components/landing/showcase/ShowcaseFeatures.astro";
 import ShowcaseFounderNote from "@/components/landing/showcase/ShowcaseFounderNote.astro";
+import ShowcaseLiveDemo from "@/components/landing/showcase/ShowcaseLiveDemo.astro";
 import ShowcaseFaq from "@/components/landing/showcase/ShowcaseFaq.astro";
 import ShowcaseFooter from "@/components/landing/showcase/ShowcaseFooter.astro";
 import { SimplifiedPricingSection } from "@/components/sections/pricing/simplified-pricing-section";
@@ -15,28 +17,28 @@ const appBaseUrl = "https://app.kobbe.io";
   title="Kobbe: Web analytics that respect your visitors"
   description="Privacy-friendly website analytics for traffic, pages, referrers, locations, devices, custom events, and revenue insights."
 >
-  <div class="mx-auto w-full max-w-280 px-2 lg:px-8">
-    <!-- Hero pitch (was the sidebar headline) -->
-    <section class="px-2 pt-8 pb-6 lg:px-0 lg:pt-14 lg:pb-10">
-      <h1 class="text-foreground max-w-2xl text-2xl font-medium tracking-tight">
-        Privacy-first web analytics
-        <span class="text-muted-foreground block">
-          and revenue in one place.
-        </span>
-      </h1>
-    </section>
+  <!-- Hero pitch (was the sidebar headline) -->
+  <Wrapper variant="default" class="pt-8 pb-6 lg:pt-14 lg:pb-10">
+    <h1 class="text-foreground max-w-2xl text-2xl font-medium tracking-tight">
+      Privacy-first web analytics
+      <span class="text-muted-foreground block">
+        and revenue in one place.
+      </span>
+    </h1>
+  </Wrapper>
 
-    <!-- Showcase feed -->
-    <div class="flex flex-col gap-2 pb-2">
-      <ShowcaseOverview />
-      <ShowcasePanels />
-      <ShowcaseFeatures />
-      <ShowcaseFounderNote />
-      <!-- Pricing panels: slider + features as two cards in the feed grid -->
-      <SimplifiedPricingSection client:load appBaseUrl={appBaseUrl} />
-      <ShowcaseFaq />
-      <!-- Footer panel: index only; repeats the feature catalog for SEO -->
-      <ShowcaseFooter />
-    </div>
-  </div>
+
+  <!-- Showcase feed -->
+  <!-- The real dashboard, embedded live (not a screenshot) -->
+  <Wrapper variant="default" class="flex flex-col gap-2 pb-2">
+    <ShowcaseOverview />
+    <ShowcasePanels />
+    <ShowcaseFeatures />
+    <ShowcaseFounderNote />
+    <!-- Pricing panels: slider + features as two cards in the feed grid -->
+    <SimplifiedPricingSection client:load appBaseUrl={appBaseUrl} />
+    <ShowcaseFaq />
+    <!-- Footer panel: index only; repeats the feature catalog for SEO -->
+    <ShowcaseFooter />
+  </Wrapper>
 </BaseLayout>

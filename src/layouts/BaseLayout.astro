@@ -72,17 +72,21 @@ const {
       data-campaigns="true"
       data-performance="true"
       defer></script>
-    {/* SPA-style navigation: pages swap in-place instead of full document
+    {
+      /* SPA-style navigation: pages swap in-place instead of full document
         loads. This sidesteps Chrome's input suppression during cross-document
         paint holding, which was eating rapid clicks on the docs pagination.
-        Inline scripts re-initialize on the astro:page-load event. */}
+        Inline scripts re-initialize on the astro:page-load event. */
+    }
     <ClientRouter />
   </head>
-  <body class="bg-background flex min-h-svh min-w-0 flex-col ">
+  <body class="bg-background flex min-h-svh min-w-0 flex-col">
     <Navigation docsNavGroups={docsNavGroups} />
-    {/* No `isolate` here: it would trap the page's fixed UI (mobile nav card,
+    {
+      /* No `isolate` here: it would trap the page's fixed UI (mobile nav card,
         floating mega menu) in main's stacking context, painting it below the
-        body-level progressive blur. */}
+        body-level progressive blur. */
+    }
     <main class="min-w-0 grow">
       <slot />
     </main>
