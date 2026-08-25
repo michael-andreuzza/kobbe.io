@@ -118,7 +118,9 @@ const VIEW_W = 600;
 const VIEW_H = 224;
 
 function xAt(index: number): number {
-  return points.length > 1 ? (index / (points.length - 1)) * VIEW_W : VIEW_W / 2;
+  return points.length > 1
+    ? (index / (points.length - 1)) * VIEW_W
+    : VIEW_W / 2;
 }
 
 function yAt(visitors: number): number {
@@ -164,7 +166,9 @@ export function HeroStaticChart(props: {
       )}
     >
       <CardHeader
-        className={frameless ? "px-0! pt-0 pb-3 sm:pb-4" : dashboardCardHeaderClass}
+        className={
+          frameless ? "px-0! pt-0 pb-3 sm:pb-4" : dashboardCardHeaderClass
+        }
       >
         <CardTitle className={dashboardCardTitleClass}>
           Visitors over time

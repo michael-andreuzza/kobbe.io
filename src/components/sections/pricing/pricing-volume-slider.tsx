@@ -2,6 +2,7 @@ import { useCallback, useRef, type PointerEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 import { cn } from "@/lib/utils";
+import { playUiSound } from "@/lib/ui-sounds";
 import { pricingTiers } from "@/components/sections/pricing/pricing-tiers";
 import {
   pricingSliderScaleStopOffsetClass,
@@ -40,6 +41,17 @@ export function PricingVolumeSlider({
   const stopPercent = pricingSliderTierStopPercent(value, tierCount);
   const fillPercent = value === maxIndex ? 100 : stopPercent;
 
+  const changeTier = useCallback(
+    (next: number) => {
+      if (next !== value) {
+        // Ratchet tick each time the handle crosses a stop.
+        playUiSound("tick");
+      }
+      onChange(next);
+    },
+    [onChange, value],
+  );
+
   const setTierFromClientX = useCallback(
     (clientX: number) => {
       const track = trackRef.current;
@@ -49,9 +61,9 @@ export function PricingVolumeSlider({
       if (rect.width <= 0) return;
 
       const percent = ((clientX - rect.left) / rect.width) * 100;
-      onChange(pricingSliderTierIndexFromPercent(percent, tierCount));
+      changeTier(pricingSliderTierIndexFromPercent(percent, tierCount));
     },
-    [onChange, tierCount],
+    [changeTier, tierCount],
   );
 
   const handleTrackPointerDown = (event: PointerEvent<HTMLDivElement>) => {
@@ -121,7 +133,7 @@ export function PricingVolumeSlider({
           max={maxIndex}
           step={1}
           value={value}
-          onChange={(event) => onChange(Number(event.currentTarget.value))}
+          onChange={(event) => changeTier(Number(event.currentTarget.value))}
           aria-valuemin={0}
           aria-valuemax={maxIndex}
           aria-valuenow={value}

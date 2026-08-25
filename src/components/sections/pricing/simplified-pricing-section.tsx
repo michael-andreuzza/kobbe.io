@@ -52,7 +52,7 @@ export function SimplifiedPricingSection({
     >
       {/* Carbon box, shown after the feature list on desktop. */}
       <article
-        className={cn(panelClassName, "inverted bg-card ")}
+        className={cn(panelClassName, "inverted bg-card")}
         aria-label="Pricing plans"
       >
         <div className="max-w-md space-y-1">
@@ -119,17 +119,14 @@ export function SimplifiedPricingSection({
               {trialCtaLabel}
             </a>
             <p className="text-muted-foreground mt-4 text-xs text-balance">
-              {formatTierTrialPriceNote(tier, period)} Upgrade or
-              downgrade anytime and cancel anytime
+              {formatTierTrialPriceNote(tier, period)} Upgrade or downgrade
+              anytime and cancel anytime
             </p>
           </div>
         </div>
       </article>
 
-      <article
-        className={cn(panelClassName)}
-        aria-label="Included features"
-      >
+      <article className={cn(panelClassName)} aria-label="Included features">
         <div className="max-w-md space-y-1">
           <p className="text-foreground text-xs font-medium">
             Everything included
