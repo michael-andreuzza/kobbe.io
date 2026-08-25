@@ -8,13 +8,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-carbon text-primary-foreground [a]:hover:bg-carbon/80",
-        /* Quiet outlined button: thin border in the context's ink color on a
-           transparent fill, so it adapts inside inverted carbon panels. */
+        /* Untitled UI primary chrome (mirrors the app button): carbon fill,
+           skeuomorphic inset shadow + hairline inner highlight fading down. */
+        default:
+          "bg-carbon text-primary-foreground shadow-xs-skeuomorphic relative hover:bg-carbon/90 before:pointer-events-none before:absolute before:inset-px before:rounded-[inherit] before:border before:border-white/12 before:mask-b-from-0%",
+        /* App outline chrome; border-input so the hairline reads on the sand
+           canvas, and .inverted redefines --input for carbon panels. */
         outline:
-          "border-foreground bg-transparent text-foreground hover:bg-foreground/5 aria-expanded:bg-foreground/5",
+          "border-input text-foreground hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground shadow-xs bg-transparent",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+          "border-input/60 bg-secondary text-secondary-foreground shadow-xs hover:bg-muted aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         link: "text-primary underline-offset-4 hover:underline !p-0",
       },
       size: {

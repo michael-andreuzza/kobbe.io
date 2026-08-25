@@ -23,14 +23,15 @@
   --color-carbon: var(--carbon);
 }
 :root {
-  /* Pure-neutral gray palette (chroma 0 throughout): gray canvas, lighter
-     gray panels, and carbon darks (#2B2B2B) so nothing drifts warm. */
-  /* Gray canvas. */
-  --background: oklch(0.895 0 0);
+  /* Warm light palette mirroring the app dashboard (app.kobbe.io colors.css):
+     off-white canvas, warm-gray panels, and carbon darks (#2B2B2B) kept as
+     the fixed dark accent for inverted panels. */
+  /* Same off-white canvas as the app dashboard. */
+  --background: oklch(0.973 0.003 84.559);
   --foreground: oklch(0.289 0 0);
-  /* Fixed accents (same in both themes): the gray canvas tone and its
+  /* Fixed accents (same in both themes): the warm panel tone and its
      dark carbon counterpart (#2B2B2B). */
-  --sand: oklch(0.895 0 0);
+  --sand: oklch(0.96 0.004 84.559);
   --carbon: oklch(0.289 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.289 0 0);
@@ -40,22 +41,22 @@
      the same on the light canvas and inside inverted carbon panels. */
   --secondary: var(--sand);
   --secondary-foreground: var(--carbon);
-  /* Light gray panel tone. */
-  --muted: oklch(0.951 0 0);
-  --muted-foreground: oklch(0.51 0 0);
-  /* Mid-ramp blue from the app gradient; shared with the app. */
-  --brand: oklch(0.58 0.16 255);
+  /* Warm-gray panel tone, matches the app --muted. */
+  --muted: oklch(0.965 0.004 84.559);
+  --muted-foreground: oklch(0.556 0.008 84.559);
+  /* Muted blue shared with the app (--brand in app.kobbe.io colors.css). */
+  --brand: oklch(0.49 0.091 241.534);
   --success: oklch(0.565 0.11 164.584);
   --destructive: oklch(0.566 0.197 12.263);
   /* Orange caution tier between warning (amber) and destructive (red). */
   --caution: oklch(0.7 0.17 45);
   --warning: oklch(0.661 0.121 71.707);
   --info: oklch(0.565 0.098 243.005);
-  --border: oklch(0.895 0 0);
+  --border: oklch(0.912 0.006 84.559);
   /* One step darker than --border so field borders still read on sand
-     surfaces (which share the border tone). Mirrors the app. */
-  --input: oklch(0.83 0 0);
-  --ring: oklch(0.77 0 0);
+     surfaces (which sit close to the border tone). */
+  --input: oklch(0.88 0.006 84.559);
+  --ring: oklch(0.708 0.01 84.559);
 }
 /* Inverted surface: carbon panel (#2B2B2B) on the sand canvas, Solomon
    style — light warm-gray text that brightens to near-white. */
@@ -74,11 +75,11 @@
    (e.g. a light card sitting on a carbon panel). */
 .uninverted {
   --foreground: oklch(0.289 0 0);
-  --muted-foreground: oklch(0.51 0 0);
+  --muted-foreground: oklch(0.556 0.008 84.559);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.289 0 0);
-  --muted: oklch(0.951 0 0);
-  --border: oklch(0.895 0 0);
-  --input: oklch(0.83 0 0);
-  --background: oklch(0.895 0 0);
+  --muted: oklch(0.965 0.004 84.559);
+  --border: oklch(0.912 0.006 84.559);
+  --input: oklch(0.88 0.006 84.559);
+  --background: oklch(0.973 0.003 84.559);
 }

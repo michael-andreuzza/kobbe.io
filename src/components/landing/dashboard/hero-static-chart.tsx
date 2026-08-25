@@ -288,42 +288,47 @@ export function HeroStaticChart(props: {
                 className="pointer-events-none absolute top-0 z-10 hidden sm:block"
                 style={{ left: `${pinnedRatio * 100}%` }}
               >
+                {/* Card-style tooltip, banded like the app's chart tooltips. */}
                 <div
                   className={cn(
-                    "border-background/10 bg-foreground text-background grid max-w-64 min-w-52 -translate-y-3 gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl",
+                    "bg-card text-card-foreground grid max-w-64 min-w-52 -translate-y-3 overflow-hidden rounded-xl text-xs shadow-lg",
                     tooltipTranslateClass,
                   )}
                 >
-                  <div className="text-background/70 text-[10px] font-medium tracking-wide uppercase">
-                    Pinned
+                  <div className="border-border/60 border-b px-4 pt-3 pb-2.5">
+                    <div className="text-muted-foreground text-[10px] font-medium tracking-wide uppercase">
+                      Pinned
+                    </div>
+                    <div className="text-foreground font-medium">
+                      {formatTooltipTitle(pinnedPoint.t, bucket)}
+                    </div>
                   </div>
-                  <div className="text-background font-medium">
-                    {formatTooltipTitle(pinnedPoint.t, bucket)}
-                  </div>
-                  <div className="flex items-center justify-between gap-4 leading-none">
-                    <span className="text-background/70">Visitors</span>
-                    <span className="text-background font-mono font-medium tabular-nums">
-                      {pinnedPoint.visitors.toLocaleString()}
-                    </span>
-                  </div>
-                  {(pinnedPoint.revenueMinor ?? 0) > 0 ? (
-                    <div className="border-background/15 flex items-center justify-between gap-4 border-t pt-1.5 leading-none">
-                      <span className="text-background/70">Revenue</span>
-                      <span className="text-background font-mono font-medium tabular-nums">
-                        {new Intl.NumberFormat("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                        }).format((pinnedPoint.revenueMinor ?? 0) / 100)}
+                  <div className="grid gap-2 px-4 py-3">
+                    <div className="flex items-center justify-between gap-4 leading-none">
+                      <span className="text-muted-foreground">Visitors</span>
+                      <span className="text-foreground font-medium tabular-nums">
+                        {pinnedPoint.visitors.toLocaleString()}
                       </span>
                     </div>
-                  ) : null}
+                    {(pinnedPoint.revenueMinor ?? 0) > 0 ? (
+                      <div className="flex items-center justify-between gap-4 leading-none">
+                        <span className="text-muted-foreground">Revenue</span>
+                        <span className="text-foreground font-medium tabular-nums">
+                          {new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                          }).format((pinnedPoint.revenueMinor ?? 0) / 100)}
+                        </span>
+                      </div>
+                    ) : null}
+                  </div>
                   {pinnedTopReferrer && pinnedReferrerLabel ? (
-                    <div className="border-background/15 grid gap-1.5 border-t pt-1.5">
-                      <div className="text-background/70 text-[10px] font-medium tracking-wide uppercase">
+                    <div className="border-border/60 grid gap-2 border-t px-4 py-2.5">
+                      <div className="text-muted-foreground text-[10px] font-medium tracking-wide uppercase">
                         Top referrer
                       </div>
                       <div className="flex items-center justify-between gap-3 leading-none">
-                        <span className="text-background/85 inline-flex min-w-0 items-center gap-1.5">
+                        <span className="text-foreground/90 inline-flex min-w-0 items-center gap-1.5">
                           <ReferrerFavicon
                             referrer={pinnedTopReferrer.host}
                             title={pinnedReferrerLabel}
@@ -332,13 +337,13 @@ export function HeroStaticChart(props: {
                             {pinnedReferrerLabel}
                           </span>
                         </span>
-                        <span className="text-background shrink-0 font-mono font-medium tabular-nums">
+                        <span className="text-foreground shrink-0 font-medium tabular-nums">
                           {Math.round(pinnedTopReferrer.count).toLocaleString()}
                         </span>
                       </div>
                       {pinnedReferrerShare != null &&
                       pinnedReferrerShare > 0 ? (
-                        <p className="text-background/65 text-[11px] leading-snug">
+                        <p className="text-muted-foreground text-[11px] leading-snug">
                           Accounted for {pinnedReferrerShare}% of visitors that
                           day.
                         </p>
@@ -346,12 +351,12 @@ export function HeroStaticChart(props: {
                     </div>
                   ) : null}
                   {pinnedNote ? (
-                    <div className="border-background/15 flex items-center gap-1.5 border-t pt-1.5 leading-none">
+                    <div className="border-border/60 flex items-center gap-1.5 border-t px-4 py-2.5 leading-none">
                       <span
                         className="bg-brand size-1.5 shrink-0 rounded-[2px]"
                         aria-hidden="true"
                       />
-                      <span className="text-background/85 truncate">
+                      <span className="text-foreground/90 truncate">
                         {pinnedNote.label}
                       </span>
                     </div>

@@ -11,6 +11,12 @@
   --shadow-xl: var(--shadow-elevation-xl);
   --shadow-2xl: var(--shadow-elevation-2xl);
   --shadow: var(--shadow-elevation);
+  /* Untitled UI button chrome: inset edge ring + bottom bevel (+ xs drop).
+     Mirrors the app's shadows.css. */
+  --shadow-skeuomorphic: var(--shadow-inset-skeuomorphic);
+  --shadow-xs-skeuomorphic: var(--shadow-inset-skeuomorphic),
+    var(--shadow-elevation-xs);
+  --shadow-xs-bevel: var(--shadow-inset-bevel), var(--shadow-elevation-xs);
 }
 
 :root {
@@ -40,6 +46,10 @@
     inset 0 -1px 1px -0.5px rgba(51, 51, 51, 0.06);
   --shadow-elevation-2xl: 0 16px 32px -12px rgba(14, 18, 27, 0.1),
     var(--shadow-elevation-xl);
+  /* From Untitled UI's --shadow-skeuomorphic (github.com/untitleduico/react). */
+  --shadow-inset-skeuomorphic: 0px 0px 0px 1px rgba(0, 0, 0, 0.18) inset,
+    0px -2px 0px 0px rgba(0, 0, 0, 0.05) inset;
+  --shadow-inset-bevel: 0px -2px 0px 0px rgba(0, 0, 0, 0.05) inset;
   --theme-shadow-elevated: var(--shadow-elevation-lg);
   --theme-shadow-popover: 0 12px 24px 0 rgba(14, 18, 27, 0.06),
     0 1px 2px 0 rgba(14, 18, 27, 0.03);

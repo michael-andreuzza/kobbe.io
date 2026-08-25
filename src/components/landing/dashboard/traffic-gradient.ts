@@ -53,10 +53,10 @@ function makeRamp(
  */
 export const APP_RAMP = makeRamp(
   [
-    { at: 0, l: 0.6, c: 0.15, h: 240 },
-    { at: 1, l: 0.6, c: 0.15, h: 240 },
+    { at: 0, l: 0.49, c: 0.091, h: 241.534 },
+    { at: 1, l: 0.49, c: 0.091, h: 241.534 },
   ],
-  "oklch(0.6 0.15 240)",
+  "oklch(0.49 0.091 241.534)",
 );
 
 /** Default ramp used where a chart has not picked its own. */
