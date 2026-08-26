@@ -1,3 +1,4 @@
+import { playUiSound } from "@/lib/ui-sounds";
 import { cn } from "@/lib/utils";
 import { yearlyBillingSavingsLabel, type BillingPeriod } from "./pricing-tiers";
 
@@ -29,7 +30,10 @@ export function BillingPeriodTabs({
         role="switch"
         aria-checked={isYearly}
         aria-label={`${isYearly ? "Yearly" : "Monthly"} billing. Switch to ${isYearly ? "monthly" : "yearly"}.`}
-        onClick={() => onPeriodChange(isYearly ? "monthly" : "yearly")}
+        onClick={() => {
+          playUiSound(isYearly ? "toggle-off" : "toggle-on");
+          onPeriodChange(isYearly ? "monthly" : "yearly");
+        }}
         className="focus-visible:ring-ring/50 relative inline-flex h-4 w-7 shrink-0 border-0 bg-transparent p-0 outline-none focus-visible:ring-3"
       >
         <span
