@@ -1,7 +1,7 @@
 export type BillingPeriod = "monthly" | "yearly";
 
 export type PricingTierKey =
-  | "events_20k"
+  | "events_100k"
   | "events_500k"
   | "events_1m"
   | "events_3m"
@@ -23,52 +23,52 @@ export type PricingTier = {
 
 export const pricingTiers = [
   {
-    key: "events_20k",
-    events: "20K",
-    eventsCount: 20_000,
-    monthly: 8,
-    yearlyMonthly: 7,
-    yearly: 80,
+    key: "events_100k",
+    events: "100K",
+    eventsCount: 100_000,
+    monthly: 9,
+    yearlyMonthly: 8,
+    yearly: 90,
   },
   {
     key: "events_500k",
     events: "500K",
     eventsCount: 500_000,
-    monthly: 14,
-    yearlyMonthly: 12,
-    yearly: 140,
+    monthly: 19,
+    yearlyMonthly: 16,
+    yearly: 190,
   },
   {
     key: "events_1m",
     events: "1M",
     eventsCount: 1_000_000,
-    monthly: 20,
-    yearlyMonthly: 17,
-    yearly: 200,
+    monthly: 29,
+    yearlyMonthly: 24,
+    yearly: 290,
   },
   {
     key: "events_3m",
     events: "3M",
     eventsCount: 3_000_000,
-    monthly: 49,
-    yearlyMonthly: 41,
-    yearly: 490,
+    monthly: 59,
+    yearlyMonthly: 49,
+    yearly: 590,
   },
   {
     key: "events_5m",
     events: "5M",
     eventsCount: 5_000_000,
-    monthly: 129,
-    yearlyMonthly: 108,
-    yearly: 1290,
+    monthly: 89,
+    yearlyMonthly: 74,
+    yearly: 890,
   },
   {
     key: "events_10m",
     events: "10M",
     eventsCount: 10_000_000,
-    monthly: 219,
-    yearlyMonthly: 183,
-    yearly: 2190,
+    monthly: 169,
+    yearlyMonthly: 141,
+    yearly: 1690,
   },
 ] as const satisfies ReadonlyArray<PricingTier>;
 
@@ -84,7 +84,7 @@ export const pricingAmountSuffix = "/mo";
 export const defaultPricingTierIndex = 0;
 
 /** Minimum event volume before monthly email reports are included. */
-export const MONTHLY_EMAIL_REPORTS_MIN_TIER_KEY = "events_20k" as const satisfies PricingTierKey;
+export const MONTHLY_EMAIL_REPORTS_MIN_TIER_KEY = "events_100k" as const satisfies PricingTierKey;
 
 export const MONTHLY_EMAIL_REPORTS_FEATURE =
   "Monthly email reports" as const;
@@ -94,7 +94,7 @@ export const PRICING_DATA_RETENTION_YEARS = 3;
 
 /** Per-tier retention labels (uniform today; keyed for future tiering). */
 export const TIER_DATA_RETENTION_YEARS = {
-  events_20k: PRICING_DATA_RETENTION_YEARS,
+  events_100k: PRICING_DATA_RETENTION_YEARS,
   events_500k: PRICING_DATA_RETENTION_YEARS,
   events_1m: PRICING_DATA_RETENTION_YEARS,
   events_3m: PRICING_DATA_RETENTION_YEARS,

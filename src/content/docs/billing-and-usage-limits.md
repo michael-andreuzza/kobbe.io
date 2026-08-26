@@ -12,25 +12,21 @@ Plans and limits can change over time. The billing page in the app is the source
 
 ## Plans
 
-Kobbe offers event tiers from 20,000 monthly events up to 25,000,000 monthly events on a single product. Pick the volume that fits your traffic on the [pricing section](/#pricing). Every product feature is included at every step. You pay for monthly event capacity, not feature tiers.
+Kobbe offers event tiers from 100,000 monthly events up to 10,000,000 monthly events on a single product. Pick the volume that fits your traffic on the [pricing section](/#pricing). Every product feature is included at every step. You pay for monthly event capacity, not feature tiers.
 
-What changes as you move the slider:
-
-- Monthly event cap (the main difference between tiers).
-- Data retention (1 to 5 years of historical analytics, shown on the pricing page for each volume).
-- Monthly email reports (included from 5M monthly events).
+The only thing that changes as you move the slider is the monthly event cap. Every volume includes the full feature set, 3 years of data retention, and monthly email reports.
 
 Paid plans include up to 30 websites per workspace.
 
-The slider starts at 20K, then jumps to 100K before stepping through 250K, 500K, and 750K up to 1M so you can upgrade gradually. For the complete list of volumes and prices, see [All event volumes](#all-event-volumes) below.
+The slider steps through 100K, 500K, 1M, 3M, 5M, and 10M monthly events so you can upgrade gradually.
 
-Yearly billing saves 2 months compared to paying monthly at every tier. Need more than 25 million monthly events? Email support and we can help you pick the right setup.
+Yearly billing saves 2 months compared to paying monthly at every tier. Need more than 10 million monthly events? Email support and we can help you pick the right setup.
 
 Checkout, subscriptions, receipts, and billing management run through Polar from the app's billing settings. The app billing page is the source of truth for your workspace's active tier.
 
 ## Monthly event caps
 
-Event caps are enforced per workspace and reset monthly in UTC. When a workspace reaches its monthly cap, Kobbe stops ingesting additional analytics events for that workspace until the next reset or plan change.
+Event caps are enforced per workspace and reset monthly in UTC. When a workspace reaches its monthly cap, we email you and keep ingesting through a small grace buffer (about 10% over your quota) so a spike day is not cut off mid-flight. Past the grace buffer, Kobbe stops ingesting additional analytics events for that workspace until the next reset or plan change.
 
 Use [visit filters](/docs/exclude-visits) and [Reduce usage](/docs/reduce-usage) to avoid spending quota on internal traffic, staging sites, noisy paths, or traffic you do not need to analyze.
 
