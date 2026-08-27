@@ -37,6 +37,9 @@ import {
 } from "../dashboard/dashboard-card-layout";
 import {
   APP_RAMP,
+  CONVERSIONS_RAMP,
+  PERFORMANCE_RAMP,
+  REVENUE_RAMP,
   type GradientRamp,
 } from "../dashboard/traffic-gradient";
 
@@ -224,8 +227,9 @@ function PanelGradientChart(props: {
 }
 
 /**
- * Breakdown list row exactly like the app: inset `bg-foreground/7` fraction
- * bar, label on the start edge, percent + count cluster on the end.
+ * Breakdown list row exactly like the app: inset fraction bar, label on the
+ * start edge, percent + count cluster on the end. The bar defaults to the
+ * app's neutral `foreground/7`; panels can tint it with their metric color.
  */
 function BreakdownRow(props: {
   label: React.ReactNode;
@@ -233,12 +237,24 @@ function BreakdownRow(props: {
   count: string;
   /** Share of the list total, as a CSS width. */
   width: string;
+  /** Metric color for the fraction bar (a chart ramp accent). */
+  barColor?: string;
 }) {
   return (
     <div className="relative w-full min-w-0 overflow-hidden rounded-md">
       <div
-        className="bg-foreground/7 pointer-events-none absolute inset-y-1 left-0 min-w-0 rounded-sm"
-        style={{ width: props.width }}
+        className={cn(
+          "pointer-events-none absolute inset-y-1 left-0 min-w-0 rounded-sm",
+          !props.barColor && "bg-foreground/7",
+        )}
+        style={{
+          width: props.width,
+          ...(props.barColor
+            ? {
+                background: `color-mix(in oklab, ${props.barColor} 16%, transparent)`,
+              }
+            : undefined),
+        }}
         aria-hidden="true"
       />
       <div className="relative z-10 flex min-w-0 items-center justify-between gap-3 px-2 py-2">
@@ -372,7 +388,11 @@ export function ConversionsPanelMockup() {
           </div>
           <div className="flex flex-col">
             {rows.map((row) => (
-              <BreakdownRow key={row.label} {...row} />
+              <BreakdownRow
+                key={row.label}
+                barColor={CONVERSIONS_RAMP.accent}
+                {...row}
+              />
             ))}
           </div>
         </div>
@@ -407,7 +427,7 @@ export function AnnotationsPanelMockup() {
             <PanelGradientChart
               idPrefix="showcase-annotations"
               values={values}
-              ramp={APP_RAMP}
+              ramp={PERFORMANCE_RAMP}
             />
             <div
               className="border-foreground/25 pointer-events-none absolute inset-y-0 border-l border-dashed"
@@ -419,7 +439,7 @@ export function AnnotationsPanelMockup() {
               style={{
                 left: `${pinnedLeft}%`,
                 top: `${pinnedTop}%`,
-                background: APP_RAMP.accent,
+                background: PERFORMANCE_RAMP.accent,
               }}
               aria-hidden="true"
             />
@@ -429,7 +449,7 @@ export function AnnotationsPanelMockup() {
             >
               <span
                 className="size-1.5 rounded-[2px]"
-                style={{ background: APP_RAMP.accent }}
+                style={{ background: PERFORMANCE_RAMP.accent }}
                 aria-hidden="true"
               />
               Uneed launch
@@ -484,14 +504,14 @@ export function ConversionPeakPanelMockup() {
             <PanelGradientChart
               idPrefix="showcase-peak"
               values={values}
-              ramp={APP_RAMP}
+              ramp={REVENUE_RAMP}
             />
             <div
               className="border-background pointer-events-none absolute size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2"
               style={{
                 left: `${peakLeft}%`,
                 top: `${peakTop}%`,
-                background: APP_RAMP.accent,
+                background: REVENUE_RAMP.accent,
               }}
               aria-hidden="true"
             />
@@ -559,7 +579,7 @@ export function SearchKeywordsPanelMockup() {
       <CardContent className={panelContentClass}>
         <div className={"flex flex-col"}>
           {rows.map((row) => (
-            <BreakdownRow key={row.label} {...row} />
+            <BreakdownRow key={row.label} barColor={APP_RAMP.accent} {...row} />
           ))}
         </div>
       </CardContent>
@@ -670,7 +690,7 @@ export function FunnelsPanelMockup() {
                 y2="0"
                 gradientUnits="userSpaceOnUse"
               >
-                {APP_RAMP.stops.map((stop) => (
+                {CONVERSIONS_RAMP.stops.map((stop) => (
                   <stop
                     key={stop.offset}
                     offset={stop.offset}
@@ -735,7 +755,11 @@ export function RevenuePanelMockup() {
       <CardContent className={panelContentClass}>
         <div className={"flex flex-col"}>
           {rows.map((row) => (
-            <BreakdownRow key={row.label} {...row} />
+            <BreakdownRow
+              key={row.label}
+              barColor={REVENUE_RAMP.accent}
+              {...row}
+            />
           ))}
         </div>
       </CardContent>
@@ -781,7 +805,12 @@ export function PerformancePanelMockup() {
                 <span className="text-foreground tabular-nums">
                   {row.value}
                 </span>
-                <span className="bg-background text-muted-foreground rounded-md px-2 py-0.5 text-[10px] font-medium">
+                <span
+                  className="text-foreground/80 rounded-md px-2 py-0.5 text-[10px] font-medium"
+                  style={{
+                    background: `color-mix(in oklab, ${PERFORMANCE_RAMP.accent} 18%, transparent)`,
+                  }}
+                >
                   Good
                 </span>
               </span>
@@ -866,7 +895,9 @@ export function CliPanelMockup() {
     <PanelCard>
       <div className="flex flex-col gap-4">
         <div className="flex justify-end">
-          <p className="bg-background text-foreground max-w-[80%] rounded-lg px-3 py-2 text-xs">
+          {/* bg-muted (not bg-background): on the inverted carbon panel the
+              background token matches the card, which would hide the bubble. */}
+          <p className="bg-muted text-foreground max-w-[80%] rounded-lg px-3 py-2 text-xs">
             How did kobbe.io do this week?
           </p>
         </div>

@@ -24,8 +24,24 @@ const trialCtaLabel = `Start a ${pricingTrialDays}-day free trial`;
  */
 export function SiteHeaderNav() {
   const [megaOpen, setMegaOpen] = useState(false);
+  // While the hero's own CTA is on screen, the nav CTA stays quiet (outline)
+  // and only turns primary once the hero CTA scrolls away. Pages without a
+  // hero CTA keep the primary style from the start.
+  const [heroCtaInView, setHeroCtaInView] = useState(false);
   const panelId = useId();
   const headerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const heroCta = document.querySelector("[data-hero-cta]");
+    if (!heroCta) {
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      setHeroCtaInView(entry?.isIntersecting ?? false);
+    });
+    observer.observe(heroCta);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!megaOpen) {
@@ -119,7 +135,10 @@ export function SiteHeaderNav() {
             target="_blank"
             rel="noopener noreferrer"
             data-kobbe-event="Nav - start trial"
-            className={buttonVariants({ variant: "default", size: "xs" })}
+            className={buttonVariants({
+              variant: heroCtaInView ? "outline" : "default",
+              size: "xs",
+            })}
           >
             {trialCtaLabel}
           </a>

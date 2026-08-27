@@ -1,5 +1,5 @@
 /* Elevation tokens + Tailwind shadow-* theme bridge.
-   Mirrors app.kobbe.io/app/styles/shadows.css (AlignUI-derived scale).
+   Mirrors app.kobbe.io/app/styles/shadows.css (Untitled UI scale).
    Light-only. */
 
 @theme inline {
@@ -20,30 +20,19 @@
 }
 
 :root {
-  /* Light-mode elevations adapted from AlignUI's shadow scale
-     (regular-* and layered custom-* tokens, github.com/alignui). */
+  /* Light-mode elevations from Untitled UI React's shadow scale
+     (styles/theme.css, github.com/untitleduico/react), same as the app. */
   --shadow-elevation-2xs: 0 1px 2px 0 rgba(10, 13, 20, 0.03);
-  --shadow-elevation-xs: 0 2px 4px rgba(27, 28, 29, 0.04);
-  --shadow-elevation-sm: 0 0 0 1px rgba(51, 51, 51, 0.04),
-    0 4px 8px -2px rgba(51, 51, 51, 0.06), 0 2px 4px rgba(51, 51, 51, 0.04),
-    0 1px 2px rgba(51, 51, 51, 0.04),
-    inset 0 -1px 1px -0.5px rgba(51, 51, 51, 0.06);
-  --shadow-elevation: 0 0 0 1px rgba(51, 51, 51, 0.04),
-    0 16px 8px -8px rgba(51, 51, 51, 0.01), 0 12px 6px -6px rgba(51, 51, 51, 0.02),
-    0 5px 5px -2.5px rgba(51, 51, 51, 0.08), 0 1px 3px -1.5px rgba(51, 51, 51, 0.16),
-    inset 0 -0.5px 0.5px rgba(51, 51, 51, 0.08);
+  --shadow-elevation-xs: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-elevation-sm: 0px 1px 3px rgba(0, 0, 0, 0.1),
+    0px 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-elevation: 0px 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0px 2px 4px -2px rgba(0, 0, 0, 0.06);
   --shadow-elevation-md: var(--shadow-elevation);
-  --shadow-elevation-lg: 0 0 0 1px rgba(51, 51, 51, 0.04),
-    0 1px 1px 0.5px rgba(51, 51, 51, 0.04), 0 3px 3px -1.5px rgba(51, 51, 51, 0.02),
-    0 6px 6px -3px rgba(51, 51, 51, 0.04), 0 12px 12px -6px rgba(51, 51, 51, 0.04),
-    0 24px 24px -12px rgba(51, 51, 51, 0.04), 0 48px 48px -24px rgba(51, 51, 51, 0.04),
-    inset 0 -1px 1px -0.5px rgba(51, 51, 51, 0.06);
-  --shadow-elevation-xl: 0 0 0 1px rgba(51, 51, 51, 0.04),
-    0 1px 1px 0.5px rgba(51, 51, 51, 0.04), 0 3px 3px -1.5px rgba(51, 51, 51, 0.02),
-    0 6px 6px -3px rgba(51, 51, 51, 0.04), 0 12px 12px -6px rgba(51, 51, 51, 0.04),
-    0 24px 24px -12px rgba(51, 51, 51, 0.04), 0 48px 48px -24px rgba(51, 51, 51, 0.04),
-    0 96px 96px -32px rgba(51, 51, 51, 0.06),
-    inset 0 -1px 1px -0.5px rgba(51, 51, 51, 0.06);
+  --shadow-elevation-lg: 0px 12px 16px -4px rgba(0, 0, 0, 0.08),
+    0px 4px 6px -2px rgba(0, 0, 0, 0.03), 0px 2px 2px -1px rgba(0, 0, 0, 0.04);
+  --shadow-elevation-xl: 0px 20px 24px -4px rgba(0, 0, 0, 0.08),
+    0px 8px 8px -4px rgba(0, 0, 0, 0.03), 0px 3px 3px -1.5px rgba(0, 0, 0, 0.04);
   --shadow-elevation-2xl: 0 16px 32px -12px rgba(14, 18, 27, 0.1),
     var(--shadow-elevation-xl);
   /* From Untitled UI's --shadow-skeuomorphic (github.com/untitleduico/react). */

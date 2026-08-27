@@ -21,13 +21,17 @@
   --color-background: var(--background);
   --color-sand: var(--sand);
   --color-carbon: var(--carbon);
+  --color-chart-traffic: var(--chart-traffic);
+  --color-chart-revenue: var(--chart-revenue);
+  --color-chart-performance: var(--chart-performance);
+  --color-chart-conversions: var(--chart-conversions);
 }
 :root {
   /* Warm light palette mirroring the app dashboard (app.kobbe.io colors.css):
      off-white canvas, warm-gray panels, and carbon darks (#2B2B2B) kept as
      the fixed dark accent for inverted panels. */
   /* Same off-white canvas as the app dashboard. */
-  --background: oklch(0.973 0.003 84.559);
+  --background: oklch(0.982 0.002 84.559);
   --foreground: oklch(0.289 0 0);
   /* Fixed accents (same in both themes): the warm panel tone and its
      dark carbon counterpart (#2B2B2B). */
@@ -57,12 +61,19 @@
      surfaces (which sit close to the border tone). */
   --input: oklch(0.88 0.006 84.559);
   --ring: oklch(0.708 0.01 84.559);
+  /* Per-metric chart hues shared with the app dashboard (app.kobbe.io
+     colors.css). Conversions uses the app's strong lavender so it reads as
+     an accent chip on white, not just an in-chart pastel. */
+  --chart-traffic: var(--brand);
+  --chart-revenue: oklch(0.581 0.106 126.684);
+  --chart-performance: oklch(0.748 0.161 56.883);
+  --chart-conversions: oklch(0.64 0.09 306.519);
 }
 /* Inverted surface: carbon panel (#2B2B2B) on the sand canvas, Solomon
    style — light warm-gray text that brightens to near-white. */
 .inverted {
   --foreground: oklch(0.96 0 0);
-  --muted-foreground: oklch(0.61 0 0);
+  --muted-foreground: oklch(0.72 0 0);
   --card: oklch(0.289 0 0);
   --card-foreground: oklch(0.96 0 0);
   --muted: oklch(0.34 0 0);
@@ -81,5 +92,5 @@
   --muted: oklch(0.965 0.004 84.559);
   --border: oklch(0.912 0.006 84.559);
   --input: oklch(0.88 0.006 84.559);
-  --background: oklch(0.973 0.003 84.559);
+  --background: oklch(0.982 0.002 84.559);
 }

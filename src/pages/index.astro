@@ -1,37 +1,71 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import ShowcaseOverview from "@/components/landing/showcase/ShowcaseOverview.astro";
+import ShowcaseVideo from "@/components/landing/showcase/ShowcaseVideo.astro";
 import ShowcasePanels from "@/components/landing/showcase/ShowcasePanels.astro";
 import ShowcaseFeatures from "@/components/landing/showcase/ShowcaseFeatures.astro";
 import ShowcaseFounderNote from "@/components/landing/showcase/ShowcaseFounderNote.astro";
-import ShowcaseLiveDemo from "@/components/landing/showcase/ShowcaseLiveDemo.astro";
 import ShowcaseFaq from "@/components/landing/showcase/ShowcaseFaq.astro";
 import ShowcaseFooter from "@/components/landing/showcase/ShowcaseFooter.astro";
 import { SimplifiedPricingSection } from "@/components/sections/pricing/simplified-pricing-section";
+import { buttonVariants } from "@/components/ui/button";
+import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
+import { APP_SIGNUP_URL } from "@/lib/site-mega-menu";
 
 const appBaseUrl = "https://app.kobbe.io";
+const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
 ---
 
 <BaseLayout
   title="Kobbe: Web analytics that respect your visitors"
   description="Privacy-friendly website analytics for traffic, pages, referrers, locations, devices, custom events, and revenue insights."
 >
-  <!-- Hero pitch (was the sidebar headline) -->
-  <Wrapper variant="default" class="pt-8 pb-6 lg:pt-14 lg:pb-10">
-    <h1 class="text-foreground max-w-2xl text-2xl font-medium tracking-tight">
-      Privacy-first web analytics
-      <span class="text-muted-foreground block">
-        and revenue in one place.
-      </span>
-    </h1>
+  <!-- Hero pitch -->
+  <Wrapper variant="default" class="pt-10 pb-8 lg:pt-16 lg:pb-12">
+    <div class="flex flex-col gap-6">
+      <!-- Gapless metric-color chip strip, the dashboard's palette as a signature. -->
+      <div class="flex w-fit overflow-hidden rounded-xs" aria-hidden="true">
+        <span class="bg-chart-traffic h-2 w-5"></span>
+        <span class="bg-chart-revenue h-2 w-5"></span>
+        <span class="bg-chart-performance h-2 w-5"></span>
+        <span class="bg-chart-conversions h-2 w-5"></span>
+      </div>
+      <h1
+        class="text-foreground max-w-2xl text-3xl font-medium tracking-tight text-balance lg:text-4xl"
+      >
+        Privacy-first web analytics
+        <span class="text-muted-foreground block">
+          and revenue in one place.
+        </span>
+      </h1>
+      <p class="text-muted-foreground max-w-md text-sm text-pretty">
+        Traffic, sources, conversions, performance, and the money they turn into
+        — one dashboard, no cookies, nothing to consent to.
+      </p>
+      <div class="flex flex-wrap items-center gap-4">
+        <a
+          href={APP_SIGNUP_URL}
+          data-hero-cta
+          class={buttonVariants({ size: "sm" })}
+        >
+          Start a {pricingTrialDays}-day free trial
+        </a>
+        <a
+          href={demoUrl}
+          target="_blank"
+          rel="noreferrer"
+          class="text-muted-foreground hover:text-foreground text-sm transition-colors duration-200"
+        >
+          Live demo
+        </a>
+      </div>
+    </div>
   </Wrapper>
 
-
   <!-- Showcase feed -->
-  <!-- The real dashboard, embedded live (not a screenshot) -->
   <Wrapper variant="default" class="flex flex-col gap-2 pb-2">
-    <ShowcaseOverview />
+    <!-- The dashboard in motion; the overview card lives in the grid below. -->
+    <ShowcaseVideo />
     <ShowcasePanels />
     <ShowcaseFeatures />
     <ShowcaseFounderNote />

@@ -1,5 +1,6 @@
 ---
 import { PricingFaq } from "@/components/sections/pricing/pricing-faq";
+import ShowcaseEyebrow from "@/components/landing/showcase/ShowcaseEyebrow.astro";
 ---
 
 {/* No overflow-hidden here: it would keep the sticky title column from
@@ -12,8 +13,8 @@ import { PricingFaq } from "@/components/sections/pricing/pricing-faq";
   <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-6">
     {/* Title column: pins while the accordion list scrolls past. */}
     <div class="lg:self-start lg:sticky lg:top-6">
-      <div class="max-w-md space-y-1">
-        <p id="faq-heading" class="text-foreground text-xs font-medium">FAQ</p>
+      <div class="max-w-md space-y-1.5">
+        <ShowcaseEyebrow id="faq-heading" label="FAQ" accent="neutral" />
         <p class="text-muted-foreground text-xs text-balance">
           Quick answers about privacy, plans, setup, and support.
         </p>

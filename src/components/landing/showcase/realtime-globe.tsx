@@ -18,7 +18,7 @@ export function RealtimeGlobe() {
       {/* Same live pill as the app's realtime card, kept inside the panel
           padding despite the bleed. */}
       <div className="absolute top-0 right-4 z-10 sm:right-6">
-        <span className="bg-background text-foreground inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-medium">
+        <span className="bg-muted text-foreground inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-medium">
           <span className="relative flex size-2" aria-hidden="true">
             <span className="bg-brand absolute inline-flex h-full w-full animate-ping rounded-full opacity-60 motion-reduce:hidden" />
             <span className="bg-brand relative inline-flex size-2 rounded-full" />

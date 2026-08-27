@@ -51,13 +51,23 @@ function makeRamp(
  * matches what users actually see (the ramp structure is kept so gradient
  * consumers keep working — every position resolves to the same color).
  */
-export const APP_RAMP = makeRamp(
-  [
-    { at: 0, l: 0.49, c: 0.091, h: 241.534 },
-    { at: 1, l: 0.49, c: 0.091, h: 241.534 },
-  ],
-  "oklch(0.49 0.091 241.534)",
-);
+function flatRamp(l: number, c: number, h: number): GradientRamp {
+  return makeRamp(
+    [
+      { at: 0, l, c, h },
+      { at: 1, l, c, h },
+    ],
+    `oklch(${l} ${c} ${h})`,
+  );
+}
+
+export const APP_RAMP = flatRamp(0.49, 0.091, 241.534);
+
+/* Per-metric ramps matching the app's chart tokens (colors.css), so each
+   showcase chart wears its own metric color. */
+export const REVENUE_RAMP = flatRamp(0.581, 0.106, 126.684);
+export const PERFORMANCE_RAMP = flatRamp(0.748, 0.161, 56.883);
+export const CONVERSIONS_RAMP = flatRamp(0.64, 0.09, 306.519);
 
 /** Default ramp used where a chart has not picked its own. */
 export const TRAFFIC_GRADIENT_STOPS = APP_RAMP.stops;
