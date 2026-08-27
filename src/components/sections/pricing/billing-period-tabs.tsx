@@ -40,7 +40,7 @@ export function BillingPeriodTabs({
           aria-hidden="true"
           className={cn(
             "absolute inset-x-0 top-1/2 h-3 -translate-y-1/2 rounded-full transition-colors",
-            isYearly ? "bg-brand" : "bg-foreground/15",
+            isYearly ? "bg-brand" : "bg-foreground/25",
           )}
         />
         <span

@@ -5,7 +5,7 @@ import { feature } from "topojson-client";
 import type { Topology, GeometryCollection } from "topojson-specification";
 import countriesAtlas from "world-atlas/countries-110m.json";
 
-import { APP_RAMP } from "../dashboard/traffic-gradient";
+import { SPECTRUM_RAMP } from "../dashboard/traffic-gradient";
 
 /**
  * Decorative version of the app's realtime globe for the landing showcase:
@@ -119,9 +119,9 @@ type GlobeColors = {
   points: string[];
 };
 
-/** Dot palette sampled along the Klein ramp (same as the traffic charts). */
-const RAMP_SAMPLES = [0.15, 0.4, 0.65, 0.9] as const;
-const RAMP_FALLBACKS = ["#a8b4e8", "#6b7fd9", "#4756c4", "#3441a5"] as const;
+/** Dot palette sampled along the brand spectrum (same as the charts). */
+const RAMP_SAMPLES = [0.1, 0.4, 0.7, 0.95] as const;
+const RAMP_FALLBACKS = ["#ffb18f", "#f27ec6", "#7591fb", "#0dc4f7"] as const;
 
 function readColors(): GlobeColors {
   return {
@@ -136,7 +136,7 @@ function readColors(): GlobeColors {
     ),
     points: RAMP_SAMPLES.map((t, index) =>
       resolveCssColor(
-        APP_RAMP.sample(t),
+        SPECTRUM_RAMP.sample(t),
         RAMP_FALLBACKS[index] ?? RAMP_FALLBACKS[0],
       ),
     ),

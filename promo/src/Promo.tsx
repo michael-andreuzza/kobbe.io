@@ -39,12 +39,15 @@ type ClipSpec = {
   framed?: boolean;
 };
 
+/* startAtSec offsets come from the recording script's section timestamps
+   (Overview 7.9, Realtime 18.8, Events 39.3, Funnels 46.9, Revenue 55.7,
+   Performance 64.8), nudged forward so each page is settled on screen. */
 const clips: ClipSpec[] = [
   {
     label: "Traffic",
     sub: "Visitors, sources, and pages — live",
     color: colors.brand,
-    startAtSec: 3.2,
+    startAtSec: 9,
     origin: "62% 28%",
     scaleFrom: 1.06,
     scaleTo: 1.22,
@@ -52,18 +55,20 @@ const clips: ClipSpec[] = [
   {
     label: "Realtime",
     sub: "Who is on your site right now",
-    color: colors.carbon,
-    startAtSec: 19,
-    origin: "50% 48%",
-    scaleFrom: 1.0,
-    scaleTo: 1.1,
+    color: colors.cyan,
+    startAtSec: 22.5,
+    // Push into the globe: the seeded local site has no live visitors, so
+    // keep the zeroed "online now" KPI row out of the crop.
+    origin: "50% 78%",
+    scaleFrom: 1.35,
+    scaleTo: 1.5,
     framed: true,
   },
   {
     label: "Funnels",
     sub: "Watch visits become signups",
-    color: colors.lavender,
-    startAtSec: 48.4,
+    color: colors.purple,
+    startAtSec: 48.6,
     origin: "50% 42%",
     scaleFrom: 1.05,
     scaleTo: 1.38,
@@ -71,8 +76,8 @@ const clips: ClipSpec[] = [
   {
     label: "Revenue",
     sub: "Every sale, attributed to its page",
-    color: colors.olive,
-    startAtSec: 57,
+    color: colors.pink,
+    startAtSec: 57.4,
     origin: "35% 18%",
     scaleFrom: 1.08,
     scaleTo: 1.26,
@@ -81,8 +86,8 @@ const clips: ClipSpec[] = [
   {
     label: "Performance",
     sub: "Core Web Vitals from real visits",
-    color: colors.orange,
-    startAtSec: 68.4,
+    color: colors.peach,
+    startAtSec: 66.5,
     origin: "55% 45%",
     scaleFrom: 1.05,
     scaleTo: 1.22,
@@ -148,15 +153,21 @@ const Intro: React.FC = () => {
       >
         KOBBE
       </div>
+      {/* Gapless spectrum chip strip, the landing hero's signature. */}
       <div
         style={{
-          height: 2,
+          display: "flex",
           width: ruleWidth,
-          backgroundColor: colors.carbon,
-          opacity: 0.25,
+          height: 10,
+          borderRadius: 2,
+          overflow: "hidden",
           marginTop: 42,
         }}
-      />
+      >
+        {[colors.peach, colors.pink, colors.purple, colors.cyan].map((c) => (
+          <div key={c} style={{ flex: 1, backgroundColor: c }} />
+        ))}
+      </div>
       <div
         style={{
           marginTop: 40,

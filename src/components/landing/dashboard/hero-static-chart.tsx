@@ -29,7 +29,7 @@ import {
 } from "./dashboard-preview-data";
 import type { TrafficStackBucket } from "./traffic-chart-types";
 import { ReferrerFavicon } from "./referrer-favicon";
-import { GRADIENT_ACCENT, TRAFFIC_GRADIENT_STOPS } from "./traffic-gradient";
+import { SPECTRUM_RAMP } from "./traffic-gradient";
 
 /**
  * Zero-JS replacement for the recharts hero chart: the same line series
@@ -104,6 +104,15 @@ const pinnedReferrerShare =
 const pinnedRatio =
   pinnedIndex != null && points.length > 1
     ? pinnedIndex / (points.length - 1)
+    : 0.5;
+
+/* The stroke gradient is vertical over the line's bounding box (warm at the
+   peaks, cool at the lows), so the dot samples the spectrum by value. */
+const visitorsMin = Math.min(...points.map((point) => point.visitors));
+const visitorsMax = Math.max(...points.map((point) => point.visitors));
+const pinnedValueRatio =
+  pinnedPoint && visitorsMax > visitorsMin
+    ? (visitorsMax - pinnedPoint.visitors) / (visitorsMax - visitorsMin)
     : 0.5;
 
 /** Fixed drawing space; the svg stretches to the container (non-scaling strokes). */
@@ -208,14 +217,16 @@ export function HeroStaticChart(props: {
               aria-hidden="true"
             >
               <defs>
+                {/* Value-mapped spectrum, like the app chart: vertical over
+                    the series bbox so warm reads as the peaks. */}
                 <linearGradient
                   id="hero-traffic-stroke"
                   x1="0"
                   y1="0"
-                  x2="1"
-                  y2="0"
+                  x2="0"
+                  y2="1"
                 >
-                  {TRAFFIC_GRADIENT_STOPS.map((stop) => (
+                  {SPECTRUM_RAMP.stops.map((stop) => (
                     <stop
                       key={stop.offset}
                       offset={stop.offset}
@@ -223,19 +234,23 @@ export function HeroStaticChart(props: {
                     />
                   ))}
                 </linearGradient>
+                {/* Soft wash of the same spectrum, fading to the baseline. */}
                 <linearGradient
                   id="hero-traffic-fill"
                   x1="0"
                   y1="0"
-                  x2="1"
-                  y2="0"
+                  x2="0"
+                  y2="1"
                 >
-                  {TRAFFIC_GRADIENT_STOPS.map((stop) => (
+                  {SPECTRUM_RAMP.stops.map((stop, index) => (
                     <stop
                       key={stop.offset}
                       offset={stop.offset}
                       stopColor={stop.color}
-                      stopOpacity={0.1}
+                      stopOpacity={
+                        0.16 -
+                        (0.14 * index) / (SPECTRUM_RAMP.stops.length - 1)
+                      }
                     />
                   ))}
                 </linearGradient>
@@ -274,7 +289,7 @@ export function HeroStaticChart(props: {
                   style={{
                     left: `${pinnedRatio * 100}%`,
                     top: `${(yAt(pinnedPoint.visitors) / VIEW_H) * 100}%`,
-                    background: GRADIENT_ACCENT,
+                    background: SPECTRUM_RAMP.sample(pinnedValueRatio),
                   }}
                   aria-hidden="true"
                 />
