@@ -1,22 +1,22 @@
 ---
 /**
  * The dashboard walkthrough recording, autoplaying muted on loop at the top
- * of the showcase feed. The poster reuses the dashboard screenshot so the
- * frame is meaningful before the video buffers.
+ * of the showcase feed. The poster is the video's own first frame, so the
+ * buffering state is invisible — playback continues from the same picture.
  */
-import dashboardShot from "@/images/assets/kobbedashb.png";
+import posterFrame from "@/images/assets/walkthrough-poster.jpg";
 ---
 
 <section aria-label="Dashboard walkthrough video">
   <video
-    class="block w-full overflow-hidden rounded-lg shadow-sm"
+    class="block w-full overflow-hidden rounded-lg shadow-surface-lg"
     src="/videos/walkthrough.mp4"
-    poster={dashboardShot.src}
+    poster={posterFrame.src}
     autoplay
     muted
     loop
     playsinline
-    preload="metadata"
+    preload="auto"
     aria-label="A walkthrough of the Kobbe dashboard: traffic, sources, conversions, funnels, and revenue"
   ></video>
 </section>

@@ -4,7 +4,7 @@ import ShowcaseEyebrow from "@/components/landing/showcase/ShowcaseEyebrow.astro
 ---
 
 <section
-  class="bg-card relative flex flex-col justify-between gap-10 overflow-hidden rounded-lg p-4 shadow-sm sm:p-6"
+  class="bg-card relative flex flex-col justify-between gap-10 overflow-hidden rounded-lg p-4 shadow-surface-lg sm:p-6"
 >
   <div class="max-w-md space-y-1.5">
     <ShowcaseEyebrow label={landingFeatureCard.title} accent="neutral" />
@@ -16,18 +16,18 @@ import ShowcaseEyebrow from "@/components/landing/showcase/ShowcaseEyebrow.astro
     {
       landingFeatureCard.groups.map((group) => (
         <div class="space-y-2.5">
-          <p class="text-foreground text-xs font-medium">{group.category}</p>
+          <p class="text-foreground text-sm font-medium">{group.category}</p>
           <ul class="space-y-1.5">
             {group.items.map((item) => (
               <li class="flex items-baseline gap-1.5">
                 <a
                   href={item.href}
-                  class="text-muted-foreground hover:text-foreground text-xs transition-colors"
+                  class="text-muted-foreground hover:text-foreground text-sm transition-colors"
                 >
                   {item.label}
                 </a>
                 {item.optIn ? (
-                  <span class="text-muted-foreground/60 text-[10px] tracking-wide uppercase">
+                  <span class="text-muted-foreground/60 text-[11px] tracking-wide uppercase">
                     Opt-in
                   </span>
                 ) : null}

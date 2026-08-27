@@ -40,7 +40,7 @@ export function SimplifiedPricingSection({
 
   /** Muted panels matching the showcase feed cards: copy top, content bottom. */
   const panelClassName =
-    "bg-card text-foreground relative flex min-w-0 flex-col justify-between gap-10 overflow-hidden rounded-lg p-4 shadow-sm sm:p-6";
+    "bg-card text-foreground relative flex min-w-0 flex-col justify-between gap-10 overflow-hidden rounded-lg p-4 shadow-surface-lg sm:p-6";
 
   return (
     <div

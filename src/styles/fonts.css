@@ -14,13 +14,62 @@
   src: url("/fonts/Inter/web/InterVariable-Italic.woff2") format("woff2");
 }
 
+/* Atipla ND static cuts; Book (350) sits between Light and Regular. */
+@font-face {
+  font-family: "Atipla ND";
+  font-style: normal;
+  font-weight: 350;
+  font-display: swap;
+  src: url("/fonts/atipla/AtiplaND-Book.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Atipla ND";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/atipla/AtiplaND-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Atipla ND";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/atipla/AtiplaND-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Atipla ND";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/atipla/AtiplaND-Semibold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Atipla ND";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/atipla/AtiplaND-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Atipla ND";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("/fonts/atipla/AtiplaND-Black.woff2") format("woff2");
+}
+
 @theme inline {
   --font-heading: var(--font-display);
   /* Display headings share the sans stack. */
   --font-display: var(--font-sans);
   --font-sans:
-    "InterVariable", "Inter", system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    "Atipla ND", "InterVariable", "Inter", system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
