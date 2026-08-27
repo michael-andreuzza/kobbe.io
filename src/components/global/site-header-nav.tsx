@@ -5,11 +5,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { SiteMegaMenuPanel } from "@/components/global/site-mega-menu-panel";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
 import { buttonVariants } from "@/components/ui/button";
-import {
-  APP_DEMO_URL,
-  APP_SIGNIN_URL,
-  APP_SIGNUP_URL,
-} from "@/lib/site-mega-menu";
+import { APP_SIGNIN_URL, APP_SIGNUP_URL } from "@/lib/site-mega-menu";
 import { cn } from "@/lib/utils";
 
 const navLinkClassName =
@@ -24,9 +20,10 @@ const trialCtaLabel = `Start a ${pricingTrialDays}-day free trial`;
  */
 export function SiteHeaderNav() {
   const [megaOpen, setMegaOpen] = useState(false);
-  // While the hero's own CTA is on screen, the nav CTA stays quiet (outline)
-  // and only turns primary once the hero CTA scrolls away. Pages without a
-  // hero CTA keep the primary style from the start.
+  // While the hero's own CTA is on screen, the nav CTA stays quiet (card
+  // outline, like the hero's Live demo button) and only turns primary once
+  // the hero CTA scrolls away. Pages without a hero CTA keep the primary
+  // style from the start.
   const [heroCtaInView, setHeroCtaInView] = useState(false);
   const panelId = useId();
   const headerRef = useRef<HTMLDivElement>(null);
@@ -111,14 +108,6 @@ export function SiteHeaderNav() {
               aria-hidden="true"
             />
           </button>
-          <a
-            href={APP_DEMO_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={navLinkClassName}
-          >
-            Live demo
-          </a>
           <a href="/#pricing" className={navLinkClassName}>
             Pricing
           </a>
@@ -135,10 +124,16 @@ export function SiteHeaderNav() {
             target="_blank"
             rel="noopener noreferrer"
             data-kobbe-event="Nav - start trial"
-            className={buttonVariants({
-              variant: heroCtaInView ? "outline" : "default",
-              size: "xs",
-            })}
+            className={cn(
+              buttonVariants({
+                variant: heroCtaInView ? "outline" : "default",
+                size: "xs",
+              }),
+              /* Quiet state matches the hero's Live demo button (docs-arrow
+                 chrome); once the hero CTA scrolls away it turns primary. */
+              heroCtaInView &&
+                "border-border bg-card text-muted-foreground hover:bg-card hover:text-foreground",
+            )}
           >
             {trialCtaLabel}
           </a>

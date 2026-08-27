@@ -20,7 +20,7 @@ import ShowcaseEyebrow, {
 } from "@/components/landing/showcase/ShowcaseEyebrow.astro";
 
 /* Wide cards are placed so every xl row tiles to exactly three columns:
-   2+1 / 1+1+1 / 2+1 / 2+1 / 1+2. */
+   2+1 / 1+1+1 / 2+1 / 1+2 / 2+1. */
 const mockupPanels: Array<{
   title: string;
   description: string;
@@ -86,14 +86,6 @@ const mockupPanels: Array<{
     Mockup: PerformancePanelMockup,
   },
   {
-    title: "Funnels",
-    description:
-      "Build funnels from pages and custom events, then see where visitors continue or drop off, step by step.",
-    accent: "conversions",
-    Mockup: FunnelsPanelMockup,
-    wide: true,
-  },
-  {
     title: "Revenue attribution",
     description:
       "Pass attribution through checkout and see which pages, sources, and campaigns actually drive money.",
@@ -102,12 +94,12 @@ const mockupPanels: Array<{
     Logos: RevenueLogoStrip,
   },
   {
-    title: "Bring your history",
+    title: "Funnels",
     description:
-      "Import historical traffic from Plausible, Fathom, Umami, or DataFast and keep collecting new data on the same site.",
-    accent: "neutral",
-    Mockup: ImportPanelMockup,
-    Logos: ImportLogoStrip,
+      "Build funnels from pages and custom events, then see where visitors continue or drop off, step by step.",
+    accent: "conversions",
+    Mockup: FunnelsPanelMockup,
+    wide: true,
   },
   {
     title: "CLI access, with MCP built in",
@@ -118,22 +110,30 @@ const mockupPanels: Array<{
     Logos: CliLogoStrip,
     wide: true,
   },
+  {
+    title: "Bring your history",
+    description:
+      "Import historical traffic from Plausible, Fathom, Umami, or DataFast and keep collecting new data on the same site.",
+    accent: "neutral",
+    Mockup: ImportPanelMockup,
+    Logos: ImportLogoStrip,
+  },
 ];
 ---
 
-<div class="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
+<div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
   {
     mockupPanels.map(
       ({ title, description, accent, Mockup, Logos, globe, overview, wide }) => (
         <section
           class:list={[
-            "bg-card relative flex gap-12 flex-col justify-between lg:gap-8 overflow-hidden rounded-lg p-4 shadow-sm sm:p-6 lg:min-h-160 xl:min-h-140",
+            "bg-card relative flex gap-8 flex-col justify-between lg:gap-6 overflow-hidden rounded-lg p-4 shadow-sm sm:p-6 lg:min-h-130 xl:min-h-110",
             wide && "xl:col-span-2",
           ]}
         >
           <div class="max-w-md space-y-1.5">
             <ShowcaseEyebrow label={title} accent={accent} />
-            <p class="text-muted-foreground text-xs text-balance">
+            <p class="text-muted-foreground text-sm text-balance">
               {description}
             </p>
             {Logos ? <Logos className="pt-3" /> : null}

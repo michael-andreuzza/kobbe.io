@@ -359,12 +359,6 @@ export function ConversionsPanelMockup() {
   ];
   return (
     <PanelCard>
-      <CardHeader className={panelHeaderClass}>
-        <CardTitle className={dashboardCardTitleClass}>Pages</CardTitle>
-        <CardDescription className={dashboardCardDescriptionClass}>
-          Converting on the selected goal
-        </CardDescription>
-      </CardHeader>
       <CardContent className={panelContentClass}>
         <div className={"space-y-3"}>
           <div className="flex flex-wrap items-center gap-2">
@@ -427,14 +421,6 @@ export function AnnotationsPanelMockup() {
   );
   return (
     <PanelCard>
-      <CardHeader className={panelHeaderClass}>
-        <CardTitle className={dashboardCardTitleClass}>
-          Visitors over time
-        </CardTitle>
-        <CardDescription className={dashboardCardDescriptionClass}>
-          May 4 – May 31
-        </CardDescription>
-      </CardHeader>
       <CardContent className={panelContentClass}>
         <div>
           {/* Full bleed: cancel the panel padding so the area hugs the edges. */}
@@ -491,14 +477,6 @@ export function ConversionPeakPanelMockup() {
   );
   return (
     <PanelCard>
-      <CardHeader className={panelHeaderClass}>
-        <CardTitle className={dashboardCardTitleClass}>
-          Conversion peak
-        </CardTitle>
-        <CardDescription className={dashboardCardDescriptionClass}>
-          Hourly profile, split by day of week
-        </CardDescription>
-      </CardHeader>
       <CardContent className={panelContentClass}>
         <div>
           <div className="flex flex-wrap items-center gap-1.5">
@@ -562,14 +540,8 @@ export function SearchKeywordsPanelMockup() {
   ];
   return (
     <PanelCard>
-      <CardHeader className={panelHeaderClass}>
-        <CardTitle className={dashboardCardTitleClass}>
-          Search keywords
-        </CardTitle>
-        <CardDescription className={dashboardCardDescriptionClass}>
-          Clicks from Google Search
-        </CardDescription>
-        <CardAction>
+      <CardContent className={panelContentClass}>
+        <div className="flex justify-end pb-3">
           <span className="bg-background text-muted-foreground inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[11px] font-medium">
             <svg
               viewBox="0 0 12 12"
@@ -587,9 +559,7 @@ export function SearchKeywordsPanelMockup() {
             </svg>
             Search Console connected
           </span>
-        </CardAction>
-      </CardHeader>
-      <CardContent className={panelContentClass}>
+        </div>
         <div className={"flex flex-col"}>
           {rows.map((row) => (
             <BreakdownRow key={row.label} barColor={APP_RAMP.accent} {...row} />
@@ -675,14 +645,6 @@ export function FunnelsPanelMockup() {
   const ratios = steps.map((step) => step.ratio);
   return (
     <PanelCard>
-      <CardHeader className={panelHeaderClass}>
-        <CardTitle className={dashboardCardTitleClass}>
-          Landing to signup
-        </CardTitle>
-        <CardDescription className={dashboardCardDescriptionClass}>
-          3 steps · 52% overall conversion
-        </CardDescription>
-      </CardHeader>
       <CardContent className={panelContentClass}>
         {/* Full bleed: cancel the panel padding so the body hugs the edges. */}
         <div className="relative mt-8 -mx-4 -mb-4 h-40 sm:-mx-6 sm:-mb-6">
@@ -761,14 +723,6 @@ export function RevenuePanelMockup() {
   ];
   return (
     <PanelCard>
-      <CardHeader className={panelHeaderClass}>
-        <CardTitle className={dashboardCardTitleClass}>
-          Revenue by source
-        </CardTitle>
-        <CardDescription className={dashboardCardDescriptionClass}>
-          Attributed through checkout · last 30 days
-        </CardDescription>
-      </CardHeader>
       <CardContent className={panelContentClass}>
         <div className={"flex flex-col"}>
           {rows.map((row) => (
@@ -794,12 +748,6 @@ export function PerformancePanelMockup() {
   ];
   return (
     <PanelCard>
-      <CardHeader className={panelHeaderClass}>
-        <CardTitle className={dashboardCardTitleClass}>Web Vitals</CardTitle>
-        <CardDescription className={dashboardCardDescriptionClass}>
-          p75 across all pages · last 30 days
-        </CardDescription>
-      </CardHeader>
       <CardContent className={panelContentClass}>
         <div>
           {rows.map((row, index) => (
@@ -849,14 +797,6 @@ export function ImportPanelMockup() {
   ];
   return (
     <PanelCard>
-      <CardHeader className={panelHeaderClass}>
-        <CardTitle className={dashboardCardTitleClass}>
-          Import history
-        </CardTitle>
-        <CardDescription className={dashboardCardDescriptionClass}>
-          Keep collecting on the same site
-        </CardDescription>
-      </CardHeader>
       <CardContent className={panelContentClass}>
         <div>
           {rows.map((row, index) => (

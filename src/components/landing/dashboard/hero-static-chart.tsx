@@ -167,18 +167,18 @@ export function HeroStaticChart(props: {
         "h-auto",
       )}
     >
-      <CardHeader
-        className={
-          frameless ? "px-0! pt-0 pb-3 sm:pb-4" : dashboardCardHeaderClass
-        }
-      >
-        <CardTitle className={dashboardCardTitleClass}>
-          Visitors over time
-        </CardTitle>
-        <CardDescription className={dashboardCardDescriptionClass}>
-          {heroChartRangeLabel}
-        </CardDescription>
-      </CardHeader>
+      {/* Frameless (showcase panel) skips the header: the panel's own copy
+          already titles the card, so the widget renders chart-only. */}
+      {frameless ? null : (
+        <CardHeader className={dashboardCardHeaderClass}>
+          <CardTitle className={dashboardCardTitleClass}>
+            Visitors over time
+          </CardTitle>
+          <CardDescription className={dashboardCardDescriptionClass}>
+            {heroChartRangeLabel}
+          </CardDescription>
+        </CardHeader>
+      )}
       <CardContent
         className={cn(
           "h-auto min-w-0 px-0! pt-0!",

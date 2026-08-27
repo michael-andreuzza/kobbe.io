@@ -46,7 +46,7 @@ export function SimplifiedPricingSection({
     <div
       id="pricing"
       className={cn(
-        "grid w-full min-w-0 grid-cols-1 items-stretch gap-2 lg:grid-cols-2",
+        "grid w-full min-w-0 grid-cols-1 items-stretch gap-4 lg:grid-cols-2",
         className,
       )}
     >
@@ -56,8 +56,8 @@ export function SimplifiedPricingSection({
         aria-label="Pricing plans"
       >
         <div className="max-w-md space-y-1">
-          <p className="text-foreground text-xs font-medium">Pricing</p>
-          <p className="text-muted-foreground text-xs text-balance">
+          <p className="text-foreground text-sm font-medium">Pricing</p>
+          <p className="text-muted-foreground text-sm text-balance">
             Same features on every plan. Start with a {pricingTrialDays}-day
             free trial, no credit card required.
           </p>
@@ -114,7 +114,14 @@ export function SimplifiedPricingSection({
             <a
               href={signupHref}
               data-kobbe-event={`Simplified pricing - ${tier.events} ${period}`}
-              className={cn(buttonVariants({ variant: "secondary" }), "w-full")}
+              className={cn(
+                buttonVariants({ variant: "outline" }),
+                /* Same docs-arrow chrome as the hero's Live demo button;
+                   uninverted so the card fill stays light inside this
+                   carbon panel. */
+                "uninverted border-border bg-card text-muted-foreground hover:bg-card hover:text-foreground",
+                "w-full",
+              )}
             >
               {trialCtaLabel}
             </a>
@@ -128,10 +135,10 @@ export function SimplifiedPricingSection({
 
       <article className={cn(panelClassName)} aria-label="Included features">
         <div className="max-w-md space-y-1">
-          <p className="text-foreground text-xs font-medium">
+          <p className="text-foreground text-sm font-medium">
             Everything included
           </p>
-          <p className="text-muted-foreground text-xs text-pretty">
+          <p className="text-muted-foreground text-sm text-pretty">
             Same features on every plan; only the event volume changes.
           </p>
         </div>

@@ -9,6 +9,7 @@ import ShowcaseFaq from "@/components/landing/showcase/ShowcaseFaq.astro";
 import ShowcaseFooter from "@/components/landing/showcase/ShowcaseFooter.astro";
 import { SimplifiedPricingSection } from "@/components/sections/pricing/simplified-pricing-section";
 import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
 import { APP_SIGNUP_URL } from "@/lib/site-mega-menu";
 
@@ -26,24 +27,21 @@ const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
       <div class="flex flex-col gap-6">
         <!-- Gapless metric-color chip strip, the dashboard's palette as a
              signature — ordered to flow like the chart spectrum. -->
-        <div class="flex w-fit overflow-hidden rounded-xs" aria-hidden="true">
-          <span class="bg-chart-performance h-2 w-5"></span>
-          <span class="bg-chart-revenue h-2 w-5"></span>
-          <span class="bg-chart-conversions h-2 w-5"></span>
-          <span class="bg-chart-traffic h-2 w-5"></span>
+        
+        <div>
+          <h1
+            class="text-foreground max-w-2xl text-3xl font-medium tracking-tight text-balance lg:text-4xl"
+          >
+            Privacy-first web analytics
+            <span class="text-muted-foreground block">
+              and revenue in one place.
+            </span>
+          </h1>
+          <p class="text-muted-foreground max-w-md text-sm text-pretty mt-4">
+            Traffic, sources, conversions, performance, and the money they turn
+            into — one dashboard, no cookies, nothing to consent to.
+          </p>
         </div>
-        <h1
-          class="text-foreground max-w-2xl text-3xl font-medium tracking-tight text-balance lg:text-4xl"
-        >
-          Privacy-first web analytics
-          <span class="text-muted-foreground block">
-            and revenue in one place.
-          </span>
-        </h1>
-        <p class="text-muted-foreground max-w-md text-sm text-pretty">
-          Traffic, sources, conversions, performance, and the money they turn
-          into — one dashboard, no cookies, nothing to consent to.
-        </p>
         <div class="flex flex-wrap items-center gap-4">
           <a
             href={APP_SIGNUP_URL}
@@ -56,7 +54,12 @@ const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
             href={demoUrl}
             target="_blank"
             rel="noreferrer"
-            class="text-muted-foreground hover:text-foreground text-sm transition-colors duration-200"
+            class={cn(
+              buttonVariants({ variant: "outline", size: "sm" }),
+              /* Docs-arrow chrome: softer border-border hairline + card fill
+                 (outline's full-ink border is too harsh next to the CTA). */
+              "border-border bg-card text-muted-foreground hover:bg-card hover:text-foreground",
+            )}
           >
             Live demo
           </a>
@@ -66,7 +69,7 @@ const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
   </Wrapper>
 
   <!-- Showcase feed -->
-  <Wrapper variant="default" class="flex flex-col gap-2 pb-2">
+  <Wrapper variant="default" class="flex flex-col gap-4 pb-4">
     <!-- The dashboard in motion; the overview card lives in the grid below. -->
     <ShowcaseVideo />
     <ShowcasePanels />
