@@ -1,7 +1,6 @@
 import React from "react";
 import {
   AbsoluteFill,
-  Easing,
   interpolate,
   OffthreadVideo,
   Sequence,
@@ -18,10 +17,6 @@ type TourClip = {
   /** Second in the walkthrough footage to start from. */
   startAtSec: number;
   durationSec: number;
-  /** CSS transform-origin: where the zoom pushes into. */
-  origin: string;
-  scaleFrom: number;
-  scaleTo: number;
 };
 
 /* Offsets come from the recording script's section marks:
@@ -30,53 +25,17 @@ type TourClip = {
    dark Funnels 53.1 (hover 55.5), end 62.4. */
 const clips: TourClip[] = [
   // Overview: cursor sweeps the trend chart, tooltip riding along.
-  {
-    startAtSec: 6.3,
-    durationSec: 5.8,
-    origin: "50% 32%",
-    scaleFrom: 1.06,
-    scaleTo: 1.2,
-  },
+  { startAtSec: 6.3, durationSec: 5.8 },
   // Roll-up: all-sites chart sweep, then the per-site table scrolls in.
-  {
-    startAtSec: 15.7,
-    durationSec: 6,
-    origin: "50% 38%",
-    scaleFrom: 1.04,
-    scaleTo: 1.16,
-  },
-  // Funnels: push into the gradient funnel body while stages are hovered.
-  {
-    startAtSec: 26.5,
-    durationSec: 5.6,
-    origin: "50% 40%",
-    scaleFrom: 1.08,
-    scaleTo: 1.28,
-  },
+  { startAtSec: 15.7, durationSec: 6 },
+  // Funnels: the gradient funnel body while stages are hovered.
+  { startAtSec: 26.5, durationSec: 5.6 },
   // Performance: Web Vitals KPIs and the LCP trend sweep.
-  {
-    startAtSec: 35.3,
-    durationSec: 5.8,
-    origin: "58% 38%",
-    scaleFrom: 1.06,
-    scaleTo: 1.22,
-  },
+  { startAtSec: 35.3, durationSec: 5.8 },
   // Dark mode: the overview trend sweep on the dark canvas.
-  {
-    startAtSec: 46.6,
-    durationSec: 5.8,
-    origin: "50% 32%",
-    scaleFrom: 1.05,
-    scaleTo: 1.18,
-  },
+  { startAtSec: 46.6, durationSec: 5.8 },
   // Dark mode: funnels, stages hovered.
-  {
-    startAtSec: 54.1,
-    durationSec: 6,
-    origin: "50% 40%",
-    scaleFrom: 1.08,
-    scaleTo: 1.26,
-  },
+  { startAtSec: 54.1, durationSec: 6 },
 ];
 
 export const tourDurationInFrames = clips.reduce(
@@ -89,36 +48,25 @@ const Clip: React.FC<{ spec: TourClip; fadeIn: boolean }> = ({
   fadeIn,
 }) => {
   const frame = useCurrentFrame();
-  const frames = Math.round(spec.durationSec * FPS);
 
   const opacity = fadeIn
     ? interpolate(frame, [0, CROSS], [0, 1], { extrapolateRight: "clamp" })
     : 1;
-  // A slow, steady push — no cuts inside a clip, just the camera drifting in.
-  const scale = interpolate(
-    frame,
-    [0, frames],
-    [spec.scaleFrom, spec.scaleTo],
-    { easing: Easing.inOut(Easing.quad) },
-  );
 
+  // No camera moves: the footage plays 1:1, clips joined by crossfades.
   return (
     <AbsoluteFill style={{ opacity }}>
-      <AbsoluteFill
-        style={{ transform: `scale(${scale})`, transformOrigin: spec.origin }}
-      >
-        <OffthreadVideo
-          muted
-          src={staticFile("walkthrough.mp4")}
-          startFrom={Math.round(spec.startAtSec * FPS)}
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-        />
-      </AbsoluteFill>
+      <OffthreadVideo
+        muted
+        src={staticFile("walkthrough.mp4")}
+        startFrom={Math.round(spec.startAtSec * FPS)}
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      />
     </AbsoluteFill>
   );
 };
 
-/** Raw dashboard tour: footage with zooms and crossfades, nothing on top. */
+/** Raw dashboard tour: footage with crossfades, nothing on top. */
 export const Tour: React.FC = () => {
   let from = 0;
   return (
