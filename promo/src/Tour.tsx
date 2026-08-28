@@ -20,22 +20,22 @@ type TourClip = {
 };
 
 /* Offsets come from the recording script's section marks:
-   Overview sweep 6.3, Roll-up 13.7 (sweep 16.3, scroll 21.7), Funnels 25.7
-   (hover 28.1), Performance 34.1 (sweep 36.7), dark flip 44.8 (sweep 46.4),
-   dark Funnels 53.1 (hover 55.5), end 62.4. */
+   Overview sweep 6.1, Roll-up 13.3 (sweep 15.9, scroll 21.2), Funnels 25.1
+   (hover 27.5), Performance 33.1 (sweep 35.7), dark flip 43.8 (sweep 45.4),
+   dark Funnels 52.1 (hover 54.5), end 61.2. */
 const clips: TourClip[] = [
   // Overview: cursor sweeps the trend chart, tooltip riding along.
-  { startAtSec: 6.3, durationSec: 5.8 },
+  { startAtSec: 6.1, durationSec: 5.8 },
   // Roll-up: all-sites chart sweep, then the per-site table scrolls in.
-  { startAtSec: 15.7, durationSec: 6 },
-  // Funnels: the gradient funnel body while stages are hovered.
-  { startAtSec: 26.5, durationSec: 5.6 },
+  { startAtSec: 15.3, durationSec: 6 },
+  // Funnels: the funnel body while stages are hovered.
+  { startAtSec: 25.9, durationSec: 5.6 },
   // Performance: Web Vitals KPIs and the LCP trend sweep.
-  { startAtSec: 35.3, durationSec: 5.8 },
+  { startAtSec: 34.3, durationSec: 5.8 },
   // Dark mode: the overview trend sweep on the dark canvas.
-  { startAtSec: 46.6, durationSec: 5.8 },
+  { startAtSec: 45.6, durationSec: 5.8 },
   // Dark mode: funnels, stages hovered.
-  { startAtSec: 54.1, durationSec: 6 },
+  { startAtSec: 53.1, durationSec: 6 },
 ];
 
 export const tourDurationInFrames = clips.reduce(

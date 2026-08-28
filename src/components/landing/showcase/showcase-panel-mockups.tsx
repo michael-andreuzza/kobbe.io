@@ -40,7 +40,7 @@ import {
   CONVERSIONS_RAMP,
   PERFORMANCE_RAMP,
   REVENUE_RAMP,
-  SPECTRUM_RAMP,
+  type GradientRamp,
 } from "../dashboard/traffic-gradient";
 
 /**
@@ -160,12 +160,13 @@ function PanelCard(props: { children: React.ReactNode; className?: string }) {
 }
 
 /**
- * Spectrum line + wash, same drawing as the app's traffic chart: the stroke
- * gradient runs vertically over the series bbox (warm at the peaks, cool at
- * the lows) so color reads as intensity.
+ * Line + wash in the card's metric color, same drawing as the app's
+ * traffic chart.
  */
 function PanelGradientChart(props: {
   idPrefix: string;
+  /** Each showcase chart picks its own ramp. */
+  ramp: GradientRamp;
   /** Values on a 0-100 scale, evenly spaced along the x axis. */
   values: number[];
   className?: string;
@@ -193,11 +194,11 @@ function PanelGradientChart(props: {
           x2="0"
           y2="1"
         >
-          {SPECTRUM_RAMP.stops.map((stop) => (
+          {props.ramp.stops.map((stop) => (
             <stop key={stop.offset} offset={stop.offset} stopColor={stop.color} />
           ))}
         </linearGradient>
-        {/* Soft wash of the same spectrum, fading to the baseline. */}
+        {/* Soft wash of the same color, fading to the baseline. */}
         <linearGradient
           id={`${props.idPrefix}-fill`}
           x1="0"
@@ -205,13 +206,13 @@ function PanelGradientChart(props: {
           x2="0"
           y2="1"
         >
-          {SPECTRUM_RAMP.stops.map((stop, index) => (
+          {props.ramp.stops.map((stop, index) => (
             <stop
               key={stop.offset}
               offset={stop.offset}
               stopColor={stop.color}
               stopOpacity={
-                0.16 - (0.14 * index) / (SPECTRUM_RAMP.stops.length - 1)
+                0.16 - (0.14 * index) / (props.ramp.stops.length - 1)
               }
             />
           ))}
@@ -229,13 +230,6 @@ function PanelGradientChart(props: {
       />
     </svg>
   );
-}
-
-/** Spectrum position for a value within its series (0 = peak/warm). */
-function spectrumValueRatio(values: number[], value: number): number {
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  return max > min ? (max - value) / (max - min) : 0.5;
 }
 
 /**
@@ -416,9 +410,7 @@ export function AnnotationsPanelMockup() {
   const pinned = 11;
   const pinnedLeft = (pinned / (values.length - 1)) * 100;
   const pinnedTop = 100 - values[pinned]!;
-  const pinnedColor = SPECTRUM_RAMP.sample(
-    spectrumValueRatio(values, values[pinned]!),
-  );
+  const pinnedColor = PERFORMANCE_RAMP.accent;
   return (
     <PanelCard>
       <CardContent className={panelContentClass}>
@@ -427,6 +419,7 @@ export function AnnotationsPanelMockup() {
           <div className="relative mt-8 -mx-4 -mb-4 h-40 sm:-mx-6 sm:-mb-6">
             <PanelGradientChart
               idPrefix="showcase-annotations"
+              ramp={PERFORMANCE_RAMP}
               values={values}
             />
             <div
@@ -472,9 +465,7 @@ export function ConversionPeakPanelMockup() {
   const peak = values.indexOf(Math.max(...values));
   const peakLeft = (peak / (values.length - 1)) * 100;
   const peakTop = 100 - values[peak]!;
-  const peakColor = SPECTRUM_RAMP.sample(
-    spectrumValueRatio(values, values[peak]!),
-  );
+  const peakColor = REVENUE_RAMP.accent;
   return (
     <PanelCard>
       <CardContent className={panelContentClass}>
@@ -496,7 +487,11 @@ export function ConversionPeakPanelMockup() {
           </div>
           {/* Full bleed: cancel the panel padding so the area hugs the edges. */}
           <div className="relative mt-8 -mx-4 -mb-4 h-36 sm:-mx-6 sm:-mb-6">
-            <PanelGradientChart idPrefix="showcase-peak" values={values} />
+            <PanelGradientChart
+              idPrefix="showcase-peak"
+              ramp={REVENUE_RAMP}
+              values={values}
+            />
             <div
               className="border-background pointer-events-none absolute size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2"
               style={{
@@ -655,9 +650,8 @@ export function FunnelsPanelMockup() {
             aria-hidden="true"
           >
             <defs>
-              {/* Continuous value-mapped gradient across the funnel body,
-                  like the app: each stage midpoint carries the spectrum
-                  color for its remaining share (warm high, cool low). */}
+              {/* userSpaceOnUse spans the full funnel, so each segment
+                  samples its slice of the ramp instead of restarting it. */}
               <linearGradient
                 id="showcase-funnel"
                 x1="0"
@@ -666,16 +660,13 @@ export function FunnelsPanelMockup() {
                 y2="0"
                 gradientUnits="userSpaceOnUse"
               >
-                {steps.map((step, index) => {
-                  const { midX } = funnelSegmentGeometry(ratios, index);
-                  return (
-                    <stop
-                      key={`funnel-stop-${step.label}`}
-                      offset={midX / FUNNEL_VIEW_W}
-                      stopColor={SPECTRUM_RAMP.sample(1 - step.ratio)}
-                    />
-                  );
-                })}
+                {CONVERSIONS_RAMP.stops.map((stop) => (
+                  <stop
+                    key={stop.offset}
+                    offset={stop.offset}
+                    stopColor={stop.color}
+                  />
+                ))}
               </linearGradient>
             </defs>
             {steps.map((step, index) => (

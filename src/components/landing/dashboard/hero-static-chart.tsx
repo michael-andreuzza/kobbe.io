@@ -29,7 +29,7 @@ import {
 } from "./dashboard-preview-data";
 import type { TrafficStackBucket } from "./traffic-chart-types";
 import { ReferrerFavicon } from "./referrer-favicon";
-import { SPECTRUM_RAMP } from "./traffic-gradient";
+import { APP_RAMP } from "./traffic-gradient";
 
 /**
  * Zero-JS replacement for the recharts hero chart: the same line series
@@ -229,7 +229,7 @@ export function HeroStaticChart(props: {
                   x2="0"
                   y2="1"
                 >
-                  {SPECTRUM_RAMP.stops.map((stop) => (
+                  {APP_RAMP.stops.map((stop) => (
                     <stop
                       key={stop.offset}
                       offset={stop.offset}
@@ -245,14 +245,14 @@ export function HeroStaticChart(props: {
                   x2="0"
                   y2="1"
                 >
-                  {SPECTRUM_RAMP.stops.map((stop, index) => (
+                  {APP_RAMP.stops.map((stop, index) => (
                     <stop
                       key={stop.offset}
                       offset={stop.offset}
                       stopColor={stop.color}
                       stopOpacity={
                         0.16 -
-                        (0.14 * index) / (SPECTRUM_RAMP.stops.length - 1)
+                        (0.14 * index) / (APP_RAMP.stops.length - 1)
                       }
                     />
                   ))}
@@ -292,7 +292,7 @@ export function HeroStaticChart(props: {
                   style={{
                     left: `${pinnedRatio * 100}%`,
                     top: `${(yAt(pinnedPoint.visitors) / VIEW_H) * 100}%`,
-                    background: SPECTRUM_RAMP.sample(pinnedValueRatio),
+                    background: APP_RAMP.sample(pinnedValueRatio),
                   }}
                   aria-hidden="true"
                 />

@@ -1,85 +1,79 @@
 /**
- * Chart colors for the landing mockups: a single cobalt hue where depth
- * carries intensity. The spectrum ramp renders value-mapped gradients; the
- * flat ramps carry one shade each for small details (breakdown bars, pills,
- * dots).
+ * Gradient ramp for the landing chart mockups. All showcase charts share the
+ * app ramp, kept in sync with TRAFFIC_GRADIENT_STOP_VALUES in the app's
+ * traffic-gradient-chart so mockups match the real dashboard.
  */
+
+type GradientStopValue = { at: number; l: number; c: number; h: number };
 
 export type GradientRamp = {
   stops: { offset: string; color: string }[];
-  /** Accent for dots, chips, and bars. */
+  /** Active-dot accent from the middle of the ramp. */
   accent: string;
   /** Sample the ramp at position `t` (0-1). */
   sample: (t: number, alpha?: number) => string;
 };
 
-type HexStop = { at: number; hex: string };
-
-const SPECTRUM: readonly HexStop[] = [
-  { at: 0, hex: "#2f5fd0" },
-  { at: 0.5, hex: "#5b8ae0" },
-  { at: 1, hex: "#a3c2ef" },
-];
-
-function hexChannel(hex: string, index: number): number {
-  return parseInt(hex.slice(1 + index * 2, 3 + index * 2), 16);
-}
-
-function sampleHexStops(stops: readonly HexStop[], t: number): string {
-  const clamped = Math.min(1, Math.max(0, t));
-  let from = stops[0]!;
-  let to = stops[stops.length - 1]!;
-  for (let i = 0; i < stops.length - 1; i += 1) {
-    if (clamped <= stops[i + 1]!.at) {
-      from = stops[i]!;
-      to = stops[i + 1]!;
-      break;
-    }
-  }
-  const span = to.at - from.at;
-  const ratio = span > 0 ? (clamped - from.at) / span : 0;
-  const channels = [0, 1, 2].map((index) =>
-    Math.round(
-      hexChannel(from.hex, index) +
-        (hexChannel(to.hex, index) - hexChannel(from.hex, index)) * ratio,
-    ),
-  );
-  return `rgb(${channels[0]} ${channels[1]} ${channels[2]})`;
-}
-
-/**
- * Single-hue ramp: rendered vertically over a series, strong maps to the
- * peaks and pale to the baseline, so depth reads as intensity.
- */
-export const SPECTRUM_RAMP: GradientRamp = {
-  stops: SPECTRUM.map((stop) => ({
-    offset: `${Math.round(stop.at * 100)}%`,
-    color: stop.hex,
-  })),
-  accent: "#2f5fd0",
-  sample: (t, alpha = 1) => {
-    const color = sampleHexStops(SPECTRUM, t);
-    return alpha >= 1 ? color : color.replace(")", ` / ${alpha})`);
-  },
-};
-
-function flatRamp(hex: string): GradientRamp {
+function makeRamp(
+  values: readonly GradientStopValue[],
+  accent: string,
+): GradientRamp {
   return {
-    stops: [
-      { offset: "0%", color: hex },
-      { offset: "100%", color: hex },
-    ],
-    accent: hex,
-    sample: (_t, alpha = 1) =>
-      alpha >= 1
-        ? hex
-        : `color-mix(in oklab, ${hex} ${Math.round(alpha * 100)}%, transparent)`,
+    stops: values.map((stop) => ({
+      offset: `${Math.round(stop.at * 100)}%`,
+      color: `oklch(${stop.l} ${stop.c} ${stop.h % 360})`,
+    })),
+    accent,
+    sample: (t, alpha = 1) => {
+      const clamped = Math.min(1, Math.max(0, t));
+      let from = values[0]!;
+      let to = values[values.length - 1]!;
+      for (let i = 0; i < values.length - 1; i += 1) {
+        if (clamped <= values[i + 1]!.at) {
+          from = values[i]!;
+          to = values[i + 1]!;
+          break;
+        }
+      }
+      const span = to.at - from.at;
+      const ratio = span > 0 ? (clamped - from.at) / span : 0;
+      const l = from.l + (to.l - from.l) * ratio;
+      const c = from.c + (to.c - from.c) * ratio;
+      const h = (from.h + (to.h - from.h) * ratio) % 360;
+      return `oklch(${l.toFixed(3)} ${c.toFixed(3)} ${h.toFixed(1)} / ${alpha})`;
+    },
   };
 }
 
-/* Per-metric shades of the cobalt accent. Keep in sync with the --chart-*
-   tokens in colors.css. */
-export const APP_RAMP = flatRamp("#2f5fd0");
-export const REVENUE_RAMP = flatRamp("#1e3f96");
-export const PERFORMANCE_RAMP = flatRamp("#6d93e0");
-export const CONVERSIONS_RAMP = flatRamp("#4a76d8");
+/**
+ * App ramp: the real dashboard's single azure-blue chart color. Mirrors
+ * TRAFFIC_CHART_COLOR in the app's traffic-gradient-chart so the hero mockup
+ * matches what users actually see (the ramp structure is kept so gradient
+ * consumers keep working — every position resolves to the same color).
+ */
+function flatRamp(l: number, c: number, h: number): GradientRamp {
+  return makeRamp(
+    [
+      { at: 0, l, c, h },
+      { at: 1, l, c, h },
+    ],
+    `oklch(${l} ${c} ${h})`,
+  );
+}
+
+export const APP_RAMP = flatRamp(0.49, 0.091, 241.534);
+
+/* Per-metric ramps matching the app's chart tokens (colors.css), so each
+   showcase chart wears its own metric color. */
+export const REVENUE_RAMP = flatRamp(0.581, 0.106, 126.684);
+export const PERFORMANCE_RAMP = flatRamp(0.748, 0.161, 56.883);
+export const CONVERSIONS_RAMP = flatRamp(0.64, 0.09, 306.519);
+
+/** Default ramp used where a chart has not picked its own. */
+export const TRAFFIC_GRADIENT_STOPS = APP_RAMP.stops;
+
+/** Sample the default traffic gradient at position `t` (0-1). */
+export const sampleTrafficGradient = APP_RAMP.sample;
+
+/** Active-dot accent from the middle of the default ramp. */
+export const GRADIENT_ACCENT = APP_RAMP.accent;
