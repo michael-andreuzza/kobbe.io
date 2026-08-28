@@ -157,8 +157,11 @@ const axisLabelIndexes = [
 export function HeroStaticChart(props: {
   /** Render without the card surface: no background, padding, or shadow. */
   frameless?: boolean;
+  /** Skip the pinned marker and its tooltip card (for small placements). */
+  hidePinned?: boolean;
 }) {
   const frameless = props.frameless ?? false;
+  const showPinned = !(props.hidePinned ?? false);
   const Shell = frameless ? "div" : Card;
   return (
     <Shell
@@ -277,7 +280,7 @@ export function HeroStaticChart(props: {
                 vectorEffect="non-scaling-stroke"
               />
             </svg>
-            {pinnedPoint ? (
+            {showPinned && pinnedPoint ? (
               <>
                 <div
                   className="border-foreground/25 pointer-events-none absolute inset-y-0 hidden border-l border-dashed sm:block"
@@ -295,7 +298,7 @@ export function HeroStaticChart(props: {
                 />
               </>
             ) : null}
-            {pinnedPoint ? (
+            {showPinned && pinnedPoint ? (
               <div
                 className={cn(
                   // Parked at the card's right edge, off the pinned marker.

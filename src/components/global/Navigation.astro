@@ -23,7 +23,9 @@ const { docsNavGroups } = Astro.props;
   </Wrapper>
 </header>
 
-{/* Mobile: pinned carbon card opening the side panel (docs tree on docs pages). */}
-<div class="p-2 pb-0 lg:hidden print:hidden">
-  <SiteMobileMenu client:load docsGroups={docsNavGroups} />
-</div>
+{/* Mobile: sticky plain header row opening the side panel (docs tree on docs pages). */}
+<header class="bg-background sticky top-0 z-40 lg:hidden print:hidden">
+  <Wrapper variant="nav">
+    <SiteMobileMenu client:load docsGroups={docsNavGroups} />
+  </Wrapper>
+</header>

@@ -10,22 +10,9 @@ Kobbe exposes a scoped API for local AI agents. Use it when you want Cursor, Cla
 
 Agent access uses the same `@kobbe/cli` package as the [CLI](/docs/cli), but runs it in MCP server mode.
 
-## Cursor Marketplace
+## MCP setup
 
-The fastest way to use Kobbe in Cursor is the official plugin:
-
-1. Open **Customize** in Cursor
-2. Search for **Kobbe**
-3. Install the plugin
-4. Open **Plugins → Configure** and paste your `kbpat_` API token
-
-Plugin repository: [github.com/michael-andreuzza/kobbe-cursor-plugin](https://github.com/michael-andreuzza/kobbe-cursor-plugin)
-
-The plugin includes focused commands such as `/kobbe-overview`, `/kobbe-revenue`, `/kobbe-health`, and `/kobbe-next-actions`.
-
-## Manual MCP setup
-
-Use manual MCP setup if you are not using the Cursor plugin, or if you use another MCP-compatible client.
+Kobbe works with any MCP-compatible client: point it at `kobbe mcp` and it can query your analytics. Client examples for Cursor, VS Code, Claude, and Codex are below.
 
 ### Create a token
 

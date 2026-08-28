@@ -1,13 +1,14 @@
 ---
 import Logo from "@/components/assets/Logo.astro";
-import { landingFeatureCard } from "@/lib/landing-features";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { marketingPaths } from "@/lib/marketing-urls";
+import { APP_DEMO_URL } from "@/lib/site-mega-menu";
 
 type FooterLink = {
   href: string;
   label: string;
-  target?: string;
-  rel?: string;
+  external?: boolean;
+  badge?: string;
 };
 
 type FooterLinkGroup = {
@@ -15,120 +16,198 @@ type FooterLinkGroup = {
   links: FooterLink[];
 };
 
-/** Full feature catalog rendered as extra link columns, mostly for SEO. */
-const featureGroups = landingFeatureCard.groups;
-
-const footerLinkGroups: FooterLinkGroup[] = [
-  {
-    title: "Product",
-    links: [
-      { href: "/#benefits", label: "All features" },
-      { href: "/#pricing", label: "Pricing" },
-      { href: "/docs", label: "Documentation" },
-      { href: "/llms.txt", label: "llms.txt" },
-    ],
-  },
-  {
-    title: "Support",
-    links: [
-      { href: marketingPaths.support.contact, label: "Contact" },
-      { href: "/#faq", label: "FAQ" },
-      { href: marketingPaths.support.charges, label: "Charges" },
-    ],
-  },
-  {
-    title: "Legal",
-    links: [
-      { href: "/legal/terms", label: "Terms" },
-      { href: "/legal/privacy", label: "Privacy" },
-      { href: "/legal/gdpr-compliance", label: "GDPR" },
-      { href: "/legal/dpa", label: "DPA" },
-    ],
-  },
-  {
-    title: "More",
-    links: [
-      {
-        href: "https://onmy.land",
-        label: "More than link in bio",
-        target: "_blank",
-        rel: "noopener noreferrer",
-      },
-      {
-        href: "http://lexingtonthemes.com/",
-        label: "Premium Astro Website themes",
-        target: "_blank",
-        rel: "noopener noreferrer",
-      },
-    ],
-  },
+/* Attio-style footer: wordmark on the left, columns of stacked link groups
+   on the right, socials and fine print on the bottom row. */
+const footerColumns: FooterLinkGroup[][] = [
+  [
+    {
+      title: "Product",
+      links: [
+        { href: APP_DEMO_URL, label: "Live demo", external: true },
+        { href: "/#benefits", label: "All features" },
+        { href: "/#pricing", label: "Pricing" },
+        { href: "/docs", label: "Documentation" },
+        { href: "/llms.txt", label: "llms.txt" },
+      ],
+    },
+    {
+      title: "Support",
+      links: [
+        { href: marketingPaths.support.contact, label: "Contact" },
+        { href: marketingPaths.support.faq, label: "FAQ" },
+        { href: marketingPaths.support.charges, label: "Charges" },
+      ],
+    },
+  ],
+  [
+    {
+      title: "Install on",
+      links: [
+        { href: "/docs/install-astro", label: "Astro" },
+        { href: "/docs/install-framer", label: "Framer" },
+        { href: "/docs/install-lovable", label: "Lovable" },
+        { href: "/docs/install-nextjs", label: "Next.js" },
+        { href: "/docs/install-shopify", label: "Shopify" },
+        { href: "/docs/install-webflow", label: "Webflow" },
+        { href: "/docs/installation-guides", label: "All guides" },
+      ],
+    },
+    {
+      title: "Import from",
+      links: [
+        { href: "/docs/import-from-plausible", label: "Plausible" },
+        { href: "/docs/import-from-fathom", label: "Fathom" },
+        { href: "/docs/import-from-umami", label: "Umami" },
+        { href: "/docs/import-from-datafast", label: "DataFast" },
+      ],
+    },
+  ],
+  [
+    {
+      title: "Revenue",
+      links: [
+        { href: "/docs/revenue-attribution-stripe", label: "Stripe" },
+        { href: "/docs/revenue-attribution-polar", label: "Polar" },
+        { href: "/docs/revenue-attribution-paddle", label: "Paddle" },
+        { href: "/docs/revenue-attribution-creem", label: "Creem" },
+        { href: "/docs/revenue-attribution-mollie", label: "Mollie" },
+        { href: "/docs/revenue-attribution-revenuecat", label: "RevenueCat" },
+        { href: "/docs/revenue-attribution-superwall", label: "Superwall" },
+        { href: "/docs/revenue-attribution-whop", label: "Whop" },
+        { href: "/docs/revenue-attribution", label: "How it works" },
+      ],
+    },
+  ],
+  [
+    {
+      title: "Capabilities",
+      links: [
+        { href: "/docs/funnels", label: "Funnels" },
+        { href: "/docs/conversions", label: "Conversions" },
+        { href: "/docs/realtime-visitors", label: "Realtime visitors" },
+        { href: "/docs/custom-events", label: "Custom events" },
+        { href: "/docs/utm-campaigns", label: "UTM campaigns" },
+        { href: "/docs/search-console", label: "Search Console" },
+        { href: "/docs/performance-web-vitals", label: "Performance" },
+        { href: "/docs/ai-agents", label: "AI agents & MCP", badge: "New" },
+      ],
+    },
+  ],
 ];
+
+const legalLinks: FooterLink[] = [
+  { href: marketingPaths.legal.terms, label: "Terms" },
+  { href: marketingPaths.legal.privacy, label: "Privacy" },
+  { href: marketingPaths.legal.gdprCompliance, label: "GDPR" },
+  { href: marketingPaths.legal.dpa, label: "DPA" },
+];
+
+const socialLinks = [
+  {
+    href: "https://x.com/kobbe_io",
+    label: "Kobbe on X",
+    icon: "x",
+  },
+] as const;
 
 const year = new Date().getFullYear();
 ---
 
-{/* Footer as a feed card in the mega menu's carbon style: the logo up
-    top, link columns below, fine print at the bottom. */}
-<footer
-  class="inverted bg-card relative flex flex-col justify-between gap-10 overflow-hidden rounded-lg p-4 shadow-surface-lg sm:p-6"
->
-  <Logo class="text-foreground h-8 w-fit shrink-0" />
-  <nav
-    aria-label="Footer"
-    class="grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4"
-  >
-    {
-      footerLinkGroups.map((group) => (
-        <div class="space-y-2.5">
-          <p class="text-muted-foreground/60 text-xs">{group.title}</p>
-          <ul class="space-y-1.5">
-            {group.links.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  target={link.target}
-                  rel={link.rel}
-                  class="text-muted-foreground hover:text-foreground text-xs transition-colors"
-                >
-                  {link.label}
-                </a>
-              </li>
+{
+  /* Full-bleed carbon footer: the dark section spans the whole viewport;
+    wordmark left, link columns right, socials and fine print on the
+    bottom row. */
+}
+<footer class="inverted bg-card">
+  <Wrapper variant="default" class="flex flex-col gap-14 py-14 lg:py-20">
+    <div class="grid gap-12 lg:grid-cols-[1.4fr_repeat(4,1fr)] lg:gap-8">
+      <Logo class="text-foreground h-8 w-fit shrink-0" />
+      {
+        footerColumns.map((groups) => (
+          <nav aria-label={groups[0]?.title} class="space-y-8">
+            {groups.map((group) => (
+              <div class="space-y-3">
+                <p class="text-muted-foreground/60 text-xs">{group.title}</p>
+                <ul class="space-y-2">
+                  {group.links.map((link) => (
+                    <li>
+                      <a
+                        href={link.href}
+                        target={link.external ? "_blank" : undefined}
+                        rel={link.external ? "noopener noreferrer" : undefined}
+                        class="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-xs transition-colors"
+                      >
+                        {link.label}
+                        {link.badge ? (
+                          <span class="bg-muted text-foreground rounded-full px-1.5 py-0.5 text-[9px] font-medium">
+                            {link.badge}
+                          </span>
+                        ) : null}
+                        {link.external ? (
+                          <svg
+                            viewBox="0 0 12 12"
+                            class="size-2.5 opacity-60"
+                            fill="none"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M3.5 8.5 L8.5 3.5 M4.5 3.5 H8.5 V7.5"
+                              stroke="currentColor"
+                              stroke-width="1.25"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        ) : null}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
-        </div>
-      ))
-    }
-  </nav>
-  {
-    featureGroups.length > 0 && (
-      <nav
-        aria-label="All features"
-        class="border-border grid grid-cols-2 gap-x-6 gap-y-8 border-t pt-8 lg:grid-cols-4"
+          </nav>
+        ))
+      }
+    </div>
+
+    <div
+      class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 pt-2"
+    >
+      <div class="flex items-center gap-4">
+        {
+          socialLinks.map((social) => (
+            <a
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={social.label}
+              class="text-muted-foreground/70 hover:text-foreground transition-colors"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                class="size-4"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </a>
+          ))
+        }
+      </div>
+      <div
+        class="text-muted-foreground/60 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs"
       >
-        {featureGroups.map((group) => (
-          <div class="space-y-2.5">
-            <p class="text-muted-foreground/60 text-xs">{group.category}</p>
-            <ul class="space-y-1.5">
-              {group.items.map((item) => (
-                <li>
-                  <a
-                    href={item.href}
-                    class="text-muted-foreground hover:text-foreground text-xs transition-colors"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </nav>
-    )
-  }
-  <div
-    class="text-muted-foreground/60 flex flex-wrap items-center justify-between gap-2 text-xs"
-  >
-    <p>Made in the Åland Islands</p>
-    <p>&copy; {year} Kobbe. All rights reserved.</p>
-  </div>
+        <p>Made in the Åland Islands</p>
+        <p>&copy; {year} Kobbe. All rights reserved.</p>
+        {
+          legalLinks.map((link) => (
+            <a href={link.href} class="hover:text-foreground transition-colors">
+              {link.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </Wrapper>
 </footer>

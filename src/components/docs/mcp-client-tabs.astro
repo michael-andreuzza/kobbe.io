@@ -10,22 +10,8 @@ type McpExample = {
 
 const examples: McpExample[] = [
   {
-    id: "cursor-marketplace",
-    label: "Cursor Marketplace",
-    lang: "bash",
-    code: `# Recommended for Cursor
-1. Open Customize in Cursor
-2. Search for "Kobbe"
-3. Install the plugin
-4. Open Plugins → Configure
-5. Paste your kbpat_ API token
-
-Plugin repo:
-https://github.com/michael-andreuzza/kobbe-cursor-plugin`,
-  },
-  {
     id: "cursor",
-    label: "Cursor manual",
+    label: "Cursor",
     lang: "json",
     code: `{
   "mcpServers": {
@@ -94,8 +80,7 @@ args = ["-y", "@kobbe/cli@latest", "mcp"]`,
     MCP client examples
   </h2>
   <p class="text-muted-foreground mt-2 text-sm leading-6">
-    Pick the client you use. For Cursor, install the Marketplace plugin first.
-    Manual examples assume you already ran <code
+    Pick the client you use. The examples assume you already ran <code
       class="bg-muted text-foreground rounded px-1 py-0.5 font-mono text-xs"
       >kobbe login</code
     > or set <code

@@ -1,5 +1,7 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 
+import { cn } from "@/lib/utils";
+
 /**
  * SSR-safe shell for the realtime globe mockup. The Three.js scene is a
  * heavy client-only chunk, so it is lazy-loaded after mount (hydrate this
@@ -7,14 +9,19 @@ import { Suspense, lazy, useEffect, useState } from "react";
  */
 const RealtimeGlobeScene = lazy(() => import("./realtime-globe-scene"));
 
-export function RealtimeGlobe() {
+export function RealtimeGlobe({ className }: { className?: string }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
   return (
     // Bleeds to the panel edges like the charts (negative margins matching
     // the section padding; the section's overflow-hidden crops the sphere).
-    <div className="relative -mx-4 -mb-4 h-72 sm:-mx-6 sm:-mb-6 sm:h-96">
+    <div
+      className={cn(
+        "relative -mx-4 -mb-4 h-72 sm:-mx-6 sm:-mb-6 sm:h-96",
+        className,
+      )}
+    >
       {/* Same live pill as the app's realtime card, kept inside the panel
           padding despite the bleed. */}
       <div className="absolute top-0 right-4 z-10 sm:right-6">

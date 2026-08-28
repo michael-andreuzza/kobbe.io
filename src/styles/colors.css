@@ -48,8 +48,8 @@
   /* Warm-gray panel tone, matches the app --muted. */
   --muted: oklch(0.965 0.004 84.559);
   --muted-foreground: oklch(0.556 0.008 84.559);
-  /* The chart spectrum's peach, shared with the app (--brand there too). */
-  --brand: #ffbb88;
+  /* Restrained cobalt accent: the one non-neutral color on the site. */
+  --brand: #2f5fd0;
   --success: oklch(0.565 0.11 164.584);
   --destructive: oklch(0.566 0.197 12.263);
   /* Orange caution tier between warning (amber) and destructive (red). */
@@ -61,13 +61,13 @@
      surfaces (which sit close to the border tone). */
   --input: oklch(0.88 0.006 84.559);
   --ring: oklch(0.708 0.01 84.559);
-  /* Per-metric pastels picked from the brand chart spectrum (orange →
-     pink → purple → cyan), hue-mapped to the old metric colors. Keep in
-     sync with the ramps in landing/dashboard/traffic-gradient.ts. */
-  --chart-traffic: #03c7f6;
-  --chart-revenue: #ff7cba;
-  --chart-performance: #ffbb88;
-  --chart-conversions: #887bff;
+  /* Per-metric shades of the cobalt accent (monochrome charts: depth
+     carries the difference, not hue). Keep in sync with the ramps in
+     landing/dashboard/traffic-gradient.ts. */
+  --chart-traffic: #2f5fd0;
+  --chart-revenue: #1e3f96;
+  --chart-performance: #6d93e0;
+  --chart-conversions: #4a76d8;
 }
 /* Inverted surface: carbon panel (#2B2B2B) on the sand canvas, Solomon
    style — light warm-gray text that brightens to near-white. */

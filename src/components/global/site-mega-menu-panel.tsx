@@ -1,66 +1,76 @@
-import { siteMegaMenuColumns } from "@/lib/site-mega-menu";
+import {
+  SiteMegaMenuPlainLink,
+  MegaMenuColumnTitle,
+} from "@/components/global/site-mega-menu-link";
+import {
+  siteMegaMenuGroups,
+  type MegaMenuColumn,
+} from "@/lib/site-mega-menu";
+import { cn } from "@/lib/utils";
 
-/**
- * The navigation of the mega menu as columns: each group is a muted
- * label with its links stacked underneath, laid out in a grid.
- */
-export function SiteMegaMenuColumns() {
+function compactGridClassName(layout: MegaMenuColumn["layout"]) {
+  switch (layout) {
+    case "compact-grid-4":
+      return "grid grid-cols-2 gap-x-1 gap-y-1 sm:grid-cols-3 lg:grid-cols-4";
+    case "compact-grid-3":
+      return "grid grid-cols-2 gap-x-1 gap-y-1 sm:grid-cols-3";
+    case "compact-grid":
+      return "grid grid-cols-2 gap-x-1 gap-y-1";
+    default:
+      return "grid gap-y-1";
+  }
+}
+
+/** Reorders a row-major two-column grid so each column reads top-to-bottom
+    in the original (alphabetical) order. */
+function toColumnMajor(links: MegaMenuColumn["links"]) {
+  const rows = Math.ceil(links.length / 2);
+  const reordered: typeof links = [];
+  for (let row = 0; row < rows; row++) {
+    reordered.push(links[row]!);
+    const second = links[row + rows];
+    if (second) {
+      reordered.push(second);
+    }
+  }
+  return reordered;
+}
+
+function MegaMenuColumnSection({ column }: { column: MegaMenuColumn }) {
+  const isCompactGrid = column.layout?.startsWith("compact-grid");
+  const isCompact = column.layout === "compact" || isCompactGrid;
+  // Logo grids stay short: featured picks only (the full list lives behind
+  // "See all" and in the mobile menu). Columns without featured flags show
+  // everything.
+  const featured = column.links.filter((link) => link.featured);
+  const visible = isCompactGrid && featured.length > 0 ? featured : column.links;
+  const links =
+    column.layout === "compact-grid" ? toColumnMajor(visible) : visible;
+
   return (
-    <nav
-      aria-label="Explore"
-      className="grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4 xl:grid-cols-5"
-    >
-      {siteMegaMenuColumns.map((column) => (
-        <div key={column.title} className="flex flex-col gap-1.5">
-          <p className="text-muted-foreground/60 text-sm">{column.title}</p>
-          <ul className="mt-1 flex flex-col gap-1.5">
-            {column.links.map((link) => (
-              <li key={link.id}>
-                <a
-                  href={link.href}
-                  target={link.target}
-                  rel={link.rel}
-                  className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-            {column.seeAllHref ? (
-              <li>
-                <a
-                  href={column.seeAllHref}
-                  className="text-muted-foreground/60 hover:text-foreground text-sm transition-colors"
-                >
-                  {column.seeAllLabel ?? "See all"}
-                </a>
-              </li>
-            ) : null}
-          </ul>
-        </div>
-      ))}
-    </nav>
+    <div>
+      <MegaMenuColumnTitle column={column} className="px-2.5" />
+      <ul className={cn("mt-3", compactGridClassName(column.layout))}>
+        {links.map((link) => (
+          <li key={link.id}>
+            <SiteMegaMenuPlainLink link={link} compact={isCompact} />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
-/**
- * Solomon-style mega menu: a dark carbon panel with a large typographic
- * header up top and the navigation as plain-text columns at the bottom.
- * No cards, no logos, no descriptions.
- */
 export function SiteMegaMenuPanel() {
   return (
-    <div className="flex min-h-full flex-col justify-between gap-16">
-      <div>
-        <p className="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
-          Kobbe.
-        </p>
-        <p className="text-muted-foreground mt-1 text-2xl tracking-tight sm:text-3xl">
-          Stop counting visitors. Start counting revenue.
-        </p>
-      </div>
-
-      <SiteMegaMenuColumns />
+    <div className="grid gap-8 lg:grid-cols-3 lg:gap-10">
+      {siteMegaMenuGroups.map((group) => (
+        <div key={group.id} className="space-y-6 lg:space-y-12">
+          {group.columns.map((column) => (
+            <MegaMenuColumnSection key={column.title} column={column} />
+          ))}
+        </div>
+      ))}
     </div>
   );
 }

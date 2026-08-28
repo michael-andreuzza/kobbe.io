@@ -119,9 +119,9 @@ type GlobeColors = {
   points: string[];
 };
 
-/** Dot palette sampled along the brand spectrum (same as the charts). */
+/** Dot palette sampled along the cobalt ramp (same as the charts). */
 const RAMP_SAMPLES = [0.1, 0.4, 0.7, 0.95] as const;
-const RAMP_FALLBACKS = ["#ffb18f", "#f27ec6", "#7591fb", "#0dc4f7"] as const;
+const RAMP_FALLBACKS = ["#3a68d4", "#5b8ae0", "#84a9e8", "#a3c2ef"] as const;
 
 function readColors(): GlobeColors {
   return {

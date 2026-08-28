@@ -24,9 +24,9 @@ type SiteMobileMenuProps = {
 };
 
 /**
- * Mobile navigation: the pinned carbon header card opens a side panel with
- * the mega menu groups (or the docs tree on docs pages) and a sticky
- * account row at the bottom.
+ * Mobile navigation: a plain in-flow header row (wordmark, trial CTA, and a
+ * grip trigger) that opens a side panel with the mega menu groups (or the
+ * docs tree on docs pages) and a sticky account row at the bottom.
  */
 export function SiteMobileMenu({ docsGroups, className }: SiteMobileMenuProps) {
   const [open, setOpen] = useState(false);
@@ -34,26 +34,22 @@ export function SiteMobileMenu({ docsGroups, className }: SiteMobileMenuProps) {
 
   return (
     <div className={className}>
-      {/* Holds the card's height in the page flow while the card itself is
-          fixed to the viewport, keeping the nav pinned while scrolling. */}
-      <div aria-hidden="true" className="h-16" />
-      <div className="fixed inset-x-2 top-2 z-50">
-        <div className="inverted bg-card rounded-lg p-4">
-          <div className="flex items-center justify-between gap-3">
-            <a
-              href="/"
-              aria-label="Kobbe homepage"
-              className="text-foreground w-fit font-semibold"
-            >
-              KOBBE
-            </a>
-            <a
-              href={APP_SIGNUP_URL}
-              data-kobbe-event="Landing sidebar - start trial"
-              className={buttonVariants({ variant: "secondary", size: "xs" })}
-            >
-              Start a 15-day free trial
-            </a>
+      <div className="flex items-center justify-between gap-3 py-2.5">
+        <a
+          href="/"
+          aria-label="Kobbe homepage"
+          className="text-foreground w-fit font-semibold"
+        >
+          KOBBE
+        </a>
+        <div className="flex items-center gap-3">
+          <a
+            href={APP_SIGNUP_URL}
+            data-kobbe-event="Landing sidebar - start trial"
+            className={buttonVariants({ variant: "outline", size: "xs" })}
+          >
+            Start a 15-day free trial
+          </a>
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger className="text-foreground hover:text-foreground/70 inline-flex items-center transition-colors outline-none">
                 <HugeiconsIcon
@@ -181,7 +177,6 @@ export function SiteMobileMenu({ docsGroups, className }: SiteMobileMenuProps) {
                 </Dialog.Popup>
               </Dialog.Portal>
             </Dialog.Root>
-          </div>
         </div>
       </div>
     </div>

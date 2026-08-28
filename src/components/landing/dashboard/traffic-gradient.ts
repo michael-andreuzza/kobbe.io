@@ -1,8 +1,8 @@
 /**
- * Chart colors for the landing mockups, built from the brand spectrum
- * (orange → pink → purple → cyan) that the app's charts use. The spectrum
- * ramp renders value-mapped gradients; the flat ramps carry one pastel each
- * for small details (breakdown bars, pills, dots).
+ * Chart colors for the landing mockups: a single cobalt hue where depth
+ * carries intensity. The spectrum ramp renders value-mapped gradients; the
+ * flat ramps carry one shade each for small details (breakdown bars, pills,
+ * dots).
  */
 
 export type GradientRamp = {
@@ -16,10 +16,9 @@ export type GradientRamp = {
 type HexStop = { at: number; hex: string };
 
 const SPECTRUM: readonly HexStop[] = [
-  { at: 0, hex: "#ffbb88" },
-  { at: 0.33, hex: "#ff7cba" },
-  { at: 0.62, hex: "#887bff" },
-  { at: 1, hex: "#03c7f6" },
+  { at: 0, hex: "#2f5fd0" },
+  { at: 0.5, hex: "#5b8ae0" },
+  { at: 1, hex: "#a3c2ef" },
 ];
 
 function hexChannel(hex: string, index: number): number {
@@ -49,16 +48,15 @@ function sampleHexStops(stops: readonly HexStop[], t: number): string {
 }
 
 /**
- * Brand spectrum: mirrors the app's chart-spectrum module. Rendered
- * vertically over a series, warm maps to the peaks and cool to the
- * baseline, so color reads as intensity.
+ * Single-hue ramp: rendered vertically over a series, strong maps to the
+ * peaks and pale to the baseline, so depth reads as intensity.
  */
 export const SPECTRUM_RAMP: GradientRamp = {
   stops: SPECTRUM.map((stop) => ({
     offset: `${Math.round(stop.at * 100)}%`,
     color: stop.hex,
   })),
-  accent: "#887bff",
+  accent: "#2f5fd0",
   sample: (t, alpha = 1) => {
     const color = sampleHexStops(SPECTRUM, t);
     return alpha >= 1 ? color : color.replace(")", ` / ${alpha})`);
@@ -79,11 +77,9 @@ function flatRamp(hex: string): GradientRamp {
   };
 }
 
-/* Per-metric pastels picked from the spectrum, hue-mapped to the old
-   metric colors (traffic was blue → cyan, performance was orange → peach,
-   conversions was lavender → purple, revenue takes pink). Keep in sync
-   with the --chart-* tokens in colors.css. */
-export const APP_RAMP = flatRamp("#03c7f6");
-export const REVENUE_RAMP = flatRamp("#ff7cba");
-export const PERFORMANCE_RAMP = flatRamp("#ffbb88");
-export const CONVERSIONS_RAMP = flatRamp("#887bff");
+/* Per-metric shades of the cobalt accent. Keep in sync with the --chart-*
+   tokens in colors.css. */
+export const APP_RAMP = flatRamp("#2f5fd0");
+export const REVENUE_RAMP = flatRamp("#1e3f96");
+export const PERFORMANCE_RAMP = flatRamp("#6d93e0");
+export const CONVERSIONS_RAMP = flatRamp("#4a76d8");
