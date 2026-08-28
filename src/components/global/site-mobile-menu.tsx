@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog } from "@base-ui/react/dialog";
 import { Cancel01Icon, GripIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -31,6 +31,22 @@ type SiteMobileMenuProps = {
 export function SiteMobileMenu({ docsGroups, className }: SiteMobileMenuProps) {
   const [open, setOpen] = useState(false);
   const isDocs = Boolean(docsGroups?.length);
+  // Same behavior as the desktop nav: the header CTA stays quiet (outline)
+  // while the hero's own CTA is on screen and turns primary once it scrolls
+  // away. Pages without a hero CTA keep the primary style from the start.
+  const [heroCtaInView, setHeroCtaInView] = useState(false);
+
+  useEffect(() => {
+    const heroCta = document.querySelector("[data-hero-cta]");
+    if (!heroCta) {
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      setHeroCtaInView(entry?.isIntersecting ?? false);
+    });
+    observer.observe(heroCta);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className={className}>
@@ -46,7 +62,14 @@ export function SiteMobileMenu({ docsGroups, className }: SiteMobileMenuProps) {
           <a
             href={APP_SIGNUP_URL}
             data-kobbe-event="Landing sidebar - start trial"
-            className={buttonVariants({ variant: "outline", size: "xs" })}
+            className={cn(
+              buttonVariants({
+                variant: heroCtaInView ? "outline" : "default",
+                size: "xs",
+              }),
+              heroCtaInView &&
+                "border-border bg-card text-muted-foreground hover:bg-card hover:text-foreground",
+            )}
           >
             Start a 15-day free trial
           </a>
