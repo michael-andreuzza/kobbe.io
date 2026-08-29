@@ -16,7 +16,7 @@ Use the sidebar to open dedicated pages when you need more detail:
 | **Revenue**  | [Revenue](/docs/revenue)                         |
 | **Realtime** | [Realtime visitors](/docs/realtime-visitors)     |
 
-Filtered bot traffic is summarized on the dashboard itself: the **Bots** tab on the Sources card shows how much automated traffic was kept out of your stats and why. See [Bot filtering](/docs/script-options#bot-filtering-and-exclusions).
+Filtered bot traffic is summarized on the dashboard itself: the **Bots** tab on the Sources card shows how much automated traffic was kept out of your stats and why. See [Bot filtering](/docs/bot-filtering).
 
 ## Time range and filters
 

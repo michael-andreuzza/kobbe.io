@@ -154,7 +154,7 @@ See [Scroll tracking](/docs/scroll-tracking) for privacy guidance and examples.
 
 ## Bot filtering and exclusions
 
-Kobbe applies **automatic bot detection** on every collect request (e.g. headless clients and common crawler signals). Suspicious requests return a success response but **do not** increment usage or store an event.
+Kobbe applies **automatic bot detection** on every collect request: declared crawlers, HTTP clients, headless browsers reporting the `navigator.webdriver` automation flag, traffic from cloud datacenter networks, and known referrer-spam domains. Suspicious requests return a success response but **do not** increment usage or store an event. See [Bot filtering](/docs/bot-filtering) for the full list of checks.
 
 Filtered bot traffic never counts toward event quotas, and Kobbe stores no per-request bot data — only a daily count per filter reason. The **Bots** tab on the dashboard's Sources card shows how many hits were kept out of your stats, their share of all requests, and why they were filtered.
 
