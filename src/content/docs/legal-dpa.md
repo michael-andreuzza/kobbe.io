@@ -118,7 +118,7 @@ Taking into account the nature of processing, Company will provide reasonable as
 
 Customer may delete analytics data earlier by using Service controls, including site deletion or statistics reset features where available.
 
-For the hosted Service, analytics events and related rollups are kept for a **rolling retention window**. The default period is **180 days**, after which older analytics data is automatically deleted. Company may publish an updated default retention period for the hosted Service; the period in effect when data is collected applies unless the parties agree otherwise in writing.
+For the hosted Service, analytics events and related rollups are kept for a **rolling retention window**. The current period is the one published on the [pricing page](/pricing), after which older analytics data is automatically deleted. Company may publish an updated default retention period for the hosted Service; the period in effect when data is collected applies unless the parties agree otherwise in writing.
 
 Account, billing, subscription, integration, support, security, and operational records may be retained for as long as needed to provide the Service, comply with legal obligations, resolve disputes, and enforce agreements.
 

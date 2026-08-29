@@ -1,0 +1,240 @@
+---
+/**
+ * Feature cards in Kobbe's own palette: notched panels tinted with the
+ * dashboard chart hues, each led by one giant figure.
+ * Small screens: a sticky stack, each card pinning with a staggered offset
+ * while the next slides over it.
+ * Desktop (lg+): the section pins at viewport height and vertical scroll
+ * drives the cards horizontally until the last one, then releases.
+ */
+import Button from "./Button.astro";
+import Panel from "./Panel.astro";
+import DotsField from "./dots-field";
+---
+
+<div class="pt-24" data-feature-scroll>
+  <!-- Anchor on the pinned wrapper itself: "Features" in the nav lands the
+       first card exactly in view, matching the pricing anchor behavior. -->
+  <div
+    id="features"
+    class="scroll-mt-6 lg:h-[340vh] lg:scroll-mt-0 2xl:h-auto 2xl:scroll-mt-6  "
+  >
+    <div
+      class="px-8 lg:sticky lg:top-0 lg:flex lg:h-svh lg:items-center lg:overflow-hidden 2xl:static 2xl:block 2xl:h-auto 2xl:overflow-visible"
+    >
+      <div
+        class="space-y-6 lg:flex lg:w-max lg:gap-6 lg:space-y-0 lg:will-change-transform 2xl:block 2xl:w-auto 2xl:space-y-6"
+        data-feature-track
+      >
+  <!-- 50,788 · Bot filtering, in the traffic blue -->
+  <div
+    class="sticky top-6 lg:static lg:h-[calc(100svh-3rem)] lg:w-[calc(100vw-5rem)] lg:shrink-0 2xl:sticky 2xl:top-6 2xl:mx-auto 2xl:h-208 2xl:w-full 2xl:max-w-384"
+  >
+    <Panel
+      color="chart-traffic"
+      rootClass="lg:flex lg:h-full lg:flex-col"
+      class="p-8 pt-4 sm:p-12 sm:pt-6 lg:flex lg:grow lg:flex-col"
+    >
+    <div
+      class="grid grid-cols-1 items-end gap-10 lg:h-full lg:grid-cols-2 lg:items-stretch lg:gap-x-16"
+    >
+      <!-- Left: all the reading in one column -->
+      <div class="lg:flex lg:flex-col lg:justify-between lg:gap-10">
+        <div>
+          <p
+            class="landing-serif text-background text-[clamp(3.4rem,9vw,7.5rem)] leading-none"
+          >
+            50,788
+          </p>
+          <p
+            class="landing-serif text-background mt-2 max-w-md text-[clamp(1.4rem,2.4vw,2rem)] leading-snug text-balance"
+          >
+            bot requests filtered in the last thirty days.
+          </p>
+        </div>
+        <div class="mt-8 max-w-lg space-y-6 lg:mt-0">
+          <p class="text-background/85 text-xl leading-relaxed text-pretty">
+            Modern bots run real Chrome, execute your JavaScript, and rotate
+            IPs. They look exactly like people. Kobbe drops headless browsers,
+            datacenter traffic, and referrer spam before they touch your stats
+            or your quota. VPN users are untouched.
+          </p>
+          <Button
+            label="How filtering works"
+            href="/docs/bot-filtering"
+            variant="outline-light"
+            arrow
+          />
+        </div>
+      </div>
+      <!-- Right: the filter, animated, at full card height -->
+      <div class="relative h-44 overflow-hidden lg:h-full">
+        <DotsField
+          client:visible
+          className="absolute inset-0"
+          accentColor="#f0a04a"
+        />
+      </div>
+    </div>
+    </Panel>
+  </div>
+
+  <!-- $12,480 · Revenue, in the revenue green -->
+  <div
+    class="sticky top-16 lg:static lg:h-[calc(100svh-3rem)] lg:w-[calc(100vw-5rem)] lg:shrink-0 2xl:sticky 2xl:top-16 2xl:mx-auto 2xl:h-208 2xl:w-full 2xl:max-w-384"
+  >
+    <Panel
+      color="chart-revenue"
+      notch="bl"
+      rootClass="lg:flex lg:h-full lg:flex-col"
+      class="p-8 sm:p-12 sm:pb-6 lg:flex lg:grow lg:flex-col"
+    >
+    <div
+      class="grid grid-cols-1 items-end gap-10 lg:h-full lg:grid-cols-2 lg:items-stretch lg:gap-x-16"
+    >
+      <div class="lg:flex lg:flex-col lg:justify-between lg:gap-10">
+        <div>
+          <p
+            class="landing-serif text-background text-[clamp(3.4rem,9vw,7.5rem)] leading-none"
+          >
+            $12,480
+          </p>
+          <p
+            class="landing-serif text-background mt-2 max-w-md text-[clamp(1.4rem,2.4vw,2rem)] leading-snug text-balance"
+          >
+            attributed to a single page, in thirty days.
+          </p>
+        </div>
+        <div class="mt-8 max-w-lg space-y-6 lg:mt-0">
+          <p class="text-background/85 text-xl leading-relaxed text-pretty">
+            Traffic is a vanity metric; revenue isn't. Attribution passes
+            through checkout with Stripe, Polar, Paddle, Shopify, and friends,
+            so every page, source, and campaign shows the money it actually
+            produced, not a guess.
+          </p>
+          <Button
+            label="Revenue attribution"
+            href="/docs/revenue-attribution"
+            variant="outline-light"
+            arrow
+          />
+        </div>
+      </div>
+      <div class="relative h-44 overflow-hidden lg:h-full">
+        <DotsField
+          client:visible
+          variant="bars"
+          className="absolute inset-0"
+          accentColor="#c3dba3"
+        />
+      </div>
+    </div>
+    </Panel>
+  </div>
+
+  <!-- 0 · Privacy, in the conversions lavender -->
+  <div
+    class="sticky top-24 lg:static lg:h-[calc(100svh-3rem)] lg:w-[calc(100vw-5rem)] lg:shrink-0 2xl:sticky 2xl:top-24 2xl:mx-auto 2xl:h-208 2xl:w-full 2xl:max-w-384"
+  >
+    <Panel
+      color="chart-conversions"
+      rootClass="lg:flex lg:h-full lg:flex-col"
+      class="p-8 pt-4 sm:p-12 sm:pt-6 lg:flex lg:grow lg:flex-col"
+    >
+    <div
+      class="grid grid-cols-1 items-end gap-10 lg:h-full lg:grid-cols-2 lg:items-stretch lg:gap-x-16"
+    >
+      <div class="lg:flex lg:flex-col lg:justify-between lg:gap-10">
+        <div>
+          <p
+            class="landing-serif text-background text-[clamp(5rem,12vw,10rem)] leading-none"
+          >
+            0
+          </p>
+          <p
+            class="landing-serif text-background mt-2 max-w-md text-[clamp(1.4rem,2.4vw,2rem)] leading-snug text-balance"
+          >
+            cookies, consent banners, or raw IPs stored.
+          </p>
+        </div>
+        <div class="mt-8 max-w-lg space-y-6 lg:mt-0">
+          <p class="text-background/85 text-xl leading-relaxed text-pretty">
+            Kobbe counts visits without following people around. Nothing to
+            consent to, nothing to click away. Global Privacy Control and Do
+            Not Track are honored before a single request is sent.
+          </p>
+          <Button
+            label="Privacy and cookieless tracking"
+            href="/docs/privacy-and-cookieless-tracking"
+            variant="outline-light"
+            arrow
+          />
+        </div>
+      </div>
+      <div class="relative h-44 overflow-hidden lg:h-full">
+        <DotsField
+          client:visible
+          variant="drift"
+          className="absolute inset-0"
+          accentColor="#e0c9ee"
+        />
+      </div>
+    </div>
+    </Panel>
+  </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Desktop horizontal card scroll: while the tall wrapper is in view, map
+  // vertical scroll progress to a horizontal translate on the track.
+  // Elements are re-queried on astro:page-load since the ClientRouter swaps
+  // documents in place.
+  let section: HTMLElement | null = null;
+  let track: HTMLElement | null = null;
+  // The carousel only runs between lg and 2xl; above that the cards fall
+  // back to the sticky stack, like on small screens.
+  const carousel = window.matchMedia(
+    "(min-width: 1024px) and (max-width: 1535px)",
+  );
+
+  function bind() {
+    section = document.querySelector<HTMLElement>("[data-feature-scroll]");
+    track = document.querySelector<HTMLElement>("[data-feature-track]");
+    update();
+  }
+
+  function update() {
+    if (!section || !track) return;
+    if (!carousel.matches) {
+      track.style.transform = "";
+      return;
+    }
+    const wrapper = section.querySelector<HTMLElement>(":scope > div");
+    if (!wrapper) return;
+    const total = wrapper.offsetHeight - window.innerHeight;
+    if (total <= 0) return;
+    const top = wrapper.getBoundingClientRect().top;
+    // Finish the horizontal travel at 85% of the pinned range so the last
+    // card sits fully in view for a beat before the section releases.
+    const progress = Math.min(1, Math.max(0, -top / total) / 0.85);
+    const viewport = track.parentElement as HTMLElement;
+    // Translate relative to the viewport's content box; using clientWidth
+    // (which includes side paddings) overshoots and clips the last card.
+    const styles = getComputedStyle(viewport);
+    const contentWidth =
+      viewport.clientWidth -
+      parseFloat(styles.paddingLeft) -
+      parseFloat(styles.paddingRight);
+    const distance = track.scrollWidth - contentWidth;
+    track.style.transform = `translate3d(${-progress * distance}px, 0, 0)`;
+  }
+
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  carousel.addEventListener("change", update);
+  document.addEventListener("astro:page-load", bind);
+  bind();
+</script>

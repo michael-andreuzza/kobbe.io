@@ -6,6 +6,7 @@
 @import "./shadows.css";
 @import "./code.css";
 @import "./fonts.css";
+@import "./landing.css";
 @plugin "@tailwindcss/typography";
 
 @theme inline {
@@ -35,9 +36,6 @@
   }
   body {
     @apply bg-background text-foreground;
-  }
-  header[data-site-header] {
-    @apply bg-background overflow-visible;
   }
   html {
     @apply scroll-smooth font-sans;

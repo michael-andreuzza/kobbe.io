@@ -1,7 +1,15 @@
 ---
-import SiteHeaderNav from "@/components/global/site-header-nav";
+/**
+ * Global navigation, shared by the landing page and everything else.
+ * Desktop: quiet editorial bar (wordmark, sentence-case links, solid CTA)
+ * that slides away scrolling down and returns scrolling up, so the landing's
+ * full-viewport panels are never covered while reading.
+ * Mobile: plain header row opening the side panel (docs tree on docs pages).
+ */
 import { SiteMobileMenu } from "@/components/global/site-mobile-menu";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import Button from "@/components/landing/Button.astro";
+import { APP_SIGNIN_URL, APP_SIGNUP_URL } from "@/lib/site-mega-menu";
 
 interface Props {
   docsNavGroups?: {
@@ -11,21 +19,73 @@ interface Props {
 }
 
 const { docsNavGroups } = Astro.props;
+
+const links = [
+  { label: "Features", href: "/#features" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "Docs", href: "/docs" },
+];
 ---
 
-{/* Desktop: sticky top header with the floating mega menu. */}
 <header
-  data-site-header
-  class="bg-background sticky top-0 z-40 hidden overflow-visible lg:block print:hidden"
+  class="bg-background sticky top-0 z-50 hidden py-2.5 transition-transform duration-300 lg:block print:hidden"
+  data-site-nav
 >
-  <Wrapper variant="nav" class="overflow-visible">
-    <SiteHeaderNav client:load />
+  <Wrapper variant="nav" class="flex items-center justify-between">
+    <a href="/" class="text-foreground text-xl font-semibold tracking-tight">
+      Kobbe
+    </a>
+    <nav class="flex items-center gap-6 text-sm" aria-label="Primary">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class="text-foreground transition-opacity hover:opacity-70"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href={APP_SIGNIN_URL}
+        class="text-foreground transition-opacity hover:opacity-70"
+      >
+        Sign in
+      </a>
+      <Button label="Try free" href={APP_SIGNUP_URL} />
+    </nav>
   </Wrapper>
 </header>
 
-{/* Mobile: sticky plain header row opening the side panel (docs tree on docs pages). */}
 <header class="bg-background sticky top-0 z-40 lg:hidden print:hidden">
   <Wrapper variant="nav">
     <SiteMobileMenu client:load docsGroups={docsNavGroups} />
   </Wrapper>
 </header>
+
+<script>
+  // Re-grab the nav on every swap; the ClientRouter replaces the document.
+  let nav: HTMLElement | null = null;
+  let lastY = 0;
+
+  function bind() {
+    nav = document.querySelector<HTMLElement>("[data-site-nav]");
+    lastY = window.scrollY;
+  }
+
+  document.addEventListener("astro:page-load", bind);
+  bind();
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!nav) return;
+      const y = window.scrollY;
+      // Always show near the top; otherwise hide going down, show going up.
+      const hide = y > 120 && y > lastY;
+      nav.style.transform = hide ? "translateY(-100%)" : "";
+      lastY = y;
+    },
+    { passive: true },
+  );
+</script>

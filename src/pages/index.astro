@@ -1,85 +1,20 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import ShowcaseVideo from "@/components/landing/showcase/ShowcaseVideo.astro";
-import ShowcasePanels from "@/components/landing/showcase/ShowcasePanels.astro";
-import ShowcaseFeatures from "@/components/landing/showcase/ShowcaseFeatures.astro";
-import ShowcaseFounderNote from "@/components/landing/showcase/ShowcaseFounderNote.astro";
-import ShowcaseFaq from "@/components/landing/showcase/ShowcaseFaq.astro";
-import ShowcaseFooter from "@/components/landing/showcase/ShowcaseFooter.astro";
-import { SimplifiedPricingSection } from "@/components/sections/pricing/simplified-pricing-section";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
-import { APP_SIGNUP_URL } from "@/lib/site-mega-menu";
-
-const appBaseUrl = "https://app.kobbe.io";
-const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
+import Hero from "@/components/landing/Hero.astro";
+import FeatureCards from "@/components/landing/FeatureCards.astro";
+import FeatureList from "@/components/landing/FeatureList.astro";
+import Pricing from "@/components/landing/Pricing.astro";
+import Footer from "@/components/landing/Footer.astro";
 ---
 
 <BaseLayout
   title="Kobbe: Web analytics that respect your visitors"
   description="Privacy-friendly website analytics for traffic, pages, referrers, locations, devices, custom events, and revenue insights."
 >
-  <!-- Hero pitch -->
-  <Wrapper variant="default" class="pt-10 pb-8 lg:pt-16 lg:pb-12">
-    <div>
-      <div class="flex flex-col gap-6">
-        <!-- Gapless metric-color chip strip, the dashboard's palette as a
-             signature — ordered to flow like the chart spectrum. -->
-        
-        <div>
-          <h1
-            class="text-foreground max-w-2xl text-3xl font-medium tracking-tight text-balance lg:text-4xl"
-          >
-            Privacy-first web analytics
-            <span class="text-muted-foreground block">
-              and revenue in one place.
-            </span>
-          </h1>
-          <p class="text-muted-foreground max-w-md text-sm text-pretty mt-4">
-            Traffic, sources, conversions, performance, and the money they turn
-            into — one dashboard, no cookies, nothing to consent to.
-          </p>
-        </div>
-        <div class="flex flex-wrap items-center gap-4">
-          <a
-            href={APP_SIGNUP_URL}
-            data-hero-cta
-            class={buttonVariants({ size: "sm" })}
-          >
-            Start a {pricingTrialDays}-day free trial
-          </a>
-          <a
-            href={demoUrl}
-            target="_blank"
-            rel="noreferrer"
-            class={cn(
-              buttonVariants({ variant: "outline", size: "sm" }),
-              /* Docs-arrow chrome: softer border-border hairline + card fill
-                 (outline's full-ink border is too harsh next to the CTA). */
-              "border-border bg-card text-muted-foreground hover:bg-card hover:text-foreground",
-            )}
-          >
-            Live demo
-          </a>
-        </div>
-      </div>
-    </div>
-  </Wrapper>
 
-  <!-- Showcase feed -->
-  <Wrapper variant="default" class="flex flex-col gap-4 pb-4">
-    <!-- The dashboard in motion; the overview card lives in the grid below. -->
-    <ShowcaseVideo />
-    <ShowcasePanels />
-    <ShowcaseFeatures />
-    <ShowcaseFounderNote />
-    <!-- Pricing panels: slider + features as two cards in the feed grid -->
-    <SimplifiedPricingSection client:load appBaseUrl={appBaseUrl} />
-    <ShowcaseFaq />
-  </Wrapper>
-
-  <!-- Full-bleed carbon footer -->
-  <ShowcaseFooter />
+  <Hero />
+  <FeatureCards />
+  <FeatureList />
+  <Pricing />
+  <Footer />
 </BaseLayout>

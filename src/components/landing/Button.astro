@@ -1,0 +1,35 @@
+---
+/**
+ * Plain editorial button: solid carbon, hairline outline on paper, or a
+ * light outline for colored/dark panels. Sentence case, optional arrow.
+ */
+interface Props {
+  label: string;
+  href: string;
+  variant?: "solid" | "solid-light" | "outline" | "outline-light";
+  arrow?: boolean;
+  external?: boolean;
+}
+
+const { label, href, variant = "solid", arrow, external } = Astro.props;
+
+const base =
+  "inline-flex w-fit items-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-colors";
+const variants = {
+  solid: "bg-carbon text-background hover:bg-carbon/85",
+  "solid-light": "bg-background text-foreground hover:bg-background/85",
+  outline: "border border-foreground/30 text-foreground hover:border-foreground",
+  "outline-light":
+    "border border-background/40 text-background hover:border-background",
+};
+---
+
+<a
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noreferrer" : undefined}
+  class:list={[base, variants[variant]]}
+>
+  {label}
+  {arrow ? <span aria-hidden="true">↘</span> : null}
+</a>

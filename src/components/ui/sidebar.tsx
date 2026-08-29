@@ -125,7 +125,7 @@ export function SidebarGroups({
                 icon={ArrowRight01Icon}
                 size={13}
                 strokeWidth={2}
-                className="sidebar-chevron shrink-0 transition-transform duration-150"
+                className="sidebar-chevron shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
                 aria-hidden="true"
               />
             </Collapsible.Trigger>
@@ -134,7 +134,7 @@ export function SidebarGroups({
               className={cn(
                 "h-(--collapsible-panel-height) overflow-hidden opacity-100 outline-none data-ending-style:h-0 data-[ending-style]:opacity-0 data-[starting-style]:h-0 data-[starting-style]:opacity-0",
                 animationsReady
-                  ? "transition-[height,opacity] duration-200 ease-out motion-reduce:transition-none"
+                  ? "transition-[height,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
                   : "transition-none",
               )}
             >

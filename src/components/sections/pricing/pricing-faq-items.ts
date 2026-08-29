@@ -1,3 +1,5 @@
+import { PRICING_DATA_RETENTION_YEARS } from "./pricing-tiers";
+
 export type PricingFaqItem = {
   id: string;
   question: string;
@@ -50,8 +52,7 @@ export const pricingFaqItems = [
   {
     id: "retention",
     question: "How long is analytics data retained?",
-    answer:
-      "Data retention depends on your monthly event tier: from 1 year on smaller volumes up to 5 years on larger ones. See the feature list on the pricing slider for the exact window at each step.",
+    answer: `Analytics data is kept for ${PRICING_DATA_RETENTION_YEARS} years on every plan, regardless of volume. Older events and rollups are deleted automatically after that, and you can delete data earlier at any time by resetting a site's statistics or deleting the site.`,
   },
   {
     id: "cookie-banner",

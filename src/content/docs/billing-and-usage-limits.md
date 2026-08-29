@@ -14,7 +14,7 @@ Plans and limits can change over time. The billing page in the app is the source
 
 Kobbe offers event tiers from 100,000 monthly events up to 10,000,000 monthly events on a single product. Pick the volume that fits your traffic on the [pricing section](/#pricing). Every product feature is included at every step. You pay for monthly event capacity, not feature tiers.
 
-The only thing that changes as you move the slider is the monthly event cap. Every volume includes the full feature set, 3 years of data retention, and monthly email reports.
+The only thing that changes as you move the slider is the monthly event cap. Every volume includes the full feature set, the data retention window shown on the [pricing section](/#pricing), and monthly email reports.
 
 Paid plans include up to 30 websites per workspace.
 

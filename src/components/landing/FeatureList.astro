@@ -1,0 +1,59 @@
+---
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+
+/**
+ * Everything else: quiet hairline list rows, each one a full-row link to
+ * the matching docs page.
+ */
+const listRows = [
+  {
+    title: "Import from Plausible, Fathom, or Umami. Export anytime",
+    href: "/docs/import-analytics-data",
+  },
+  {
+    title: "A CLI, an MCP server, and a Raycast extension",
+    href: "/docs/cli",
+  },
+  {
+    title: "Funnels from pages and events you already collect",
+    href: "/docs/funnels",
+  },
+  {
+    title: "Realtime: who is on your site right now",
+    href: "/docs/realtime-visitors",
+  },
+  {
+    title: "Core Web Vitals with percentile trends",
+    href: "/docs/performance-web-vitals",
+  },
+  {
+    title: "Google Search Console queries beside your traffic",
+    href: "/docs/search-console",
+  },
+];
+---
+
+<section class="pt-24">
+  <Wrapper variant="default">
+    <div class="border-foreground border-b-2 pb-4">
+      <h2 class="landing-serif text-foreground text-[clamp(1.8rem,3.4vw,2.8rem)]">
+        Every feature, on every plan.
+      </h2>
+    </div>
+    {
+      listRows.map((row) => (
+        <a
+          href={row.href}
+          class="group border-foreground grid grid-cols-[1fr_auto] items-center gap-6 border-b-2 py-6"
+        >
+          <p class="landing-serif text-foreground text-2xl text-pretty transition-transform duration-300 group-hover:translate-x-3 sm:text-3xl">
+            {row.title}
+          </p>
+          <span class="text-foreground text-2xl sm:text-3xl" aria-hidden="true">
+            ↘
+          </span>
+        </a>
+      ))
+    }
+  </Wrapper>
+</section>

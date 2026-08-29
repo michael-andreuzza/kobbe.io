@@ -1,0 +1,123 @@
+---
+/**
+ * Closer in Kobbe's own voice: a quiet CTA on paper, then a carbon footer
+ * whose top-right corner carries the same stepped notch as the panels above,
+ * with the wordmark set as large as the viewport allows.
+ */
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import { APP_SIGNUP_URL } from "@/lib/site-mega-menu";
+import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
+import Button from "./Button.astro";
+
+const columns = [
+  {
+    title: "Product",
+    links: [
+      { label: "Live demo", href: "https://app.kobbe.io/demo/kobbe-studio?range=30d" },
+      { label: "Pricing", href: "#pricing" },
+      { label: "Bot filtering", href: "/docs/bot-filtering" },
+      { label: "Revenue attribution", href: "/docs/revenue-attribution" },
+    ],
+  },
+  {
+    title: "Docs",
+    links: [
+      { label: "Get started", href: "/docs" },
+      { label: "Add the tracker", href: "/docs/add-the-tracker" },
+      { label: "Install guides", href: "/docs/installation-guides" },
+      { label: "CLI and MCP", href: "/docs/cli" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { label: "Privacy", href: "/legal/privacy" },
+      { label: "Terms", href: "/legal/terms" },
+      { label: "GDPR", href: "/legal/gdpr-compliance" },
+      { label: "DPA", href: "/legal/dpa" },
+    ],
+  },
+];
+---
+
+<footer>
+  <Wrapper variant="default">
+    <!-- Quiet CTA on paper -->
+    <div class="py-16 ">
+      <div
+        class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
+      >
+        <h2
+          class="landing-serif text-foreground max-w-3xl text-[clamp(2rem,4.4vw,3.6rem)] leading-[1.05] text-balance"
+        >
+          Find out what your traffic is <em>actually worth.</em>
+        </h2>
+        <Button
+          label={`Try free for ${pricingTrialDays} days`}
+          href={APP_SIGNUP_URL}
+        />
+      </div>
+    </div>
+  
+    <!-- Floating carbon footer with the same rounded cutout as the panels;
+         fills the viewport on desktop like the pricing panel. -->
+    <div
+      class="pb-8  lg:flex lg:h-[calc(100svh-1.5rem)] lg:flex-col 2xl:max-h-208 [--panel:var(--carbon)]"
+    >
+      <div class="flex">
+        <div class="bg-carbon h-12 grow rounded-t-3xl sm:h-14"></div>
+        <div class="relative w-28 sm:w-44">
+          <span
+            class="landing-fillet-tr absolute -bottom-px -left-px size-6.25"
+            aria-hidden="true"></span>
+        </div>
+      </div>
+      <div
+        class="bg-carbon text-background -mt-px overflow-hidden rounded-b-3xl rounded-tr-3xl px-6 pt-8 sm:px-10 lg:flex lg:grow lg:flex-col"
+      >
+      <div class="grid grid-cols-1 gap-12 pb-16 lg:grid-cols-12">
+        <div class="lg:col-span-6">
+          <p class="text-background/60 max-w-56 text-sm text-pretty">
+            Web analytics that respect your visitors.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-6">
+          {
+            columns.map((column) => (
+              <div class="space-y-3">
+                <p class="text-background/50 text-sm">{column.title}</p>
+                <ul class="space-y-2">
+                  {column.links.map((link) => (
+                    <li>
+                      <a
+                        href={link.href}
+                        class="text-background/80 hover:text-background text-sm transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+  
+      <p
+        class="text-background -mx-2 text-[clamp(6rem,27.5vw,26rem)] leading-[0.82] font-bold tracking-tighter select-none lg:mt-auto"
+        aria-hidden="true"
+      >
+        Kobbe
+      </p>
+  
+        <div
+          class="text-background/50 flex flex-wrap items-center justify-between gap-2 py-5 text-xs"
+        >
+          <span>© 2026 Kobbe. All rights reserved.</span>
+          <span>No cookies were used in the making of this website.</span>
+        </div>
+      </div>
+    </div>
+  </Wrapper>
+</footer>

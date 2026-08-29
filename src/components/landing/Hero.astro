@@ -1,0 +1,60 @@
+---
+import Button from "./Button.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+
+import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
+import { APP_SIGNUP_URL } from "@/lib/site-mega-menu";
+import posterFrame from "@/images/assets/walkthrough-poster.jpg";
+
+const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
+---
+
+<section class="pt-24 lg:pt-40">
+  <Wrapper variant="default">
+    <h1
+      class="landing-serif text-foreground max-w-3xl text-[clamp(2.2rem,4vw,3.6rem)] leading-[1.08] text-balance"
+    >
+      Privacy-first analytics that follow the money, <em>not the people.</em>
+    </h1>
+    <div
+      class="mt-8 flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between"
+    >
+      <p class="text-muted-foreground max-w-md text-base text-pretty">
+        Traffic, conversions, and the revenue they turn into, all in one
+        dashboard. No cookies, no consent banner. And bots never make it into
+        your numbers.
+      </p>
+      <div class="flex shrink-0 items-center gap-3">
+        <Button
+          label={`Try free for ${pricingTrialDays} days`}
+          href={APP_SIGNUP_URL}
+        />
+        <Button
+          label="Live demo"
+          href={demoUrl}
+          variant="outline"
+          arrow
+          external
+        />
+      </div>
+    </div>
+
+    <!-- Rounded carbon frame with the actual dashboard, so the landing view
+         shows the product, not an abstraction. -->
+    <div class="bg-carbon mt-12 rounded-3xl lg:mt-20">
+      <div class="p-3 sm:p-5 lg:p-8">
+        <video
+          class="block w-full rounded-lg lg:rounded-xl"
+          src="/videos/walkthrough.mp4"
+          poster={posterFrame.src}
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+          aria-label="A walkthrough of the Kobbe dashboard: traffic, sources, conversions, funnels, and revenue"
+        ></video>
+      </div>
+    </div>
+  </Wrapper>
+</section>
