@@ -80,7 +80,9 @@ const siteSearchItems = buildSiteSearchItems(allDocs);
       class="grid w-full grid-cols-1 gap-x-12 py-8 lg:grid-cols-[10rem_minmax(0,1fr)] lg:py-12 xl:grid-cols-[10rem_minmax(0,1fr)_9rem] 2xl:gap-x-10"
     >
       <Sidebar client:load groups={groupedNavLinks} />
-      <div class=" max-w-4xl mx-auto">
+      {/* min-w-0 lets this grid item shrink below the widest code block, so
+          long lines scroll inside the pre instead of widening the page. */}
+      <div class="mx-auto w-full min-w-0 max-w-4xl">
         <Wrapper
           variant="prose"
           id="markdown-content"

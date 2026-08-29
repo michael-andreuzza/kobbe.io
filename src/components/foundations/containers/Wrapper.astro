@@ -45,6 +45,10 @@ const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
     // point them at the semantic border token so dividers match.
     "[--tw-prose-th-borders:var(--border)]",
     "[--tw-prose-td-borders:var(--border)]",
+    // Tables can't shrink below their min-content width, so on narrow
+    // screens they scroll in place instead of widening the page.
+    "prose-table:block",
+    "prose-table:overflow-x-auto",
     "prose-table:w-full",
     "prose-table:border-collapse",
     "prose-table:border-0",
