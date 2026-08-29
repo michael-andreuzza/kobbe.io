@@ -12,165 +12,161 @@ import Panel from "./Panel.astro";
 import DotsField from "./dots-field";
 ---
 
-<div class="pt-24">
-  <div id="features" class="scroll-mt-6 px-8">
-    <div class="space-y-6">
-      <!-- 50,788 · Bot filtering, in the traffic blue -->
+<div id="features" class="mt-24 scroll-mt-6 space-y-6 px-8">
+  <!-- 50,788 · Bot filtering, in the traffic blue -->
+  <div
+    class="sticky top-6 lg:mx-auto lg:h-[calc(100svh-3rem)] lg:max-h-208 lg:max-w-384"
+  >
+    <Panel
+      color="chart-traffic"
+      rootClass="lg:flex lg:h-full lg:flex-col"
+      class="p-8 pt-4 sm:p-12 sm:pt-6 lg:flex lg:grow lg:flex-col"
+    >
       <div
-        class="sticky top-6 lg:mx-auto lg:h-[calc(100svh-3rem)] lg:max-h-208 lg:max-w-384"
+        class="grid grid-cols-1 items-end gap-10 lg:h-full lg:grid-cols-2 lg:items-stretch lg:gap-x-16"
       >
-        <Panel
-          color="chart-traffic"
-          rootClass="lg:flex lg:h-full lg:flex-col"
-          class="p-8 pt-4 sm:p-12 sm:pt-6 lg:flex lg:grow lg:flex-col"
-        >
-          <div
-            class="grid grid-cols-1 items-end gap-10 lg:h-full lg:grid-cols-2 lg:items-stretch lg:gap-x-16"
-          >
-            <!-- Left: all the reading in one column -->
-            <div class="lg:flex lg:flex-col lg:justify-between lg:gap-10">
-              <div>
-                <p
-                  class="landing-serif text-background text-[clamp(3.4rem,9vw,7.5rem)] leading-none"
-                >
-                  50,788
-                </p>
-                <p
-                  class="landing-serif text-background mt-2 max-w-md text-[clamp(1.4rem,2.4vw,2rem)] leading-snug text-balance"
-                >
-                  bot requests filtered in the last thirty days.
-                </p>
-              </div>
-              <div class="mt-8 max-w-lg space-y-6 lg:mt-0">
-                <p class="text-background/85 text-xl leading-relaxed text-pretty">
-                  Modern bots run real Chrome, execute your JavaScript, and rotate
-                  IPs. They look exactly like people. Kobbe drops headless browsers,
-                  datacenter traffic, and referrer spam before they touch your stats
-                  or your quota. VPN users are untouched.
-                </p>
-                <Button
-                  label="How filtering works"
-                  href="/docs/bot-filtering"
-                  variant="outline-light"
-                  arrow
-                />
-              </div>
-            </div>
-            <!-- Right: the filter, animated, at full card height -->
-            <div class="relative h-44 overflow-hidden lg:h-full">
-              <DotsField
-                client:visible
-                className="absolute inset-0"
-                accentColor="#f0a04a"
-              />
-            </div>
+        <!-- Left: all the reading in one column -->
+        <div class="lg:flex lg:flex-col lg:justify-between lg:gap-10">
+          <div>
+            <p
+              class="landing-serif text-background text-[clamp(3.4rem,9vw,7.5rem)] leading-none"
+            >
+              50,788
+            </p>
+            <p
+              class="landing-serif text-background mt-2 max-w-md text-[clamp(1.4rem,2.4vw,2rem)] leading-snug text-balance"
+            >
+              bot requests filtered in the last thirty days.
+            </p>
           </div>
-        </Panel>
+          <div class="mt-8 max-w-lg space-y-6 lg:mt-0">
+            <p class="text-background/85 text-xl leading-relaxed text-pretty">
+              Modern bots run real Chrome, execute your JavaScript, and rotate
+              IPs. They look exactly like people. Kobbe drops headless browsers,
+              datacenter traffic, and referrer spam before they touch your stats
+              or your quota. VPN users are untouched.
+            </p>
+            <Button
+              label="How filtering works"
+              href="/docs/bot-filtering"
+              variant="outline-light"
+              arrow
+            />
+          </div>
+        </div>
+        <!-- Right: the filter, animated, at full card height -->
+        <div class="relative h-44 overflow-hidden lg:h-full">
+          <DotsField
+            client:visible
+            className="absolute inset-0"
+            accentColor="#f0a04a"
+          />
+        </div>
       </div>
+    </Panel>
+  </div>
 
-      <!-- $12,480 · Revenue, in the revenue green -->
+  <!-- $12,480 · Revenue, in the revenue green -->
+  <div
+    class="sticky top-16 lg:mx-auto lg:h-[calc(100svh-5.5rem)] lg:max-h-208 lg:max-w-384"
+  >
+    <Panel
+      color="chart-revenue"
+      notch="bl"
+      rootClass="lg:flex lg:h-full lg:flex-col"
+      class="p-8 sm:p-12 sm:pb-6 lg:flex lg:grow lg:flex-col"
+    >
       <div
-        class="sticky top-16 lg:mx-auto lg:h-[calc(100svh-5.5rem)] lg:max-h-208 lg:max-w-384"
+        class="grid grid-cols-1 items-end gap-10 lg:h-full lg:grid-cols-2 lg:items-stretch lg:gap-x-16"
       >
-        <Panel
-          color="chart-revenue"
-          notch="bl"
-          rootClass="lg:flex lg:h-full lg:flex-col"
-          class="p-8 sm:p-12 sm:pb-6 lg:flex lg:grow lg:flex-col"
-        >
-          <div
-            class="grid grid-cols-1 items-end gap-10 lg:h-full lg:grid-cols-2 lg:items-stretch lg:gap-x-16"
-          >
-            <div class="lg:flex lg:flex-col lg:justify-between lg:gap-10">
-              <div>
-                <p
-                  class="landing-serif text-background text-[clamp(3.4rem,9vw,7.5rem)] leading-none"
-                >
-                  $12,480
-                </p>
-                <p
-                  class="landing-serif text-background mt-2 max-w-md text-[clamp(1.4rem,2.4vw,2rem)] leading-snug text-balance"
-                >
-                  attributed to a single page, in thirty days.
-                </p>
-              </div>
-              <div class="mt-8 max-w-lg space-y-6 lg:mt-0">
-                <p class="text-background/85 text-xl leading-relaxed text-pretty">
-                  Traffic is a vanity metric; revenue isn't. Attribution passes
-                  through checkout with Stripe, Polar, Paddle, Shopify, and friends,
-                  so every page, source, and campaign shows the money it actually
-                  produced, not a guess.
-                </p>
-                <Button
-                  label="Revenue attribution"
-                  href="/docs/revenue-attribution"
-                  variant="outline-light"
-                  arrow
-                />
-              </div>
-            </div>
-            <div class="relative h-44 overflow-hidden lg:h-full">
-              <DotsField
-                client:visible
-                variant="bars"
-                className="absolute inset-0"
-                accentColor="#c3dba3"
-              />
-            </div>
+        <div class="lg:flex lg:flex-col lg:justify-between lg:gap-10">
+          <div>
+            <p
+              class="landing-serif text-background text-[clamp(3.4rem,9vw,7.5rem)] leading-none"
+            >
+              $12,480
+            </p>
+            <p
+              class="landing-serif text-background mt-2 max-w-md text-[clamp(1.4rem,2.4vw,2rem)] leading-snug text-balance"
+            >
+              attributed to a single page, in thirty days.
+            </p>
           </div>
-        </Panel>
+          <div class="mt-8 max-w-lg space-y-6 lg:mt-0">
+            <p class="text-background/85 text-xl leading-relaxed text-pretty">
+              Traffic is a vanity metric; revenue isn't. Attribution passes
+              through checkout with Stripe, Polar, Paddle, Shopify, and friends,
+              so every page, source, and campaign shows the money it actually
+              produced, not a guess.
+            </p>
+            <Button
+              label="Revenue attribution"
+              href="/docs/revenue-attribution"
+              variant="outline-light"
+              arrow
+            />
+          </div>
+        </div>
+        <div class="relative h-44 overflow-hidden lg:h-full">
+          <DotsField
+            client:visible
+            variant="bars"
+            className="absolute inset-0"
+            accentColor="#c3dba3"
+          />
+        </div>
       </div>
+    </Panel>
+  </div>
 
-      <!-- 0 · Privacy, in the conversions lavender -->
+  <!-- 0 · Privacy, in the conversions lavender -->
+  <div
+    class="sticky top-24 lg:mx-auto lg:h-[calc(100svh-7.5rem)] lg:max-h-208 lg:max-w-384"
+  >
+    <Panel
+      color="chart-conversions"
+      rootClass="lg:flex lg:h-full lg:flex-col"
+      class="p-8 pt-4 sm:p-12 sm:pt-6 lg:flex lg:grow lg:flex-col"
+    >
       <div
-        class="sticky top-24 lg:mx-auto lg:h-[calc(100svh-7.5rem)] lg:max-h-208 lg:max-w-384"
+        class="grid grid-cols-1 items-end gap-10 lg:h-full lg:grid-cols-2 lg:items-stretch lg:gap-x-16"
       >
-        <Panel
-          color="chart-conversions"
-          rootClass="lg:flex lg:h-full lg:flex-col"
-          class="p-8 pt-4 sm:p-12 sm:pt-6 lg:flex lg:grow lg:flex-col"
-        >
-          <div
-            class="grid grid-cols-1 items-end gap-10 lg:h-full lg:grid-cols-2 lg:items-stretch lg:gap-x-16"
-          >
-            <div class="lg:flex lg:flex-col lg:justify-between lg:gap-10">
-              <div>
-                <p
-                  class="landing-serif text-background text-[clamp(5rem,12vw,10rem)] leading-none"
-                >
-                  0
-                </p>
-                <p
-                  class="landing-serif text-background mt-2 max-w-md text-[clamp(1.4rem,2.4vw,2rem)] leading-snug text-balance"
-                >
-                  cookies, consent banners, or raw IPs stored.
-                </p>
-              </div>
-              <div class="mt-8 max-w-lg space-y-6 lg:mt-0">
-                <p class="text-background/85 text-xl leading-relaxed text-pretty">
-                  Kobbe counts visits without following people around. Nothing to
-                  consent to, nothing to click away. Global Privacy Control and Do
-                  Not Track are honored before a single request is sent.
-                </p>
-                <Button
-                  label="Privacy and cookieless tracking"
-                  href="/docs/privacy-and-cookieless-tracking"
-                  variant="outline-light"
-                  arrow
-                />
-              </div>
-            </div>
-            <div class="relative h-44 overflow-hidden lg:h-full">
-              <DotsField
-                client:visible
-                variant="drift"
-                className="absolute inset-0"
-                accentColor="#e0c9ee"
-              />
-            </div>
+        <div class="lg:flex lg:flex-col lg:justify-between lg:gap-10">
+          <div>
+            <p
+              class="landing-serif text-background text-[clamp(5rem,12vw,10rem)] leading-none"
+            >
+              0
+            </p>
+            <p
+              class="landing-serif text-background mt-2 max-w-md text-[clamp(1.4rem,2.4vw,2rem)] leading-snug text-balance"
+            >
+              cookies, consent banners, or raw IPs stored.
+            </p>
           </div>
-        </Panel>
+          <div class="mt-8 max-w-lg space-y-6 lg:mt-0">
+            <p class="text-background/85 text-xl leading-relaxed text-pretty">
+              Kobbe counts visits without following people around. Nothing to
+              consent to, nothing to click away. Global Privacy Control and Do
+              Not Track are honored before a single request is sent.
+            </p>
+            <Button
+              label="Privacy and cookieless tracking"
+              href="/docs/privacy-and-cookieless-tracking"
+              variant="outline-light"
+              arrow
+            />
+          </div>
+        </div>
+        <div class="relative h-44 overflow-hidden lg:h-full">
+          <DotsField
+            client:visible
+            variant="drift"
+            className="absolute inset-0"
+            accentColor="#e0c9ee"
+          />
+        </div>
       </div>
-    </div>
+    </Panel>
   </div>
 </div>

@@ -3,7 +3,7 @@ import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 
 /**
  * Everything else: quiet hairline list rows, each one a full-row link to
- * the matching docs page.
+ * the matching docs page. The full catalog lives on /features.
  */
 const listRows = [
   {
@@ -35,10 +35,20 @@ const listRows = [
 
 <section class="pt-24">
   <Wrapper variant="default">
-    <div class="border-foreground border-b-2 pb-4">
-      <h2 class="landing-serif text-foreground text-[clamp(1.8rem,3.4vw,2.8rem)]">
+    <div
+      class="border-foreground flex items-end justify-between gap-6 border-b-2 pb-4"
+    >
+      <h2
+        class="landing-serif text-foreground text-[clamp(1.8rem,3.4vw,2.8rem)]"
+      >
         Every feature, on every plan.
       </h2>
+      <a
+        href="/features"
+        class="text-foreground shrink-0 text-base transition-opacity hover:opacity-70 sm:text-lg"
+      >
+        All features <span aria-hidden="true">↘</span>
+      </a>
     </div>
     {
       listRows.map((row) => (

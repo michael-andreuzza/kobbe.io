@@ -1,0 +1,35 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import FeaturesHero from "@/components/features/FeaturesHero.astro";
+import FeaturesGrid from "@/components/features/FeaturesGrid.astro";
+import Footer from "@/components/landing/Footer.astro";
+import { featureItems } from "@/components/features/features";
+
+const title = "Kobbe features: everything included, on every plan";
+const description =
+  "All of Kobbe's features: bot filtering, revenue attribution, cookieless tracking, funnels, Core Web Vitals, Search Console, and more. Every feature on every plan.";
+
+const jsonLdItemList = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Kobbe features",
+  itemListElement: featureItems.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: item.title,
+    description: item.description,
+    url: new URL(item.href, Astro.site ?? Astro.url.origin).href,
+  })),
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  jsonLdBreadcrumbs={[{ name: "Features", item: "/features" }]}
+  jsonLdExtra={[jsonLdItemList]}
+>
+  <FeaturesHero />
+  <FeaturesGrid />
+  <Footer />
+</BaseLayout>

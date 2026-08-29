@@ -1,0 +1,120 @@
+---
+/**
+ * The catalog as themed color panels in the landing language: one notched
+ * panel per group, giant serif statement on the left, hairline feature rows
+ * on the right. Same bones as the homepage feature cards, but sized by
+ * content instead of the viewport.
+ */
+import Panel from "@/components/landing/Panel.astro";
+import { featureGroups, type FeatureGroupColor } from "@/components/features/features";
+
+// The light orange panel takes carbon ink; the rest take paper.
+const ink: Record<
+  FeatureGroupColor,
+  { text: string; body: string; divider: string }
+> = {
+  "chart-traffic": {
+    text: "text-background",
+    body: "text-background/90",
+    divider: "border-background/40",
+  },
+  "chart-revenue": {
+    text: "text-background",
+    body: "text-background/90",
+    divider: "border-background/40",
+  },
+  "chart-conversions": {
+    text: "text-background",
+    body: "text-background/90",
+    divider: "border-background/40",
+  },
+  "chart-performance": {
+    text: "text-carbon",
+    body: "text-carbon/85",
+    divider: "border-carbon/40",
+  },
+  carbon: {
+    text: "text-background",
+    body: "text-background/85",
+    divider: "border-background/40",
+  },
+};
+---
+
+<div class="mt-16 space-y-6 px-8 lg:mt-24">
+  {
+    featureGroups.map((group, i) => {
+      const color = ink[group.color];
+      return (
+        <div class="lg:mx-auto lg:max-w-384">
+          <Panel
+            color={group.color}
+            notch={i % 2 === 0 ? "tr" : "bl"}
+            class="p-8 sm:p-12"
+          >
+            <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-x-16">
+              <div>
+                <h2
+                  class:list={[
+                    "landing-serif max-w-md text-[clamp(2.4rem,5vw,4.5rem)] leading-none text-balance",
+                    color.text,
+                  ]}
+                >
+                  {group.title}
+                </h2>
+                <p
+                  class:list={[
+                    "mt-6 max-w-md text-xl leading-relaxed text-pretty",
+                    color.body,
+                  ]}
+                >
+                  {group.blurb}
+                </p>
+              </div>
+              <ul>
+                {group.items.map((item, j) => (
+                  <li>
+                    <a
+                      href={item.href}
+                      class:list={[
+                        "group grid grid-cols-[1fr_auto] items-center gap-6 border-b py-5",
+                        j === 0 && "pt-0",
+                        j === group.items.length - 1 && "border-b-0 pb-0",
+                        color.divider,
+                      ]}
+                    >
+                      <span class="transition-transform duration-300 group-hover:translate-x-2">
+                        <span
+                          class:list={[
+                            "landing-serif block text-2xl sm:text-3xl",
+                            color.text,
+                          ]}
+                        >
+                          {item.title}
+                        </span>
+                        <span
+                          class:list={[
+                            "mt-2 block max-w-xl text-lg leading-relaxed text-pretty",
+                            color.body,
+                          ]}
+                        >
+                          {item.description}
+                        </span>
+                      </span>
+                      <span
+                        class:list={["text-2xl sm:text-3xl", color.text]}
+                        aria-hidden="true"
+                      >
+                        ↘
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Panel>
+        </div>
+      );
+    })
+  }
+</div>

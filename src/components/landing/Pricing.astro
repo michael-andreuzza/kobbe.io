@@ -15,71 +15,69 @@ import Button from "./Button.astro";
 import Panel from "./Panel.astro";
 ---
 
-<div class="pt-24 pb-24">
-  <Wrapper variant="default">
-    <!-- The anchor sits on the panel itself with a 1.5rem scroll margin, so
+<Wrapper variant="default" class="py-24">
+  <!-- The anchor sits on the panel itself with a 1.5rem scroll margin, so
          "Pricing" in the nav lands the full-height panel exactly in view. -->
-    <Panel
-      id="pricing"
-      color="carbon"
-      notch="none"
-      rootClass="scroll-mt-6 lg:flex lg:h-[calc(100svh-3rem)] lg:flex-col 2xl:max-h-208"
-      class="p-8 sm:p-12 lg:flex lg:grow lg:flex-col"
+  <Panel
+    id="pricing"
+    color="carbon"
+    notch="none"
+    rootClass="scroll-mt-6 lg:flex lg:h-[calc(100svh-3rem)] lg:flex-col 2xl:max-h-208"
+    class="p-8 sm:p-12 lg:flex lg:grow lg:flex-col"
+  >
+    <div
+      class="grid grid-cols-1 gap-10 lg:h-full lg:grid-cols-2 lg:items-stretch lg:gap-x-16"
     >
-      <div
-        class="grid grid-cols-1 gap-10 lg:h-full lg:grid-cols-2 lg:items-stretch lg:gap-x-16"
-      >
-        <!-- Left: the price as the hook, then the pitch and the buttons -->
-        <div class="lg:flex lg:flex-col lg:justify-between lg:gap-10">
-          <div>
-            <h2
-              class="landing-serif text-background text-[clamp(3.4rem,9vw,7.5rem)] leading-none"
-            >
-              $9<span class="text-background/50 text-[0.4em]">/mo</span>
-            </h2>
-            <p
-              class="landing-serif text-background mt-2 max-w-md text-[clamp(1.4rem,2.4vw,2rem)] leading-snug text-balance"
-            >
-              to start. Pay for volume, <em>nothing else.</em>
-            </p>
-          </div>
-          <div class="mt-8 max-w-lg space-y-6 lg:mt-0">
-            <p class="text-background/70 text-xl leading-relaxed text-pretty">
-              Every feature at every volume: up to 30 websites,{" "}
-              {PRICING_DATA_RETENTION_YEARS} years of retention, and filtered bots never
-              count toward your quota. Yearly billing is pay 10 months, get 12.
-            </p>
-            <Button
-              label={`Try free for ${pricingTrialDays} days`}
-              href={APP_SIGNUP_URL}
-              variant="solid-light"
-            />
-          </div>
+      <!-- Left: the price as the hook, then the pitch and the buttons -->
+      <div class="lg:flex lg:flex-col lg:justify-between lg:gap-10">
+        <div>
+          <h2
+            class="landing-serif text-background text-[clamp(3.4rem,9vw,7.5rem)] leading-none"
+          >
+            $9<span class="text-background/50 text-[0.4em]">/mo</span>
+          </h2>
+          <p
+            class="landing-serif text-background mt-2 max-w-md text-[clamp(1.4rem,2.4vw,2rem)] leading-snug text-balance"
+          >
+            to start. Pay for volume, <em>nothing else.</em>
+          </p>
         </div>
-        <!-- Right: the whole ladder, one hairline row per tier, stretched to
-             fill the panel height on desktop -->
-        <ul class="lg:flex lg:h-full lg:flex-col">
-          {
-            pricingTiers.map((tier, i) => (
-              <li
-                class:list={[
-                  "border-background flex items-baseline justify-between gap-4 py-5",
-                  "lg:grow lg:items-center lg:py-0",
-                  i > 0 && "border-t-2",
-                ]}
-              >
-                <span class="landing-serif text-background text-xl sm:text-2xl">
-                  {tier.events} events a month
-                </span>
-                <span class="landing-serif text-background text-xl tabular-nums sm:text-2xl">
-                  ${tier.monthly}
-                  <span class="text-background/50 text-base">/mo</span>
-                </span>
-              </li>
-            ))
-          }
-        </ul>
+        <div class="mt-8 max-w-lg space-y-6 lg:mt-0">
+          <p class="text-background/70 text-xl leading-relaxed text-pretty">
+            Every feature at every volume: up to 30 websites,{" "}
+            {PRICING_DATA_RETENTION_YEARS} years of retention, and filtered bots never
+            count toward your quota. Yearly billing is pay 10 months, get 12.
+          </p>
+          <Button
+            label={`Try free for ${pricingTrialDays} days`}
+            href={APP_SIGNUP_URL}
+            variant="solid-light"
+          />
+        </div>
       </div>
-    </Panel>
-  </Wrapper>
-</div>
+      <!-- Right: the whole ladder, one hairline row per tier, stretched to
+             fill the panel height on desktop -->
+      <ul class="lg:flex lg:h-full lg:flex-col">
+        {
+          pricingTiers.map((tier, i) => (
+            <li
+              class:list={[
+                "border-background flex items-baseline justify-between gap-4 py-5",
+                "lg:grow lg:items-center lg:py-0",
+                i > 0 && "border-t-2",
+              ]}
+            >
+              <span class="landing-serif text-background text-xl sm:text-2xl">
+                {tier.events} events a month
+              </span>
+              <span class="landing-serif text-background text-xl tabular-nums sm:text-2xl">
+                ${tier.monthly}
+                <span class="text-background/50 text-base">/mo</span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Panel>
+</Wrapper>

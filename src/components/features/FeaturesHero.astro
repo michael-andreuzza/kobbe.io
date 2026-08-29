@@ -1,0 +1,21 @@
+---
+/**
+ * Page opener for /features, in the landing's editorial voice: serif
+ * headline, short muted standfirst, no chrome.
+ */
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+---
+
+<section class="pt-24 lg:pt-40">
+  <Wrapper variant="default">
+    <h1
+      class="landing-serif text-foreground max-w-3xl text-[clamp(2.2rem,4vw,3.6rem)] leading-[1.08] text-balance"
+    >
+      Everything Kobbe does, <em>on every plan.</em>
+    </h1>
+    <p class="text-muted-foreground mt-8 max-w-md text-base text-pretty">
+      No feature gates, no enterprise tier. Pick a volume, get all of this. Each
+      one links to the docs that explain how it works.
+    </p>
+  </Wrapper>
+</section>
