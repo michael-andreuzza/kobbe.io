@@ -1,9 +1,11 @@
 ---
+import { Image } from "astro:assets";
+
 import Button from "./Button.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
 import { APP_SIGNUP_URL } from "@/lib/site-mega-menu";
-import posterFrame from "@/images/assets/walkthrough-poster.jpg";
+import dashboardDark from "@/images/assets/dashboard-dark.png";
 const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
 ---
 
@@ -36,20 +38,22 @@ const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
         />
       </div>
     </div>
-    <!-- Rounded carbon frame with the actual dashboard, so the landing view
-         shows the product, not an abstraction. -->
-    <div class="bg-carbon mt-12 rounded-3xl p-3 sm:p-5 lg:mt-20 lg:p-8">
-      <video
-        class="block w-full rounded-lg lg:rounded-xl"
-        src="/videos/walkthrough.mp4"
-        poster={posterFrame.src}
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="auto"
-        aria-label="A walkthrough of the Kobbe dashboard: traffic, sources, conversions, funnels, and revenue"
-      ></video>
-    </div>
   </Wrapper>
+  <!-- Retina capture of the real dark-mode dashboard (demo workspace). Below
+       lg it is wider than the content column, Linear-style, bleeding off the
+       right edge of the viewport so it reads bigger; on desktop it fits the
+       column normally. The overflow-hidden div clips the bleed so the page
+       never scrolls sideways. -->
+  <div class="overflow-hidden">
+    <Wrapper variant="default">
+      <Image
+        src={dashboardDark}
+        alt="The Kobbe dashboard in dark mode: visitor KPIs, a traffic trend chart, top pages, and top sources"
+        class="mt-12 block w-[135%] max-w-none rounded-lg sm:w-[125%] lg:mt-20 lg:w-full lg:rounded-3xl"
+        widths={[768, 1280, 1920, 2560]}
+        sizes="(min-width: 1600px) 1536px, (min-width: 1024px) 100vw, 135vw"
+        loading="eager"
+      />
+    </Wrapper>
+  </div>
 </section>
