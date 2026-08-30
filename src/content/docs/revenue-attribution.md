@@ -71,6 +71,8 @@ Kobbe rejects webhooks when the signing secret is missing, wrong, or outside the
 
 Once webhooks are flowing, open the [Revenue](/docs/revenue) page in the sidebar to review attributed totals, product breakdowns, and purchase journeys. Overview KPIs and breakdown rows are described in [Revenue on the dashboard](/docs/dashboard-stats-revenue).
 
+If your checkout ends on a thank-you page, add it under **Settings → Exclusions → Revenue attribution** so it never claims last-touch credit for the purchase. Details in [Exclude thank-you pages](/docs/revenue#exclude-thank-you-pages).
+
 ## Related docs
 
 - [Revenue page](/docs/revenue)

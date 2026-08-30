@@ -57,6 +57,15 @@ Use a two-letter ISO-3166 code (e.g. `us`, `de`). Kobbe uses the request's count
 
 Enter the client IPv4 or IPv6 you want to exclude. The address is compared **only when the event is collected**; it is **not stored** as part of the event row. If the edge cannot resolve a client IP, an IP rule will not match.
 
+## Revenue attribution pages
+
+The **Revenue attribution** section on the same Exclusions tab works differently from the rules above: pages listed there are still tracked and keep counting in traffic, conversions, and funnels. They only stop taking **revenue credit** in [revenue attribution](/docs/revenue-attribution).
+
+Use it for thank-you and order-confirmation pages. Their pageview fires right before the payment webhook arrives, so under last-touch attribution they would otherwise claim credit for the sale.
+
+- Paths match the same way as [path rules](#path-rules): exact, or a prefix with a trailing `*` (e.g. `/order/*`).
+- Unlike collect-time rules, this applies **retroactively**: attribution is computed at query time, so past purchases re-attribute as soon as you add or remove a page.
+
 ## Related
 
 - Install and options: [Add the tracker](/docs/add-the-tracker), [Script options](/docs/script-options).

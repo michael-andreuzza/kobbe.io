@@ -76,6 +76,12 @@ Two attribution-specific controls appear in the toolbar for live sites (not the 
 
 Changing either setting recalculates attribution breakdowns and journey cards for the active range. Overview revenue overlays and breakdown rows may still use the site default until you align settings across surfaces.
 
+## Exclude thank-you pages
+
+With last-touch attribution, a post-checkout thank-you or order-confirmation page can claim the credit: its pageview lands right before the payment webhook, so it becomes the "last page viewed before purchase" even though it did no selling.
+
+Add those pages under **Settings → Exclusions → Revenue attribution** and they stop taking credit; the purchase is attributed to the buyer's last real page instead. Excluded pages still count normally in traffic, conversions, and funnels, and the setting applies retroactively because attribution is computed at query time. See [Filter your visits](/docs/exclude-visits#revenue-attribution-pages) for matching rules.
+
 ## Setup checklist
 
 If a provider is not connected yet, Kobbe shows a short checklist on the page with links to **revenue integrations** in site settings and reminders to enable `data-revenue-attribution="true"` on your tracker snippet.
