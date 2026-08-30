@@ -1,0 +1,108 @@
+---
+/**
+ * Permalink page for a single changelog entry: article on the left, a
+ * mini index of other entries on the right rail, echoing the list rows
+ * on /changelog.
+ */
+import { getCollection, render } from "astro:content";
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import Footer from "@/components/landing/Footer.astro";
+import { changelogDateFormatter, changelogSlug } from "@/lib/changelog";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("changelog");
+  return entries.map((entry) => ({
+    params: { slug: changelogSlug(entry.id) },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const otherEntries = (await getCollection("changelog"))
+  .filter((other) => other.id !== entry.id)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 4);
+---
+
+<BaseLayout
+  title={`${entry.data.title}: Kobbe changelog`}
+  description={entry.data.description}
+  jsonLdBreadcrumbs={[
+    { name: "Changelog", item: "/changelog" },
+    { name: entry.data.title, item: `/changelog/${changelogSlug(entry.id)}` },
+  ]}
+>
+  <section class="pt-24 pb-32 lg:pt-40 lg:pb-48">
+    <Wrapper variant="default">
+      <div class="grid grid-cols-1 gap-x-20 gap-y-20 lg:grid-cols-12">
+        <article class="lg:col-span-7">
+          <p class="text-muted-foreground text-sm">
+            <a
+              href="/changelog"
+              class="hover:text-foreground transition-colors"
+            >
+              Changelog
+            </a>
+            <span aria-hidden="true"> / </span>
+            <time datetime={entry.data.date.toISOString().slice(0, 10)}>
+              {changelogDateFormatter.format(entry.data.date)}
+            </time>
+          </p>
+          <h1
+            class="landing-serif text-foreground mt-6 max-w-2xl text-[clamp(2.2rem,4vw,3.6rem)] leading-[1.08] text-balance"
+          >
+            {entry.data.title}
+          </h1>
+          <div class="mt-10 max-w-2xl lg:mt-14">
+            <Wrapper variant="prose">
+              <Content />
+            </Wrapper>
+          </div>
+        </article>
+
+        <aside class="lg:sticky lg:top-28 lg:col-span-5 lg:self-start lg:pt-10">
+          <p
+            class="border-foreground text-foreground border-b-2 pb-3 text-sm font-medium"
+          >
+            More entries
+          </p>
+          {
+            otherEntries.map((other) => (
+              <a
+                href={`/changelog/${changelogSlug(other.id)}`}
+                class="group border-border flex items-baseline justify-between gap-4 border-b py-4"
+              >
+                <span class="min-w-0">
+                  <time
+                    datetime={other.data.date.toISOString().slice(0, 10)}
+                    class="text-muted-foreground block text-xs"
+                  >
+                    {changelogDateFormatter.format(other.data.date)}
+                  </time>
+                  <span class="landing-serif text-foreground mt-1 block text-lg text-pretty transition-transform duration-300 group-hover:translate-x-2">
+                    {other.data.title}
+                  </span>
+                </span>
+                <span class="text-foreground text-lg" aria-hidden="true">
+                  ↘
+                </span>
+              </a>
+            ))
+          }
+          <a
+            href="/changelog"
+            class="text-foreground mt-5 inline-block text-sm transition-opacity hover:opacity-70"
+          >
+            All entries <span aria-hidden="true">↘</span>
+          </a>
+        </aside>
+      </div>
+    </Wrapper>
+  </section>
+
+  <Footer />
+</BaseLayout>
