@@ -38,8 +38,8 @@ const otherEntries = (await getCollection("changelog"))
 >
   <section class="pt-24 pb-32 lg:pt-40 lg:pb-48">
     <Wrapper variant="default">
-      <div class="grid grid-cols-1 gap-x-20 gap-y-20 lg:grid-cols-12">
-        <article class="lg:col-span-7">
+      <div class="mx-auto max-w-2xl">
+        <article>
           <p class="text-muted-foreground text-sm">
             <a
               href="/changelog"
@@ -53,18 +53,18 @@ const otherEntries = (await getCollection("changelog"))
             </time>
           </p>
           <h1
-            class="landing-serif text-foreground mt-6 max-w-2xl text-[clamp(2.2rem,4vw,3.6rem)] leading-[1.08] text-balance"
+            class="landing-serif text-foreground mt-6 text-[clamp(2.2rem,4vw,3.6rem)] leading-[1.08] text-balance"
           >
             {entry.data.title}
           </h1>
-          <div class="mt-10 max-w-2xl lg:mt-14">
+          <div class="mt-10 lg:mt-14">
             <Wrapper variant="prose">
               <Content />
             </Wrapper>
           </div>
         </article>
 
-        <aside class="lg:sticky lg:top-28 lg:col-span-5 lg:self-start lg:pt-10">
+        <aside class="mt-20 lg:mt-28">
           <p
             class="border-foreground text-foreground border-b-2 pb-3 text-sm font-medium"
           >
