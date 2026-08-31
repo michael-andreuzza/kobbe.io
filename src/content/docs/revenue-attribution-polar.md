@@ -19,7 +19,8 @@ Use Polar when your checkout links or hosted product checkouts run through Polar
 4. In Polar, select the `order.paid` and `refund.created` event schemas.
 5. Keep the webhook payload format set to **raw**.
 6. Copy Polar's webhook secret into the **Webhook** card in Kobbe.
-7. Optional: add an organization access token for product names on the [Revenue](/docs/revenue) page (see below).
+7. Pass the visitor's attribution id to checkout: see [Pass the attribution id](#pass-the-attribution-id). Without it, revenue records but nothing attributes.
+8. Optional: add an organization access token for product names on the [Revenue](/docs/revenue) page (see below).
 
 Kobbe records revenue from Polar's paid order events and refunds from Polar's refund events. If `order.paid` is not selected, Kobbe will not receive the checkout event it expects. If `refund.created` is not selected, refunds will not reduce net revenue in Kobbe.
 
@@ -73,6 +74,35 @@ Load the tracker with revenue attribution before a visitor clicks a Polar checko
   src="https://app.kobbe.io/tracker.full.js"
 ></script>
 ```
+
+## Pass the attribution id
+
+This step is required. The tracker gives each visitor an attribution id, but it does not add it to Polar checkouts for you. If the id never reaches Polar, webhooks arrive without it and revenue stays unattributed: totals still record, but **Attributed** stays at $0 and no purchase journeys appear.
+
+Read the id from the tracker and pass it to Polar in one of two ways:
+
+```js
+const attributionId = window.kobbe?.getAttributionId?.();
+```
+
+**Checkouts created through Polar's API or SDK**: include the id in the checkout `metadata`. Send it from the page to the endpoint that creates the checkout, then:
+
+```js
+const checkout = await polar.checkouts.create({
+  // ...your product and URLs
+  metadata: attributionId ? { kobbe_attribution_id: attributionId } : {},
+});
+```
+
+**Plain checkout links**: append the id as `reference_id` before redirecting. Polar copies it into the checkout metadata, and Kobbe accepts it as the attribution key:
+
+```js
+const url = new URL(polarCheckoutUrl);
+if (attributionId) url.searchParams.set("reference_id", attributionId);
+window.location.href = url.toString();
+```
+
+Purchases made before the id was wired in cannot be attributed retroactively; matching starts with the first checkout that carries it.
 
 ## Webhook
 
