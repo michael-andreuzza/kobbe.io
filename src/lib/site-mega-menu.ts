@@ -345,21 +345,21 @@ const trackingColumn: MegaMenuColumn = {
 const installationGuidesColumn: MegaMenuColumn = {
   title: "Installation guides",
   seeAllHref: "/docs/installation-guides",
-  layout: "compact-grid",
+  layout: "compact-grid-3",
   links: installationGuideLinks,
 };
 
 const revenueGuidesColumn: MegaMenuColumn = {
   title: "Revenue guides",
   seeAllHref: "/docs/revenue-attribution",
-  layout: "compact-grid",
+  layout: "compact-grid-3",
   links: revenueGuideLinks,
 };
 
 const dataGuidesColumn: MegaMenuColumn = {
   title: "Import & export",
   seeAllHref: "/docs/import-analytics-data",
-  layout: "compact-grid",
+  layout: "compact-grid-3",
   links: dataGuideLinks,
 };
 

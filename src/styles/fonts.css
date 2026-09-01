@@ -1,25 +1,16 @@
 @font-face {
-  font-family: "Suisse Intl";
-  src: url("/fonts/Suisse/SuisseIntl-Regular.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "Inter";
+  src: url("/fonts/Inter/InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Suisse Intl";
-  src: url("/fonts/Suisse/SuisseIntl-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Semibold also covers bold text so the browser never fakes a weight. */
-@font-face {
-  font-family: "Suisse Intl";
-  src: url("/fonts/Suisse/SuisseIntl-Semibold.woff2") format("woff2");
-  font-weight: 600 700;
-  font-style: normal;
+  font-family: "Inter";
+  src: url("/fonts/Inter/InterVariable-Italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
   font-display: swap;
 }
 
@@ -28,8 +19,8 @@
   /* Display headings share the sans stack. */
   --font-display: var(--font-sans);
   --font-sans:
-    "Suisse Intl", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, sans-serif;
+    "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;

@@ -1,26 +1,23 @@
 ---
+import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+
+import Button from "./Button.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 
 /**
  * Everything else: quiet hairline list rows, each one a full-row link to
  * the matching docs page. The full catalog lives on /features.
  */
+/* Product capabilities first, migration and tooling reassurances last. */
 const listRows = [
   {
-    title: "Import from Plausible, Fathom, or Umami. Export anytime",
-    href: "/docs/import-analytics-data",
-  },
-  {
-    title: "A CLI, an MCP server, and a Raycast extension",
-    href: "/docs/cli",
+    title: "Realtime: who is on your site right now",
+    href: "/docs/realtime-visitors",
   },
   {
     title: "Funnels from pages and events you already collect",
     href: "/docs/funnels",
-  },
-  {
-    title: "Realtime: who is on your site right now",
-    href: "/docs/realtime-visitors",
   },
   {
     title: "Core Web Vitals with percentile trends",
@@ -30,40 +27,46 @@ const listRows = [
     title: "Google Search Console queries beside your traffic",
     href: "/docs/search-console",
   },
+  {
+    title: "Import from Plausible, Fathom, or Umami. Export anytime",
+    href: "/docs/import-analytics-data",
+  },
+  {
+    title: "A CLI, an MCP server, and a Raycast extension",
+    href: "/docs/cli",
+  },
 ];
 ---
 
-<section class="pt-24">
+<section class="mt-32">
   <Wrapper variant="default">
-    <div
-      class="border-foreground flex items-end justify-between gap-6 border-b-2 pb-4"
-    >
-      <h2
-        class="landing-serif text-foreground text-[clamp(1.8rem,3.4vw,2.8rem)]"
-      >
+   
+    <div class="flex items-end justify-between gap-4">
+      <p class="text-foreground text-base font-medium">
         Every feature, on every plan.
-      </h2>
-      <a
-        href="/features"
-        class="text-foreground shrink-0 text-base transition-opacity hover:opacity-70 sm:text-lg"
-      >
-        All features <span aria-hidden="true">↘</span>
-      </a>
+      </p>
+      <Button label="All features" href="/features" variant="outline" />
     </div>
-    {
-      listRows.map((row) => (
-        <a
-          href={row.href}
-          class="group border-foreground grid grid-cols-[1fr_auto] items-center gap-6 border-b-2 py-6"
-        >
-          <p class="landing-serif text-foreground text-2xl text-pretty transition-transform duration-300 group-hover:translate-x-3 sm:text-3xl">
-            {row.title}
-          </p>
-          <span class="text-foreground text-2xl sm:text-3xl" aria-hidden="true">
-            ↘
-          </span>
-        </a>
-      ))
-    }
+    <div class="border-border mt-8 border-t">
+      {
+        listRows.map((row) => (
+          <a
+            href={row.href}
+            class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-4"
+          >
+            <p class="text-foreground text-base text-pretty font-medium transition-transform duration-300 group-hover:translate-x-3 sm:text-lg">
+              {row.title}
+            </p>
+            <HugeiconsIcon
+              icon={ArrowDownRight01Icon}
+              size={20}
+              strokeWidth={1.8}
+              className="text-foreground"
+              aria-hidden="true"
+            />
+          </a>
+        ))
+      }
+    </div>
   </Wrapper>
 </section>

@@ -112,15 +112,14 @@ export function SidebarGroups({
           >
             <Collapsible.Trigger
               className={cn(
-                "text-muted-foreground flex w-full min-w-0 items-center gap-2 py-0 text-left text-sm leading-5 transition-colors outline-none focus-visible:ring-0",
-                "hover:text-foreground",
+                "flex w-full min-w-0 items-center gap-2 py-0.5 text-left text-sm font-medium leading-5 transition-colors outline-none focus-visible:ring-0",
                 isActiveGroup
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground",
                 "[&[data-panel-open]_.sidebar-chevron]:rotate-90",
               )}
             >
-              <span className="min-w-0 flex-1 truncate">{group.category}</span>
+              <span className="min-w-0 flex-1 truncate font-medium">{group.category}</span>
               <HugeiconsIcon
                 icon={ArrowRight01Icon}
                 size={13}
@@ -132,20 +131,20 @@ export function SidebarGroups({
             <Collapsible.Panel
               keepMounted
               className={cn(
-                "h-(--collapsible-panel-height) overflow-hidden opacity-100 outline-none data-ending-style:h-0 data-[ending-style]:opacity-0 data-[starting-style]:h-0 data-[starting-style]:opacity-0",
+                "h-(--collapsible-panel-height) overflow-hidden opacity-100 outline-none data-ending-style:h-0 data-ending-style:opacity-0 data-starting-style:h-0 data-starting-style:opacity-0",
                 animationsReady
                   ? "transition-[height,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
                   : "transition-none",
               )}
             >
-              <div className="mt-0.5 flex flex-col gap-1 pl-2">
+              <div className="mt-1 pb-2 flex flex-col gap-1.5 pl-3">
                 {group.items.map((item) => (
                   <a
                     key={item.href}
                     href={item.href}
                     aria-current={item.isActive ? "page" : undefined}
                     className={cn(
-                      "text-xs leading-5 transition-colors",
+                      "text-sm leading-5 transition-colors",
                       item.logo ? "flex min-w-0 items-center gap-1.5" : "block",
                       item.isActive
                         ? "text-foreground"
@@ -153,12 +152,12 @@ export function SidebarGroups({
                     )}
                   >
                     {item.logo ? (
-                      <span className="flex size-3.5 shrink-0 items-center justify-center">
+                      <span className="flex size-4 shrink-0 items-center justify-center">
                         <BrandLogo
                           src={item.logo.src}
-                          className="size-3 rounded-[0.15rem] object-contain"
-                          width={12}
-                          height={12}
+                          className="size-3.5 rounded-xs object-contain"
+                          width={14}
+                          height={14}
                         />
                       </span>
                     ) : null}
@@ -180,7 +179,7 @@ type SidebarProps = {
 
 export default function Sidebar({ groups }: SidebarProps) {
   return (
-    <aside className="hidden w-40 min-w-40 shrink-0 lg:block">
+    <aside className="hidden w-44 min-w-44 shrink-0 lg:block">
       <div className="sticky top-24 flex max-h-[calc(100svh-6rem)] min-w-0 flex-col">
         <DocsCommandSearchTrigger className="mb-3 w-full shrink-0 self-stretch focus-visible:ring-0" />
         <nav

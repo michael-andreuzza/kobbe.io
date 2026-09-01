@@ -50,6 +50,8 @@ type PricingPriceDisplayProps = {
   /** Full annual charge when `period` is yearly. */
   yearlyTotalAmount?: number;
   className?: string;
+  /** Overrides the default display size of the dollar amount. */
+  amountClassName?: string;
 };
 
 /** All plan amounts are whole dollars, so never show cents. */
@@ -62,10 +64,12 @@ const priceFormat: Intl.NumberFormatOptions = {
 function PriceAmount({
   amount,
   className,
+  amountClassName,
   suffix = pricingAmountSuffix,
 }: {
   amount: number;
   className?: string;
+  amountClassName?: string;
   suffix?: string;
 }) {
   return (
@@ -78,7 +82,10 @@ function PriceAmount({
       <AnimatedNumber
         value={amount}
         format={priceFormat}
-        className="text-foreground font-display pr-2 text-xl font-medium tracking-tight sm:text-2xl"
+        className={cn(
+          "text-foreground font-display pr-2 text-xl font-medium tracking-tight sm:text-2xl",
+          amountClassName,
+        )}
       />
       {suffix ? (
         <span className="text-muted-foreground ml-0.5 text-sm font-medium">
@@ -94,6 +101,7 @@ export function PricingPriceDisplay({
   displayAmount,
   yearlyTotalAmount,
   className,
+  amountClassName,
 }: PricingPriceDisplayProps) {
   const showYearlyTotal =
     period === "yearly" && yearlyTotalAmount != null;
@@ -111,6 +119,7 @@ export function PricingPriceDisplay({
         <PriceAmount
           amount={yearlyTotalAmount}
           className={className}
+          amountClassName={amountClassName}
           suffix="/yr"
         />
       </span>
@@ -119,7 +128,11 @@ export function PricingPriceDisplay({
 
   return (
     <span aria-label={ariaLabel} className="inline-flex">
-      <PriceAmount amount={displayAmount} className={className} />
+      <PriceAmount
+        amount={displayAmount}
+        className={className}
+        amountClassName={amountClassName}
+      />
     </span>
   );
 }

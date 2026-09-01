@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Dialog } from "@base-ui/react/dialog";
-import { Cancel01Icon, GripIcon } from "@hugeicons/core-free-icons";
+import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import { buttonVariants } from "@/components/ui/button";
@@ -21,68 +21,41 @@ type SiteMobileMenuProps = {
   /** When set, the panel lists the docs navigation instead of the mega menu. */
   docsGroups?: SiteMobileDocsGroup[];
   className?: string;
+  /** Logo mark rendered inside the white chip (slotted from Astro). */
+  children?: ReactNode;
 };
 
 /**
- * Mobile navigation: a plain in-flow header row (wordmark, trial CTA, and a
- * grip trigger) that opens a side panel with the mega menu groups (or the
- * docs tree on docs pages) and a sticky account row at the bottom.
+ * Mobile navigation, mirroring the desktop pills: a brand pill (logo chip +
+ * Menu trigger) on the left and a Sign in / Try free pill on the right. The
+ * Menu trigger opens a side panel with the mega menu groups (or the docs
+ * tree on docs pages) and a sticky account row at the bottom.
  */
-export function SiteMobileMenu({ docsGroups, className }: SiteMobileMenuProps) {
+export function SiteMobileMenu({
+  docsGroups,
+  className,
+  children,
+}: SiteMobileMenuProps) {
   const [open, setOpen] = useState(false);
   const isDocs = Boolean(docsGroups?.length);
-  // Same behavior as the desktop nav: the header CTA stays quiet (outline)
-  // while the hero's own CTA is on screen and turns primary once it scrolls
-  // away. Pages without a hero CTA keep the primary style from the start.
-  const [heroCtaInView, setHeroCtaInView] = useState(false);
-
-  useEffect(() => {
-    const heroCta = document.querySelector("[data-hero-cta]");
-    if (!heroCta) {
-      return;
-    }
-    const observer = new IntersectionObserver(([entry]) => {
-      setHeroCtaInView(entry?.isIntersecting ?? false);
-    });
-    observer.observe(heroCta);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <div className={className}>
       <div className="flex items-center justify-between gap-3 py-2.5">
-        <a
-          href="/"
-          aria-label="Kobbe homepage"
-          className="text-foreground w-fit font-semibold"
-        >
-          KOBBE
-        </a>
-        <div className="flex items-center gap-3">
-          <a
-            href={APP_SIGNUP_URL}
-            data-kobbe-event="Landing sidebar - start trial"
-            className={cn(
-              buttonVariants({
-                variant: heroCtaInView ? "outline" : "default",
-                size: "xs",
-              }),
-              heroCtaInView &&
-                "border-border bg-card text-muted-foreground hover:bg-card hover:text-foreground",
-            )}
-          >
-            Start a 15-day free trial
-          </a>
-            <Dialog.Root open={open} onOpenChange={setOpen}>
-              <Dialog.Trigger className="text-foreground hover:text-foreground/70 inline-flex items-center transition-colors outline-none">
-                <HugeiconsIcon
-                  icon={GripIcon}
-                  className="size-7"
-                  aria-hidden="true"
-                />
-                <span className="sr-only">Open menu</span>
-              </Dialog.Trigger>
-              <Dialog.Portal>
+        <Dialog.Root open={open} onOpenChange={setOpen}>
+          <div className="bg-muted flex items-center gap-1 rounded-lg p-1 text-sm">
+            <a
+              href="/"
+              className="bg-card flex size-8 items-center justify-center rounded-md shadow-xs"
+              aria-label="Kobbe home"
+            >
+              {children}
+            </a>
+            <Dialog.Trigger className="text-foreground py-1.5 pr-2.5 pl-1.5 font-medium transition-opacity outline-none hover:opacity-70">
+              Menu
+            </Dialog.Trigger>
+          </div>
+          <Dialog.Portal>
                 {/* Near-transparent: the site stays visible behind the panel. */}
                 <Dialog.Backdrop className="bg-background/1 fixed inset-0 z-100 backdrop-blur transition-opacity duration-300 data-ending-style:opacity-0 data-starting-style:opacity-0 motion-reduce:transition-none" />
                 <Dialog.Popup
@@ -198,8 +171,23 @@ export function SiteMobileMenu({ docsGroups, className }: SiteMobileMenuProps) {
                     </a>
                   </div>
                 </Dialog.Popup>
-              </Dialog.Portal>
-            </Dialog.Root>
+          </Dialog.Portal>
+        </Dialog.Root>
+
+        <div className="bg-muted flex items-center gap-1 rounded-lg p-1 text-sm">
+          <a
+            href={APP_SIGNIN_URL}
+            className="text-foreground py-1.5 pr-1.5 pl-2.5 font-medium transition-opacity hover:opacity-70"
+          >
+            Sign in
+          </a>
+          <a
+            href={APP_SIGNUP_URL}
+            data-kobbe-event="Nav - start trial"
+            className="bg-carbon text-background hover:bg-carbon/85 rounded-md px-3 py-1.5 font-medium transition-colors"
+          >
+            Try free
+          </a>
         </div>
       </div>
     </div>

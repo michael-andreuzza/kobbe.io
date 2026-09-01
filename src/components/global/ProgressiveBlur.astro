@@ -2,27 +2,35 @@
 import "@/styles/blur.css";
 
 /**
- * Progressive blur along the bottom edge, scroll-aware: it fades out once
- * you reach the end of the page. (No top blur: the sticky desktop nav sits
- * at the top instead.)
+ * Progressive blur along one edge.
  *
- * Default: fixed to the viewport edge, tracking window scroll.
- * `contained`: absolute inside the nearest positioned ancestor, tracking a
+ * `edge="bottom"` (default) is scroll-aware: it fades out once you reach
+ * the end of the page. Fixed to the viewport edge by default; `contained`
+ * makes it absolute inside the nearest positioned ancestor, tracking a
  * sibling scroll container marked with `data-progressive-blur-scroll`.
+ *
+ * `edge="top"` is a static backdrop for the sticky nav: absolute inside the
+ * header, always visible, no scroll tracking.
  */
 interface Props {
   class?: string;
+  edge?: "top" | "bottom";
   contained?: boolean;
 }
 
-const { class: className = "", contained = false } = Astro.props;
-const containedClass = contained ? "progressive-blur-contained" : "";
+const {
+  class: className = "",
+  edge = "bottom",
+  contained = false,
+} = Astro.props;
+const isBottom = edge === "bottom";
+const containedClass = isBottom && contained ? "progressive-blur-contained" : "";
 ---
 
 <div
-  class={`progressive-blur-bottom ${containedClass} ${className}`.trim()}
-  data-progressive-blur="bottom"
-  data-progressive-blur-contained={contained ? "" : undefined}
+  class={`progressive-blur-${edge} ${containedClass} ${className}`.trim()}
+  data-progressive-blur={isBottom ? "bottom" : undefined}
+  data-progressive-blur-contained={isBottom && contained ? "" : undefined}
   aria-hidden="true"
 >
   <div></div>

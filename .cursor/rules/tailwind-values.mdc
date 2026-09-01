@@ -1,0 +1,28 @@
+---
+description: Prefer Tailwind v4 numeric utilities over arbitrary bracket values
+globs: **/*.{astro,tsx,ts,mdx}
+alwaysApply: true
+---
+
+# Tailwind Values
+
+This project uses Tailwind v4, where spacing, sizing, z-index, scale, and
+similar utilities accept any integer. Do not reach for `[...]` arbitrary
+values when a numeric utility expresses the same thing.
+
+- Spacing scale is `0.25rem` per unit: `52rem` is `w-208`, `14rem` is `w-56`,
+  `18rem` is `w-72`.
+- Applies to `w-*`, `h-*`, `size-*`, `min-*`/`max-*`, `p-*`, `m-*`, `gap-*`,
+  `inset-*`/`top-*`/`left-*`, `translate-*`, `z-*`, `scale-*`, `duration-*`.
+
+```html
+<!-- Bad -->
+<div class="w-[52rem] z-[1] group-hover:scale-[1.15]" />
+
+<!-- Good -->
+<div class="w-208 z-1 group-hover:scale-115" />
+```
+
+Brackets are fine only when there is no utility equivalent: `calc()`, `min()`,
+`clamp()`, viewport units like `60svh`, unitless `leading-[1.08]`, and font
+sizes outside the type scale.

@@ -103,7 +103,7 @@ export function PricingVolumeSlider({
             <span
               key={tier.key}
               className={cn(
-                "absolute top-1/2 z-[1] h-2.5 w-px -translate-y-1/2 rounded-full transition-colors duration-200",
+                "absolute top-1/2 z-1 h-2.5 w-px -translate-y-1/2 rounded-full transition-colors duration-200",
                 pricingSliderTierStopOffsetClass(index, maxIndex),
                 index <= value ? "bg-transparent" : "bg-muted-foreground/45",
               )}

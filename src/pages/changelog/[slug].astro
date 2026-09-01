@@ -1,13 +1,16 @@
 ---
 /**
- * Permalink page for a single changelog entry: article on the left, a
- * mini index of other entries on the right rail, echoing the list rows
- * on /changelog.
+ * Permalink page for a single changelog entry: breadcrumb, sans title,
+ * prose body, then a short "More entries" list in the same hairline rows
+ * as /changelog.
  */
 import { getCollection, render } from "astro:content";
+import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import Button from "@/components/landing/Button.astro";
 import Footer from "@/components/landing/Footer.astro";
 import { changelogDateFormatter, changelogSlug } from "@/lib/changelog";
 
@@ -36,11 +39,11 @@ const otherEntries = (await getCollection("changelog"))
     { name: entry.data.title, item: `/changelog/${changelogSlug(entry.id)}` },
   ]}
 >
-  <section class="pt-24 pb-32 lg:pt-40 lg:pb-48">
+  <section class="pt-24 pb-32 lg:pt-42">
     <Wrapper variant="default">
       <div class="mx-auto max-w-2xl">
         <article>
-          <p class="text-muted-foreground text-sm">
+          <p class="text-muted-foreground text-xs font-medium uppercase">
             <a
               href="/changelog"
               class="hover:text-foreground transition-colors"
@@ -53,52 +56,53 @@ const otherEntries = (await getCollection("changelog"))
             </time>
           </p>
           <h1
-            class="landing-serif text-foreground mt-6 text-[clamp(2.2rem,4vw,3.6rem)] leading-[1.08] text-balance"
+            class="text-foreground mt-4 text-2xl leading-tight font-medium tracking-tight text-balance sm:text-3xl"
           >
             {entry.data.title}
           </h1>
-          <div class="mt-10 lg:mt-14">
+          <div class="mt-10">
             <Wrapper variant="prose">
               <Content />
             </Wrapper>
           </div>
         </article>
 
-        <aside class="mt-20 lg:mt-28">
-          <p
-            class="border-foreground text-foreground border-b-2 pb-3 text-sm font-medium"
-          >
-            More entries
-          </p>
-          {
-            otherEntries.map((other) => (
-              <a
-                href={`/changelog/${changelogSlug(other.id)}`}
-                class="group border-border flex items-baseline justify-between gap-4 border-b py-4"
-              >
-                <span class="min-w-0">
-                  <time
-                    datetime={other.data.date.toISOString().slice(0, 10)}
-                    class="text-muted-foreground block text-xs"
-                  >
-                    {changelogDateFormatter.format(other.data.date)}
-                  </time>
-                  <span class="landing-serif text-foreground mt-1 block text-lg text-pretty transition-transform duration-300 group-hover:translate-x-2">
-                    {other.data.title}
+        <aside class="mt-32">
+          <div class="flex items-end justify-between gap-6">
+            <p class="text-muted-foreground text-xs font-medium uppercase">
+              More entries
+            </p>
+            <Button label="All entries" href="/changelog" variant="outline" />
+          </div>
+          <div class="border-border mt-8 border-t">
+            {
+              otherEntries.map((other) => (
+                <a
+                  href={`/changelog/${changelogSlug(other.id)}`}
+                  class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-5"
+                >
+                  <span class="min-w-0">
+                    <time
+                      datetime={other.data.date.toISOString().slice(0, 10)}
+                      class="text-muted-foreground block text-sm"
+                    >
+                      {changelogDateFormatter.format(other.data.date)}
+                    </time>
+                    <span class="text-foreground mt-1 block text-base text-pretty transition-transform duration-300 group-hover:translate-x-3">
+                      {other.data.title}
+                    </span>
                   </span>
-                </span>
-                <span class="text-foreground text-lg" aria-hidden="true">
-                  ↘
-                </span>
-              </a>
-            ))
-          }
-          <a
-            href="/changelog"
-            class="text-foreground mt-5 inline-block text-sm transition-opacity hover:opacity-70"
-          >
-            All entries <span aria-hidden="true">↘</span>
-          </a>
+                  <HugeiconsIcon
+                    icon={ArrowDownRight01Icon}
+                    size={20}
+                    strokeWidth={1.8}
+                    className="text-foreground"
+                    aria-hidden="true"
+                  />
+                </a>
+              ))
+            }
+          </div>
         </aside>
       </div>
     </Wrapper>

@@ -1,55 +1,25 @@
 ---
-import { Image } from "astro:assets";
-
 import Button from "./Button.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
 import { APP_SIGNUP_URL } from "@/lib/site-mega-menu";
-import dashboardLight from "@/images/assets/dashboard-light.png";
+
 const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
 ---
 
-<section class="pt-24 lg:pt-40">
+<section class="pt-24 lg:pt-42">
   <Wrapper variant="default">
+    {/* One statement, two tones: the claim in ink, the elaboration in gray. */}
     <h1
-      class="landing-serif text-foreground max-w-3xl text-[clamp(2.2rem,4vw,3.6rem)] leading-[1.08] text-balance"
+      class="max-w-5xl text-[clamp(1.5rem,2.5vw,2.25rem)] leading-tight tracking-tight text-balance"
     >
-      Privacy-first analytics that follow the money, <em>not the people.</em>
+      <span class="text-foreground"
+        >Real visitors deserve real numbers. At Kobbe, we</span
+      >{" "}<span class="text-muted-foreground"
+        >follow the money instead of the people: traffic, conversions, and
+        revenue in one dashboard, with no cookies, no consent banners, and no
+        bots in your stats.</span
+      >
     </h1>
-    <div
-      class="mt-8 flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between"
-    >
-      <p class="text-muted-foreground max-w-md text-base text-pretty">
-        Traffic, conversions, and the revenue they turn into, all in one
-        dashboard. No cookies, no consent banner. And bots never make it into
-        your numbers.
-      </p>
-      <div class="flex shrink-0 items-center gap-3">
-        <Button
-          label={`Try free for ${pricingTrialDays} days`}
-          href={APP_SIGNUP_URL}
-        />
-        <Button
-          label="Live demo"
-          href={demoUrl}
-          variant="outline"
-          arrow
-          external
-        />
-      </div>
-    </div>
   </Wrapper>
-
-  <div class="mt-12 overflow-hidden">
-    <Wrapper variant="default">
-      <Image
-        src={dashboardLight}
-        alt="The Kobbe dashboard: visitor KPIs, a traffic trend chart, top pages, and top sources"
-        class="block w-[135%] max-w-none rounded-lg sm:w-[125%] lg:w-full lg:rounded-2xl"
-        widths={[768, 1280, 1920, 2560]}
-        sizes="(min-width: 1600px) 1536px, (min-width: 1024px) 100vw, 135vw"
-        loading="eager"
-      />
-    </Wrapper>
-  </div>
 </section>

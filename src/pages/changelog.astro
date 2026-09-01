@@ -1,10 +1,12 @@
 ---
 /**
- * Changelog index in the landing's list-row language: thick foreground
- * dividers, serif titles, full-row links with a trailing arrow. Entry
- * bodies live on their /changelog/[slug] permalink pages.
+ * Changelog index in the landing language: two-tone statement, then
+ * hairline rows with date, title, and a trailing arrow. Entry bodies live
+ * on their /changelog/[slug] permalink pages.
  */
 import { getCollection } from "astro:content";
+import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
@@ -25,46 +27,50 @@ const entries = (await getCollection("changelog")).sort(
   description={description}
   jsonLdBreadcrumbs={[{ name: "Changelog", item: "/changelog" }]}
 >
-  <section class="pt-24 lg:pt-40">
+  <section class="pt-24 lg:pt-42">
     <Wrapper variant="default">
       <h1
-        class="landing-serif text-foreground max-w-3xl text-[clamp(2.2rem,4vw,3.6rem)] leading-[1.08] text-balance"
+        class="max-w-5xl text-[clamp(1.5rem,2.5vw,2.25rem)] leading-tight tracking-tight text-balance"
       >
-        What shipped, <em>and when.</em>
+        <span class="text-foreground">What shipped, and when.</span>{" "}<span
+          class="text-muted-foreground"
+          >Every improvement to Kobbe, newest first. Features, fixes, and
+          performance work as it ships.</span
+        >
       </h1>
-      <p class="text-muted-foreground mt-8 max-w-md text-base text-pretty">
-        Every improvement to Kobbe, newest first. Features, fixes, and
-        performance work as it ships.
-      </p>
     </Wrapper>
   </section>
 
-  <section class="pt-16 pb-24 lg:pt-24">
+  <section class="mt-32 pb-32">
     <Wrapper variant="default">
-      <div class="border-foreground border-t-2">
+      <p class="text-muted-foreground text-xs font-medium uppercase">
+        All entries
+      </p>
+      <div class="border-border mt-8 border-t">
         {
           entries.map((entry) => (
             <a
               href={`/changelog/${changelogSlug(entry.id)}`}
-              class="group border-foreground flex items-center justify-between gap-6 border-b-2 py-6"
+              class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-5"
             >
-              <div class="min-w-0 sm:flex sm:items-baseline sm:gap-10">
+              <span class="min-w-0 sm:flex sm:items-baseline sm:gap-10">
                 <time
                   datetime={entry.data.date.toISOString().slice(0, 10)}
                   class="text-muted-foreground block text-sm sm:w-28 sm:shrink-0"
                 >
                   {changelogDateFormatter.format(entry.data.date)}
                 </time>
-                <p class="landing-serif text-foreground mt-1 text-2xl text-pretty transition-transform duration-300 group-hover:translate-x-3 sm:mt-0 sm:text-3xl">
+                <span class="text-foreground mt-1 block text-base text-pretty transition-transform duration-300 group-hover:translate-x-3 sm:mt-0 sm:text-lg">
                   {entry.data.title}
-                </p>
-              </div>
-              <span
-                class="text-foreground text-2xl sm:text-3xl"
-                aria-hidden="true"
-              >
-                ↘
+                </span>
               </span>
+              <HugeiconsIcon
+                icon={ArrowDownRight01Icon}
+                size={20}
+                strokeWidth={1.8}
+                className="text-foreground"
+                aria-hidden="true"
+              />
             </a>
           ))
         }

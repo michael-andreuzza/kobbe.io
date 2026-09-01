@@ -1,15 +1,8 @@
 /**
- * The full feature catalog for /features, grouped into themed panels that
- * reuse the landing palette: one chart hue per group, each feature linking
- * to its docs page. The flat list feeds the JSON-LD ItemList.
+ * The full feature catalog for /features, grouped into stacked sections in
+ * the landing language, each feature linking to its docs page. The flat list
+ * feeds the JSON-LD ItemList.
  */
-export type FeatureGroupColor =
-  | "chart-traffic"
-  | "chart-revenue"
-  | "chart-conversions"
-  | "chart-performance"
-  | "carbon";
-
 export interface FeatureItem {
   title: string;
   description: string;
@@ -17,18 +10,18 @@ export interface FeatureItem {
 }
 
 export interface FeatureGroup {
+  eyebrow: string;
   title: string;
   blurb: string;
-  color: FeatureGroupColor;
   items: FeatureItem[];
 }
 
 export const featureGroups: FeatureGroup[] = [
   {
-    title: "Count real people.",
+    eyebrow: "Count real people",
+    title: "Only real visitors make it into your stats.",
     blurb:
       "Numbers you can trust, because everything that is not a person is removed before it counts.",
-    color: "chart-traffic",
     items: [
       {
         title: "Bot filtering",
@@ -75,10 +68,10 @@ export const featureGroups: FeatureGroup[] = [
     ],
   },
   {
-    title: "Follow the money.",
+    eyebrow: "Follow the money",
+    title: "Attribute revenue, not just visits.",
     blurb:
       "Traffic is a vanity metric. See what every page, source, and campaign actually earns.",
-    color: "chart-revenue",
     items: [
       {
         title: "Revenue attribution",
@@ -113,10 +106,10 @@ export const featureGroups: FeatureGroup[] = [
     ],
   },
   {
-    title: "Respect your visitors.",
+    eyebrow: "Respect your visitors",
+    title: "Privacy by default, with your data always portable.",
     blurb:
       "No cookies, no consent banner, nothing personal stored. Analytics that do not need forgiveness.",
-    color: "chart-conversions",
     items: [
       {
         title: "Cookieless tracking",
@@ -139,10 +132,10 @@ export const featureGroups: FeatureGroup[] = [
     ],
   },
   {
-    title: "Watch it perform.",
+    eyebrow: "Watch it perform",
+    title: "Speed and search visibility, in the same dashboard.",
     blurb:
       "How fast your pages feel and how they rank, measured on real visitors instead of lab runs.",
-    color: "chart-performance",
     items: [
       {
         title: "Core Web Vitals",
@@ -171,10 +164,10 @@ export const featureGroups: FeatureGroup[] = [
     ],
   },
   {
-    title: "Work your way.",
+    eyebrow: "Work your way",
+    title: "Bring Kobbe to wherever you already work.",
     blurb:
       "The dashboard is one way in. The terminal, your editor, your menu bar, and your inbox are others.",
-    color: "carbon",
     items: [
       {
         title: "CLI, MCP, and AI agents",

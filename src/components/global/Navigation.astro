@@ -1,14 +1,20 @@
 ---
 /**
  * Global navigation, shared by the landing page and everything else.
- * Desktop: quiet editorial bar (wordmark, sentence-case links, solid CTA)
- * that slides away scrolling down and returns scrolling up, so the landing's
- * full-viewport panels are never covered while reading.
+ * Desktop: a brand pill (logo chip + Menu trigger) on the left, a matching
+ * pill with Pricing, Live demo, Sign in, and Try free on the right, always
+ * visible via sticky. The Menu trigger opens the mega menu panel with the
+ * same link columns as the mobile side panel.
  * Mobile: plain header row opening the side panel (docs tree on docs pages).
  */
+import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+
+import ProgressiveBlur from "@/components/global/ProgressiveBlur.astro";
 import { SiteMobileMenu } from "@/components/global/site-mobile-menu";
+import Logo from "@/components/assets/Logo.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import Button from "@/components/landing/Button.astro";
+import natureImage from "@/images/assets/megamenu-nature.png";
 import { APP_SIGNIN_URL, APP_SIGNUP_URL } from "@/lib/site-mega-menu";
 
 interface Props {
@@ -20,72 +26,209 @@ interface Props {
 
 const { docsNavGroups } = Astro.props;
 
-const links = [
-  { label: "Features", href: "/#features" },
-  { label: "Pricing", href: "/#pricing" },
-  { label: "Docs", href: "/docs" },
+const DEMO_URL = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
+
+// Desktop mega menu picks, in display order. Pricing and the live demo are
+// already in the nav pill; the long per-platform guide lists stay in the
+// mobile panel and on their index pages.
+const megaMenuLinks = [
+  {
+    href: "/features",
+    label: "All features",
+    description: "Overview, funnels, revenue, privacy, and more.",
+  },
+  {
+    href: "/docs/add-the-tracker",
+    label: "Add the tracker",
+    description: "Copy the snippet and verify pageviews.",
+  },
+  {
+    href: "/docs/installation-guides",
+    label: "Installation guides",
+    description: "Astro, Next.js, Framer, Shopify, Webflow, and more.",
+  },
+  {
+    href: "/docs/revenue-attribution",
+    label: "Revenue attribution",
+    description: "Connect Stripe, Polar, Paddle, Shopify, and more.",
+  },
+  {
+    href: "/docs/funnels",
+    label: "Funnels",
+    description: "See where visitors drop off step by step.",
+  },
+  {
+    href: "/docs/conversions",
+    label: "Conversions",
+    description: "Track goals without wiring every click.",
+  },
+  {
+    href: "/docs/realtime-visitors",
+    label: "Realtime visitors",
+    description: "Watch live traffic and recent events.",
+  },
+  {
+    href: "/docs/raycast",
+    label: "Raycast extension",
+    description: "Live visitors in your menu bar, dashboards one keystroke away.",
+  },
 ];
 ---
 
-<header
-  class="bg-background sticky top-0 z-50 hidden py-2.5 transition-transform duration-300 lg:block print:hidden"
-  data-site-nav
->
-  <Wrapper variant="nav" class="flex items-center justify-between">
-    <a href="/" class="text-foreground text-xl font-semibold tracking-tight">
-      Kobbe
-    </a>
-    <nav class="flex items-center gap-6 text-sm" aria-label="Primary">
-      {
-        links.map((link) => (
+<header class="sticky top-0 z-50 hidden py-2.5 lg:block">
+  <ProgressiveBlur edge="top" />
+  <Wrapper variant="nav" class="relative flex items-center justify-between">
+    <div class="relative" data-mega-menu>
+      <div class="bg-muted flex items-center gap-1 rounded-lg p-1 text-sm">
+        <a
+          href="/"
+          class="bg-card flex size-8 items-center justify-center rounded-md shadow-xs"
+          aria-label="Kobbe home"
+        >
+          <Logo class="text-foreground size-4.5" />
+        </a>
+        <button
+          type="button"
+          class="text-foreground py-1.5 pr-2.5 pl-1.5 font-medium transition-opacity hover:opacity-70"
+          aria-expanded="false"
+          aria-haspopup="true"
+          data-mega-menu-trigger
+        >
+          Menu
+        </button>
+      </div>
+      <nav
+        class="inverted bg-card ring-border absolute top-full left-0 mt-2 hidden w-220 overflow-hidden rounded-lg shadow-lg"
+        aria-label="Primary"
+        data-mega-menu-panel
+      >
+        <div class="grid grid-cols-[1fr_17rem]">
+          <ul class="grid grid-cols-2 gap-x-8 gap-y-7 p-7">
+            {
+              megaMenuLinks.map((link) => (
+                <li>
+                  <a href={link.href} class="group block">
+                    <span class="text-foreground block text-sm font-medium transition-opacity group-hover:opacity-70">
+                      {link.label}
+                    </span>
+                    {link.description ? (
+                      <span class="text-muted-foreground mt-1 block text-sm leading-snug">
+                        {link.description}
+                      </span>
+                    ) : null}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+
           <a
-            href={link.href}
-            class="text-foreground transition-opacity hover:opacity-70"
+            href="/docs"
+            class="group relative flex flex-col justify-end overflow-hidden p-5"
           >
-            {link.label}
+            <img
+              src={natureImage.src}
+              alt=""
+              width={natureImage.width}
+              height={natureImage.height}
+              class="absolute inset-0 size-full scale-110 object-cover blur-xl transition-transform duration-500 group-hover:scale-115"
+            />
+            {/* Scrim into the panel color so the copy stays legible. */}
+            <span
+              class="from-card/80 via-card/10 absolute inset-0 bg-linear-to-t to-transparent"
+              aria-hidden="true"></span>
+            <span
+              class="text-foreground relative flex items-center gap-1 text-sm font-medium"
+            >
+              Read the docs
+              <HugeiconsIcon
+                icon={ArrowUpRight01Icon}
+                size={16}
+                strokeWidth={2}
+                aria-hidden="true"
+              />
+            </span>
+            <span
+              class="text-muted-foreground relative mt-2 block text-sm leading-snug"
+            >
+              Guides for setup, tracking, and dashboards, plus every
+              installation and revenue guide.
+            </span>
           </a>
-        ))
-      }
+        </div>
+      </nav>
+    </div>
+    <div class="bg-muted flex items-center gap-1 rounded-lg p-1 text-sm">
+      <a
+        href="/#pricing"
+        class="text-foreground py-1.5 pr-1.5 pl-2.5 font-medium transition-opacity hover:opacity-70"
+      >
+        Pricing
+      </a>
+      <a
+        href={DEMO_URL}
+        class="text-foreground px-1.5 py-1.5 font-medium transition-opacity hover:opacity-70"
+      >
+        Live demo
+      </a>
       <a
         href={APP_SIGNIN_URL}
-        class="text-foreground transition-opacity hover:opacity-70"
+        class="text-foreground px-1.5 py-1.5 font-medium transition-opacity hover:opacity-70"
       >
         Sign in
       </a>
-      <Button label="Try free" href={APP_SIGNUP_URL} />
-    </nav>
+      <a
+        href={APP_SIGNUP_URL}
+        class="bg-carbon text-background hover:bg-carbon/85 rounded-md px-3 py-1.5 font-medium transition-colors"
+      >
+        Try free
+      </a>
+    </div>
   </Wrapper>
 </header>
 
-<header class="bg-background sticky top-0 z-40 lg:hidden print:hidden">
-  <Wrapper variant="nav">
-    <SiteMobileMenu client:load docsGroups={docsNavGroups} />
+<header class="sticky top-0 z-40 lg:hidden">
+  <ProgressiveBlur edge="top" />
+  <Wrapper variant="nav" class="relative">
+    <SiteMobileMenu client:load docsGroups={docsNavGroups}>
+      <Logo class="text-foreground size-4.5" />
+    </SiteMobileMenu>
   </Wrapper>
 </header>
 
 <script>
-  // Re-grab the nav on every swap; the ClientRouter replaces the document.
-  let nav: HTMLElement | null = null;
-  let lastY = 0;
+  // Mega menu behavior: toggle on click, close on outside click, Escape,
+  // or picking a link.
+  function bindMenu() {
+    const root = document.querySelector<HTMLElement>("[data-mega-menu]");
+    const trigger = root?.querySelector<HTMLButtonElement>(
+      "[data-mega-menu-trigger]",
+    );
+    const panel = root?.querySelector<HTMLElement>("[data-mega-menu-panel]");
+    if (!root || !trigger || !panel || root.dataset.bound) return;
+    root.dataset.bound = "true";
 
-  function bind() {
-    nav = document.querySelector<HTMLElement>("[data-site-nav]");
-    lastY = window.scrollY;
+    const setOpen = (open: boolean) => {
+      panel.classList.toggle("hidden", !open);
+      panel.classList.toggle("block", open);
+      trigger.setAttribute("aria-expanded", String(open));
+    };
+
+    trigger.addEventListener("click", () => {
+      setOpen(panel.classList.contains("hidden"));
+    });
+    panel.addEventListener("click", (event) => {
+      if ((event.target as HTMLElement).closest("a")) setOpen(false);
+    });
+    document.addEventListener("click", (event) => {
+      if (!root.contains(event.target as Node)) setOpen(false);
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setOpen(false);
+    });
   }
 
-  document.addEventListener("astro:page-load", bind);
-  bind();
-
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (!nav) return;
-      const y = window.scrollY;
-      // Always show near the top; otherwise hide going down, show going up.
-      const hide = y > 120 && y > lastY;
-      nav.style.transform = hide ? "translateY(-100%)" : "";
-      lastY = y;
-    },
-    { passive: true },
-  );
+  // Re-bind on every swap; the ClientRouter replaces the document.
+  document.addEventListener("astro:page-load", bindMenu);
+  bindMenu();
 </script>

@@ -7,6 +7,7 @@
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { APP_SIGNUP_URL } from "@/lib/site-mega-menu";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
+import { featureGroups } from "@/components/features/features";
 import Button from "./Button.astro";
 
 const columns = [
@@ -20,8 +21,6 @@ const columns = [
       { label: "All features", href: "/features" },
       { label: "Changelog", href: "/changelog" },
       { label: "Pricing", href: "/#pricing" },
-      { label: "Bot filtering", href: "/docs/bot-filtering" },
-      { label: "Revenue attribution", href: "/docs/revenue-attribution" },
     ],
   },
   {
@@ -55,58 +54,72 @@ const columns = [
 ];
 ---
 
-<footer>
+<footer class="bg-carbon">
   <Wrapper variant="default">
-    <!-- Quiet CTA on paper -->
+    <!-- Quiet CTA in the hero's two-tone voice -->
     <div
-      class="flex flex-col gap-6 py-16 sm:flex-row sm:items-end sm:justify-between"
+      class="flex flex-col gap-8 py-24 sm:flex-row sm:items-end sm:justify-between"
     >
       <h2
-        class="landing-serif text-foreground max-w-3xl text-[clamp(2rem,4.4vw,3.6rem)] leading-[1.05] text-balance"
+        class="max-w-2xl text-[clamp(1.5rem,2.5vw,2.25rem)] leading-tight tracking-tight text-balance"
       >
-        Find out what your traffic is <em>actually worth.</em>
+        <span class="text-background"
+          >Find out what your traffic is actually worth.</span
+        >{" "}<span class="text-muted-foreground"
+          >Free for {pricingTrialDays} days, no credit card required.</span
+        >
       </h2>
       <Button
+        variant="solid-light"
         label={`Try free for ${pricingTrialDays} days`}
         href={APP_SIGNUP_URL}
       />
     </div>
 
-    <!-- Floating carbon footer with the same rounded cutout as the panels;
-         fills the viewport on desktop like the pricing panel. -->
-    <div
-      class="pb-8 [--panel:var(--carbon)] lg:flex lg:h-[calc(100svh-1.5rem)] lg:flex-col 2xl:max-h-208"
-    >
-      <div class="flex">
-        <div class="bg-carbon h-12 grow rounded-t-3xl sm:h-14"></div>
-        <div class="relative w-28 sm:w-44">
-          <span
-            class="landing-fillet-tr absolute -bottom-px -left-px size-6.25"
-            aria-hidden="true"></span>
+    <div class="pb-8">
+      <div class="text-background overflow-hidden">
+        <!-- Site links -->
+        <div class="grid grid-cols-2 gap-8 sm:grid-cols-4">
+          {
+            columns.map((column) => (
+              <div class="space-y-3">
+                <p class="text-background/50 text-sm font-medium ">
+                  {column.title}
+                </p>
+                <ul class="space-y-2">
+                  {column.links.map((link) => (
+                    <li>
+                      <a
+                        href={link.href}
+                        class="text-background/80 hover:text-background text-sm transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
         </div>
-      </div>
-      <div
-        class="bg-carbon text-background -mt-px overflow-hidden rounded-tr-3xl rounded-b-3xl px-6 pt-8 sm:px-10 lg:flex lg:grow lg:flex-col"
-      >
-        <div class="grid grid-cols-1 gap-12 pb-16 lg:grid-cols-12">
-          <div class="lg:col-span-4">
-            <p class="text-background/60 max-w-56 text-sm text-pretty">
-              Web analytics that respect your visitors.
-            </p>
-          </div>
-          <div class="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:col-span-8">
+
+        <!-- Every feature, grouped the same way as /features -->
+        <div class="border-background/10 mt-16 border-t pt-16 pb-16">
+          <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
             {
-              columns.map((column) => (
+              featureGroups.map((group) => (
                 <div class="space-y-3">
-                  <p class="text-background/50 text-sm">{column.title}</p>
+                  <p class="text-background/50 text-sm font-medium ">
+                    {group.eyebrow}
+                  </p>
                   <ul class="space-y-2">
-                    {column.links.map((link) => (
+                    {group.items.map((item) => (
                       <li>
                         <a
-                          href={link.href}
+                          href={item.href}
                           class="text-background/80 hover:text-background text-sm transition-colors"
                         >
-                          {link.label}
+                          {item.title}
                         </a>
                       </li>
                     ))}
@@ -117,15 +130,22 @@ const columns = [
           </div>
         </div>
 
-        <p
-          class="text-background -mx-2 text-[clamp(6rem,27.5vw,26rem)] leading-[0.82] font-bold tracking-tighter select-none lg:mt-auto"
+        <!-- Wordmark scales with the footer width; viewBox keeps the ratio. -->
+        <svg
+          viewBox="0 0 31 9"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="text-background h-auto w-full select-none"
           aria-hidden="true"
         >
-          Kobbe
-        </p>
+          <path
+            d="M-2.34246e-05 8.3999V-9.82285e-05H1.83598V4.5599L3.94798 2.3999H6.20398L3.82798 4.7039L6.51598 8.3999H4.24798L2.54398 5.9639L1.83598 6.6479V8.3999H-2.34246e-05ZM8.25785 8.5919C6.33785 8.5919 5.05385 7.3319 5.05385 5.3999C5.05385 3.4679 6.33785 2.2079 8.25785 2.2079C10.1539 2.2079 11.4379 3.4679 11.4379 5.3999C11.4379 7.3319 10.1539 8.5919 8.25785 8.5919ZM6.91385 5.3999C6.91385 6.4079 7.45385 7.0559 8.25785 7.0559C9.03785 7.0559 9.57785 6.4079 9.57785 5.3999C9.57785 4.3919 9.03785 3.7439 8.25785 3.7439C7.45385 3.7439 6.91385 4.3919 6.91385 5.3999ZM15.2045 8.5919C14.0285 8.5919 13.4645 7.9559 13.1525 6.9479H12.5525V7.0679C12.7925 7.4279 13.0565 8.0159 13.1525 8.3999H11.3165V-9.82285e-05H13.1525V1.1159C13.1525 2.1719 12.9245 3.0479 12.5525 3.7319V3.8519H13.1525C13.4645 2.8439 14.1245 2.2079 15.2045 2.2079C16.7525 2.2079 17.8565 3.5279 17.8565 5.3999C17.8565 7.2719 16.7525 8.5919 15.2045 8.5919ZM13.1285 5.3999C13.1285 6.4079 13.7165 7.0559 14.5565 7.0559C15.4205 7.0559 15.9965 6.4079 15.9965 5.3999C15.9965 4.3919 15.4205 3.7439 14.5565 3.7439C13.7165 3.7439 13.1285 4.3919 13.1285 5.3999ZM21.6245 8.5919C20.4485 8.5919 19.8845 7.9559 19.5725 6.9479H18.9725V7.0679C19.2125 7.4279 19.4765 8.0159 19.5725 8.3999H17.7365V-9.82285e-05H19.5725V1.1159C19.5725 2.1719 19.3445 3.0479 18.9725 3.7319V3.8519H19.5725C19.8845 2.8439 20.5445 2.2079 21.6245 2.2079C23.1725 2.2079 24.2765 3.5279 24.2765 5.3999C24.2765 7.2719 23.1725 8.5919 21.6245 8.5919ZM19.5485 5.3999C19.5485 6.4079 20.1365 7.0559 20.9765 7.0559C21.8405 7.0559 22.4165 6.4079 22.4165 5.3999C22.4165 4.3919 21.8405 3.7439 20.9765 3.7439C20.1365 3.7439 19.5485 4.3919 19.5485 5.3999ZM27.1805 8.5919C25.1405 8.5919 23.8685 7.3319 23.8685 5.3999C23.8685 3.4679 25.0685 2.2079 27.0725 2.2079C28.7285 2.2079 30.1205 3.2159 30.1205 5.2679C30.1205 5.4479 30.1085 5.6279 30.0965 5.7479H25.7285C25.8365 6.6359 26.4605 7.1759 27.1805 7.1759C27.8285 7.1759 28.2845 6.8639 28.4045 6.3719H30.1565C29.9525 7.7039 28.8605 8.5919 27.1805 8.5919ZM25.7765 4.6439H28.2485C28.2365 3.9719 27.7805 3.5519 27.0365 3.5519C26.3405 3.5519 25.8605 3.9479 25.7765 4.6439Z"
+            fill="currentColor"
+          />
+        </svg>
 
         <div
-          class="text-background/50 flex flex-wrap items-center justify-between gap-2 py-5 text-xs"
+          class="text-background/50 flex flex-wrap items-center justify-between gap-2 py-5 text-sm"
         >
           <span>© 2026 Kobbe. All rights reserved.</span>
           <span>Made in Åland Islands, Finland. EU</span>

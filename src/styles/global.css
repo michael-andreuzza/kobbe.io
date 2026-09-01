@@ -6,7 +6,6 @@
 @import "./shadows.css";
 @import "./code.css";
 @import "./fonts.css";
-@import "./landing.css";
 @plugin "@tailwindcss/typography";
 
 @theme inline {

@@ -1,4 +1,7 @@
 ---
+import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+
 /**
  * Plain editorial button: solid carbon, hairline outline on paper, or a
  * light outline for colored/dark panels. Sentence case, optional arrow.
@@ -31,5 +34,14 @@ const variants = {
   class:list={[base, variants[variant]]}
 >
   {label}
-  {arrow ? <span aria-hidden="true">↘</span> : null}
+  {
+    arrow ? (
+      <HugeiconsIcon
+        icon={ArrowDownRight01Icon}
+        size={16}
+        strokeWidth={1.8}
+        aria-hidden="true"
+      />
+    ) : null
+  }
 </a>

@@ -96,5 +96,17 @@ export function groupDocsNavLinks(links: DocsNavLink[]) {
     }
   }
 
+  // The changelog lives outside the docs collection but belongs next to the
+  // onboarding docs in the sidebar.
+  const getStarted = groups.find((group) => group.category === "Get started");
+  if (getStarted && !getStarted.items.some((item) => item.href === "/changelog")) {
+    getStarted.items.push({
+      href: "/changelog",
+      label: "Changelog",
+      category: "Get started",
+      isActive: false,
+    });
+  }
+
   return groups;
 }

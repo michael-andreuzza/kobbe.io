@@ -75,3 +75,63 @@
   backdrop-filter: blur(16px);
   mask-image: linear-gradient(to bottom, transparent 88%, black 100%);
 }
+
+/* Mirrored variant behind the sticky nav: absolute inside the bar,
+   extending past its bottom edge so the blur ramps down smoothly. Pure
+   blur, no background veil. */
+.progressive-blur-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 150%;
+  pointer-events: none;
+}
+
+.progressive-blur-top > div {
+  position: absolute;
+  inset: 0;
+}
+
+.progressive-blur-top > div:nth-child(1) {
+  backdrop-filter: blur(0.5px);
+  mask-image: linear-gradient(
+    to top,
+    transparent 0%,
+    black 20%,
+    black 40%,
+    transparent 60%
+  );
+}
+.progressive-blur-top > div:nth-child(2) {
+  backdrop-filter: blur(1px);
+  mask-image: linear-gradient(
+    to top,
+    transparent 20%,
+    black 40%,
+    black 60%,
+    transparent 80%
+  );
+}
+.progressive-blur-top > div:nth-child(3) {
+  backdrop-filter: blur(2px);
+  mask-image: linear-gradient(
+    to top,
+    transparent 40%,
+    black 60%,
+    black 80%,
+    transparent 100%
+  );
+}
+.progressive-blur-top > div:nth-child(4) {
+  backdrop-filter: blur(4px);
+  mask-image: linear-gradient(to top, transparent 60%, black 80%, black 100%);
+}
+.progressive-blur-top > div:nth-child(5) {
+  backdrop-filter: blur(8px);
+  mask-image: linear-gradient(to top, transparent 75%, black 100%);
+}
+.progressive-blur-top > div:nth-child(6) {
+  backdrop-filter: blur(16px);
+  mask-image: linear-gradient(to top, transparent 88%, black 100%);
+}

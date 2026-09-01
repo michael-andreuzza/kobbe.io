@@ -7,9 +7,9 @@ interface Props {
 const { variant = "default", class: extraClass = "", id } = Astro.props;
 // Map each variant to its specific classes
 const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
-  nav: "mx-auto max-w-screen 2xl:max-w-400 px-8",
+  nav: "mx-auto max-w-340  px-8",
   // Grids
-  default: "mx-auto max-w-screen 2xl:max-w-400 px-8",
+  default: "mx-auto max-w-340  px-8",
   wide: "mx-auto px-8 max-w-380",
   narrow: "mx-auto max-w-150 px-8  ",
 
@@ -21,11 +21,12 @@ const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
     "max-w-none",
     "text-muted-foreground",
     // Headings
-    "prose-headings:font-semibold",
+    "prose-headings:font-medium",
+    "prose-headings:tracking-tight",
     "prose-headings:text-foreground",
     "prose-headings:first:mt-0",
     // Paragraphs
-    "prose-p:font-medium",
+    "prose-p:font-normal",
     "prose-p:text-muted-foreground",
     // Blockquotes
     "prose-blockquote:border-border",
@@ -45,8 +46,8 @@ const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
     // point them at the semantic border token so dividers match.
     "[--tw-prose-th-borders:var(--border)]",
     "[--tw-prose-td-borders:var(--border)]",
-    // Tables can't shrink below their min-content width, so on narrow
-    // screens they scroll in place instead of widening the page.
+    // T4blnk below their min-content width, so on narrow
+    // 320s they scroll in place instead of widening the page.
     "prose-table:block",
     "prose-table:overflow-x-auto",
     "prose-table:w-full",
@@ -62,8 +63,8 @@ const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
     "prose-th:py-2.5",
     "prose-th:pr-4",
     "prose-th:text-xs",
-    "prose-th:font-semibold",
-    "prose-th:tracking-wide",
+    "prose-th:font-medium",
+    "prose-th:uppercase",
     "prose-th:text-muted-foreground",
     "prose-td:border-0",
     "prose-td:py-2.5",
