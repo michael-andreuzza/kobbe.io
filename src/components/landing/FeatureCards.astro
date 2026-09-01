@@ -61,17 +61,17 @@ const features = [
               {feature.body}{" "}
               <a
                 href={feature.href}
-                class="text-foreground underline decoration-1 underline-offset-4 transition-opacity hover:opacity-70 font-medium"
+                class="text-foreground font-medium underline decoration-1 underline-offset-4 transition-opacity hover:opacity-70"
               >
                 {feature.linkLabel}
               </a>
             </p>
           </div>
-          <div class="bg-muted mt-10 h-auto overflow-hidden pb-0 lg:pb-0 rounded-lg px-6 pt-8 sm:h-120  lg:h-132 l lg:pt-20">
+          <div class="bg-muted l mt-10 h-auto overflow-hidden rounded-lg px-6 pt-8 pb-0 sm:h-120 lg:h-152 lg:pt-20 lg:pb-0">
             <Image
               src={feature.image}
               alt={feature.imageAlt}
-              class=" mx-auto block w-full max-w-5xl rounded-t-lg "
+              class="mx-auto -mb-4 block w-full max-w-5xl rounded lg:rounded-t-lg"
               widths={[768, 1280, 1920, 2560]}
               sizes="(min-width: 1024px) 896px, 100vw"
               loading="lazy"

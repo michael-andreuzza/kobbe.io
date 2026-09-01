@@ -245,7 +245,7 @@ const exploreColumn: MegaMenuColumn = {
     },
     {
       id: "features",
-      href: "/#benefits",
+      href: "/features",
       label: "All features",
       description: "Overview, funnels, revenue, privacy, and more.",
     },
@@ -292,10 +292,10 @@ const capabilitiesColumn: MegaMenuColumn = {
       description: "See where visitors drop off step by step.",
     },
     {
-      id: "insights",
-      href: "/docs/insights",
-      label: "Insights",
-      description: "Engagement KPIs, breakdown tables, and heatmaps.",
+      id: "raycast",
+      href: "/docs/raycast",
+      label: "Raycast extension",
+      description: "Live visitors in your menu bar, dashboards one keystroke away.",
     },
     {
       id: "conversions",
