@@ -21,6 +21,22 @@
   opacity: 0;
 }
 
+/* Static in-panel variant: a short always-on blur band pinned to the bottom
+   edge of a media panel (e.g. landing feature screenshots). Shares the
+   stacked layers of .progressive-blur-bottom. */
+.progressive-blur-edge {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 3.5rem;
+  pointer-events: none;
+}
+
+.progressive-blur-edge > div {
+  position: absolute;
+  inset: 0;
+}
+
 .progressive-blur-bottom > div {
   position: absolute;
   inset: 0;
@@ -28,7 +44,7 @@
 
 /* Stacked backdrop blurs with staggered gradient masks: each layer only
    covers a band closer to the edge, so the blur ramps up smoothly. */
-.progressive-blur-bottom > div:nth-child(1) {
+:is(.progressive-blur-bottom, .progressive-blur-edge) > div:nth-child(1) {
   backdrop-filter: blur(0.5px);
   mask-image: linear-gradient(
     to bottom,
@@ -38,7 +54,7 @@
     transparent 60%
   );
 }
-.progressive-blur-bottom > div:nth-child(2) {
+:is(.progressive-blur-bottom, .progressive-blur-edge) > div:nth-child(2) {
   backdrop-filter: blur(1px);
   mask-image: linear-gradient(
     to bottom,
@@ -48,7 +64,7 @@
     transparent 80%
   );
 }
-.progressive-blur-bottom > div:nth-child(3) {
+:is(.progressive-blur-bottom, .progressive-blur-edge) > div:nth-child(3) {
   backdrop-filter: blur(2px);
   mask-image: linear-gradient(
     to bottom,
@@ -58,7 +74,7 @@
     transparent 100%
   );
 }
-.progressive-blur-bottom > div:nth-child(4) {
+:is(.progressive-blur-bottom, .progressive-blur-edge) > div:nth-child(4) {
   backdrop-filter: blur(4px);
   mask-image: linear-gradient(
     to bottom,
@@ -67,11 +83,11 @@
     black 100%
   );
 }
-.progressive-blur-bottom > div:nth-child(5) {
+:is(.progressive-blur-bottom, .progressive-blur-edge) > div:nth-child(5) {
   backdrop-filter: blur(8px);
   mask-image: linear-gradient(to bottom, transparent 75%, black 100%);
 }
-.progressive-blur-bottom > div:nth-child(6) {
+:is(.progressive-blur-bottom, .progressive-blur-edge) > div:nth-child(6) {
   backdrop-filter: blur(16px);
   mask-image: linear-gradient(to bottom, transparent 88%, black 100%);
 }

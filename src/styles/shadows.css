@@ -29,6 +29,11 @@
     0 0 32px 8px rgba(0, 0, 0, 0.04), var(--shadow-elevation-lg);
   --shadow-surface-xl: var(--shadow-surface-rings),
     0 0 32px 8px rgba(0, 0, 0, 0.04), var(--shadow-elevation-xl);
+  /* App-shell floating panel, copied from the app's shadows.css: white
+     highlight ring + warm-gray border ring (the rings ARE the edge — no real
+     border), then a long geometric cascade of faint drops. Used on product
+     screenshots so they carry the exact chrome they have in the app. */
+  --shadow-panel: var(--theme-shadow-panel);
 }
 
 :root {
@@ -70,6 +75,17 @@
   --theme-shadow-card: var(--shadow-elevation-sm);
   --theme-shadow-dialog: var(--shadow-elevation-xl);
   --theme-shadow-command: var(--shadow-elevation-xl);
+  /* Shadow ink matches the app: deep warm gray on the neutral hue so drops
+     read as darker canvas, not a cool overlay. */
+  --shadow-ink: oklch(0.35 0.045 84.559);
+  --theme-shadow-panel: 0px 0px 0px 1px #fff,
+    0px 0px 0px 2px color-mix(in oklab, var(--shadow-ink) 8%, transparent),
+    0px 2px 1px 0px color-mix(in oklab, var(--shadow-ink) 2%, transparent),
+    0px 2px 1px -0.5px color-mix(in oklab, var(--shadow-ink) 2%, transparent),
+    0px 4px 3px -1.5px color-mix(in oklab, var(--shadow-ink) 2%, transparent),
+    0px 7px 6px -3px color-mix(in oklab, var(--shadow-ink) 2%, transparent),
+    0px 13px 12px -6px color-mix(in oklab, var(--shadow-ink) 2%, transparent),
+    0px 25px 24px -12px color-mix(in oklab, var(--shadow-ink) 2%, transparent);
 }
 
 /* Inverted megamenu surface (dark panel on light pages): flip the elevation
