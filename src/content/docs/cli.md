@@ -39,6 +39,7 @@ kobbe login --token kbpat_YOUR_TOKEN --api https://app.kobbe.io
 
 ```bash
 kobbe sites
+kobbe live
 kobbe overview --site site_123 --range today
 kobbe next --site site_123 --range today
 kobbe setup-health --site site_123

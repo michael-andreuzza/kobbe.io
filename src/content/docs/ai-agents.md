@@ -20,7 +20,7 @@ Kobbe works with any MCP-compatible client: point it at `kobbe mcp` and it can q
 - Copy the token immediately (shown once)
 - Workspace owners and managers only
 
-Agent access is included on every plan.
+Agent access is included on every plan, including the trial. If a trial or subscription lapses, API requests return `plan_required` until billing is active again.
 
 Log in with the CLI:
 
@@ -45,6 +45,7 @@ MCP tools include:
 | Tool                | What it does                                                           |
 | ------------------- | ---------------------------------------------------------------------- |
 | `list_sites`        | List sites the token can access.                                       |
+| `get_live`          | Visitors online right now, for every site at once.                     |
 | `get_overview`      | Read headline traffic KPIs for one site.                               |
 | `get_revenue`       | Read revenue totals and attribution health for one site.               |
 | `get_top_pages`     | Inspect top pages for a site and time range.                           |
@@ -67,6 +68,7 @@ Scopes:
 | ---------------- | -------------------------------------------------------------- |
 | `sites:read`     | List and inspect sites.                                        |
 | `analytics:read` | Read overview, pages, sources, setup health, and next actions. |
+| `revenue:read`   | Read revenue totals and attribution health.                    |
 | `sites:write`    | Create or update sites.                                        |
 | `tokens:write`   | Rotate tracker tokens.                                         |
 | `danger:write`   | Delete sites or reset analytics data.                          |
