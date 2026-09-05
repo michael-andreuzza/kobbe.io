@@ -1,9 +1,11 @@
 ---
 title: The dashboard, redesigned
 date: 2026-08-24
-description: A calmer dashboard with a boxless KPI strip, cleaner cards, monochrome charts, and bot stats folded into the Sources card.
+description: One overview screen for KPIs, the visitors chart, top pages, sources, and bot filtering.
+image: /images/changelog/new-dashboard.webp
+imageAlt: Kobbe dashboard overview with a KPI row, visitors over time chart, Pages card, and Sources card with the Bots tab.
 ---
 
-A full visual pass over the app: the KPI strip loses its boxes and reads as one row with dividers, cards get a quieter chrome with hairline borders, charts go monochrome with a single accent, and desktop layouts get more breathing room.
+The overview is one screen again: KPIs across the top, the visitors chart in the middle, and **Pages** and **Sources** cards below. Traffic, revenue, and the pages driving it stay on the same page instead of jumping between views.
 
-Bot stats moved from their own page into a **Bots** tab on the Sources card, so filtered traffic sits next to the traffic that counted. A short guided tour walks new users through the overview.
+Bot filtering moved into a **Bots** tab on **Sources**, next to referrers, channels, and hostnames, so filtered traffic sits beside the traffic that counted. A short guided tour walks new users through the layout on first visit.

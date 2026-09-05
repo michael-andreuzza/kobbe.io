@@ -1,0 +1,11 @@
+---
+description: Body copy style for docs, changelog, and marketing content
+globs: src/content/**,AGENTS.md
+alwaysApply: false
+---
+
+# Copy Style
+
+- Do not use em dashes (`—`) in body text, changelog entries, docs, or other user-facing copy.
+- Use a colon, comma, period, or rephrase instead. Example: `**Live Visitors**: count in the menu bar`, not `**Live Visitors** — count in the menu bar`.
+- En dashes for numeric ranges are fine (`2024–2026`). Arrow glyphs for UI paths are fine (`Settings → Exclusions`).

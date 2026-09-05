@@ -39,11 +39,20 @@ const otherEntries = (await getCollection("changelog"))
     { name: entry.data.title, item: `/changelog/${changelogSlug(entry.id)}` },
   ]}
 >
-  <section class="pt-24 pb-32 lg:pt-42">
+  <section class="pt-24 pb-32 lg:pt-24">
     <Wrapper variant="default">
       <div class="mx-auto max-w-2xl">
         <article>
-          <p class="text-muted-foreground text-xs font-medium uppercase">
+          {
+            entry.data.image ? (
+              <img
+                src={entry.data.image}
+                alt={entry.data.imageAlt ?? ""}
+                class=" w-full rounded-lg"
+              />
+            ) : null
+          }
+          <p class="text-muted-foreground text-xs font-medium uppercase mt-12">
             <a
               href="/changelog"
               class="hover:text-foreground transition-colors"

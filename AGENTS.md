@@ -9,6 +9,7 @@ This repository is the Kobbe marketing and docs site built with Astro.
 - Avoid `mb-*` for page-level vertical spacing; use `mt-*`, `gap-*`, or `space-y-*` instead.
 - Keep legal, support, and docs copy in content collections under `src/content/*` unless the user explicitly asks for a hardcoded page.
 - Do not add new markdown docs outside content collections unless the user asks for standalone documentation.
+- Do not use em dashes in body copy. Use a colon, comma, or rephrase instead.
 
 ## Layout And Content
 

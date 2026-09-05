@@ -2,6 +2,8 @@
 title: Revenue attribution
 date: 2026-08-03
 description: Purchases now attribute to the pages, sources, and campaigns that drove them, with configurable lookback windows and attribution models.
+image: /images/changelog/revenue-attribution.webp
+imageAlt: Revenue attribution in Kobbe, showing purchases attributed to pages, sources, and campaigns.
 ---
 
 The biggest launch so far: connect your payment provider and every purchase is attributed to the pages, referrers, and campaigns the buyer actually visited. Choose the lookback window and the model (last-touch, first-touch, or linear), and follow individual purchase journeys from first visit to checkout.
