@@ -1,62 +1,139 @@
-import { Button as ButtonPrimitive } from "@base-ui/react/button";
-import { cva, type VariantProps } from "class-variance-authority";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 import { cn } from "@/lib/utils";
 
-const buttonVariants = cva(
-  "group/button inline-flex shrink-0 cursor-pointer items-center justify-center border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-  {
-    variants: {
-      variant: {
-        /* Flat carbon primary: plain fill, xs shadow, no skeuomorphic chrome. */
-        default:
-          "bg-carbon text-primary-foreground shadow-xs hover:bg-carbon/90",
-        /* App outline chrome; border-input so the hairline reads on the sand
-           canvas, and .inverted redefines --input for carbon panels. */
-        outline:
-          "border-input text-foreground hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground shadow-xs bg-transparent",
-        secondary:
-          "border-input/60 bg-secondary text-secondary-foreground shadow-xs hover:bg-muted aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
-        link: "text-primary underline-offset-4 hover:underline !p-0",
-      },
-      size: {
-        default:
-          "h-10 gap-2 rounded-lg px-4 text-sm has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
-        xs: "h-8 gap-2 rounded-md px-4 text-xs in-data-[slot=button-group]:rounded has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4 [&_svg:not([class*='size-'])]:size-4",
-        sm: "h-10 gap-2 rounded-lg px-4 text-sm in-data-[slot=button-group]:rounded has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4 [&_svg:not([class*='size-'])]:size-4",
-        lg: "h-12 gap-2 rounded-lg px-4 text-base has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4 [&_svg:not([class*='size-'])]:size-4",
-        xl: "h-16 gap-2 rounded-xl px-4 text-lg has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4 [&_svg:not([class*='size-'])]:size-5",
-        "2xl":
-          "h-20 gap-2 rounded-xl px-5 text-lg has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5 [&_svg:not([class*='size-'])]:size-5",
-        icon: "size-10 rounded-lg",
-        "icon-xs":
-          "size-8 rounded-md in-data-[slot=button-group]:rounded [&_svg:not([class*='size-'])]:size-4",
-        "icon-sm": "size-10 rounded-lg in-data-[slot=button-group]:rounded",
-        "icon-lg": "size-12 rounded-lg",
-        "icon-xl": "size-16 rounded-xl [&_svg:not([class*='size-'])]:size-5",
-        "icon-2xl": "size-20 rounded-xl [&_svg:not([class*='size-'])]:size-5",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  },
-);
+/**
+ * The site's only button. Plain editorial style: solid ink, hairline outline
+ * on paper, or a light outline for colored/dark panels. Sentence case,
+ * optional down-right arrow.
+ *
+ * One component for both worlds: .astro files render it statically (no
+ * client: directive, no JS shipped) and React islands import it directly.
+ * Renders an <a> when `href` is given, otherwise a <button type="button">.
+ * Pass `label` or children.
+ *
+ * IMPORTANT: in .astro call sites always pass `className`, never `class` —
+ * Astro silently drops `class` on framework components.
+ */
 
-function Button({
+export type ButtonVariant =
+  | "solid"
+  | "solid-light"
+  | "brand"
+  | "muted"
+  | "outline"
+  | "outline-light"
+  | "ghost";
+
+export type ButtonSize = "xs" | "sm" | "base" | "lg" | "icon";
+
+const base =
+  "inline-flex cursor-pointer items-center gap-2 font-medium transition-colors";
+
+// sm is the compact pill used in the navs, xs/icon are toolbar sizes.
+const sizes: Record<ButtonSize, string> = {
+  xs: "rounded-md px-3 py-1.5 text-xs",
+  sm: "rounded-md px-3 py-1.5 text-sm",
+  base: "rounded-lg px-4 py-2.5 text-sm",
+  lg: "rounded-lg px-5 py-3 text-base",
+  icon: "size-8 justify-center rounded-md",
+};
+
+const variants: Record<ButtonVariant, string> = {
+  solid: "bg-dark-background text-surface hover:bg-dark-background/85",
+  /* White fill: the CTA on dark panels (footer, offer banner). */
+  "solid-light": "bg-background text-foreground hover:bg-background/85",
+  /* Brand-blue fill: the loudest CTA; white ink on both light and dark. */
+  brand: "bg-brand text-white hover:bg-brand/90",
+  /* Warm-gray fill on the canvas: secondary actions beside a solid CTA. */
+  muted: "bg-muted-surface text-foreground hover:bg-border/60",
+  outline:
+    "border border-foreground/30 text-foreground hover:border-foreground",
+  "outline-light": "border border-surface/40 text-surface hover:border-surface",
+  /* Quiet toolbar/icon actions; call sites set their own active colors. */
+  ghost: "text-muted-foreground hover:text-foreground",
+};
+
+type AnchorProps = ComponentPropsWithoutRef<"a">;
+type NativeButtonProps = ComponentPropsWithoutRef<"button">;
+
+export type ButtonProps = Omit<AnchorProps & NativeButtonProps, "type"> & {
+  label?: string;
+  href?: string;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  /** Full width, label left and arrow right (card CTAs). */
+  block?: boolean;
+  arrow?: boolean;
+  external?: boolean;
+  type?: NativeButtonProps["type"];
+  /** Astro call sites pass `class`; merged with className. */
+  class?: string;
+  children?: ReactNode;
+};
+
+export function Button({
+  label,
+  href,
+  variant = "solid",
+  size = "base",
+  block = false,
+  arrow = false,
+  external = false,
+  type,
+  class: classProp,
   className,
-  variant = "default",
-  size = "default",
-  ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+  children,
+  ...rest
+}: ButtonProps) {
+  const classes = cn(
+    base,
+    block ? "w-full justify-between" : "w-fit",
+    sizes[size],
+    variants[variant],
+    classProp,
+    className,
+  );
+
+  const content = (
+    <>
+      {label ?? children}
+      {arrow ? (
+        <HugeiconsIcon
+          icon={ArrowDownRight01Icon}
+          size={16}
+          strokeWidth={1.8}
+          aria-hidden="true"
+        />
+      ) : null}
+    </>
+  );
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        target={external ? "_blank" : undefined}
+        rel={external ? "noreferrer" : undefined}
+        className={classes}
+        {...(rest as AnchorProps)}
+      >
+        {content}
+      </a>
+    );
+  }
+
   return (
-    <ButtonPrimitive
-      data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
-    />
+    <button
+      type={type ?? "button"}
+      className={classes}
+      {...(rest as NativeButtonProps)}
+    >
+      {content}
+    </button>
   );
 }
 
-export { Button, buttonVariants };
+export default Button;

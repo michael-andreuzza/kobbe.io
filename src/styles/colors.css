@@ -1,101 +1,31 @@
-/* Semantic palette + chart tokens; mirrors app.kobbe.io/app/styles/colors.css. */
-@theme inline {
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-caution: var(--caution);
-  --color-success: var(--success);
-  --color-warning: var(--warning);
-  --color-info: var(--info);
-  --color-brand: var(--brand);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-surface: var(--surface);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-foreground: var(--foreground);
-  --color-background: var(--background);
-  --color-sand: var(--sand);
-  --color-carbon: var(--carbon);
-  --color-chart-traffic: var(--chart-traffic);
-  --color-chart-revenue: var(--chart-revenue);
-  --color-chart-performance: var(--chart-performance);
-  --color-chart-conversions: var(--chart-conversions);
-}
-:root {
-  /* Warm light palette mirroring the app dashboard (app.kobbe.io colors.css):
-     off-white canvas, warm-gray panels, and carbon darks (#2B2B2B) kept as
-     the fixed dark accent for inverted panels. */
-  /* Same off-white canvas as the app dashboard. */
-  --background: oklch(0.982 0.002 84.559);
-  --foreground: oklch(0.289 0 0);
-  /* Fixed accents (same in both themes): the warm panel tone and its
-     dark carbon counterpart (#2B2B2B). */
-  --sand: oklch(0.96 0.004 84.559);
-  --carbon: oklch(0.289 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.289 0 0);
-  --primary: oklch(0.289 0 0);
-  --primary-foreground: oklch(0.982 0 0);
-  /* Secondary surfaces reuse the fixed sand/carbon accents, so they look
-     the same on the light canvas and inside inverted carbon panels. */
-  --secondary: var(--sand);
-  --secondary-foreground: var(--carbon);
-  /* Warm-gray panel tone, matches the app --muted. */
-  --muted: oklch(0.965 0.004 84.559);
-  /* Darker warm fill than --muted for large surfaces that need to separate
-     from the canvas more clearly. */
-  --surface: oklch(0.894 0.008 98.891);
-  --muted-foreground: oklch(0.556 0.008 84.559);
-  /* Muted blue shared with the app (--brand in app.kobbe.io colors.css). */
-  --brand: oklch(0.49 0.091 241.534);
-  --success: oklch(0.565 0.11 164.584);
-  --destructive: oklch(0.566 0.197 12.263);
-  /* Orange caution tier between warning (amber) and destructive (red). */
-  --caution: oklch(0.7 0.17 45);
-  --warning: oklch(0.661 0.121 71.707);
-  --info: oklch(0.565 0.098 243.005);
-  --border: oklch(0.912 0.006 84.559);
-  /* One step darker than --border so field borders still read on sand
-     surfaces (which sit close to the border tone). */
-  --input: oklch(0.88 0.006 84.559);
-  --ring: oklch(0.708 0.01 84.559);
-  /* Per-metric chart hues shared with the app dashboard (app.kobbe.io
-     colors.css). Conversions uses the app's strong lavender so it reads as
-     an accent chip on white, not just an in-chart pastel. */
-  --chart-traffic: var(--brand);
-  --chart-revenue: oklch(0.581 0.106 126.684);
-  --chart-performance: oklch(0.748 0.161 56.883);
-  --chart-conversions: oklch(0.64 0.09 306.519);
-}
-/* Inverted surface: carbon panel (#2B2B2B) on the sand canvas, Solomon
-   style — light warm-gray text that brightens to near-white. */
-.inverted {
-  --foreground: oklch(0.96 0 0);
-  --muted-foreground: oklch(0.72 0 0);
-  --card: oklch(0.289 0 0);
-  --card-foreground: oklch(0.96 0 0);
-  --muted: oklch(0.34 0 0);
-  --border: oklch(1 0 0 / 0.1);
-  /* Field borders slightly stronger than dividers so inputs read on carbon. */
-  --input: oklch(1 0 0 / 0.16);
-  --background: oklch(0.289 0 0);
-}
-/* Restores the light palette for a subtree inside an .inverted scope
-   (e.g. a light card sitting on a carbon panel). */
-.uninverted {
-  --foreground: oklch(0.289 0 0);
-  --muted-foreground: oklch(0.556 0.008 84.559);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.289 0 0);
-  --muted: oklch(0.965 0.004 84.559);
-  --surface: oklch(0.894 0.008 98.891);
-  --border: oklch(0.912 0.006 84.559);
-  --input: oklch(0.88 0.006 84.559);
-  --background: oklch(0.982 0.002 84.559);
+/*
+ * Kobbe marketing palette — warm neutrals, same model as lexingtonthemes.com.
+ *
+ * Light fills: background → muted-surface → border
+ * Dark fills: dark-background (= foreground)
+ * Light text: foreground / muted-foreground
+ * On dark panels: text-surface, text-surface/90, border-surface/20
+ *
+ * Light-only site: one @theme block, no runtime overrides.
+ * Code blocks read the palette from code.css.
+ */
+@theme {
+  /* Light fills */
+  --color-background: oklch(0.982 0.002 84.559);
+  --color-surface: var(--color-background);
+  --color-muted-surface: oklch(0.965 0.004 84.559);
+  --color-border: oklch(0.912 0.006 84.559);
+  /* Text */
+  --color-foreground: oklch(0.289 0 0);
+  --color-muted-foreground: oklch(0.556 0.008 84.559);
+  /* Dark fills */
+  --color-dark-background: var(--color-foreground);
+  /* Status — docs notification cards */
+  --color-destructive: oklch(0.566 0.197 12.263);
+  --color-caution: oklch(0.7 0.17 45);
+  --color-warning: oklch(0.661 0.121 71.707);
+  --color-info: oklch(0.565 0.098 243.005);
+  --color-success: oklch(0.565 0.11 164.584);
+  /* Brand */
+  --color-brand: oklch(0.49 0.091 241.534);
 }

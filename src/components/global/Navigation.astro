@@ -80,10 +80,10 @@ const megaMenuLinks = [
   <ProgressiveBlur edge="top" />
   <Wrapper variant="nav" class="relative flex items-center justify-between">
     <div class="relative" data-mega-menu>
-      <div class="bg-muted flex items-center gap-1 rounded-lg p-1 text-sm">
+      <div class="bg-muted-surface flex items-center gap-1 rounded-lg p-1 text-sm">
         <a
           href="/"
-          class="bg-card flex size-8 items-center justify-center rounded-md shadow-xs"
+          class="bg-background flex size-8 items-center justify-center rounded-md shadow-xs"
           aria-label="Kobbe home"
         >
           <Logo class="text-foreground size-4.5" />
@@ -99,7 +99,7 @@ const megaMenuLinks = [
         </button>
       </div>
       <nav
-        class="inverted bg-card ring-border absolute top-full left-0 mt-2 hidden w-220 overflow-hidden rounded-lg shadow-lg"
+        class="bg-dark-background text-surface ring-border absolute top-full left-0 mt-2 hidden w-220 overflow-hidden rounded-lg shadow-lg"
         aria-label="Primary"
         data-mega-menu-panel
       >
@@ -109,11 +109,11 @@ const megaMenuLinks = [
               megaMenuLinks.map((link) => (
                 <li>
                   <a href={link.href} class="group block">
-                    <span class="text-foreground block text-sm font-medium transition-opacity group-hover:opacity-70">
+                    <span class="text-surface block text-sm font-medium transition-opacity group-hover:opacity-70">
                       {link.label}
                     </span>
                     {link.description ? (
-                      <span class="text-muted-foreground mt-1 block text-sm leading-snug">
+                      <span class="text-surface/70 mt-1 block text-sm leading-snug">
                         {link.description}
                       </span>
                     ) : null}
@@ -136,10 +136,10 @@ const megaMenuLinks = [
             />
             {/* Scrim into the panel color so the copy stays legible. */}
             <span
-              class="from-card/80 via-card/10 absolute inset-0 bg-linear-to-t to-transparent"
+              class="from-dark-background/80 via-dark-background/10 absolute inset-0 bg-linear-to-t to-transparent"
               aria-hidden="true"></span>
             <span
-              class="text-foreground relative flex items-center gap-1 text-sm font-medium"
+              class="text-surface relative flex items-center gap-1 text-sm font-medium"
             >
               Read the docs
               <HugeiconsIcon
@@ -150,7 +150,7 @@ const megaMenuLinks = [
               />
             </span>
             <span
-              class="text-muted-foreground relative mt-2 block text-sm leading-snug"
+              class="text-surface/70 relative mt-2 block text-sm leading-snug"
             >
               Guides for setup, tracking, and dashboards, plus every
               installation and revenue guide.
@@ -159,7 +159,7 @@ const megaMenuLinks = [
         </div>
       </nav>
     </div>
-    <div class="bg-muted flex items-center gap-1 rounded-lg p-1 text-sm">
+    <div class="bg-muted-surface flex items-center gap-1 rounded-lg p-1 text-sm">
       <a
         href="/#pricing"
         class="text-foreground py-1.5 pr-1.5 pl-2.5 font-medium transition-opacity hover:opacity-70"
@@ -180,7 +180,7 @@ const megaMenuLinks = [
       </a>
       <a
         href={APP_SIGNUP_URL}
-        class="bg-carbon text-background hover:bg-carbon/85 rounded-md px-3 py-1.5 font-medium transition-colors"
+        class="bg-dark-background text-surface hover:bg-dark-background/85 rounded-md px-3 py-1.5 font-medium transition-colors"
       >
         Try free for 15 days
       </a>

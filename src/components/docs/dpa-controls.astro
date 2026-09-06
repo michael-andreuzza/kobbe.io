@@ -1,10 +1,9 @@
 ---
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
 
 interface Props {
   effectiveDateDefault: string;
@@ -14,17 +13,18 @@ const { effectiveDateDefault } = Astro.props;
 ---
 
 <section
-  class="not-prose no-print inverted bg-card mt-8 space-y-6 rounded-lg p-4 shadow-sm sm:p-6"
+  id="dpa-controls"
+  class="not-prose no-print bg-dark-background text-surface mt-8 space-y-6 rounded-lg p-4 shadow-sm sm:p-6"
 >
-  <p class="text-muted-foreground text-sm leading-relaxed">
+  <p class="text-surface/70 text-sm leading-relaxed">
     Part of our <a
       href="/legal/terms"
-      class="text-foreground decoration-border hover:decoration-foreground underline underline-offset-2"
+      class="text-surface decoration-surface/30 hover:decoration-surface underline underline-offset-2"
       >Terms</a
     >. Using the hosted service at
     <a
       href="https://app.kobbe.io"
-      class="text-foreground decoration-border hover:decoration-foreground underline underline-offset-2"
+      class="text-surface decoration-surface/30 hover:decoration-surface underline underline-offset-2"
       >app.kobbe.io</a
     >
     accepts this DPA as posted here. Optionally add your details and use <strong
@@ -32,6 +32,7 @@ const { effectiveDateDefault } = Astro.props;
     > → Save as PDF for records only.
   </p>
 
+  <div class="bg-background text-foreground space-y-6 rounded-lg p-4 sm:p-6">
   <div class="grid gap-4 sm:grid-cols-2">
     <div class="space-y-2 sm:col-span-2">
       <Label htmlFor="dpa-in-company">Customer legal name</Label>
@@ -91,17 +92,18 @@ const { effectiveDateDefault } = Astro.props;
   </div>
 
   <div class="flex flex-wrap items-center gap-3">
-    <button
+    <Button
       type="button"
       id="dpa-print-btn"
-      class={cn(buttonVariants({ variant: "secondary", size: "xs" }))}
-    >
-      Download PDF
-    </button>
+      label="Download PDF"
+      variant="muted"
+      size="xs"
+    />
     <p class="text-muted-foreground text-xs">
       PDF is optional (for records or procurement). Involve your counsel for
       enterprise reviews if needed.
     </p>
+  </div>
   </div>
 </section>
 
@@ -121,14 +123,12 @@ const { effectiveDateDefault } = Astro.props;
       display: block !important;
     }
     body,
-    .inverted {
+    #dpa-controls {
       background: white !important;
     }
-    /* Descendants too: the on-screen ink classes (text-foreground/80,
-       text-muted-foreground) would otherwise print washed-out gray. Covers
-       the page title and description above the printable region as well. */
-    .inverted,
-    .inverted * {
+    /* Descendants too: the on-screen ink classes would otherwise print washed-out gray. */
+    #dpa-controls,
+    #dpa-controls * {
       color: #111 !important;
     }
     #dpa-printable a {

@@ -6,6 +6,7 @@
  */
 import { Image } from "astro:assets";
 
+import { TwoToneHeading } from "@/components/ui/two-tone-heading";
 import Wrapper from "../foundations/containers/Wrapper.astro";
 import featureOverview from "@/images/assets/feature-overview.png";
 import featureRevenue from "@/images/assets/feature-revenue.png";
@@ -45,29 +46,21 @@ const features = [
 ];
 ---
 
-<Wrapper variant="default">
-  <div id="features" class="mt-32 scroll-mt-6 space-y-32">
+<Wrapper variant="default" class="py-24">
+  <div id="features" class="space-y-32">
     {
       features.map((feature) => (
         <section>
-          <p class="text-muted-foreground text-xs font-medium uppercase">
-            {feature.eyebrow}
-          </p>
-          <div class="mt-4 max-w-2xl space-y-1">
-            <p class="text-foreground text-base font-medium text-pretty lg:text-balance">
-              {feature.lead}
-            </p>
-            <p class="text-muted-foreground text-base text-pretty lg:text-balance">
-              {feature.body}{" "}
-              <a
-                href={feature.href}
-                class="text-foreground font-medium underline decoration-1 underline-offset-4 transition-opacity hover:opacity-70"
-              >
-                {feature.linkLabel}
-              </a>
-            </p>
-          </div>
-          <div class="bg-muted relative mt-10 h-auto overflow-hidden rounded-lg px-6 pt-8 pb-0 sm:h-120 lg:h-152 lg:pt-20 lg:pb-0">
+          <TwoToneHeading eyebrow={feature.eyebrow} title={feature.lead}>
+            {feature.body}{" "}
+            <a
+              href={feature.href}
+              class="text-foreground font-medium underline decoration-1 underline-offset-4 transition-opacity hover:opacity-70"
+            >
+              {feature.linkLabel}
+            </a>
+          </TwoToneHeading>
+          <div class="bg-muted-surface relative mt-8 h-auto overflow-hidden px-6 pt-8 pb-0 sm:h-120 lg:h-152 lg:pt-20 lg:pb-0">
             <Image
               src={feature.image}
               alt={feature.imageAlt}

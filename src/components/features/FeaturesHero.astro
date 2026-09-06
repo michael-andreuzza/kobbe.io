@@ -1,21 +1,11 @@
 ---
 /**
- * Page opener for /features, matching the landing hero: one two-tone sans
- * statement, the claim in ink and the elaboration in gray.
+ * Page opener for /features, reusing the shared StatementHero.
  */
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import StatementHero from "@/components/sections/StatementHero.astro";
 ---
 
-<section class="pt-24 lg:pt-42">
-  <Wrapper variant="default">
-    <h1
-      class="max-w-5xl text-[clamp(1.5rem,2.5vw,2.25rem)] leading-tight tracking-tight text-balance"
-    >
-      <span class="text-foreground">Everything Kobbe does, on every plan.</span
-      >{" "}<span class="text-muted-foreground"
-        >No feature gates, no enterprise tier. Pick a volume and get all of
-        this. Each one links to the docs that explain how it works.</span
-      >
-    </h1>
-  </Wrapper>
-</section>
+<StatementHero
+  statement="Everything Kobbe does, on every plan."
+  elaboration="No feature gates, no enterprise tier. Pick a volume and get all of this. Each one links to the docs that explain how it works."
+/>

@@ -7,17 +7,16 @@ interface Props {
 const { variant = "default", class: extraClass = "", id } = Astro.props;
 // Map each variant to its specific classes
 const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
-  nav: "mx-auto max-w-340  px-8",
+  nav: "mx-auto max-w-320  px-8",
   // Grids
-  default: "mx-auto max-w-340  px-8",
-  wide: "mx-auto px-8 max-w-380",
+  default: "mx-auto max-w-320  px-8",
+  wide: "mx-auto px-8 max-w-320",
   narrow: "mx-auto max-w-150 px-8  ",
 
   prose: [
     // Base
     "prose",
-    "text-sm",
-    "2xl:text-base",
+    "text-base",
     "max-w-none",
     "text-muted-foreground",
     // Headings
@@ -36,6 +35,14 @@ const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
     // Links
     "prose-a:text-foreground",
     "prose-a:duration-200",
+    // Lists: ul markers are the pricing plus glyph (see global.css),
+    // so the ul itself needs no marker gutter; ol keeps tight numbers.
+    "prose-ul:pl-0",
+    "prose-ol:pl-4",
+    "marker:text-muted-foreground/60",
+    // Plugin draws bullets/counters from its own vars.
+    "[--tw-prose-bullets:var(--color-muted-foreground)]",
+    "[--tw-prose-counters:var(--color-muted-foreground)]",
     // Images
     "prose-img:border",
     "prose-img:border-border",
@@ -44,9 +51,9 @@ const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
     // Tables
     // Typography plugin draws its own table borders from these vars;
     // point them at the semantic border token so dividers match.
-    "[--tw-prose-th-borders:var(--border)]",
-    "[--tw-prose-td-borders:var(--border)]",
-    // T4blnk below their min-content width, so on narrow
+    "[--tw-prose-th-borders:var(--color-border)]",
+    "[--tw-prose-td-borders:var(--color-border)]",
+    // Tables collapse below their min-content width, so on narrow
     // 320s they scroll in place instead of widening the page.
     "prose-table:block",
     "prose-table:overflow-x-auto",
@@ -58,7 +65,7 @@ const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
     "prose-tbody:divide-y",
     "prose-tbody:divide-border",
     "[&_tbody_tr]:transition-colors",
-    "[&_tbody_tr:hover]:bg-muted/30",
+    "[&_tbody_tr:hover]:bg-muted-surface/30",
     "prose-th:border-0",
     "prose-th:py-2.5",
     "prose-th:pr-4",
@@ -72,7 +79,7 @@ const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
     "prose-td:align-top",
     "prose-td:text-muted-foreground",
     "[&_td_code]:rounded-md",
-    "[&_td_code]:bg-muted",
+    "[&_td_code]:bg-muted-surface",
     "[&_td_code]:px-1.5",
     "[&_td_code]:py-0.5",
     // Code & Pre
@@ -80,7 +87,7 @@ const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
     "prose-code:text-foreground",
     "prose-strong:font-semibold",
     "prose-strong:text-foreground",
-    "prose-pre:bg-muted",
+    "prose-pre:bg-muted-surface",
     "prose-pre:text-foreground",
     "prose-pre:rounded-md",
     "prose-pre:scrollbar-hide prose-pre:border-none",

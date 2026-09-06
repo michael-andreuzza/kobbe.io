@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import { BillingPeriodTabs } from "@/components/sections/pricing/billing-period-tabs";
+import { Button } from "@/components/ui/button";
+import { BillingPeriodToggle } from "@/components/sections/pricing/billing-period-toggle";
 import { PricingPriceDisplay } from "@/components/sections/pricing/pricing-price-display";
-import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
   buildSignupHref,
@@ -41,7 +41,7 @@ export function PricingVolumeTable({
       ) : null}
 
       <div className={cn("flex justify-start", showHeading ? "mt-6" : "")}>
-        <BillingPeriodTabs
+        <BillingPeriodToggle
           period={period}
           onPeriodChange={setPeriod}
           className="mx-0"
@@ -93,15 +93,13 @@ export function PricingVolumeTable({
                     </div>
                   </td>
                   <td className="py-2 text-right">
-                    <a
+                    <Button
                       href={buildSignupHref(appBaseUrl, tier.key, period)}
+                      label="Start trial"
+                      variant="solid"
+                      size="xs"
                       data-kobbe-event={`Pricing table - ${tier.events} ${period}`}
-                      className={cn(
-                        buttonVariants({ variant: "default", size: "xs" }),
-                      )}
-                    >
-                      Start trial
-                    </a>
+                    />
                   </td>
                 </tr>
               ))}

@@ -1,0 +1,38 @@
+---
+/**
+ * Shared page opener, same shape as lexingtonthemes.com's StatementHero:
+ * one two-tone sans statement, the claim in ink and the elaboration in
+ * gray. Extra content (CTAs, notes) goes in the default slot.
+ */
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+
+interface Props {
+  /** The claim, rendered in ink. */
+  statement: string;
+  /** The elaboration, rendered in muted gray. */
+  elaboration?: string;
+  /** Extra classes on the <section>, e.g. a taller landing padding. */
+  class?: string;
+}
+
+const { statement, elaboration, class: extraClass = "" } = Astro.props;
+---
+
+<section class:list={["py-24 lg:pt-72", extraClass]}>
+  <Wrapper variant="default">
+    {/* One statement, two tones: the claim in ink, the elaboration in gray. */}
+    <h1
+      class="max-w-5xl text-[clamp(1.5rem,2.5vw,2.25rem)] leading-tight tracking-tight text-balance"
+    >
+      <span class="text-foreground">{statement}</span>{
+        elaboration ? (
+          <Fragment>
+            {" "}
+            <span class="text-muted-foreground">{elaboration}</span>
+          </Fragment>
+        ) : null
+      }
+    </h1>
+    <slot />
+  </Wrapper>
+</section>

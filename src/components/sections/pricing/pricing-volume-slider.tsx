@@ -85,13 +85,13 @@ export function PricingVolumeSlider({
         onPointerDown={handleTrackPointerDown}
         onPointerMove={handleTrackPointerMove}
       >
-        <div className="bg-card absolute inset-0 overflow-hidden rounded-lg">
+        <div className="bg-background absolute inset-0 overflow-hidden rounded-lg">
           <div aria-hidden="true" className="bg-background absolute inset-0" />
           {/* Cover shrinks from the right so the gradient stays pinned
               to the track instead of stretching with the fill. */}
           <motion.div
             aria-hidden="true"
-            className="bg-card absolute inset-y-0 right-0"
+            className="bg-background absolute inset-y-0 right-0"
             initial={false}
             animate={{ width: `${100 - fillPercent}%` }}
             transition={reduceMotion ? { duration: 0 } : fillSpring}

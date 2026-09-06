@@ -5,10 +5,10 @@ import { cn } from "@/lib/utils";
 /**
  * Shared chrome for `Input`, `Textarea`, and field-style triggers
  * (e.g. the date picker). Matches the app's control fields: transparent
- * fill, `--input` border, brand focus ring.
+ * fill, `--border` hairline, brand focus ring.
  */
 export const fieldChromeClassName = cn(
-  "border-input flex w-full min-w-0 rounded-md border bg-transparent text-sm",
+  "border-border flex w-full min-w-0 rounded-md border bg-transparent text-sm",
   "text-foreground placeholder:text-muted-foreground",
   "transition-all outline-none focus-visible:border-brand/40 focus-visible:ring-3 focus-visible:ring-brand/10",
   "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",

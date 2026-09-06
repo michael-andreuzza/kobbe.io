@@ -9,6 +9,7 @@ import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import StatementHero from "@/components/sections/StatementHero.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import Footer from "@/components/landing/Footer.astro";
 import { changelogDateFormatter, changelogSlug } from "@/lib/changelog";
@@ -27,19 +28,10 @@ const entries = (await getCollection("changelog")).sort(
   description={description}
   jsonLdBreadcrumbs={[{ name: "Changelog", item: "/changelog" }]}
 >
-  <section class="pt-24 lg:pt-42">
-    <Wrapper variant="default">
-      <h1
-        class="max-w-5xl text-[clamp(1.5rem,2.5vw,2.25rem)] leading-tight tracking-tight text-balance"
-      >
-        <span class="text-foreground">What shipped, and when.</span>{" "}<span
-          class="text-muted-foreground"
-          >Every improvement to Kobbe, newest first. Features, fixes, and
-          performance work as it ships.</span
-        >
-      </h1>
-    </Wrapper>
-  </section>
+  <StatementHero
+    statement="What shipped, and when."
+    elaboration="Every improvement to Kobbe, newest first. Features, fixes, and performance work as it ships."
+  />
 
   <section class="mt-32 pb-32">
     <Wrapper variant="default">

@@ -2,7 +2,8 @@
 import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
-import Button from "./Button.astro";
+import { Button } from "@/components/ui/button";
+import { TwoToneHeading } from "@/components/ui/two-tone-heading";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 
 /**
@@ -40,11 +41,13 @@ const listRows = [
 
 <section class="mt-32">
   <Wrapper variant="default">
-   
-    <div class="flex items-end justify-between gap-4">
-      <p class="text-foreground text-base font-medium">
-        Every feature, on every plan.
-      </p>
+    <div
+      class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
+    >
+      <TwoToneHeading title="Every feature, on every plan.">
+        No feature gates and no enterprise tier. Each row links to the docs
+        that explain how it works.
+      </TwoToneHeading>
       <Button label="All features" href="/features" variant="outline" />
     </div>
     <div class="border-border mt-8 border-t">
@@ -54,7 +57,7 @@ const listRows = [
             href={row.href}
             class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-4"
           >
-            <p class="text-foreground text-base text-pretty font-medium transition-transform duration-300 group-hover:translate-x-3 sm:text-lg">
+            <p class="text-foreground text-base font-medium text-pretty transition-transform duration-300 group-hover:translate-x-3 sm:text-lg">
               {row.title}
             </p>
             <HugeiconsIcon

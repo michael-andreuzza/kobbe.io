@@ -35,11 +35,11 @@ function Calendar({
         weekday: cn("text-muted-foreground", defaultClassNames.weekday),
         chevron: cn("size-4", defaultClassNames.chevron),
         button_next: cn(
-          "inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground",
+          "inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors outline-none hover:bg-muted-surface hover:text-foreground",
           defaultClassNames.button_next,
         ),
         button_previous: cn(
-          "inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground",
+          "inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors outline-none hover:bg-muted-surface hover:text-foreground",
           defaultClassNames.button_previous,
         ),
         day_button: cn("font-normal", defaultClassNames.day_button),

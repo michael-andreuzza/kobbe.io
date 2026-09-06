@@ -1,24 +1,15 @@
 ---
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
-import { APP_SIGNUP_URL } from "@/lib/site-mega-menu";
+import { Button } from "@/components/ui/button";
+import StatementHero from "@/components/sections/StatementHero.astro";
 
 const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
 ---
 
-<section class="pt-24 lg:pt-42">
-  <Wrapper variant="default">
-    {/* One statement, two tones: the claim in ink, the elaboration in gray. */}
-    <h1
-      class="max-w-5xl text-[clamp(1.5rem,2.5vw,2.25rem)] leading-tight tracking-tight text-balance"
-    >
-      <span class="text-foreground"
-        >Real visitors deserve real numbers. At Kobbe, we</span
-      >{" "}<span class="text-muted-foreground"
-        >follow the money instead of the people: traffic, conversions, and
-        revenue in one dashboard, with no cookies, no consent banners, and no
-        bots in your stats.</span
-      >
-    </h1>
-  </Wrapper>
-</section>
+<StatementHero
+  statement="Real visitors deserve real numbers. "
+  elaboration="At Kobbe, we follow the money instead of the people: traffic, conversions, and revenue in one dashboard, with no cookies, no consent banners, and no bots in your stats."
+>
+  <div class="mt-6 lg:hidden">
+    <Button label="Live demo" href={demoUrl} variant="outline" arrow external />
+  </div>
+</StatementHero>

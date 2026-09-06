@@ -54,13 +54,13 @@ export function DocsCommandSearchTrigger({
   const shortcutLabel = useDocsSearchShortcutLabel();
 
   return (
-    // Quiet field: white box on the light canvas; inside inverted panels
-    // bg-card matches the panel so only the border outlines the field.
+    // Quiet field: white box on the light canvas; on dark panels use
+    // bg-background so only the border outlines the field.
     <button
       type="button"
       onClick={openDocsSearch}
       className={cn(
-        "border-border bg-card text-muted-foreground hover:text-foreground flex h-8 w-full items-center gap-2 rounded-md border px-2.5 text-left text-xs transition-colors outline-none",
+        "border-border bg-background text-muted-foreground hover:text-foreground flex h-8 w-full items-center gap-2 rounded-md border px-2.5 text-left text-xs transition-colors outline-none",
         className,
       )}
       aria-label="Find"
@@ -335,7 +335,7 @@ export function DocsCommandSearch({
             <span
               className={cn(
                 "block truncate text-sm transition-colors",
-                isSelected ? "text-foreground" : "text-muted-foreground",
+                isSelected ? "text-surface" : "text-surface/70",
               )}
             >
               {item.title}
@@ -367,11 +367,10 @@ export function DocsCommandSearch({
             onWheel={(event) => {
               event.stopPropagation();
             }}
-            className="inverted bg-background text-foreground fixed top-[min(22%,9rem)] left-1/2 z-50 flex max-h-[min(30rem,calc(100svh-6rem))] w-full max-w-lg -translate-x-1/2 flex-col overflow-hidden rounded-lg shadow-lg outline-none max-sm:w-[calc(100vw-2rem)]"
+            className="bg-dark-background text-surface fixed top-[min(22%,9rem)] left-1/2 z-50 flex max-h-[min(30rem,calc(100svh-6rem))] w-full max-w-lg -translate-x-1/2 flex-col overflow-hidden rounded-lg shadow-lg outline-none max-sm:w-[calc(100vw-2rem)]"
           >
             <div className="flex min-h-0 flex-col p-4">
-              {/* Light sand field on the carbon panel, like the ToC box. */}
-              <div className="uninverted bg-background flex h-14 shrink-0 items-center gap-2.5 rounded-md px-3">
+              <div className="bg-background flex h-14 shrink-0 items-center gap-2.5 rounded-md px-3">
                 {activeGroup && !isSearching ? (
                   <button
                     type="button"
@@ -423,14 +422,14 @@ export function DocsCommandSearch({
                 }}
               >
                 {listEntries.length === 0 ? (
-                  <p className="text-muted-foreground/60 py-2.5 text-sm">
+                  <p className="text-surface/60 py-2.5 text-sm">
                     No pages matched your search.
                   </p>
                 ) : isSearching ? (
                   searchGroups.map((group) => (
                     <div key={group.category} className="py-1.5">
                       {/* Mega menu column labels: quiet, no uppercase. */}
-                      <p className="text-muted-foreground/60 pb-1 text-sm">
+                      <p className="text-surface/60 pb-1 text-sm">
                         {group.category}
                       </p>
                       <ul>
@@ -451,7 +450,7 @@ export function DocsCommandSearch({
                   ))
                 ) : activeGroup ? (
                   <div className="py-1.5">
-                    <p className="text-muted-foreground/60 pb-1 text-sm">
+                    <p className="text-surface/60 pb-1 text-sm">
                       {activeGroup}
                     </p>
                     <ul>
@@ -468,7 +467,7 @@ export function DocsCommandSearch({
                   </div>
                 ) : (
                   <div className="py-1.5">
-                    <p className="text-muted-foreground/60 pb-1 text-sm">
+                    <p className="text-surface/60 pb-1 text-sm">
                       Browse
                     </p>
                     <ul>
@@ -493,8 +492,8 @@ export function DocsCommandSearch({
                               className={cn(
                                 "flex min-h-8 w-full cursor-default items-center gap-2 py-1.5 text-left text-sm transition-colors outline-none",
                                 isSelected
-                                  ? "text-foreground"
-                                  : "text-muted-foreground",
+                                  ? "text-surface"
+                                  : "text-surface/70",
                               )}
                             >
                               <span className="min-w-0 flex-1 truncate">
@@ -504,7 +503,7 @@ export function DocsCommandSearch({
                                 icon={ArrowRight02Icon}
                                 strokeWidth={1.7}
                                 className={cn(
-                                  "text-muted-foreground size-4 shrink-0 transition-opacity",
+                                  "text-surface/70 size-4 shrink-0 transition-opacity",
                                   isSelected ? "opacity-100" : "opacity-0",
                                 )}
                                 aria-hidden
@@ -520,7 +519,7 @@ export function DocsCommandSearch({
             </div>
 
             {/* Quiet hint line, no bordered key chips. */}
-            <div className="text-muted-foreground/60 flex items-center justify-between gap-3 p-4 text-xs">
+            <div className="text-surface/60 flex items-center justify-between gap-3 p-4 text-xs">
               <div className="flex min-w-0 items-center gap-3">
                 <span className="inline-flex items-center gap-1.5">
                   <kbd className="font-mono">↑↓</kbd>

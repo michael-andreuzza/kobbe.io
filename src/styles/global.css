@@ -31,7 +31,7 @@
     color-scheme: light;
   }
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-border/50;
   }
   body {
     @apply bg-background text-foreground;
@@ -47,5 +47,28 @@
 * {
   scrollbar-width: thin;
   scrollbar-color: gray transparent;
+}
+
+/* Prose ul markers: the pricing plus glyph (same path as PricingFeatureMark's
+   inline SVG, notch included), masked so it takes the muted-foreground color.
+   The Wrapper prose variant sets prose-ul:pl-0; each li carries its own gutter. */
+.prose ul {
+  list-style: none;
+}
+.prose ul > li {
+  position: relative;
+  padding-left: 1.25em;
+}
+.prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 0.55em;
+  height: 0.55em;
+  background-color: var(--color-muted-foreground);
+  opacity: 0.7;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 542 542'><path fill-rule='evenodd' d='M295.5 246.25V0H246.25V246.25H0V295.5H246.25V541.75H295.5V295.5H541.75V246.25H295.5Z M239.875 239.875h63v63h-63Z'/></svg>")
+    center / contain no-repeat;
 }
 

@@ -84,10 +84,10 @@ export const pricingAmountSuffix = "/mo";
 export const defaultPricingTierIndex = 0;
 
 /** Minimum event volume before monthly email reports are included. */
-export const MONTHLY_EMAIL_REPORTS_MIN_TIER_KEY = "events_100k" as const satisfies PricingTierKey;
+export const MONTHLY_EMAIL_REPORTS_MIN_TIER_KEY =
+  "events_100k" as const satisfies PricingTierKey;
 
-export const MONTHLY_EMAIL_REPORTS_FEATURE =
-  "Monthly email reports" as const;
+export const MONTHLY_EMAIL_REPORTS_FEATURE = "Monthly email reports" as const;
 
 /** Historical analytics window included with every plan. */
 export const PRICING_DATA_RETENTION_YEARS = 3;
@@ -112,17 +112,17 @@ export function formatTierDataRetentionLabel(tierKey: PricingTierKey): string {
 /** Flat feature list for the simplified slider pricing card. */
 export const simplifiedPricingFeatures = [
   `Up to ${PRICING_MAX_SITES_PER_WORKSPACE} websites`,
-  "Privacy-first, cookieless tracking",
-  "GDPR-ready analytics (DPA included)",
+  "Cookieless tracking",
+  "GDPR-ready (DPA included)",
   "Realtime visitors map",
   "Funnels",
   "Conversions",
   "Custom events",
   "Revenue attribution",
-  "UTM campaign and channel reports",
+  "UTM campaign and reports",
   "First-party collect hostname",
   "Traffic alerts",
-  "Web Vitals and performance insights",
+  "Web Vitals & performance insights",
   "Data export and import",
   "Team access, agent API, and CLI",
   "Raycast extension",
@@ -154,10 +154,7 @@ export function getPricingTierByKey(tierKey: PricingTierKey) {
   return tier;
 }
 
-export function getTierDisplayAmount(
-  tier: PricingTier,
-  period: BillingPeriod,
-) {
+export function getTierDisplayAmount(tier: PricingTier, period: BillingPeriod) {
   return period === "monthly" ? tier.monthly : tier.yearlyMonthly;
 }
 
@@ -169,10 +166,7 @@ export function formatPricingCurrency(amount: number) {
   }).format(amount);
 }
 
-export function formatTierPrice(
-  tier: PricingTier,
-  period: BillingPeriod,
-) {
+export function formatTierPrice(tier: PricingTier, period: BillingPeriod) {
   const amount = getTierDisplayAmount(tier, period);
   return `$${formatPricingCurrency(amount)}${pricingAmountSuffix}`;
 }

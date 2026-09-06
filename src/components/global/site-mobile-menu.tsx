@@ -3,7 +3,7 @@ import { Dialog } from "@base-ui/react/dialog";
 import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { DocsCommandSearchTrigger } from "@/components/docs/docs-command-search";
 import {
   APP_SIGNIN_URL,
@@ -43,10 +43,10 @@ export function SiteMobileMenu({
     <div className={className}>
       <div className="flex items-center justify-between gap-3 py-2.5">
         <Dialog.Root open={open} onOpenChange={setOpen}>
-          <div className="bg-muted flex items-center gap-1 rounded-lg p-1 text-sm">
+          <div className="bg-muted-surface flex items-center gap-1 rounded-lg p-1 text-sm">
             <a
               href="/"
-              className="bg-card flex size-8 items-center justify-center rounded-md shadow-xs"
+              className="bg-background flex size-8 items-center justify-center rounded-md shadow-xs"
               aria-label="Kobbe home"
             >
               {children}
@@ -60,15 +60,15 @@ export function SiteMobileMenu({
                 <Dialog.Backdrop className="bg-background/1 fixed inset-0 z-100 backdrop-blur transition-opacity duration-300 data-ending-style:opacity-0 data-starting-style:opacity-0 motion-reduce:transition-none" />
                 <Dialog.Popup
                   className={cn(
-                    "inverted bg-card text-foreground fixed inset-y-2 right-2 z-101 flex w-[min(22rem,calc(100vw-1rem))] flex-col rounded-lg shadow-lg outline-none",
+                    "bg-dark-background text-surface fixed inset-y-2 right-2 z-101 flex w-[min(22rem,calc(100vw-1rem))] flex-col rounded-lg shadow-lg outline-none",
                     "transition-transform duration-300 ease-out data-ending-style:translate-x-[calc(100%+0.5rem)] data-starting-style:translate-x-[calc(100%+0.5rem)] motion-reduce:transition-none",
                   )}
                 >
                   <div className="flex shrink-0 items-center justify-between gap-3 p-4">
-                    <Dialog.Title className="text-foreground font-semibold tracking-tight">
+                    <Dialog.Title className="text-surface font-semibold tracking-tight">
                       Kobbe.
                     </Dialog.Title>
-                    <Dialog.Close className="text-muted-foreground hover:text-foreground inline-flex size-8 items-center justify-center rounded-md transition-colors outline-none">
+                    <Dialog.Close className="text-surface/70 hover:text-surface inline-flex size-8 items-center justify-center rounded-md transition-colors outline-none">
                       <HugeiconsIcon
                         icon={Cancel01Icon}
                         className="size-5"
@@ -87,7 +87,7 @@ export function SiteMobileMenu({
                         <DocsCommandSearchTrigger className="w-full focus-visible:ring-0" />
                         {docsGroups!.map((group) => (
                           <div key={group.category}>
-                            <p className="text-muted-foreground/60 text-sm">
+                            <p className="text-surface/60 text-sm">
                               {group.category}
                             </p>
                             <ul className="mt-2 flex flex-col gap-1.5">
@@ -98,8 +98,8 @@ export function SiteMobileMenu({
                                     className={cn(
                                       "text-sm transition-colors",
                                       item.isActive
-                                        ? "text-foreground"
-                                        : "text-muted-foreground hover:text-foreground",
+                                        ? "text-surface"
+                                        : "text-surface/70 hover:text-surface",
                                     )}
                                   >
                                     {item.label}
@@ -113,7 +113,7 @@ export function SiteMobileMenu({
                     ) : (
                       siteMegaMenuColumns.map((column) => (
                         <div key={column.title}>
-                          <p className="text-muted-foreground/60 text-sm">
+                          <p className="text-surface/60 text-sm">
                             {column.title}
                           </p>
                           <ul className="mt-2 flex flex-col gap-1.5">
@@ -124,7 +124,7 @@ export function SiteMobileMenu({
                                   target={link.target}
                                   rel={link.rel}
                                   onClick={() => setOpen(false)}
-                                  className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                                  className="text-surface/70 hover:text-surface text-sm transition-colors"
                                 >
                                   {link.label}
                                 </a>
@@ -135,7 +135,7 @@ export function SiteMobileMenu({
                                 <a
                                   href={column.seeAllHref}
                                   onClick={() => setOpen(false)}
-                                  className="text-muted-foreground/60 hover:text-foreground text-sm transition-colors"
+                                  className="text-surface/60 hover:text-surface text-sm transition-colors"
                                 >
                                   {column.seeAllLabel ?? "See all"}
                                 </a>
@@ -148,46 +148,42 @@ export function SiteMobileMenu({
                   </nav>
 
                   {/* Sticky account row. */}
-                  <div className="border-border flex shrink-0 items-center justify-between gap-3 border-t p-4">
+                  <div className="border-surface/20 flex shrink-0 items-center justify-between gap-3 border-t p-4">
                     <a
                       href={APP_SIGNIN_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                      className="text-surface/70 hover:text-surface text-sm transition-colors"
                     >
                       Sign in
                     </a>
-                    <a
+                    <Button
                       href={APP_SIGNUP_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      label="Start a free trial"
+                      variant="solid-light"
+                      size="xs"
+                      external
                       data-kobbe-event="Nav - start trial"
-                      className={buttonVariants({
-                        variant: "secondary",
-                        size: "xs",
-                      })}
-                    >
-                      Start a free trial
-                    </a>
+                    />
                   </div>
                 </Dialog.Popup>
           </Dialog.Portal>
         </Dialog.Root>
 
-        <div className="bg-muted flex items-center gap-1 rounded-lg p-1 text-sm">
+        <div className="bg-muted-surface flex items-center gap-1 rounded-lg p-1 text-sm">
           <a
             href={APP_SIGNIN_URL}
             className="text-foreground py-1.5 pr-1.5 pl-2.5 font-medium transition-opacity hover:opacity-70"
           >
             Sign in
           </a>
-          <a
+          <Button
             href={APP_SIGNUP_URL}
+            label="Try free"
+            variant="solid"
+            size="xs"
             data-kobbe-event="Nav - start trial"
-            className="bg-carbon text-background hover:bg-carbon/85 rounded-md px-3 py-1.5 font-medium transition-colors"
-          >
-            Try free
-          </a>
+          />
         </div>
       </div>
     </div>

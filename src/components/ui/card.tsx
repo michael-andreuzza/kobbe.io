@@ -17,9 +17,9 @@ function Card({
       data-size={size}
       data-variant={variant}
       className={cn(
-        "group/card bg-card text-card-foreground flex h-full flex-col gap-4 rounded-xl px-2 py-4 text-sm has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-md *:[img:last-child]:rounded-b-xl",
+        "group/card bg-background text-foreground flex h-full flex-col gap-4 rounded-xl px-2 py-4 text-sm has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-md *:[img:last-child]:rounded-b-xl",
         variant === "bordered" && "border border-border/70",
-        variant === "muted" && "bg-muted",
+        variant === "muted" && "bg-muted-surface",
         className,
       )}
       {...props}
@@ -91,7 +91,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-footer"
       className={cn(
-        "bg-card flex items-center rounded-b-sm p-4 group-data-[size=sm]/card:p-3",
+        "bg-background flex items-center rounded-b-sm p-4 group-data-[size=sm]/card:p-3",
         className,
       )}
       {...props}
