@@ -14,11 +14,13 @@ For framework and builder-specific steps, see [Installation guides](/docs/instal
 
 - Sign in to Kobbe
 - Create a site and enter the domain you want to track
-- Copy the site token before leaving the page (it is not shown again after reload)
+- You land on **Settings → Installation → Scripts** with your site token already filled into the install snippet
+
+The token stays visible there, so you can come back for it any time. Rotate it from the same tab only if you want a new one; the old snippet stops working until you update it.
 
 ## 2. Add the tracker script
 
-The Install section on the same page gives you a Minimal snippet (token only) or an Explicit snippet with `data-*` attributes. Use [Tracking options](/docs/tracking-options) when you prefer dashboard On / Off toggles instead of editing HTML.
+The Install section gives you a Minimal snippet (token only) or an Explicit snippet with `data-*` attributes. Use [Tracking options](/docs/tracking-options) when you prefer dashboard On / Off toggles instead of editing HTML.
 
 ```html
 <script
