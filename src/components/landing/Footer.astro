@@ -78,7 +78,7 @@ const columns = [
     </div>
 
     <div
-      class="text-foreground bg-muted-surface mt-12 overflow-hidden rounded-xl p-8"
+      class="text-foreground bg-muted-surface mt-12 overflow-hidden rounded-xl p-8 lg:p-20"
     >
       <!-- Site links -->
       <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
@@ -96,7 +96,7 @@ const columns = [
                   <li>
                     <a
                       href={link.href}
-                      class="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                      class="text-muted-foreground hover:text-foreground text-sm transition-colors font-medium"
                     >
                       {link.label}
                     </a>
@@ -122,7 +122,7 @@ const columns = [
                     <li>
                       <a
                         href={item.href}
-                        class="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                        class="text-muted-foreground font-medium hover:text-foreground text-sm transition-colors"
                       >
                         {item.title}
                       </a>
@@ -135,7 +135,7 @@ const columns = [
         </div>
       </div>
 
-      <Wordmark class="text-foreground/20 select-none" aria-hidden="true" />
+      <Wordmark class="text-foreground/20 select-none mt-12" aria-hidden="true" />
 
       <div
         class="text-muted-foreground border-border flex flex-wrap items-center justify-between gap-2 border-t pt-4 text-sm"
