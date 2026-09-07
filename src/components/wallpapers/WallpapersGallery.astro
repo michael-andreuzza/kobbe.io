@@ -1,0 +1,129 @@
+---
+/**
+ * The four scenes with a Light / Dark switch. Both frames of every scene are
+ * rendered and the switch only flips a data attribute, so the preview
+ * changes instantly and the dark frames are already loaded. The first scene
+ * runs full width (the frieze needs the room), the other three share a row.
+ */
+import { Image } from "astro:assets";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import { TwoToneHeading } from "@/components/ui/two-tone-heading";
+import { wallpapers } from "@/components/wallpapers/wallpapers";
+const [lead, ...rest] = wallpapers;
+const schemes = [
+  { id: "light", label: "Light" },
+  { id: "dark", label: "Dark" },
+] as const;
+---
+<Wrapper variant="default" class="py-12" id="scenes">
+  <section data-wallpapers data-scheme="light">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <TwoToneHeading as="h2" title="Day and night." className="max-w-xl">
+        Flip between them here; the HEIC does it on its own.
+      </TwoToneHeading>
+      <div
+        class="bg-muted-surface inline-flex rounded-lg p-1"
+        role="group"
+        aria-label="Preview appearance"
+      >
+        {
+          schemes.map((scheme) => (
+            <button
+              type="button"
+              data-scheme-button={scheme.id}
+              aria-pressed={scheme.id === "light" ? "true" : "false"}
+              class="text-muted-foreground aria-pressed:bg-background aria-pressed:text-foreground aria-pressed:shadow-panel hover:text-foreground cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium transition-colors"
+            >
+              {scheme.label}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+    <div class="mt-10 grid gap-x-8 gap-y-14 lg:grid-cols-2">
+      {
+        [lead, ...rest].map((wallpaper, index) => (
+          <article>
+            <div class="shadow-panel relative aspect-video overflow-hidden rounded-lg">
+              <Image
+                src={wallpaper.light}
+                alt={`${wallpaper.title} wallpaper, light`}
+                data-frame="light"
+                class="absolute inset-0 size-full object-cover"
+                widths={
+                  index === 0 ? [768, 1280, 1920, 2560] : [640, 960, 1280]
+                }
+                sizes={
+                  index === 0
+                    ? "(min-width: 1280px) 1216px, 100vw"
+                    : "(min-width: 1024px) 384px, 100vw"
+                }
+                loading={index === 0 ? "eager" : "lazy"}
+              />
+              <Image
+                src={wallpaper.dark}
+                alt={`${wallpaper.title} wallpaper, dark`}
+                data-frame="dark"
+                class="absolute inset-0 size-full object-cover"
+                widths={
+                  index === 0 ? [768, 1280, 1920, 2560] : [640, 960, 1280]
+                }
+                sizes={
+                  index === 0
+                    ? "(min-width: 1280px) 1216px, 100vw"
+                    : "(min-width: 1024px) 384px, 100vw"
+                }
+                loading="lazy"
+              />
+            </div>
+            <TwoToneHeading
+              as="h2"
+              size="sm"
+              title={wallpaper.title}
+              className="mt-5"
+            >
+              {wallpaper.blurb}
+            </TwoToneHeading>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Wrapper>
+<style>
+  [data-scheme="light"] [data-frame="dark"],
+  [data-scheme="dark"] [data-frame="light"] {
+    display: none;
+  }
+</style>
+<script>
+  function bindGallery() {
+    const root = document.querySelector<HTMLElement>("[data-wallpapers]");
+    if (!root || root.dataset.bound) return;
+    root.dataset.bound = "true";
+    const set = (scheme: string) => {
+      root.dataset.scheme = scheme;
+      root
+        .querySelectorAll<HTMLButtonElement>("[data-scheme-button]")
+        .forEach((button) => {
+          button.setAttribute(
+            "aria-pressed",
+            button.dataset.schemeButton === scheme ? "true" : "false",
+          );
+        });
+    };
+    // Start on whatever the visitor's own system is showing.
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      set("dark");
+    }
+    root
+      .querySelectorAll<HTMLButtonElement>("[data-scheme-button]")
+      .forEach((button) => {
+        button.addEventListener("click", () => {
+          set(button.dataset.schemeButton ?? "light");
+        });
+      });
+  }
+  bindGallery();
+  document.addEventListener("astro:page-load", bindGallery);
+</script>

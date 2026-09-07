@@ -1,0 +1,54 @@
+---
+/**
+ * What is in the download and how to install it: two plain columns, a
+ * two-tone heading over each, the items as small two-tone lines beneath.
+ */
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import { TwoToneHeading } from "@/components/ui/two-tone-heading";
+import {
+  installSteps,
+  wallpaperFacts,
+} from "@/components/wallpapers/wallpapers";
+---
+
+<Wrapper variant="default" class="py-24">
+  <div class="grid gap-16 lg:grid-cols-2">
+    <section>
+      <TwoToneHeading as="h2" title="Twelve files, one zip.">
+        Four dynamic HEICs and the light and dark PNG behind each one. No
+        watermark, no account, use them wherever you like.
+      </TwoToneHeading>
+      <ul class="mt-8 space-y-4">
+        {
+          wallpaperFacts.map((fact) => (
+            <li class="text-base text-pretty font-medium">
+              <span class="text-foreground">{fact.title}.</span>{" "}
+              <span class="text-muted-foreground">{fact.description}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section>
+      <TwoToneHeading as="h2" title="Installing on macOS.">
+        The HEIC carries both frames. Once it is set to Dynamic, macOS switches
+        them together with your appearance, including Auto.
+      </TwoToneHeading>
+      <ol class="mt-8 space-y-4">
+        {
+          installSteps.map((step, index) => (
+            <li class="grid grid-cols-[2rem_minmax(0,1fr)] gap-2">
+              <span class="text-muted-foreground text-base font-medium tabular-nums">
+                {index + 1}.
+              </span>
+              <span class="text-foreground text-base font-medium text-pretty lg:text-balance">
+                {step}
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+  </div>
+</Wrapper>

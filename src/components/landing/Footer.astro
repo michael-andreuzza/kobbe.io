@@ -23,6 +23,7 @@ const columns = [
       { label: "All features", href: "/features" },
       { label: "Changelog", href: "/changelog" },
       { label: "Pricing", href: "/#pricing" },
+      { label: "Wallpapers", href: "/wallpapers" },
     ],
   },
   {
@@ -96,8 +97,10 @@ const columns = [
         {
           columns.map((column) => (
             <div class="space-y-2 lg:col-span-2">
-              <p class="text-foreground text-xs font-medium">{column.title}</p>
-              <ul class="space-y-1">
+              <p class="text-foreground text-xs font-semibold">
+                {column.title}
+              </p>
+              <ul class="space-y-0.5">
                 {column.links.map((link) => (
                   <li>
                     <a
@@ -137,7 +140,7 @@ const columns = [
         class="absolute inset-x-0 bottom-4 lg:bottom-6"
       >
         <div
-          class="text-muted-foreground ml-auto flex w-fit flex-wrap justify-end gap-x-4 gap-y-1 text-right text-xs"
+          class="text-foreground ml-auto flex w-fit flex-wrap justify-end gap-x-4 gap-y-1 text-right text-xs font-medium"
         >
           <span>© 2026 Kobbe. All rights reserved.</span>
           <span>Made in Åland Islands, Finland. EU</span>

@@ -16,12 +16,23 @@ import {
   type BillingPeriod,
 } from "@/components/sections/pricing/pricing-tiers";
 
+/** Optimised image props handed over from Astro (`getImage`). */
+export type PricingSpotArt = {
+  src: string;
+  srcSet?: string;
+  width: number;
+  height: number;
+};
+
 export function SimplifiedPricingSection({
   appBaseUrl = "https://app.kobbe.io",
   className,
+  spotArt,
 }: {
   appBaseUrl?: string;
   className?: string;
+  /** Small gull perched on the top-left corner of the features card. */
+  spotArt?: PricingSpotArt;
 }) {
   const [period, setPeriod] = useState<BillingPeriod>("monthly");
 
@@ -37,26 +48,33 @@ export function SimplifiedPricingSection({
 
   return (
     <div id="pricing" className={cn("scroll-mt-24", className)}>
-      <div className="max-w-3xl">
-        <TwoToneHeading title="Pricing.">
-          Same features on every plan; only the event volume changes. Nothing to
-          pay today: start with a {pricingTrialDays}-day free trial, no credit
-          card required, and pick your volume when the trial ends.
-        </TwoToneHeading>
-      </div>
-
       <div className="mt-8 grid w-full min-w-0 grid-cols-1 items-stretch gap-4 lg:grid-cols-2">
         {/* Features card first on desktop; pricing card first on mobile. */}
         <article
-          className={cn(
-            panelClassName,
-            "bg-muted-surface",
-            "order-2 lg:order-1",
-          )}
+          className={cn(panelClassName, "bg-muted-surface justify-between")}
           aria-label="Included features"
         >
+          {" "}
+          {spotArt ? (
+            // Perched on the card's top edge at the far right, beyond the
+            // heading's column, so it never sits on the text.
+            <img
+              src={spotArt.src}
+              srcSet={spotArt.srcSet}
+              width={spotArt.width}
+              height={spotArt.height}
+              alt=""
+              loading="lazy"
+              className="pointer-events-none absolute bottom-full left-6 hidden w-16 lg:block"
+            />
+          ) : null}
+          <TwoToneHeading title="Pricing.">
+            Same features on every plan; only the event volume changes. Nothing
+            to pay today: start with a {pricingTrialDays}-day free trial, no
+            credit card required, and pick your volume when the trial ends.
+          </TwoToneHeading>
           <ul
-            className="text-foreground grid list-none grid-cols-1 items-start gap-x-6 gap-y-1.5 font-medium"
+            className="text-foreground grid list-none grid-cols-1 items-start gap-x-6 gap-y-1.5 font-medium lg:grid-cols-2 lg:gap-x-4"
             role="list"
           >
             {featureRows.map((feature) => (

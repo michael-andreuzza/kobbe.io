@@ -81,7 +81,9 @@ const megaMenuLinks = [
   <ProgressiveBlur edge="top" />
   <Wrapper variant="nav" class="relative flex items-center justify-between">
     <div class="relative" data-mega-menu>
-      <div class="bg-muted-surface flex items-center gap-1 rounded-lg p-1 text-sm">
+      <div
+        class="bg-muted-surface flex items-center gap-1 rounded-lg p-1 text-sm"
+      >
         <a
           href="/"
           class="bg-surface flex size-8 items-center justify-center rounded-md shadow-xs"
@@ -114,7 +116,7 @@ const megaMenuLinks = [
                       {link.label}
                     </span>
                     {link.description ? (
-                      <span class="text-surface/70 mt-1 block text-sm leading-snug">
+                      <span class="text-surface/70 mt-1 block text-sm leading-snug lg:text-balance">
                         {link.description}
                       </span>
                     ) : null}
@@ -145,11 +147,13 @@ const megaMenuLinks = [
               Guides for setup, tracking, and dashboards, plus every
               installation and revenue guide.
             </span>
-            {/* A kobbe: a bare skerry with a stone day mark, the thing we are named after. */}
+            {
+              /* A kobbe: a bare skerry with a stone day mark, the thing we are named after. */
+            }
             <Image
               src={skerry}
               alt=""
-              class="pointer-events-none mt-auto -mx-6 -mb-18 w-auto max-w-none pt-4"
+              class="pointer-events-none -mx-6 mt-auto -mb-18 w-auto max-w-none pt-4"
               widths={[272, 544, 816]}
               sizes="272px"
               loading="lazy"
@@ -158,7 +162,9 @@ const megaMenuLinks = [
         </div>
       </nav>
     </div>
-    <div class="bg-muted-surface flex items-center gap-1 rounded-lg p-1 text-sm">
+    <div
+      class="bg-muted-surface flex items-center gap-1 rounded-lg p-1 text-sm"
+    >
       <a
         href="/#pricing"
         class="text-foreground py-1.5 pr-1.5 pl-2.5 font-medium transition-opacity hover:opacity-70"

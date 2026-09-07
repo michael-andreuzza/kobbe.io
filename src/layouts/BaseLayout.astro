@@ -3,6 +3,7 @@ import "@/styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import Navigation from "@/components/global/Navigation.astro";
 import Footer from "@/components/landing/Footer.astro";
+import ProgressiveBlur from "@/components/global/ProgressiveBlur.astro";
 
 import SiteSeo from "@/components/foundations/head/SiteSeo.astro";
 import type { JsonLdBreadcrumb } from "@/lib/seo/json-ld";
@@ -98,5 +99,6 @@ const {
       <slot />
       {footer && <Footer />}
     </main>
+    <ProgressiveBlur class={blurClass} />
   </body>
 </html>

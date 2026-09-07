@@ -24,6 +24,8 @@ export type TwoToneHeadingProps = {
   title: string;
   /** Heading level for the title. */
   as?: "h1" | "h2" | "h3" | "p";
+  /** `sm` drops to body size for captions under images and cards. */
+  size?: "default" | "sm";
   className?: string;
   /** Astro call sites pass `class`; merged with className. */
   class?: string;
@@ -35,6 +37,7 @@ export function TwoToneHeading({
   eyebrow,
   title,
   as: Tag = "h2",
+  size = "default",
   className,
   class: classProp,
   children,
@@ -46,7 +49,9 @@ export function TwoToneHeading({
       ) : null}
       <Tag
         className={cn(
-          "text-[clamp(1.25rem,2vw,1.35rem)] leading-tight tracking-tight text-balance",
+          size === "sm"
+            ? "text-base text-pretty"
+            : "text-[clamp(1.25rem,2vw,1.35rem)] leading-tight tracking-tight text-balance",
           eyebrow && "mt-4",
         )}
       >

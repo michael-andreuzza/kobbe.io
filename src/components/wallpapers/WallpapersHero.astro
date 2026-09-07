@@ -1,0 +1,25 @@
+---
+/**
+ * Page opener for /wallpapers, reusing the shared StatementHero with the
+ * download CTA in its slot.
+ */
+import StatementHero from "@/components/sections/StatementHero.astro";
+import { Button } from "@/components/ui/button";
+import { WALLPAPERS_DOWNLOAD_URL } from "@/components/wallpapers/wallpapers";
+---
+
+<StatementHero
+  statement="Four Åland scenes for your desktop."
+  elaboration="The illustrations from around this site, drawn out to 5K. Each one is a dynamic HEIC that follows macOS light and dark mode, with flat PNGs for everything else. Free, in exchange for your email."
+>
+  <div class="mt-8 flex flex-wrap gap-3">
+    <Button
+      variant="solid"
+      label="Download the set"
+      href={WALLPAPERS_DOWNLOAD_URL}
+      external
+      arrow
+    />
+    <Button variant="muted" label="See the scenes" href="#scenes" />
+  </div>
+</StatementHero>
