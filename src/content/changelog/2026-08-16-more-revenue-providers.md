@@ -2,7 +2,7 @@
 title: Whop, RevenueCat, Superwall, and Shopify revenue
 date: 2026-08-16
 description: Four more payment providers can now feed revenue attribution, alongside Stripe, Polar, Paddle, and the rest.
-image: /images/changelog/new-revenue-attr.webp
+image: ../../images/changelog/new-revenue-attr.webp
 imageAlt: Revenue attribution settings with Whop, RevenueCat, Superwall, and Shopify listed alongside other billing providers.
 ---
 

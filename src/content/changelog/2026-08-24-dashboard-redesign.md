@@ -2,7 +2,7 @@
 title: The dashboard, redesigned
 date: 2026-08-24
 description: One overview screen for KPIs, the visitors chart, top pages, sources, and bot filtering.
-image: /images/changelog/new-dashboard.webp
+image: ../../images/changelog/new-dashboard.webp
 imageAlt: Kobbe dashboard overview with a KPI row, visitors over time chart, Pages card, and Sources card with the Bots tab.
 ---
 

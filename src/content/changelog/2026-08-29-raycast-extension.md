@@ -2,7 +2,7 @@
 title: Kobbe for Raycast
 date: 2026-08-29
 description: Search sites, view overview metrics, top pages and sources, revenue, and setup health from Raycast, with live visitors in the menu bar.
-image: /images/changelog/raycast-extension.webp
+image: ../../images/changelog/raycast-extension.webp
 imageAlt: Kobbe site overview in Raycast, showing live visitors, traffic metrics, revenue, and top pages for the last 7 days.
 ---
 

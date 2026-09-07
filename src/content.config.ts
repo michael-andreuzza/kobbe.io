@@ -28,13 +28,14 @@ const changelog = defineCollection({
     pattern: "**/*.{md,mdx}",
     base: "./src/content/changelog",
   }),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    description: z.string(),
-    image: z.string().optional(),
-    imageAlt: z.string().optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      date: z.coerce.date(),
+      description: z.string(),
+      image: image().optional(),
+      imageAlt: z.string().optional(),
+    }),
 });
 
 export const collections = { docs, changelog };

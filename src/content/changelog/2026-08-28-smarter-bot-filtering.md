@@ -2,7 +2,7 @@
 title: Smarter bot filtering
 date: 2026-08-28
 description: Bot filtering now layers user-agent, verified-bot, datacenter network, and behavioral checks to keep scrapers out of your stats.
-image: /images/changelog/bot-filtering.webp
+image: ../../images/changelog/bot-filtering.webp
 imageAlt: Bot filtering breakdown in the Sources card, showing filtered hits by reason such as user-agent, datacenter network, and behavioral signals.
 ---
 

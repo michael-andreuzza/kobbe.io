@@ -37,11 +37,13 @@ export function SimplifiedPricingSection({
 
   return (
     <div id="pricing" className={cn("scroll-mt-24", className)}>
-      <TwoToneHeading title="Pricing">
-        Same features on every plan; only the event volume changes. Nothing to
-        pay today: start with a {pricingTrialDays}-day free trial, no credit
-        card required, and pick your volume when the trial ends.
-      </TwoToneHeading>
+      <div className="max-w-3xl">
+        <TwoToneHeading title="Pricing.">
+          Same features on every plan; only the event volume changes. Nothing to
+          pay today: start with a {pricingTrialDays}-day free trial, no credit
+          card required, and pick your volume when the trial ends.
+        </TwoToneHeading>
+      </div>
 
       <div className="mt-8 grid w-full min-w-0 grid-cols-1 items-stretch gap-4 lg:grid-cols-2">
         {/* Features card first on desktop; pricing card first on mobile. */}

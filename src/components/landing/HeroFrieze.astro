@@ -1,0 +1,187 @@
+---
+/**
+ * The hero frieze: one ink line of stone quay across the viewport and a thin
+ * crowd of tiny figures being counted as they pass. Each figure is its own
+ * cutout (scripts/frieze-sprites.py) positioned on a fixed-aspect canvas, so
+ * walkers can drift along the quay while the stations (tally kid, clicker,
+ * biscuit tin, fish stall, gate with the tin robot, gull) stay put.
+ *
+ * Motion is transform-only. Under prefers-reduced-motion the flat stitched
+ * frieze is shown instead.
+ */
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+import manifest from "@/images/illustrations/frieze/manifest.json";
+import frieze from "@/images/illustrations/frieze/frieze.webp";
+import quay from "@/images/illustrations/frieze/quay.webp";
+
+const spriteFiles = import.meta.glob<ImageMetadata>(
+  "@/images/illustrations/frieze/sprite-*.webp",
+  { eager: true, import: "default" },
+);
+const spriteById = new Map(
+  Object.entries(spriteFiles).map(([path, img]) => [
+    Number(path.match(/sprite-(\d+)\.webp$/)![1]),
+    img,
+  ]),
+);
+
+type Role = "station" | "walker" | "flyer" | "gull";
+/**
+ * Seconds to cross the whole quay. Unlisted ids are stations.
+ *
+ * People are stations on purpose: a rigid cutout sliding along reads as
+ * tacky, and redrawn walk-cycle frames did not match the original hand
+ * (tested, rejected). Only things that glide in real life move: the gull
+ * with the biscuit crosses the quay, the standing gull hops. The "walker"
+ * role stays available for anything that can plausibly roll or drift.
+ */
+const cast: Record<number, { role: Role; dur?: number; lift?: number }> = {
+  8: { role: "flyer", dur: 48, lift: 0.3 }, // gull with a biscuit, flies just above the crowd
+  17: { role: "gull" }, // standing gull
+};
+
+const { width: W, height: H } = manifest;
+const sprites = manifest.sprites.map((s) => {
+  const c = cast[s.id] ?? { role: "station" as Role };
+  const x = (s.x / W) * 100;
+  const w = (s.w / W) * 100;
+  // Walkers travel from just off the left edge to just off the right edge.
+  // A negative delay starts each one exactly where it was drawn.
+  const progress = (x + w) / (100 + w);
+  const dur = c.dur ?? 0;
+  // lift is a fraction of the canvas height; flyers may leave the canvas.
+  const y = ((s.y / H) * 100 - (c.lift ?? 0) * 100).toFixed(3);
+  return {
+    ...s,
+    img: spriteById.get(s.id)!,
+    role: c.role,
+    style: [
+      `--x:${x.toFixed(3)}cqw`,
+      `--y:${y}%`,
+      `--w:${w.toFixed(3)}cqw`,
+      dur ? `--dur:${dur}s` : "",
+      dur ? `--delay:${(-progress * dur).toFixed(2)}s` : "",
+      `--bob:${(0.55 + ((s.id * 7) % 5) * 0.06).toFixed(2)}s`,
+    ]
+      .filter(Boolean)
+      .join(";"),
+    sizes: `${w.toFixed(2)}vw`,
+  };
+});
+---
+
+<div
+  class="frieze pointer-events-none relative w-full scale-150 lg:scale-none"
+  style={`aspect-ratio:${W}/${H}`}
+  aria-hidden="true"
+>
+  <Image
+    src={frieze}
+    alt=""
+    class="absolute inset-0 hidden h-full w-full motion-reduce:block"
+    widths={[1280, 1920, 2560, 3840, W]}
+    sizes="100vw"
+    loading="eager"
+  />
+  <div class="stage absolute inset-0 motion-reduce:hidden">
+    <Image
+      src={quay}
+      alt=""
+      class="absolute bottom-0 left-0 w-full"
+      widths={[1280, 1920, 2560, 3840, W]}
+      sizes="100vw"
+      loading="eager"
+    />
+    {
+      sprites.map((s) => (
+        <div class:list={["sprite", s.role]} style={s.style}>
+          <div class="sprite-inner">
+            <Image
+              src={s.img}
+              alt=""
+              class="block w-full"
+              widths={[Math.round(s.w / 2), s.w]}
+              sizes={s.sizes}
+              loading="eager"
+            />
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .frieze {
+    container-type: inline-size;
+  }
+  /* Clip the sides so drifting sprites enter and leave cleanly, but leave
+     the top open: the flying gull lives above the canvas. */
+  .stage {
+    clip-path: inset(-200% 0 0 0);
+  }
+  .sprite {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--w);
+  }
+  .sprite-inner {
+    transform-origin: 50% 100%;
+  }
+  .walker,
+  .flyer {
+    z-index: 1;
+    animation: drift var(--dur) linear infinite;
+    animation-delay: var(--delay);
+    will-change: transform;
+  }
+  .walker .sprite-inner {
+    animation: step var(--bob) ease-in-out infinite alternate;
+  }
+  .flyer .sprite-inner {
+    animation: glide 2.8s ease-in-out infinite alternate;
+  }
+  .gull .sprite-inner {
+    animation: hop 5s ease-in-out infinite;
+  }
+  @keyframes drift {
+    from {
+      transform: translateX(calc(-1 * var(--x) - var(--w)));
+    }
+    to {
+      transform: translateX(calc(100cqw - var(--x)));
+    }
+  }
+  @keyframes step {
+    from {
+      transform: translateY(0) rotate(-0.6deg);
+    }
+    to {
+      transform: translateY(-1.5px) rotate(0.6deg);
+    }
+  }
+  @keyframes glide {
+    from {
+      transform: translateY(0) rotate(-1.5deg);
+    }
+    to {
+      transform: translateY(-10px) rotate(1.5deg);
+    }
+  }
+  @keyframes hop {
+    0%,
+    86%,
+    100% {
+      transform: translateY(0);
+    }
+    90% {
+      transform: translateY(-5px);
+    }
+    94% {
+      transform: translateY(0);
+    }
+  }
+</style>

@@ -2,7 +2,7 @@
 title: Events explorer and insights
 date: 2026-07-22
 description: A dedicated Events page with a filterable activity log, plus an Insights view over your custom events.
-image: /images/changelog/events-explorer.webp
+image: ../../images/changelog/events-explorer.webp
 imageAlt: Events explorer with a filterable activity log and insights view for custom events over time.
 ---
 

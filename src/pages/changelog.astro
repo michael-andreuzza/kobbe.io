@@ -11,7 +11,6 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import StatementHero from "@/components/sections/StatementHero.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import Footer from "@/components/landing/Footer.astro";
 import { changelogDateFormatter, changelogSlug } from "@/lib/changelog";
 
 const title = "Kobbe changelog: what shipped and when";
@@ -70,5 +69,4 @@ const entries = (await getCollection("changelog")).sort(
     </Wrapper>
   </section>
 
-  <Footer />
 </BaseLayout>

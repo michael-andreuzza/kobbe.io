@@ -7,6 +7,7 @@
  * same link columns as the mobile side panel.
  * Mobile: plain header row opening the side panel (docs tree on docs pages).
  */
+import { Image } from "astro:assets";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
@@ -14,7 +15,7 @@ import ProgressiveBlur from "@/components/global/ProgressiveBlur.astro";
 import { SiteMobileMenu } from "@/components/global/site-mobile-menu";
 import Logo from "@/components/assets/Logo.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import natureImage from "@/images/assets/megamenu-nature.png";
+import skerry from "@/images/illustrations/skerry-cairn.webp";
 import { APP_SIGNIN_URL, APP_SIGNUP_URL } from "@/lib/site-mega-menu";
 
 interface Props {
@@ -83,7 +84,7 @@ const megaMenuLinks = [
       <div class="bg-muted-surface flex items-center gap-1 rounded-lg p-1 text-sm">
         <a
           href="/"
-          class="bg-background flex size-8 items-center justify-center rounded-md shadow-xs"
+          class="bg-surface flex size-8 items-center justify-center rounded-md shadow-xs"
           aria-label="Kobbe home"
         >
           <Logo class="text-foreground size-4.5" />
@@ -125,21 +126,10 @@ const megaMenuLinks = [
 
           <a
             href="/docs"
-            class="group relative flex flex-col justify-end overflow-hidden p-5"
+            class="group bg-muted-surface relative flex flex-col overflow-hidden p-5"
           >
-            <img
-              src={natureImage.src}
-              alt=""
-              width={natureImage.width}
-              height={natureImage.height}
-              class="absolute inset-0 size-full scale-110 object-cover blur-xl transition-transform duration-500 group-hover:scale-115"
-            />
-            {/* Scrim into the panel color so the copy stays legible. */}
             <span
-              class="from-dark-background/80 via-dark-background/10 absolute inset-0 bg-linear-to-t to-transparent"
-              aria-hidden="true"></span>
-            <span
-              class="text-surface relative flex items-center gap-1 text-sm font-medium"
+              class="text-foreground relative flex items-center gap-1 text-sm font-medium transition-opacity group-hover:opacity-70"
             >
               Read the docs
               <HugeiconsIcon
@@ -150,11 +140,20 @@ const megaMenuLinks = [
               />
             </span>
             <span
-              class="text-surface/70 relative mt-2 block text-sm leading-snug"
+              class="text-muted-foreground relative mt-2 block text-sm leading-snug"
             >
               Guides for setup, tracking, and dashboards, plus every
               installation and revenue guide.
             </span>
+            {/* A kobbe: a bare skerry with a stone day mark, the thing we are named after. */}
+            <Image
+              src={skerry}
+              alt=""
+              class="pointer-events-none mt-auto -mx-6 -mb-18 w-auto max-w-none pt-4"
+              widths={[272, 544, 816]}
+              sizes="272px"
+              loading="lazy"
+            />
           </a>
         </div>
       </nav>

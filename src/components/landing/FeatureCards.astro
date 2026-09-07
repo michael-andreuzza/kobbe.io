@@ -11,7 +11,17 @@ import Wrapper from "../foundations/containers/Wrapper.astro";
 import featureOverview from "@/images/assets/feature-overview.png";
 import featureRevenue from "@/images/assets/feature-revenue.png";
 import featureRealtime from "@/images/assets/feature-realtime.png";
+// Tall variants carry pines on the empty side of the panel so the space
+// beside the screenshot is not blank. Low variants (strip-*.webp) are kept.
+import sceneCoast from "@/images/illustrations/strip-coast-tall.webp";
+import sceneHarbour from "@/images/illustrations/strip-harbour-tall.webp";
+import sceneShore from "@/images/illustrations/strip-shore-tall.webp";
 
+/*
+ * Each panel gets its own watercolour shoreline (same hand as the footer),
+ * paper knocked out to alpha, running the full panel width along the
+ * bottom edge and over the lower part of the screenshot.
+ */
 const features = [
   {
     eyebrow: "Filter out the bots",
@@ -22,6 +32,9 @@ const features = [
     image: featureOverview,
     imageAlt:
       "The Kobbe overview dashboard: visitor KPIs, a traffic trend chart, top pages, and top sources",
+    scene: sceneCoast,
+    // Trees and cottage sit left, so the screenshot goes right.
+    imageClass: "ml-auto",
   },
   {
     eyebrow: "Follow the money",
@@ -32,6 +45,9 @@ const features = [
     image: featureRevenue,
     imageAlt:
       "The Kobbe revenue page: gross, net, and attributed revenue with a per-page attribution breakdown",
+    scene: sceneHarbour,
+    // Boathouses sit right, so the screenshot stays left.
+    imageClass: "",
   },
   {
     eyebrow: "Respect your visitors",
@@ -42,6 +58,9 @@ const features = [
     image: featureRealtime,
     imageAlt:
       "The Kobbe realtime page: online visitors shown as anonymous dots on a globe",
+    scene: sceneShore,
+    // Rocks and bench sit left, so the screenshot goes right.
+    imageClass: "ml-auto",
   },
 ];
 ---
@@ -50,7 +69,7 @@ const features = [
   <div id="features" class="space-y-32">
     {
       features.map((feature) => (
-        <section>
+        <section class="relative overflow-hidden">
           <TwoToneHeading eyebrow={feature.eyebrow} title={feature.lead}>
             {feature.body}{" "}
             <a
@@ -60,11 +79,14 @@ const features = [
               {feature.linkLabel}
             </a>
           </TwoToneHeading>
-          <div class="bg-muted-surface relative mt-8 h-auto overflow-hidden px-6 pt-8 pb-0 sm:h-120 lg:h-152 lg:pt-20 lg:pb-0">
+          <div class="  mt-8 h-auto   sm:h-120 lg:h-152  ">
             <Image
               src={feature.image}
               alt={feature.imageAlt}
-              class="shadow-panel mx-auto -mb-4 block w-full max-w-5xl rounded lg:rounded-t-lg"
+              class:list={[
+                "shadow-panel -mb-2 block w-full max-w-4xl rounded lg:rounded-t-lg",
+                feature.imageClass,
+              ]}
               widths={[768, 1280, 1920, 2560]}
               sizes="(min-width: 1024px) 896px, 100vw"
               loading="lazy"
@@ -78,6 +100,14 @@ const features = [
               <div />
             </div>
           </div>
+            <Image
+              src={feature.scene}
+              alt=""
+              class="pointer-events-none absolute inset-x-0 -bottom-10 hidden w-full sm:block "
+              widths={[768, 1280, 1920, 2560]}
+              sizes="(min-width: 1280px) 1200px, 100vw"
+              loading="lazy"
+            />
         </section>
       ))
     }

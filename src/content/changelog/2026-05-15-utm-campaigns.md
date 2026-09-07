@@ -2,7 +2,7 @@
 title: UTM campaign reporting
 date: 2026-05-15
 description: A Campaigns page that groups traffic by UTM parameters, with links to create and copy tagged URLs.
-image: /images/changelog/utm-campaigns.webp
+image: ../../images/changelog/utm-campaigns.webp
 imageAlt: UTM campaign reporting in Kobbe, grouping traffic by campaign with visitors, conversions, and sources.
 ---
 

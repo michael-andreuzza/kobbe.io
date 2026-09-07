@@ -1,15 +1,35 @@
 ---
 import { Button } from "@/components/ui/button";
 import StatementHero from "@/components/sections/StatementHero.astro";
+import HeroFrieze from "@/components/landing/HeroFrieze.astro";
 
 const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
 ---
 
-<StatementHero
-  statement="Real visitors deserve real numbers. "
-  elaboration="At Kobbe, we follow the money instead of the people: traffic, conversions, and revenue in one dashboard, with no cookies, no consent banners, and no bots in your stats."
->
-  <div class="mt-6 lg:hidden">
-    <Button label="Live demo" href={demoUrl} variant="outline" arrow external />
+<section class="overflow-hidden">
+  <StatementHero
+    statement="Real visitors deserve real numbers. "
+    elaboration="At Kobbe, we follow the money instead of the people: traffic, conversions, and revenue in one dashboard, with no cookies, no consent banners, and no bots in your stats."
+    class="pb-0"
+  >
+    <div class="mt-6 lg:hidden">
+      <Button
+        label="Live demo"
+        href={demoUrl}
+        variant="outline"
+        arrow
+        external
+      />
+    </div>
+  </StatementHero>
+
+  <!--
+    Quay frieze under the statement: visitors passing along the quay and
+    being counted. Animated cutouts, see HeroFrieze.astro. The flat versions
+    (frieze-quay.webp walkers only, frieze-count.webp counting) are kept in
+    src/images/illustrations.
+  -->
+  <div class="mt-42 lg:mt-32 2xl:mt-80">
+    <HeroFrieze />
   </div>
-</StatementHero>
+</section>

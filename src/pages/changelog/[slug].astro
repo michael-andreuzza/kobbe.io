@@ -4,6 +4,7 @@
  * prose body, then a short "More entries" list in the same hairline rows
  * as /changelog.
  */
+import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -11,7 +12,6 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { Button } from "@/components/ui/button";
-import Footer from "@/components/landing/Footer.astro";
 import { changelogDateFormatter, changelogSlug } from "@/lib/changelog";
 
 export async function getStaticPaths() {
@@ -45,14 +45,17 @@ const otherEntries = (await getCollection("changelog"))
         <article>
           {
             entry.data.image ? (
-              <img
+              <Image
                 src={entry.data.image}
                 alt={entry.data.imageAlt ?? ""}
-                class=" w-full rounded-lg"
+                class="shadow-panel w-full rounded-lg"
+                widths={[672, 1344]}
+                sizes="(min-width: 768px) 672px, 100vw"
+                loading="eager"
               />
             ) : null
           }
-          <p class="text-muted-foreground text-xs font-medium uppercase mt-12">
+          <p class="text-muted-foreground mt-12 text-xs font-medium uppercase">
             <a
               href="/changelog"
               class="hover:text-foreground transition-colors"
@@ -116,6 +119,4 @@ const otherEntries = (await getCollection("changelog"))
       </div>
     </Wrapper>
   </section>
-
-  <Footer />
 </BaseLayout>

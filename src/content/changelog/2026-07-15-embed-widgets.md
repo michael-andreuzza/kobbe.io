@@ -2,7 +2,7 @@
 title: Embeddable analytics widgets
 date: 2026-07-15
 description: Drop a live chart or visitor counter on any page with a small embed snippet.
-image: /images/changelog/embed-widgets.webp
+image: ../../images/changelog/embed-widgets.webp
 imageAlt: Embeddable Kobbe analytics widget showing a live traffic chart or visitor counter on a page.
 ---
 

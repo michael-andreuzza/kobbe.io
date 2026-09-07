@@ -2,7 +2,8 @@
 import "@/styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import Navigation from "@/components/global/Navigation.astro";
-import ProgressiveBlur from "@/components/global/ProgressiveBlur.astro";
+import Footer from "@/components/landing/Footer.astro";
+
 import SiteSeo from "@/components/foundations/head/SiteSeo.astro";
 import type { JsonLdBreadcrumb } from "@/lib/seo/json-ld";
 
@@ -22,6 +23,10 @@ interface Props {
   jsonLdExtra?: Record<string, unknown>[];
   /** Extra classes for the bottom progressive blur. */
   blurClass?: string;
+  /** Render the site navigation. Defaults to true. */
+  nav?: boolean;
+  /** Render the CTA + site footer. Docs and the 404 page turn it off. */
+  footer?: boolean;
   /** On docs pages the mobile panel lists the docs tree instead of the mega menu. */
   docsNavGroups?: {
     category: string;
@@ -44,6 +49,8 @@ const {
   jsonLdBreadcrumbs,
   jsonLdExtra,
   blurClass,
+  nav = true,
+  footer = true,
   docsNavGroups,
 } = Astro.props;
 ---
@@ -81,7 +88,7 @@ const {
     <ClientRouter />
   </head>
   <body class="bg-background flex min-h-svh min-w-0 flex-col antialiased">
-    <Navigation docsNavGroups={docsNavGroups} />
+    {nav && <Navigation docsNavGroups={docsNavGroups} />}
     {
       /* No `isolate` here: it would trap the page's fixed UI (mobile nav card,
         floating mega menu) in main's stacking context, painting it below the
@@ -89,7 +96,7 @@ const {
     }
     <main class="min-w-0 grow">
       <slot />
+      {footer && <Footer />}
     </main>
-    <ProgressiveBlur class={blurClass} />
   </body>
 </html>

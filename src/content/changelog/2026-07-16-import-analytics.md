@@ -2,7 +2,7 @@
 title: Import from Plausible, Fathom, or Umami
 date: 2026-07-16
 description: Bring your historical analytics with you. Upload your old provider's export and Kobbe merges it into your dashboards.
-image: /images/changelog/import-data.webp
+image: ../../images/changelog/import-data.webp
 imageAlt: Import flow in Kobbe for uploading a Plausible, Fathom, or Umami export and merging it into your dashboards.
 ---
 

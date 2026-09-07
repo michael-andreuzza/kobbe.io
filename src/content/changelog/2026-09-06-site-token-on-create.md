@@ -2,7 +2,7 @@
 title: Your site token, always right where you install it
 date: 2026-09-06
 description: Creating a site lands you on the install script with your token already filled in, and the token now stays visible in Settings instead of disappearing after one look.
-image: /images/changelog/site-token-install.webp
+image: ../../images/changelog/site-token-install.webp
 imageAlt: Installation settings showing the install script with the site token filled in.
 ---
 

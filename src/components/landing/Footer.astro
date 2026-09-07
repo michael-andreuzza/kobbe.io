@@ -3,12 +3,13 @@
  * Closer in Kobbe's own voice: a quiet CTA on paper, then a muted footer
  * with the wordmark set as large as the viewport allows.
  */
+import { Image } from "astro:assets";
+
 import Logo from "@/components/assets/Logo.astro";
-import Wordmark from "@/components/assets/Wordmark.astro";
+import village from "@/images/illustrations/watercolour-village-mixed.webp";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { APP_SIGNUP_URL } from "@/lib/site-mega-menu";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
-import { featureGroups } from "@/components/features/features";
 import { Button } from "@/components/ui/button";
 
 const columns = [
@@ -55,7 +56,7 @@ const columns = [
 ];
 ---
 
-<footer class="">
+<footer>
   <Wrapper variant="default" class="pt-24 pb-8">
     <!-- Quiet CTA in the hero's two-tone voice -->
     <div
@@ -76,27 +77,32 @@ const columns = [
         href={APP_SIGNUP_URL}
       />
     </div>
+  </Wrapper>
 
-    <div
-      class="text-foreground bg-muted-surface mt-12 overflow-hidden rounded-xl p-8 lg:p-20"
-    >
-      <!-- Site links -->
-      <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
-        <div>
+  <!--
+    Muted full-bleed closer: the links sit in the blank sky of the drawing and
+    the drawing runs edge to edge along the bottom of the page.
+  -->
+  <div class="text-foreground mt-12">
+    <Wrapper variant="default" class="relative z-10 pt-12 lg:pt-16">
+      <!-- Logo and site links -->
+      <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-12">
+        <!-- Logo takes the left third; four link columns share the rest. -->
+        <div class="col-span-2 sm:col-span-3 lg:col-span-4">
           <a href="/" aria-label="Kobbe home">
             <Logo class="text-foreground size-8" />
           </a>
         </div>
         {
           columns.map((column) => (
-            <div class="space-y-3">
-              <p class="text-foreground text-sm font-medium">{column.title}</p>
-              <ul class="space-y-2">
+            <div class="space-y-2 lg:col-span-2">
+              <p class="text-foreground text-xs font-medium">{column.title}</p>
+              <ul class="space-y-1">
                 {column.links.map((link) => (
                   <li>
                     <a
                       href={link.href}
-                      class="text-muted-foreground hover:text-foreground text-sm transition-colors font-medium"
+                      class="text-muted-foreground hover:text-foreground text-xs font-medium transition-colors"
                     >
                       {link.label}
                     </a>
@@ -107,42 +113,36 @@ const columns = [
           ))
         }
       </div>
+    </Wrapper>
 
-      <!-- Every feature, grouped the same way as /features -->
-      <div class="border-border mt-8 border-t py-8">
-        <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
-          {
-            featureGroups.map((group) => (
-              <div class="space-y-3">
-                <p class="text-foreground text-sm font-medium">
-                  {group.eyebrow}
-                </p>
-                <ul class="space-y-2">
-                  {group.items.map((item) => (
-                    <li>
-                      <a
-                        href={item.href}
-                        class="text-muted-foreground font-medium hover:text-foreground text-sm transition-colors"
-                      >
-                        {item.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-
-      <Wordmark class="text-foreground/20 select-none mt-12" aria-hidden="true" />
-
-      <div
-        class="text-muted-foreground border-border flex flex-wrap items-center justify-between gap-2 border-t pt-4 text-sm"
+    <!--
+      Åland village watercolour, full viewport width. 2560px WebP with the
+      paper knocked out to alpha so it sits on the page background. Built
+      with the Real-ESRGAN pipeline documented in
+      scripts/footer-illustration-alpha.py. The all-red-houses variant is
+      src/images/illustrations/watercolour-village.webp.
+    -->
+    <div class="relative mt-8">
+      <Image
+        src={village}
+        alt=""
+        class="pointer-events-none aspect-3/1 w-full object-cover object-bottom"
+        widths={[768, 1280, 1920, 2560]}
+        sizes="100vw"
+        loading="lazy"
+      />
+      <!-- Copyright overlaid on the calm water, bottom right -->
+      <Wrapper
+        variant="default"
+        class="absolute inset-x-0 bottom-4 lg:bottom-6"
       >
-        <span>© 2026 Kobbe. All rights reserved.</span>
-        <span>Made in Åland Islands, Finland. EU</span>
-      </div>
+        <div
+          class="text-muted-foreground ml-auto flex w-fit flex-wrap justify-end gap-x-4 gap-y-1 text-right text-xs"
+        >
+          <span>© 2026 Kobbe. All rights reserved.</span>
+          <span>Made in Åland Islands, Finland. EU</span>
+        </div>
+      </Wrapper>
     </div>
-  </Wrapper>
+  </div>
 </footer>

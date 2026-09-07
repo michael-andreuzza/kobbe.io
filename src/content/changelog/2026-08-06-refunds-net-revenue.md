@@ -2,7 +2,7 @@
 title: Refund tracking and net revenue
 date: 2026-08-06
 description: Refunds now flow into the Revenue page, with net revenue KPIs and a recent refunds card.
-image: /images/changelog/refund-tracking.webp
+image: ../../images/changelog/refund-tracking.webp
 imageAlt: Revenue page showing net revenue KPIs alongside gross revenue and a recent refunds card.
 ---
 

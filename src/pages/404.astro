@@ -1,21 +1,52 @@
 ---
+import { Image } from "astro:assets";
+
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import { TwoToneHeading } from "@/components/ui/two-tone-heading";
+import { Button } from "@/components/ui/button";
+import pilotStation from "@/images/illustrations/pilot-station.webp";
 ---
 
-<BaseLayout title="Not found: Kobbe" noindex nofollow>
-  <section
-    class="flex min-h-[60svh] flex-col items-center justify-center p-6 text-center"
-    data-kobbe-not-found
-  >
-    <p class="text-foreground text-6xl font-semibold">404</p>
-    <p class="text-muted-foreground mt-4">
-      The page you're looking for doesn't exist.
-    </p>
-    <a
-      href="/"
-      class="text-foreground hover:text-muted-foreground mt-8 text-sm font-medium underline underline-offset-4"
-    >
-      Back to home
-    </a>
+<BaseLayout
+  title="Not found: Kobbe"
+  noindex
+  nofollow
+  nav={false}
+  footer={false}
+>
+  <!--
+    One viewport, no chrome, no scroll. The copy sits in the blank sky, in
+    the hero's two-tone voice, and the Kobbe pilot station (white pilot
+    house, pyramid daymark, striped lighthouse behind) fills whatever
+    height is left, anchored bottom right so the island stays whole and the
+    open water runs out under the text. Watercolour with the paper knocked
+    out; pipeline in scripts/footer-illustration-alpha.py.
+  -->
+  <section class="flex h-svh flex-col overflow-hidden" data-kobbe-not-found>
+    <Wrapper variant="default" class="w-full shrink-0 pt-24 pb-12 lg:pt-32">
+      <TwoToneHeading
+        as="h1"
+        eyebrow="Error 404"
+        title="You've drifted off the fairway."
+      >
+        The page you were looking for isn't here, or it has moved. The
+        lighthouse keepers at Kobbe used to guide boats back in; these links
+        will do the same.
+      </TwoToneHeading>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <Button variant="solid" label="Back to home" href="/" />
+        <Button variant="muted" label="Read the docs" href="/docs" />
+        <Button variant="muted" label="Contact support" href="/support/contact" />
+      </div>
+    </Wrapper>
+    <Image
+      src={pilotStation}
+      alt=""
+      class="pointer-events-none min-h-0 w-full flex-1 object-contain object-bottom-right"
+      widths={[768, 1280, 1920, 2560]}
+      sizes="100vw"
+      loading="eager"
+    />
   </section>
 </BaseLayout>

@@ -2,7 +2,7 @@
 title: One roll-up across all your sites
 date: 2026-08-16
 description: A workspace roll-up page combines KPIs across every site and ranks them, so portfolios get one overview instead of many tabs.
-image: /images/changelog/roll-up.webp
+image: ../../images/changelog/roll-up.webp
 imageAlt: Workspace roll-up view combining KPIs and ranked site traffic across every site in the portfolio.
 ---
 

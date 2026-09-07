@@ -2,7 +2,7 @@
 title: Exclude pages from revenue attribution
 date: 2026-08-30
 description: Thank-you pages can no longer claim last-touch revenue credit. Exclude them in site settings; the change applies retroactively.
-image: /images/changelog/revenue-exclusions.webp
+image: ../../images/changelog/revenue-exclusions.webp
 imageAlt: Revenue attribution exclusions in site settings, with thank-you and order-confirmation paths listed under Exclusions.
 ---
 

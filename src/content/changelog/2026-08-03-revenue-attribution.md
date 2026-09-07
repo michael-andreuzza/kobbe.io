@@ -2,7 +2,7 @@
 title: Revenue attribution
 date: 2026-08-03
 description: Purchases now attribute to the pages, sources, and campaigns that drove them, with configurable lookback windows and attribution models.
-image: /images/changelog/revenue-attribution.webp
+image: ../../images/changelog/revenue-attribution.webp
 imageAlt: Revenue attribution in Kobbe, showing purchases attributed to pages, sources, and campaigns.
 ---
 

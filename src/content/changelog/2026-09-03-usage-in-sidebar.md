@@ -2,7 +2,7 @@
 title: Events usage in the sidebar
 date: 2026-09-03
 description: A compact meter above the site switcher shows how much of this month's event allowance you've used, on desktop and mobile.
-image: /images/changelog/event-usage-sidebar.webp
+image: ../../images/changelog/event-usage-sidebar.webp
 imageAlt: Events usage meter in the sidebar, showing the month's count and percentage above the site switcher.
 ---
 

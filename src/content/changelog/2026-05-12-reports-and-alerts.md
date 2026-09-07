@@ -2,7 +2,7 @@
 title: Monthly reports, traffic alerts, privacy signals
 date: 2026-05-12
 description: A monthly email report per site, alerts when traffic spikes or a site goes quiet, and a tracker that respects browser privacy signals.
-image: /images/changelog/reports-and-alerts.webp
+image: ../../images/changelog/reports-and-alerts.webp
 imageAlt: Kobbe settings for monthly email reports and traffic alerts when a site spikes or goes quiet.
 ---
 
