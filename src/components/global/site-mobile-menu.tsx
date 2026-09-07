@@ -1,48 +1,52 @@
 import { useState, type ReactNode } from "react";
-import { Dialog } from "@base-ui/react/dialog";
-import { Cancel01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
+import { Popover } from "@base-ui/react/popover";
 
 import { Button } from "@/components/ui/button";
-import { DocsCommandSearchTrigger } from "@/components/docs/docs-command-search";
 import {
+  APP_DEMO_URL,
   APP_SIGNIN_URL,
   APP_SIGNUP_URL,
-  siteMegaMenuColumns,
 } from "@/lib/site-mega-menu";
 import { cn } from "@/lib/utils";
 
-export type SiteMobileDocsGroup = {
-  category: string;
-  items: { href: string; label: string; isActive: boolean }[];
-};
-
 type SiteMobileMenuProps = {
-  /** When set, the panel lists the docs navigation instead of the mega menu. */
-  docsGroups?: SiteMobileDocsGroup[];
   className?: string;
   /** Logo mark rendered inside the white chip (slotted from Astro). */
   children?: ReactNode;
 };
 
 /**
- * Mobile navigation, mirroring the desktop pills: a brand pill (logo chip +
- * Menu trigger) on the left and a Sign in / Try free pill on the right. The
- * Menu trigger opens a side panel with the mega menu groups (or the docs
- * tree on docs pages) and a sticky account row at the bottom.
+ * Minimal by design: just the top-level destinations. Everything deeper is
+ * reachable from these pages, the docs page select, and docs search.
  */
-export function SiteMobileMenu({
-  docsGroups,
-  className,
-  children,
-}: SiteMobileMenuProps) {
+const mobileNavLinks = [
+  { id: "features", href: "/features", label: "All features" },
+  { id: "pricing", href: "/#pricing", label: "Pricing" },
+  {
+    id: "demo",
+    href: APP_DEMO_URL,
+    label: "Live demo",
+    target: "_blank",
+    rel: "noopener noreferrer",
+  },
+  { id: "docs", href: "/docs", label: "Documentation" },
+  { id: "changelog", href: "/changelog", label: "Changelog" },
+];
+
+/**
+ * Mobile navigation, mirroring the desktop pills: a brand pill (logo chip +
+ * Menu trigger) on the left and a Sign in / Try free pill on the right.
+ * The Menu trigger opens a small dropdown under the pill, no full-height
+ * panel. Docs pages navigate through their own sticky page select
+ * (DocsLayout), not through this menu.
+ */
+export function SiteMobileMenu({ className, children }: SiteMobileMenuProps) {
   const [open, setOpen] = useState(false);
-  const isDocs = Boolean(docsGroups?.length);
 
   return (
     <div className={className}>
       <div className="flex items-center justify-between gap-3 py-2.5">
-        <Dialog.Root open={open} onOpenChange={setOpen}>
+        <Popover.Root open={open} onOpenChange={setOpen}>
           <div className="bg-muted-surface flex items-center gap-1 rounded-lg p-1 text-sm">
             <a
               href="/"
@@ -51,124 +55,39 @@ export function SiteMobileMenu({
             >
               {children}
             </a>
-            <Dialog.Trigger className="text-foreground py-1.5 pr-2.5 pl-1.5 font-medium transition-opacity outline-none hover:opacity-70">
+            <Popover.Trigger className="text-foreground py-1.5 pr-2.5 pl-1.5 font-medium transition-opacity outline-none hover:opacity-70">
               Menu
-            </Dialog.Trigger>
+            </Popover.Trigger>
           </div>
-          <Dialog.Portal>
-                {/* Near-transparent: the site stays visible behind the panel. */}
-                <Dialog.Backdrop className="bg-background/1 fixed inset-0 z-100 backdrop-blur transition-opacity duration-300 data-ending-style:opacity-0 data-starting-style:opacity-0 motion-reduce:transition-none" />
-                <Dialog.Popup
-                  className={cn(
-                    "bg-dark-background text-surface fixed inset-y-2 right-2 z-101 flex w-[min(22rem,calc(100vw-1rem))] flex-col rounded-lg shadow-lg outline-none",
-                    "transition-transform duration-300 ease-out data-ending-style:translate-x-[calc(100%+0.5rem)] data-starting-style:translate-x-[calc(100%+0.5rem)] motion-reduce:transition-none",
-                  )}
-                >
-                  <div className="flex shrink-0 items-center justify-between gap-3 p-4">
-                    <Dialog.Title className="text-surface font-semibold tracking-tight">
-                      Kobbe.
-                    </Dialog.Title>
-                    <Dialog.Close className="text-surface/70 hover:text-surface inline-flex size-8 items-center justify-center rounded-md transition-colors outline-none">
-                      <HugeiconsIcon
-                        icon={Cancel01Icon}
-                        className="size-5"
-                        aria-hidden="true"
-                      />
-                      <span className="sr-only">Close menu</span>
-                    </Dialog.Close>
-                  </div>
-
-                  <nav
-                    aria-label="Site navigation"
-                    className="min-h-0 flex-1 touch-pan-y space-y-6 overflow-y-auto overscroll-y-contain px-4 pb-4"
-                  >
-                    {isDocs ? (
-                      <>
-                        <DocsCommandSearchTrigger className="w-full focus-visible:ring-0" />
-                        {docsGroups!.map((group) => (
-                          <div key={group.category}>
-                            <p className="text-surface/60 text-sm">
-                              {group.category}
-                            </p>
-                            <ul className="mt-2 flex flex-col gap-1.5">
-                              {group.items.map((item) => (
-                                <li key={item.href}>
-                                  <a
-                                    href={item.href}
-                                    className={cn(
-                                      "text-sm transition-colors",
-                                      item.isActive
-                                        ? "text-surface"
-                                        : "text-surface/70 hover:text-surface",
-                                    )}
-                                  >
-                                    {item.label}
-                                  </a>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
-                      </>
-                    ) : (
-                      siteMegaMenuColumns.map((column) => (
-                        <div key={column.title}>
-                          <p className="text-surface/60 text-sm">
-                            {column.title}
-                          </p>
-                          <ul className="mt-2 flex flex-col gap-1.5">
-                            {column.links.map((link) => (
-                              <li key={link.id}>
-                                <a
-                                  href={link.href}
-                                  target={link.target}
-                                  rel={link.rel}
-                                  onClick={() => setOpen(false)}
-                                  className="text-surface/70 hover:text-surface text-sm transition-colors"
-                                >
-                                  {link.label}
-                                </a>
-                              </li>
-                            ))}
-                            {column.seeAllHref ? (
-                              <li>
-                                <a
-                                  href={column.seeAllHref}
-                                  onClick={() => setOpen(false)}
-                                  className="text-surface/60 hover:text-surface text-sm transition-colors"
-                                >
-                                  {column.seeAllLabel ?? "See all"}
-                                </a>
-                              </li>
-                            ) : null}
-                          </ul>
-                        </div>
-                      ))
-                    )}
-                  </nav>
-
-                  {/* Sticky account row. */}
-                  <div className="border-surface/20 flex shrink-0 items-center justify-between gap-3 border-t p-4">
-                    <a
-                      href={APP_SIGNIN_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-surface/70 hover:text-surface text-sm transition-colors"
-                    >
-                      Sign in
-                    </a>
-                    <Button
-                      href={APP_SIGNUP_URL}
-                      label="Start a free trial"
-                      variant="solid-light"
-                      size="xs"
-                      external
-                      data-kobbe-event="Nav - start trial"
-                    />
-                  </div>
-                </Dialog.Popup>
-          </Dialog.Portal>
-        </Dialog.Root>
+          <Popover.Portal>
+            <Popover.Positioner side="bottom" align="start" sideOffset={8}>
+              <Popover.Popup
+                className={cn(
+                  "bg-dark-background text-surface z-101 min-w-44 rounded-lg p-1.5 shadow-lg outline-none",
+                  "origin-(--transform-origin) transition-[opacity,transform] duration-150 data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0 motion-reduce:transition-none",
+                )}
+              >
+                <nav aria-label="Site navigation">
+                  <ul className="flex flex-col">
+                    {mobileNavLinks.map((link) => (
+                      <li key={link.id}>
+                        <a
+                          href={link.href}
+                          target={link.target}
+                          rel={link.rel}
+                          onClick={() => setOpen(false)}
+                          className="text-surface/80 hover:bg-surface/10 hover:text-surface focus-visible:bg-surface/10 focus-visible:text-surface block rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors outline-none"
+                        >
+                          {link.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </Popover.Popup>
+            </Popover.Positioner>
+          </Popover.Portal>
+        </Popover.Root>
 
         <div className="bg-muted-surface flex items-center gap-1 rounded-lg p-1 text-sm">
           <a

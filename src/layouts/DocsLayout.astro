@@ -6,7 +6,11 @@ import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import ToCScript from "@/components/foundations/scripts/ToCScript.astro";
 import TableOfContents from "@/components/foundations/navigation/TableOfContents.astro";
-import { DocsCommandSearch } from "@/components/docs/docs-command-search";
+import {
+  DocsCommandSearch,
+  DocsCommandSearchTrigger,
+} from "@/components/docs/docs-command-search";
+import { DocsPageSelect } from "@/components/docs/docs-page-select";
 import type { JsonLdBreadcrumb } from "@/lib/seo/json-ld";
 import { buildDocsNavLinks, groupDocsNavLinks } from "@/lib/docs-navigation";
 import { buildSiteSearchItems } from "@/lib/site-search";
@@ -77,14 +81,37 @@ const currentGroup = groupedNavLinks.find((group) =>
   title={title}
   description={description}
   jsonLdBreadcrumbs={jsonLdBreadcrumbs}
-  docsNavGroups={groupedNavLinks}
   footer={false}
 >
+  {
+    /* Mobile docs navigator: the sidebar is desktop-only and the mobile menu
+       only carries the site links, so phones navigate the docs through this
+       sticky page select, with the search trigger beside it. Sits just under
+       the mobile header. */
+  }
+  <div class="sticky top-15 z-30 lg:hidden">
+    <div class="bg-background/90 backdrop-blur">
+      <Wrapper variant="default" class="flex items-center gap-2 py-2">
+        <DocsPageSelect
+          client:load
+          groups={groupedNavLinks}
+          className="min-w-0 flex-1"
+        />
+        <DocsCommandSearchTrigger client:load className="w-28 shrink-0" />
+      </Wrapper>
+    </div>
+  </div>
+
   <Wrapper variant="default">
     <div
       class="grid w-full grid-cols-1 gap-x-24 py-10 lg:grid-cols-[11rem_minmax(0,1fr)] lg:py-16 xl:grid-cols-[11rem_minmax(0,1fr)_9rem] 2xl:gap-x-10"
     >
-      <Sidebar client:load groups={groupedNavLinks} />
+      {
+        /* transition:persist keeps the same island (and its DOM) across
+           ClientRouter swaps, so the sidebar's scroll position and the
+           accordion open state survive navigation instead of resetting. */
+      }
+      <Sidebar client:load transition:persist="docs-sidebar" groups={groupedNavLinks} />
       {
         /* min-w-0 lets this grid item shrink below the widest code block, so
           long lines scroll inside the pre instead of widening the page. */

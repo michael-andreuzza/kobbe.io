@@ -77,6 +77,11 @@ export function SidebarGroups({
   // a remembered open/closed group on page load snaps instead of sliding.
   const [animationsReady, setAnimationsReady] = useState(false);
 
+  // The island persists across ClientRouter navigations (transition:persist),
+  // so page changes only move the active highlight. Groups never open or
+  // close on their own: the only state changes come from the user's clicks
+  // (and the one-time defaults on a hard page load).
+
   useLayoutEffect(() => {
     if (!forceOpen) {
       const stored = readStoredOpenState();

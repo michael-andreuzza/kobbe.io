@@ -28,11 +28,6 @@ interface Props {
   nav?: boolean;
   /** Render the CTA + site footer. Docs and the 404 page turn it off. */
   footer?: boolean;
-  /** On docs pages the mobile panel lists the docs tree instead of the mega menu. */
-  docsNavGroups?: {
-    category: string;
-    items: { href: string; label: string; isActive: boolean }[];
-  }[];
 }
 
 const {
@@ -52,7 +47,6 @@ const {
   blurClass,
   nav = true,
   footer = true,
-  docsNavGroups,
 } = Astro.props;
 ---
 
@@ -89,7 +83,7 @@ const {
     <ClientRouter />
   </head>
   <body class="bg-background flex min-h-svh min-w-0 flex-col antialiased">
-    {nav && <Navigation docsNavGroups={docsNavGroups} />}
+    {nav && <Navigation />}
     {
       /* No `isolate` here: it would trap the page's fixed UI (mobile nav card,
         floating mega menu) in main's stacking context, painting it below the

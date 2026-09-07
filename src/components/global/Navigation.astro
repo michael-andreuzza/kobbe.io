@@ -5,7 +5,7 @@
  * pill with Pricing, Live demo, Sign in, and Try free on the right, always
  * visible via sticky. The Menu trigger opens the mega menu panel with the
  * same link columns as the mobile side panel.
- * Mobile: plain header row opening the side panel (docs tree on docs pages).
+ * Mobile: plain header row opening the side panel with the same links.
  */
 import { Image } from "astro:assets";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
@@ -16,65 +16,16 @@ import { SiteMobileMenu } from "@/components/global/site-mobile-menu";
 import Logo from "@/components/assets/Logo.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import skerry from "@/images/illustrations/skerry-cairn.webp";
-import { APP_SIGNIN_URL, APP_SIGNUP_URL } from "@/lib/site-mega-menu";
-
-interface Props {
-  docsNavGroups?: {
-    category: string;
-    items: { href: string; label: string; isActive: boolean }[];
-  }[];
-}
-
-const { docsNavGroups } = Astro.props;
+import {
+  APP_SIGNIN_URL,
+  APP_SIGNUP_URL,
+  siteNavLinks,
+} from "@/lib/site-mega-menu";
 
 const DEMO_URL = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
 
-// Desktop mega menu picks, in display order. Pricing and the live demo are
-// already in the nav pill; the long per-platform guide lists stay in the
-// mobile panel and on their index pages.
-const megaMenuLinks = [
-  {
-    href: "/features",
-    label: "All features",
-    description: "Overview, funnels, revenue, privacy, and more.",
-  },
-  {
-    href: "/docs/add-the-tracker",
-    label: "Add the tracker",
-    description: "Copy the snippet and verify pageviews.",
-  },
-  {
-    href: "/docs/installation-guides",
-    label: "Installation guides",
-    description: "Astro, Next.js, Framer, Shopify, Webflow, and more.",
-  },
-  {
-    href: "/docs/revenue-attribution",
-    label: "Revenue attribution",
-    description: "Connect Stripe, Polar, Paddle, Shopify, and more.",
-  },
-  {
-    href: "/docs/funnels",
-    label: "Funnels",
-    description: "See where visitors drop off step by step.",
-  },
-  {
-    href: "/docs/conversions",
-    label: "Conversions",
-    description: "Track goals without wiring every click.",
-  },
-  {
-    href: "/docs/realtime-visitors",
-    label: "Realtime visitors",
-    description: "Watch live traffic and recent events.",
-  },
-  {
-    href: "/docs/raycast",
-    label: "Raycast extension",
-    description:
-      "Live visitors in your menu bar, dashboards one keystroke away.",
-  },
-];
+// Desktop mega menu picks, shared with the mobile panel (site-mega-menu.ts).
+const megaMenuLinks = siteNavLinks;
 ---
 
 <header class="sticky top-0 z-50 hidden py-2.5 lg:block">
@@ -196,7 +147,7 @@ const megaMenuLinks = [
 <header class="sticky top-0 z-40 lg:hidden">
   <ProgressiveBlur edge="top" />
   <Wrapper variant="nav" class="relative">
-    <SiteMobileMenu client:load docsGroups={docsNavGroups}>
+    <SiteMobileMenu client:load>
       <Logo class="text-foreground size-4.5" />
     </SiteMobileMenu>
   </Wrapper>
