@@ -65,7 +65,7 @@ export function SimplifiedPricingSection({
               height={spotArt.height}
               alt=""
               loading="lazy"
-              className="pointer-events-none absolute bottom-full left-6 hidden w-16 lg:block"
+              className="pointer-events-none absolute bottom-full left-6 w-16"
             />
           ) : null}
           <TwoToneHeading title="Pricing.">
