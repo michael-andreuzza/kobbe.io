@@ -60,10 +60,17 @@ export function SiteMobileMenu({ className, children }: SiteMobileMenuProps) {
             </Popover.Trigger>
           </div>
           <Popover.Portal>
-            <Popover.Positioner side="bottom" align="start" sideOffset={8}>
+            {/* The z-index must live on the positioner (the positioned box);
+                the popup itself is static, so z-* there does nothing. */}
+            <Popover.Positioner
+              side="bottom"
+              align="start"
+              sideOffset={8}
+              className="z-101"
+            >
               <Popover.Popup
                 className={cn(
-                  "bg-dark-background text-surface z-101 min-w-44 rounded-lg p-1.5 shadow-lg outline-none",
+                  "bg-dark-background text-surface min-w-44 rounded-lg p-1.5 shadow-lg outline-none",
                   "origin-(--transform-origin) transition-[opacity,transform] duration-150 data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0 motion-reduce:transition-none",
                 )}
               >
