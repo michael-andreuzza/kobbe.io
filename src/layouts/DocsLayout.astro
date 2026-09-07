@@ -23,7 +23,11 @@ interface Props {
 }
 
 const { title, description, pageTitle, navItems } = Astro.props;
-const currentPath = Astro.url.pathname.replace(/\/$/, "");
+// At build time `format: "file"` makes pathname end in ".html"; normalise
+// so active-page matching (sidebar, page select, breadcrumbs) works on live.
+const currentPath = Astro.url.pathname
+  .replace(/\.html$/, "")
+  .replace(/\/$/, "");
 const displayTitle = pageTitle ?? title?.replace(/\s+: Kobbe$/, "");
 // Legal and support docs are included: they render on their own routes but
 // still show as sidebar groups.

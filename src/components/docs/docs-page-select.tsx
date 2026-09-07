@@ -28,26 +28,26 @@ export function DocsPageSelect({
   groups: DocsPageSelectGroup[];
   className?: string;
 }) {
-  const items = groups.flatMap((group) =>
-    group.items.map((item) => ({ value: item.href, label: item.label })),
-  );
   const current = groups
     .flatMap((group) => group.items)
-    .find((item) => item.isActive)?.href;
+    .find((item) => item.isActive);
 
   return (
     <Select
-      items={items}
-      value={current ?? null}
+      value={current?.href ?? null}
       onValueChange={(value) => {
-        if (typeof value === "string" && value !== current) navigate(value);
+        if (typeof value === "string" && value !== current?.href)
+          navigate(value);
       }}
     >
       <SelectTrigger
         aria-label="Docs page"
         className={cn("text-xs", className)}
       >
-        <SelectValue />
+        {/* Explicit label: Base UI's items-based label resolution renders
+            empty in production builds, and this also puts the text in the
+            SSR HTML so there is no flash before hydration. */}
+        <SelectValue>{current?.label ?? "Docs"}</SelectValue>
       </SelectTrigger>
       <SelectContent>
         {groups.map((group) => (
