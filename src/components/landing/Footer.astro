@@ -69,7 +69,7 @@ const columns = [
 
 <footer>
   <Wrapper variant="default" class="pt-24 pb-8">
-    <!-- Quiet CTA in the hero's two-tone voice -->
+    {/* Quiet CTA in the hero's two-tone voice */}
     <div
       class="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between"
     >
@@ -90,15 +90,15 @@ const columns = [
     </div>
   </Wrapper>
 
-  <!--
+  {/*
     Muted full-bleed closer: the links sit in the blank sky of the drawing and
     the drawing runs edge to edge along the bottom of the page.
-  -->
+  */}
   <div class="text-foreground mt-12">
     <Wrapper variant="default" class="relative z-10 pt-12 lg:pt-16">
-      <!-- Logo and site links -->
+      {/* Logo and site links */}
       <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-12">
-        <!-- Logo and five link columns share the row on large screens. -->
+        {/* Logo and five link columns share the row on large screens. */}
         <div class="col-span-2 sm:col-span-3 lg:col-span-2">
           <a href="/" aria-label="Kobbe home">
             <Logo class="text-foreground size-8" />
@@ -131,13 +131,13 @@ const columns = [
       </div>
     </Wrapper>
 
-    <!--
+    {/*
       Åland village watercolour, full viewport width. 2560px WebP with the
       paper knocked out to alpha so it sits on the page background. Built
       with the Real-ESRGAN pipeline documented in
       scripts/footer-illustration-alpha.py. The all-red-houses variant is
       src/images/illustrations/watercolour-village.webp.
-    -->
+    */}
     <div class="relative mt-8">
       <Image
         src={village}
@@ -147,7 +147,7 @@ const columns = [
         sizes="100vw"
         loading="lazy"
       />
-      <!-- Copyright overlaid on the calm water, bottom right -->
+      {/* Copyright overlaid on the calm water, bottom right */}
       <Wrapper
         variant="default"
         class="absolute inset-x-0 bottom-4 lg:bottom-6"

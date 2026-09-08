@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 function LandingFaqItem({ item }: { item: PricingFaqItem }) {
   return (
     <AccordionItem value={item.id}>
-      <AccordionTrigger className="gap-4 py-3 text-sm font-normal [&[data-panel-open]_svg]:rotate-180">
+      <AccordionTrigger className="gap-4 py-3 text-base  [&[data-panel-open]_svg]:rotate-180">
         <span>{item.question}</span>
         <HugeiconsIcon
           icon={ArrowDown01Icon}
@@ -31,7 +31,7 @@ function LandingFaqItem({ item }: { item: PricingFaqItem }) {
         />
       </AccordionTrigger>
       <AccordionPanel>
-        <p className="text-muted-foreground pb-3 text-xs leading-relaxed text-pretty">
+        <p className="text-muted-foreground pb-3 text-base leading-relaxed text-pretty">
           {item.answer}
         </p>
       </AccordionPanel>
