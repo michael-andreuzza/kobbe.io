@@ -1,36 +1,22 @@
 /*
  * Code blocks. Astro renders Shiki with `theme: "css-variables"`, which reads
- * the --astro-code-* names below; we point them at the palette in colors.css.
+ * the --astro-code-* names below; everything points at the Kobbe palette in
+ * colors.css. Same roles as lexingtonthemes.com, our own inks: green for
+ * keywords, orange for strings, red for functions, amber for constants.
  */
 :root {
   --astro-code-background: var(--color-muted-surface);
   --astro-code-foreground: oklch(0.576 0 0);
   --astro-code-color-text: oklch(0.576 0 0);
   --astro-code-token-comment: oklch(0.751 0 0);
-  --astro-code-token-keyword: var(--color-foreground);
-  --astro-code-token-punctuation: var(--color-muted-foreground);
-  --astro-code-token-link: var(--color-foreground);
-  --astro-code-token-string-expression: color-mix(
-    in oklch,
-    var(--color-foreground) 78%,
-    var(--color-muted-foreground)
-  );
-  --astro-code-token-string: color-mix(
-    in oklch,
-    var(--color-foreground) 78%,
-    var(--color-muted-foreground)
-  );
-  --astro-code-token-function: color-mix(
-    in oklch,
-    var(--color-foreground) 88%,
-    var(--color-muted-foreground)
-  );
-  --astro-code-token-constant: color-mix(
-    in oklch,
-    var(--color-foreground) 72%,
-    var(--color-muted-foreground)
-  );
-  --astro-code-token-parameter: var(--color-muted-foreground);
+  --astro-code-token-keyword: oklch(0.62 0.106 126.684);
+  --astro-code-token-punctuation: oklch(0.7 0.155 56.883);
+  --astro-code-token-link: oklch(0.62 0.05 306.519);
+  --astro-code-token-string-expression: oklch(0.60 0.095 12.263);
+  --astro-code-token-string: var(--color-caution);
+  --astro-code-token-function: var(--color-brand);
+  --astro-code-token-constant: var(--color-warning);
+  --astro-code-token-parameter: var(--color-warning);
   --astro-code-token-bold: inherit;
   --astro-code-token-italic: italic;
   --astro-code-token-underline: underline;

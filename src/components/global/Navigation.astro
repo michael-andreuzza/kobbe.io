@@ -77,27 +77,46 @@ const megaMenuLinks = siteNavLinks;
             }
           </ul>
 
-          <a
-            href="/docs"
-            class="group bg-muted-surface relative flex flex-col overflow-hidden p-5"
+          <div
+            class="bg-muted-surface relative flex flex-col overflow-hidden p-5"
           >
-            <span
-              class="text-foreground relative flex items-center gap-1 text-sm font-medium transition-opacity group-hover:opacity-70"
-            >
-              Read the docs
-              <HugeiconsIcon
-                icon={ArrowUpRight01Icon}
-                size={16}
-                strokeWidth={2}
-                aria-hidden="true"
-              />
-            </span>
-            <span
-              class="text-muted-foreground relative mt-2 block text-sm leading-snug"
-            >
-              Guides for setup, tracking, and dashboards, plus every
-              installation and revenue guide.
-            </span>
+            <a href="/docs" class="group relative block">
+              <span
+                class="text-foreground flex items-center gap-1 text-sm font-medium transition-opacity group-hover:opacity-70"
+              >
+                Read the docs
+                <HugeiconsIcon
+                  icon={ArrowUpRight01Icon}
+                  size={16}
+                  strokeWidth={2}
+                  aria-hidden="true"
+                />
+              </span>
+              <span
+                class="text-muted-foreground mt-2 block text-sm leading-snug"
+              >
+                Guides for setup, tracking, and dashboards, plus every
+                installation and revenue guide.
+              </span>
+            </a>
+            <a href="/changelog" class="group relative mt-5 block">
+              <span
+                class="text-foreground flex items-center gap-1 text-sm font-medium transition-opacity group-hover:opacity-70"
+              >
+                Changelog
+                <HugeiconsIcon
+                  icon={ArrowUpRight01Icon}
+                  size={16}
+                  strokeWidth={2}
+                  aria-hidden="true"
+                />
+              </span>
+              <span
+                class="text-muted-foreground mt-2 block text-sm leading-snug"
+              >
+                New features and fixes as they ship.
+              </span>
+            </a>
             {
               /* A kobbe: a bare skerry with a stone day mark, the thing we are named after. */
             }
@@ -109,7 +128,7 @@ const megaMenuLinks = siteNavLinks;
               sizes="272px"
               loading="lazy"
             />
-          </a>
+          </div>
         </div>
       </nav>
     </div>

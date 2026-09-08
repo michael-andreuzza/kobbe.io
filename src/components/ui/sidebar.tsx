@@ -24,7 +24,6 @@ export type NavGroup = {
 
 type SidebarGroupsProps = {
   groups: NavGroup[];
-  forceOpen?: boolean;
 };
 
 /**
@@ -51,49 +50,29 @@ function storeOpenChoice(category: string, open: boolean) {
   }
 }
 
-export function SidebarGroups({
-  groups,
-  forceOpen = false,
-}: SidebarGroupsProps) {
-  const hasActiveItem = groups.some((group) =>
-    group.items.some((item) => item.isActive),
-  );
-
-  // SSR and first client render use the defaults (active group open) so
-  // hydration matches; the session's manual choices are merged in after
-  // mount and win over the defaults.
+export function SidebarGroups({ groups }: SidebarGroupsProps) {
+  // No auto-open, ever: every group renders closed (server and first client
+  // paint match), and the only thing that opens or closes one is a click.
+  // Choices are kept in sessionStorage and merged back in before paint, so
+  // they survive the full page load that each docs navigation is.
   const [openMap, setOpenMap] = useState<Record<string, boolean>>(() =>
-    Object.fromEntries(
-      groups.map((group, index) => [
-        group.category,
-        forceOpen ||
-          group.items.some((item) => item.isActive) ||
-          (!hasActiveItem && index === 0),
-      ]),
-    ),
+    Object.fromEntries(groups.map((group) => [group.category, false])),
   );
 
   // Panels stay unanimated until the stored state has painted, so restoring
-  // a remembered open/closed group on page load snaps instead of sliding.
+  // a remembered open group on page load snaps instead of sliding.
   const [animationsReady, setAnimationsReady] = useState(false);
 
-  // The island persists across ClientRouter navigations (transition:persist),
-  // so page changes only move the active highlight. Groups never open or
-  // close on their own: the only state changes come from the user's clicks
-  // (and the one-time defaults on a hard page load).
-
   useLayoutEffect(() => {
-    if (!forceOpen) {
-      const stored = readStoredOpenState();
-      setOpenMap((prev) => {
-        const next = { ...prev };
-        for (const group of groups) {
-          const choice = stored[group.category];
-          if (typeof choice === "boolean") next[group.category] = choice;
-        }
-        return next;
-      });
-    }
+    const stored = readStoredOpenState();
+    setOpenMap((prev) => {
+      const next = { ...prev };
+      for (const group of groups) {
+        const choice = stored[group.category];
+        if (typeof choice === "boolean") next[group.category] = choice;
+      }
+      return next;
+    });
     const id = requestAnimationFrame(() => setAnimationsReady(true));
     return () => cancelAnimationFrame(id);
     // Groups are static per page; run once after mount.
@@ -111,7 +90,7 @@ export function SidebarGroups({
             open={openMap[group.category] ?? false}
             onOpenChange={(open) => {
               setOpenMap((prev) => ({ ...prev, [group.category]: open }));
-              if (!forceOpen) storeOpenChoice(group.category, open);
+              storeOpenChoice(group.category, open);
             }}
             className="min-w-0 w-full"
           >

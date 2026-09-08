@@ -111,11 +111,11 @@ const currentGroup = groupedNavLinks.find((group) =>
       class="grid w-full grid-cols-1 gap-x-24 py-10 lg:grid-cols-[11rem_minmax(0,1fr)] lg:py-16 xl:grid-cols-[11rem_minmax(0,1fr)_9rem] 2xl:gap-x-10"
     >
       {
-        /* transition:persist keeps the same island (and its DOM) across
-           ClientRouter swaps, so the sidebar's scroll position and the
-           accordion open state survive navigation instead of resetting. */
+        /* Docs navigations are full page loads (no ClientRouter), so the
+           sidebar remounts each time; open state is restored from
+           sessionStorage inside SidebarGroups. */
       }
-      <Sidebar client:load transition:persist="docs-sidebar" groups={groupedNavLinks} />
+      <Sidebar client:load groups={groupedNavLinks} />
       {
         /* min-w-0 lets this grid item shrink below the widest code block, so
           long lines scroll inside the pre instead of widening the page. */
