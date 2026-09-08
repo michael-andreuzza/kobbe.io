@@ -1,0 +1,19 @@
+---
+/**
+ * Landing FAQ: the same accordion that renders on /support/faq, in its own
+ * section under pricing. Carries the #faq anchor used by the footer, site
+ * search, and the /support/faq stub.
+ */
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import { LandingFaq } from "@/components/landing/landing-faq";
+import { TwoToneHeading } from "@/components/ui/two-tone-heading";
+---
+
+<section id="faq" class="mt-32 scroll-mt-24">
+  <Wrapper variant="default" class="py-12">
+    <TwoToneHeading as="h2" title="Questions.">
+      Pricing, trials, privacy, and billing in plain language.
+    </TwoToneHeading>
+    <LandingFaq client:visible className="mt-8" />
+  </Wrapper>
+</section>

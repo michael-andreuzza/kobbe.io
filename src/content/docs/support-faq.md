@@ -1,10 +1,8 @@
 ---
 title: Frequently Asked Questions
-description: FAQ answers now live on the Kobbe pricing page.
+description: Answers about Kobbe pricing, trials, billing, privacy, GDPR, and features.
 order: 71
 category: Support
 ---
 
-FAQ answers are in the [FAQ section on the homepage](/#faq).
-
-For setup, billing, privacy, or workspace questions, email [support@kobbe.io](mailto:support@kobbe.io).
+Common questions about plans, trials, and privacy-friendly analytics. Still stuck? Email [support@kobbe.io](mailto:support@kobbe.io).

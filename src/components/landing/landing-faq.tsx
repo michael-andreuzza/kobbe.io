@@ -13,7 +13,12 @@ import {
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 
-function FaqAccordionItem({ item }: { item: PricingFaqItem }) {
+/**
+ * Landing-only copy of the FAQ accordion. Same items as /support/faq
+ * (pricing-faq-items), but the classes here are free to diverge: edit this
+ * file to style the landing section without touching the docs version.
+ */
+function LandingFaqItem({ item }: { item: PricingFaqItem }) {
   return (
     <AccordionItem value={item.id}>
       <AccordionTrigger className="gap-4 py-3 text-sm font-normal [&[data-panel-open]_svg]:rotate-180">
@@ -34,8 +39,7 @@ function FaqAccordionItem({ item }: { item: PricingFaqItem }) {
   );
 }
 
-/** Quiet single-column FAQ accordion for the docs page (/support/faq). */
-export function PricingFaq({
+export function LandingFaq({
   className,
   headingId,
 }: {
@@ -43,12 +47,16 @@ export function PricingFaq({
   headingId?: string;
 }) {
   return (
-    <Accordion keepMounted className={cn("w-full", className)} aria-labelledby={headingId}>
+    <Accordion
+      keepMounted
+      className={cn("w-full", className)}
+      aria-labelledby={headingId}
+    >
       {pricingFaqItems.map((item) => (
-        <FaqAccordionItem key={item.id} item={item} />
+        <LandingFaqItem key={item.id} item={item} />
       ))}
     </Accordion>
   );
 }
 
-export default PricingFaq;
+export default LandingFaq;

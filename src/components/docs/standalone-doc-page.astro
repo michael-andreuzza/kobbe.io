@@ -4,6 +4,7 @@ import { render, type CollectionEntry } from "astro:content";
 
 import DpaControls from "@/components/docs/dpa-controls.astro";
 import DpaSummary from "@/components/docs/dpa-summary.astro";
+import { PricingFaq } from "@/components/sections/pricing/pricing-faq";
 import DocsLayout from "@/layouts/DocsLayout.astro";
 
 interface Props {
@@ -29,6 +30,11 @@ const docs = await getCollection("docs");
         <DpaSummary effectiveDateDefault={effectiveDateDefault} />
         <Content />
       </div>
+    ) : entry.id === "support-faq" ? (
+      <>
+        <Content />
+        <PricingFaq client:load className="mt-8 max-w-3xl" />
+      </>
     ) : (
       <Content />
     )
