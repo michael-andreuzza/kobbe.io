@@ -35,6 +35,7 @@ const features = [
     scene: sceneCoast,
     // Trees and cottage sit left, so the screenshot goes right.
     imageClass: "ml-auto",
+    sceneClass: "left-0",
   },
   {
     eyebrow: "Follow the money",
@@ -48,6 +49,7 @@ const features = [
     scene: sceneHarbour,
     // Boathouses sit right, so the screenshot stays left.
     imageClass: "",
+    sceneClass: "right-0 left-auto",
   },
   {
     eyebrow: "Respect your visitors",
@@ -61,6 +63,7 @@ const features = [
     scene: sceneShore,
     // Rocks and bench sit left, so the screenshot goes right.
     imageClass: "ml-auto",
+    sceneClass: "left-0",
   },
 ];
 ---
@@ -79,7 +82,7 @@ const features = [
               {feature.linkLabel}
             </a>
           </TwoToneHeading>
-          <div class="  mt-8 h-auto   sm:h-120 lg:h-152  ">
+          <div class="mt-8 h-auto sm:h-120 lg:h-152">
             <Image
               src={feature.image}
               alt={feature.imageAlt}
@@ -100,14 +103,17 @@ const features = [
               <div />
             </div>
           </div>
-            <Image
-              src={feature.scene}
-              alt=""
-              class="pointer-events-none absolute inset-x-0 -bottom-10 hidden w-full sm:block "
-              widths={[768, 1280, 1920, 2560]}
-              sizes="(min-width: 1280px) 1200px, 100vw"
-              loading="lazy"
-            />
+          <Image
+            src={feature.scene}
+            alt=""
+            class:list={[
+              "pointer-events-none absolute -bottom-5 hidden w-full max-w-2xl sm:block",
+              feature.sceneClass,
+            ]}
+            widths={[768, 1280, 1920, 2560]}
+            sizes="(min-width: 1280px) 1200px, 100vw"
+            loading="lazy"
+          />
         </section>
       ))
     }
