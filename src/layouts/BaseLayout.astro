@@ -52,6 +52,18 @@ const {
 
 <html lang="en" class="scroll-smooth">
   <head>
+    {
+      /* Inter is the only font above the fold on most pages; preload it so
+         the browser fetches it in parallel with CSS instead of waiting for
+         fonts.css to parse. Geist Mono stays on-demand for code blocks. */
+    }
+    <link
+      rel="preload"
+      href="/fonts/Inter/InterVariable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <SiteSeo
       title={title}
       description={description}
