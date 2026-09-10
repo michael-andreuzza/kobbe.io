@@ -6,7 +6,8 @@
 import { Image } from "astro:assets";
 
 import Logo from "@/components/assets/Logo.astro";
-import village from "@/images/illustrations/watercolour-village-mixed.webp";
+import village from "@/images/illustrations/watercolour-village-boatless.webp";
+import boat from "@/images/illustrations/village-boat.webp";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import { APP_SIGNUP_URL } from "@/lib/site-mega-menu";
 import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
@@ -136,7 +137,10 @@ const columns = [
       paper knocked out to alpha so it sits on the page background. Built
       with the Real-ESRGAN pipeline documented in
       scripts/footer-illustration-alpha.py. The all-red-houses variant is
-      src/images/illustrations/watercolour-village.webp.
+      src/images/illustrations/watercolour-village.webp. The rowing boat is
+      cut out as its own sprite (scripts/footer-boat-sprite.py) and overlaid
+      below so it can bob on its mooring; the base image has water cloned
+      over the hull.
     */}
     <div class="relative mt-8">
       <Image
@@ -145,6 +149,15 @@ const columns = [
         class="pointer-events-none aspect-3/1 w-full object-cover object-bottom"
         widths={[768, 1280, 1920, 2560]}
         sizes="100vw"
+        loading="lazy"
+      />
+      {/* The moored rowing boat, bobbing gently. Position and size are the
+          sprite's cutout box as percentages of the 2560x853 drawing, so it
+          tracks the responsive image exactly. */}
+      <Image
+        src={boat}
+        alt=""
+        class="footer-boat pointer-events-none absolute"
         loading="lazy"
       />
       {/* Copyright overlaid on the calm water, bottom right */}
@@ -162,3 +175,31 @@ const columns = [
     </div>
   </div>
 </footer>
+
+<style>
+  /* Sprite box from scripts/footer-boat-sprite.py: 290x94 at (1620,619) in
+     the 2560x853 drawing. translateY percentages are of the sprite's own
+     height, so the bob stays proportional at every viewport width. */
+  .footer-boat {
+    left: 63.28%;
+    top: 72.57%;
+    width: 11.33%;
+    transform-origin: 50% 100%;
+    animation: footer-boat-bob 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes footer-boat-bob {
+    from {
+      transform: translateY(3%) rotate(1deg);
+    }
+    to {
+      transform: translateY(-6%) rotate(-1.2deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .footer-boat {
+      animation: none;
+    }
+  }
+</style>
