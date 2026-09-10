@@ -1,6 +1,8 @@
 /* Fixed progressive blur along the bottom viewport edge (see
-   ProgressiveBlur). Visibility is scroll-aware: it hides at the end of the
-   page. */
+   ProgressiveBlur). Visibility is scroll-aware: hidden at the top of the
+   page (opacity 0 here is the pre-scroll state, so hero artwork is never
+   veiled on load) and at the end of the page; the inline script fades it
+   in between. */
 
 .progressive-blur-bottom {
   position: fixed;
@@ -10,6 +12,7 @@
   height: 5rem;
   z-index: 40;
   pointer-events: none;
+  opacity: 0;
   transition: opacity 200ms ease;
 }
 

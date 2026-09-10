@@ -73,7 +73,9 @@ const sprites = manifest.sprites.map((s) => {
 ---
 
 <div
-  class="frieze pointer-events-none relative w-full scale-150 lg:scale-none"
+  {/* origin-bottom: the mobile scale grows upward only, so the quay floor
+      stays on the box's bottom edge (center-origin pushed it below the fold). */}
+  class="frieze pointer-events-none relative w-full origin-bottom scale-150 lg:scale-none"
   style={`aspect-ratio:${W}/${H}`}
   aria-hidden="true"
 >

@@ -4,10 +4,13 @@ import "@/styles/blur.css";
 /**
  * Progressive blur along one edge.
  *
- * `edge="bottom"` (default) is scroll-aware: it fades out once you reach
- * the end of the page. Fixed to the viewport edge by default; `contained`
- * makes it absolute inside the nearest positioned ancestor, tracking a
- * sibling scroll container marked with `data-progressive-blur-scroll`.
+ * `edge="bottom"` (default) is scroll-aware: hidden at the very top of the
+ * page (so it never veils hero artwork like the quay frieze floor) and it
+ * fades out once you reach the end. Fixed to the viewport edge by default;
+ * `contained` makes it absolute inside the nearest positioned ancestor,
+ * tracking a sibling scroll container marked with
+ * `data-progressive-blur-scroll` (always visible at the container top —
+ * there it signals more content below).
  *
  * `edge="top"` is a static backdrop for the sticky nav: absolute inside the
  * header, always visible, no scroll tracking.
@@ -53,7 +56,8 @@ const containedClass = isBottom && contained ? "progressive-blur-contained" : ""
         .forEach(function (el) {
           var maxScroll;
           var y;
-          if (el.hasAttribute("data-progressive-blur-contained")) {
+          var contained = el.hasAttribute("data-progressive-blur-contained");
+          if (contained) {
             var source =
               el.parentElement &&
               el.parentElement.querySelector("[data-progressive-blur-scroll]");
@@ -66,6 +70,12 @@ const containedClass = isBottom && contained ? "progressive-blur-contained" : ""
             y = window.scrollY;
           }
           var show = maxScroll > 1 && y < maxScroll - threshold;
+          // Window variant only appears once the user has scrolled, so it
+          // never blurs the bottom of the hero at page top. Contained
+          // panels keep showing it at rest as a "more below" hint.
+          if (!contained && y <= threshold) {
+            show = false;
+          }
           el.style.opacity = show ? "1" : "0";
         });
     };

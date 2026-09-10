@@ -6,7 +6,13 @@ import HeroFrieze from "@/components/landing/HeroFrieze.astro";
 const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
 ---
 
-<section class="overflow-hidden">
+{/*
+  The hero fills the first screenful (minus the in-flow nav bar, 3.75rem on
+  both the mobile pill bar and the lg header) and the frieze is pushed to
+  its bottom edge with mt-auto, so the quay always docks to the fold on any
+  viewport — no per-breakpoint margin tuning.
+*/}
+<section class="flex min-h-[calc(100svh-3.75rem)] flex-col overflow-hidden">
   <StatementHero
     statement="Real visitors deserve real numbers. "
     elaboration="At Kobbe, we follow the money instead of the people: traffic, conversions, and revenue in one dashboard, with no cookies, no consent banners, and no bots in your stats."
@@ -29,7 +35,9 @@ const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
     (frieze-quay.webp walkers only, frieze-count.webp counting) are kept in
     src/images/illustrations.
   */}
-  <div class="mt-42 lg:mt-32 2xl:mt-80">
+  {/* pt = minimum clearance under the statement on short viewports (the
+      frieze is scale-150 below lg and overflows its box upward). */}
+  <div class="mt-auto pt-24 lg:pt-16">
     <HeroFrieze />
   </div>
 </section>
