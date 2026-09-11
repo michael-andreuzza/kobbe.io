@@ -48,7 +48,7 @@ const otherEntries = (await getCollection("changelog"))
               <Image
                 src={entry.data.image}
                 alt={entry.data.imageAlt ?? ""}
-                class="w-full"
+                class="shadow-panel w-full rounded-lg"
                 widths={[672, 1344]}
                 sizes="(min-width: 768px) 672px, 100vw"
                 loading="eager"

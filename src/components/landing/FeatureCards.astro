@@ -11,17 +11,7 @@ import Wrapper from "../foundations/containers/Wrapper.astro";
 import featureOverview from "@/images/assets/feature-overview.png";
 import featureRevenue from "@/images/assets/feature-revenue.png";
 import featureRealtime from "@/images/assets/feature-realtime.png";
-// Tall variants carry pines on the empty side of the panel so the space
-// beside the screenshot is not blank. Low variants (strip-*.webp) are kept.
-import sceneCoast from "@/images/illustrations/strip-coast-tall.webp";
-import sceneHarbour from "@/images/illustrations/strip-harbour-tall.webp";
-import sceneShore from "@/images/illustrations/strip-shore-tall.webp";
 
-/*
- * Each panel gets its own watercolour shoreline (same hand as the footer),
- * paper knocked out to alpha, running the full panel width along the
- * bottom edge and over the lower part of the screenshot.
- */
 const features = [
   {
     eyebrow: "Filter out the bots",
@@ -32,10 +22,6 @@ const features = [
     image: featureOverview,
     imageAlt:
       "The Kobbe overview dashboard: visitor KPIs, a traffic trend chart, top pages, and top sources",
-    scene: sceneCoast,
-    // Trees and cottage sit left, so the screenshot goes right.
-    imageClass: "ml-auto",
-    sceneClass: "left-0",
   },
   {
     eyebrow: "Follow the money",
@@ -46,10 +32,6 @@ const features = [
     image: featureRevenue,
     imageAlt:
       "The Kobbe revenue page: gross, net, and attributed revenue with a per-page attribution breakdown",
-    scene: sceneHarbour,
-    // Boathouses sit right, so the screenshot stays left.
-    imageClass: "",
-    sceneClass: "right-0 left-auto",
   },
   {
     eyebrow: "Respect your visitors",
@@ -60,10 +42,6 @@ const features = [
     image: featureRealtime,
     imageAlt:
       "The Kobbe realtime page: online visitors shown as anonymous dots on a globe",
-    scene: sceneShore,
-    // Rocks and bench sit left, so the screenshot goes right.
-    imageClass: "ml-auto",
-    sceneClass: "left-0",
   },
 ];
 ---
@@ -82,14 +60,11 @@ const features = [
               {feature.linkLabel}
             </a>
           </TwoToneHeading>
-          <div class="mt-8 h-auto sm:h-120 lg:h-152">
+          <div class="bg-muted-surface relative mt-8 flex h-auto items-center justify-end overflow-hidden rounded-lg p-4 pb-0 sm:h-120 lg:h-152">
             <Image
               src={feature.image}
               alt={feature.imageAlt}
-              class:list={[
-                "shadow-panel -mb-2 block w-full max-w-4xl rounded lg:rounded-t-lg",
-                feature.imageClass,
-              ]}
+              class="shadow-panel mx-auto  block w-full max-w-4xl -mb-12 rounded-t lg:rounded-t-lg"
               widths={[768, 1280, 1920, 2560]}
               sizes="(min-width: 1024px) 896px, 100vw"
               loading="lazy"
@@ -103,17 +78,6 @@ const features = [
               <div />
             </div>
           </div>
-          <Image
-            src={feature.scene}
-            alt=""
-            class:list={[
-              "pointer-events-none absolute -bottom-5 hidden w-full max-w-2xl sm:block",
-              feature.sceneClass,
-            ]}
-            widths={[768, 1280, 1920, 2560]}
-            sizes="(min-width: 1280px) 1200px, 100vw"
-            loading="lazy"
-          />
         </section>
       ))
     }
