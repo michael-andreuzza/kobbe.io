@@ -1,0 +1,26 @@
+---
+description: How to send customer email from the agent without breaking links
+alwaysApply: true
+---
+
+# Email Sending
+
+The Gmail connector wraps URLs in a `https://www.google.com/url?q=...` redirect
+at send time. What the recipient sees depends on how the message is sent:
+
+- Plain-text `body` only: the URL text itself is rewritten, and the generated
+  HTML shows the ugly Google redirect as visible text. Never do this when the
+  message contains a URL, domain, or code snippet with a URL.
+- `body` plus `htmlBody`: the visible text stays exactly as written and only
+  the invisible `href` is wrapped, which works fine for the reader.
+
+Rules:
+
+- Always pass `htmlBody` alongside `body` when sending or replying. Build the
+  HTML from the same text: paragraphs as `<p>` or `<br/>`, URLs written as-is
+  or as `<a href>` anchors, code snippets HTML-escaped inside `<code>`.
+- Show the draft in chat and wait for "send" before sending.
+- After sending anything with links, read the sent copy back once and confirm
+  the visible text is clean.
+
+Verified 2026-09-15 with a self-test to Michel's inbox.

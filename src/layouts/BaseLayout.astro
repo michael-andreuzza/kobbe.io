@@ -85,7 +85,67 @@ const {
       data-token="996f51cb.0EZHVIaNsKiNLpfqBR_RmtZ0jj_obT4O"
       data-campaigns="true"
       data-performance="true"
+      data-revenue-attribution="true"
       defer></script>
+    {
+      /* Hand the tracker's attribution ID to app.kobbe.io so our own Polar
+        checkout attributes back to the marketing pages that led to it. Links
+        are decorated at load (keyboard, middle-click, copy-link all work) and
+        again on pointerdown for anchors that rendered before the tracker
+        finished loading. */
+    }
+    <script is:inline>
+      (function () {
+        var PARAM = "kobbe_attribution_id";
+        function attributionId() {
+          var k = window.kobbe;
+          if (!k || typeof k.getAttributionId !== "function") return null;
+          return k.getAttributionId() || null;
+        }
+        function decorate(anchor, id) {
+          var raw = anchor.getAttribute("href");
+          if (!raw) return;
+          var url;
+          try {
+            url = new URL(raw, window.location.href);
+          } catch (_) {
+            return;
+          }
+          if (url.hostname !== "app.kobbe.io") return;
+          if (url.pathname.indexOf("/demo") === 0) return;
+          if (url.searchParams.get(PARAM) === id) return;
+          url.searchParams.set(PARAM, id);
+          anchor.setAttribute("href", url.toString());
+        }
+        function decorateAll() {
+          var id = attributionId();
+          if (!id) return false;
+          var anchors = document.querySelectorAll('a[href*="app.kobbe.io"]');
+          for (var i = 0; i < anchors.length; i++) decorate(anchors[i], id);
+          return true;
+        }
+        function decorateWhenReady() {
+          var attempts = 0;
+          (function tick() {
+            if (decorateAll() || attempts++ > 40) return;
+            setTimeout(tick, 250);
+          })();
+        }
+        document.addEventListener("astro:page-load", decorateWhenReady);
+        document.addEventListener(
+          "pointerdown",
+          function (event) {
+            var target = event.target;
+            var anchor =
+              target && target.closest ? target.closest("a[href]") : null;
+            if (!anchor) return;
+            var id = attributionId();
+            if (id) decorate(anchor, id);
+          },
+          true,
+        );
+      })();
+    </script>
     {
       /* SPA-style navigation: pages swap in-place instead of full document
         loads. This sidesteps Chrome's input suppression during cross-document
