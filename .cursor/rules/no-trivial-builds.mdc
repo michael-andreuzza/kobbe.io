@@ -1,0 +1,14 @@
+---
+description: Don't build the site for trivial changes; clean up dist after any build
+alwaysApply: true
+---
+
+# No Trivial Builds
+
+- Do NOT run `npm run build` to verify trivial changes (copy edits, class
+  tweaks, single-component changes). Verify with linter diagnostics instead.
+- A build is only justified before shipping (pre-push verification) or when
+  a change plausibly affects the build itself (config, integrations,
+  content collections schema).
+- After ANY local build, delete the `dist/` folder (`rm -rf dist`); it is
+  pointless to keep locally and only wastes disk space.

@@ -7,7 +7,6 @@
  * same link columns as the mobile side panel.
  * Mobile: plain header row opening the side panel with the same links.
  */
-import { Image } from "astro:assets";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
@@ -15,23 +14,36 @@ import ProgressiveBlur from "@/components/global/ProgressiveBlur.astro";
 import { SiteMobileMenu } from "@/components/global/site-mobile-menu";
 import Logo from "@/components/assets/Logo.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import skerry from "@/images/illustrations/skerry-cairn.webp";
 import {
   APP_SIGNIN_URL,
   APP_SIGNUP_URL,
+  siteMegaMenuGuideGroups,
   siteNavLinks,
 } from "@/lib/site-mega-menu";
 
 const DEMO_URL = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
 
-// Desktop mega menu picks, shared with the mobile panel (site-mega-menu.ts).
-const megaMenuLinks = siteNavLinks;
+// Three sections: product (features, docs, changelog), docs pages, and the
+// platform guide grids. Picks come from the list shared with the mobile panel;
+// install and revenue index links are skipped since they get logo grids.
+const featuresLink = siteNavLinks.find((link) => link.id === "features");
+const raycastLink = siteNavLinks.find((link) => link.id === "raycast");
+const docsPageLinks = siteNavLinks.filter(
+  (link) =>
+    link.id !== "features" &&
+    link.id !== "raycast" &&
+    link.id !== "install-guides" &&
+    link.id !== "revenue-attribution",
+);
 ---
 
 <header class="sticky top-0 z-50 hidden py-2.5 lg:block">
   <ProgressiveBlur edge="top" />
   <Wrapper variant="nav" class="relative flex items-center justify-between">
-    <div class="relative" data-mega-menu>
+    {
+      /* Not `relative`: the panel positions against the Wrapper so it spans the whole nav. */
+    }
+    <div data-mega-menu>
       <div
         class="bg-muted-surface flex items-center gap-1 rounded-lg p-1 text-sm"
       >
@@ -53,81 +65,137 @@ const megaMenuLinks = siteNavLinks;
         </button>
       </div>
       <nav
-        class="bg-dark-background text-surface ring-border absolute top-full left-0 mt-2 hidden w-220 overflow-hidden rounded-lg shadow-lg"
+        class="bg-dark-background text-surface ring-border absolute inset-x-8 top-full mt-2 hidden overflow-hidden rounded-lg shadow-lg"
         aria-label="Primary"
         data-mega-menu-panel
       >
-        <div class="grid grid-cols-[1fr_17rem]">
-          <ul class="grid grid-cols-2 gap-x-8 gap-y-7 p-7">
-            {
-              megaMenuLinks.map((link) => (
-                <li>
-                  <a href={link.href} class="group block">
+        <div class="divide-surface/10 grid grid-cols-4 divide-x">
+          {/* Section 1: product. */}
+          <div class="p-7">
+            <p class="text-surface text-sm font-medium">Product</p>
+            <div class="mt-5 flex flex-col gap-7">
+              {
+                featuresLink ? (
+                  <a href={featuresLink.href} class="group block">
                     <span class="text-surface block text-sm font-medium transition-opacity group-hover:opacity-70">
-                      {link.label}
+                      {featuresLink.label}
                     </span>
-                    {link.description ? (
-                      <span class="text-surface/70 mt-1 block text-sm leading-snug lg:text-balance">
-                        {link.description}
-                      </span>
-                    ) : null}
+                    <span class="text-surface/70 mt-1 block text-sm leading-snug">
+                      {featuresLink.description}
+                    </span>
                   </a>
-                </li>
+                ) : null
+              }
+              <a href="/docs" class="group block">
+                <span
+                  class="text-surface flex items-center gap-1 text-sm font-medium transition-opacity group-hover:opacity-70"
+                >
+                  Read the docs
+                  <HugeiconsIcon
+                    icon={ArrowUpRight01Icon}
+                    size={16}
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  />
+                </span>
+                <span class="text-surface/70 mt-1 block text-sm leading-snug">
+                  Guides for setup, tracking, and dashboards, plus every
+                  installation and revenue guide.
+                </span>
+              </a>
+              <a href="/changelog" class="group block">
+                <span
+                  class="text-surface flex items-center gap-1 text-sm font-medium transition-opacity group-hover:opacity-70"
+                >
+                  Changelog
+                  <HugeiconsIcon
+                    icon={ArrowUpRight01Icon}
+                    size={16}
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  />
+                </span>
+                <span class="text-surface/70 mt-1 block text-sm leading-snug">
+                  New features and fixes as they ship.
+                </span>
+              </a>
+              {
+                raycastLink ? (
+                  <a href={raycastLink.href} class="group block">
+                    <span class="text-surface block text-sm font-medium transition-opacity group-hover:opacity-70">
+                      {raycastLink.label}
+                    </span>
+                    <span class="text-surface/70 mt-1 block text-sm leading-snug">
+                      {raycastLink.description}
+                    </span>
+                  </a>
+                ) : null
+              }
+            </div>
+          </div>
+
+          {/* Section 2: docs pages, spanning two columns. */}
+          <div class="col-span-2 p-7">
+            <p class="text-surface text-sm font-medium">Docs</p>
+            <ul class="mt-5 grid grid-cols-2 content-start gap-x-8 gap-y-7">
+              {
+                docsPageLinks.map((link) => (
+                  <li>
+                    <a href={link.href} class="group block">
+                      <span class="text-surface block text-sm font-medium transition-opacity group-hover:opacity-70">
+                        {link.label}
+                      </span>
+                      {link.description ? (
+                        <span class="text-surface/70 mt-1 block text-sm leading-snug">
+                          {link.description}
+                        </span>
+                      ) : null}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          {/* Section 3: featured platforms per guide family, stacked. */}
+          <div class="flex flex-col gap-7 p-7">
+            {
+              siteMegaMenuGuideGroups.map((group) => (
+                <div>
+                  <div class="flex items-baseline justify-between gap-3">
+                    <p class="text-surface text-sm font-medium">
+                      {group.title}
+                    </p>
+                    <a
+                      href={group.seeAllHref}
+                      class="text-surface/70 hover:text-surface shrink-0 text-xs font-medium transition-colors"
+                    >
+                      See all
+                    </a>
+                  </div>
+                  <ul class="mt-3 grid grid-cols-2 gap-x-4 gap-y-2">
+                    {group.links.map((link) => (
+                      <li>
+                        <a
+                          href={link.href}
+                          class="text-surface/80 hover:text-surface flex items-center gap-2 text-sm transition-colors"
+                        >
+                          <img
+                            src={link.logo.src}
+                            alt=""
+                            width={16}
+                            height={16}
+                            loading="lazy"
+                            class="size-4 shrink-0 rounded-xs object-contain"
+                          />
+                          {link.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))
             }
-          </ul>
-
-          <div
-            class="bg-muted-surface relative flex flex-col overflow-hidden p-5"
-          >
-            <a href="/docs" class="group relative block">
-              <span
-                class="text-foreground flex items-center gap-1 text-sm font-medium transition-opacity group-hover:opacity-70"
-              >
-                Read the docs
-                <HugeiconsIcon
-                  icon={ArrowUpRight01Icon}
-                  size={16}
-                  strokeWidth={2}
-                  aria-hidden="true"
-                />
-              </span>
-              <span
-                class="text-muted-foreground mt-2 block text-sm leading-snug"
-              >
-                Guides for setup, tracking, and dashboards, plus every
-                installation and revenue guide.
-              </span>
-            </a>
-            <a href="/changelog" class="group relative mt-5 block">
-              <span
-                class="text-foreground flex items-center gap-1 text-sm font-medium transition-opacity group-hover:opacity-70"
-              >
-                Changelog
-                <HugeiconsIcon
-                  icon={ArrowUpRight01Icon}
-                  size={16}
-                  strokeWidth={2}
-                  aria-hidden="true"
-                />
-              </span>
-              <span
-                class="text-muted-foreground mt-2 block text-sm leading-snug"
-              >
-                New features and fixes as they ship.
-              </span>
-            </a>
-            {
-              /* A kobbe: a bare skerry with a stone day mark, the thing we are named after. */
-            }
-            <Image
-              src={skerry}
-              alt=""
-              class="pointer-events-none -mx-6 mt-auto -mb-18 w-auto max-w-none pt-4"
-              widths={[272, 544, 816]}
-              sizes="272px"
-              loading="lazy"
-            />
           </div>
         </div>
       </nav>
