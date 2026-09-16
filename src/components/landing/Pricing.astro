@@ -2,17 +2,10 @@
 import { getImage } from "astro:assets";
 
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-
-/**
- * The interactive pricing pair: carbon card with billing toggle, volume
- * slider, and CTA beside the "Everything included" checklist. The cards
- * carry their own #pricing anchor.
- */
-import { SimplifiedPricingSection } from "@/components/sections/pricing/simplified-pricing-section";
+import PricingFeaturesPanel from "@/components/sections/pricing/pricing-features-panel.astro";
+import { PricingPlansPanel } from "@/components/sections/pricing/pricing-plans-panel";
 import gullCoin from "@/images/illustrations/spot-gull-coin.webp";
 
-// The React island cannot import astro:assets, so optimise the gull here
-// and hand the plain <img> attributes over as props.
 const gull = await getImage({
   src: gullCoin,
   widths: [160, 320],
@@ -28,6 +21,24 @@ const spotArt = {
 
 <section class="mt-32">
   <Wrapper variant="default" class="py-12 ">
-    <SimplifiedPricingSection client:visible spotArt={spotArt} />
+    <div id="pricing" class="scroll-mt-24">
+      <div
+        class="mt-8 grid w-full min-w-0 grid-cols-1 items-stretch gap-4 lg:grid-cols-2"
+      >
+        <PricingFeaturesPanel
+          class="order-2 lg:order-1"
+          spotArt={spotArt}
+        />
+
+        <article
+          class="text-foreground bg-muted-surface order-1 flex min-w-0 flex-col gap-8 rounded-lg p-4 sm:p-6 lg:order-2"
+          aria-label="Pricing plans"
+        >
+          <PricingPlansPanel client:visible />
+        </article>
+      </div>
+
+
+    </div>
   </Wrapper>
 </section>

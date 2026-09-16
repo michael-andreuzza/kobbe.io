@@ -1,0 +1,62 @@
+---
+import { PricingFeatureMark } from "@/components/sections/pricing/pricing-feature-mark";
+import {
+  buildSimplifiedPricingFeatureRows,
+  pricingTrialDays,
+  pricingTiers,
+} from "@/components/sections/pricing/pricing-tiers";
+import { TwoToneHeading } from "@/components/ui/two-tone-heading";
+
+const startingTier = pricingTiers[0]!;
+const featureRows = buildSimplifiedPricingFeatureRows(startingTier.key);
+
+const { class: className, spotArt } = Astro.props as {
+  class?: string;
+  spotArt?: {
+    src: string;
+    srcSet?: string;
+    width: number;
+    height: number;
+  };
+};
+---
+
+<article
+  class:list={[
+    "text-foreground bg-muted-surface relative flex min-w-0 flex-col justify-between gap-8 rounded-lg p-4 sm:p-6",
+    className,
+  ]}
+  aria-label="Included features"
+>
+  {
+    spotArt ? (
+      <img
+        src={spotArt.src}
+        srcset={spotArt.srcSet}
+        width={spotArt.width}
+        height={spotArt.height}
+        alt=""
+        loading="lazy"
+        class="pointer-events-none absolute bottom-full left-6 w-16"
+      />
+    ) : null
+  }
+  <TwoToneHeading title="Pricing.">
+    Same features on every plan; only the event volume changes. Nothing to pay
+    today: start with a {pricingTrialDays}-day free trial, no credit card
+    required, and pick your volume when the trial ends.
+  </TwoToneHeading>
+  <ul
+    class="text-foreground grid list-none grid-cols-1 items-start gap-x-6 gap-y-1.5 font-medium lg:grid-cols-2 lg:gap-x-4"
+    role="list"
+  >
+    {
+      featureRows.map((feature) => (
+        <li class="flex items-start gap-2">
+          <PricingFeatureMark />
+          <p class="text-foreground text-sm tracking-tight">{feature}</p>
+        </li>
+      ))
+    }
+  </ul>
+</article>

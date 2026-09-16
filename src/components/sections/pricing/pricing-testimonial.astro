@@ -1,0 +1,29 @@
+---
+import { Image } from "astro:assets";
+
+import nicCoatesAvatar from "@/images/testimonials/nic-coates.png";
+
+const { class: className } = Astro.props;
+---
+
+<figure class:list={["min-w-0 px-4 sm:px-6", className]}>
+  <figcaption class="mt-4 flex items-center gap-3">
+    <Image
+      src={nicCoatesAvatar}
+      alt=""
+      width={40}
+      height={40}
+      widths={[40, 80]}
+      format="webp"
+      loading="lazy"
+      class="size-10 shrink-0 rounded-full object-cover"
+    />
+    <div class="min-w-0">
+      <p class="text-foreground text-sm font-medium">Nic Coates</p>
+      <p class="text-muted-foreground text-xs">Founder of openrequest.co</p>
+    </div>
+  </figcaption>
+  <blockquote class="text-muted-foreground text-sm text-pretty font-medium mt-4">
+    &ldquo;Such a refreshing analytics product. Kudos can recommend 100% &rdquo;
+  </blockquote>
+</figure>
