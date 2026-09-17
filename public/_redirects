@@ -1,0 +1,5 @@
+# Cloudflare Pages redirects (served as real 301s, before static assets).
+# Astro's `redirects` in astro.config.mjs emits meta-refresh pages as a
+# fallback; entries here are the ones Search Console flagged as 404.
+/changelog/public-demo  /changelog  301
+/changelog/hobby-tier   /changelog/pricing-v4-and-retention  301
