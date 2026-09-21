@@ -77,9 +77,9 @@ Scopes:
 | Scope            | Allows                                                         |
 | ---------------- | -------------------------------------------------------------- |
 | `sites:read`     | List and inspect sites.                                        |
-| `analytics:read` | Read overview, pages, sources, setup health, and next actions. |
+| `analytics:read` | Read overview, time-series, pages, sources, breakdowns, custom events, goals, funnels, campaigns, setup health, and next actions. |
 | `revenue:read`   | Read revenue totals and attribution health.                    |
-| `sites:write`    | Create or update sites.                                        |
+| `sites:write`    | Create or update sites, goals, and funnels.                    |
 | `tokens:write`   | Rotate tracker tokens.                                         |
 | `danger:write`   | Delete sites or reset analytics data.                          |
 
@@ -97,6 +97,10 @@ Kobbe API tokens are management credentials. Treat them like passwords.
 
 - "What changed on my site today?"
 - "Which page should I improve next?"
+- "Compare traffic over the last 30 days and tell me which week grew fastest."
+- "Where do my visitors come from, by country and by channel?"
+- "How is my signup funnel converting, and where do people drop off?"
+- "Create a funnel from /pricing to the Signup event."
 - "List my sites and tell me which one needs setup."
 - "Rotate the tracker token for this test site."
 
