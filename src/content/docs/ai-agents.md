@@ -50,6 +50,16 @@ MCP tools include:
 | `get_revenue`       | Read revenue totals and attribution health for one site.               |
 | `get_top_pages`     | Inspect top pages for a site and time range.                           |
 | `get_sources`       | Inspect referrers, channels, and source breakdowns.                    |
+| `get_timeseries`    | Visitors, visits, views, bounce rate, and session time over time.      |
+| `get_breakdown`     | Visitors by country, region, city, browser, OS, device, or channel.    |
+| `get_custom_events` | Custom event counts, with an optional property breakdown per event.    |
+| `get_goals`         | Conversion goals with completions and unique visitors.                 |
+| `create_goal`       | Add a conversion goal (preset or custom event).                        |
+| `delete_goal`       | Delete a conversion goal.                                              |
+| `get_funnels`       | Funnels with per-step visitors, conversion, and drop-off.              |
+| `create_funnel`     | Create a funnel with 2-5 pageview or event steps.                      |
+| `delete_funnel`     | Delete a funnel.                                                       |
+| `get_campaigns`     | UTM campaign traffic with visitors and views.                          |
 | `get_setup_health`  | Check whether tracking and optional features are configured correctly. |
 | `get_next_actions`  | Ask Kobbe for suggested follow-up work.                                |
 | `create_site`       | Create a new site when the token has write access.                     |

@@ -41,11 +41,30 @@ kobbe login --token kbpat_YOUR_TOKEN --api https://app.kobbe.io
 kobbe sites
 kobbe live
 kobbe overview --site site_123 --range today
+kobbe timeseries --site site_123 --range 7d
+kobbe breakdown --site site_123 --dimension countries --range 7d
+kobbe events --site site_123 --range 7d --event "Signup"
+kobbe campaigns --site site_123 --range 30d
 kobbe next --site site_123 --range today
 kobbe setup-health --site site_123
 ```
 
 Use these commands to check what changed, inspect setup health, and find the next page or source worth improving.
+
+## Goals and funnels
+
+Read and manage conversion goals and funnels:
+
+```bash
+kobbe goals --site site_123 --range 30d
+kobbe create-goal --site site_123 --preset custom --event "Signup"
+kobbe delete-goal --site site_123 --goal goal_id
+
+kobbe funnels --site site_123 --range 30d
+kobbe create-funnel --site site_123 --name "Signup" \
+  --steps '[{"type":"pageview","value":"/pricing"},{"type":"event","value":"Signup"}]'
+kobbe delete-funnel --site site_123 --funnel funnel_id
+```
 
 ## Manage sites
 
