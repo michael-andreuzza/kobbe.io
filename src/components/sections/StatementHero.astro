@@ -22,7 +22,7 @@ const { statement, elaboration, class: extraClass = "" } = Astro.props;
   <Wrapper variant="default">
     {/* One statement, two tones: the claim in ink, the elaboration in gray. */}
     <h1
-      class="max-w-5xl text-[clamp(1.5rem,2.5vw,2.25rem)] leading-tight tracking-tight text-balance"
+      class="max-w-5xl text-[clamp(1.5rem,2.5vw,2.25rem)] leading-tight tracking-tight text-balance font-medium"
     >
       <span class="text-foreground">{statement}</span>{
         elaboration ? (
