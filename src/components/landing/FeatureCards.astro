@@ -5,7 +5,6 @@
  * screenshot rises into from the bottom, cropped by the panel edge.
  */
 import { Image } from "astro:assets";
-
 import { TwoToneHeading } from "@/components/ui/two-tone-heading";
 import Wrapper from "../foundations/containers/Wrapper.astro";
 import featureOverview from "@/images/assets/feature-overview.png";
@@ -15,30 +14,41 @@ import featureRealtime from "@/images/assets/feature-realtime.png";
 const features = [
   {
     eyebrow: "Filter out the bots",
-    lead: "Numbers you can finally trust, with every bot filtered out.",
-    body: "Modern bots run real Chrome and rotate IPs, so they look exactly like people. Kobbe drops headless browsers, datacenter traffic, and referrer spam before they touch your stats or your quota. VPN users are untouched.",
+    lead: "Numbers you can trust.",
+    body: "Headless browsers, datacenter traffic, and referrer spam never reach your stats or your quota.",
     href: "/docs/bot-filtering",
     linkLabel: "How filtering works",
+    facts: [
+      "7 independent checks",
+      "2,300+ spam referrers blocked",
+      "See what was filtered, and why",
+    ],
     image: featureOverview,
     imageAlt:
       "The Kobbe overview dashboard: visitor KPIs, a traffic trend chart, top pages, and top sources",
   },
   {
     eyebrow: "Follow the money",
-    lead: "See the revenue behind every page, source, and campaign.",
-    body: "Attribution passes through checkout with Stripe, Polar, Paddle, Shopify, and friends, so your dashboard shows the money each page actually produced, not a guess. Traffic is a vanity metric; revenue isn't.",
+    lead: "See what every page earns.",
+    body: "Revenue traced through checkout with Stripe, Polar, Paddle, Shopify, and more.",
     href: "/docs/revenue-attribution",
     linkLabel: "Revenue attribution",
+    facts: [
+      "10 payment integrations",
+      "Gross, net, and attributed revenue",
+      "Per page, source, and campaign",
+    ],
     image: featureRevenue,
     imageAlt:
       "The Kobbe revenue page: gross, net, and attributed revenue with a per-page attribution breakdown",
   },
   {
     eyebrow: "Respect your visitors",
-    lead: "No cookies, no consent banners, no raw IPs stored.",
-    body: "Kobbe counts visits without following people around, so there is nothing to consent to and nothing to click away. Global Privacy Control and Do Not Track are honored before a single request is sent.",
+    lead: "Nothing to consent to.",
+    body: "Kobbe counts visits without tracking people, and respects Global Privacy Control and Do Not Track.",
     href: "/docs/privacy-and-cookieless-tracking",
     linkLabel: "Privacy and cookieless tracking",
+    facts: ["No cookies", "No raw IPs stored", "DPA included"],
     image: featureRealtime,
     imageAlt:
       "The Kobbe realtime page: online visitors shown as anonymous dots on a neutral globe map",
@@ -60,11 +70,18 @@ const features = [
               {feature.linkLabel}
             </a>
           </TwoToneHeading>
+          <ul class="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+            {feature.facts.map((fact) => (
+              <li class="text-foreground before:bg-muted-foreground flex items-center gap-2 text-sm font-medium before:size-1 before:shrink-0 before:rounded-full before:content-['']">
+                {fact}
+              </li>
+            ))}
+          </ul>
           <div class="bg-muted-surface relative mt-8 flex h-auto items-center justify-end overflow-hidden rounded-lg p-4 pb-0 sm:h-120 lg:h-152">
             <Image
               src={feature.image}
               alt={feature.imageAlt}
-              class="shadow-panel mx-auto  block w-full max-w-4xl -mb-12 rounded-t lg:rounded-t-lg"
+              class="shadow-panel-lifted mx-auto  block w-full max-w-4xl -mb-12 rounded-t lg:rounded-t-lg"
               widths={[768, 1280, 1920, 2560]}
               sizes="(min-width: 1024px) 896px, 100vw"
               loading="lazy"

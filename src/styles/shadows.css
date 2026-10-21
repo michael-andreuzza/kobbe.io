@@ -34,6 +34,11 @@
      border), then a long geometric cascade of faint drops. Used on product
      screenshots so they carry the exact chrome they have in the app. */
   --shadow-panel: var(--theme-shadow-panel);
+  /* Panel chrome plus a wide warm glow, for screenshots sitting on a
+     muted-surface panel that is nearly the same tone. */
+  --shadow-panel-lifted: var(--theme-shadow-panel),
+    0 0 48px 4px color-mix(in oklab, var(--shadow-ink) 6%, transparent),
+    0 -8px 24px -8px color-mix(in oklab, var(--shadow-ink) 5%, transparent);
 }
 
 :root {

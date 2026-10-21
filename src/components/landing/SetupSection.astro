@@ -1,0 +1,107 @@
+---
+/**
+ * Install and import in one muted panel: two short two-tone headings, each
+ * over a logo grid that links to the matching guide. Both grids share the
+ * same columns so the import row lines up under the install rows.
+ */
+import type { ImageMetadata } from "astro";
+
+import BrandLogo from "@/components/foundations/BrandLogo.astro";
+import { TwoToneHeading } from "@/components/ui/two-tone-heading";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+
+const logos = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/images/brands/*.{svg,png}",
+  { eager: true },
+);
+const logo = (file: string) => logos[`/src/images/brands/${file}`]!.default;
+
+/* Kept at 20 so the 2, 4, and 5 column grids end on full rows. The rest of
+   the install guides are behind the "Install guides" link. */
+const platforms = [
+  { label: "Astro", href: "/docs/install-astro", file: "astro.svg" },
+  { label: "Next.js", href: "/docs/install-nextjs", file: "nextjs.svg" },
+  { label: "Shopify", href: "/docs/install-shopify", file: "shopify.svg" },
+  { label: "Webflow", href: "/docs/install-webflow", file: "webflow.svg" },
+  { label: "Framer", href: "/docs/install-framer", file: "framer.svg" },
+  { label: "WordPress", href: "/docs/install-wordpress", file: "wordpress.svg" },
+  { label: "WooCommerce", href: "/docs/install-woocommerce", file: "woo.svg" },
+  { label: "Wix", href: "/docs/install-wix", file: "wix.svg" },
+  { label: "Squarespace", href: "/docs/install-squarespace", file: "squarespace.svg" },
+  { label: "Ghost", href: "/docs/install-ghost", file: "ghost.png" },
+  { label: "Lovable", href: "/docs/install-lovable", file: "lovable.svg" },
+  { label: "Vercel v0", href: "/docs/install-vercel-v0", file: "v0.svg" },
+  { label: "Bolt", href: "/docs/install-bolt", file: "bolt.svg" },
+  { label: "Replit", href: "/docs/install-replit", file: "replit.svg" },
+  { label: "Bubble", href: "/docs/install-bubble", file: "buble.svg" },
+  { label: "Vue", href: "/docs/install-vue", file: "vue.svg" },
+  { label: "React Router", href: "/docs/install-react-router", file: "reactrouter.svg" },
+  { label: "Django", href: "/docs/install-django", file: "django.svg" },
+  { label: "Laravel", href: "/docs/install-laravel", file: "laravel.svg" },
+  { label: "Google Tag Manager", href: "/docs/install-google-tag-manager", file: "gtag manager.svg" },
+];
+
+const sources = [
+  { label: "Plausible", href: "/docs/import-from-plausible", file: "plausible.svg" },
+  { label: "Fathom", href: "/docs/import-from-fathom", file: "fathom.svg" },
+  { label: "Umami", href: "/docs/import-from-umami", file: "umami.svg" },
+  { label: "DataFast", href: "/docs/import-from-datafast", file: "datafast.svg" },
+];
+
+const groups = [
+  {
+    title: "One script tag.",
+    body: "About 2.5 KB, and visits show up right away.",
+    link: { label: "Install guides", href: "/docs/installation-guides" },
+    items: platforms,
+  },
+  {
+    title: "Bring your history.",
+    body: "Your past traffic comes with you when you switch.",
+    link: { label: "How importing works", href: "/docs/import-analytics-data" },
+    items: sources,
+  },
+];
+---
+
+<section class="mt-8">
+  <Wrapper variant="default">
+    <div class="bg-muted-surface divide-border divide-y rounded-lg px-4 sm:px-6">
+      {
+        groups.map((group) => (
+          <div class="py-6 sm:py-8">
+            <TwoToneHeading title={group.title}>
+              {group.body}{" "}
+              <a
+                href={group.link.href}
+                class="text-foreground font-medium underline decoration-1 underline-offset-4 transition-opacity hover:opacity-70"
+              >
+                {group.link.label}
+              </a>
+            </TwoToneHeading>
+            <ul class="mt-6 grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-4 lg:grid-cols-5">
+              {group.items.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class="group text-foreground flex items-center gap-2.5 text-sm font-medium"
+                  >
+                    <BrandLogo
+                      src={logo(item.file).src}
+                      class="size-5 shrink-0 rounded-sm object-contain"
+                      width={20}
+                      height={20}
+                    />
+                    <span class="min-w-0 truncate transition-transform duration-300 group-hover:translate-x-1">
+                      {item.label}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </Wrapper>
+</section>

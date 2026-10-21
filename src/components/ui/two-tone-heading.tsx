@@ -51,7 +51,7 @@ export function TwoToneHeading({
         className={cn(
           size === "sm"
             ? "text-base text-pretty"
-            : "text-[clamp(1.25rem,2vw,1.35rem)] leading-tight tracking-tight text-balance",
+            : "text-[clamp(1.25rem,2vw,1.35rem)] leading-tight font-medium tracking-tight text-balance",
           eyebrow && "mt-4",
         )}
       >

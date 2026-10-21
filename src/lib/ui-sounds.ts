@@ -3,9 +3,9 @@ import type { SoundDefinition } from "@web-kits/audio";
 
 /**
  * Synthesized UI sounds for the marketing site (no audio assets). Definitions
- * come from the @web-kits/audio "core" patch by Raphael Salaja; mirrors the
- * app's `app/lib/ui-sounds.ts` without the persisted preference — sounds only
- * ever play in direct response to a pointer or keyboard interaction.
+ * come from the @web-kits/audio patches by Raphael Salaja ("core" for tick,
+ * "minimal" for the toggles). Sounds only ever play in direct response to a
+ * pointer or keyboard interaction.
  */
 
 export type UiSoundName = "tick" | "toggle-on" | "toggle-off";
@@ -19,30 +19,30 @@ const definitions: Record<UiSoundName, SoundDefinition> = {
   "toggle-on": {
     layers: [
       {
-        source: { type: "sine", frequency: 2093 },
-        envelope: { attack: 0, decay: 0.012, sustain: 0, release: 0.004 },
-        gain: 0.2,
+        source: { type: "sine", frequency: 880 },
+        envelope: { attack: 0, decay: 0.02, sustain: 0, release: 0.006 },
+        gain: 0.08,
       },
       {
-        source: { type: "sine", frequency: 3136 },
-        envelope: { attack: 0, decay: 0.012, sustain: 0, release: 0.004 },
-        delay: 0.025,
-        gain: 0.2,
+        source: { type: "sine", frequency: 1320 },
+        envelope: { attack: 0, decay: 0.02, sustain: 0, release: 0.006 },
+        delay: 0.03,
+        gain: 0.07,
       },
     ],
   },
   "toggle-off": {
     layers: [
       {
-        source: { type: "sine", frequency: 3136 },
-        envelope: { attack: 0, decay: 0.012, sustain: 0, release: 0.004 },
-        gain: 0.2,
+        source: { type: "sine", frequency: 1320 },
+        envelope: { attack: 0, decay: 0.02, sustain: 0, release: 0.006 },
+        gain: 0.08,
       },
       {
-        source: { type: "sine", frequency: 2093 },
-        envelope: { attack: 0, decay: 0.012, sustain: 0, release: 0.004 },
-        delay: 0.025,
-        gain: 0.2,
+        source: { type: "sine", frequency: 880 },
+        envelope: { attack: 0, decay: 0.02, sustain: 0, release: 0.006 },
+        delay: 0.03,
+        gain: 0.07,
       },
     ],
   },

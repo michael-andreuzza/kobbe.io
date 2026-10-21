@@ -1,10 +1,8 @@
 import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
-import {
-  pricingFaqItems,
-  type PricingFaqItem,
-} from "@/components/sections/pricing/pricing-faq-items";
+import type { PricingFaqItem } from "@/components/sections/pricing/pricing-faq-items";
+import { landingFaqItems } from "@/components/landing/landing-faq-items";
 import {
   Accordion,
   AccordionItem,
@@ -14,9 +12,9 @@ import {
 import { cn } from "@/lib/utils";
 
 /**
- * Landing-only copy of the FAQ accordion. Same items as /support/faq
- * (pricing-faq-items), but the classes here are free to diverge: edit this
- * file to style the landing section without touching the docs version.
+ * Landing-only copy of the FAQ accordion. Items come from landing-faq-items
+ * (pre-signup questions plus a few shared billing ones), and the classes here
+ * are free to diverge from the docs version.
  */
 function LandingFaqItem({ item }: { item: PricingFaqItem }) {
   return (
@@ -52,7 +50,7 @@ export function LandingFaq({
       className={cn("w-full", className)}
       aria-labelledby={headingId}
     >
-      {pricingFaqItems.map((item) => (
+      {landingFaqItems.map((item) => (
         <LandingFaqItem key={item.id} item={item} />
       ))}
     </Accordion>

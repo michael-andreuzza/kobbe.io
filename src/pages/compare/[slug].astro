@@ -1,0 +1,132 @@
+---
+/**
+ * One comparison page in the changelog permalink layout: a single centered
+ * column with breadcrumb, title, description, the feature table from
+ * frontmatter, the prose body, the date the facts were last checked, and
+ * links to the other comparisons.
+ */
+import { getCollection, render } from "astro:content";
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("compare");
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const others = (await getCollection("compare"))
+  .filter((other) => other.id !== entry.id)
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+const { title, description, competitor, lastChecked, rows } = entry.data;
+
+const checkedLabel = new Intl.DateTimeFormat("en", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+}).format(lastChecked);
+---
+
+<BaseLayout
+  title={`${title}: privacy-first web analytics compared`}
+  description={description}
+  jsonLdBreadcrumbs={[
+    { name: "Compare", item: "/compare" },
+    { name: title, item: `/compare/${entry.id}` },
+  ]}
+>
+  <section class="pt-24 pb-32">
+    <Wrapper variant="default">
+      <article class="mx-auto max-w-2xl">
+        <p class="text-muted-foreground text-xs font-medium uppercase">
+          <a href="/compare" class="hover:text-foreground transition-colors">
+            Compare
+          </a>
+        </p>
+        <h1
+          class="text-foreground mt-4 text-2xl leading-tight font-medium tracking-tight text-balance sm:text-3xl"
+        >
+          {title}
+        </h1>
+        <p class="text-muted-foreground mt-4 text-base text-pretty">
+          {description}
+        </p>
+
+        <div class="bg-muted-surface mt-10 rounded-lg p-2 sm:p-3">
+          <table class="w-full table-fixed text-left text-sm">
+            <thead>
+              <tr>
+                <th class="w-1/2 px-3 py-3 font-medium">
+                  <span class="sr-only">Feature</span>
+                </th>
+                <th class="text-foreground px-3 py-3 font-medium">Kobbe</th>
+                <th class="text-foreground px-3 py-3 font-medium">
+                  {competitor}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                rows.map((row) => (
+                  <tr class="odd:bg-background align-top *:first:rounded-l-md *:last:rounded-r-md">
+                    <th
+                      scope="row"
+                      class="text-muted-foreground px-3 py-2.5 font-medium"
+                    >
+                      {row.feature}
+                    </th>
+                    {[row.kobbe, row.competitor].map((value) => (
+                      <td
+                        class:list={[
+                          "px-3 py-2.5",
+                          value === "No"
+                            ? "text-muted-foreground"
+                            : "text-foreground font-medium",
+                        ]}
+                      >
+                        {value}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-12">
+          <Wrapper variant="prose">
+            <Content />
+          </Wrapper>
+        </div>
+
+        <p class="text-muted-foreground mt-12 text-xs">
+          {competitor} facts checked on {checkedLabel} from their public pages.
+        </p>
+
+        <nav aria-label="Other comparisons" class="mt-16">
+          <h2 class="text-foreground text-sm font-medium">Other comparisons</h2>
+          <ul class="mt-4 space-y-2 text-sm">
+            {
+              others.map((other) => (
+                <li>
+                  <a
+                    href={`/compare/${other.id}`}
+                    class="text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {other.data.title}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </article>
+    </Wrapper>
+  </section>
+</BaseLayout>

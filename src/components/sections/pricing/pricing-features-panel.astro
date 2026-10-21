@@ -2,7 +2,6 @@
 import { PricingFeatureMark } from "@/components/sections/pricing/pricing-feature-mark";
 import {
   buildSimplifiedPricingFeatureRows,
-  pricingTrialDays,
   pricingTiers,
 } from "@/components/sections/pricing/pricing-tiers";
 import { TwoToneHeading } from "@/components/ui/two-tone-heading";
@@ -41,10 +40,8 @@ const { class: className, spotArt } = Astro.props as {
       />
     ) : null
   }
-  <TwoToneHeading title="Pricing.">
-    Same features on every plan; only the event volume changes. Nothing to pay
-    today: start with a {pricingTrialDays}-day free trial, no credit card
-    required, and pick your volume when the trial ends.
+  <TwoToneHeading title="Pay for volume, not features.">
+    Every plan has the same features, only the event volume changes.
   </TwoToneHeading>
   <ul
     class="text-foreground grid list-none grid-cols-1 items-start gap-x-6 gap-y-1.5 font-medium lg:grid-cols-2 lg:gap-x-4"

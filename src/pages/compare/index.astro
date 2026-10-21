@@ -1,0 +1,50 @@
+---
+import { getCollection } from "astro:content";
+import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import StatementHero from "@/components/sections/StatementHero.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+
+const entries = (await getCollection("compare")).sort((a, b) =>
+  a.data.title.localeCompare(b.data.title),
+);
+---
+
+<BaseLayout
+  title="Kobbe compared with other web analytics tools"
+  description="How Kobbe compares with other privacy-first web analytics on privacy, bot filtering, revenue attribution, and AI agent access."
+  jsonLdBreadcrumbs={[{ name: "Compare", item: "/compare" }]}
+>
+  <StatementHero
+    statement="How Kobbe compares."
+    elaboration="Side by side with other web analytics tools, including where they are the better pick."
+  />
+
+  <section class="pb-32">
+    <Wrapper variant="default">
+      <div class="border-border border-t">
+        {
+          entries.map((entry) => (
+            <a
+              href={`/compare/${entry.id}`}
+              class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-5"
+            >
+              <span class="text-foreground text-base text-pretty transition-transform duration-300 group-hover:translate-x-3 sm:text-lg">
+                {entry.data.title}
+              </span>
+              <HugeiconsIcon
+                icon={ArrowDownRight01Icon}
+                size={20}
+                strokeWidth={1.8}
+                className="text-foreground"
+                aria-hidden="true"
+              />
+            </a>
+          ))
+        }
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout>

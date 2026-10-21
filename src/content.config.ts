@@ -38,4 +38,24 @@ const changelog = defineCollection({
     }),
 });
 
-export const collections = { docs, changelog };
+const compare = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/compare",
+  }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    competitor: z.string(),
+    lastChecked: z.coerce.date(),
+    rows: z.array(
+      z.object({
+        feature: z.string(),
+        kobbe: z.string(),
+        competitor: z.string(),
+      }),
+    ),
+  }),
+});
+
+export const collections = { docs, changelog, compare };

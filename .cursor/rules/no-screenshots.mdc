@@ -1,0 +1,10 @@
+---
+description: Do not take browser screenshots unless asked
+alwaysApply: true
+---
+
+# No Screenshots
+
+- Do not take browser screenshots to show or verify UI changes. Michel reviews visuals himself.
+- Only take a screenshot when he explicitly asks for one.
+- Non-visual browser checks (DOM queries, console, network) are fine when needed to debug.

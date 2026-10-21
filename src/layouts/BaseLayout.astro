@@ -50,7 +50,7 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en" class="scroll-smooth">
+<html lang="en">
   <head>
     {
       /* Inter is the only font above the fold on most pages; preload it so
@@ -121,13 +121,36 @@ const {
           var id = attributionId();
           if (!id) return false;
           var anchors = document.querySelectorAll('a[href*="app.kobbe.io"]');
-          for (var i = 0; i < anchors.length; i++) decorate(anchors[i], id);
+          for (var i = 0; i < anchors.length; i++) {
+            // Islands keep the `ssr` attribute until React hydrates them;
+            // rewriting their hrefs earlier causes a hydration mismatch.
+            if (anchors[i].closest("astro-island[ssr]")) continue;
+            decorate(anchors[i], id);
+          }
           return true;
+        }
+        var islandObserver = null;
+        function decorateHydratedIslands() {
+          if (islandObserver) return;
+          islandObserver = new MutationObserver(function (mutations) {
+            for (var i = 0; i < mutations.length; i++) {
+              if (!mutations[i].target.hasAttribute("ssr")) {
+                decorateAll();
+                return;
+              }
+            }
+          });
+          islandObserver.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["ssr"],
+            subtree: true,
+          });
         }
         function decorateWhenReady() {
           var attempts = 0;
           (function tick() {
-            if (decorateAll() || attempts++ > 40) return;
+            if (decorateAll()) return decorateHydratedIslands();
+            if (attempts++ > 40) return;
             setTimeout(tick, 250);
           })();
         }
@@ -153,6 +176,25 @@ const {
         Inline scripts re-initialize on the astro:page-load event. */
     }
     <ClientRouter />
+    <script>
+      import Lenis from "lenis";
+      import "lenis/dist/lenis.css";
+
+      declare global {
+        interface Window {
+          lenis?: Lenis;
+        }
+      }
+
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        window.lenis?.destroy();
+        window.lenis = new Lenis({
+          autoRaf: true,
+          anchors: true,
+          allowNestedScroll: true,
+        });
+      }
+    </script>
   </head>
   <body class="bg-background flex min-h-svh min-w-0 flex-col antialiased">
     {nav && <Navigation />}
