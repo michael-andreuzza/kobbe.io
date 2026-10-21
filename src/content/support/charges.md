@@ -2,7 +2,6 @@
 title: Charges on your statement
 description: How to identify a Kobbe subscription charge and what to do if something looks wrong.
 order: 72
-category: Support
 navLabel: Statement charges
 ---
 

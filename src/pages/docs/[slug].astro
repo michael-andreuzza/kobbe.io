@@ -8,13 +8,12 @@ import RevenueProvidersList from "@/components/docs/revenue-providers-list.astro
 import ImportProvidersList from "@/components/docs/import-providers-list.astro";
 import { PricingVolumeTable } from "@/components/sections/pricing/pricing-volume-table";
 import { NotificationCard } from "@/components/ui/notification-card";
-import { filterDocsNavigationItems, isStandaloneDoc } from "@/lib/standalone-docs";
 
 export async function getStaticPaths() {
   const docs = await getCollection("docs");
 
   return docs
-    .filter((entry) => entry.id !== "overview" && !isStandaloneDoc(entry))
+    .filter((entry) => entry.id !== "overview")
     .map((entry) => ({
       params: { slug: entry.id },
       props: { entry },
@@ -26,7 +25,6 @@ const { entry } = Astro.props;
 const docs = (await getCollection("docs")).sort(
   (a, b) => a.data.order - b.data.order,
 );
-const docsNavItems = filterDocsNavigationItems(docs);
 const installationGuides = docs.filter((doc) => doc.id.startsWith("install-"));
 const revenueProviders = docs.filter((doc) =>
   doc.id.startsWith("revenue-attribution-"),
@@ -115,7 +113,7 @@ const bottomNotifications =
 >
   <DocsPageNavigation
     slot="header-actions"
-    docs={docsNavItems}
+    docs={docs}
     currentId={entry.id}
     variant="compact"
   />
@@ -206,5 +204,5 @@ const bottomNotifications =
       </div>
     )
   }
-  <DocsPageNavigation docs={docsNavItems} currentId={entry.id} />
+  <DocsPageNavigation docs={docs} currentId={entry.id} />
 </DocsLayout>

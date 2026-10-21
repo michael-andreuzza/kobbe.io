@@ -1,6 +1,5 @@
 import type { CollectionEntry } from "astro:content";
 
-import { getStandaloneDocHref } from "@/lib/standalone-docs";
 
 const ALPHABETICAL_NAV_CATEGORIES = new Set([
   "Installation guides",
@@ -42,9 +41,6 @@ export type DocsNavLink = {
 };
 
 function docsNavHref(item: CollectionEntry<"docs">) {
-  // Support docs live on their own routes (/support/*).
-  const standaloneHref = getStandaloneDocHref(item);
-  if (standaloneHref) return standaloneHref;
   return item.id === "overview" ? "/docs" : `/docs/${item.id}`;
 }
 

@@ -1,20 +1,35 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 
-import StandaloneDocPage from "@/components/docs/standalone-doc-page.astro";
+import StandalonePageLayout from "@/layouts/StandalonePageLayout.astro";
+import { PricingFaq } from "@/components/sections/pricing/pricing-faq";
 
 export async function getStaticPaths() {
-  const docs = await getCollection("docs");
-
-  return docs
-    .filter((entry) => entry.data.category === "Support")
-    .map((entry) => ({
-      params: { slug: entry.id.replace(/^support-/, "") },
-      props: { entry },
-    }));
+  const entries = await getCollection("support");
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
 }
 
 const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const others = (await getCollection("support"))
+  .filter((other) => other.id !== entry.id)
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((other) => ({ href: `/support/${other.id}`, title: other.data.title }));
 ---
 
-<StandaloneDocPage entry={entry} />
+<StandalonePageLayout
+  section="Support"
+  navLabel={entry.data.navLabel}
+  title={entry.data.title}
+  description={entry.data.description}
+  path={`/support/${entry.id}`}
+  othersTitle="More help"
+  others={others}
+>
+  <Content />
+  {entry.id === "faq" && <PricingFaq client:load slot="after" className="mt-10" />}
+</StandalonePageLayout>

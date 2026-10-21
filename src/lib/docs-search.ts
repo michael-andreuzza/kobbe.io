@@ -24,7 +24,6 @@ const NAV_GROUP_ORDER = [
   "Revenue attribution",
   "Reports and alerts",
   "Manage",
-  "Support",
   "Docs",
 ] as const;
 

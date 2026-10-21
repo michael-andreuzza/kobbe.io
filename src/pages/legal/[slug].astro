@@ -1,15 +1,7 @@
 ---
-/**
- * Legal pages in the changelog permalink layout: breadcrumb, sans title,
- * prose body, then the other legal pages in the same hairline rows. The DPA
- * adds its acceptance controls and printable wrapper.
- */
 import { getCollection, render } from "astro:content";
-import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import StandalonePageLayout from "@/layouts/StandalonePageLayout.astro";
 import DpaControls from "@/components/docs/dpa-controls.astro";
 import DpaSummary from "@/components/docs/dpa-summary.astro";
 
@@ -26,74 +18,32 @@ const { Content } = await render(entry);
 const isDpa = entry.id === "dpa";
 const effectiveDateDefault = new Date().toISOString().slice(0, 10);
 
-const otherEntries = (await getCollection("legal"))
+const others = (await getCollection("legal"))
   .filter((other) => other.id !== entry.id)
-  .sort((a, b) => a.data.order - b.data.order);
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((other) => ({ href: `/legal/${other.id}`, title: other.data.title }));
 ---
 
-<BaseLayout
-  title={`${entry.data.title}: Kobbe`}
+<StandalonePageLayout
+  section="Legal"
+  navLabel={entry.data.navLabel}
+  title={entry.data.title}
   description={entry.data.description}
-  jsonLdBreadcrumbs={[{ name: entry.data.title, item: `/legal/${entry.id}` }]}
+  path={`/legal/${entry.id}`}
+  othersTitle="Other legal pages"
+  others={others}
 >
-  <section class="pt-24 pb-32">
-    <Wrapper variant="default">
-      <div class="mx-auto max-w-2xl">
-        <article>
-          <p class="text-muted-foreground text-sm">
-            Legal <span aria-hidden="true">/</span> {entry.data.navLabel}
-          </p>
-          <h1
-            class="text-foreground mt-4 text-2xl leading-tight font-medium tracking-tight text-balance sm:text-3xl"
-          >
-            {entry.data.title}
-          </h1>
-          <div class="mt-10">
-            <Wrapper variant="prose">
-              {
-                isDpa ? (
-                  <>
-                    <DpaControls effectiveDateDefault={effectiveDateDefault} />
-                    <div id="dpa-printable">
-                      <DpaSummary effectiveDateDefault={effectiveDateDefault} />
-                      <Content />
-                    </div>
-                  </>
-                ) : (
-                  <Content />
-                )
-              }
-            </Wrapper>
-          </div>
-        </article>
-
-        <aside class="mt-32">
-          <h2 class="text-foreground text-lg font-medium text-pretty">
-            Other legal pages
-          </h2>
-          <div class="border-border mt-8 border-t">
-            {
-              otherEntries.map((other) => (
-                <a
-                  href={`/legal/${other.id}`}
-                  class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-5"
-                >
-                  <span class="text-foreground block text-base font-medium text-pretty transition-transform duration-300 group-hover:translate-x-3">
-                    {other.data.title}
-                  </span>
-                  <HugeiconsIcon
-                    icon={ArrowDownRight01Icon}
-                    size={20}
-                    strokeWidth={1.8}
-                    className="text-foreground"
-                    aria-hidden="true"
-                  />
-                </a>
-              ))
-            }
-          </div>
-        </aside>
-      </div>
-    </Wrapper>
-  </section>
-</BaseLayout>
+  {
+    isDpa ? (
+      <>
+        <DpaControls effectiveDateDefault={effectiveDateDefault} />
+        <div id="dpa-printable">
+          <DpaSummary effectiveDateDefault={effectiveDateDefault} />
+          <Content />
+        </div>
+      </>
+    ) : (
+      <Content />
+    )
+  }
+</StandalonePageLayout>

@@ -71,4 +71,17 @@ const legal = defineCollection({
   }),
 });
 
-export const collections = { docs, changelog, compare, legal };
+const support = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/support",
+  }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    order: z.number(),
+    navLabel: z.string(),
+  }),
+});
+
+export const collections = { docs, changelog, compare, legal, support };

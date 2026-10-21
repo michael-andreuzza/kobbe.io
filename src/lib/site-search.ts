@@ -1,7 +1,6 @@
 import type { CollectionEntry } from "astro:content";
 
 import type { DocsSearchItem } from "@/lib/docs-search";
-import { getStandaloneDocHref } from "@/lib/standalone-docs";
 
 const SITE_MARKETING_ITEMS: DocsSearchItem[] = [
   {
@@ -54,7 +53,7 @@ function getDocHref(entry: CollectionEntry<"docs">) {
     return "/docs";
   }
 
-  return getStandaloneDocHref(entry) ?? `/docs/${entry.id}`;
+  return `/docs/${entry.id}`;
 }
 
 /** Common words that add no search signal for the keyword bag. */
