@@ -2,14 +2,15 @@
 import { getCollection, render } from "astro:content";
 
 import StandalonePageLayout from "@/layouts/StandalonePageLayout.astro";
-import { PricingFaq } from "@/components/sections/pricing/pricing-faq";
 
 export async function getStaticPaths() {
   const entries = await getCollection("support");
-  return entries.map((entry) => ({
-    params: { slug: entry.id },
-    props: { entry },
-  }));
+  return entries
+    .filter((entry) => entry.id !== "faq")
+    .map((entry) => ({
+      params: { slug: entry.id },
+      props: { entry },
+    }));
 }
 
 const { entry } = Astro.props;
@@ -31,5 +32,4 @@ const others = (await getCollection("support"))
   others={others}
 >
   <Content />
-  {entry.id === "faq" && <PricingFaq client:load slot="after" className="mt-10" />}
 </StandalonePageLayout>

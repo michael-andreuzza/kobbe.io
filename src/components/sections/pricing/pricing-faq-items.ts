@@ -64,7 +64,7 @@ export const pricingFaqItems = [
     id: "gdpr",
     question: "Is Kobbe GDPR friendly?",
     answer:
-      "Kobbe is built for GDPR-conscious analytics: cookieless by default, no raw IP storage in the app database, no persistent visitor profiles, and a published Data Processing Addendum for the hosted service. You remain responsible for your site's privacy notice, lawful basis, and consent where required. Read our GDPR overview and DPA in the docs.",
+      "Kobbe is built for GDPR-conscious analytics: cookieless by default, no raw IP storage in the app database, no persistent visitor profiles, and a published Data Processing Addendum for the hosted service. You remain responsible for your site's privacy notice, lawful basis, and consent where required. Read our GDPR overview and DPA.",
   },
   {
     id: "charges",

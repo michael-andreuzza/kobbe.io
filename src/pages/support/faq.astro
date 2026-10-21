@@ -1,0 +1,144 @@
+---
+/**
+ * FAQ in the /features layout: one section per topic with a sticky intro
+ * on the left and the questions as hairline rows on the right, answers
+ * always visible. Ends with the other support pages.
+ */
+import { getCollection } from "astro:content";
+import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import StatementHero from "@/components/sections/StatementHero.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import {
+  pricingFaqItems,
+  type PricingFaqItem,
+} from "@/components/sections/pricing/pricing-faq-items";
+
+type FaqId = (typeof pricingFaqItems)[number]["id"];
+
+const groups: { title: string; blurb: string; ids: FaqId[] }[] = [
+  {
+    title: "Pricing and limits.",
+    blurb: "You pay for monthly events, not features.",
+    ids: ["event-pricing", "events", "over-limit", "over-25m"],
+  },
+  {
+    title: "Plans and billing.",
+    blurb: "A cardless trial, then monthly or yearly.",
+    ids: ["trial", "yearly", "features", "charges"],
+  },
+  {
+    title: "Privacy and data.",
+    blurb: "Cookieless by default, kept for three years.",
+    ids: ["cookie-banner", "gdpr", "retention"],
+  },
+];
+
+const byId = new Map<string, PricingFaqItem>(
+  pricingFaqItems.map((item) => [item.id, item]),
+);
+const faqGroups = groups.map((group) => ({
+  ...group,
+  items: group.ids.flatMap((id) => byId.get(id) ?? []),
+}));
+
+const moreHelp = (await getCollection("support"))
+  .filter((entry) => entry.id !== "faq")
+  .sort((a, b) => a.data.order - b.data.order);
+
+const jsonLdFaq = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: pricingFaqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+---
+
+<BaseLayout
+  title="Kobbe FAQ: pricing, trials, billing and privacy"
+  description="Answers about Kobbe pricing, trials, billing, privacy, GDPR, and features."
+  jsonLdBreadcrumbs={[{ name: "FAQ", item: "/support/faq" }]}
+  jsonLdExtra={[jsonLdFaq]}
+>
+  <StatementHero
+    statement="Questions, answered."
+    elaboration="Pricing, trials, billing and privacy. Anything else, email support@kobbe.io."
+  />
+
+  <Wrapper variant="default" class="pt-12 pb-32">
+    <div class="space-y-32">
+      {
+        faqGroups.map((group) => (
+          <section class="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
+            <div class="lg:sticky lg:top-24 lg:self-start">
+              <div class="max-w-md space-y-1">
+                <h2 class="text-foreground text-base font-medium text-pretty">
+                  {group.title}
+                </h2>
+                <p class="text-muted-foreground text-base text-pretty">
+                  {group.blurb}
+                </p>
+              </div>
+            </div>
+            <ul class="border-border border-t">
+              {group.items.map((item) => (
+                <li class="border-border border-b py-5">
+                  <h3 class="text-foreground text-base font-medium text-pretty sm:text-lg">
+                    {item.question}
+                  </h3>
+                  <p class="text-muted-foreground mt-1 text-base text-pretty">
+                    {item.answer}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+
+      <section class="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
+        <div class="max-w-md space-y-1">
+          <h2 class="text-foreground text-base font-medium text-pretty">
+            Still have a question?
+          </h2>
+          <p class="text-muted-foreground text-base text-pretty">
+            Email support, or check a charge on your statement.
+          </p>
+        </div>
+        <ul class="border-border border-t">
+          {
+            moreHelp.map((entry) => (
+              <li>
+                <a
+                  href={`/support/${entry.id}`}
+                  class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-5"
+                >
+                  <span class="transition-transform duration-300 group-hover:translate-x-3">
+                    <span class="text-foreground block text-base font-medium text-pretty sm:text-lg">
+                      {entry.data.title}
+                    </span>
+                    <span class="text-muted-foreground mt-1 block text-base text-pretty">
+                      {entry.data.description}
+                    </span>
+                  </span>
+                  <HugeiconsIcon
+                    icon={ArrowDownRight01Icon}
+                    size={20}
+                    strokeWidth={1.8}
+                    className="text-foreground"
+                    aria-hidden="true"
+                  />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </Wrapper>
+</BaseLayout>
