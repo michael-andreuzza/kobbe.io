@@ -1,11 +1,14 @@
 ---
 /**
  * FAQ in the /features layout: one section per topic with a sticky intro
- * on the left and the questions as hairline rows on the right, answers
- * always visible. Ends with the other support pages.
+ * on the left and the questions as collapsible hairline rows on the right.
+ * Ends with the other support pages.
  */
 import { getCollection } from "astro:content";
-import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
+import {
+  ArrowDown01Icon,
+  ArrowDownRight01Icon,
+} from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -87,13 +90,24 @@ const jsonLdFaq = {
             </div>
             <ul class="border-border border-t">
               {group.items.map((item) => (
-                <li class="border-border border-b py-5">
-                  <h3 class="text-foreground text-base font-medium text-pretty sm:text-lg">
-                    {item.question}
-                  </h3>
-                  <p class="text-muted-foreground mt-1 text-base text-pretty">
-                    {item.answer}
-                  </p>
+                <li class="border-border border-b">
+                  <details class="group">
+                    <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 [&::-webkit-details-marker]:hidden">
+                      <h3 class="text-foreground text-base font-medium text-pretty sm:text-lg">
+                        {item.question}
+                      </h3>
+                      <HugeiconsIcon
+                        icon={ArrowDown01Icon}
+                        size={18}
+                        strokeWidth={1.8}
+                        className="text-foreground shrink-0 transition-transform duration-300 group-open:rotate-180"
+                        aria-hidden="true"
+                      />
+                    </summary>
+                    <p class="text-muted-foreground -mt-2 pb-5 text-base text-pretty">
+                      {item.answer}
+                    </p>
+                  </details>
                 </li>
               ))}
             </ul>
