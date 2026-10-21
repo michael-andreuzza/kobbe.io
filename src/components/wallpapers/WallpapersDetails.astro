@@ -21,7 +21,7 @@ import {
       <ul class="mt-8 space-y-4">
         {
           wallpaperFacts.map((fact) => (
-            <li class="text-base text-pretty font-medium">
+            <li class="text-base text-pretty">
               <span class="text-foreground">{fact.title}.</span>{" "}
               <span class="text-muted-foreground">{fact.description}</span>
             </li>
@@ -39,10 +39,10 @@ import {
         {
           installSteps.map((step, index) => (
             <li class="grid grid-cols-[2rem_minmax(0,1fr)] gap-2">
-              <span class="text-muted-foreground text-base font-medium tabular-nums">
+              <span class="text-muted-foreground text-base tabular-nums">
                 {index + 1}.
               </span>
-              <span class="text-foreground text-base font-medium text-pretty lg:text-balance">
+              <span class="text-foreground text-base text-pretty lg:text-balance">
                 {step}
               </span>
             </li>
