@@ -27,11 +27,12 @@ const DEMO_URL = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
 // platform guide grids. Picks come from the list shared with the mobile panel;
 // install and revenue index links are skipped since they get logo grids.
 const featuresLink = siteNavLinks.find((link) => link.id === "features");
-const aiAgentsLink = siteNavLinks.find((link) => link.id === "ai-agents");
+const productIds = ["ai-agents", "compare"];
+const productLinks = siteNavLinks.filter((link) => productIds.includes(link.id));
 const docsPageLinks = siteNavLinks.filter(
   (link) =>
     link.id !== "features" &&
-    link.id !== "ai-agents" &&
+    !productIds.includes(link.id) &&
     link.id !== "install-guides" &&
     link.id !== "revenue-attribution",
 );
@@ -120,16 +121,16 @@ const docsPageLinks = siteNavLinks.filter(
                 </span>
               </a>
               {
-                aiAgentsLink ? (
-                  <a href={aiAgentsLink.href} class="group block">
+                productLinks.map((link) => (
+                  <a href={link.href} class="group block">
                     <span class="text-surface block text-sm font-medium transition-opacity group-hover:opacity-70">
-                      {aiAgentsLink.label}
+                      {link.label}
                     </span>
                     <span class="text-surface/70 mt-1 block text-sm leading-snug">
-                      {aiAgentsLink.description}
+                      {link.description}
                     </span>
                   </a>
-                ) : null
+                ))
               }
             </div>
           </div>

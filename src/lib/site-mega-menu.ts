@@ -191,4 +191,10 @@ export const siteNavLinks: MegaMenuLink[] = [
     description:
       "Ask Claude, Cursor or any MCP client about your traffic and revenue.",
   },
+  {
+    id: "compare",
+    href: "/compare",
+    label: "Compare",
+    description: "Kobbe next to Plausible, Fathom, PostHog, and more.",
+  },
 ];
