@@ -43,7 +43,7 @@ rows:
 
 - You want to self-host, or open source matters to you.
 - You need your data stored on EU-owned servers.
-- You want the smallest possible script.
+- You want a tool that has been running since 2018.
 
 ## Where Kobbe is the better pick
 
