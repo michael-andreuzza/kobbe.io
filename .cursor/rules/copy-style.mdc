@@ -11,5 +11,5 @@ Applies to all user-facing text: components, pages, docs, changelog, and marketi
 - Use a colon, comma, period, or rephrase instead. Example: `**Live Visitors**: count in the menu bar`, not `**Live Visitors** — count in the menu bar`.
 - En dashes for numeric ranges are fine (`2024–2026`). Arrow glyphs for UI paths are fine (`Settings → Exclusions`).
 - No mock UI widgets (fake chats, fake dashboards) on marketing pages. Link to the docs instead.
-- Never link to competitors' sites. Comparison pages keep their sources internal, in `COMPARE-RESEARCH.md`.
+- Never link to competitors' sites, including on comparison pages.
 - Comparison pages never mention pricing.
