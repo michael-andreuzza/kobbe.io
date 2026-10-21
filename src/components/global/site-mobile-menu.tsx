@@ -22,11 +22,11 @@ type SiteMobileMenuProps = {
 // Same picks as the desktop mega menu (Navigation.astro): product links up
 // top, the remaining docs pages as a grid, and the platform guide groups.
 const featuresLink = siteNavLinks.find((link) => link.id === "features");
-const raycastLink = siteNavLinks.find((link) => link.id === "raycast");
+const aiAgentsLink = siteNavLinks.find((link) => link.id === "ai-agents");
 const docsPageLinks = siteNavLinks.filter(
   (link) =>
     link.id !== "features" &&
-    link.id !== "raycast" &&
+    link.id !== "ai-agents" &&
     link.id !== "install-guides" &&
     link.id !== "revenue-attribution",
 );
@@ -166,17 +166,17 @@ export function SiteMobileMenu({ className, children }: SiteMobileMenuProps) {
                         New features and fixes as they ship.
                       </span>
                     </a>
-                    {raycastLink ? (
+                    {aiAgentsLink ? (
                       <a
-                        href={raycastLink.href}
+                        href={aiAgentsLink.href}
                         onClick={close}
                         className="group block"
                       >
                         <span className="text-surface block text-sm font-medium transition-opacity group-hover:opacity-70">
-                          {raycastLink.label}
+                          {aiAgentsLink.label}
                         </span>
                         <span className="text-surface/70 mt-0.5 block text-sm leading-snug">
-                          {raycastLink.description}
+                          {aiAgentsLink.description}
                         </span>
                       </a>
                     ) : null}

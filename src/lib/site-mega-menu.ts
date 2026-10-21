@@ -185,10 +185,10 @@ export const siteNavLinks: MegaMenuLink[] = [
     description: "Email alerts when traffic spikes or drops.",
   },
   {
-    id: "raycast",
-    href: "/docs/raycast",
-    label: "Raycast extension",
+    id: "ai-agents",
+    href: "/docs/ai-agents",
+    label: "AI agents",
     description:
-      "Live visitors in your menu bar, dashboards one keystroke away.",
+      "Ask Claude, Cursor or any MCP client about your traffic and revenue.",
   },
 ];
