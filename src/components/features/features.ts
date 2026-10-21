@@ -10,7 +10,6 @@ export interface FeatureItem {
 }
 
 export interface FeatureGroup {
-  eyebrow: string;
   title: string;
   blurb: string;
   items: FeatureItem[];
@@ -18,7 +17,6 @@ export interface FeatureGroup {
 
 export const featureGroups: FeatureGroup[] = [
   {
-    eyebrow: "Count real people",
     title: "Only real visitors make it into your stats.",
     blurb:
       "Numbers you can trust, because everything that is not a person is removed before it counts.",
@@ -68,7 +66,6 @@ export const featureGroups: FeatureGroup[] = [
     ],
   },
   {
-    eyebrow: "Follow the money",
     title: "Attribute revenue, not just visits.",
     blurb:
       "Traffic is a vanity metric. See what every page, source, and campaign actually earns.",
@@ -106,7 +103,6 @@ export const featureGroups: FeatureGroup[] = [
     ],
   },
   {
-    eyebrow: "Respect your visitors",
     title: "Privacy by default, with your data always portable.",
     blurb:
       "No cookies, no consent banner, nothing personal stored. Analytics that do not need forgiveness.",
@@ -132,7 +128,6 @@ export const featureGroups: FeatureGroup[] = [
     ],
   },
   {
-    eyebrow: "Watch it perform",
     title: "Speed and search visibility, in the same dashboard.",
     blurb:
       "How fast your pages feel and how they rank, measured on real visitors instead of lab runs.",
@@ -164,7 +159,6 @@ export const featureGroups: FeatureGroup[] = [
     ],
   },
   {
-    eyebrow: "Work your way",
     title: "Bring Kobbe to wherever you already work.",
     blurb:
       "The dashboard is one way in. The terminal, your editor, your menu bar, and your inbox are others.",
