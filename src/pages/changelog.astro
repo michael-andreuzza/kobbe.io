@@ -11,6 +11,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import StatementHero from "@/components/sections/StatementHero.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import { TwoToneHeading } from "@/components/ui/two-tone-heading";
 import { changelogDateFormatter, changelogSlug } from "@/lib/changelog";
 
 const title = "Kobbe changelog: what shipped and when";
@@ -34,9 +35,9 @@ const entries = (await getCollection("changelog")).sort(
 
   <section class="mt-32 pb-32">
     <Wrapper variant="default">
-      <p class="text-muted-foreground text-xs font-medium uppercase">
-        All entries
-      </p>
+      <TwoToneHeading title="Every update.">
+        {entries.length} entries, newest first.
+      </TwoToneHeading>
       <div class="border-border mt-8 border-t">
         {
           entries.map((entry) => (
@@ -51,7 +52,7 @@ const entries = (await getCollection("changelog")).sort(
                 >
                   {changelogDateFormatter.format(entry.data.date)}
                 </time>
-                <span class="text-foreground mt-1 block text-base text-pretty transition-transform duration-300 group-hover:translate-x-3 sm:mt-0 sm:text-lg">
+                <span class="text-foreground mt-1 block text-base font-medium text-pretty transition-transform duration-300 group-hover:translate-x-3 sm:mt-0 sm:text-lg">
                   {entry.data.title}
                 </span>
               </span>
