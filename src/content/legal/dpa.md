@@ -2,7 +2,6 @@
 title: Data Processing Addendum
 description: DPA for Kobbe-hosted analytics, part of our Terms; online acceptance plus optional PDF for your records.
 order: 82
-category: Legal
 navLabel: DPA
 ---
 

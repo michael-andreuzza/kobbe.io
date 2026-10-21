@@ -58,4 +58,17 @@ const compare = defineCollection({
   }),
 });
 
-export const collections = { docs, changelog, compare };
+const legal = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/legal",
+  }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    order: z.number(),
+    navLabel: z.string(),
+  }),
+});
+
+export const collections = { docs, changelog, compare, legal };

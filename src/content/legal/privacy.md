@@ -2,7 +2,6 @@
 title: Privacy Policy
 description: How Kobbe handles analytics data and visitor privacy.
 order: 81
-category: Legal
 navLabel: Privacy
 ---
 

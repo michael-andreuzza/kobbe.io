@@ -2,7 +2,6 @@
 title: GDPR and privacy-friendly analytics
 description: How Kobbe is designed to support GDPR-conscious website analytics with data minimization, cookieless tracking, and processor terms.
 order: 83
-category: Legal
 navLabel: GDPR
 ---
 

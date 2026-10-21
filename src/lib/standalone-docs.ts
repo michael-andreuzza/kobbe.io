@@ -1,15 +1,14 @@
 import type { CollectionEntry } from "astro:content";
 
-export const STANDALONE_DOC_CATEGORIES = ["Legal", "Support"] as const;
+export const STANDALONE_DOC_CATEGORIES = ["Support"] as const;
 
 export type StandaloneDocCategory = (typeof STANDALONE_DOC_CATEGORIES)[number];
-export type StandaloneDocSection = "legal" | "support";
+export type StandaloneDocSection = "support";
 
 const STANDALONE_DOC_SECTION_BY_CATEGORY: Record<
   StandaloneDocCategory,
   StandaloneDocSection
 > = {
-  Legal: "legal",
   Support: "support",
 };
 
@@ -38,10 +37,6 @@ export function getStandaloneDocSection(
 }
 
 export function getStandaloneDocSlug(docId: string) {
-  if (docId.startsWith("legal-")) {
-    return docId.slice("legal-".length);
-  }
-
   if (docId.startsWith("support-")) {
     return docId.slice("support-".length);
   }

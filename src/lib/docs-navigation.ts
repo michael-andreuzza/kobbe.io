@@ -42,7 +42,7 @@ export type DocsNavLink = {
 };
 
 function docsNavHref(item: CollectionEntry<"docs">) {
-  // Legal and support docs live on their own routes (/legal/*, /support/*).
+  // Support docs live on their own routes (/support/*).
   const standaloneHref = getStandaloneDocHref(item);
   if (standaloneHref) return standaloneHref;
   return item.id === "overview" ? "/docs" : `/docs/${item.id}`;

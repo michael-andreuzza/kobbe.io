@@ -29,7 +29,7 @@ const currentPath = Astro.url.pathname
   .replace(/\.html$/, "")
   .replace(/\/$/, "");
 const displayTitle = pageTitle ?? title?.replace(/\s+: Kobbe$/, "");
-// Legal and support docs are included: they render on their own routes but
+// Support docs are included: they render on their own routes but
 // still show as sidebar groups.
 const resolvedNavLinks = buildDocsNavLinks(navItems, currentPath);
 const groupedNavLinks = groupDocsNavLinks(resolvedNavLinks);
@@ -58,7 +58,6 @@ const NAV_GROUP_ORDER = [
   "Manage",
   "Reports and alerts",
   "Support",
-  "Legal",
   "Docs",
 ] as const;
 
