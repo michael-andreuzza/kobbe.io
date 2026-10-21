@@ -1,10 +1,11 @@
 ---
 /**
- * Stacked feature sections: a small uppercase eyebrow, a two-tone lead
- * (claim in ink, detail in gray), then a large muted panel the product
- * screenshot rises into from the bottom, cropped by the panel edge.
+ * Stacked feature sections: a title, a gray subtitle, and a short fact list
+ * on the left with the docs link on the right, then a large muted panel the
+ * product screenshot rises into from the bottom, cropped by the panel edge.
  */
 import { Image } from "astro:assets";
+import { Button } from "@/components/ui/button";
 import { TwoToneHeading } from "@/components/ui/two-tone-heading";
 import Wrapper from "../foundations/containers/Wrapper.astro";
 import featureOverview from "@/images/assets/feature-overview.png";
@@ -13,26 +14,25 @@ import featureRealtime from "@/images/assets/feature-realtime.png";
 
 const features = [
   {
-    eyebrow: "Filter out the bots",
-    lead: "Numbers you can trust.",
+    lead: "Bots stay out of your numbers.",
     body: "Headless browsers, datacenter traffic, and referrer spam never reach your stats or your quota.",
     href: "/docs/bot-filtering",
-    linkLabel: "How filtering works",
+    linkLabel: "Bot filtering",
     facts: [
       "7 independent checks",
       "2,300+ spam referrers blocked",
       "See what was filtered, and why",
+      "VPN users still count",
     ],
     image: featureOverview,
     imageAlt:
       "The Kobbe overview dashboard: visitor KPIs, a traffic trend chart, top pages, and top sources",
   },
   {
-    eyebrow: "Follow the money",
     lead: "See what every page earns.",
     body: "Revenue traced through checkout with Stripe, Polar, Paddle, Shopify, and more.",
     href: "/docs/revenue-attribution",
-    linkLabel: "Revenue attribution",
+    linkLabel: "Revenue",
     facts: [
       "10 payment integrations",
       "Gross, net, and attributed revenue",
@@ -43,11 +43,10 @@ const features = [
       "The Kobbe revenue page: gross, net, and attributed revenue with a per-page attribution breakdown",
   },
   {
-    eyebrow: "Respect your visitors",
     lead: "Nothing to consent to.",
     body: "Kobbe counts visits without tracking people, and respects Global Privacy Control and Do Not Track.",
     href: "/docs/privacy-and-cookieless-tracking",
-    linkLabel: "Privacy and cookieless tracking",
+    linkLabel: "Privacy",
     facts: ["No cookies", "No raw IPs stored", "DPA included"],
     image: featureRealtime,
     imageAlt:
@@ -61,22 +60,28 @@ const features = [
     {
       features.map((feature) => (
         <section class="relative overflow-hidden">
-          <TwoToneHeading eyebrow={feature.eyebrow} title={feature.lead}>
-            {feature.body}{" "}
-            <a
+          <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div class="min-w-0">
+              <TwoToneHeading title={feature.lead} className="max-w-2xl">
+                {feature.body}
+              </TwoToneHeading>
+              <ul class="mt-6 flex flex-col gap-x-8 gap-y-2 sm:flex-row sm:flex-wrap">
+                {feature.facts.map((fact) => (
+                  <li class="text-muted-foreground before:bg-muted-foreground flex items-center gap-2 text-sm font-medium whitespace-nowrap before:size-1 before:shrink-0 before:rounded-full before:content-['']">
+                    {fact}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <Button
+              label={feature.linkLabel}
               href={feature.href}
-              class="text-foreground font-medium underline decoration-1 underline-offset-4 transition-opacity hover:opacity-70"
-            >
-              {feature.linkLabel}
-            </a>
-          </TwoToneHeading>
-          <ul class="mt-6 flex flex-wrap gap-x-6 gap-y-2">
-            {feature.facts.map((fact) => (
-              <li class="text-foreground before:bg-muted-foreground flex items-center gap-2 text-sm font-medium before:size-1 before:shrink-0 before:rounded-full before:content-['']">
-                {fact}
-              </li>
-            ))}
-          </ul>
+              variant="outline"
+              size="sm"
+              arrow
+              className="shrink-0"
+            />
+          </div>
           <div class="bg-muted-surface relative mt-8 flex h-auto items-center justify-end overflow-hidden rounded-lg p-4 pb-0 sm:h-120 lg:h-152">
             <Image
               src={feature.image}
