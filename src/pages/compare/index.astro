@@ -31,7 +31,7 @@ const entries = (await getCollection("compare")).sort((a, b) =>
               href={`/compare/${entry.id}`}
               class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-5"
             >
-              <span class="text-foreground text-base text-pretty transition-transform duration-300 group-hover:translate-x-3 sm:text-lg">
+              <span class="text-foreground text-base font-medium text-pretty transition-transform duration-300 group-hover:translate-x-3 sm:text-lg">
                 {entry.data.title}
               </span>
               <HugeiconsIcon
