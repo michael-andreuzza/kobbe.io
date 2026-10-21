@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 function FaqAccordionItem({ item }: { item: PricingFaqItem }) {
   return (
     <AccordionItem value={item.id}>
-      <AccordionTrigger className="gap-4 py-3 text-sm font-normal [&[data-panel-open]_svg]:rotate-180">
+      <AccordionTrigger className="gap-4 py-3 text-base font-medium [&[data-panel-open]_svg]:rotate-180">
         <span>{item.question}</span>
         <HugeiconsIcon
           icon={ArrowDown01Icon}
@@ -26,7 +26,7 @@ function FaqAccordionItem({ item }: { item: PricingFaqItem }) {
         />
       </AccordionTrigger>
       <AccordionPanel>
-        <p className="text-muted-foreground pb-3 text-xs leading-relaxed text-pretty">
+        <p className="text-muted-foreground pb-3 text-sm leading-relaxed text-pretty">
           {item.answer}
         </p>
       </AccordionPanel>
@@ -43,7 +43,7 @@ export function PricingFaq({
   headingId?: string;
 }) {
   return (
-    <Accordion keepMounted className={cn("w-full", className)} aria-labelledby={headingId}>
+    <Accordion keepMounted className={cn("not-prose w-full", className)} aria-labelledby={headingId}>
       {pricingFaqItems.map((item) => (
         <FaqAccordionItem key={item.id} item={item} />
       ))}
