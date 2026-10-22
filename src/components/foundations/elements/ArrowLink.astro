@@ -1,9 +1,9 @@
 ---
 /**
- * Small text link with a chevron. On hover the label rolls up to a copy of
- * itself and the chevron nudges right.
+ * Small text link with a down-right arrow. On hover the label rolls up to a
+ * copy of itself and the arrow nudges down and right.
  */
-import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 interface Props {
@@ -34,10 +34,10 @@ const move =
     </span>
   </span>
   <HugeiconsIcon
-    icon={ArrowRight01Icon}
+    icon={ArrowDownRight01Icon}
     size={18}
     strokeWidth={1.8}
-    className={`${move} shrink-0 group-hover/roll:translate-x-0.5`}
+    className={`${move} shrink-0 group-hover/roll:translate-x-0.5 group-hover/roll:translate-y-0.5`}
     aria-hidden="true"
   />
 </a>
