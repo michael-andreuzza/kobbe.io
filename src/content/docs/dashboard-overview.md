@@ -24,6 +24,18 @@ Use the range control at the top of the dashboard to switch between presets, tod
 
 If your workspace has a default time range or timezone configured, Kobbe uses that preference when building dashboard links.
 
+## Saved views
+
+A saved view stores a set of filters, like Google visitors on mobile, so you can get back to it in one click.
+
+1. Filter the dashboard by clicking rows in any card. Active filters appear as chips under the top bar.
+2. Choose **Save view** next to the chips, or open **Views** in the top bar and choose **Save current filters**.
+3. Give the view a name and save.
+
+Pick a view from the **Views** menu to apply its filters. The date range stays whatever you have selected, so the same view works for this week or last quarter. When the current filters match a saved view, the menu shows its name.
+
+Views belong to the site and are shared with everyone in the workspace. A site can have up to 30 views. Delete one with the **×** next to its name.
+
 ## Comparisons
 
 Use **Add comparison** to compare the active overview range against a previous period, week, month, quarter, year, or a custom comparison range. The comparison updates the KPI deltas and adds a dashed line to the main traffic chart so you can see the current trend against the comparison window.

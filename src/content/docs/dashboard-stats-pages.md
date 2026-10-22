@@ -16,8 +16,27 @@ The **Pages** breakdown answers where people land, what they view most, and wher
 | **Entered**   | Paths where visits started (entry pages).                                 |
 | **Exited**    | Paths where visits ended (exit pages).                                    |
 | **404s**      | Missing pages visitors hit, with the page that most often linked to them. |
+| **Groups**    | Unique visitors per section of your site, using path patterns you define. |
 
 The 404s tab needs a one-line setup on your site, see [404 tracking](/docs/404-tracking).
+
+## Page groups
+
+Groups combine many pages into one row, so you can compare sections like your blog, docs, and pricing instead of reading hundreds of individual paths.
+
+Open the **Groups** tab and choose **Create a group**, or use the pencil icon on the card once you have groups. Each group has a name and a path:
+
+| Path              | Matches                                     |
+| ----------------- | ------------------------------------------- |
+| `/blog/*`         | `/blog` and every page under it.            |
+| `/pricing`        | Only `/pricing`.                            |
+| `/docs/*/install` | `/docs/v1/install`, `/docs/v2/install`, etc. |
+
+- `*` is a wildcard that matches any characters.
+- A visitor who views several pages in a group counts once for that group.
+- A page that fits several groups counts only in the most specific one, so `/blog/guides/*` wins over `/blog/*`.
+- Groups follow the selected date range and filters, like the other tabs.
+- A site can have up to 20 groups, shared by everyone in the workspace.
 
 ## Preview and full list
 

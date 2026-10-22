@@ -40,6 +40,18 @@ export const featureGroups: FeatureGroup[] = [
         href: "/docs/dashboard-overview",
       },
       {
+        title: "Saved views",
+        description:
+          "Save the filters you use most, like Google visitors on mobile, and get back to them in one click.",
+        href: "/docs/dashboard-overview#saved-views",
+      },
+      {
+        title: "Page groups",
+        description:
+          "Combine pages into sections like Blog or Docs with path patterns, and see unique visitors per section.",
+        href: "/docs/dashboard-stats-pages#page-groups",
+      },
+      {
         title: "Exclude your own visits",
         description:
           "Keep yourself, your team, and your office IPs out of the numbers.",
