@@ -178,7 +178,7 @@ export const featureGroups: FeatureGroup[] = [
       {
         title: "Shared dashboards",
         description:
-          "Share a read-only dashboard with a private link, or make it fully public.",
+          "Share a read-only dashboard with a private link, protected by a password if you like.",
         href: "/docs/shared-dashboards",
       },
       {

@@ -18,6 +18,22 @@ Kobbe lets you create public, read-only dashboard links that anyone can access w
 6. Enable the link.
 7. Copy the generated URL and send it to anyone who needs read-only access.
 
+## Password protection
+
+Add a password when the link should only open for the people you give it to.
+
+1. Enable the public dashboard link.
+2. Under **Password**, type a password with 6 to 128 characters.
+3. Click **Set password**.
+
+Viewers then see a password screen before the dashboard. After the right password, that browser stays unlocked for 30 days.
+
+- **Change password** sets a new one and locks out everyone who unlocked with the old one.
+- **Remove** turns the password off, so anyone with the link can view it again.
+- **Regenerate** keeps the password on the new link.
+
+Embed widgets are not password protected, since they run inside iframes on other sites.
+
 Shared dashboard links are useful for client reporting, public project stats, team updates, and investor or stakeholder visibility.
 
 ## What viewers can see
@@ -31,15 +47,16 @@ Settings, billing, token management, exports, exclusions, realtime, and funnel e
 
 ## Managing access
 
-| Action         | What it does                                 |
-| -------------- | -------------------------------------------- |
-| **Regenerate** | Create a new URL and invalidate the old one. |
-| **Save**       | Update when the current link expires.        |
-| **Revoke**     | Disable public access entirely.              |
+| Action         | What it does                                   |
+| -------------- | ---------------------------------------------- |
+| **Regenerate** | Create a new URL and invalidate the old one.   |
+| **Save**       | Update when the current link expires.          |
+| **Password**   | Require a password before the dashboard opens. |
+| **Revoke**     | Disable public access entirely.                |
 
 ## Security
 
-The public dashboard is read-only. Anyone with the link can view the dashboard, but they cannot change site settings, rotate tokens, create events, or manage share links.
+The public dashboard is read-only. Anyone with the link, and the password if you set one, can view the dashboard, but they cannot change site settings, rotate tokens, create events, or manage share links.
 
 Revoking or regenerating a link immediately invalidates the previous URL. Expired links stop working automatically.
 
