@@ -20,7 +20,7 @@ const move =
 <a
   href={href}
   class:list={[
-    "group/roll text-muted-foreground hover:text-foreground inline-flex items-center gap-0.5 text-sm leading-tight transition-colors duration-300",
+    "group/roll text-foreground inline-flex items-center gap-0.5 text-base font-medium leading-tight",
     className,
   ]}
 >
@@ -35,9 +35,9 @@ const move =
   </span>
   <HugeiconsIcon
     icon={ArrowRight01Icon}
-    size={14}
+    size={18}
     strokeWidth={1.8}
-    className={`${move} group-hover/roll:translate-x-0.5`}
+    className={`${move} shrink-0 group-hover/roll:translate-x-0.5`}
     aria-hidden="true"
   />
 </a>
