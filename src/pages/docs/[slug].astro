@@ -9,7 +9,6 @@ import ImportProvidersList from "@/components/docs/import-providers-list.astro";
 import { PricingVolumeTable } from "@/components/sections/pricing/pricing-volume-table";
 import { NotificationCard } from "@/components/ui/notification-card";
 import { docMarkdown, docMarkdownHref } from "@/lib/docs-markdown";
-import { gitLastUpdated } from "@/lib/git-last-updated";
 
 export async function getStaticPaths() {
   const docs = await getCollection("docs");
@@ -114,7 +113,6 @@ const bottomNotifications =
   navItems={docs}
   markdown={docMarkdown(entry)}
   markdownHref={docMarkdownHref(entry)}
-  lastUpdated={gitLastUpdated(entry.filePath)}
 >
   {
     topNotifications.length > 0 && (

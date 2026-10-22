@@ -3,7 +3,7 @@
   // all page-specific state is rebuilt in init() on every astro:page-load.
   const linkClassName = (level, active) =>
     [
-      "block py-1 text-sm transition-colors",
+      "block py-1 text-xs font-medium transition-colors",
       level === "h3" ? "pl-6" : "pl-3",
       active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
     ].join(" ");

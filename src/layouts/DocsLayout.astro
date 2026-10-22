@@ -32,7 +32,6 @@ interface Props {
   markdown?: string;
   /** URL of the plain Markdown version, for "View as Markdown". */
   markdownHref?: string;
-  lastUpdated?: Date;
 }
 
 const {
@@ -42,7 +41,6 @@ const {
   navItems,
   markdown,
   markdownHref,
-  lastUpdated,
 } = Astro.props;
 // At build time `format: "file"` makes pathname end in ".html"; normalise
 // so active-page matching (sidebar, page select, breadcrumbs) works on live.
@@ -95,11 +93,6 @@ const siteSearchItems = buildSiteSearchItems(allDocs);
 const currentGroup = groupedNavLinks.find((group) =>
   group.items.some((item) => item.isActive),
 )?.category;
-const lastUpdatedLabel = lastUpdated?.toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
 
 const DEMO_URL = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
 const headerLinkClass =
@@ -243,14 +236,6 @@ const headerLinkClass =
                       {description && (
                         <p class="text-muted-foreground mt-3 text-lg leading-snug text-pretty">
                           {description}
-                        </p>
-                      )}
-                      {lastUpdated && lastUpdatedLabel && (
-                        <p class="text-muted-foreground/80 mt-4 text-xs">
-                          Last updated{" "}
-                          <time datetime={lastUpdated.toISOString()}>
-                            {lastUpdatedLabel}
-                          </time>
                         </p>
                       )}
                     </header>

@@ -5,7 +5,6 @@ import DocsLayout from "@/layouts/DocsLayout.astro";
 import OverviewGuidesList from "@/components/docs/overview-guides-list.astro";
 import { NotificationCard } from "@/components/ui/notification-card";
 import { docMarkdown, docMarkdownHref } from "@/lib/docs-markdown";
-import { gitLastUpdated } from "@/lib/git-last-updated";
 
 const docs = (await getCollection("docs")).sort(
   (a, b) => a.data.order - b.data.order,
@@ -28,7 +27,6 @@ const { Content } = await render(entry);
   navItems={docs}
   markdown={docMarkdown(entry)}
   markdownHref={docMarkdownHref(entry)}
-  lastUpdated={gitLastUpdated(entry.filePath)}
 >
   <OverviewGuidesList docs={docs} />
   <Content />

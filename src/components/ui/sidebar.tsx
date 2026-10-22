@@ -74,9 +74,9 @@ export function SidebarGroups({ groups }: SidebarGroupsProps) {
                     href={item.href}
                     aria-current={item.isActive ? "page" : undefined}
                     className={cn(
-                      "relative flex min-w-0 items-center gap-2 rounded-md px-2 py-1.5 text-xs leading-5 transition-colors",
+                      "relative flex min-w-0 items-center gap-2 rounded-md px-2 py-1.5 text-xs leading-5 font-medium transition-colors",
                       item.isActive
-                        ? "text-foreground font-medium"
+                        ? "text-foreground"
                         : "text-muted-foreground hover:bg-border/40 hover:text-foreground",
                     )}
                   >
