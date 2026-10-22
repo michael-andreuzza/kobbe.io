@@ -42,7 +42,7 @@ export function DocsPageSelect({
     >
       <SelectTrigger
         aria-label="Docs page"
-        className={cn("text-xs", className)}
+        className={cn("text-xs font-medium", className)}
       >
         {/* Explicit label: Base UI's items-based label resolution renders
             empty in production builds, and this also puts the text in the

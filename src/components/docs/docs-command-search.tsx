@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Dialog } from "@base-ui/react/dialog";
 import {
   ArrowLeft02Icon,
-  ArrowRight02Icon,
+  ArrowDownRight01Icon,
   Search01Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -359,15 +359,17 @@ export function DocsCommandSearch({
         onClick={() => {
           navigateTo(item.href);
         }}
-        className="flex min-h-8 w-full cursor-default items-center py-1.5 text-left text-xs leading-snug transition-colors outline-none"
+        className={cn(
+          "flex h-10 w-full cursor-default items-center rounded-md px-3 text-left transition-colors outline-none",
+          isSelected && "bg-surface/8",
+        )}
       >
         <span className="flex min-w-0 flex-1 items-center gap-2.5">
           <ItemIcon item={item} />
           <span className="min-w-0">
-            {/* Mega menu link states: selected brightens, the rest stay gray. */}
             <span
               className={cn(
-                "block truncate text-sm transition-colors",
+                "block truncate text-sm font-medium transition-colors",
                 isSelected ? "text-surface" : "text-surface/70",
               )}
             >
@@ -394,27 +396,26 @@ export function DocsCommandSearch({
         }}
       >
         <Dialog.Portal>
-          {/* Same soft page blur as the mega menu overlay, no dark scrim. */}
-          <Dialog.Backdrop className="bg-background/1 fixed inset-0 z-50 backdrop-blur transition-opacity duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0 motion-reduce:transition-none" />
+          <Dialog.Backdrop className="fixed inset-0 z-50" />
           <Dialog.Popup
             onWheel={(event) => {
               event.stopPropagation();
             }}
-            className="bg-dark-background text-surface fixed top-[min(22%,9rem)] left-1/2 z-50 flex max-h-[min(30rem,calc(100svh-6rem))] w-full max-w-lg -translate-x-1/2 flex-col overflow-hidden rounded-lg shadow-lg outline-none max-sm:w-[calc(100vw-2rem)]"
+            className="bg-dark-background text-surface fixed top-[min(22%,9rem)] left-1/2 z-50 flex max-h-[min(32rem,calc(100svh-6rem))] w-full max-w-xl -translate-x-1/2 flex-col overflow-hidden rounded-lg shadow-lg outline-none max-sm:w-[calc(100vw-2rem)]"
           >
-            <div className="flex min-h-0 flex-col p-4">
-              <div className="bg-background flex h-14 shrink-0 items-center gap-2.5 rounded-md px-3">
+            <div className="flex min-h-0 flex-col">
+              <div className="border-surface/10 flex h-16 shrink-0 items-center gap-3 border-b px-5">
                 {activeGroup && !isSearching ? (
                   <button
                     type="button"
                     onClick={goBack}
-                    className="text-muted-foreground hover:text-foreground inline-flex size-5 shrink-0 items-center justify-center transition-colors outline-none"
+                    className="text-surface/60 hover:text-surface inline-flex size-5 shrink-0 items-center justify-center transition-colors outline-none"
                     aria-label="Back to categories"
                   >
                     <HugeiconsIcon
                       icon={ArrowLeft02Icon}
                       strokeWidth={1.7}
-                      className="size-4"
+                      className="size-5"
                       aria-hidden
                     />
                   </button>
@@ -422,7 +423,7 @@ export function DocsCommandSearch({
                   <HugeiconsIcon
                     icon={Search01Icon}
                     strokeWidth={1.7}
-                    className="text-muted-foreground pointer-events-none size-4 shrink-0"
+                    className="text-surface/60 pointer-events-none size-5 shrink-0"
                     aria-hidden
                   />
                 )}
@@ -441,13 +442,13 @@ export function DocsCommandSearch({
                       : "Find docs and pages..."
                   }
                   aria-label="Find"
-                  className="text-foreground placeholder:text-muted-foreground/60 pointer-coarse:text-base h-6 min-w-0 flex-1 bg-transparent text-sm leading-tight outline-none"
+                  className="text-surface placeholder:text-surface/40 h-8 min-w-0 flex-1 bg-transparent text-base font-medium leading-tight outline-none"
                 />
               </div>
 
               <div
                 ref={listRef}
-                className="mt-3 max-h-[min(20rem,calc(100svh-14rem))] min-h-0 flex-1 overflow-y-auto overscroll-y-contain"
+                className="max-h-[min(22rem,calc(100svh-14rem))] min-h-0 flex-1 overflow-y-auto overscroll-y-contain p-2 scrollbar-none!"
                 role="listbox"
                 aria-label="Search results"
                 onWheel={(event) => {
@@ -455,14 +456,14 @@ export function DocsCommandSearch({
                 }}
               >
                 {listEntries.length === 0 ? (
-                  <p className="text-surface/60 py-2.5 text-sm">
+                  <p className="text-surface/50 px-3 py-3 text-sm">
                     No pages matched your search.
                   </p>
                 ) : isSearching ? (
                   searchGroups.map((group) => (
-                    <div key={group.category} className="py-1.5">
+                    <div key={group.category} className="pb-2">
                       {/* Mega menu column labels: quiet, no uppercase. */}
-                      <p className="text-surface/60 pb-1 text-sm">
+                      <p className="text-surface/50 px-3 pt-2 pb-1 text-xs font-medium">
                         {group.category}
                       </p>
                       <ul>
@@ -482,8 +483,8 @@ export function DocsCommandSearch({
                     </div>
                   ))
                 ) : activeGroup ? (
-                  <div className="py-1.5">
-                    <p className="text-surface/60 pb-1 text-sm">
+                  <div className="pb-2">
+                    <p className="text-surface/50 px-3 pt-2 pb-1 text-xs font-medium">
                       {activeGroup}
                     </p>
                     <ul>
@@ -499,8 +500,8 @@ export function DocsCommandSearch({
                     </ul>
                   </div>
                 ) : (
-                  <div className="py-1.5">
-                    <p className="text-surface/60 pb-1 text-sm">
+                  <div className="pb-2">
+                    <p className="text-surface/50 px-3 pt-2 pb-1 text-xs font-medium">
                       Browse
                     </p>
                     <ul>
@@ -523,9 +524,9 @@ export function DocsCommandSearch({
                                 activateEntry(entry);
                               }}
                               className={cn(
-                                "flex min-h-8 w-full cursor-default items-center gap-2 py-1.5 text-left text-sm transition-colors outline-none",
+                                "flex h-10 w-full cursor-default items-center gap-2 rounded-md px-3 text-left text-sm font-medium transition-colors outline-none",
                                 isSelected
-                                  ? "text-surface"
+                                  ? "bg-surface/8 text-surface"
                                   : "text-surface/70",
                               )}
                             >
@@ -533,7 +534,7 @@ export function DocsCommandSearch({
                                 {entry.category}
                               </span>
                               <HugeiconsIcon
-                                icon={ArrowRight02Icon}
+                                icon={ArrowDownRight01Icon}
                                 strokeWidth={1.7}
                                 className={cn(
                                   "text-surface/70 size-4 shrink-0 transition-opacity",
@@ -553,7 +554,7 @@ export function DocsCommandSearch({
 
             {/* Quiet hint line, no bordered key chips. Keyboard-only, so
                 touch screens skip it. */}
-            <div className="text-surface/60 pointer-coarse:hidden flex items-center justify-between gap-3 p-4 text-xs">
+            <div className="border-surface/10 text-surface/50 pointer-coarse:hidden flex items-center justify-between gap-3 border-t px-5 py-3 text-xs">
               <div className="flex min-w-0 items-center gap-3">
                 <span className="inline-flex items-center gap-1.5">
                   <kbd className="font-mono">↑↓</kbd>
