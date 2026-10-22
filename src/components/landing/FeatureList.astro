@@ -2,87 +2,95 @@
 import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
-import { TwoToneHeading } from "@/components/ui/two-tone-heading";
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import ArrowLink from "@/components/foundations/elements/ArrowLink.astro";
+import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
+import Text from "@/components/foundations/elements/Text.astro";
 
 /**
- * Everything else: quiet hairline list rows, each one a full-row link to
- * its feature page, or the docs when it has none. The full catalog lives
- * on /features.
+ * Everything else on the 12 column grid: a two column list in the right 8
+ * columns under the heading, each item a hairline and a title, linking to
+ * its feature page, or the docs when it has none. The full catalog lives on
+ * /features.
  */
-/* Product capabilities first, migration and tooling reassurances last. */
 const listRows = [
   {
-    title: "Realtime: who is on your site right now",
+    title: "Realtime visitors",
     href: "/docs/realtime-visitors",
   },
   {
-    title: "Funnels from pages and events you already collect",
+    title: "Funnels",
     href: "/features/funnels",
   },
   {
-    title: "Core Web Vitals with percentile trends",
+    title: "Core Web Vitals",
     href: "/docs/performance-web-vitals",
   },
   {
-    title: "Google Search Console queries beside your traffic",
+    title: "Search Console",
     href: "/docs/search-console",
   },
   {
-    title: "JavaScript errors, with the page and browser they hit",
+    title: "Error tracking",
     href: "/docs/error-tracking",
   },
   {
-    title: "Traffic alerts when visits spike or drop",
+    title: "Traffic alerts",
     href: "/docs/traffic-alerts",
   },
   {
-    title: "Shared dashboards and embeddable widgets",
+    title: "Shared dashboards",
     href: "/docs/shared-dashboards",
   },
   {
-    title: "Bring your history from Google Analytics, Plausible, Matomo, and more",
+    title: "Data import",
     href: "/features/import",
   },
   {
-    title: "Ask your AI agents through MCP, or script it with the CLI",
+    title: "AI agents and CLI",
     href: "/features/ai-agents",
   },
 ];
 ---
 
-<section class="mt-32">
-  <Wrapper variant="default">
-    <TwoToneHeading title="Every feature, on every plan." className="max-w-3xl">
-      Everything you'd expect from web analytics, plus the parts others charge
-      extra for. No feature gates, no enterprise tier.{" "}
-      <a
-        href="/features"
-        class="text-foreground decoration-foreground/30 hover:decoration-foreground underline underline-offset-4 transition-colors"
+<section>
+  <SectionGrid lead="Every feature," title="on every plan, with no feature gates." class="py-24">
+    <div class="flex flex-col gap-2">
+      <Text
+        tag="h2"
+        variant="displayMD"
+        class="font-medium tracking-tight leading-tight text-pretty lg:text-balance"
       >
-        See all features
-      </a>
-    </TwoToneHeading>
-    <div class="border-border mt-8 border-t">
+        Everything you'd expect from web analytics, plus the parts others charge extra for
+      </Text>
+      <Text tag="p" variant="textBase" class="text-muted-foreground max-w-md leading-relaxed text-pretty">
+        Every plan has the same features. Only the event volume changes, and
+        there is no enterprise tier.
+      </Text>
+      <ArrowLink label="See all features" href="/features" class="mt-8" />
+    </div>
+    <ul class="mt-6 grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3" role="list">
       {
         listRows.map((row) => (
-          <a
-            href={row.href}
-            class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-4"
-          >
-            <p class="text-foreground text-base font-medium text-pretty transition-transform duration-300 group-hover:translate-x-3 sm:text-lg">
-              {row.title}
-            </p>
-            <HugeiconsIcon
-              icon={ArrowDownRight01Icon}
-              size={20}
-              strokeWidth={1.8}
-              className="text-foreground"
-              aria-hidden="true"
-            />
-          </a>
+          <li class="border-border border-t py-4">
+            <a href={row.href} class="group flex items-center justify-between gap-4">
+              <Text
+                tag="h3"
+                variant="textBase"
+                class="text-foreground font-medium transition-transform duration-300 group-hover:translate-x-2"
+              >
+                {row.title}
+              </Text>
+              <HugeiconsIcon
+                icon={ArrowDownRight01Icon}
+                size={16}
+                strokeWidth={1.8}
+                className="text-muted-foreground group-hover:text-foreground shrink-0 transition-colors"
+                aria-hidden="true"
+              />
+            </a>
+          </li>
         ))
       }
-    </div>
-  </Wrapper>
+    </ul>
+  </SectionGrid>
 </section>

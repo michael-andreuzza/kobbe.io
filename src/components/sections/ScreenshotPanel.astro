@@ -1,0 +1,44 @@
+---
+/**
+ * Muted panel a product screenshot rises into from the bottom, cropped by the
+ * panel edge with a progressive blur. Used full width on the 12 column grid.
+ */
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  class?: string;
+}
+
+const { src, alt, class: className = "" } = Astro.props;
+const widths = [
+  ...[768, 1280, 1920, 2560].filter((width) => width < src.width),
+  src.width,
+];
+---
+
+<div
+  class:list={[
+    "bg-muted-surface relative overflow-hidden rounded-lg px-4 pt-12 sm:pt-16",
+    className,
+  ]}
+>
+  <Image
+    src={src}
+    alt={alt}
+    class="shadow-panel-lifted mx-auto -mb-12 block w-full max-w-5xl sm:-mb-16 lg:-mb-24 rounded-t lg:rounded-t-lg"
+    widths={widths}
+    sizes="(min-width: 1024px) 1024px, 100vw"
+    loading="lazy"
+  />
+  <div class="progressive-blur-edge" aria-hidden="true">
+    <div />
+    <div />
+    <div />
+    <div />
+    <div />
+    <div />
+  </div>
+</div>

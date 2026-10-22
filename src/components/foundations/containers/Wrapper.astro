@@ -1,6 +1,6 @@
 ---
 interface Props {
-  variant?: "nav" | "prose" | "default" | "narrow" | "wide";
+  variant?: "nav" | "prose" | "default" | "narrow" | "wide" | "grid";
   class?: string; // Optional prop for additional classes
   id?: string; // Optional prop for an id
 }
@@ -12,6 +12,9 @@ const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
   default: "mx-auto max-w-320  px-8",
   wide: "mx-auto px-8 max-w-320",
   narrow: "mx-auto max-w-150 px-8  ",
+  // Shared 12 column grid. Children span the full width unless they set
+  // their own columns (see SectionGrid).
+  grid: "mx-auto grid w-full max-w-320 grid-cols-1 gap-x-8 px-8 lg:grid-cols-12 *:col-span-full",
 
   prose: [
     // Base
@@ -35,9 +38,7 @@ const variantClasses: Record<NonNullable<Props["variant"]>, string> = {
     // Links
     "prose-a:text-foreground",
     "prose-a:duration-200",
-    // Lists: ul markers are the pricing plus glyph (see global.css),
-    // so the ul itself needs no marker gutter; ol keeps tight numbers.
-    "prose-ul:pl-0",
+    // Lists
     "prose-ol:pl-4",
     "marker:text-muted-foreground/60",
     // Plugin draws bullets/counters from its own vars.

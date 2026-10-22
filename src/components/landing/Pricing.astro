@@ -1,44 +1,82 @@
 ---
-import { getImage } from "astro:assets";
-
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import PricingFeaturesPanel from "@/components/sections/pricing/pricing-features-panel.astro";
+/**
+ * Pricing on the 12 column grid: a two-tone sentence and heading, then the
+ * plans card (billing toggle, tiers, trial CTA) on 4 columns beside the
+ * included features on the other 8.
+ */
+import { Image } from "astro:assets";
+import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
+import ArrowLink from "@/components/foundations/elements/ArrowLink.astro";
+import Text from "@/components/foundations/elements/Text.astro";
 import { PricingPlansPanel } from "@/components/sections/pricing/pricing-plans-panel";
+import {
+  buildSimplifiedPricingFeatureRows,
+  pricingTiers,
+} from "@/components/sections/pricing/pricing-tiers";
 import gullCoin from "@/images/illustrations/spot-gull-coin.webp";
 
-const gull = await getImage({
-  src: gullCoin,
-  widths: [160, 320],
-  format: "webp",
-});
-const spotArt = {
-  src: gull.src,
-  srcSet: gull.srcSet.attribute,
-  width: gull.attributes.width,
-  height: gull.attributes.height,
-};
+const featureRows = buildSimplifiedPricingFeatureRows(pricingTiers[0]!.key);
 ---
 
-<section class="mt-32">
-  <Wrapper variant="default" class="py-12 ">
-    <div id="pricing" class="scroll-mt-24">
-      <div
-        class="mt-8 grid w-full min-w-0 grid-cols-1 items-stretch gap-4 lg:grid-cols-2"
+<section id="pricing">
+  <SectionGrid lead="Pricing," title="priced by monthly events, with no feature tiers." class="py-24">
+    <div class="flex flex-col gap-2">
+      <Text
+        tag="h2"
+        variant="displayMD"
+        class="font-medium tracking-tight leading-tight text-pretty lg:text-balance"
       >
-        <PricingFeaturesPanel
-          class="order-2 lg:order-1"
-          spotArt={spotArt}
-        />
-
-        <article
-          class="text-foreground bg-muted-surface order-1 flex min-w-0 flex-col gap-8 rounded-lg p-4 sm:p-6 lg:order-2"
-          aria-label="Pricing plans"
-        >
-          <PricingPlansPanel client:visible />
-        </article>
-      </div>
-
-
+        Pay for volume, not features
+      </Text>
+      <Text tag="p" variant="textBase" class="text-muted-foreground max-w-md leading-relaxed text-pretty">
+        Every plan has the same features, only the event volume changes.
+        Upgrade or downgrade any time as your traffic does.
+      </Text>
     </div>
-  </Wrapper>
+    <div
+      slot="full"
+      class="grid gap-4 lg:col-span-full lg:grid-cols-subgrid lg:gap-x-8"
+    >
+      <article
+        class="bg-muted-surface text-foreground relative flex min-w-0 flex-col rounded-lg p-6 sm:p-8 lg:col-span-4"
+        aria-label="Pricing plans"
+      >
+        <Image
+          src={gullCoin}
+          alt=""
+          widths={[160, 320]}
+          sizes="64px"
+          loading="lazy"
+          class="pointer-events-none absolute bottom-full left-6 w-16"
+        />
+        <PricingPlansPanel client:visible />
+      </article>
+      <article
+        class="bg-muted-surface flex min-w-0 flex-col rounded-lg p-6 sm:p-8 lg:col-span-8"
+        aria-label="Included features"
+      >
+        <Text tag="h3" variant="textBase" class="font-medium">
+          What every plan includes
+        </Text>
+        <Text tag="p" variant="textSM" class="text-muted-foreground mt-1">
+          No add-ons and nothing locked behind a higher tier.
+        </Text>
+        <ul
+          class="mt-8 grid list-none grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3"
+          role="list"
+        >
+          {
+            featureRows.map((feature) => (
+              <li class="text-foreground before:bg-muted-foreground flex items-center gap-2 text-sm font-medium tracking-tight before:size-1 before:shrink-0 before:rounded-full before:content-['']">
+                {feature}
+              </li>
+            ))
+          }
+        </ul>
+        <div class="mt-auto pt-8">
+          <ArrowLink label="See all features" href="/features" />
+        </div>
+      </article>
+    </div>
+  </SectionGrid>
 </section>

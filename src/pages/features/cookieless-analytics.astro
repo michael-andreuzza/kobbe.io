@@ -1,22 +1,21 @@
 ---
 /**
- * Feature page for cookieless analytics: a statement hero with three widget
- * tiles attached, then what Kobbe never collects beside what still works.
+ * Feature page for cookieless analytics on the 12 column grid: the hero with
+ * three widget tiles below it, then what Kobbe never collects beside what
+ * still works.
  * Every claim maps to
  * /docs/privacy-and-cookieless-tracking and
  * /docs/first-party-collect.
  */
-import { Image } from "astro:assets";
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import FeatureRows from "@/components/features/FeatureRows.astro";
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import StatementHero from "@/components/sections/StatementHero.astro";
+import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
+import Text from "@/components/foundations/elements/Text.astro";
+import GridHero from "@/components/sections/GridHero.astro";
 import CollectHostWidget from "@/components/widgets/CollectHostWidget.astro";
 import CookielessHashWidget from "@/components/widgets/CookielessHashWidget.astro";
 import CookielessStorageWidget from "@/components/widgets/CookielessStorageWidget.astro";
 import { Button } from "@/components/ui/button";
-import cookielessScene from "@/images/illustrations/feature-cookieless-analytics.webp";
 
 const features = [
   {
@@ -58,7 +57,8 @@ const lists = [
       "Events, goals, and funnels",
     ],
   },
-];---
+];
+---
 
 <BaseLayout
   title="Cookieless analytics: no cookies, no profiles"
@@ -68,60 +68,73 @@ const lists = [
     { name: "Cookieless analytics", item: "/features/cookieless-analytics" },
   ]}
 >
-  <div class="flex min-h-[calc(100svh-3.75rem)] flex-col">
-  <StatementHero
-    class="pb-0 lg:pt-24!"
-    statement="Analytics without cookies."
-    elaboration="Kobbe counts visits, sources, and conversions without cookies, browser storage, or fingerprinting, and never builds visitor profiles."
+  <GridHero
+    lead="Cookieless analytics,"
+    title="with no banner and no personal data stored."
+    heading="Analytics without cookies"
+    subtitle="Kobbe counts visits, sources, and conversions without cookies, browser storage, or fingerprinting, and never builds visitor profiles."
   >
     <div class="mt-8">
       <Button
         label="How it works"
         href="#how-it-works"
-        variant="outline"
+        variant="muted"
         arrow
       />
     </div>
-  </StatementHero>
-  <div class="mt-auto overflow-hidden pt-8" aria-hidden="true">
-    <Image
-      src={cookielessScene}
-      alt=""
-      class="relative left-1/2 block w-full min-w-208 -translate-x-1/2"
-      widths={[1280, 1920, 2560, 3840]}
-      sizes="100vw"
-      loading="eager"
-    />
-  </div>
-  </div>
+    <ul
+      slot="full"
+      id="how-it-works"
+      class="grid scroll-mt-24 gap-x-8 gap-y-12 md:grid-cols-3 lg:col-span-full lg:grid-cols-subgrid"
+      role="list"
+    >
+      {
+        features.map((feature) => (
+          <li class="lg:col-span-4">
+            <div class="bg-muted-surface flex h-96 items-center justify-center rounded-lg p-6">
+              <feature.widget />
+            </div>
+            <Text tag="h3" variant="textBase" class="mt-6 font-medium">
+              {feature.lead}
+            </Text>
+            <Text tag="p" variant="textSM" class="text-muted-foreground mt-1 max-w-sm text-pretty">
+              {feature.body}
+            </Text>
+          </li>
+        ))
+      }
+    </ul>
+  </GridHero>
 
-  <section id="how-it-works" class="scroll-mt-24 pt-12 pb-40">
-    <Wrapper variant="default">
-      <div class="grid gap-x-4 gap-y-12 lg:grid-cols-3">
+  <section>
+    <SectionGrid lead="Your data," title="what is collected, and what never is." class="py-24">
+      <div class="flex flex-col gap-2">
+        <Text tag="h2" variant="displayMD" class="font-medium tracking-tight leading-tight text-pretty lg:text-balance">
+          What Kobbe never collects
+        </Text>
+        <Text tag="p" variant="textBase" class="text-muted-foreground max-w-md leading-relaxed text-pretty">
+          Built for aggregate analytics, not tracking people. You give up
+          following one browser across weeks, and that is the point.
+        </Text>
+      </div>
+      <div class="mt-6 grid gap-x-8 gap-y-12 sm:grid-cols-2">
         {
-          features.map((feature) => (
+          lists.map((list) => (
             <div>
-              <div class="bg-muted-surface flex h-96 items-center justify-center rounded-lg p-6">
-                <feature.widget />
-              </div>
-              <h3 class="text-foreground mt-6 text-base font-medium tracking-tight">
-                {feature.lead}
-              </h3>
-              <p class="text-muted-foreground mt-2 max-w-sm text-sm text-pretty">
-                {feature.body}
-              </p>
+              <Text tag="h3" variant="textSM" class="text-muted-foreground">
+                {list.label}
+              </Text>
+              <ul class="mt-3" role="list">
+                {list.items.map((item) => (
+                  <li class="border-border text-foreground border-t py-4 text-base font-medium">
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           ))
         }
       </div>
-    </Wrapper>
-  </section>
-
-  <section class="pb-32">
-    <FeatureRows
-      title="What Kobbe never collects."
-      blurb="Built for aggregate analytics, not tracking people. You give up following one browser across weeks, and that is the point."
-      groups={lists}
-    />
+    </SectionGrid>
   </section>
 </BaseLayout>

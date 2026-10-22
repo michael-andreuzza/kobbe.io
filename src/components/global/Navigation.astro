@@ -106,25 +106,26 @@ const menuColumns: MenuSection[] = [
           {
             menuColumns.map((section) => (
               <div class="p-7">
-                <div class="flex items-center justify-between gap-3">
+                {section.seeAllHref ? (
+                  <a
+                    href={section.seeAllHref}
+                    class="group text-surface flex items-center justify-between gap-3 text-sm font-medium"
+                    aria-label={`See all ${section.title.toLowerCase()}`}
+                  >
+                    {section.title}
+                    <HugeiconsIcon
+                      icon={ArrowDownRight01Icon}
+                      size={16}
+                      strokeWidth={2}
+                      className="text-surface/70 group-hover:text-surface shrink-0 transition-colors"
+                      aria-hidden="true"
+                    />
+                  </a>
+                ) : (
                   <p class="text-surface text-sm font-medium">
                     {section.title}
                   </p>
-                  {section.seeAllHref ? (
-                    <a
-                      href={section.seeAllHref}
-                      class="text-surface/70 hover:text-surface shrink-0 transition-colors"
-                      aria-label={`See all ${section.title.toLowerCase()}`}
-                    >
-                      <HugeiconsIcon
-                        icon={ArrowDownRight01Icon}
-                        size={16}
-                        strokeWidth={2}
-                        aria-hidden="true"
-                      />
-                    </a>
-                  ) : null}
-                </div>
+                )}
                 <ul class="mt-4 flex flex-col gap-2.5">
                   {section.links.map((link) => (
                     <li>

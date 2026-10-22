@@ -1,22 +1,20 @@
 ---
 /**
- * Feature page for bot filtering: a statement hero with the dashboard's Bots
- * tab attached, three widget tiles for how the filtering behaves, and every
- * check a request has to pass. Every claim maps to /docs/bot-filtering.
+ * Feature page for bot filtering on the 12 column grid: the hero with the
+ * dashboard's Bots tab below it, three widget tiles for how the filtering
+ * behaves, and every check a request has to pass. Every claim maps to /docs/bot-filtering.
  */
-import { Image } from "astro:assets";
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import FeatureRows from "@/components/features/FeatureRows.astro";
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import StatementHero from "@/components/sections/StatementHero.astro";
+import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
+import Text from "@/components/foundations/elements/Text.astro";
+import GridHero from "@/components/sections/GridHero.astro";
+import ScreenshotPanel from "@/components/sections/ScreenshotPanel.astro";
 import BotAutomationWidget from "@/components/widgets/BotAutomationWidget.astro";
 import BotPeopleWidget from "@/components/widgets/BotPeopleWidget.astro";
 import BotSilentWidget from "@/components/widgets/BotSilentWidget.astro";
 import { Button } from "@/components/ui/button";
-import { TwoToneHeading } from "@/components/ui/two-tone-heading";
 import botFiltering from "@/images/features/bot-filtering.png";
-import botFilteringScene from "@/images/illustrations/feature-bot-filtering.webp";
 
 const features = [
   {
@@ -55,89 +53,78 @@ const checks = [
     { name: "Bot filtering", item: "/features/bot-filtering" },
   ]}
 >
-  <div class="flex min-h-[calc(100svh-3.75rem)] flex-col">
-  <StatementHero
-    class="pb-0 lg:pt-24!"
-    statement="Only people in your stats."
-    elaboration="Kobbe checks every request for bot signals before anything is stored. Crawlers, scrapers, and headless browsers never count, and there is nothing to set up."
+  <GridHero
+    lead="Bot filtering,"
+    title="on every request, with nothing to set up."
+    heading="Only people in your stats"
+    subtitle="Kobbe checks every request for bot signals before anything is stored. Crawlers, scrapers, and headless browsers never count, and there is nothing to set up."
   >
     <div class="mt-8">
       <Button
         label="How it works"
         href="#how-it-works"
-        variant="outline"
+        variant="muted"
         arrow
       />
     </div>
-  </StatementHero>
+    <ScreenshotPanel slot="full" src={botFiltering} alt="The Bots tab on the Kobbe dashboard: hits kept out of your stats, their share of requests, and the count for each filter reason" />
+  </GridHero>
 
-  <div class="mt-auto overflow-hidden pt-8" aria-hidden="true">
-    <Image
-      src={botFilteringScene}
-      alt=""
-      class="relative left-1/2 block w-full min-w-208 -translate-x-1/2"
-      widths={[1280, 1920, 2560, 3840]}
-      sizes="100vw"
-      loading="eager"
-    />
-  </div>
-  </div>
-
-  <section class="pt-12">
-    <Wrapper variant="default">
-      <div
-        class="bg-muted-surface relative flex items-center justify-end overflow-hidden rounded-lg p-4 pb-0 sm:h-120 lg:h-152"
-      >
-        <Image
-          src={botFiltering}
-          alt="The Bots tab on the Kobbe dashboard: hits kept out of your stats, their share of requests, and the count for each filter reason"
-          class="shadow-panel-lifted mx-auto -mb-12 block w-full max-w-4xl rounded-t lg:rounded-t-lg"
-          widths={[768, 1280, 1920, 2419]}
-          sizes="(min-width: 1024px) 896px, 100vw"
-        />
-        <div class="progressive-blur-edge" aria-hidden="true">
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-        </div>
+  <section id="how-it-works">
+    <SectionGrid lead="How it works," title="by how and where a request runs." class="py-24">
+      <div class="flex flex-col gap-2">
+        <Text tag="h2" variant="displayMD" class="font-medium tracking-tight leading-tight text-pretty lg:text-balance">
+          Built for modern scrapers
+        </Text>
+        <Text tag="p" variant="textBase" class="text-muted-foreground max-w-md leading-relaxed text-pretty">
+          They run real browsers and rotate IPs, so Kobbe checks how and where
+          they run.
+        </Text>
       </div>
-    </Wrapper>
-  </section>
-
-  <section id="how-it-works" class="scroll-mt-24 py-40">
-    <Wrapper variant="default">
-      <TwoToneHeading title="Built for modern scrapers.">
-        They run real browsers and rotate IPs, so Kobbe checks how and where
-        they run.
-      </TwoToneHeading>
-      <div class="mt-8 grid gap-x-4 gap-y-12 lg:grid-cols-3">
+      <ul
+        slot="full"
+        class="grid gap-x-8 gap-y-12 md:grid-cols-3 lg:col-span-full lg:grid-cols-subgrid"
+        role="list"
+      >
         {
           features.map((feature) => (
-            <div>
+            <li class="lg:col-span-4">
               <div class="bg-muted-surface flex h-96 items-center justify-center rounded-lg p-6">
                 <feature.widget />
               </div>
-              <h3 class="text-foreground mt-6 text-base font-medium tracking-tight">
+              <Text tag="h3" variant="textBase" class="mt-6 font-medium">
                 {feature.lead}
-              </h3>
-              <p class="text-muted-foreground mt-2 max-w-sm text-sm text-pretty">
+              </Text>
+              <Text tag="p" variant="textSM" class="text-muted-foreground mt-1 max-w-sm text-pretty">
                 {feature.body}
-              </p>
-            </div>
+              </Text>
+            </li>
           ))
         }
-      </div>
-    </Wrapper>
+      </ul>
+    </SectionGrid>
   </section>
 
-  <section class="pb-32">
-    <FeatureRows
-      title="Every request, every check."
-      blurb="A hit only counts when it passes all of them, and filtered hits never touch your quota."
-      groups={[{ items: checks }]}
-    />
+  <section>
+    <SectionGrid lead="Every check," title="and a hit only counts when it passes all of them." class="py-24">
+      <div class="flex flex-col gap-2">
+        <Text tag="h2" variant="displayMD" class="font-medium tracking-tight leading-tight text-pretty lg:text-balance">
+          Every request, every check
+        </Text>
+        <Text tag="p" variant="textBase" class="text-muted-foreground max-w-md leading-relaxed text-pretty">
+          Filtered hits are dropped before anything is stored, and never touch
+          your quota.
+        </Text>
+      </div>
+      <ul class="mt-6 grid gap-x-8 sm:grid-cols-2" role="list">
+        {
+          checks.map((check) => (
+            <li class="border-border text-foreground border-t py-4 text-base font-medium">
+              {check}
+            </li>
+          ))
+        }
+      </ul>
+    </SectionGrid>
   </section>
 </BaseLayout>

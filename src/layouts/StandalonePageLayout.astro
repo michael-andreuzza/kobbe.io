@@ -1,13 +1,16 @@
 ---
 /**
- * Legal and support pages in the changelog permalink layout: section line,
- * sans title, prose body, then the sibling pages in the same hairline rows.
+ * Legal and support pages on the 12 column grid: the section and page name
+ * as a sticky two-tone line on the left 4 columns, the h1, description and
+ * prose on the right 8, then the sibling pages as hairline rows.
  */
 import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import Text from "@/components/foundations/elements/Text.astro";
 
 interface Props {
   section: string;
@@ -16,11 +19,20 @@ interface Props {
   description: string;
   path: string;
   othersTitle: string;
+  othersSummary: string;
   others: { href: string; title: string }[];
 }
 
-const { section, navLabel, title, description, path, othersTitle, others } =
-  Astro.props;
+const {
+  section,
+  navLabel,
+  title,
+  description,
+  path,
+  othersTitle,
+  othersSummary,
+  others,
+} = Astro.props;
 ---
 
 <BaseLayout
@@ -28,52 +40,60 @@ const { section, navLabel, title, description, path, othersTitle, others } =
   description={description}
   jsonLdBreadcrumbs={[{ name: title, item: path }]}
 >
-  <section class="pt-24 pb-32">
-    <Wrapper variant="default">
-      <div class="mx-auto max-w-2xl">
-        <article>
-          <p class="text-muted-foreground text-sm">
-            {section} <span aria-hidden="true">/</span> {navLabel}
-          </p>
-          <h1
-            class="text-foreground mt-4 text-2xl leading-tight font-medium tracking-tight text-balance sm:text-3xl"
-          >
-            {title}
-          </h1>
-          <div class="mt-10">
-            <Wrapper variant="prose">
-              <slot />
-            </Wrapper>
-          </div>
-        </article>
-
-        <aside class="mt-32">
-          <h2 class="text-foreground text-lg font-medium text-pretty">
-            {othersTitle}
-          </h2>
-          <div class="border-border mt-8 border-t">
-            {
-              others.map((other) => (
-                <a
-                  href={other.href}
-                  class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-5"
-                >
-                  <span class="text-foreground block text-base font-medium text-pretty transition-transform duration-300 group-hover:translate-x-3">
-                    {other.title}
-                  </span>
-                  <HugeiconsIcon
-                    icon={ArrowDownRight01Icon}
-                    size={20}
-                    strokeWidth={1.8}
-                    className="text-foreground"
-                    aria-hidden="true"
-                  />
-                </a>
-              ))
-            }
-          </div>
-        </aside>
+  <article>
+    <SectionGrid
+      lead={`${section},`}
+      title={`${navLabel}.`}
+      sticky
+      class="pt-16 pb-24 lg:pt-24"
+    >
+      <div class="flex flex-col gap-2">
+        <Text
+          tag="h1"
+          variant="displayLG"
+          class="font-medium tracking-tight leading-tight text-pretty lg:text-balance"
+        >
+          {title}
+        </Text>
+        <Text
+          tag="p"
+          variant="textBase"
+          class="text-muted-foreground max-w-md leading-relaxed text-pretty"
+        >
+          {description}
+        </Text>
       </div>
-    </Wrapper>
-  </section>
+      <Wrapper variant="prose" class="mt-10 max-w-2xl">
+        <slot />
+      </Wrapper>
+    </SectionGrid>
+  </article>
+
+  <aside>
+    <SectionGrid lead={`${othersTitle},`} title={othersSummary} class="pb-24">
+      <ul class="border-border border-t" role="list">
+        {
+          others.map((other) => (
+            <li>
+              <a
+                href={other.href}
+                class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-5"
+              >
+                <span class="text-foreground text-base font-medium text-pretty transition-transform duration-300 group-hover:translate-x-2 sm:text-lg">
+                  {other.title}
+                </span>
+                <HugeiconsIcon
+                  icon={ArrowDownRight01Icon}
+                  size={18}
+                  strokeWidth={1.8}
+                  className="text-muted-foreground group-hover:text-foreground transition-colors"
+                  aria-hidden="true"
+                />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </SectionGrid>
+  </aside>
 </BaseLayout>

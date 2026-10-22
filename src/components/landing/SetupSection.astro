@@ -1,17 +1,16 @@
 ---
 /**
- * Install, import and the MCP as three equal cards side by side, each a
- * two-tone heading over a row of bare logos (names live in the tooltip and
- * aria-label), with an arrow link pinned to the bottom.
+ * Setup on the 12 column grid: a two-tone sentence and heading, then install,
+ * import, payments, and agents as four 3 column cards in the Carriera add-on
+ * style: a title and line of copy on top; the count, a stack of the first
+ * five logos with a +N, and a link at the bottom.
  */
 import type { ImageMetadata } from "astro";
 
-import AgentsSection from "@/components/landing/AgentsSection.astro";
 import BrandLogo from "@/components/foundations/BrandLogo.astro";
-import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { TwoToneHeading } from "@/components/ui/two-tone-heading";
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import ArrowLink from "@/components/foundations/elements/ArrowLink.astro";
+import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
+import Text from "@/components/foundations/elements/Text.astro";
 
 const logos = import.meta.glob<{ default: ImageMetadata }>(
   "/src/images/brands/*.{svg,png}",
@@ -72,72 +71,112 @@ const payments = [
   { label: "Chargebee", href: "/docs/revenue-attribution-chargebee", file: "chargebee.svg" },
 ];
 
+const agents = [
+  { label: "Claude", file: "claude.svg" },
+  { label: "Cursor", file: "cursor.svg" },
+  { label: "Codex", file: "codex.svg" },
+  { label: "GitHub Copilot", file: "copilot.svg" },
+  { label: "Windsurf", file: "windsurf.svg" },
+  { label: "Zed", file: "zed.svg" },
+  { label: "OpenCode", file: "opencode.svg" },
+  { label: "Roo Code", file: "roo code.svg" },
+];
+
 const groups = [
   {
-    title: "One script tag.",
+    title: "One script tag",
     body: "About 2.5 KB, and visits show up right away.",
-    link: { label: "All 22 install guides", href: "/docs/installation-guides" },
+    link: { label: "All install guides", href: "/docs/installation-guides" },
+    unit: "platforms",
+    total: 22,
     items: platforms,
   },
   {
-    title: "Bring your history.",
+    title: "Bring your history",
     body: "Your past traffic comes with you when you switch.",
     link: { label: "How importing works", href: "/features/import" },
+    unit: "tools",
     items: sources,
   },
   {
-    title: "Follow the money.",
+    title: "Follow the money",
     body: "See which pages lead to a sale.",
     link: { label: "How attribution works", href: "/features/revenue-attribution" },
+    unit: "providers",
     items: payments,
   },
+  {
+    title: "Just ask your agent",
+    body: "Any MCP agent can read your stats and set things up for you.",
+    link: { label: "Connect your agent", href: "/features/ai-agents" },
+    unit: "agents",
+    items: agents,
+  },
 ];
+
+const stackSize = 5;
+const total = (group: (typeof groups)[number]) =>
+  "total" in group ? group.total : group.items.length;
 ---
 
-<section class="mt-8">
-  <Wrapper variant="default">
-    <div class="grid gap-4 lg:grid-cols-3">
+<section>
+  <SectionGrid lead="Setup," title="a few minutes from the script tag to your first visit." class="py-24">
+    <Text
+      tag="h2"
+      variant="displayMD"
+      class="font-medium tracking-tight leading-tight text-pretty lg:text-balance"
+    >
+      Works with the stack, the history, and the checkout you already have
+    </Text>
+    <ul
+      slot="full"
+      class="grid gap-4 sm:grid-cols-2 lg:col-span-full lg:grid-cols-subgrid lg:gap-x-8"
+      role="list"
+    >
       {
         groups.map((group) => (
-          <div class="bg-muted-surface flex flex-col rounded-lg p-6 sm:p-8">
-            <TwoToneHeading title={group.title}>{group.body}</TwoToneHeading>
-            <ul class="mt-6 flex flex-wrap gap-5">
-              {group.items.map((item) => (
-                <li>
-                  <a
-                    href={item.href}
-                    title={item.label}
-                    aria-label={item.label}
-                    class="block transition-opacity hover:opacity-70"
-                  >
-                    <BrandLogo
-                      src={logo(item.file).src}
-                      class="size-6 rounded-sm object-contain"
-                      width={24}
-                      height={24}
-                    />
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <div class="mt-auto pt-8">
-              <a
-                href={group.link.href}
-                class="text-foreground inline-flex items-center gap-2 text-sm font-medium transition-opacity hover:opacity-70"
-              >
-                {group.link.label}
-                <HugeiconsIcon
-                  icon={ArrowDownRight01Icon}
-                  size={16}
-                  strokeWidth={1.8}
-                  aria-hidden="true"
-                />
-              </a>
+          <li class="bg-muted-surface flex flex-col justify-between gap-12 rounded-lg p-6 sm:p-8 lg:col-span-3">
+            <div>
+              <Text tag="h3" variant="textBase" class="font-medium">
+                {group.title}
+              </Text>
+              <Text tag="p" variant="textSM" class="text-muted-foreground mt-1 text-pretty">
+                {group.body}
+              </Text>
             </div>
-          </div>
+            <div class="flex flex-col gap-6">
+              <p class="flex items-baseline gap-2">
+                <Text tag="span" variant="displaySM" class="font-medium tracking-tight tabular-nums">
+                  {total(group)}
+                </Text>
+                <Text tag="span" variant="textSM" class="text-muted-foreground">
+                  {group.unit}
+                </Text>
+              </p>
+              <div
+                class="flex items-center"
+                title={group.items.map((item) => item.label).join(", ")}
+              >
+                {group.items.slice(0, stackSize).map((item) => (
+                  <BrandLogo
+                    src={logo(item.file).src}
+                    alt={item.label}
+                    class="ring-muted-surface -ml-1.5 size-7 rounded-md object-contain ring-2 first:ml-0"
+                    width={28}
+                    height={28}
+                  />
+                ))}
+                {total(group) > stackSize && (
+                  <span class="bg-background ring-muted-surface text-muted-foreground -ml-1.5 flex h-7 min-w-7 items-center justify-center rounded-md px-1.5 text-xs font-medium tabular-nums ring-2">
+                    +{total(group) - stackSize}
+                  </span>
+                )}
+              </div>
+              <ArrowLink label={group.link.label} href={group.link.href} />
+            </div>
+          </li>
         ))
       }
-      <AgentsSection />
-    </div>
-  </Wrapper>
+    </ul>
+  </SectionGrid>
 </section>

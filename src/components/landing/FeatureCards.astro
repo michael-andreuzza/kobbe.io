@@ -1,52 +1,47 @@
 ---
 /**
- * Stacked feature sections: a title, a gray subtitle ending in an underlined
- * feature page link, and a short fact list, then a large muted panel the
- * product screenshot rises into from the bottom, cropped by the panel edge.
+ * Stacked feature sections on the 12 column grid: a two-tone sentence on the
+ * left 4 columns; heading, subtitle, and link on the right 8; then
+ * a full width muted panel the product screenshot rises into from the bottom.
  */
-import { Image } from "astro:assets";
-import { TwoToneHeading } from "@/components/ui/two-tone-heading";
-import Wrapper from "../foundations/containers/Wrapper.astro";
+import Text from "@/components/foundations/elements/Text.astro";
+import ArrowLink from "@/components/foundations/elements/ArrowLink.astro";
+import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
+import ScreenshotPanel from "@/components/sections/ScreenshotPanel.astro";
 import featureOverview from "@/images/assets/feature-overview.png";
 import featureRevenue from "@/images/assets/feature-revenue.png";
 import featureRealtime from "@/images/assets/feature-realtime.png";
 
 const features = [
   {
-    lead: "Bots stay out of your numbers.",
-    body: "Headless browsers, datacenter traffic, and referrer spam never reach your stats or your quota.",
+    label: "Bot filtering,",
+    summary: "seven checks on every visit before it counts.",
+    lead: "Bots stay out of your numbers",
+    body: "Headless browsers, datacenter traffic, and referrer spam never reach your stats or your quota. VPN users still count.",
     href: "/features/bot-filtering",
     linkLabel: "How bot filtering works",
-    facts: [
-      "7 independent checks",
-      "2,300+ spam referrers blocked",
-      "See what was filtered, and why",
-      "VPN users still count",
-    ],
     image: featureOverview,
     imageAlt:
       "The Kobbe overview dashboard: visitor KPIs, a traffic trend chart, top pages, and top sources",
   },
   {
-    lead: "See what every page earns.",
-    body: "Revenue traced through checkout with Stripe, Polar, Paddle, Shopify, and more.",
+    label: "Revenue attribution,",
+    summary: "from the first visit to the paid checkout.",
+    lead: "See what every page earns",
+    body: "Gross, net, and attributed revenue for every page, source, and campaign, through Stripe, Polar, Paddle, Shopify, and more.",
     href: "/features/revenue-attribution",
     linkLabel: "How attribution works",
-    facts: [
-      "13 payment integrations",
-      "Gross, net, and attributed revenue",
-      "Per page, source, and campaign",
-    ],
     image: featureRevenue,
     imageAlt:
       "The Kobbe revenue page: gross, net, and attributed revenue with a per-page attribution breakdown",
   },
   {
-    lead: "Nothing to consent to.",
-    body: "Kobbe counts visits without tracking people, and respects Global Privacy Control and Do Not Track.",
+    label: "Cookieless analytics,",
+    summary: "with no banner and no personal data stored.",
+    lead: "Nothing for visitors to consent to",
+    body: "Kobbe counts visits without tracking people, respects Global Privacy Control and Do Not Track, and comes with a DPA.",
     href: "/features/cookieless-analytics",
     linkLabel: "How it stays cookieless",
-    facts: ["No cookies", "No raw IPs stored", "DPA included"],
     image: featureRealtime,
     imageAlt:
       "The Kobbe realtime page: online visitors shown as anonymous dots on a neutral globe map",
@@ -54,47 +49,27 @@ const features = [
 ];
 ---
 
-<Wrapper variant="default" class="py-24">
-  <div id="features" class="space-y-32">
-    {
-      features.map((feature) => (
-        <section class="relative overflow-hidden">
-          <TwoToneHeading title={feature.lead} className="max-w-3xl">
-            {feature.body}{" "}
-            <a
-              href={feature.href}
-              class="text-foreground decoration-foreground/30 hover:decoration-foreground underline underline-offset-4 transition-colors"
+<div id="features">
+  {
+    features.map((feature) => (
+      <section>
+        <SectionGrid lead={feature.label} title={feature.summary} class="py-24">
+          <div class="flex flex-col gap-2">
+            <Text
+              tag="h2"
+              variant="displayMD"
+              class="font-medium tracking-tight leading-tight text-pretty lg:text-balance"
             >
-              {feature.linkLabel}
-            </a>
-          </TwoToneHeading>
-          <ul class="mt-6 flex flex-col gap-x-8 gap-y-2 sm:flex-row sm:flex-wrap">
-            {feature.facts.map((fact) => (
-              <li class="text-muted-foreground before:bg-muted-foreground flex items-center gap-2 text-sm font-medium whitespace-nowrap before:size-1 before:shrink-0 before:rounded-full before:content-['']">
-                {fact}
-              </li>
-            ))}
-          </ul>
-          <div class="bg-muted-surface relative mt-8 flex h-auto items-center justify-end overflow-hidden rounded-lg p-4 pb-0 sm:h-120 lg:h-152">
-            <Image
-              src={feature.image}
-              alt={feature.imageAlt}
-              class="shadow-panel-lifted mx-auto  block w-full max-w-4xl -mb-12 rounded-t lg:rounded-t-lg"
-              widths={[768, 1280, 1920, 2560]}
-              sizes="(min-width: 1024px) 896px, 100vw"
-              loading="lazy"
-            />
-            <div class="progressive-blur-edge" aria-hidden="true">
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-            </div>
+              {feature.lead}
+            </Text>
+            <Text tag="p" variant="textBase" class="text-muted-foreground max-w-md leading-relaxed text-pretty">
+              {feature.body}
+            </Text>
+            <ArrowLink label={feature.linkLabel} href={feature.href} class="mt-8" />
           </div>
-        </section>
-      ))
-    }
-  </div>
-</Wrapper>
+          <ScreenshotPanel slot="full" src={feature.image} alt={feature.imageAlt} />
+        </SectionGrid>
+      </section>
+    ))
+  }
+</div>

@@ -1,9 +1,7 @@
 ---
-import { Button } from "@/components/ui/button";
-import StatementHero from "@/components/sections/StatementHero.astro";
+import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
+import Text from "@/components/foundations/elements/Text.astro";
 import HeroFrieze from "@/components/landing/HeroFrieze.astro";
-
-const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
 ---
 
 {/*
@@ -13,21 +11,29 @@ const demoUrl = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
   viewport — no per-breakpoint margin tuning.
 */}
 <section class="flex min-h-[calc(100svh-3.75rem)] flex-col overflow-hidden">
-  <StatementHero
-    statement="Privacy-first web analytics that counts people, not bots."
-    elaboration="See which pages drive revenue, and ask your AI agents about your traffic. No cookies, no banners. One clear dashboard."
-    class="pb-0"
+  <SectionGrid
+    lead="For founders and small teams,"
+    title="see who visits, what they read, and what it earns."
+    class="pt-16 lg:pt-24"
   >
-    <div class="mt-6 lg:hidden">
-      <Button
-        label="Live demo"
-        href={demoUrl}
-        variant="outline"
-        arrow
-        external
-      />
+    <div class="flex flex-col gap-2">
+      <Text
+        tag="h1"
+        variant="displayLG"
+        class="font-medium tracking-tight leading-tight text-pretty lg:text-balance"
+      >
+        Privacy-first web analytics that counts people, not bots
+      </Text>
+      <Text
+        tag="p"
+        variant="textBase"
+        class="text-muted-foreground max-w-md leading-relaxed text-pretty"
+      >
+        See which pages drive revenue, and ask your AI agents about your
+        traffic. No cookies, no banners. One clear dashboard.
+      </Text>
     </div>
-  </StatementHero>
+  </SectionGrid>
 
   {/*
     Quay frieze under the statement: visitors passing along the quay and

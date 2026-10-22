@@ -1,19 +1,19 @@
 ---
 /**
- * FAQ in the /features layout: one section per topic with a sticky intro
- * on the left and the questions as collapsible hairline rows on the right.
- * Ends with the other support pages.
+ * FAQ on the 12 column grid: one section per topic with a sticky two-tone
+ * sentence on the left and the questions as collapsible hairline rows on the
+ * right. Ends with the other support pages.
  */
 import { getCollection } from "astro:content";
 import {
-  ArrowDown01Icon,
   ArrowDownRight01Icon,
+  PlusSignIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import StatementHero from "@/components/sections/StatementHero.astro";
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import GridHero from "@/components/sections/GridHero.astro";
+import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
 import {
   pricingFaqItems,
   type PricingFaqItem,
@@ -21,20 +21,20 @@ import {
 
 type FaqId = (typeof pricingFaqItems)[number]["id"];
 
-const groups: { title: string; blurb: string; ids: FaqId[] }[] = [
+const groups: { lead: string; blurb: string; ids: FaqId[] }[] = [
   {
-    title: "Pricing and limits.",
-    blurb: "You pay for monthly events, not features.",
+    lead: "Pricing and limits,",
+    blurb: "you pay for monthly events, not features.",
     ids: ["event-pricing", "events", "over-limit", "over-25m"],
   },
   {
-    title: "Plans and billing.",
-    blurb: "A cardless trial, then monthly or yearly.",
+    lead: "Plans and billing,",
+    blurb: "a cardless trial, then monthly or yearly.",
     ids: ["trial", "yearly", "features", "charges"],
   },
   {
-    title: "Privacy and data.",
-    blurb: "Cookieless by default, kept for three years.",
+    lead: "Privacy and data,",
+    blurb: "cookieless by default, kept for three years.",
     ids: ["cookie-banner", "gdpr", "retention"],
   },
 ];
@@ -68,91 +68,73 @@ const jsonLdFaq = {
   jsonLdBreadcrumbs={[{ name: "FAQ", item: "/support/faq" }]}
   jsonLdExtra={[jsonLdFaq]}
 >
-  <StatementHero
-    statement="Questions, answered."
-    elaboration="Pricing, trials, billing and privacy. Anything else, email support@kobbe.io."
+  <GridHero
+    lead="FAQ,"
+    title="pricing, trials, billing, and privacy."
+    heading="Questions, answered"
+    subtitle="Anything else, email support@kobbe.io and we reply as soon as we can."
   />
 
-  <Wrapper variant="default" class="pt-12 pb-32">
-    <div class="space-y-32">
-      {
-        faqGroups.map((group) => (
-          <section class="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
-            <div class="lg:sticky lg:top-24 lg:self-start">
-              <div class="max-w-md space-y-1">
-                <h2 class="text-foreground text-base font-medium text-pretty">
-                  {group.title}
-                </h2>
-                <p class="text-muted-foreground text-base font-medium text-pretty">
-                  {group.blurb}
-                </p>
-              </div>
-            </div>
-            <ul class="border-border border-t">
-              {group.items.map((item) => (
-                <li class="border-border border-b">
-                  <details class="group">
-                    <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 [&::-webkit-details-marker]:hidden">
-                      <h3 class="text-foreground text-base font-medium text-pretty sm:text-lg">
-                        {item.question}
-                      </h3>
-                      <HugeiconsIcon
-                        icon={ArrowDown01Icon}
-                        size={18}
-                        strokeWidth={1.8}
-                        className="text-foreground shrink-0 transition-transform duration-300 group-open:rotate-180"
-                        aria-hidden="true"
-                      />
-                    </summary>
-                    <p class="text-muted-foreground -mt-2 pb-5 text-base text-pretty">
-                      {item.answer}
-                    </p>
-                  </details>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))
-      }
-
-      <section class="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
-        <div class="max-w-md space-y-1">
-          <h2 class="text-foreground text-base font-medium text-pretty">
-            Still have a question?
-          </h2>
-          <p class="text-muted-foreground text-base font-medium text-pretty">
-            Email support, or check a charge on your statement.
-          </p>
-        </div>
-        <ul class="border-border border-t">
-          {
-            moreHelp.map((entry) => (
-              <li>
-                <a
-                  href={`/support/${entry.id}`}
-                  class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-5"
-                >
-                  <span class="transition-transform duration-300 group-hover:translate-x-3">
-                    <span class="text-foreground block text-base font-medium text-pretty sm:text-lg">
-                      {entry.data.title}
-                    </span>
-                    <span class="text-muted-foreground mt-1 block text-base text-pretty">
-                      {entry.data.description}
-                    </span>
-                  </span>
-                  <HugeiconsIcon
-                    icon={ArrowDownRight01Icon}
-                    size={20}
-                    strokeWidth={1.8}
-                    className="text-foreground"
-                    aria-hidden="true"
-                  />
-                </a>
+  {
+    faqGroups.map((group) => (
+      <section>
+        <SectionGrid lead={group.lead} title={group.blurb} sticky class="pb-24">
+          <ul class="border-border border-t" role="list">
+            {group.items.map((item) => (
+              <li class="border-border border-b">
+                <details class="group">
+                  <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 [&::-webkit-details-marker]:hidden">
+                    <h3 class="text-foreground text-base font-medium text-pretty">
+                      {item.question}
+                    </h3>
+                    <HugeiconsIcon
+                      icon={PlusSignIcon}
+                      strokeWidth={1.5}
+                      className="text-muted-foreground size-4 shrink-0 transition-transform duration-300 group-open:rotate-45 motion-reduce:transition-none"
+                      aria-hidden="true"
+                    />
+                  </summary>
+                  <p class="text-muted-foreground max-w-xl pb-6 text-base leading-relaxed text-pretty">
+                    {item.answer}
+                  </p>
+                </details>
               </li>
-            ))
-          }
-        </ul>
+            ))}
+          </ul>
+        </SectionGrid>
       </section>
-    </div>
-  </Wrapper>
+    ))
+  }
+
+  <section>
+    <SectionGrid
+      lead="Still have a question?"
+      title="Email support, or check a charge on your statement."
+      class="pb-24"
+    >
+      <ul class="border-border border-t" role="list">
+        {
+          moreHelp.map((entry) => (
+            <li>
+              <a
+                href={`/support/${entry.id}`}
+                class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-5"
+              >
+                <span class="text-foreground text-base font-medium text-pretty transition-transform duration-300 group-hover:translate-x-2 sm:text-lg">
+                  {entry.data.title}
+                </span>
+                <HugeiconsIcon
+                  icon={ArrowDownRight01Icon}
+                  size={18}
+                  strokeWidth={1.8}
+                  className="text-muted-foreground group-hover:text-foreground transition-colors"
+                  aria-hidden="true"
+                />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </SectionGrid>
+  </section>
 </BaseLayout>

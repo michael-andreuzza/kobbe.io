@@ -1,0 +1,33 @@
+---
+/**
+ * Carriera style 12 column section: a short two-tone sentence on the left 4
+ * columns (`lead` in ink, `title` muted), the content on the right 8.
+ * Content in the `full` slot spans all 12 columns below.
+ */
+import Text from "@/components/foundations/elements/Text.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+
+interface Props {
+  lead: string;
+  title: string;
+  /** Keep the left sentence in view while the right column scrolls. */
+  sticky?: boolean;
+  class?: string;
+}
+
+const { lead, title, sticky = false, class: className = "" } = Astro.props;
+---
+
+<Wrapper variant="grid" class={`gap-y-12 ${className}`.trim()}>
+  <Text
+    tag="p"
+    variant="textSM"
+    class={`text-muted-foreground max-w-56 leading-normal text-pretty lg:col-span-4 lg:mt-2 ${sticky ? "lg:sticky lg:top-24 lg:self-start" : ""}`.trim()}
+  >
+    <span class="text-foreground font-medium">{lead}</span>{" "}{title}
+  </Text>
+  <div class="flex min-w-0 flex-col gap-6 lg:col-span-8">
+    <slot />
+  </div>
+  <slot name="full" />
+</Wrapper>

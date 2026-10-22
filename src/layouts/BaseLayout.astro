@@ -54,13 +54,13 @@ const {
 <html lang="en">
   <head>
     {
-      /* Inter is the only font above the fold on most pages; preload it so
+      /* Switzer is the only font above the fold on most pages; preload it so
          the browser fetches it in parallel with CSS instead of waiting for
          fonts.css to parse. Geist Mono stays on-demand for code blocks. */
     }
     <link
       rel="preload"
-      href="/fonts/Inter/InterVariable.woff2"
+      href="/fonts/Switzer/Switzer-Variable.woff2"
       as="font"
       type="font/woff2"
       crossorigin
@@ -192,10 +192,40 @@ const {
         window.lenis?.destroy();
         window.lenis = new Lenis({
           autoRaf: true,
-          anchors: true,
           allowNestedScroll: true,
         });
       }
+
+      // The ClientRouter handles same-page hash links on the document and
+      // jumps instantly, before Lenis's own anchor handling on the window
+      // ever runs. Take those clicks first, in the capture phase.
+      document.addEventListener(
+        "click",
+        (event) => {
+          if (!window.lenis || event.defaultPrevented || event.button !== 0)
+            return;
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+            return;
+          const link = (event.target as Element | null)?.closest("a[href]");
+          if (!(link instanceof HTMLAnchorElement) || link.target) return;
+          const url = new URL(link.href);
+          if (
+            url.origin !== location.origin ||
+            url.pathname !== location.pathname ||
+            !url.hash
+          )
+            return;
+          const target = document.getElementById(
+            decodeURIComponent(url.hash.slice(1)),
+          );
+          if (!target) return;
+          event.preventDefault();
+          event.stopPropagation();
+          window.lenis.scrollTo(target);
+          history.pushState(history.state, "", url.hash);
+        },
+        true,
+      );
 
       // A smooth scroll still running when a link is clicked would carry
       // over to the next page: it lands past the content and Lenis stays

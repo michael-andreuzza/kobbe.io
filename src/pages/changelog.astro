@@ -1,17 +1,16 @@
 ---
 /**
- * Changelog index in the landing language: two-tone statement, then
- * hairline rows with date, title, and a trailing arrow. Entry bodies live
- * on their /changelog/[slug] permalink pages.
+ * Changelog index: the grid hero with the entries below it as full width
+ * rows on the 12 column subgrid, the date in the left 4 columns and the title and a
+ * trailing arrow on the right. Entry bodies live on their /changelog/[slug]
+ * permalink pages.
  */
 import { getCollection } from "astro:content";
 import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import StatementHero from "@/components/sections/StatementHero.astro";
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import { TwoToneHeading } from "@/components/ui/two-tone-heading";
+import GridHero from "@/components/sections/GridHero.astro";
 import { changelogDateFormatter, changelogSlug } from "@/lib/changelog";
 
 const title = "Kobbe changelog: what shipped and when";
@@ -28,46 +27,45 @@ const entries = (await getCollection("changelog")).sort(
   description={description}
   jsonLdBreadcrumbs={[{ name: "Changelog", item: "/changelog" }]}
 >
-  <StatementHero
-    statement="What shipped, and when."
-    elaboration="Every improvement to Kobbe, newest first. Features, fixes, and performance work as it ships."
-  />
-
-  <section class="mt-32 pb-32">
-    <Wrapper variant="default">
-      <TwoToneHeading title="Every update.">
-        {entries.length} entries, newest first.
-      </TwoToneHeading>
-      <div class="border-border mt-8 border-t">
-        {
-          entries.map((entry) => (
+  <GridHero
+    lead="Changelog,"
+    title="every release, in one place."
+    heading="What shipped, and when"
+    subtitle="Every improvement to Kobbe, newest first. Features, fixes, and performance work as it ships."
+  >
+    <ul
+      slot="full"
+      class="border-border border-t lg:col-span-full lg:grid lg:grid-cols-subgrid"
+      role="list"
+    >
+      {
+        entries.map((entry) => (
+          <li class="lg:col-span-full lg:grid lg:grid-cols-subgrid">
             <a
               href={`/changelog/${changelogSlug(entry.id)}`}
-              class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-5"
+              class="group border-border grid grid-cols-[1fr_auto] items-baseline gap-x-8 gap-y-1 border-b py-5 lg:col-span-full lg:grid-cols-subgrid"
             >
-              <span class="min-w-0 sm:flex sm:items-baseline sm:gap-10">
-                <time
-                  datetime={entry.data.date.toISOString().slice(0, 10)}
-                  class="text-muted-foreground block text-sm sm:w-28 sm:shrink-0"
-                >
-                  {changelogDateFormatter.format(entry.data.date)}
-                </time>
-                <span class="text-foreground mt-1 block text-base font-medium text-pretty transition-transform duration-300 group-hover:translate-x-3 sm:mt-0 sm:text-lg">
-                  {entry.data.title}
-                </span>
+              <time
+                datetime={entry.data.date.toISOString().slice(0, 10)}
+                class="text-muted-foreground col-span-full text-sm tabular-nums lg:col-span-4"
+              >
+                {changelogDateFormatter.format(entry.data.date)}
+              </time>
+              <span class="text-foreground text-base font-medium text-pretty transition-transform duration-300 group-hover:translate-x-2 sm:text-lg lg:col-span-7">
+                {entry.data.title}
               </span>
               <HugeiconsIcon
                 icon={ArrowDownRight01Icon}
-                size={20}
+                size={18}
                 strokeWidth={1.8}
-                className="text-foreground"
+                className="text-muted-foreground group-hover:text-foreground self-center justify-self-end transition-colors lg:col-span-1"
                 aria-hidden="true"
               />
             </a>
-          ))
-        }
-      </div>
-    </Wrapper>
-  </section>
+          </li>
+        ))
+      }
+    </ul>
+  </GridHero>
 
 </BaseLayout>

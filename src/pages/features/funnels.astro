@@ -1,23 +1,20 @@
 ---
 /**
- * Feature page for funnels and goals: a statement hero with a real funnel
+ * Feature page for funnels and goals: a grid hero with a real funnel
  * attached, three widget tiles for building funnels and tracking goals, and
  * common flows as plain rows. Every claim maps to
  * /docs/funnels and /docs/conversions.
  */
-import { Image } from "astro:assets";
-
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import FeatureRows from "@/components/features/FeatureRows.astro";
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import StatementHero from "@/components/sections/StatementHero.astro";
+import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
+import Text from "@/components/foundations/elements/Text.astro";
+import GridHero from "@/components/sections/GridHero.astro";
+import ScreenshotPanel from "@/components/sections/ScreenshotPanel.astro";
 import ConversionFilterWidget from "@/components/widgets/ConversionFilterWidget.astro";
 import ConversionPresetsWidget from "@/components/widgets/ConversionPresetsWidget.astro";
 import FunnelBuilderWidget from "@/components/widgets/FunnelBuilderWidget.astro";
 import { Button } from "@/components/ui/button";
-import { TwoToneHeading } from "@/components/ui/two-tone-heading";
 import funnels from "@/images/features/funnels.png";
-import funnelsScene from "@/images/illustrations/feature-funnels.webp";
 
 const features = [
   {
@@ -55,87 +52,75 @@ const flows = [
     { name: "Funnels", item: "/features/funnels" },
   ]}
 >
-  <div class="flex min-h-[calc(100svh-3.75rem)] flex-col">
-  <StatementHero
-    class="pb-0 lg:pt-24!"
-    statement="See where visitors drop off."
-    elaboration="Build funnels from pages and events, track goals without code, and see how many visitors make it through every step."
+  <GridHero
+    lead="Funnels and goals,"
+    title="from the pages and events you already collect."
+    heading="See where visitors drop off"
+    subtitle="Build funnels from pages and events, track goals without code, and see how many visitors make it through every step."
   >
     <div class="mt-8">
       <Button
         label="Create a funnel"
         href="/docs/funnels"
-        variant="outline"
+        variant="muted"
         arrow
       />
     </div>
-  </StatementHero>
-  <div class="mt-auto overflow-hidden pt-8" aria-hidden="true">
-    <Image
-      src={funnelsScene}
-      alt=""
-      class="relative left-1/2 block w-full min-w-208 -translate-x-1/2"
-      widths={[1280, 1920, 2560, 3840]}
-      sizes="100vw"
-      loading="eager"
+    <ScreenshotPanel
+      slot="full"
+      src={funnels}
+      alt="A four-step Kobbe funnel from the homepage to signup, with visitors, conversion, and drop-off for each step"
     />
-  </div>
-  </div>
+  </GridHero>
 
-  <section class="pt-12">
-    <Wrapper variant="default">
-      <div
-        class="bg-muted-surface relative flex items-center justify-end overflow-hidden rounded-lg p-4 pb-0 sm:h-120 lg:h-152"
-      >
-        <Image
-          src={funnels}
-          alt="A four-step Kobbe funnel from the homepage to signup, with visitors, conversion, and drop-off for each step"
-          class="shadow-panel-lifted mx-auto -mb-12 block w-full max-w-4xl rounded-t lg:rounded-t-lg"
-          widths={[768, 1280, 1728]}
-          sizes="(min-width: 1024px) 896px, 100vw"
-        />
-        <div class="progressive-blur-edge" aria-hidden="true">
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-        </div>
+  <section>
+    <SectionGrid lead="How it works," title="funnels for the flow, goals for the actions inside it." class="py-24">
+      <div class="flex flex-col gap-2">
+        <Text tag="h2" variant="displayMD" class="font-medium tracking-tight leading-tight text-pretty lg:text-balance">
+          Funnels and goals together
+        </Text>
+        <Text tag="p" variant="textBase" class="text-muted-foreground max-w-md leading-relaxed text-pretty">
+          Measure the flow, and the actions that matter inside it.
+        </Text>
       </div>
-    </Wrapper>
-  </section>
-
-  <section class="py-40">
-    <Wrapper variant="default">
-      <TwoToneHeading title="Funnels and goals together.">
-        Measure the flow, and the actions that matter inside it.
-      </TwoToneHeading>
-      <div class="mt-8 grid gap-x-4 gap-y-12 lg:grid-cols-3">
+      <ul
+        slot="full"
+        class="grid gap-x-8 gap-y-12 md:grid-cols-3 lg:col-span-full lg:grid-cols-subgrid"
+        role="list"
+      >
         {
           features.map((feature) => (
-            <div>
+            <li class="lg:col-span-4">
               <div class="bg-muted-surface flex h-96 items-center justify-center rounded-lg p-6">
                 <feature.widget />
               </div>
-              <h3 class="text-foreground mt-6 text-base font-medium tracking-tight">
+              <Text tag="h3" variant="textBase" class="mt-6 font-medium">
                 {feature.lead}
-              </h3>
-              <p class="text-muted-foreground mt-2 max-w-sm text-sm text-pretty">
+              </Text>
+              <Text tag="p" variant="textSM" class="text-muted-foreground mt-1 max-w-sm text-pretty">
                 {feature.body}
-              </p>
-            </div>
+              </Text>
+            </li>
           ))
         }
-      </div>
-    </Wrapper>
+      </ul>
+    </SectionGrid>
   </section>
 
-  <section class="pb-32">
-    <FeatureRows
-      title="A funnel for any flow."
-      blurb="Wherever the order of steps matters."
-      groups={[{ items: flows }]}
-    />
+  <section>
+    <SectionGrid lead="Common flows," title="wherever the order of steps matters." class="py-24">
+      <Text tag="h2" variant="displayMD" class="font-medium tracking-tight leading-tight text-pretty lg:text-balance">
+        A funnel for any flow
+      </Text>
+      <ul class="mt-6 grid gap-x-8 sm:grid-cols-2" role="list">
+        {
+          flows.map((flow) => (
+            <li class="border-border text-foreground border-t py-4 text-base font-medium">
+              {flow}
+            </li>
+          ))
+        }
+      </ul>
+    </SectionGrid>
   </section>
 </BaseLayout>

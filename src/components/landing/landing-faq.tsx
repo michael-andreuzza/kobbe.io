@@ -1,4 +1,4 @@
-import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
+import { PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import type { PricingFaqItem } from "@/components/sections/pricing/pricing-faq-items";
@@ -18,18 +18,18 @@ import { cn } from "@/lib/utils";
  */
 function LandingFaqItem({ item }: { item: PricingFaqItem }) {
   return (
-    <AccordionItem value={item.id}>
-      <AccordionTrigger className="gap-4 py-3 text-base font-medium [&[data-panel-open]_svg]:rotate-180">
+    <AccordionItem value={item.id} className="last:border-b">
+      <AccordionTrigger className="gap-6 py-5 text-base font-medium hover:text-foreground [&[data-panel-open]_svg]:rotate-45">
         <span>{item.question}</span>
         <HugeiconsIcon
-          icon={ArrowDown01Icon}
+          icon={PlusSignIcon}
           aria-hidden
-          strokeWidth={2.25}
-          className="text-muted-foreground size-3.5 shrink-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          strokeWidth={1.5}
+          className="text-muted-foreground size-4 shrink-0 transition-transform duration-300 motion-reduce:transition-none"
         />
       </AccordionTrigger>
       <AccordionPanel>
-        <p className="text-muted-foreground pb-3 text-base leading-relaxed text-pretty">
+        <p className="text-muted-foreground max-w-xl pb-6 text-base leading-relaxed text-pretty">
           {item.answer}
         </p>
       </AccordionPanel>
@@ -47,7 +47,7 @@ export function LandingFaq({
   return (
     <Accordion
       keepMounted
-      className={cn("w-full", className)}
+      className={cn("border-border w-full border-t", className)}
       aria-labelledby={headingId}
     >
       {landingFaqItems.map((item) => (

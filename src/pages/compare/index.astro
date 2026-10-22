@@ -4,8 +4,7 @@ import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import StatementHero from "@/components/sections/StatementHero.astro";
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import GridHero from "@/components/sections/GridHero.astro";
 
 const entries = (await getCollection("compare")).sort((a, b) =>
   a.data.title.localeCompare(b.data.title),
@@ -17,34 +16,38 @@ const entries = (await getCollection("compare")).sort((a, b) =>
   description="How Kobbe compares with other privacy-first web analytics on privacy, bot filtering, revenue attribution, and AI agent access."
   jsonLdBreadcrumbs={[{ name: "Compare", item: "/compare" }]}
 >
-  <StatementHero
-    statement="How Kobbe compares."
-    elaboration="Side by side with other web analytics tools, including where they are the better pick."
-  />
-
-  <section class="pb-32">
-    <Wrapper variant="default">
-      <div class="border-border border-t">
-        {
-          entries.map((entry) => (
+  <GridHero
+    lead="Compare,"
+    title="including where another tool is the better pick."
+    heading="How Kobbe compares"
+    subtitle="Side by side with other web analytics tools, including where they are the better pick."
+  >
+    <ul
+      slot="full"
+      class="border-border border-t lg:col-span-full lg:grid lg:grid-cols-subgrid"
+      role="list"
+    >
+      {
+        entries.map((entry) => (
+          <li class="lg:col-span-full lg:grid lg:grid-cols-subgrid">
             <a
               href={`/compare/${entry.id}`}
-              class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-5"
+              class="group border-border grid grid-cols-[1fr_auto] items-baseline gap-x-8 gap-y-1 border-b py-5 lg:col-span-full lg:grid-cols-subgrid"
             >
-              <span class="text-foreground text-base font-medium text-pretty transition-transform duration-300 group-hover:translate-x-3 sm:text-lg">
+              <span class="text-foreground text-base font-medium text-pretty transition-transform duration-300 group-hover:translate-x-2 sm:text-lg lg:col-span-11">
                 {entry.data.title}
               </span>
               <HugeiconsIcon
                 icon={ArrowDownRight01Icon}
-                size={20}
+                size={18}
                 strokeWidth={1.8}
-                className="text-foreground"
+                className="text-muted-foreground group-hover:text-foreground self-center justify-self-end transition-colors lg:col-span-1"
                 aria-hidden="true"
               />
             </a>
-          ))
-        }
-      </div>
-    </Wrapper>
-  </section>
+          </li>
+        ))
+      }
+    </ul>
+  </GridHero>
 </BaseLayout>

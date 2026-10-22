@@ -10,6 +10,9 @@ export interface FeatureItem {
 }
 
 export interface FeatureGroup {
+  /** Two-tone sentence on the left of the 12 column grid. */
+  lead: string;
+  summary: string;
   title: string;
   blurb: string;
   items: FeatureItem[];
@@ -17,7 +20,9 @@ export interface FeatureGroup {
 
 export const featureGroups: FeatureGroup[] = [
   {
-    title: "Only real visitors make it into your stats.",
+    lead: "Accurate data,",
+    summary: "with everything that is not a person removed.",
+    title: "Only real visitors make it into your stats",
     blurb:
       "Numbers you can trust, because everything that is not a person is removed before it counts.",
     items: [
@@ -84,7 +89,9 @@ export const featureGroups: FeatureGroup[] = [
     ],
   },
   {
-    title: "Attribute revenue, not just visits.",
+    lead: "Revenue and goals,",
+    summary: "from the first visit to the conversion.",
+    title: "Attribute revenue, not just visits",
     blurb:
       "Traffic is a vanity metric. See what every page, source, and campaign actually earns.",
     items: [
@@ -133,7 +140,9 @@ export const featureGroups: FeatureGroup[] = [
     ],
   },
   {
-    title: "Privacy by default, with your data always portable.",
+    lead: "Privacy,",
+    summary: "cookieless by default, and always portable.",
+    title: "Privacy by default, with your data always portable",
     blurb:
       "No cookies, no consent banner, nothing personal stored. Analytics that do not need forgiveness.",
     items: [
@@ -158,7 +167,9 @@ export const featureGroups: FeatureGroup[] = [
     ],
   },
   {
-    title: "Speed and search visibility, in the same dashboard.",
+    lead: "Performance,",
+    summary: "speed and search beside your traffic.",
+    title: "Speed and search visibility, in the same dashboard",
     blurb:
       "How fast your pages feel and how they rank, measured on real visitors instead of lab runs.",
     items: [
@@ -195,7 +206,9 @@ export const featureGroups: FeatureGroup[] = [
     ],
   },
   {
-    title: "Bring Kobbe to wherever you already work.",
+    lead: "Integrations,",
+    summary: "for the tools you already work in.",
+    title: "Bring Kobbe to wherever you already work",
     blurb:
       "The dashboard is one way in. The terminal, your editor, your menu bar, and your inbox are others.",
     items: [

@@ -1,59 +1,61 @@
 ---
 /**
- * The catalog in the landing language: one section per group with a sticky
- * intro (lead, blurb) on the left and stacked hairline rows on the
- * right, each linking to the matching docs page (same rows as the homepage).
+ * The catalog on the 12 column grid: one section per group with a two-tone
+ * sentence on the left 4 columns, the group heading and blurb on the right 8,
+ * and the features below as a two column list, each linking to its docs page.
  */
 import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
+import Text from "@/components/foundations/elements/Text.astro";
 import { featureGroups } from "@/components/features/features";
 ---
 
-<Wrapper variant="default" class="py-12">
-  <div class=" space-y-32">
-    {
-      featureGroups.map((group) => (
-        <section class="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
-          <div class="lg:sticky lg:top-24 lg:self-start">
-            <div class="max-w-md space-y-1">
-              <p class="text-foreground text-base font-medium text-pretty">
-                {group.title}
-              </p>
-              <p class="text-muted-foreground text-base text-pretty">
-                {group.blurb}
-              </p>
-            </div>
-          </div>
-          <ul class="border-border border-t">
-            {group.items.map((item) => (
-              <li>
-                <a
-                  href={item.href}
-                  class="group border-border grid grid-cols-[1fr_auto] items-center gap-6 border-b py-5"
-                >
-                  <span class="transition-transform duration-300 group-hover:translate-x-3">
-                    <span class="text-foreground block text-base font-medium text-pretty sm:text-lg">
-                      {item.title}
-                    </span>
-                    <span class="text-muted-foreground mt-1 block text-base text-pretty">
-                      {item.description}
-                    </span>
-                  </span>
+{
+  featureGroups.map((group) => (
+    <section>
+      <SectionGrid lead={group.lead} title={group.summary} sticky class="py-24">
+        <div class="flex flex-col gap-2">
+          <Text
+            tag="h2"
+            variant="displayMD"
+            class="font-medium tracking-tight leading-tight text-pretty lg:text-balance"
+          >
+            {group.title}
+          </Text>
+          <Text
+            tag="p"
+            variant="textBase"
+            class="text-muted-foreground max-w-md leading-relaxed text-pretty"
+          >
+            {group.blurb}
+          </Text>
+        </div>
+        <ul class="mt-6 grid gap-x-8 gap-y-10 sm:grid-cols-2" role="list">
+          {group.items.map((item) => (
+            <li class="border-border border-t pt-6">
+              <a href={item.href} class="group block">
+                <span class="flex items-center justify-between gap-4">
+                  <Text tag="h3" variant="textBase" class="text-foreground font-medium">
+                    {item.title}
+                  </Text>
                   <HugeiconsIcon
                     icon={ArrowDownRight01Icon}
-                    size={20}
+                    size={16}
                     strokeWidth={1.8}
-                    className="text-foreground"
+                    className="text-muted-foreground group-hover:text-foreground shrink-0 transition-colors"
                     aria-hidden="true"
                   />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))
-    }
-  </div>
-</Wrapper>
+                </span>
+                <Text tag="p" variant="textSM" class="text-muted-foreground mt-2 max-w-xs text-pretty">
+                  {item.description}
+                </Text>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </SectionGrid>
+    </section>
+  ))
+}

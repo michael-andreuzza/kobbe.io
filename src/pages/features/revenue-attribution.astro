@@ -1,25 +1,24 @@
 ---
 /**
- * Feature page for revenue attribution: a statement hero with the payment
- * providers linking to their setup guides, the revenue page screenshot in a
- * landing-style panel, three widget tiles for what a screenshot can't show,
+ * Feature page for revenue attribution on the 12 column grid: the hero with
+ * the payment providers linking to their setup guides and the revenue page
+ * screenshot below it, three widget tiles for what a screenshot can't show,
  * and the dashboard ranked by revenue.
  */
 import type { ImageMetadata } from "astro";
-import { Image } from "astro:assets";
 
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import BrandLogo from "@/components/foundations/BrandLogo.astro";
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
-import StatementHero from "@/components/sections/StatementHero.astro";
+import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
+import Text from "@/components/foundations/elements/Text.astro";
+import GridHero from "@/components/sections/GridHero.astro";
+import ScreenshotPanel from "@/components/sections/ScreenshotPanel.astro";
 import RevenueJourneyWidget from "@/components/widgets/RevenueJourneyWidget.astro";
 import RevenueProvidersWidget from "@/components/widgets/RevenueProvidersWidget.astro";
 import RevenueRefundsWidget from "@/components/widgets/RevenueRefundsWidget.astro";
 import { Button } from "@/components/ui/button";
-import { TwoToneHeading } from "@/components/ui/two-tone-heading";
 import revenuePage from "@/images/features/revenue-page.png";
 import revenueMode from "@/images/features/revenue-mode.png";
-import revenueScene from "@/images/illustrations/feature-revenue-attribution.webp";
 const logos = import.meta.glob<{ default: ImageMetadata }>(
   "/src/images/brands/*.svg",
   { eager: true },
@@ -69,13 +68,13 @@ const features = [
     { name: "Revenue attribution", item: "/features/revenue-attribution" },
   ]}
 >
-  <div class="flex min-h-[calc(100svh-3.75rem)] flex-col">
-  <StatementHero
-    class="pb-0 lg:pt-24!"
-    statement="See what every page earns."
-    elaboration="Connect your payment provider, and Kobbe traces each sale back to the page, source, and campaign that brought it in."
+  <GridHero
+    lead="Revenue attribution,"
+    title="from the first visit to the paid checkout."
+    heading="See what every page earns"
+    subtitle="Connect your payment provider, and Kobbe traces each sale back to the page, source, and campaign that brought it in."
   >
-    <ul class="mt-8 flex flex-wrap gap-5" aria-label="Works with">
+    <ul class="flex flex-wrap gap-5" aria-label="Works with">
       {
         providers.map((provider) => (
           <li>
@@ -96,102 +95,68 @@ const features = [
         ))
       }
     </ul>
-    <div class="mt-8">
+    <div class="mt-10">
       <Button
         label="Set up revenue"
         href="/docs/revenue-attribution"
-        variant="outline"
+        variant="muted"
         arrow
       />
     </div>
-  </StatementHero>
-  <div class="mt-auto overflow-hidden pt-8" aria-hidden="true">
-    <Image
-      src={revenueScene}
-      alt=""
-      class="relative left-1/2 block w-full min-w-208 -translate-x-1/2"
-      widths={[1280, 1920, 2560, 3840]}
-      sizes="100vw"
-      loading="eager"
-    />
-  </div>
-  </div>
+    <ScreenshotPanel slot="full" src={revenuePage} alt="The Kobbe revenue page: gross, refunds, net and attributed revenue, attribution coverage, and revenue per landing page" />
+  </GridHero>
 
-  <section class="pt-12">
-    <Wrapper variant="default">
-      <div
-        class="bg-muted-surface relative flex items-center justify-end overflow-hidden rounded-lg p-4 pb-0 sm:h-120 lg:h-152"
-      >
-        <Image
-          src={revenuePage}
-          alt="The Kobbe revenue page: gross, refunds, net and attributed revenue, attribution coverage, and revenue per landing page"
-          class="shadow-panel-lifted mx-auto -mb-12 block w-full max-w-4xl rounded-t lg:rounded-t-lg"
-          widths={[768, 1280, 1920, 2419]}
-          sizes="(min-width: 1024px) 896px, 100vw"
-        />
-        <div class="progressive-blur-edge" aria-hidden="true">
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-        </div>
+  <section>
+    <SectionGrid lead="How it works," title="from the webhook to the visit that led to the sale." class="py-24">
+      <div class="flex flex-col gap-2">
+        <Text tag="h2" variant="displayMD" class="font-medium tracking-tight leading-tight text-pretty lg:text-balance">
+          From checkout to page
+        </Text>
+        <Text tag="p" variant="textBase" class="text-muted-foreground max-w-md leading-relaxed text-pretty">
+          Payments arrive through webhooks and land on the visit that led to
+          them.
+        </Text>
       </div>
-    </Wrapper>
-  </section>
-
-  <section class="py-40">
-    <Wrapper variant="default">
-      <TwoToneHeading title="From checkout to page.">
-        Payments arrive through webhooks and land on the visit that led to
-        them.
-      </TwoToneHeading>
-      <div class="mt-8 grid gap-x-4 gap-y-12 lg:grid-cols-3">
+      <ul
+        slot="full"
+        class="grid gap-x-8 gap-y-12 md:grid-cols-3 lg:col-span-full lg:grid-cols-subgrid"
+        role="list"
+      >
         {
           features.map((feature) => (
-            <div>
+            <li class="lg:col-span-4">
               <div class="bg-muted-surface flex h-96 items-center justify-center rounded-lg p-6">
                 <feature.widget />
               </div>
-              <h3 class="text-foreground mt-6 text-base font-medium tracking-tight">
+              <Text tag="h3" variant="textBase" class="mt-6 font-medium">
                 {feature.lead}
-              </h3>
-              <p class="text-muted-foreground mt-2 max-w-sm text-sm text-pretty">
+              </Text>
+              <Text tag="p" variant="textSM" class="text-muted-foreground mt-1 max-w-sm text-pretty">
                 {feature.body}
-              </p>
-            </div>
+              </Text>
+            </li>
           ))
         }
-      </div>
-    </Wrapper>
+      </ul>
+    </SectionGrid>
   </section>
 
-  <section class="pb-32">
-    <Wrapper variant="default">
-      <TwoToneHeading title="Rank the dashboard by revenue.">
-        Click the revenue tile at the top, and every panel sorts by what it
-        earned, with visitor counts and revenue per visitor on every row.
-      </TwoToneHeading>
-      <div
-        class="bg-muted-surface relative mt-8 flex items-center justify-end overflow-hidden rounded-lg p-4 pb-0 sm:h-120 lg:h-152"
-      >
-        <Image
-          src={revenueMode}
-          alt="The Kobbe dashboard ranked by revenue: pages and referrers sorted by what they earned, each with its visitor count"
-          class="shadow-panel-lifted mx-auto -mb-12 block w-full max-w-4xl rounded-t lg:rounded-t-lg"
-          widths={[768, 1280, 1920, 2419]}
-          sizes="(min-width: 1024px) 896px, 100vw"
-        />
-        <div class="progressive-blur-edge" aria-hidden="true">
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-        </div>
+  <section>
+    <SectionGrid lead="Revenue mode," title="one click on the revenue tile." class="py-24">
+      <div class="flex flex-col gap-2">
+        <Text tag="h2" variant="displayMD" class="font-medium tracking-tight leading-tight text-pretty lg:text-balance">
+          Rank the dashboard by revenue
+        </Text>
+        <Text tag="p" variant="textBase" class="text-muted-foreground max-w-md leading-relaxed text-pretty">
+          Click the revenue tile at the top, and every panel sorts by what it
+          earned, with visitor counts and revenue per visitor on every row.
+        </Text>
       </div>
-    </Wrapper>
+      <ScreenshotPanel
+        slot="full"
+        src={revenueMode}
+        alt="The Kobbe dashboard ranked by revenue: pages and referrers sorted by what they earned, each with its visitor count"
+      />
+    </SectionGrid>
   </section>
 </BaseLayout>

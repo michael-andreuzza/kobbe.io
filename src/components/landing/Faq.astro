@@ -1,19 +1,24 @@
 ---
 /**
- * Landing FAQ: the same accordion that renders on /support/faq, in its own
- * section under pricing. Carries the #faq anchor used by the footer, site
- * search, and the /support/faq stub.
+ * Landing FAQ on the 12 column grid: a two-tone sentence on the left 4
+ * columns, the heading and the accordion that renders on /support/faq on the
+ * right 8. Carries the #faq anchor used by the footer, site search, and the
+ * /support/faq stub.
  */
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
+import Text from "@/components/foundations/elements/Text.astro";
 import { LandingFaq } from "@/components/landing/landing-faq";
-import { TwoToneHeading } from "@/components/ui/two-tone-heading";
 ---
 
-<section id="faq" class="mt-32 scroll-mt-24">
-  <Wrapper variant="default" class="py-12">
-    <TwoToneHeading as="h2" title="Questions, answered plainly.">
-      Setup, speed, privacy, and billing.
-    </TwoToneHeading>
-    <LandingFaq client:visible className="mt-8" />
-  </Wrapper>
+<section id="faq">
+  <SectionGrid lead="FAQ," title="setup, speed, privacy, and billing." class="py-24">
+    <Text
+      tag="h2"
+      variant="displayMD"
+      class="font-medium tracking-tight leading-tight text-pretty lg:text-balance"
+    >
+      Questions, answered plainly
+    </Text>
+    <LandingFaq client:visible className="mt-6" />
+  </SectionGrid>
 </section>

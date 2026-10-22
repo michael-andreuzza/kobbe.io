@@ -24,11 +24,10 @@ export type Wallpaper = {
   dark: ImageMetadata;
 };
 
-/** The quay comes first and runs full width; the frieze needs the room. */
 export const wallpapers: Wallpaper[] = [
   {
     slug: "quay",
-    title: "The quay.",
+    title: "The quay",
     blurb:
       "The hero frieze, standing still. Every tiny person on the quay is doing analytics: tallying, weighing, filtering the bots at the gate. At night the lamps come on and nobody moves an inch.",
     light: quayLight,
@@ -36,7 +35,7 @@ export const wallpapers: Wallpaper[] = [
   },
   {
     slug: "coast",
-    title: "The coast.",
+    title: "The coast",
     blurb:
       "Pines on a granite shore, one red cottage, and a sailboat passing a skerry. After dark the cottage window and the masthead light are the only things awake.",
     light: coastLight,
@@ -44,7 +43,7 @@ export const wallpapers: Wallpaper[] = [
   },
   {
     slug: "harbour",
-    title: "The harbour.",
+    title: "The harbour",
     blurb:
       "Three boathouses and a jetty at the edge of open water, boats tied up for the evening. A single lamp on the jetty for the dark version.",
     light: harbourLight,
@@ -52,7 +51,7 @@ export const wallpapers: Wallpaper[] = [
   },
   {
     slug: "village",
-    title: "The village.",
+    title: "The village",
     blurb:
       "The footer scene: a handful of houses on a rocky islet, ochre, grey, and Falu red, with a rowing boat below. Lit windows and their reflections at night.",
     light: villageLight,
@@ -84,7 +83,16 @@ export const wallpaperFacts = [
 ];
 
 export const installSteps = [
-  "Unzip the download and open the Dynamic (HEIC) folder.",
-  "Open System Settings, then Wallpaper, and click Add Photo, or drag the HEIC straight onto the desktop preview.",
-  "Pick Dynamic in the menu next to the preview. macOS now swaps light and dark with your appearance setting.",
+  {
+    title: "Unzip the download",
+    body: "Open the Dynamic (HEIC) folder inside the zip.",
+  },
+  {
+    title: "Add it in System Settings",
+    body: "Open Wallpaper and click Add Photo, or drag the HEIC straight onto the desktop preview.",
+  },
+  {
+    title: "Pick Dynamic",
+    body: "Choose Dynamic in the menu next to the preview. macOS now swaps light and dark with your appearance setting.",
+  },
 ];
