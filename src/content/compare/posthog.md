@@ -51,3 +51,5 @@ rows:
 ## Switching from PostHog
 
 Add the Kobbe script next to PostHog and run both for a few weeks. Once you trust the numbers, keep PostHog for product analytics or remove it. See [Installation guides](/docs/installation-guides).
+
+Import your PostHog pageview history with a personal API key. Kobbe only fills the days before your first Kobbe pageview, so nothing gets overwritten. See [Import from PostHog](/docs/import-from-posthog).

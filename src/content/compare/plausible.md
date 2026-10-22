@@ -53,4 +53,4 @@ rows:
 
 ## Switching from Plausible
 
-Import your Plausible history into Kobbe from a full site export. Kobbe only fills the days before your first Kobbe pageview, so nothing gets overwritten. See [Import from Plausible](/docs/import-from-plausible).
+Import your Plausible history into Kobbe with a Stats API key or a full site export. Kobbe only fills the days before your first Kobbe pageview, so nothing gets overwritten. See [Import from Plausible](/docs/import-from-plausible).

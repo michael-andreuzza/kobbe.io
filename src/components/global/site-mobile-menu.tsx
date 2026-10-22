@@ -135,18 +135,11 @@ export function SiteMobileMenu({ className, children }: SiteMobileMenuProps) {
                       </a>
                     ) : null}
                     <a href="/docs" onClick={close} className="group block">
-                      <span className="text-surface flex items-center gap-1 text-sm font-medium transition-opacity group-hover:opacity-70">
+                      <span className="text-surface block text-sm font-medium transition-opacity group-hover:opacity-70">
                         Read the docs
-                        <HugeiconsIcon
-                          icon={ArrowUpRight01Icon}
-                          size={16}
-                          strokeWidth={2}
-                          aria-hidden="true"
-                        />
                       </span>
                       <span className="text-surface/70 mt-0.5 block text-sm leading-snug">
-                        Guides for setup, tracking, and dashboards, plus every
-                        installation and revenue guide.
+                        Setup, tracking, and dashboard guides.
                       </span>
                     </a>
                     <a
@@ -154,17 +147,11 @@ export function SiteMobileMenu({ className, children }: SiteMobileMenuProps) {
                       onClick={close}
                       className="group block"
                     >
-                      <span className="text-surface flex items-center gap-1 text-sm font-medium transition-opacity group-hover:opacity-70">
+                      <span className="text-surface block text-sm font-medium transition-opacity group-hover:opacity-70">
                         Changelog
-                        <HugeiconsIcon
-                          icon={ArrowUpRight01Icon}
-                          size={16}
-                          strokeWidth={2}
-                          aria-hidden="true"
-                        />
                       </span>
                       <span className="text-surface/70 mt-0.5 block text-sm leading-snug">
-                        New features and fixes as they ship.
+                        What shipped lately.
                       </span>
                     </a>
                     {productLinks.map((link) => (

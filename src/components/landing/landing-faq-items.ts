@@ -30,7 +30,7 @@ export const landingFaqItems: ReadonlyArray<PricingFaqItem> = [
     id: "import",
     question: "Can I bring my data from another tool?",
     answer:
-      "Yes. Import your history from Plausible, Fathom, Umami, or DataFast. By default Kobbe only fills the days before your first Kobbe pageview, so nothing gets overwritten. Funnels, realtime, and revenue attribution start from live Kobbe data.",
+      "Yes. Import your history from Google Analytics, Plausible, PostHog, Fathom, Umami, Matomo, Cloudflare Web Analytics, Pirsch, Simple Analytics, or DataFast. By default Kobbe only fills the days before your first Kobbe pageview, so nothing gets overwritten. Funnels, realtime, and revenue attribution start from live Kobbe data.",
   },
   shared("cookie-banner"),
   shared("gdpr"),

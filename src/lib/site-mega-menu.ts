@@ -1,16 +1,22 @@
 import astroLogo from "@/images/brands/astro.svg";
+import cloudflareLogo from "@/images/brands/cloudflare.svg";
 import creemLogo from "@/images/brands/creem.svg";
 import datafastLogo from "@/images/brands/datafast.svg";
 import fathomLogo from "@/images/brands/fathom.svg";
+import googleAnalyticsLogo from "@/images/brands/googleanalytics.svg";
 import framerLogo from "@/images/brands/framer.svg";
 import lovableLogo from "@/images/brands/lovable.svg";
+import matomoLogo from "@/images/brands/matomo.svg";
 import mollieLogo from "@/images/brands/mollie.svg";
 import nextjsLogo from "@/images/brands/nextjs.svg";
 import paddleLogo from "@/images/brands/paddle.svg";
+import pirschLogo from "@/images/brands/pirsch.svg";
 import plausibleLogo from "@/images/brands/plausible.svg";
 import polarLogo from "@/images/brands/polar.svg";
+import posthogLogo from "@/images/brands/posthog.svg";
 import revenuecatLogo from "@/images/brands/revenuecat.svg";
 import shopifyLogo from "@/images/brands/shopify.svg";
+import simpleAnalyticsLogo from "@/images/brands/simpleanalytics.svg";
 import stripeLogo from "@/images/brands/stripe.svg";
 import umamiLogo from "@/images/brands/umami.svg";
 import v0Logo from "@/images/brands/v0.svg";
@@ -92,6 +98,12 @@ export const siteMegaMenuGuideGroups: MegaMenuGuideGroup[] = [
       { id: "import-fathom", href: "/docs/import-from-fathom", label: "Fathom", logo: { src: fathomLogo.src, alt: "Fathom logo" } },
       { id: "import-plausible", href: "/docs/import-from-plausible", label: "Plausible", logo: { src: plausibleLogo.src, alt: "Plausible logo" } },
       { id: "import-umami", href: "/docs/import-from-umami", label: "Umami", logo: { src: umamiLogo.src, alt: "Umami logo" } },
+      { id: "import-google-analytics", href: "/docs/import-from-google-analytics", label: "Google Analytics", logo: { src: googleAnalyticsLogo.src, alt: "Google Analytics logo" } },
+      { id: "import-matomo", href: "/docs/import-from-matomo", label: "Matomo", logo: { src: matomoLogo.src, alt: "Matomo logo" } },
+      { id: "import-simple-analytics", href: "/docs/import-from-simple-analytics", label: "Simple Analytics", logo: { src: simpleAnalyticsLogo.src, alt: "Simple Analytics logo" } },
+      { id: "import-posthog", href: "/docs/import-from-posthog", label: "PostHog", logo: { src: posthogLogo.src, alt: "PostHog logo" } },
+      { id: "import-cloudflare", href: "/docs/import-from-cloudflare-web-analytics", label: "Cloudflare", logo: { src: cloudflareLogo.src, alt: "Cloudflare logo" } },
+      { id: "import-pirsch", href: "/docs/import-from-pirsch", label: "Pirsch", logo: { src: pirschLogo.src, alt: "Pirsch logo" } },
     ]),
   },
 ];
@@ -110,7 +122,7 @@ export const siteNavLinks: MegaMenuLink[] = [
     id: "features",
     href: "/features",
     label: "All features",
-    description: "Overview, funnels, revenue, privacy, and more.",
+    description: "Everything Kobbe does, in one place.",
   },
   {
     id: "add-tracker",
@@ -188,13 +200,12 @@ export const siteNavLinks: MegaMenuLink[] = [
     id: "ai-agents",
     href: "/docs/ai-agents",
     label: "AI agents",
-    description:
-      "Ask Claude, Cursor or any MCP client about your traffic and revenue.",
+    description: "Ask Claude or Cursor about your stats.",
   },
   {
     id: "compare",
     href: "/compare",
     label: "Compare",
-    description: "Kobbe next to Plausible, Fathom, PostHog, and more.",
+    description: "Kobbe next to other analytics tools.",
   },
 ];

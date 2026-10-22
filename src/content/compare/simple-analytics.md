@@ -51,3 +51,5 @@ rows:
 ## Switching from Simple Analytics
 
 Add the Kobbe script next to Simple Analytics and run both for a few weeks. Once you trust the numbers, remove Simple Analytics. See [Installation guides](/docs/installation-guides).
+
+Import your Simple Analytics history straight from its Stats API. Kobbe only fills the days before your first Kobbe pageview, so nothing gets overwritten. See [Import from Simple Analytics](/docs/import-from-simple-analytics).

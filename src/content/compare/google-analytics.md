@@ -51,3 +51,5 @@ rows:
 ## Switching from Google Analytics
 
 Add the Kobbe script next to Google Analytics and run both for a few weeks. Once you trust the numbers, remove Google Analytics. See [Installation guides](/docs/installation-guides).
+
+Connect your Google account and Kobbe pulls your GA4 history in the background, with read-only access. Kobbe only fills the days before your first Kobbe pageview, so nothing gets overwritten. See [Import from Google Analytics](/docs/import-from-google-analytics).

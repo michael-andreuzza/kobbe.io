@@ -45,3 +45,5 @@ rows:
 ## Switching from Matomo
 
 Add the Kobbe script next to Matomo and run both for a few weeks. Once you trust the numbers, remove Matomo. See [Installation guides](/docs/installation-guides).
+
+Import your Matomo history with an auth token, from Matomo Cloud or a self-hosted instance. Kobbe only fills the days before your first Kobbe pageview, so nothing gets overwritten. See [Import from Matomo](/docs/import-from-matomo).

@@ -1,7 +1,7 @@
 ---
 /**
  * Feature page for importing analytics history: a statement hero with the
- * four sources linking to their guides, three widget tiles attached, then
+ * sources linking to their guides, three widget tiles attached, then
  * what carries over beside what starts fresh. Every claim maps to
  * /docs/import-analytics-data and the per-provider guides.
  */
@@ -25,17 +25,23 @@ const logos = import.meta.glob<{ default: ImageMetadata }>(
 );
 const logo = (file: string) => logos[`/src/images/brands/${file}`]!.default;
 
-const sources = [
+const sources: { label: string; slug: string; file?: string }[] = [
   { label: "Plausible", slug: "plausible" },
   { label: "Fathom", slug: "fathom" },
   { label: "Umami", slug: "umami" },
   { label: "DataFast", slug: "datafast" },
+  { label: "Google Analytics", slug: "google-analytics", file: "googleanalytics" },
+  { label: "Matomo", slug: "matomo" },
+  { label: "Simple Analytics", slug: "simple-analytics", file: "simpleanalytics" },
+  { label: "PostHog", slug: "posthog" },
+  { label: "Cloudflare", slug: "cloudflare-web-analytics", file: "cloudflare" },
+  { label: "Pirsch", slug: "pirsch" },
 ];
 
 const features = [
   {
     lead: "Upload and done",
-    body: "Upload a full export ZIP, or paste a DataFast API key. Kobbe detects the format and imports in the background.",
+    body: "Upload a full export ZIP, connect Google Analytics, or paste an API key. Kobbe imports in the background.",
     widget: ImportUploadWidget,
   },
   {
@@ -75,8 +81,8 @@ const lists = [
 ---
 
 <BaseLayout
-  title="Import your analytics: bring your Plausible, Fathom, Umami, or DataFast history"
-  description="Move your history from Plausible, Fathom, Umami, or DataFast into Kobbe. Old traffic sits next to new data, and live days are never overwritten."
+  title="Import your analytics: bring your Google Analytics, Plausible, Matomo, and other history"
+  description="Move your history from Google Analytics, Plausible, PostHog, Fathom, Umami, Matomo, Cloudflare, Pirsch, Simple Analytics, or DataFast into Kobbe. Old traffic sits next to new data, and live days are never overwritten."
   jsonLdBreadcrumbs={[
     { name: "Features", item: "/features" },
     { name: "Import", item: "/features/import" },
@@ -86,7 +92,7 @@ const lists = [
   <StatementHero
     class="pb-0 lg:pt-24!"
     statement="Switch without losing history."
-    elaboration="Bring your traffic from Plausible, Fathom, Umami, or DataFast, and see it next to everything Kobbe collects from day one."
+    elaboration="Bring your traffic from Google Analytics, Plausible, Matomo, Fathom, and more, and see it next to everything Kobbe collects from day one."
   >
     <ul class="mt-8 flex flex-wrap gap-5" aria-label="Import from">
       {
@@ -99,7 +105,7 @@ const lists = [
               class="block transition-opacity hover:opacity-70"
             >
               <BrandLogo
-                src={logo(`${source.slug}.svg`).src}
+                src={logo(`${source.file ?? source.slug}.svg`).src}
                 class="size-6 rounded-sm object-contain"
                 width={24}
                 height={24}

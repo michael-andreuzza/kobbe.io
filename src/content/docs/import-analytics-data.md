@@ -1,6 +1,6 @@
 ---
 title: Import analytics data
-description: Bring historical traffic from Plausible, Fathom, and other exports into Kobbe without overwriting live data.
+description: Bring historical traffic from Google Analytics, Plausible, PostHog, Matomo, and other tools into Kobbe without overwriting live data.
 order: 36
 category: Data
 navLabel: Import analytics data
@@ -14,6 +14,13 @@ Imports write **daily rollup data** into Kobbe. That means KPIs, charts, and bre
 
 - For ZIP imports, use a **full site export ZIP**, not a quick chart export with row limits.
 - For DataFast, use a **read-only website API key** that starts with `df_`. See [Import from DataFast](/docs/import-from-datafast).
+- For Google Analytics, connect the Google account that can see your GA4 property. See [Import from Google Analytics](/docs/import-from-google-analytics).
+- For Simple Analytics, enter your hostname and, for private dashboards, an API key. See [Import from Simple Analytics](/docs/import-from-simple-analytics).
+- For Matomo, use your Matomo URL, Site ID, and an auth token. See [Import from Matomo](/docs/import-from-matomo).
+- For Plausible and Umami, use an API key or upload a ZIP export. See [Import from Plausible](/docs/import-from-plausible) and [Import from Umami](/docs/import-from-umami).
+- For PostHog, use your Project ID and a personal API key with Query Read. See [Import from PostHog](/docs/import-from-posthog).
+- For Cloudflare Web Analytics, use your Account ID and an API token with Account Analytics Read. See [Import from Cloudflare Web Analytics](/docs/import-from-cloudflare-web-analytics).
+- For Pirsch, use the ID and secret of an oAuth client. See [Import from Pirsch](/docs/import-from-pirsch).
 - Import on the **same site** where you will collect new Kobbe traffic.
 - Pick a merge mode so you do not overwrite days Kobbe already has.
 - Keep ZIP uploads under **25 MB**. If your export is larger, split it into shorter date ranges.

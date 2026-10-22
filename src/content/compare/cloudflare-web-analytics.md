@@ -44,3 +44,5 @@ rows:
 ## Switching from Cloudflare Web Analytics
 
 Add the Kobbe script and keep Cloudflare Web Analytics running as long as you like, they don't conflict. See [Installation guides](/docs/installation-guides).
+
+Import the last six months of Cloudflare Web Analytics with an API token. Kobbe only fills the days before your first Kobbe pageview, so nothing gets overwritten. See [Import from Cloudflare Web Analytics](/docs/import-from-cloudflare-web-analytics).

@@ -53,4 +53,4 @@ rows:
 
 ## Switching from Umami
 
-Import your Umami Cloud history into Kobbe from a ZIP export. Kobbe only fills the days before your first Kobbe pageview, so nothing gets overwritten. See [Import from Umami](/docs/import-from-umami).
+Import your Umami history into Kobbe with an API key, from Umami Cloud or a self-hosted instance, or from a ZIP export. Kobbe only fills the days before your first Kobbe pageview, so nothing gets overwritten. See [Import from Umami](/docs/import-from-umami).

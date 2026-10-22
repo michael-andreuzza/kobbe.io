@@ -146,7 +146,7 @@ export const featureGroups: FeatureGroup[] = [
       {
         title: "Import your history",
         description:
-          "Move in from Plausible, Fathom, Umami, or DataFast with your historical data intact.",
+          "Move in from Google Analytics, Plausible, Matomo, Fathom, and more with your historical data intact.",
         href: "/docs/import-analytics-data",
       },
       {

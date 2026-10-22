@@ -3,7 +3,7 @@ title: Import from DataFast
 description: Pull historical DataFast analytics into Kobbe with a read-only website API key.
 order: 40
 category: Data
-navLabel: Import from DataFast
+navLabel: DataFast
 brandLogo:
   url: ../../images/brands/datafast.svg
   alt: DataFast logo

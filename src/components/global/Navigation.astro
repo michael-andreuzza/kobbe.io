@@ -7,7 +7,7 @@
  * same link columns as the mobile side panel.
  * Mobile: plain header row opening the side panel with the same links.
  */
-import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
+import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import ProgressiveBlur from "@/components/global/ProgressiveBlur.astro";
@@ -23,19 +23,43 @@ import {
 
 const DEMO_URL = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
 
-// Three sections: product (features, docs, changelog), docs pages, and the
-// platform guide grids. Picks come from the list shared with the mobile panel;
-// install and revenue index links are skipped since they get logo grids.
-const featuresLink = siteNavLinks.find((link) => link.id === "features");
-const productIds = ["ai-agents", "compare"];
-const productLinks = siteNavLinks.filter((link) => productIds.includes(link.id));
+// Five columns of plain lists, all styled alike. Picks come from the list
+// shared with the mobile panel; install and revenue index links are skipped
+// since their guide groups carry a "See all" arrow instead.
+type MenuSection = {
+  title: string;
+  seeAllHref?: string;
+  links: { href: string; label: string; logo?: { src: string } }[];
+};
+
+const productIds = ["features", "ai-agents", "compare"];
+const pick = (id: string) => siteNavLinks.find((link) => link.id === id);
+const productLinks = [
+  pick("features"),
+  { href: "/docs", label: "Docs" },
+  { href: "/changelog", label: "Changelog" },
+  pick("ai-agents"),
+  pick("compare"),
+].filter((link) => link != null);
 const docsPageLinks = siteNavLinks.filter(
   (link) =>
-    link.id !== "features" &&
     !productIds.includes(link.id) &&
     link.id !== "install-guides" &&
     link.id !== "revenue-attribution",
 );
+const guideGroup = (id: string) =>
+  siteMegaMenuGuideGroups.find((group) => group.id === id);
+const installGroup = guideGroup("install");
+const revenueGroup = guideGroup("revenue");
+const importGroup = guideGroup("import");
+
+const menuColumns: MenuSection[] = [
+  { title: "Product", links: productLinks },
+  { title: "Docs", seeAllHref: "/docs", links: docsPageLinks },
+  installGroup,
+  revenueGroup,
+  importGroup,
+].filter((section) => section != null);
 ---
 
 <header class="sticky top-0 z-50 hidden py-2.5 lg:block">
@@ -70,117 +94,37 @@ const docsPageLinks = siteNavLinks.filter(
         aria-label="Primary"
         data-mega-menu-panel
       >
-        <div class="divide-surface/10 grid grid-cols-4 divide-x">
-          {/* Section 1: product. */}
-          <div class="p-7">
-            <p class="text-surface text-sm font-medium">Product</p>
-            <div class="mt-5 flex flex-col gap-7">
-              {
-                featuresLink ? (
-                  <a href={featuresLink.href} class="group block">
-                    <span class="text-surface block text-sm font-medium transition-opacity group-hover:opacity-70">
-                      {featuresLink.label}
-                    </span>
-                    <span class="text-surface/70 mt-1 block text-sm leading-snug">
-                      {featuresLink.description}
-                    </span>
-                  </a>
-                ) : null
-              }
-              <a href="/docs" class="group block">
-                <span
-                  class="text-surface flex items-center gap-1 text-sm font-medium transition-opacity group-hover:opacity-70"
-                >
-                  Read the docs
-                  <HugeiconsIcon
-                    icon={ArrowUpRight01Icon}
-                    size={16}
-                    strokeWidth={2}
-                    aria-hidden="true"
-                  />
-                </span>
-                <span class="text-surface/70 mt-1 block text-sm leading-snug">
-                  Guides for setup, tracking, and dashboards, plus every
-                  installation and revenue guide.
-                </span>
-              </a>
-              <a href="/changelog" class="group block">
-                <span
-                  class="text-surface flex items-center gap-1 text-sm font-medium transition-opacity group-hover:opacity-70"
-                >
-                  Changelog
-                  <HugeiconsIcon
-                    icon={ArrowUpRight01Icon}
-                    size={16}
-                    strokeWidth={2}
-                    aria-hidden="true"
-                  />
-                </span>
-                <span class="text-surface/70 mt-1 block text-sm leading-snug">
-                  New features and fixes as they ship.
-                </span>
-              </a>
-              {
-                productLinks.map((link) => (
-                  <a href={link.href} class="group block">
-                    <span class="text-surface block text-sm font-medium transition-opacity group-hover:opacity-70">
-                      {link.label}
-                    </span>
-                    <span class="text-surface/70 mt-1 block text-sm leading-snug">
-                      {link.description}
-                    </span>
-                  </a>
-                ))
-              }
-            </div>
-          </div>
-
-          {/* Section 2: docs pages, spanning two columns. */}
-          <div class="col-span-2 p-7">
-            <p class="text-surface text-sm font-medium">Docs</p>
-            <ul class="mt-5 grid grid-cols-2 content-start gap-x-8 gap-y-7">
-              {
-                docsPageLinks.map((link) => (
-                  <li>
-                    <a href={link.href} class="group block">
-                      <span class="text-surface block text-sm font-medium transition-opacity group-hover:opacity-70">
-                        {link.label}
-                      </span>
-                      {link.description ? (
-                        <span class="text-surface/70 mt-1 block text-sm leading-snug">
-                          {link.description}
-                        </span>
-                      ) : null}
-                    </a>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-
-          {/* Section 3: featured platforms per guide family, stacked. */}
-          <div class="flex flex-col gap-7 p-7">
-            {
-              siteMegaMenuGuideGroups.map((group) => (
-                <div>
-                  <div class="flex items-baseline justify-between gap-3">
-                    <p class="text-surface text-sm font-medium">
-                      {group.title}
-                    </p>
+        <div class="divide-surface/10 grid grid-cols-5 divide-x">
+          {
+            menuColumns.map((section) => (
+              <div class="p-7">
+                <div class="flex items-center justify-between gap-3">
+                  <p class="text-surface text-sm font-medium">
+                    {section.title}
+                  </p>
+                  {section.seeAllHref ? (
                     <a
-                      href={group.seeAllHref}
-                      class="text-surface/70 hover:text-surface shrink-0 text-xs font-medium transition-colors"
+                      href={section.seeAllHref}
+                      class="text-surface/70 hover:text-surface shrink-0 transition-colors"
+                      aria-label={`See all ${section.title.toLowerCase()}`}
                     >
-                      See all
+                      <HugeiconsIcon
+                        icon={ArrowDownRight01Icon}
+                        size={16}
+                        strokeWidth={2}
+                        aria-hidden="true"
+                      />
                     </a>
-                  </div>
-                  <ul class="mt-3 grid grid-cols-2 gap-x-4 gap-y-2">
-                    {group.links.map((link) => (
-                      <li>
-                        <a
-                          href={link.href}
-                          class="text-surface/80 hover:text-surface flex items-center gap-2 text-sm transition-colors"
-                        >
+                  ) : null}
+                </div>
+                <ul class="mt-4 flex flex-col gap-2.5">
+                  {section.links.map((link) => (
+                    <li>
+                      <a
+                        href={link.href}
+                        class="text-surface/80 hover:text-surface flex items-center gap-2 text-sm transition-colors"
+                      >
+                        {link.logo ? (
                           <img
                             src={link.logo.src}
                             alt=""
@@ -189,15 +133,15 @@ const docsPageLinks = siteNavLinks.filter(
                             loading="lazy"
                             class="size-4 shrink-0 rounded-xs object-contain"
                           />
-                          {link.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))
-            }
-          </div>
+                        ) : null}
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
         </div>
       </nav>
     </div>
