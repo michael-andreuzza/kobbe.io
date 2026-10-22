@@ -62,7 +62,7 @@ data-campaigns="true"
 
 ### Conversions
 
-Set to `true` when conversions are enabled for the site. The tracker loads enabled presets from `/api/collect-config` and auto-tracks contact clicks, messaging links, outbound links, and form submits. See [Conversions](/docs/conversions).
+Set to `true` when conversions are enabled for the site. The tracker loads enabled presets from `/api/collect-config` and auto-tracks contact clicks, messaging links, outbound links, file downloads, and form submits. See [Conversions](/docs/conversions).
 
 ```html
 data-conversions="true"

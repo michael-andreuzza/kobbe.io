@@ -46,6 +46,15 @@ Cards show a **short preview**. When an expand control is available, use it to o
 
 Click a **page row** to open a drill-down for that path. It reuses the same dashboard patterns, filtered to that path, so you can inspect traffic, sources, events, and exits for a single page.
 
+### Previous and next pages
+
+The Pages card in the drill-down has two tabs that follow visitors through the page:
+
+- **Previous**: the pages viewed right before this one in the same visit. **Visit started here** counts visits that landed on the page.
+- **Next**: the pages viewed right after it. **Left the site** counts visits that ended on the page.
+
+Hover a row to see its share of the page's views, and click a path to open its drill-down. A visit ends after 30 minutes without a pageview, and reloading a page does not count as coming from itself.
+
 ## Related docs
 
 - [Dashboard overview](/docs/dashboard-overview)

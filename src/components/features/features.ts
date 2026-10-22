@@ -52,6 +52,12 @@ export const featureGroups: FeatureGroup[] = [
         href: "/docs/dashboard-stats-pages#page-groups",
       },
       {
+        title: "Previous and next pages",
+        description:
+          "Open any page to see where its visitors came from and where they went next, within the same visit.",
+        href: "/docs/dashboard-stats-pages#previous-and-next-pages",
+      },
+      {
         title: "Exclude your own visits",
         description:
           "Keep yourself, your team, and your office IPs out of the numbers.",
@@ -93,6 +99,12 @@ export const featureGroups: FeatureGroup[] = [
         description:
           "Mark any event or page as a conversion and track rates by source, campaign, device, and page.",
         href: "/docs/conversions",
+      },
+      {
+        title: "File download tracking",
+        description:
+          "Clicks on PDFs, ZIPs, DMGs, and other files are tracked automatically, with the file name and extension.",
+        href: "/docs/conversions#file-downloads",
       },
       {
         title: "Funnels",

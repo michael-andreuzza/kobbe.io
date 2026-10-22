@@ -1,12 +1,12 @@
 ---
-title: Revenue mode, saved views, page groups, and more
+title: Revenue mode, saved views, page groups, file downloads, and more
 date: 2026-10-22
-description: Rank the dashboard by revenue, save your favorite filters, group pages into sections, find search opportunities, and protect shared dashboards with a password.
+description: Rank the dashboard by revenue, save your favorite filters, group pages into sections, follow visitors from page to page, track file downloads, find search opportunities, and protect shared dashboards with a password.
 image: ../../images/changelog/revenue-mode.webp
 imageAlt: The Kobbe dashboard with the Revenue tile selected, pages and referrers ranked by revenue, each with its visitor count.
 ---
 
-Six additions to the dashboard today.
+Eight additions today.
 
 **Rank the dashboard by revenue.**
 
@@ -23,6 +23,14 @@ Filter the dashboard, for example Google visitors on mobile, then choose **Save 
 **Page groups.**
 
 The Pages card has a new **Groups** tab. Create a group with a name and a path like `/blog/*`, which covers `/blog` and everything under it, and see unique visitors per section. Someone who reads five blog posts counts once for Blog. See [page groups](/docs/dashboard-stats-pages#page-groups).
+
+**Previous and next pages.**
+
+Click a page in the Pages card to open its drill-down. Its Pages card now has **Previous** and **Next** tabs: the pages viewed right before and right after it in the same visit, including how many visits started or ended there. The drill-down chart now shows visitors over time for that page. See [previous and next pages](/docs/dashboard-stats-pages#previous-and-next-pages).
+
+**File download tracking.**
+
+A new **File download** conversion preset records clicks on links to files like PDFs, ZIPs, DMGs, and spreadsheets, with the file name and extension, never the full URL. Turn it on in **Settings → Conversions**. Download buttons that point to a redirect, like `/download`, can be tagged with `data-kobbe-event="File download"`. See [file downloads](/docs/conversions#file-downloads).
 
 **Search opportunities.**
 
