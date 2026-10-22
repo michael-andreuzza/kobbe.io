@@ -141,7 +141,7 @@ export const featureGroups: FeatureGroup[] = [
       {
         title: "Google Search Console",
         description:
-          "Search queries, impressions, and positions beside your traffic. See what ranks without switching tabs.",
+          "Search queries, impressions, and positions beside your traffic, plus the queries closest to page one.",
         href: "/docs/search-console",
       },
       {

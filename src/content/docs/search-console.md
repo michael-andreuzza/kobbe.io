@@ -19,7 +19,7 @@ Kobbe imports Search Console rows for the verified property you select:
 - Average position
 - Click-through rate
 
-The overview highlights top search terms and can connect organic queries with landing-page traffic in Kobbe.
+The overview highlights top search terms and can connect organic queries with landing-page traffic in Kobbe. The **Opportunities** tab flags queries close to page one, queries with few clicks, and queries where your own pages compete. See [Search Console on the dashboard](/docs/dashboard-stats-search-console#opportunities).
 
 ## Requirements
 

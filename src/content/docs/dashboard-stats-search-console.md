@@ -20,6 +20,20 @@ When **Google Search Console** is connected for the site, the dashboard can show
 
 Data depends on **Google’s reporting**, your selected property, and sync timing-not on every Kobbe pageview.
 
+## Opportunities
+
+The **Opportunities** tab on the card lists queries worth working on. Each query appears once, under one of these labels:
+
+| Label               | When it shows                                                               | What to try                                           |
+| ------------------- | --------------------------------------------------------------------------- | ----------------------------------------------------- |
+| **Pages compete**   | Two or more of your pages each get at least 20% of the query's impressions. | Merge the pages, or link the weaker one to the other. |
+| **Few clicks**      | The query ranks in the top five, but gets under half the usual click rate.  | Rewrite the page title and meta description.          |
+| **Almost page one** | The query ranks around positions 4 to 20.                                   | Strengthen the page and add internal links to it.     |
+
+Queries with fewer than 50 impressions are left out, and the list is sorted by impressions. Expand the card to see every opportunity with its suggested fix.
+
+Opportunities use the same synced data as the keywords list, so they follow the same reporting delay. They are not shown on shared dashboards.
+
 ## Setup and limits
 
 Connection, property selection, and sync behavior are covered in [Search Console](/docs/search-console).
