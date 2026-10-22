@@ -1,0 +1,47 @@
+---
+/**
+ * A Plausible ZIP picked for import, the Start import button, and the
+ * confirmation the app shows once the days are written.
+ */
+import type { ImageMetadata } from "astro";
+import { Tick02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+
+import BrandLogo from "@/components/foundations/BrandLogo.astro";
+
+const logos = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/images/brands/plausible.svg",
+  { eager: true },
+);
+const plausible = logos["/src/images/brands/plausible.svg"]!.default;
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <span class="text-foreground text-sm font-medium">Import history</span>
+  <div class="bg-muted-surface mt-5 flex items-center gap-3 rounded-md p-3">
+    <BrandLogo
+      src={plausible.src}
+      alt="Plausible"
+      class="size-6 rounded-sm object-contain"
+      width={24}
+      height={24}
+    />
+    <span class="flex flex-col text-xs">
+      <span class="text-foreground font-medium">plausible-export.zip</span>
+      <span class="text-muted-foreground">Fill gaps only</span>
+    </span>
+  </div>
+  <span
+    class="bg-foreground text-background mt-3 rounded-md py-2 text-center text-xs font-medium"
+  >
+    Start import
+  </span>
+  <p class="text-foreground mt-5 flex items-center gap-2 text-xs font-medium">
+    <span
+      class="bg-foreground text-background flex size-4 shrink-0 items-center justify-center rounded-full"
+    >
+      <HugeiconsIcon icon={Tick02Icon} size={10} strokeWidth={2.4} />
+    </span>
+    Imported 412 days from Plausible
+  </p>
+</div>

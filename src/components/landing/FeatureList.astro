@@ -8,7 +8,8 @@ import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 
 /**
  * Everything else: quiet hairline list rows, each one a full-row link to
- * the matching docs page. The full catalog lives on /features.
+ * its feature page, or the docs when it has none. The full catalog lives
+ * on /features.
  */
 /* Product capabilities first, migration and tooling reassurances last. */
 const listRows = [
@@ -18,7 +19,7 @@ const listRows = [
   },
   {
     title: "Funnels from pages and events you already collect",
-    href: "/docs/funnels",
+    href: "/features/funnels",
   },
   {
     title: "Core Web Vitals with percentile trends",
@@ -30,11 +31,11 @@ const listRows = [
   },
   {
     title: "Bring your history from Plausible, Fathom, Umami, or DataFast",
-    href: "/docs/import-analytics-data",
+    href: "/features/import",
   },
   {
     title: "A CLI, an MCP server, and a Raycast extension",
-    href: "/docs/cli",
+    href: "/features/ai-agents",
   },
 ];
 ---

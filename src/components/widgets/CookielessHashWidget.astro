@@ -1,0 +1,30 @@
+---
+/**
+ * The same visitor on two days gets two unrelated anonymous hashes, because
+ * the secret behind them rotates daily: uniques count, profiles never form.
+ */
+const days = [
+  { day: "Mon", hash: "3f9a…c210" },
+  { day: "Tue", hash: "b72e…04dd" },
+];
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <span class="text-foreground text-sm font-medium">Same visitor, two days</span>
+  <span class="text-muted-foreground mt-0.5 text-xs">Anonymous daily hash</span>
+  <ul class="mt-5 flex flex-col gap-2">
+    {
+      days.map((entry) => (
+        <li class="bg-muted-surface flex items-center justify-between gap-4 rounded-md p-3 text-xs">
+          <span class="text-muted-foreground">{entry.day}</span>
+          <span class="text-foreground font-medium tabular-nums">
+            {entry.hash}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+  <span class="text-muted-foreground mt-5 text-xs text-balance">
+    The secret rotates daily, so the two can't be joined.
+  </span>
+</div>

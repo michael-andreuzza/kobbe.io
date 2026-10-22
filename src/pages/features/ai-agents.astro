@@ -1,0 +1,201 @@
+---
+/**
+ * Feature page for the Kobbe MCP: a statement hero with the agents it works
+ * with, three feature blocks in the landing FeatureCards shape with a widget
+ * in place of the screenshot, the full list of abilities, and the three
+ * setup steps. Every claim maps to a real MCP tool or token scope in
+ * /docs/ai-agents.
+ */
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BrandLogo from "@/components/foundations/BrandLogo.astro";
+import FeatureRows from "@/components/features/FeatureRows.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import StatementHero from "@/components/sections/StatementHero.astro";
+import AgentAnswerWidget from "@/components/widgets/AgentAnswerWidget.astro";
+import AgentFunnelWidget from "@/components/widgets/AgentFunnelWidget.astro";
+import AgentScopesWidget from "@/components/widgets/AgentScopesWidget.astro";
+import { Button } from "@/components/ui/button";
+import { TwoToneHeading } from "@/components/ui/two-tone-heading";
+import agentsScene from "@/images/illustrations/feature-ai-agents.webp";
+
+const logos = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/images/brands/*.svg",
+  { eager: true },
+);
+const logo = (file: string) => logos[`/src/images/brands/${file}`]!.default;
+
+const agents = [
+  { label: "Claude", file: "claude.svg" },
+  { label: "Cursor", file: "cursor.svg" },
+  { label: "Codex", file: "codex.svg" },
+  { label: "GitHub Copilot", file: "copilot.svg" },
+  { label: "Windsurf", file: "windsurf.svg" },
+  { label: "Zed", file: "zed.svg" },
+  { label: "OpenCode", file: "opencode.svg" },
+  { label: "Roo Code", file: "roo code.svg" },
+];
+
+const features = [
+  {
+    lead: "Ask in plain English",
+    body: "Your agent reads your traffic, sources, pages, and revenue, and answers with your own numbers.",
+    widget: AgentAnswerWidget,
+  },
+  {
+    lead: "It sets things up, too",
+    body: "Ask for a goal or a funnel and it creates it. It can also add a site and check the install.",
+    widget: AgentFunnelWidget,
+  },
+  {
+    lead: "You decide what it can touch",
+    body: "Tokens are scoped and revocable, and deleting anything always asks for typed confirmation.",
+    widget: AgentScopesWidget,
+  },
+];
+
+const abilities = [
+  "See who is on your site right now",
+  "Pull traffic, sources, and top pages",
+  "Chart traffic over any date range",
+  "Split visitors by country, device, or browser",
+  "Break down revenue by page and campaign",
+  "Report on your UTM campaigns",
+  "Count custom events and their properties",
+  "Check how your goals convert",
+  "Create goals and funnels for you",
+  "Add a site and check the install",
+  "Rotate a site's tracker token",
+  "Suggest what to fix next",
+];
+
+const steps = [
+  {
+    title: "Create a token.",
+    body: "Profile menu → Agent access. Pick the scopes it needs.",
+  },
+  {
+    title: "Log in with the CLI.",
+    body: "Run kobbe login with your token, or set KOBBE_TOKEN.",
+  },
+  {
+    title: "Add it to your agent.",
+    body: "Point any MCP client at kobbe mcp, and start asking.",
+  },
+];
+---
+
+<BaseLayout
+  title="Kobbe for AI agents: ask your analytics in plain English"
+  description="Connect Kobbe to Claude, Cursor, Codex, or any MCP agent. Ask about traffic and revenue in plain English, and let it set up goals and funnels for you."
+  jsonLdBreadcrumbs={[
+    { name: "Features", item: "/features" },
+    { name: "AI agents", item: "/features/ai-agents" },
+  ]}
+>
+  <div class="flex min-h-[calc(100svh-3.75rem)] flex-col">
+  <StatementHero
+    class="pb-0 lg:pt-24!"
+    statement="Just ask your agent."
+    elaboration="Ask about your traffic and revenue in plain English, and let it set up goals and funnels for you."
+  >
+    <ul class="mt-8 flex flex-wrap gap-5" aria-label="Works with">
+      {
+        agents.map((agent) => (
+          <li title={agent.label}>
+            <BrandLogo
+              src={logo(agent.file).src}
+              alt={agent.label}
+              class="size-6 rounded-sm object-contain"
+              width={24}
+              height={24}
+            />
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-8">
+      <Button
+        label="Connect your agent"
+        href="/docs/ai-agents"
+        variant="outline"
+        arrow
+      />
+    </div>
+  </StatementHero>
+
+  <div class="mt-auto overflow-hidden pt-8" aria-hidden="true">
+    <Image
+      src={agentsScene}
+      alt=""
+      class="relative left-1/2 block w-full min-w-208 -translate-x-1/2"
+      widths={[1280, 1920, 2560, 3840]}
+      sizes="100vw"
+      loading="eager"
+    />
+  </div>
+  </div>
+
+  <section class="pt-12 pb-40">
+    <Wrapper variant="default">
+      <div class="grid gap-x-4 gap-y-12 lg:grid-cols-3">
+        {
+          features.map((feature) => (
+            <div>
+              <div class="bg-muted-surface flex h-96 items-center justify-center rounded-lg p-6">
+                <feature.widget />
+              </div>
+              <h3 class="text-foreground mt-6 text-base font-medium tracking-tight">
+                {feature.lead}
+              </h3>
+              <p class="text-muted-foreground mt-2 max-w-sm text-sm text-pretty">
+                {feature.body}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </Wrapper>
+  </section>
+
+  <section>
+    <FeatureRows
+      title="Everything it can do."
+      blurb="Each one is a real tool in the Kobbe MCP."
+      groups={[{ items: abilities }]}
+    />
+  </section>
+
+  <section class="pt-40 pb-32">
+    <Wrapper variant="default">
+      <TwoToneHeading title="Set up in three steps.">
+        Works with any MCP client.
+      </TwoToneHeading>
+      <ol class="mt-8 grid gap-4 lg:grid-cols-3">
+        {
+          steps.map((step, index) => (
+            <li class="bg-muted-surface flex flex-col gap-12 rounded-lg p-6 sm:p-8">
+              <span class="text-muted-foreground text-sm font-medium tabular-nums">
+                {index + 1}
+              </span>
+              <TwoToneHeading as="h3" title={step.title}>
+                {step.body}
+              </TwoToneHeading>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="mt-8">
+        <Button
+          label="Read the setup guide"
+          href="/docs/ai-agents#mcp-setup"
+          variant="outline"
+          size="sm"
+          arrow
+        />
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout>

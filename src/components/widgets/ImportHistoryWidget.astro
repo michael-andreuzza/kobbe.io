@@ -1,0 +1,62 @@
+---
+/**
+ * A visitors line chart where imported Fathom history runs straight into
+ * live Kobbe data, told apart only by tone.
+ */
+const width = 232;
+const height = 96;
+const points = [38, 44, 41, 52, 48, 55, 50, 58, 61, 57, 66, 70];
+const splitAt = 7;
+
+const step = width / (points.length - 1);
+const coords = points.map((value, index) => ({
+  x: index * step,
+  y: height - (value / 80) * height,
+}));
+const toPath = (list: typeof coords) =>
+  list.map((p, i) => `${i ? "L" : "M"}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ");
+
+const importedPath = toPath(coords.slice(0, splitAt + 1));
+const livePath = toPath(coords.slice(splitAt));
+const liveArea = `${livePath} L${width} ${height} L${coords[splitAt]!.x.toFixed(1)} ${height} Z`;
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <span class="text-muted-foreground text-xs">Visitors, last 12 months</span>
+  <span class="text-foreground mt-1 text-2xl font-medium tracking-tight tabular-nums">
+    48,210
+  </span>
+  <svg
+    class="mt-5 h-24 w-full overflow-visible"
+    viewBox={`0 0 ${width} ${height}`}
+    preserveAspectRatio="none"
+    aria-hidden="true"
+  >
+    <path d={liveArea} class="fill-muted-surface" />
+    <path
+      d={importedPath}
+      fill="none"
+      class="stroke-muted-foreground"
+      stroke-width="1.5"
+      stroke-dasharray="3 3"
+      vector-effect="non-scaling-stroke"
+    />
+    <path
+      d={livePath}
+      fill="none"
+      class="stroke-foreground"
+      stroke-width="1.5"
+      vector-effect="non-scaling-stroke"
+    />
+  </svg>
+  <div class="mt-3 flex items-center gap-4 text-xs">
+    <span class="text-muted-foreground flex items-center gap-1.5">
+      <span class="border-muted-foreground w-3 border-t border-dashed"></span>
+      From Fathom
+    </span>
+    <span class="text-foreground flex items-center gap-1.5 font-medium">
+      <span class="border-foreground w-3 border-t"></span>
+      Kobbe
+    </span>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+---
+/**
+ * Gross revenue, refunds taken off, and the net amount left: refunds come
+ * back through the same webhooks and lower the totals.
+ */
+const lines = [
+  { label: "Gross", amount: "$4,820" },
+  { label: "Refunds", amount: "−$180" },
+];
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <span class="text-muted-foreground text-xs">Net this month</span>
+  <span class="text-foreground mt-1 text-2xl font-medium tracking-tight tabular-nums">
+    $4,640
+  </span>
+  <ul class="mt-5 flex flex-col gap-2 text-xs">
+    {
+      lines.map((line) => (
+        <li class="flex items-center justify-between gap-4">
+          <span class="text-muted-foreground">{line.label}</span>
+          <span class="text-foreground font-medium tabular-nums">
+            {line.amount}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+  <span class="bg-muted-surface mt-5 rounded-md p-3 text-xs">
+    <span class="text-foreground block font-medium">Refund, Pro plan</span>
+    <span class="text-muted-foreground mt-0.5 block">
+      $99 taken off net revenue
+    </span>
+  </span>
+</div>

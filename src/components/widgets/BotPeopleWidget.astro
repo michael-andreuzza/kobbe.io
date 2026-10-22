@@ -1,0 +1,48 @@
+---
+/**
+ * How visitors are judged by where they connect from: VPN and iCloud Private
+ * Relay users count, a rented cloud server does not.
+ */
+import { Cancel01Icon, Tick02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+
+const visitors = [
+  { label: "VPN user", detail: "Consumer VPN", counted: true },
+  { label: "Safari user", detail: "iCloud Private Relay", counted: true },
+  { label: "Scraper", detail: "AWS server", counted: false },
+];
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <span class="text-foreground text-sm font-medium">Who counts</span>
+  <span class="text-muted-foreground mt-0.5 text-xs">By where they connect from</span>
+  <ul class="mt-5 flex flex-col gap-2">
+    {
+      visitors.map((visitor) => (
+        <li class="bg-muted-surface flex items-center gap-3 rounded-md p-3">
+          <span
+            class:list={[
+              "flex size-5 shrink-0 items-center justify-center rounded-full",
+              visitor.counted
+                ? "bg-foreground text-background"
+                : "bg-border text-muted-foreground",
+            ]}
+          >
+            <HugeiconsIcon
+              icon={visitor.counted ? Tick02Icon : Cancel01Icon}
+              size={12}
+              strokeWidth={2.2}
+            />
+          </span>
+          <span class="flex flex-col text-xs">
+            <span class="text-foreground font-medium">{visitor.label}</span>
+            <span class="text-muted-foreground">{visitor.detail}</span>
+          </span>
+          <span class="text-muted-foreground ml-auto text-xs">
+            {visitor.counted ? "Counted" : "Filtered"}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</div>

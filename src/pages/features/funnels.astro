@@ -1,0 +1,141 @@
+---
+/**
+ * Feature page for funnels and goals: a statement hero with a real funnel
+ * attached, three widget tiles for building funnels and tracking goals, and
+ * common flows as plain rows. Every claim maps to
+ * /docs/funnels and /docs/conversions.
+ */
+import { Image } from "astro:assets";
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import FeatureRows from "@/components/features/FeatureRows.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import StatementHero from "@/components/sections/StatementHero.astro";
+import ConversionFilterWidget from "@/components/widgets/ConversionFilterWidget.astro";
+import ConversionPresetsWidget from "@/components/widgets/ConversionPresetsWidget.astro";
+import FunnelBuilderWidget from "@/components/widgets/FunnelBuilderWidget.astro";
+import { Button } from "@/components/ui/button";
+import { TwoToneHeading } from "@/components/ui/two-tone-heading";
+import funnels from "@/images/features/funnels.png";
+import funnelsScene from "@/images/illustrations/feature-funnels.webp";
+
+const features = [
+  {
+    lead: "Pages or events, in order",
+    body: "Each step is a page path or a custom event, so a funnel can follow any flow on your site.",
+    widget: FunnelBuilderWidget,
+  },
+  {
+    lead: "Goals without code",
+    body: "Turn on presets for contact links, messaging apps, outbound links, and form submits.",
+    widget: ConversionPresetsWidget,
+  },
+  {
+    lead: "Focus on one goal",
+    body: "Pick a conversion and every KPI, chart, and breakdown narrows to the visitors who hit it.",
+    widget: ConversionFilterWidget,
+  },
+];
+
+const flows = [
+  "Marketing page to signup",
+  "Pricing page to checkout",
+  "Trial start to activation",
+  "Product page to purchase",
+  "Docs page to install",
+  "Blog post to newsletter",
+];
+---
+
+<BaseLayout
+  title="Funnels and goals: see where visitors drop off"
+  description="Build funnels from page paths and custom events, track goals like form submits and contact clicks without code, and see conversion and drop-off for every step."
+  jsonLdBreadcrumbs={[
+    { name: "Features", item: "/features" },
+    { name: "Funnels", item: "/features/funnels" },
+  ]}
+>
+  <div class="flex min-h-[calc(100svh-3.75rem)] flex-col">
+  <StatementHero
+    class="pb-0 lg:pt-24!"
+    statement="See where visitors drop off."
+    elaboration="Build funnels from pages and events, track goals without code, and see how many visitors make it through every step."
+  >
+    <div class="mt-8">
+      <Button
+        label="Create a funnel"
+        href="/docs/funnels"
+        variant="outline"
+        arrow
+      />
+    </div>
+  </StatementHero>
+  <div class="mt-auto overflow-hidden pt-8" aria-hidden="true">
+    <Image
+      src={funnelsScene}
+      alt=""
+      class="relative left-1/2 block w-full min-w-208 -translate-x-1/2"
+      widths={[1280, 1920, 2560, 3840]}
+      sizes="100vw"
+      loading="eager"
+    />
+  </div>
+  </div>
+
+  <section class="pt-12">
+    <Wrapper variant="default">
+      <div
+        class="bg-muted-surface relative flex items-center justify-end overflow-hidden rounded-lg p-4 pb-0 sm:h-120 lg:h-152"
+      >
+        <Image
+          src={funnels}
+          alt="A four-step Kobbe funnel from the homepage to signup, with visitors, conversion, and drop-off for each step"
+          class="shadow-panel-lifted mx-auto -mb-12 block w-full max-w-4xl rounded-t lg:rounded-t-lg"
+          widths={[768, 1280, 1728]}
+          sizes="(min-width: 1024px) 896px, 100vw"
+        />
+        <div class="progressive-blur-edge" aria-hidden="true">
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+        </div>
+      </div>
+    </Wrapper>
+  </section>
+
+  <section class="py-40">
+    <Wrapper variant="default">
+      <TwoToneHeading title="Funnels and goals together.">
+        Measure the flow, and the actions that matter inside it.
+      </TwoToneHeading>
+      <div class="mt-8 grid gap-x-4 gap-y-12 lg:grid-cols-3">
+        {
+          features.map((feature) => (
+            <div>
+              <div class="bg-muted-surface flex h-96 items-center justify-center rounded-lg p-6">
+                <feature.widget />
+              </div>
+              <h3 class="text-foreground mt-6 text-base font-medium tracking-tight">
+                {feature.lead}
+              </h3>
+              <p class="text-muted-foreground mt-2 max-w-sm text-sm text-pretty">
+                {feature.body}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </Wrapper>
+  </section>
+
+  <section class="pb-32">
+    <FeatureRows
+      title="A funnel for any flow."
+      blurb="Wherever the order of steps matters."
+      groups={[{ items: flows }]}
+    />
+  </section>
+</BaseLayout>

@@ -1,0 +1,50 @@
+---
+/**
+ * An agent token with its scopes as switches: read access on, destructive
+ * access off, matching the real Kobbe token scopes.
+ */
+const scopes = [
+  { name: "analytics:read", on: true },
+  { name: "revenue:read", on: true },
+  { name: "sites:write", on: true },
+  { name: "danger:write", on: false },
+];
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <span class="text-foreground text-sm font-medium">Agent token</span>
+  <span class="text-muted-foreground mt-0.5 text-xs">
+    kbpat_••••3f9a
+  </span>
+  <ul class="mt-5 flex flex-col gap-3">
+    {
+      scopes.map((scope) => (
+        <li class="flex items-center justify-between gap-4">
+          <span
+            class:list={[
+              "text-xs",
+              scope.on
+                ? "text-foreground font-medium"
+                : "text-muted-foreground",
+            ]}
+          >
+            {scope.name}
+          </span>
+          <span
+            class:list={[
+              "flex h-5 w-8 shrink-0 items-center rounded-full p-0.5",
+              scope.on ? "bg-foreground justify-end" : "bg-border",
+            ]}
+          >
+            <span class="bg-background size-4 rounded-full" />
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+  <span
+    class="bg-muted-surface text-muted-foreground mt-5 rounded-md p-3 text-xs"
+  >
+    Deletes still need typed confirmation.
+  </span>
+</div>

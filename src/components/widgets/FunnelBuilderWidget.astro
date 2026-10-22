@@ -1,0 +1,30 @@
+---
+/**
+ * A funnel being built from mixed step types: a page path first, then two
+ * custom events, with room for another step.
+ */
+const steps = [
+  { value: "/pricing", type: "Page" },
+  { value: "Checkout started", type: "Event" },
+  { value: "Signup completed", type: "Event" },
+];
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <span class="text-foreground text-sm font-medium">New funnel</span>
+  <span class="text-muted-foreground mt-0.5 text-xs">Pricing to signup</span>
+  <ol class="mt-5 flex flex-col gap-2">
+    {
+      steps.map((step, index) => (
+        <li class="bg-muted-surface flex items-center gap-3 rounded-md p-3 text-xs">
+          <span class="text-muted-foreground tabular-nums">{index + 1}</span>
+          <span class="text-foreground font-medium">{step.value}</span>
+          <span class="bg-background text-muted-foreground ml-auto rounded-full px-2 py-0.5">
+            {step.type}
+          </span>
+        </li>
+      ))
+    }
+  </ol>
+  <span class="text-muted-foreground mt-3 text-xs">+ Add step</span>
+</div>

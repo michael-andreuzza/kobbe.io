@@ -1,0 +1,50 @@
+---
+/**
+ * The built-in conversion presets with what each one catches, three turned
+ * on: goals tracked by the script without any extra code.
+ */
+import { Tick02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+
+const presets = [
+  { name: "Contact click", detail: "tel: and mailto: links", on: true },
+  { name: "Messaging click", detail: "WhatsApp, Telegram", on: true },
+  { name: "Outbound link", detail: "Links off your site", on: false },
+  { name: "Form submit", detail: "Any standard form", on: true },
+];
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <span class="text-foreground text-sm font-medium">Conversions</span>
+  <span class="text-muted-foreground mt-0.5 text-xs">Tracked without code</span>
+  <ul class="mt-5 flex flex-col gap-3">
+    {
+      presets.map((preset) => (
+        <li class="flex items-center gap-3 text-xs">
+          <span
+            class:list={[
+              "flex size-4 shrink-0 items-center justify-center rounded",
+              preset.on ? "bg-foreground text-background" : "bg-border",
+            ]}
+          >
+            {preset.on && (
+              <HugeiconsIcon icon={Tick02Icon} size={10} strokeWidth={2.4} />
+            )}
+          </span>
+          <span class="flex flex-col">
+            <span
+              class:list={[
+                preset.on
+                  ? "text-foreground font-medium"
+                  : "text-muted-foreground",
+              ]}
+            >
+              {preset.name}
+            </span>
+            <span class="text-muted-foreground">{preset.detail}</span>
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</div>

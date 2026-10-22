@@ -1,0 +1,194 @@
+---
+/**
+ * Feature page for revenue attribution: a statement hero with the payment
+ * providers linking to their setup guides, the revenue page screenshot in a
+ * landing-style panel, three widget tiles for what a screenshot can't show,
+ * and the dashboard ranked by revenue.
+ */
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BrandLogo from "@/components/foundations/BrandLogo.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import StatementHero from "@/components/sections/StatementHero.astro";
+import RevenueJourneyWidget from "@/components/widgets/RevenueJourneyWidget.astro";
+import RevenueProvidersWidget from "@/components/widgets/RevenueProvidersWidget.astro";
+import RevenueRefundsWidget from "@/components/widgets/RevenueRefundsWidget.astro";
+import { Button } from "@/components/ui/button";
+import { TwoToneHeading } from "@/components/ui/two-tone-heading";
+import revenuePage from "@/images/features/revenue-page.png";
+import revenueMode from "@/images/features/revenue-mode.png";
+import revenueScene from "@/images/illustrations/feature-revenue-attribution.webp";
+const logos = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/images/brands/*.svg",
+  { eager: true },
+);
+const logo = (file: string) => logos[`/src/images/brands/${file}`]!.default;
+
+const providers = [
+  { label: "Stripe", slug: "stripe" },
+  { label: "Polar", slug: "polar" },
+  { label: "Paddle", slug: "paddle" },
+  { label: "Shopify", slug: "shopify" },
+  { label: "Creem", slug: "creem" },
+  { label: "Mollie", slug: "mollie" },
+  { label: "RevenueCat", slug: "revenuecat" },
+  { label: "Revolut", slug: "revolut" },
+  { label: "Superwall", slug: "superwall" },
+  { label: "Whop", slug: "whop" },
+];
+
+const features = [
+  {
+    lead: "Connect your checkout",
+    body: "Stripe, Polar, Paddle, Shopify, and six more send each payment to Kobbe through a webhook.",
+    widget: RevenueProvidersWidget,
+  },
+  {
+    lead: "Follow every sale back",
+    body: "Each payment is tied to the visit that led to it, so you see where it came from and the pages on the way.",
+    widget: RevenueJourneyWidget,
+  },
+  {
+    lead: "Refunds come off",
+    body: "Refunds arrive through the same webhooks, so net revenue stays accurate.",
+    widget: RevenueRefundsWidget,
+  },
+];
+---
+
+<BaseLayout
+  title="Revenue attribution: see what every page earns"
+  description="Connect Stripe, Polar, Paddle, Shopify, or six more providers, and Kobbe traces each sale back to the page, source, and campaign that brought it in."
+  jsonLdBreadcrumbs={[
+    { name: "Features", item: "/features" },
+    { name: "Revenue attribution", item: "/features/revenue-attribution" },
+  ]}
+>
+  <div class="flex min-h-[calc(100svh-3.75rem)] flex-col">
+  <StatementHero
+    class="pb-0 lg:pt-24!"
+    statement="See what every page earns."
+    elaboration="Connect your payment provider, and Kobbe traces each sale back to the page, source, and campaign that brought it in."
+  >
+    <ul class="mt-8 flex flex-wrap gap-5" aria-label="Works with">
+      {
+        providers.map((provider) => (
+          <li>
+            <a
+              href={`/docs/revenue-attribution-${provider.slug}`}
+              title={provider.label}
+              aria-label={provider.label}
+              class="block transition-opacity hover:opacity-70"
+            >
+              <BrandLogo
+                src={logo(`${provider.slug}.svg`).src}
+                class="size-6 rounded-sm object-contain"
+                width={24}
+                height={24}
+              />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-8">
+      <Button
+        label="Set up revenue"
+        href="/docs/revenue-attribution"
+        variant="outline"
+        arrow
+      />
+    </div>
+  </StatementHero>
+  <div class="mt-auto overflow-hidden pt-8" aria-hidden="true">
+    <Image
+      src={revenueScene}
+      alt=""
+      class="relative left-1/2 block w-full min-w-208 -translate-x-1/2"
+      widths={[1280, 1920, 2560, 3840]}
+      sizes="100vw"
+      loading="eager"
+    />
+  </div>
+  </div>
+
+  <section class="pt-12">
+    <Wrapper variant="default">
+      <div
+        class="bg-muted-surface relative flex items-center justify-end overflow-hidden rounded-lg p-4 pb-0 sm:h-120 lg:h-152"
+      >
+        <Image
+          src={revenuePage}
+          alt="The Kobbe revenue page: gross, refunds, net and attributed revenue, attribution coverage, and revenue per landing page"
+          class="shadow-panel-lifted mx-auto -mb-12 block w-full max-w-4xl rounded-t lg:rounded-t-lg"
+          widths={[768, 1280, 1920, 2419]}
+          sizes="(min-width: 1024px) 896px, 100vw"
+        />
+        <div class="progressive-blur-edge" aria-hidden="true">
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+        </div>
+      </div>
+    </Wrapper>
+  </section>
+
+  <section class="py-40">
+    <Wrapper variant="default">
+      <TwoToneHeading title="From checkout to page.">
+        Payments arrive through webhooks and land on the visit that led to
+        them.
+      </TwoToneHeading>
+      <div class="mt-8 grid gap-x-4 gap-y-12 lg:grid-cols-3">
+        {
+          features.map((feature) => (
+            <div>
+              <div class="bg-muted-surface flex h-96 items-center justify-center rounded-lg p-6">
+                <feature.widget />
+              </div>
+              <h3 class="text-foreground mt-6 text-base font-medium tracking-tight">
+                {feature.lead}
+              </h3>
+              <p class="text-muted-foreground mt-2 max-w-sm text-sm text-pretty">
+                {feature.body}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </Wrapper>
+  </section>
+
+  <section class="pb-32">
+    <Wrapper variant="default">
+      <TwoToneHeading title="Rank the dashboard by revenue.">
+        Click the revenue tile at the top, and every panel sorts by what it
+        earned, with visitor counts still in place.
+      </TwoToneHeading>
+      <div
+        class="bg-muted-surface relative mt-8 flex items-center justify-end overflow-hidden rounded-lg p-4 pb-0 sm:h-120 lg:h-152"
+      >
+        <Image
+          src={revenueMode}
+          alt="The Kobbe dashboard ranked by revenue: pages and referrers sorted by what they earned, each with its visitor count"
+          class="shadow-panel-lifted mx-auto -mb-12 block w-full max-w-4xl rounded-t lg:rounded-t-lg"
+          widths={[768, 1280, 1920, 2419]}
+          sizes="(min-width: 1024px) 896px, 100vw"
+        />
+        <div class="progressive-blur-edge" aria-hidden="true">
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+        </div>
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout>

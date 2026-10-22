@@ -1,0 +1,143 @@
+---
+/**
+ * Feature page for bot filtering: a statement hero with the dashboard's Bots
+ * tab attached, three widget tiles for how the filtering behaves, and every
+ * check a request has to pass. Every claim maps to /docs/bot-filtering.
+ */
+import { Image } from "astro:assets";
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import FeatureRows from "@/components/features/FeatureRows.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import StatementHero from "@/components/sections/StatementHero.astro";
+import BotAutomationWidget from "@/components/widgets/BotAutomationWidget.astro";
+import BotPeopleWidget from "@/components/widgets/BotPeopleWidget.astro";
+import BotSilentWidget from "@/components/widgets/BotSilentWidget.astro";
+import { Button } from "@/components/ui/button";
+import { TwoToneHeading } from "@/components/ui/two-tone-heading";
+import botFiltering from "@/images/features/bot-filtering.png";
+import botFilteringScene from "@/images/illustrations/feature-bot-filtering.webp";
+
+const features = [
+  {
+    lead: "Caught by how they behave",
+    body: "Headless Chrome with a normal user agent still reports navigator.webdriver, and Kobbe drops it.",
+    widget: BotAutomationWidget,
+  },
+  {
+    lead: "Real people always count",
+    body: "VPN and iCloud Private Relay users count normally. Rented cloud servers don't.",
+    widget: BotPeopleWidget,
+  },
+  {
+    lead: "Bots get no signal",
+    body: "Filtered requests still get a success response, so there is nothing to adapt to.",
+    widget: BotSilentWidget,
+  },
+];
+
+const checks = [
+  "Verified crawlers",
+  "Known bot signatures",
+  "HTTP tools like curl",
+  "Browser automation",
+  "Datacenter traffic",
+  "Referrer spam",
+  "Missing user agent",
+];
+---
+
+<BaseLayout
+  title="Bot filtering: keep bots out of your analytics"
+  description="Kobbe checks every request for bot signals before anything is stored. Crawlers, scrapers, and headless browsers never reach your stats or your quota."
+  jsonLdBreadcrumbs={[
+    { name: "Features", item: "/features" },
+    { name: "Bot filtering", item: "/features/bot-filtering" },
+  ]}
+>
+  <div class="flex min-h-[calc(100svh-3.75rem)] flex-col">
+  <StatementHero
+    class="pb-0 lg:pt-24!"
+    statement="Only people in your stats."
+    elaboration="Kobbe checks every request for bot signals before anything is stored. Crawlers, scrapers, and headless browsers never count, and there is nothing to set up."
+  >
+    <div class="mt-8">
+      <Button
+        label="How it works"
+        href="/docs/bot-filtering"
+        variant="outline"
+        arrow
+      />
+    </div>
+  </StatementHero>
+
+  <div class="mt-auto overflow-hidden pt-8" aria-hidden="true">
+    <Image
+      src={botFilteringScene}
+      alt=""
+      class="relative left-1/2 block w-full min-w-208 -translate-x-1/2"
+      widths={[1280, 1920, 2560, 3840]}
+      sizes="100vw"
+      loading="eager"
+    />
+  </div>
+  </div>
+
+  <section class="pt-12">
+    <Wrapper variant="default">
+      <div
+        class="bg-muted-surface relative flex items-center justify-end overflow-hidden rounded-lg p-4 pb-0 sm:h-120 lg:h-152"
+      >
+        <Image
+          src={botFiltering}
+          alt="The Bots tab on the Kobbe dashboard: hits kept out of your stats, their share of requests, and the count for each filter reason"
+          class="shadow-panel-lifted mx-auto -mb-12 block w-full max-w-4xl rounded-t lg:rounded-t-lg"
+          widths={[768, 1280, 1920, 2419]}
+          sizes="(min-width: 1024px) 896px, 100vw"
+        />
+        <div class="progressive-blur-edge" aria-hidden="true">
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+        </div>
+      </div>
+    </Wrapper>
+  </section>
+
+  <section class="py-40">
+    <Wrapper variant="default">
+      <TwoToneHeading title="Built for modern scrapers.">
+        They run real browsers and rotate IPs, so Kobbe checks how and where
+        they run.
+      </TwoToneHeading>
+      <div class="mt-8 grid gap-x-4 gap-y-12 lg:grid-cols-3">
+        {
+          features.map((feature) => (
+            <div>
+              <div class="bg-muted-surface flex h-96 items-center justify-center rounded-lg p-6">
+                <feature.widget />
+              </div>
+              <h3 class="text-foreground mt-6 text-base font-medium tracking-tight">
+                {feature.lead}
+              </h3>
+              <p class="text-muted-foreground mt-2 max-w-sm text-sm text-pretty">
+                {feature.body}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </Wrapper>
+  </section>
+
+  <section class="pb-32">
+    <FeatureRows
+      title="Every request, every check."
+      blurb="A hit only counts when it passes all of them, and filtered hits never touch your quota."
+      groups={[{ items: checks }]}
+    />
+  </section>
+</BaseLayout>

@@ -1,0 +1,41 @@
+---
+/**
+ * An agent creating a funnel through the Kobbe MCP: the request, then the
+ * created funnel with its two steps.
+ */
+import { Tick02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+
+const steps = [
+  { label: "/pricing", kind: "Pageview" },
+  { label: "Signup", kind: "Event" },
+];
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <div class="bg-muted-surface rounded-md p-3 text-sm">
+    <p class="text-foreground font-medium">You</p>
+    <p class="text-muted-foreground mt-0.5 text-xs text-balance">
+      Create a funnel from /pricing to the Signup event.
+    </p>
+  </div>
+  <p class="text-foreground mt-5 flex items-center gap-2 text-sm font-medium">
+    <span
+      class="bg-foreground text-background flex size-5 shrink-0 items-center justify-center rounded-full"
+    >
+      <HugeiconsIcon icon={Tick02Icon} size={12} strokeWidth={2.2} />
+    </span>
+    Funnel created
+  </p>
+  <ol class="mt-4 flex flex-col gap-2 text-xs">
+    {
+      steps.map((step, index) => (
+        <li class="flex items-center gap-3">
+          <span class="text-muted-foreground tabular-nums">{index + 1}</span>
+          <span class="text-foreground font-medium">{step.label}</span>
+          <span class="text-muted-foreground ml-auto">{step.kind}</span>
+        </li>
+      ))
+    }
+  </ol>
+</div>

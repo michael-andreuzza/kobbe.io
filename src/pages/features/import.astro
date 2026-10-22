@@ -1,0 +1,162 @@
+---
+/**
+ * Feature page for importing analytics history: a statement hero with the
+ * four sources linking to their guides, three widget tiles attached, then
+ * what carries over beside what starts fresh. Every claim maps to
+ * /docs/import-analytics-data and the per-provider guides.
+ */
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BrandLogo from "@/components/foundations/BrandLogo.astro";
+import FeatureRows from "@/components/features/FeatureRows.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import StatementHero from "@/components/sections/StatementHero.astro";
+import ImportHistoryWidget from "@/components/widgets/ImportHistoryWidget.astro";
+import ImportMergeWidget from "@/components/widgets/ImportMergeWidget.astro";
+import ImportUploadWidget from "@/components/widgets/ImportUploadWidget.astro";
+import { Button } from "@/components/ui/button";
+import importScene from "@/images/illustrations/feature-import.webp";
+
+const logos = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/images/brands/*.svg",
+  { eager: true },
+);
+const logo = (file: string) => logos[`/src/images/brands/${file}`]!.default;
+
+const sources = [
+  { label: "Plausible", slug: "plausible" },
+  { label: "Fathom", slug: "fathom" },
+  { label: "Umami", slug: "umami" },
+  { label: "DataFast", slug: "datafast" },
+];
+
+const features = [
+  {
+    lead: "Upload and done",
+    body: "Upload a full export ZIP, or paste a DataFast API key. Kobbe detects the format and imports in the background.",
+    widget: ImportUploadWidget,
+  },
+  {
+    lead: "Live data stays safe",
+    body: "Fill gaps only imports the days before your first Kobbe pageview, so nothing live is overwritten.",
+    widget: ImportMergeWidget,
+  },
+  {
+    lead: "One continuous history",
+    body: "Old traffic shows in the same charts and breakdowns as everything Kobbe collects from now on.",
+    widget: ImportHistoryWidget,
+  },
+];
+
+const lists = [
+  {
+    label: "Comes with you",
+    items: [
+      "Visitors, visits, and pageviews by day",
+      "Bounces and session duration",
+      "Pages and referrers",
+      "Countries, regions, and cities",
+      "Devices, browsers, and OS",
+      "Daily custom event totals",
+    ],
+  },
+  {
+    label: "Starts fresh in Kobbe",
+    items: [
+      "Hourly and realtime history",
+      "Funnels and visitor journeys",
+      "Revenue attribution",
+      "Goals, re-enabled in Conversions",
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Import your analytics: bring your Plausible, Fathom, Umami, or DataFast history"
+  description="Move your history from Plausible, Fathom, Umami, or DataFast into Kobbe. Old traffic sits next to new data, and live days are never overwritten."
+  jsonLdBreadcrumbs={[
+    { name: "Features", item: "/features" },
+    { name: "Import", item: "/features/import" },
+  ]}
+>
+  <div class="flex min-h-[calc(100svh-3.75rem)] flex-col">
+  <StatementHero
+    class="pb-0 lg:pt-24!"
+    statement="Switch without losing history."
+    elaboration="Bring your traffic from Plausible, Fathom, Umami, or DataFast, and see it next to everything Kobbe collects from day one."
+  >
+    <ul class="mt-8 flex flex-wrap gap-5" aria-label="Import from">
+      {
+        sources.map((source) => (
+          <li>
+            <a
+              href={`/docs/import-from-${source.slug}`}
+              title={source.label}
+              aria-label={source.label}
+              class="block transition-opacity hover:opacity-70"
+            >
+              <BrandLogo
+                src={logo(`${source.slug}.svg`).src}
+                class="size-6 rounded-sm object-contain"
+                width={24}
+                height={24}
+              />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-8">
+      <Button
+        label="How importing works"
+        href="/docs/import-analytics-data"
+        variant="outline"
+        arrow
+      />
+    </div>
+  </StatementHero>
+  <div class="mt-auto overflow-hidden pt-8" aria-hidden="true">
+    <Image
+      src={importScene}
+      alt=""
+      class="relative left-1/2 block w-full min-w-208 -translate-x-1/2"
+      widths={[1280, 1920, 2560, 3840]}
+      sizes="100vw"
+      loading="eager"
+    />
+  </div>
+  </div>
+
+  <section class="pt-12 pb-40">
+    <Wrapper variant="default">
+      <div class="grid gap-x-4 gap-y-12 lg:grid-cols-3">
+        {
+          features.map((feature) => (
+            <div>
+              <div class="bg-muted-surface flex h-96 items-center justify-center rounded-lg p-6">
+                <feature.widget />
+              </div>
+              <h3 class="text-foreground mt-6 text-base font-medium tracking-tight">
+                {feature.lead}
+              </h3>
+              <p class="text-muted-foreground mt-2 max-w-sm text-sm text-pretty">
+                {feature.body}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </Wrapper>
+  </section>
+
+  <section class="pb-32">
+    <FeatureRows
+      title="What comes with you."
+      blurb="Imports bring daily totals, so reports work right away. From Umami, only the daily totals come over for now."
+      groups={lists}
+    />
+  </section>
+</BaseLayout>

@@ -1,0 +1,127 @@
+---
+/**
+ * Feature page for cookieless analytics: a statement hero with three widget
+ * tiles attached, then what Kobbe never collects beside what still works.
+ * Every claim maps to
+ * /docs/privacy-and-cookieless-tracking and
+ * /docs/first-party-collect.
+ */
+import { Image } from "astro:assets";
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import FeatureRows from "@/components/features/FeatureRows.astro";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import StatementHero from "@/components/sections/StatementHero.astro";
+import CollectHostWidget from "@/components/widgets/CollectHostWidget.astro";
+import CookielessHashWidget from "@/components/widgets/CookielessHashWidget.astro";
+import CookielessStorageWidget from "@/components/widgets/CookielessStorageWidget.astro";
+import { Button } from "@/components/ui/button";
+import cookielessScene from "@/images/illustrations/feature-cookieless-analytics.webp";
+
+const features = [
+  {
+    lead: "Nothing in the browser",
+    body: "The default tracker sets no cookies, uses no browser storage to measure, and never fingerprints.",
+    widget: CookielessStorageWidget,
+  },
+  {
+    lead: "Uniques without profiles",
+    body: "Same-day visitors are counted with an anonymous hash whose secret rotates every day.",
+    widget: CookielessHashWidget,
+  },
+  {
+    lead: "Collect on your own domain",
+    body: "Serve the tracker from a subdomain you control, like data.example.com. Included on every plan.",
+    widget: CollectHostWidget,
+  },
+];
+
+const lists = [
+  {
+    label: "Never collected",
+    items: [
+      "Analytics cookies",
+      "Raw IP addresses",
+      "Query strings",
+      "Browser fingerprints",
+      "Names or emails",
+      "Visits with GPC or DNT on",
+      "One browser across weeks",
+    ],
+  },
+  {
+    label: "Still works",
+    items: [
+      "Visits and unique visitors",
+      "Pages, sources, and campaigns",
+      "Locations, devices, and browsers",
+      "Events, goals, and funnels",
+    ],
+  },
+];---
+
+<BaseLayout
+  title="Cookieless analytics: no cookies, no profiles"
+  description="Kobbe counts visits, sources, and conversions without cookies, browser storage, or fingerprinting. No raw IPs, no profiles, and first-party collect on your own domain."
+  jsonLdBreadcrumbs={[
+    { name: "Features", item: "/features" },
+    { name: "Cookieless analytics", item: "/features/cookieless-analytics" },
+  ]}
+>
+  <div class="flex min-h-[calc(100svh-3.75rem)] flex-col">
+  <StatementHero
+    class="pb-0 lg:pt-24!"
+    statement="Analytics without cookies."
+    elaboration="Kobbe counts visits, sources, and conversions without cookies, browser storage, or fingerprinting, and never builds visitor profiles."
+  >
+    <div class="mt-8">
+      <Button
+        label="How it works"
+        href="/docs/privacy-and-cookieless-tracking"
+        variant="outline"
+        arrow
+      />
+    </div>
+  </StatementHero>
+  <div class="mt-auto overflow-hidden pt-8" aria-hidden="true">
+    <Image
+      src={cookielessScene}
+      alt=""
+      class="relative left-1/2 block w-full min-w-208 -translate-x-1/2"
+      widths={[1280, 1920, 2560, 3840]}
+      sizes="100vw"
+      loading="eager"
+    />
+  </div>
+  </div>
+
+  <section class="pt-12 pb-40">
+    <Wrapper variant="default">
+      <div class="grid gap-x-4 gap-y-12 lg:grid-cols-3">
+        {
+          features.map((feature) => (
+            <div>
+              <div class="bg-muted-surface flex h-96 items-center justify-center rounded-lg p-6">
+                <feature.widget />
+              </div>
+              <h3 class="text-foreground mt-6 text-base font-medium tracking-tight">
+                {feature.lead}
+              </h3>
+              <p class="text-muted-foreground mt-2 max-w-sm text-sm text-pretty">
+                {feature.body}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </Wrapper>
+  </section>
+
+  <section class="pb-32">
+    <FeatureRows
+      title="What Kobbe never collects."
+      blurb="Built for aggregate analytics, not tracking people. You give up following one browser across weeks, and that is the point."
+      groups={lists}
+    />
+  </section>
+</BaseLayout>

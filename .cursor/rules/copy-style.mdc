@@ -10,6 +10,6 @@ Applies to all user-facing text: components, pages, docs, changelog, and marketi
 - Never use em dashes (`—`) or middots (`·`).
 - Use a colon, comma, period, or rephrase instead. Example: `**Live Visitors**: count in the menu bar`, not `**Live Visitors** — count in the menu bar`.
 - En dashes for numeric ranges are fine (`2024–2026`). Arrow glyphs for UI paths are fine (`Settings → Exclusions`).
-- No mock UI widgets (fake chats, fake dashboards) on marketing pages. Link to the docs instead.
+- Mock UI widgets only as components in `src/components/widgets/`, one self-contained component per widget, following the Brightlight widget design (lexingtonthemes.com): `bg-background shadow-panel-lifted` card (same shadow as dashboard screenshots) on a `bg-muted-surface` tile, `w-72`, `rounded-lg`, `p-5`, small type with medium for titles and key values, muted regular for details, no mono font, inner blocks `rounded-md bg-muted-surface`. No ad hoc mockups in pages.
 - Never link to competitors' sites, including on comparison pages.
 - Comparison pages never mention pricing.

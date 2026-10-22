@@ -1,7 +1,7 @@
 ---
 /**
  * Stacked feature sections: a title, a gray subtitle, and a short fact list
- * on the left with the docs link on the right, then a large muted panel the
+ * on the left with the feature page link on the right, then a large muted panel the
  * product screenshot rises into from the bottom, cropped by the panel edge.
  */
 import { Image } from "astro:assets";
@@ -16,7 +16,7 @@ const features = [
   {
     lead: "Bots stay out of your numbers.",
     body: "Headless browsers, datacenter traffic, and referrer spam never reach your stats or your quota.",
-    href: "/docs/bot-filtering",
+    href: "/features/bot-filtering",
     linkLabel: "Bot filtering",
     facts: [
       "7 independent checks",
@@ -31,7 +31,7 @@ const features = [
   {
     lead: "See what every page earns.",
     body: "Revenue traced through checkout with Stripe, Polar, Paddle, Shopify, and more.",
-    href: "/docs/revenue-attribution",
+    href: "/features/revenue-attribution",
     linkLabel: "Revenue",
     facts: [
       "10 payment integrations",
@@ -45,7 +45,7 @@ const features = [
   {
     lead: "Nothing to consent to.",
     body: "Kobbe counts visits without tracking people, and respects Global Privacy Control and Do Not Track.",
-    href: "/docs/privacy-and-cookieless-tracking",
+    href: "/features/cookieless-analytics",
     linkLabel: "Privacy",
     facts: ["No cookies", "No raw IPs stored", "DPA included"],
     image: featureRealtime,

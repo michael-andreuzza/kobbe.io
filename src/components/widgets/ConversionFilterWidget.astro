@@ -1,0 +1,39 @@
+---
+/**
+ * The dashboard narrowed to one conversion: the selected goal on top, then
+ * the numbers for only the visitors who triggered it.
+ */
+import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+
+const stats = [
+  { label: "Visitors", value: "312" },
+  { label: "Top source", value: "x.com" },
+  { label: "Top page", value: "/pricing" },
+];
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <span class="text-muted-foreground text-xs">Conversion</span>
+  <span
+    class="bg-muted-surface text-foreground mt-2 flex items-center justify-between rounded-md p-3 text-sm font-medium"
+  >
+    Form submit
+    <HugeiconsIcon
+      icon={ArrowDown01Icon}
+      size={14}
+      strokeWidth={2}
+      className="text-muted-foreground"
+    />
+  </span>
+  <dl class="mt-5 grid grid-cols-3 gap-2 text-xs">
+    {
+      stats.map((stat) => (
+        <div class="flex flex-col">
+          <dt class="text-muted-foreground">{stat.label}</dt>
+          <dd class="text-foreground mt-0.5 font-medium">{stat.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</div>

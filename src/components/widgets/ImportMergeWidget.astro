@@ -1,0 +1,46 @@
+---
+/**
+ * The three import merge modes as radio options, with the recommended
+ * Fill gaps only picked.
+ */
+const modes = [
+  { name: "Fill gaps only", detail: "Before your first Kobbe pageview", on: true },
+  { name: "Selected date range", detail: "Skips days you already have", on: false },
+  { name: "Replace date range", detail: "Overwrites imported days", on: false },
+];
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <span class="text-foreground text-sm font-medium">Merge mode</span>
+  <ul class="mt-5 flex flex-col gap-2">
+    {
+      modes.map((mode) => (
+        <li
+          class:list={[
+            "flex items-start gap-3 rounded-md p-3 text-xs",
+            mode.on && "bg-muted-surface",
+          ]}
+        >
+          <span
+            class:list={[
+              "mt-0.5 flex size-3.5 shrink-0 items-center justify-center rounded-full border",
+              mode.on ? "border-foreground" : "border-border",
+            ]}
+          >
+            {mode.on && <span class="bg-foreground size-1.5 rounded-full" />}
+          </span>
+          <span class="flex flex-col">
+            <span
+              class:list={[
+                mode.on ? "text-foreground font-medium" : "text-muted-foreground",
+              ]}
+            >
+              {mode.name}
+            </span>
+            <span class="text-muted-foreground">{mode.detail}</span>
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</div>

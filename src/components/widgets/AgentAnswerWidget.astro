@@ -1,0 +1,38 @@
+---
+/**
+ * An agent answering a revenue question through the Kobbe MCP: the question,
+ * the tools it called, a one-line answer and the pages behind it.
+ */
+const pages = [
+  { path: "/pricing", amount: "$1,240" },
+  { path: "/templates", amount: "$680" },
+  { path: "/blog/launch", amount: "$210" },
+];
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <div class="bg-muted-surface rounded-md p-3 text-sm">
+    <p class="text-foreground font-medium">You</p>
+    <p class="text-muted-foreground mt-0.5 text-xs text-balance">
+      Which pages earned the most this week?
+    </p>
+  </div>
+  <p class="text-muted-foreground mt-5 text-xs">
+    get_revenue, get_top_pages
+  </p>
+  <p class="text-foreground mt-2 text-sm font-medium text-balance">
+    Pricing earned more than half.
+  </p>
+  <ul class="mt-4 flex flex-col gap-2 text-xs">
+    {
+      pages.map((page) => (
+        <li class="flex items-center justify-between gap-4">
+          <span class="text-muted-foreground">{page.path}</span>
+          <span class="text-foreground font-medium tabular-nums">
+            {page.amount}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</div>
