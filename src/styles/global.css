@@ -49,8 +49,9 @@
   scrollbar-color: gray transparent;
 }
 
-.prose :where(h1, h2, h3, h4, h5, h6, :is(h1, h2, h3, h4, h5, h6) strong):not(:where(.not-prose, .not-prose *)) {
-  font-weight: 500;
+.prose :where(code):not(:where(.not-prose, .not-prose *))::before,
+.prose :where(code):not(:where(.not-prose, .not-prose *))::after {
+  content: none;
 }
 
 /* Prose ul markers: the pricing plus glyph (same path as PricingFeatureMark's
