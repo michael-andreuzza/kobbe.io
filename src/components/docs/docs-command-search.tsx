@@ -48,10 +48,35 @@ export function openDocsSearch() {
 
 export function DocsCommandSearchTrigger({
   className,
+  iconOnly = false,
 }: {
   className?: string;
+  /** Square search button, for the mobile bar where a fake field with a
+   * keyboard shortcut makes no sense. */
+  iconOnly?: boolean;
 }) {
   const shortcutLabel = useDocsSearchShortcutLabel();
+
+  if (iconOnly) {
+    return (
+      <button
+        type="button"
+        onClick={openDocsSearch}
+        className={cn(
+          "border-border bg-background text-muted-foreground hover:text-foreground flex size-8 shrink-0 items-center justify-center rounded-md border transition-colors outline-none",
+          className,
+        )}
+        aria-label="Find"
+      >
+        <HugeiconsIcon
+          icon={Search01Icon}
+          strokeWidth={1.7}
+          className="size-4"
+          aria-hidden
+        />
+      </button>
+    );
+  }
 
   return (
     // Quiet field: white box on the light canvas; on dark panels use
@@ -72,7 +97,7 @@ export function DocsCommandSearchTrigger({
         aria-hidden
       />
       <span className="min-w-0 flex-1 truncate">Find...</span>
-      <kbd className="text-muted-foreground/60 shrink-0 font-mono text-[0.65rem] leading-none">
+      <kbd className="text-muted-foreground/60 pointer-coarse:hidden shrink-0 font-mono text-[0.65rem] leading-none">
         {shortcutLabel}
       </kbd>
     </button>
@@ -416,7 +441,7 @@ export function DocsCommandSearch({
                       : "Find docs and pages..."
                   }
                   aria-label="Find"
-                  className="text-foreground placeholder:text-muted-foreground/60 h-6 min-w-0 flex-1 bg-transparent text-sm leading-tight outline-none"
+                  className="text-foreground placeholder:text-muted-foreground/60 pointer-coarse:text-base h-6 min-w-0 flex-1 bg-transparent text-sm leading-tight outline-none"
                 />
               </div>
 
@@ -526,8 +551,9 @@ export function DocsCommandSearch({
               </div>
             </div>
 
-            {/* Quiet hint line, no bordered key chips. */}
-            <div className="text-surface/60 flex items-center justify-between gap-3 p-4 text-xs">
+            {/* Quiet hint line, no bordered key chips. Keyboard-only, so
+                touch screens skip it. */}
+            <div className="text-surface/60 pointer-coarse:hidden flex items-center justify-between gap-3 p-4 text-xs">
               <div className="flex min-w-0 items-center gap-3">
                 <span className="inline-flex items-center gap-1.5">
                   <kbd className="font-mono">↑↓</kbd>

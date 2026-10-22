@@ -24,8 +24,9 @@ interface Props {
   jsonLdExtra?: Record<string, unknown>[];
   /** Extra classes for the bottom progressive blur. */
   blurClass?: string;
-  /** Render the site navigation. Defaults to true. */
-  nav?: boolean;
+  /** Render the site navigation. "mobile" skips the desktop header (docs
+   * bring their own). Defaults to true. */
+  nav?: boolean | "mobile";
   /** Render the CTA + site footer. Docs and the 404 page turn it off. */
   footer?: boolean;
 }
@@ -181,8 +182,6 @@ const {
     <script>
       import Lenis from "lenis";
       import "lenis/dist/lenis.css";
-      import { DOCS_NAV_OPEN_STORAGE_KEY } from "@/lib/docs-nav-state";
-
       declare global {
         interface Window {
           lenis?: Lenis;
@@ -208,19 +207,10 @@ const {
         window.lenis?.resize();
         window.lenis?.start();
       });
-
-      document.addEventListener("astro:page-load", () => {
-        if (location.pathname.startsWith("/docs")) return;
-        try {
-          sessionStorage.removeItem(DOCS_NAV_OPEN_STORAGE_KEY);
-        } catch {
-          // Session storage unavailable; nothing is remembered anyway.
-        }
-      });
     </script>
   </head>
   <body class="bg-background flex min-h-svh min-w-0 flex-col antialiased">
-    {nav && <Navigation />}
+    {nav && <Navigation desktop={nav !== "mobile"} />}
     {
       /* No `isolate` here: it would trap the page's fixed UI (mobile nav card,
         floating mega menu) in main's stacking context, painting it below the

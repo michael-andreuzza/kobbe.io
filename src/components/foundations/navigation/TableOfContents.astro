@@ -6,17 +6,23 @@ interface Props {
 const { class: className = "" } = Astro.props;
 ---
 
-<aside class={`hidden w-36 min-w-36 shrink-0 xl:block ${className}`.trim()}>
-  <div class="sticky top-24 w-full space-y-8">
-    <nav aria-label="Table of contents">
-      <h3 class="text-muted-foreground text-xs font-medium uppercase">
-        On this page
-      </h3>
-      <ol data-toc-list role="list" class="mt-3 flex flex-col gap-2">
-        <li data-toc-empty class="text-muted-foreground text-xs/5 font-medium">
+<aside class={`hidden w-52 min-w-52 shrink-0 xl:block ${className}`.trim()}>
+  <nav class="sticky top-12 flex flex-col gap-3" aria-label="Table of contents">
+    <p class="text-foreground text-sm font-medium">On this page</p>
+    {
+      /* Rail with a marker that ToCScript slides to the active section. */
+    }
+    <div class="border-border relative border-l">
+      <span
+        data-toc-marker
+        class="bg-brand pointer-events-none absolute top-0 -left-px w-px opacity-0 transition-[transform,height,opacity] duration-300 ease-out data-ready:opacity-100"
+        aria-hidden="true"
+      ></span>
+      <ol data-toc-list role="list" class="flex flex-col">
+        <li data-toc-empty class="text-muted-foreground py-1 pl-3 text-sm">
           No sections on this page.
         </li>
       </ol>
-    </nav>
-  </div>
+    </div>
+  </nav>
 </aside>

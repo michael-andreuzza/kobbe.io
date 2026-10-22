@@ -21,6 +21,13 @@ import {
   siteNavLinks,
 } from "@/lib/site-mega-menu";
 
+interface Props {
+  /** Render the desktop header. The docs shell has its own. */
+  desktop?: boolean;
+}
+
+const { desktop = true } = Astro.props;
+
 const DEMO_URL = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
 
 // Five columns of plain lists, all styled alike. Picks come from the list
@@ -62,6 +69,7 @@ const menuColumns: MenuSection[] = [
 ].filter((section) => section != null);
 ---
 
+{desktop && (
 <header class="sticky top-0 z-50 hidden py-2.5 lg:block">
   <ProgressiveBlur edge="top" />
   <Wrapper variant="nav" class="relative flex items-center justify-between">
@@ -175,6 +183,7 @@ const menuColumns: MenuSection[] = [
     </div>
   </Wrapper>
 </header>
+)}
 
 <header class="sticky top-0 z-40 lg:hidden">
   <ProgressiveBlur edge="top" />

@@ -44,6 +44,34 @@
     scrollbar-gutter: stable;
   }
 }
+/* The docs shell scrolls inside its panel on lg+, so the window never
+   scrolls there and needs no reserved scrollbar gutter. */
+@media (min-width: 1024px) {
+  html:has([data-docs-shell]) {
+    overflow: hidden;
+    scrollbar-gutter: auto;
+  }
+}
+/* Docs sidebar groups slide open where the browser can animate to auto
+   height; elsewhere they simply snap. */
+.docs-nav-group {
+  interpolate-size: allow-keywords;
+}
+.docs-nav-group::details-content {
+  height: 0;
+  overflow: hidden;
+  transition:
+    height 250ms cubic-bezier(0.22, 1, 0.36, 1),
+    content-visibility 250ms allow-discrete;
+}
+.docs-nav-group[open]::details-content {
+  height: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .docs-nav-group::details-content {
+    transition: none;
+  }
+}
 * {
   scrollbar-width: thin;
   scrollbar-color: gray transparent;

@@ -1,22 +1,41 @@
 <script is:inline type="module">
   // Runs once per session (the ClientRouter dedupes identical scripts), so
   // all page-specific state is rebuilt in init() on every astro:page-load.
-  const inactiveClassName =
-    "flex text-xs/5 text-muted-foreground transition-colors hover:text-foreground";
-  const activeClassName = "flex text-xs/5 text-foreground transition-colors";
+  const linkClassName = (level, active) =>
+    [
+      "block py-1 text-sm transition-colors",
+      level === "h3" ? "pl-6" : "pl-3",
+      active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+    ].join(" ");
   const activationOffset = 96;
 
   let items = [];
   let scrollContainer = null;
   let activeId = null;
 
+  // Slide the rail marker over the active link.
+  const moveMarker = () => {
+    const active = document.querySelector(
+      `[data-toc-link="${CSS.escape(activeId ?? "")}"]`,
+    );
+    document.querySelectorAll("[data-toc-marker]").forEach((marker) => {
+      if (!active) return;
+      marker.style.height = `${active.offsetHeight}px`;
+      marker.style.transform = `translateY(${active.offsetTop}px)`;
+      requestAnimationFrame(() => marker.toggleAttribute("data-ready", true));
+    });
+  };
+
   const setActive = (id) => {
     if (id === activeId) return;
     activeId = id;
     document.querySelectorAll("[data-toc-link]").forEach((link) => {
-      link.className =
-        link.dataset.tocLink === id ? activeClassName : inactiveClassName;
+      link.className = linkClassName(
+        link.dataset.tocLevel,
+        link.dataset.tocLink === id,
+      );
     });
+    moveMarker();
   };
 
   // After clicking a ToC link, keep that section active through the anchor
@@ -104,10 +123,10 @@
         link.href = `#${item.id}`;
         link.textContent = item.text;
         link.dataset.tocLink = item.id;
-        link.className = inactiveClassName;
+        link.dataset.tocLevel = item.level;
+        link.className = linkClassName(item.level, false);
 
         const li = document.createElement("li");
-        li.className = item.level === "h3" ? "pl-3" : "";
         li.appendChild(link);
         tocList.appendChild(li);
       });
@@ -125,8 +144,10 @@
     syncActive();
   };
 
-  window.addEventListener("scroll", syncActive, { passive: true });
+  // Capture phase: inner scroll containers' scroll events don't bubble.
+  window.addEventListener("scroll", syncActive, { passive: true, capture: true });
   window.addEventListener("resize", syncActive, { passive: true });
+  window.addEventListener("resize", moveMarker, { passive: true });
   document.addEventListener("click", (event) => {
     const link = event.target?.closest?.("[data-toc-link]");
     if (!link) return;

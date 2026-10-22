@@ -1,28 +1,49 @@
 ---
-import BaseLayout from "./BaseLayout.astro";
-import Sidebar from "@/components/ui/sidebar";
-import Wrapper from "@/components/foundations/containers/Wrapper.astro";
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
+
+import BaseLayout from "./BaseLayout.astro";
+import Logo from "@/components/assets/Logo.astro";
+import ProgressiveBlur from "@/components/global/ProgressiveBlur.astro";
+import { SidebarGroups } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 import ToCScript from "@/components/foundations/scripts/ToCScript.astro";
 import TableOfContents from "@/components/foundations/navigation/TableOfContents.astro";
 import {
   DocsCommandSearch,
   DocsCommandSearchTrigger,
 } from "@/components/docs/docs-command-search";
+import { DocsPageActions } from "@/components/docs/docs-page-actions";
 import { DocsPageSelect } from "@/components/docs/docs-page-select";
 import type { JsonLdBreadcrumb } from "@/lib/seo/json-ld";
 import { buildDocsNavLinks, groupDocsNavLinks } from "@/lib/docs-navigation";
 import { buildSiteSearchItems } from "@/lib/site-search";
+import { APP_SIGNIN_URL, APP_SIGNUP_URL } from "@/lib/site-mega-menu";
 
 interface Props {
   title?: string;
   description?: string;
   pageTitle?: string;
   navItems: CollectionEntry<"docs">[];
+  /** The page as Markdown, for "Copy page". */
+  markdown?: string;
+  /** URL of the plain Markdown version, for "View as Markdown". */
+  markdownHref?: string;
+  lastUpdated?: Date;
 }
 
-const { title, description, pageTitle, navItems } = Astro.props;
+const {
+  title,
+  description,
+  pageTitle,
+  navItems,
+  markdown,
+  markdownHref,
+  lastUpdated,
+} = Astro.props;
 // At build time `format: "file"` makes pathname end in ".html"; normalise
 // so active-page matching (sidebar, page select, breadcrumbs) works on live.
 const currentPath = Astro.url.pathname
@@ -71,10 +92,18 @@ groupedNavLinks.sort((a, b) => {
 });
 const allDocs = await getCollection("docs");
 const siteSearchItems = buildSiteSearchItems(allDocs);
-// Eyebrow above the title, same as the landing sections.
 const currentGroup = groupedNavLinks.find((group) =>
   group.items.some((item) => item.isActive),
 )?.category;
+const lastUpdatedLabel = lastUpdated?.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+const DEMO_URL = "https://app.kobbe.io/demo/kobbe-studio?range=30d";
+const headerLinkClass =
+  "text-muted-foreground hover:text-foreground px-2 py-1.5 text-sm font-medium transition-colors";
 ---
 
 <BaseLayout
@@ -82,67 +111,255 @@ const currentGroup = groupedNavLinks.find((group) =>
   description={description}
   jsonLdBreadcrumbs={jsonLdBreadcrumbs}
   footer={false}
+  nav="mobile"
+  blurClass="lg:hidden"
 >
   {
-    /* Mobile docs navigator: the sidebar is desktop-only and the mobile menu
-       only carries the site links, so phones navigate the docs through this
-       sticky page select, with the search trigger beside it. Sits just under
-       the mobile header. */
+    /* Same shell as the dashboard: on lg+ the sidebar sits on the gray
+       canvas and the page lives in an inset panel that scrolls on its own.
+       Below lg it falls back to the mobile header and page select. */
   }
-  <div class="sticky top-15 z-30 lg:hidden">
-    <div class="bg-background/90 backdrop-blur">
-      <Wrapper variant="default" class="flex items-center gap-2 py-2">
-        <DocsPageSelect
-          client:load
-          groups={groupedNavLinks}
-          className="min-w-0 flex-1"
-        />
-        <DocsCommandSearchTrigger client:load className="w-28 shrink-0" />
-      </Wrapper>
-    </div>
-  </div>
-
-  <Wrapper variant="default">
-    <div
-      class="grid w-full grid-cols-1 gap-x-24 py-10 lg:grid-cols-[11rem_minmax(0,1fr)] lg:py-16 xl:grid-cols-[11rem_minmax(0,1fr)_9rem] 2xl:gap-x-10"
-    >
-      {
-        /* Docs navigations are full page loads (no ClientRouter), so the
-           sidebar remounts each time; open state is restored from
-           sessionStorage inside SidebarGroups. */
-      }
-      <Sidebar client:load groups={groupedNavLinks} />
-      {
-        /* min-w-0 lets this grid item shrink below the widest code block, so
-          long lines scroll inside the pre instead of widening the page. */
-      }
-      <div class="mx-auto w-full max-w-4xl min-w-0">
-        <Wrapper variant="prose" id="markdown-content">
-          {
-            displayTitle && (
-              <header class="not-prose flex w-full items-start justify-between gap-4 pb-6">
-                <div class="min-w-0">
-                  <h1 class="text-foreground text-2xl leading-tight font-medium tracking-tight text-balance">
-                    {displayTitle}
-                    {description && (
-                      <span class="text-muted-foreground mt-2 block text-lg leading-snug font-normal">
-                        {description}
-                      </span>
-                    )}
-                  </h1>
-                </div>
-                <div class="mt-1 ml-auto w-fit shrink-0">
-                  <slot name="header-actions" />
-                </div>
-              </header>
-            )
-          }
-          <slot />
+  <div data-docs-shell class="lg:bg-muted-surface lg:fixed lg:inset-0">
+    <div class="sticky top-15 z-30 lg:hidden">
+      <div class="bg-background/90 backdrop-blur">
+        <Wrapper variant="default" class="flex items-center gap-2 py-2">
+          <DocsPageSelect
+            client:load
+            groups={groupedNavLinks}
+            className="min-w-0 flex-1"
+          />
+          <DocsCommandSearchTrigger client:load iconOnly />
         </Wrapper>
       </div>
-      <TableOfContents />
     </div>
-  </Wrapper>
+
+    <aside class="absolute inset-y-0 left-0 hidden w-64 flex-col pl-1 lg:flex">
+      <div class="flex shrink-0 flex-col gap-2 p-2">
+        <div class="flex h-9 items-center gap-2 pl-2 text-sm font-medium">
+          <a
+            href="/"
+            class="text-foreground flex items-center gap-2 transition-opacity hover:opacity-70"
+          >
+            <Logo class="size-4.5" />
+            Kobbe
+          </a>
+          <span class="text-muted-foreground/50" aria-hidden="true">/</span>
+          <a
+            href="/docs"
+            class="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Docs
+          </a>
+        </div>
+        <DocsCommandSearchTrigger client:load />
+      </div>
+      <nav
+        aria-label="Docs navigation"
+        data-docs-nav
+        data-lenis-prevent
+        class="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 pt-3 pb-8 scrollbar-none!"
+      >
+        <SidebarGroups groups={groupedNavLinks} />
+      </nav>
+    </aside>
+
+    {
+      /* Site links sit on the canvas above the panel, level with the
+         Kobbe / Docs row in the sidebar. */
+    }
+    <header
+      class="absolute top-0 right-2 left-64 hidden h-13 items-center justify-end gap-1 lg:flex"
+    >
+      <a href="/#pricing" class={headerLinkClass}>Pricing</a>
+      <a href={DEMO_URL} class={headerLinkClass}>Live demo</a>
+      <a href={APP_SIGNIN_URL} class={headerLinkClass}>Sign in</a>
+      <Button
+        href={APP_SIGNUP_URL}
+        size="sm"
+        className="ml-1"
+        label="Start free for 15 days"
+      />
+    </header>
+
+    <div class="relative lg:absolute lg:top-13 lg:right-2 lg:bottom-2 lg:left-64">
+      <div
+        data-docs-panel
+        data-progressive-blur-scroll
+        data-lenis-prevent
+        class="bg-background lg:shadow-panel lg:h-full lg:overflow-y-auto lg:overscroll-y-contain lg:rounded-lg"
+      >
+        <div>
+          <div
+            class="mx-auto flex w-full max-w-6xl gap-16 px-8 py-10 lg:px-12 lg:py-12"
+          >
+            {
+              /* min-w-0 lets this column shrink below the widest code block,
+                so long lines scroll inside the pre instead of widening the page. */
+            }
+            <div class="mx-auto w-full max-w-3xl min-w-0">
+              <Wrapper
+                variant="prose"
+                id="markdown-content"
+                class="prose-headings:scroll-mt-8"
+              >
+                {
+                  displayTitle && (
+                    <header class="not-prose pb-8">
+                      <div class="flex items-center justify-between gap-4">
+                      <nav
+                        aria-label="Breadcrumb"
+                        class="text-muted-foreground flex min-w-0 items-center gap-1.5 text-sm"
+                      >
+                        <a
+                          href="/docs"
+                          class="hover:text-foreground transition-colors"
+                        >
+                          Docs
+                        </a>
+                        {currentGroup && (
+                          <>
+                            <HugeiconsIcon
+                              icon={ArrowRight01Icon}
+                              size={12}
+                              strokeWidth={2}
+                              aria-hidden="true"
+                            />
+                            <span>{currentGroup}</span>
+                          </>
+                        )}
+                      </nav>
+                        {markdown && (
+                          <DocsPageActions
+                            client:load
+                            markdown={markdown}
+                            markdownHref={markdownHref}
+                            className="hidden shrink-0 sm:flex"
+                          />
+                        )}
+                      </div>
+                      <h1 class="text-foreground mt-8 text-3xl leading-tight font-semibold tracking-tight text-balance">
+                        {displayTitle}
+                      </h1>
+                      {description && (
+                        <p class="text-muted-foreground mt-3 text-lg leading-snug text-pretty">
+                          {description}
+                        </p>
+                      )}
+                      {lastUpdated && lastUpdatedLabel && (
+                        <p class="text-muted-foreground/80 mt-4 text-xs">
+                          Last updated{" "}
+                          <time datetime={lastUpdated.toISOString()}>
+                            {lastUpdatedLabel}
+                          </time>
+                        </p>
+                      )}
+                    </header>
+                  )
+                }
+                <slot />
+              </Wrapper>
+            </div>
+            <TableOfContents />
+          </div>
+        </div>
+      </div>
+      <ProgressiveBlur contained class="hidden rounded-b-lg lg:block" />
+    </div>
+  </div>
   <DocsCommandSearch client:load hideTrigger items={siteSearchItems} />
   <ToCScript />
 </BaseLayout>
+
+<script>
+  import Lenis from "lenis";
+
+  // The panel is its own scroll container on lg+, so the window Lenis can't
+  // reach it; give it a dedicated instance, rebuilt after every page swap.
+  const desktop = window.matchMedia("(min-width: 1024px)");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let panelLenis: Lenis | undefined;
+
+  function mountPanelLenis() {
+    panelLenis?.destroy();
+    panelLenis = undefined;
+    const panel = document.querySelector<HTMLElement>("[data-docs-panel]");
+    const content = panel?.firstElementChild;
+    if (!panel || !(content instanceof HTMLElement)) return;
+    if (!desktop.matches || reducedMotion.matches) return;
+    panelLenis = new Lenis({
+      wrapper: panel,
+      content,
+      autoRaf: true,
+      anchors: { offset: -32 },
+      allowNestedScroll: true,
+    });
+  }
+
+  // Keep the sidebar's scroll position across page swaps, and make sure the
+  // current page is visible in it.
+  let navScrollTop: number | undefined;
+
+  function revealActiveNavItem() {
+    const nav = document.querySelector<HTMLElement>("[data-docs-nav]");
+    if (!nav) return;
+    if (navScrollTop !== undefined) nav.scrollTop = navScrollTop;
+    const active = nav.querySelector<HTMLElement>('[aria-current="page"]');
+    if (!active) return;
+    const navRect = nav.getBoundingClientRect();
+    const itemRect = active.getBoundingClientRect();
+    if (itemRect.top < navRect.top || itemRect.bottom > navRect.bottom) {
+      nav.scrollTop +=
+        itemRect.top - navRect.top - (nav.clientHeight - itemRect.height) / 2;
+    }
+    slideActiveIndicator(nav);
+  }
+
+  // Slide the active pill and rail marker from the previous page's item, the
+  // way the dashboard sidebar does.
+  let previousPillTop: number | undefined;
+
+  function slideActiveIndicator(nav: HTMLElement) {
+    const from = previousPillTop;
+    previousPillTop = undefined;
+    if (from === undefined || reducedMotion.matches) return;
+    const pill = nav.querySelector<HTMLElement>("[data-docs-nav-pill]");
+    const marker = nav.querySelector<HTMLElement>("[data-docs-nav-marker]");
+    if (!pill) return;
+    const dy = from - pill.getBoundingClientRect().top;
+    if (Math.abs(dy) < 1) return;
+    const keyframes = [{ transform: `translateY(${dy}px)` }, { transform: "none" }];
+    const timing = { duration: 400, easing: "cubic-bezier(0.23, 1, 0.32, 1)" };
+    pill.animate(keyframes, timing);
+    marker?.animate(keyframes, timing);
+  }
+
+  document.addEventListener("astro:before-preparation", () => {
+    panelLenis?.stop();
+  });
+  // Groups opened or closed by hand stay that way on the next docs page;
+  // the group holding the new page is always open.
+  document.addEventListener("astro:before-swap", (event) => {
+    const nav = document.querySelector<HTMLElement>("[data-docs-nav]");
+    navScrollTop = nav?.scrollTop;
+    if (!nav) return;
+    const pillRect = nav
+      .querySelector<HTMLElement>("[data-docs-nav-pill]")
+      ?.getBoundingClientRect();
+    previousPillTop = pillRect && pillRect.height > 0 ? pillRect.top : undefined;
+    const nextGroups = event.newDocument.querySelectorAll<HTMLDetailsElement>(
+      "[data-docs-nav-group]",
+    );
+    for (const group of nextGroups) {
+      if (group.hasAttribute("data-active-group")) continue;
+      const current = nav.querySelector<HTMLDetailsElement>(
+        `[data-docs-nav-group="${CSS.escape(group.dataset.docsNavGroup ?? "")}"]`,
+      );
+      if (current) group.open = current.open;
+    }
+  });
+  document.addEventListener("astro:page-load", () => {
+    mountPanelLenis();
+    revealActiveNavItem();
+  });
+  desktop.addEventListener("change", mountPanelLenis);
+</script>

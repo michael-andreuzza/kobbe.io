@@ -8,6 +8,8 @@ import RevenueProvidersList from "@/components/docs/revenue-providers-list.astro
 import ImportProvidersList from "@/components/docs/import-providers-list.astro";
 import { PricingVolumeTable } from "@/components/sections/pricing/pricing-volume-table";
 import { NotificationCard } from "@/components/ui/notification-card";
+import { docMarkdown, docMarkdownHref } from "@/lib/docs-markdown";
+import { gitLastUpdated } from "@/lib/git-last-updated";
 
 export async function getStaticPaths() {
   const docs = await getCollection("docs");
@@ -110,13 +112,10 @@ const bottomNotifications =
   pageTitle={entry.data.title}
   description={entry.data.description}
   navItems={docs}
+  markdown={docMarkdown(entry)}
+  markdownHref={docMarkdownHref(entry)}
+  lastUpdated={gitLastUpdated(entry.filePath)}
 >
-  <DocsPageNavigation
-    slot="header-actions"
-    docs={docs}
-    currentId={entry.id}
-    variant="compact"
-  />
   {
     topNotifications.length > 0 && (
       <div class="space-y-3">

@@ -2,16 +2,14 @@
 import type { CollectionEntry } from "astro:content";
 import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface Props {
   docs: CollectionEntry<"docs">[];
   currentId: string;
-  variant?: "full" | "compact";
 }
 
-const { docs, currentId, variant = "full" } = Astro.props;
+const { docs, currentId } = Astro.props;
 const currentIndex = docs.findIndex((doc) => doc.id === currentId);
 const previousDoc = currentIndex > 0 ? docs[currentIndex - 1] : undefined;
 const nextDoc =
@@ -22,113 +20,95 @@ const nextDoc =
 const getHref = (doc: CollectionEntry<"docs">) =>
   doc.id === "overview" ? "/docs" : `/docs/${doc.id}`;
 
-/* Bottom prev/next: quiet text links. `select-none` and no dragging keep
-   rapid click-through paging from triggering text selection or drags; the
-   ClientRouter handles the navigation itself (SPA swap, no dropped clicks). */
-const linkClass =
-  "text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm transition-colors select-none [-webkit-user-drag:none]";
+const getTitle = (doc: CollectionEntry<"docs">) =>
+  doc.data.navLabel ?? doc.data.title;
 
-/* Top corner pager: quiet chip buttons with the soft field border. */
-const iconLinkClass = cn(
-  "border-border bg-background text-muted-foreground hover:bg-background hover:text-foreground",
-  "select-none [-webkit-user-drag:none]",
-);
+/* Bottom pager: a white card previewing the next page (or the previous one
+   on the last page), with a quiet Previous link beside it on a gray strip.
+   `select-none` and no dragging keep rapid click-through paging from
+   triggering text selection or drags. */
+const card = nextDoc ?? previousDoc;
+const cardIsNext = Boolean(nextDoc);
+const noDrag = "select-none [-webkit-user-drag:none]";
+const cardLabelClass =
+  "text-foreground flex shrink-0 items-center gap-1 self-stretch text-sm font-medium";
+
 ---
 
 {
-  (previousDoc || nextDoc) && (
+  card && (
     <nav
       aria-label="pagination"
-      class={
-        variant === "compact"
-          ? "not-prose flex items-center gap-1"
-          : "not-prose border-border mt-10 flex items-center justify-between gap-4 border-t pt-6"
-      }
+      class="not-prose bg-muted-surface mt-12 flex rounded-2xl p-1"
     >
-      {previousDoc ? (
-        variant === "compact" ? (
-          <Button
-            href={getHref(previousDoc)}
-            variant="outline"
-            size="icon"
-            className={iconLinkClass}
-            data-slot="pagination-link"
-            data-astro-prefetch="viewport"
-            draggable={false}
-            aria-label={`Previous: ${previousDoc.data.navLabel ?? previousDoc.data.title}`}
-          >
+      {previousDoc && nextDoc && (
+        <a
+          href={getHref(previousDoc)}
+          data-slot="pagination-link"
+          data-astro-prefetch="viewport"
+          draggable="false"
+          aria-label={`Previous: ${getTitle(previousDoc)}`}
+          class={cn(
+            "text-muted-foreground hover:text-foreground flex shrink-0 items-center gap-1 px-4 text-sm font-medium transition-colors",
+            noDrag,
+          )}
+        >
+          <HugeiconsIcon
+            icon={ArrowLeft01Icon}
+            size={14}
+            strokeWidth={1.8}
+            aria-hidden="true"
+          />
+          Previous
+        </a>
+      )}
+      <a
+        href={getHref(card)}
+        data-slot="pagination-link"
+        data-astro-prefetch="viewport"
+        draggable="false"
+        aria-label={`${cardIsNext ? "Next" : "Previous"}: ${getTitle(card)}`}
+        class={cn(
+          "border-border bg-background hover:border-muted-foreground/20 flex min-w-0 flex-1 items-center gap-4 rounded-xl border p-4 shadow-xs transition-colors",
+          noDrag,
+        )}
+      >
+        {!cardIsNext && (
+          <span class={cn(cardLabelClass, "border-border border-r pr-4")}>
             <HugeiconsIcon
               icon={ArrowLeft01Icon}
               size={14}
               strokeWidth={1.8}
               aria-hidden="true"
             />
-          </Button>
-        ) : (
-          <a
-            href={getHref(previousDoc)}
-            data-slot="pagination-link"
-            data-astro-prefetch="viewport"
-            draggable="false"
-            aria-label={`Previous: ${previousDoc.data.navLabel ?? previousDoc.data.title}`}
-            class={linkClass}
-          >
-            <HugeiconsIcon
-              icon={ArrowLeft01Icon}
-              size={14}
-              strokeWidth={1.8}
-              aria-hidden="true"
-            />
-            {previousDoc.data.navLabel ?? previousDoc.data.title}
-          </a>
-        )
-      ) : variant === "compact" ? (
-        <span class="block size-8" aria-hidden="true" />
-      ) : (
-        <span />
-      )}
-      {nextDoc ? (
-        variant === "compact" ? (
-          <Button
-            href={getHref(nextDoc)}
-            variant="outline"
-            size="icon"
-            className={iconLinkClass}
-            data-slot="pagination-link"
-            data-astro-prefetch="viewport"
-            draggable={false}
-            aria-label={`Next: ${nextDoc.data.navLabel ?? nextDoc.data.title}`}
-          >
+            Previous
+          </span>
+        )}
+        <span
+          class={cn(
+            "flex min-w-0 flex-1 flex-col gap-0.5",
+            cardIsNext && "items-end text-right",
+          )}
+        >
+          <span class="text-foreground max-w-full truncate text-sm font-medium">
+            {getTitle(card)}
+          </span>
+          <span class="text-muted-foreground max-w-full truncate text-sm">
+            {card.data.description}
+          </span>
+        </span>
+        {cardIsNext && (
+          <span class={cn(cardLabelClass, "border-border border-l pl-4")}>
+            Next
             <HugeiconsIcon
               icon={ArrowRight01Icon}
               size={14}
               strokeWidth={1.8}
               aria-hidden="true"
             />
-          </Button>
-        ) : (
-          <a
-            href={getHref(nextDoc)}
-            data-slot="pagination-link"
-            data-astro-prefetch="viewport"
-            draggable="false"
-            aria-label={`Next: ${nextDoc.data.navLabel ?? nextDoc.data.title}`}
-            class={linkClass}
-          >
-            {nextDoc.data.navLabel ?? nextDoc.data.title}
-            <HugeiconsIcon
-              icon={ArrowRight01Icon}
-              size={14}
-              strokeWidth={1.8}
-              aria-hidden="true"
-            />
-          </a>
-        )
-      ) : variant === "compact" ? (
-        <span class="block size-8" aria-hidden="true" />
-      ) : (
-        <span />
-      )}
+          </span>
+        )}
+      </a>
     </nav>
   )
 }
