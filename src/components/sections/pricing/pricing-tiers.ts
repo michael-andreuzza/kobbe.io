@@ -111,30 +111,31 @@ export function formatTierDataRetentionLabel(tierKey: PricingTierKey): string {
 
 /** Flat feature list for the simplified slider pricing card. */
 export const simplifiedPricingFeatures = [
-  `Up to ${PRICING_MAX_SITES_PER_WORKSPACE} websites`,
-  "Cookieless tracking",
-  "GDPR-ready (DPA included)",
-  "Realtime visitors map",
+  "Revenue attribution",
+  "AI agents, MCP and CLI",
+  "Import from 10 tools",
+  "Bot filtering",
   "Funnels",
   "Conversions",
   "Custom events",
-  "Revenue attribution",
-  "UTM campaign and reports",
-  "First-party collect hostname",
+  "UTM campaigns",
+  "Realtime visitors map",
   "Traffic alerts",
-  "Web Vitals & performance insights",
-  "Data export and import",
-  "Team access, agent API, and CLI",
-  "Raycast extension",
+  "Core Web Vitals",
+  "Google Search Console",
+  "Error tracking",
+  "Cookieless tracking",
+  "GDPR-ready (DPA included)",
+  "Custom tracking domain",
+  "Team access",
+  "Shared dashboards",
+  "Data export",
   MONTHLY_EMAIL_REPORTS_FEATURE,
+  `Up to ${PRICING_MAX_SITES_PER_WORKSPACE} websites`,
 ] as const;
 
 export function buildSimplifiedPricingFeatureRows(tierKey: PricingTierKey) {
-  return [
-    ...simplifiedPricingFeatures.slice(0, 3),
-    formatTierDataRetentionLabel(tierKey),
-    ...simplifiedPricingFeatures.slice(3),
-  ];
+  return [...simplifiedPricingFeatures, formatTierDataRetentionLabel(tierKey)];
 }
 
 export function tierIncludesMonthlyEmailReports(tierKey: PricingTierKey) {
@@ -201,7 +202,7 @@ export function formatTierBillingPeriodLabel(period: BillingPeriod) {
  * price and never multiplies back to the total (confused real customers).
  */
 export function formatYearlyBillingBreakdownLabel(tier: PricingTier) {
-  return `10 × $${formatPricingCurrency(tier.monthly)}/mo — 2 months free`;
+  return `10 × $${formatPricingCurrency(tier.monthly)}/mo, 2 months free`;
 }
 
 export function formatTierTrialPriceNote(

@@ -2,7 +2,6 @@
 import { ArrowDownRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
-import { Button } from "@/components/ui/button";
 import { TwoToneHeading } from "@/components/ui/two-tone-heading";
 import Wrapper from "@/components/foundations/containers/Wrapper.astro";
 
@@ -30,11 +29,23 @@ const listRows = [
     href: "/docs/search-console",
   },
   {
+    title: "JavaScript errors, with the page and browser they hit",
+    href: "/docs/error-tracking",
+  },
+  {
+    title: "Traffic alerts when visits spike or drop",
+    href: "/docs/traffic-alerts",
+  },
+  {
+    title: "Shared dashboards and embeddable widgets",
+    href: "/docs/shared-dashboards",
+  },
+  {
     title: "Bring your history from Google Analytics, Plausible, Matomo, and more",
     href: "/features/import",
   },
   {
-    title: "A CLI, an MCP server, and a Raycast extension",
+    title: "Ask your AI agents through MCP, or script it with the CLI",
     href: "/features/ai-agents",
   },
 ];
@@ -42,17 +53,16 @@ const listRows = [
 
 <section class="mt-32">
   <Wrapper variant="default">
-    <div
-      class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
-    >
-      <TwoToneHeading
-        title="Every feature, on every plan."
+    <TwoToneHeading title="Every feature, on every plan." className="max-w-3xl">
+      Everything you'd expect from web analytics, plus the parts others charge
+      extra for. No feature gates, no enterprise tier.{" "}
+      <a
+        href="/features"
+        class="text-foreground decoration-foreground/30 hover:decoration-foreground underline underline-offset-4 transition-colors"
       >
-        Everything you'd expect from web analytics, plus the parts others
-        charge extra for. No feature gates, no enterprise tier.
-      </TwoToneHeading>
-      <Button label="All features" href="/features" variant="outline" />
-    </div>
+        See all features
+      </a>
+    </TwoToneHeading>
     <div class="border-border mt-8 border-t">
       {
         listRows.map((row) => (

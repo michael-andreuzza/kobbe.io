@@ -44,7 +44,7 @@ export function PricingPlansPanel({
             )}
           >
             <span className="text-foreground text-sm font-medium">
-              {tier.events} events a month
+              {tier.events} events
             </span>
             <PricingPriceDisplay
               period={period}
@@ -67,8 +67,8 @@ export function PricingPlansPanel({
           data-kobbe-event={`Simplified pricing - ${startingTier.events} ${period}`}
         />
         <p className="text-muted-foreground mt-4 text-xs text-balance">
-          {formatTierTrialPriceNote(startingTier, period)} Upgrade or downgrade
-          anytime and cancel anytime
+          No card required. {formatTierTrialPriceNote(startingTier, period)}.
+          Change plans or cancel anytime.
         </p>
       </div>
     </div>

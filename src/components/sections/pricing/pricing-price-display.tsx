@@ -110,7 +110,7 @@ export function PricingPriceDisplay({
   // multiplies back to the total. The breakdown label carries the math.
   const ariaLabel =
     period === "yearly" && yearlyTotalAmount != null
-      ? `$${formatPricingCurrency(yearlyTotalAmount)} per year, billed annually — 2 months free`
+      ? `$${formatPricingCurrency(yearlyTotalAmount)} per year, billed annually, 2 months free`
       : `$${formatPricingCurrency(displayAmount)} per month, billed monthly`;
 
   if (showYearlyTotal) {

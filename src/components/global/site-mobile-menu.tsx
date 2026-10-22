@@ -34,7 +34,7 @@ const docsPageLinks = siteNavLinks.filter(
 
 /**
  * Mobile navigation, mirroring the desktop pills: a brand pill (logo chip +
- * Menu trigger) on the left and a Sign in / Try free pill on the right.
+ * Menu trigger) on the left and a Sign in / Start free pill on the right.
  * The Menu trigger opens a full-height dark sheet with the same sections as
  * the desktop mega menu: product, docs pages, and the platform guide grids,
  * plus the Pricing and Live demo links from the desktop nav pill.
@@ -244,7 +244,7 @@ export function SiteMobileMenu({ className, children }: SiteMobileMenuProps) {
           </a>
           <Button
             href={APP_SIGNUP_URL}
-            label="Try free"
+            label="Start free"
             variant="solid"
             size="xs"
             data-kobbe-event="Nav - start trial"

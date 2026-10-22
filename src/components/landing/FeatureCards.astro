@@ -1,11 +1,10 @@
 ---
 /**
- * Stacked feature sections: a title, a gray subtitle, and a short fact list
- * on the left with the feature page link on the right, then a large muted panel the
+ * Stacked feature sections: a title, a gray subtitle ending in an underlined
+ * feature page link, and a short fact list, then a large muted panel the
  * product screenshot rises into from the bottom, cropped by the panel edge.
  */
 import { Image } from "astro:assets";
-import { Button } from "@/components/ui/button";
 import { TwoToneHeading } from "@/components/ui/two-tone-heading";
 import Wrapper from "../foundations/containers/Wrapper.astro";
 import featureOverview from "@/images/assets/feature-overview.png";
@@ -17,7 +16,7 @@ const features = [
     lead: "Bots stay out of your numbers.",
     body: "Headless browsers, datacenter traffic, and referrer spam never reach your stats or your quota.",
     href: "/features/bot-filtering",
-    linkLabel: "Bot filtering",
+    linkLabel: "How bot filtering works",
     facts: [
       "7 independent checks",
       "2,300+ spam referrers blocked",
@@ -32,7 +31,7 @@ const features = [
     lead: "See what every page earns.",
     body: "Revenue traced through checkout with Stripe, Polar, Paddle, Shopify, and more.",
     href: "/features/revenue-attribution",
-    linkLabel: "Revenue",
+    linkLabel: "How attribution works",
     facts: [
       "10 payment integrations",
       "Gross, net, and attributed revenue",
@@ -46,7 +45,7 @@ const features = [
     lead: "Nothing to consent to.",
     body: "Kobbe counts visits without tracking people, and respects Global Privacy Control and Do Not Track.",
     href: "/features/cookieless-analytics",
-    linkLabel: "Privacy",
+    linkLabel: "How it stays cookieless",
     facts: ["No cookies", "No raw IPs stored", "DPA included"],
     image: featureRealtime,
     imageAlt:
@@ -60,28 +59,22 @@ const features = [
     {
       features.map((feature) => (
         <section class="relative overflow-hidden">
-          <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-            <div class="min-w-0">
-              <TwoToneHeading title={feature.lead} className="max-w-2xl">
-                {feature.body}
-              </TwoToneHeading>
-              <ul class="mt-6 flex flex-col gap-x-8 gap-y-2 sm:flex-row sm:flex-wrap">
-                {feature.facts.map((fact) => (
-                  <li class="text-muted-foreground before:bg-muted-foreground flex items-center gap-2 text-sm font-medium whitespace-nowrap before:size-1 before:shrink-0 before:rounded-full before:content-['']">
-                    {fact}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <Button
-              label={feature.linkLabel}
+          <TwoToneHeading title={feature.lead} className="max-w-3xl">
+            {feature.body}{" "}
+            <a
               href={feature.href}
-              variant="outline"
-              size="sm"
-              arrow
-              className="shrink-0"
-            />
-          </div>
+              class="text-foreground decoration-foreground/30 hover:decoration-foreground underline underline-offset-4 transition-colors"
+            >
+              {feature.linkLabel}
+            </a>
+          </TwoToneHeading>
+          <ul class="mt-6 flex flex-col gap-x-8 gap-y-2 sm:flex-row sm:flex-wrap">
+            {feature.facts.map((fact) => (
+              <li class="text-muted-foreground before:bg-muted-foreground flex items-center gap-2 text-sm font-medium whitespace-nowrap before:size-1 before:shrink-0 before:rounded-full before:content-['']">
+                {fact}
+              </li>
+            ))}
+          </ul>
           <div class="bg-muted-surface relative mt-8 flex h-auto items-center justify-end overflow-hidden rounded-lg p-4 pb-0 sm:h-120 lg:h-152">
             <Image
               src={feature.image}
