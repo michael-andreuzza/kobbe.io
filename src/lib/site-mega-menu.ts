@@ -1,9 +1,11 @@
 import astroLogo from "@/images/brands/astro.svg";
+import chargebeeLogo from "@/images/brands/chargebee.svg";
 import cloudflareLogo from "@/images/brands/cloudflare.svg";
 import creemLogo from "@/images/brands/creem.svg";
 import datafastLogo from "@/images/brands/datafast.svg";
 import fathomLogo from "@/images/brands/fathom.svg";
 import googleAnalyticsLogo from "@/images/brands/googleanalytics.svg";
+import gumroadLogo from "@/images/brands/gumroad.svg";
 import framerLogo from "@/images/brands/framer.svg";
 import lovableLogo from "@/images/brands/lovable.svg";
 import matomoLogo from "@/images/brands/matomo.svg";
@@ -23,6 +25,7 @@ import v0Logo from "@/images/brands/v0.svg";
 import vueLogo from "@/images/brands/vue.svg";
 import webflowLogo from "@/images/brands/webflow.svg";
 import whopLogo from "@/images/brands/whop.svg";
+import wooLogo from "@/images/brands/woo.svg";
 import wordpressLogo from "@/images/brands/wordpress.svg";
 
 export type MegaMenuLink = {
@@ -87,6 +90,9 @@ export const siteMegaMenuGuideGroups: MegaMenuGuideGroup[] = [
       { id: "revenue-shopify", href: "/docs/revenue-attribution-shopify", label: "Shopify", logo: { src: shopifyLogo.src, alt: "Shopify logo" } },
       { id: "revenue-stripe", href: "/docs/revenue-attribution-stripe", label: "Stripe", logo: { src: stripeLogo.src, alt: "Stripe logo" } },
       { id: "revenue-whop", href: "/docs/revenue-attribution-whop", label: "Whop", logo: { src: whopLogo.src, alt: "Whop logo" } },
+      { id: "revenue-woocommerce", href: "/docs/revenue-attribution-woocommerce", label: "WooCommerce", logo: { src: wooLogo.src, alt: "WooCommerce logo" } },
+      { id: "revenue-gumroad", href: "/docs/revenue-attribution-gumroad", label: "Gumroad", logo: { src: gumroadLogo.src, alt: "Gumroad logo" } },
+      { id: "revenue-chargebee", href: "/docs/revenue-attribution-chargebee", label: "Chargebee", logo: { src: chargebeeLogo.src, alt: "Chargebee logo" } },
     ]),
   },
   {

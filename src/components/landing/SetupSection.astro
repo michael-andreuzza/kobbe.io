@@ -56,14 +56,20 @@ const sources = [
   { label: "Pirsch", href: "/docs/import-from-pirsch", file: "pirsch.svg" },
 ];
 
-const agents = [
-  { label: "Cursor", href: "/features/ai-agents", file: "cursor.svg" },
-  { label: "Claude", href: "/features/ai-agents", file: "claude.svg" },
-  { label: "Codex", href: "/features/ai-agents", file: "codex.svg" },
-  { label: "Windsurf", href: "/features/ai-agents", file: "windsurf.svg" },
-  { label: "Zed", href: "/features/ai-agents", file: "zed.svg" },
-  { label: "OpenCode", href: "/features/ai-agents", file: "opencode.svg" },
-  { label: "Roo Code", href: "/features/ai-agents", file: "roo code.svg" },
+const payments = [
+  { label: "Stripe", href: "/docs/revenue-attribution-stripe", file: "stripe.svg" },
+  { label: "Polar", href: "/docs/revenue-attribution-polar", file: "polar.svg" },
+  { label: "Paddle", href: "/docs/revenue-attribution-paddle", file: "paddle.svg" },
+  { label: "Creem", href: "/docs/revenue-attribution-creem", file: "creem.svg" },
+  { label: "Mollie", href: "/docs/revenue-attribution-mollie", file: "mollie.svg" },
+  { label: "Revolut", href: "/docs/revenue-attribution-revolut", file: "revolut.svg" },
+  { label: "Whop", href: "/docs/revenue-attribution-whop", file: "whop.svg" },
+  { label: "RevenueCat", href: "/docs/revenue-attribution-revenuecat", file: "revenuecat.svg" },
+  { label: "Superwall", href: "/docs/revenue-attribution-superwall", file: "superwall.svg" },
+  { label: "Shopify", href: "/docs/revenue-attribution-shopify", file: "shopify.svg" },
+  { label: "WooCommerce", href: "/docs/revenue-attribution-woocommerce", file: "woo.svg" },
+  { label: "Gumroad", href: "/docs/revenue-attribution-gumroad", file: "gumroad.svg" },
+  { label: "Chargebee", href: "/docs/revenue-attribution-chargebee", file: "chargebee.svg" },
 ];
 
 const groups = [
@@ -80,10 +86,10 @@ const groups = [
     items: sources,
   },
   {
-    title: "Ask your agent.",
-    body: "Your stats in Cursor, Claude or Codex.",
-    link: { label: "Kobbe for agents", href: "/features/ai-agents" },
-    items: agents,
+    title: "Follow the money.",
+    body: "See which pages lead to a sale.",
+    link: { label: "How attribution works", href: "/features/revenue-attribution" },
+    items: payments,
   },
 ];
 ---

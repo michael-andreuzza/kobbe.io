@@ -56,6 +56,9 @@ Add Kobbe’s generated webhook URL to your provider, then paste the provider si
 - Whop and Superwall use Standard Webhooks signing (`webhook-*` or `svix-*` headers).
 - RevenueCat accepts an **Authorization** header or **X-RevenueCat-Webhook-Signature** HMAC.
 - Shopify uses the `X-Shopify-Hmac-Sha256` header.
+- WooCommerce uses the `X-WC-Webhook-Signature` header.
+- Chargebee uses HTTP basic authentication with the password you set.
+- Gumroad pings are unsigned, so Kobbe confirms each sale through the Gumroad API with your access token.
 
 Kobbe rejects webhooks when the signing secret is missing, wrong, or outside the replay window.
 
@@ -87,3 +90,6 @@ If your checkout ends on a thank-you page, add it under **Settings → Exclusion
 - [RevenueCat revenue attribution](/docs/revenue-attribution-revenuecat)
 - [Superwall revenue attribution](/docs/revenue-attribution-superwall)
 - [Shopify revenue attribution](/docs/revenue-attribution-shopify)
+- [WooCommerce revenue attribution](/docs/revenue-attribution-woocommerce)
+- [Gumroad revenue attribution](/docs/revenue-attribution-gumroad)
+- [Chargebee revenue attribution](/docs/revenue-attribution-chargebee)

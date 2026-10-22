@@ -26,7 +26,7 @@ const logos = import.meta.glob<{ default: ImageMetadata }>(
 );
 const logo = (file: string) => logos[`/src/images/brands/${file}`]!.default;
 
-const providers = [
+const providers: { label: string; slug: string; file?: string }[] = [
   { label: "Stripe", slug: "stripe" },
   { label: "Polar", slug: "polar" },
   { label: "Paddle", slug: "paddle" },
@@ -37,12 +37,15 @@ const providers = [
   { label: "Revolut", slug: "revolut" },
   { label: "Superwall", slug: "superwall" },
   { label: "Whop", slug: "whop" },
+  { label: "WooCommerce", slug: "woocommerce", file: "woo" },
+  { label: "Gumroad", slug: "gumroad" },
+  { label: "Chargebee", slug: "chargebee" },
 ];
 
 const features = [
   {
     lead: "Connect your checkout",
-    body: "Stripe, Polar, Paddle, Shopify, and six more send each payment to Kobbe through a webhook.",
+    body: "Stripe, Polar, Paddle, Shopify, and nine more send each payment to Kobbe through a webhook.",
     widget: RevenueProvidersWidget,
   },
   {
@@ -83,7 +86,7 @@ const features = [
               class="block transition-opacity hover:opacity-70"
             >
               <BrandLogo
-                src={logo(`${provider.slug}.svg`).src}
+                src={logo(`${provider.file ?? provider.slug}.svg`).src}
                 class="size-6 rounded-sm object-contain"
                 width={24}
                 height={24}
