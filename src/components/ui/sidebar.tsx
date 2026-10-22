@@ -5,6 +5,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 
 import { BrandLogo } from "@/components/foundations/brand-logo";
 import { DocsCommandSearchTrigger } from "@/components/docs/docs-command-search";
+import { DOCS_NAV_OPEN_STORAGE_KEY } from "@/lib/docs-nav-state";
 import { cn } from "@/lib/utils";
 
 export type NavItem = {
@@ -28,9 +29,10 @@ type SidebarGroupsProps = {
 
 /**
  * Open/closed choices the user made by clicking group triggers, remembered
- * for the session so navigating between docs pages doesn't reset them.
+ * while moving between docs pages. BaseLayout clears them on any non-docs
+ * page, so entering the docs always starts with every group closed.
  */
-const NAV_OPEN_STORAGE_KEY = "kobbe-docs-nav-open";
+const NAV_OPEN_STORAGE_KEY = DOCS_NAV_OPEN_STORAGE_KEY;
 
 function readStoredOpenState(): Record<string, boolean> {
   try {

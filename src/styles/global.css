@@ -49,6 +49,10 @@
   scrollbar-color: gray transparent;
 }
 
+.prose :where(h1, h2, h3, h4, h5, h6, :is(h1, h2, h3, h4, h5, h6) strong):not(:where(.not-prose, .not-prose *)) {
+  font-weight: 500;
+}
+
 /* Prose ul markers: the pricing plus glyph (same path as PricingFeatureMark's
    inline SVG, notch included), masked so it takes the muted-foreground color.
    The Wrapper prose variant sets prose-ul:pl-0; each li carries its own gutter. */

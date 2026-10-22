@@ -181,6 +181,7 @@ const {
     <script>
       import Lenis from "lenis";
       import "lenis/dist/lenis.css";
+      import { DOCS_NAV_OPEN_STORAGE_KEY } from "@/lib/docs-nav-state";
 
       declare global {
         interface Window {
@@ -196,6 +197,26 @@ const {
           allowNestedScroll: true,
         });
       }
+
+      // A smooth scroll still running when a link is clicked would carry
+      // over to the next page: it lands past the content and Lenis stays
+      // stuck beyond its new limit. Stop it before the swap, restart after.
+      document.addEventListener("astro:before-preparation", () => {
+        window.lenis?.stop();
+      });
+      document.addEventListener("astro:after-swap", () => {
+        window.lenis?.resize();
+        window.lenis?.start();
+      });
+
+      document.addEventListener("astro:page-load", () => {
+        if (location.pathname.startsWith("/docs")) return;
+        try {
+          sessionStorage.removeItem(DOCS_NAV_OPEN_STORAGE_KEY);
+        } catch {
+          // Session storage unavailable; nothing is remembered anyway.
+        }
+      });
     </script>
   </head>
   <body class="bg-background flex min-h-svh min-w-0 flex-col antialiased">
