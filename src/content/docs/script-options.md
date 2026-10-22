@@ -84,6 +84,23 @@ Set to `true` to send Web Vitals samples (`LCP`, `INP`, `CLS`, `FCP`, `TTFB`). R
 data-performance="true"
 ```
 
+### Error tracking
+
+Set to `true` to record JavaScript errors visitors run into. Requires `tracker.full.js`. See [JavaScript error tracking](/docs/error-tracking).
+
+```html
+data-errors="true"
+```
+
+### Site search
+
+Set to `true` to record the search term from search result URLs like `/search?q=pricing`. Use `data-site-search-param` when your search uses a parameter other than `q`, `s`, `search`, `query`, or `term`. See [Site search](/docs/site-search).
+
+```html
+data-site-search="true"
+data-site-search-param="keyword"
+```
+
 ### Debug logging
 
 Set to `true` while troubleshooting to log failed collect responses in the browser console. Remove after debugging.
@@ -172,6 +189,8 @@ There is no separate “localhost toggle”: if your dev site loads the snippet 
 - Scroll tracking is off by default and requires `tracker.full.js`; marked elements send one custom event when they become visible (see [Scroll tracking](/docs/scroll-tracking)).
 - Cross-domain tracking is off by default and requires `tracker.full.js`; when enabled, allowlisted links receive a short handoff parameter that is cleaned from the destination URL and kept in sessionStorage for the current tab (see [Cross-domain tracking](/docs/cross-domain-tracking)).
 - Performance collection is off by default and requires `tracker.full.js`; when enabled, Web Vitals samples are stored separately from custom events and one accepted performance payload counts toward usage (see [Performance and Web Vitals](/docs/performance-web-vitals)).
+- Error tracking is off by default and requires `tracker.full.js`; when enabled, up to 5 cleaned JavaScript errors per page load are sent in one request, and each counts toward usage (see [JavaScript error tracking](/docs/error-tracking)).
+- Site search is off by default; when enabled, only the search term is read from the query string, cleaned, and stored with the pageview (see [Site search](/docs/site-search)).
 - The page hostname is stored on each event and powers the **Hostnames** breakdown (and hostname exclusions when collect is proxied).
 - The referrer is reduced to the origin, so search queries and private URL data are not collected.
 - No cookies or persistent identifiers: optional `localStorage.kobbe_ignore === "true"` stops this browser from sending events (see [Filter your visits](/docs/exclude-visits)).
@@ -190,4 +209,6 @@ There is no separate “localhost toggle”: if your dev site loads the snippet 
 - [Subdomains](/docs/track-subdomains)
 - [Cross-domain tracking](/docs/cross-domain-tracking)
 - [Performance and Web Vitals](/docs/performance-web-vitals)
+- [JavaScript error tracking](/docs/error-tracking)
+- [Site search](/docs/site-search)
 - [Filter your visits](/docs/exclude-visits)

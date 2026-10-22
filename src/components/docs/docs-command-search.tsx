@@ -158,8 +158,16 @@ export function DocsCommandSearch({
   };
 
   const navigateTo = (href: string) => {
+    const term = query.trim();
     close();
-    window.location.assign(href);
+    if (!term) {
+      window.location.assign(href);
+      return;
+    }
+    // Kobbe site search reads the term from `?q=` on the page we open.
+    const url = new URL(href, window.location.href);
+    url.searchParams.set("q", term);
+    window.location.assign(url.toString());
   };
 
   const activateEntry = (entry: SearchListEntry | undefined) => {

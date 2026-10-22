@@ -42,6 +42,7 @@ Typical usage includes:
 - Custom events.
 - Scroll visibility events.
 - One accepted Web Vitals/performance collect payload when performance tracking is enabled.
+- Each recorded JavaScript error when [error tracking](/docs/error-tracking) is enabled, up to 5 per page load.
 - Funnel steps because they are based on pageviews and custom events already collected by the tracker.
 
 Optional features such as scroll tracking, cross-domain tracking, and Web Vitals are handled separately from the monthly event counter. Enable them intentionally and avoid sending personal data in event names or properties.

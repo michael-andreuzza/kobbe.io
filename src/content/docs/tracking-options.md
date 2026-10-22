@@ -41,6 +41,8 @@ After you save, the tracker loads merged settings from `/api/collect-config` on 
 | UTM campaigns | `data-campaigns="true"` | See [UTM campaigns](/docs/utm-campaigns). |
 | Hash page paths | `data-track-hash="true"` | See [Hash page paths](/docs/hash-page-paths). |
 | Web Vitals | `data-performance="true"` | Requires `tracker.full.js`. See [Performance and Web Vitals](/docs/performance-web-vitals). |
+| Error tracking | `data-errors="true"` | Requires `tracker.full.js` and a paid plan. See [JavaScript error tracking](/docs/error-tracking). |
+| Site search | `data-site-search="true"` | Optional `data-site-search-param="keyword"`. See [Site search](/docs/site-search). |
 | Auto conversions | `data-conversions="true"` | See [Conversions](/docs/conversions). |
 | Debug logging | `data-analytics-debug="true"` | Logs failed collect responses in the browser console. Remove after debugging. |
 | Cross-domain | `data-allowed-hostnames="host1,host2"` | Requires `tracker.full.js`. When the toggle is On, enter allowed hostnames in the dashboard field. See [Cross-domain tracking](/docs/cross-domain-tracking). |
@@ -53,7 +55,7 @@ The site token (`data-token`) and optional collect endpoint (`data-endpoint`) ar
 
 - Paste the Minimal install snippet in your global layout
 - Turn features On in Tracking options and save
-- Use `tracker.full.js` only for Web Vitals, cross-domain handoff, or scroll tracking
+- Use `tracker.full.js` only for Web Vitals, error tracking, cross-domain handoff, or scroll tracking
 
 ### Code-first (explicit snippet)
 

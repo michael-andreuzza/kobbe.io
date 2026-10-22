@@ -107,6 +107,12 @@ export const featureGroups: FeatureGroup[] = [
         href: "/docs/conversions#file-downloads",
       },
       {
+        title: "Site search",
+        description:
+          "See what visitors type into your search box, and filter the dashboard by any search term.",
+        href: "/docs/site-search",
+      },
+      {
         title: "Funnels",
         description:
           "Build multi-step funnels from pages and events you already collect, and see exactly where people drop off.",
@@ -161,6 +167,12 @@ export const featureGroups: FeatureGroup[] = [
         description:
           "LCP, CLS, and INP with percentile trends. See which pages feel slow before Google tells you.",
         href: "/docs/performance-web-vitals",
+      },
+      {
+        title: "JavaScript error tracking",
+        description:
+          "See which errors visitors hit, on which pages and browsers, and whether they cost you conversions.",
+        href: "/docs/error-tracking",
       },
       {
         title: "Google Search Console",

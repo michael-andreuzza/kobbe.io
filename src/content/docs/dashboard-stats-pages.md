@@ -1,6 +1,6 @@
 ---
 title: Pages on the dashboard
-description: Top, entered, and exited pages, previews, expansion, and the per-page drill-down.
+description: Top, entered, and exited pages, site searches, previews, expansion, and the per-page drill-down.
 order: 12.03
 category: Dashboard stats
 navLabel: Pages
@@ -17,8 +17,9 @@ The **Pages** breakdown answers where people land, what they view most, and wher
 | **Exited**    | Paths where visits ended (exit pages).                                    |
 | **404s**      | Missing pages visitors hit, with the page that most often linked to them. |
 | **Groups**    | Unique visitors per section of your site, using path patterns you define. |
+| **Searches**  | What visitors typed into your site's search box, by unique visitors.      |
 
-The 404s tab needs a one-line setup on your site, see [404 tracking](/docs/404-tracking).
+The 404s tab needs a one-line setup on your site, see [404 tracking](/docs/404-tracking). The Searches tab needs [site search](/docs/site-search) turned on. Click a search term to filter the dashboard to visitors who searched for it.
 
 ## Page groups
 

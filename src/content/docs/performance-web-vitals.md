@@ -49,6 +49,8 @@ The Performance dashboard shows:
 - Device, browser, and country breakdowns by p75.
 - Sample counts so you can judge how much data backs each row.
 
+With [error tracking](/docs/error-tracking) on, the page also shows the JavaScript errors visitors ran into.
+
 p75 means the 75th percentile. If a page has p75 LCP of `2.5s`, 75% of collected samples were at or below that value and 25% were slower.
 
 ## Privacy
@@ -59,6 +61,7 @@ Performance payloads include the current page path, browser/device/location hint
 
 ## Related docs
 
+- [JavaScript error tracking](/docs/error-tracking)
 - [Script options](/docs/script-options)
 - [Dashboard overview](/docs/dashboard-overview)
 - [Privacy and cookieless tracking](/docs/privacy-and-cookieless-tracking)
