@@ -1,41 +1,48 @@
 ---
 /**
- * The JavaScript errors card in miniature: identical errors grouped, each
- * with its file and line, where it happens most, and how many visitors hit it.
+ * The dashboard's JavaScript errors card in miniature: errors grouped by
+ * message and file, with where they happen most, visitors, and count.
  */
 const errors = [
   {
     message: "Cannot read properties of undefined",
-    detail: "checkout.js:118, /checkout, Safari",
+    detail: "checkout.js:118 on /checkout, mostly Safari",
     visitors: "41",
+    count: "96",
   },
   {
     message: "Failed to fetch",
-    detail: "app.js:92, /pricing, Chrome",
+    detail: "app.js:92 on /pricing, mostly Chrome",
     visitors: "17",
+    count: "23",
   },
   {
     message: "stripe is not defined",
-    detail: "pay.js:12, /checkout, Firefox",
+    detail: "pay.js:12 on /checkout, mostly Firefox",
     visitors: "6",
+    count: "6",
   },
 ];
 ---
 
 <div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
   <span class="text-foreground text-sm font-medium">JavaScript errors</span>
-  <span class="text-muted-foreground mt-0.5 text-xs">Grouped, by visitors</span>
-  <ul class="mt-5 flex flex-col gap-2">
+  <span class="text-muted-foreground mt-0.5 text-xs">64 visitors hit an error, last 7 days</span>
+  <div class="text-muted-foreground mt-5 grid grid-cols-[1fr_auto_auto] gap-x-3 text-xs">
+    <span>Error</span>
+    <span class="text-right">Visitors</span>
+    <span class="text-right">Count</span>
+  </div>
+  <ul class="mt-2 flex flex-col gap-2">
     {
       errors.map((error) => (
-        <li class="bg-muted-surface flex items-start gap-3 rounded-md p-3">
-          <span class="flex min-w-0 flex-col text-xs">
+        <li class="bg-muted-surface grid grid-cols-[1fr_auto_auto] items-start gap-x-3 rounded-md p-3 text-xs">
+          <span class="flex min-w-0 flex-col">
             <span class="text-foreground truncate font-medium">{error.message}</span>
             <span class="text-muted-foreground truncate">{error.detail}</span>
           </span>
-          <span class="text-foreground ml-auto text-xs font-medium">
-            {error.visitors}
-          </span>
+          <span class="text-foreground text-right font-medium">{error.visitors}</span>
+          <span class="text-muted-foreground text-right">{error.count}</span>
         </li>
       ))
     }
