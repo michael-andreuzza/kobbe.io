@@ -1,6 +1,6 @@
 /**
  * The full feature catalog for /features, grouped into stacked sections in
- * the landing language, each feature linking to its docs page. The flat list
+ * the landing language, each feature linking to its feature page when it has one, otherwise its docs page. The flat list
  * feeds the JSON-LD ItemList.
  */
 export interface FeatureItem {
@@ -30,7 +30,7 @@ export const featureGroups: FeatureGroup[] = [
         title: "Bot filtering",
         description:
           "Headless browsers, datacenter traffic, and referrer spam are dropped before they touch your stats. Filtered bots never count toward your quota.",
-        href: "/docs/bot-filtering",
+        href: "/features/bot-filtering",
       },
       {
         title: "Realtime visitors",
@@ -99,7 +99,7 @@ export const featureGroups: FeatureGroup[] = [
         title: "Revenue attribution",
         description:
           "Connect Stripe, Polar, Paddle, Shopify, and more to see the revenue every page, source, and campaign actually produced.",
-        href: "/docs/revenue-attribution",
+        href: "/features/revenue-attribution",
       },
       {
         title: "Conversions and goals",
@@ -123,7 +123,7 @@ export const featureGroups: FeatureGroup[] = [
         title: "Funnels",
         description:
           "Build multi-step funnels from pages and events you already collect, and see exactly where people drop off.",
-        href: "/docs/funnels",
+        href: "/features/funnels",
       },
       {
         title: "UTM campaigns",
@@ -150,13 +150,13 @@ export const featureGroups: FeatureGroup[] = [
         title: "Cookieless tracking",
         description:
           "No cookies, no fingerprinting, no consent banner to click away. Global Privacy Control and Do Not Track are honored before a single request is sent.",
-        href: "/docs/privacy-and-cookieless-tracking",
+        href: "/features/cookieless-analytics",
       },
       {
         title: "Import your history",
         description:
           "Move in from Google Analytics, Plausible, Matomo, Fathom, and more with your historical data intact.",
-        href: "/docs/import-analytics-data",
+        href: "/features/import",
       },
       {
         title: "Export anytime",
