@@ -183,7 +183,7 @@ export const featureGroups: FeatureGroup[] = [
         title: "JavaScript error tracking",
         description:
           "See which errors visitors hit, on which pages and browsers, and whether they cost you conversions.",
-        href: "/docs/error-tracking",
+        href: "/features/error-tracking",
       },
       {
         title: "Google Search Console",

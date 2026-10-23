@@ -1,0 +1,43 @@
+---
+/**
+ * The JavaScript errors card in miniature: identical errors grouped, each
+ * with its file and line, where it happens most, and how many visitors hit it.
+ */
+const errors = [
+  {
+    message: "Cannot read properties of undefined",
+    detail: "checkout.js:118, /checkout, Safari",
+    visitors: "41",
+  },
+  {
+    message: "Failed to fetch",
+    detail: "app.js:92, /pricing, Chrome",
+    visitors: "17",
+  },
+  {
+    message: "stripe is not defined",
+    detail: "pay.js:12, /checkout, Firefox",
+    visitors: "6",
+  },
+];
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <span class="text-foreground text-sm font-medium">JavaScript errors</span>
+  <span class="text-muted-foreground mt-0.5 text-xs">Grouped, by visitors</span>
+  <ul class="mt-5 flex flex-col gap-2">
+    {
+      errors.map((error) => (
+        <li class="bg-muted-surface flex items-start gap-3 rounded-md p-3">
+          <span class="flex min-w-0 flex-col text-xs">
+            <span class="text-foreground truncate font-medium">{error.message}</span>
+            <span class="text-muted-foreground truncate">{error.detail}</span>
+          </span>
+          <span class="text-foreground ml-auto text-xs font-medium">
+            {error.visitors}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</div>

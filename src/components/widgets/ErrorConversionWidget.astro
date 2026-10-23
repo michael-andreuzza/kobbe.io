@@ -1,0 +1,34 @@
+---
+/**
+ * What an error costs: the conversion rate of visitors who hit it next to
+ * the visitors who did not.
+ */
+const rows = [
+  { label: "Didn't hit an error", rate: 4.8 },
+  { label: "Hit an error", rate: 1.2 },
+];
+const max = Math.max(...rows.map((row) => row.rate));
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <span class="text-foreground text-sm font-medium">Conversion rate</span>
+  <span class="text-muted-foreground mt-0.5 text-xs">Cannot read properties of undefined</span>
+  <ul class="mt-5 flex flex-col gap-2">
+    {
+      rows.map((row) => (
+        <li class="bg-muted-surface flex flex-col gap-2 rounded-md p-3 text-xs">
+          <span class="flex items-center justify-between">
+            <span class="text-muted-foreground">{row.label}</span>
+            <span class="text-foreground font-medium">{row.rate}%</span>
+          </span>
+          <span class="bg-border h-1 overflow-hidden rounded-full">
+            <span
+              class="bg-foreground block h-full rounded-full"
+              style={`width: ${(row.rate / max) * 100}%`}
+            />
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</div>

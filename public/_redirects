@@ -3,3 +3,13 @@
 # fallback; entries here are the ones Search Console flagged as 404.
 /changelog/public-demo  /changelog  301
 /changelog/hobby-tier   /changelog/pricing-v4-and-retention  301
+/changelog/error-tracking-and-site-search  /changelog/revenue-mode-saved-views-and-more  301
+/changelog/import-google-analytics-matomo-simple-analytics  /changelog/revenue-mode-saved-views-and-more  301
+/changelog/import-posthog-cloudflare-pirsch  /changelog/revenue-mode-saved-views-and-more  301
+/changelog/woocommerce-gumroad-chargebee-revenue  /changelog/revenue-mode-saved-views-and-more  301
+/changelog/revenue-mode  /changelog/revenue-mode-saved-views-and-more  301
+/changelog/revenue-per-visitor  /changelog/revenue-mode-saved-views-and-more  301
+/changelog/saved-views  /changelog/revenue-mode-saved-views-and-more  301
+/changelog/page-groups  /changelog/revenue-mode-saved-views-and-more  301
+/changelog/search-opportunities  /changelog/revenue-mode-saved-views-and-more  301
+/changelog/password-shared-dashboards  /changelog/revenue-mode-saved-views-and-more  301

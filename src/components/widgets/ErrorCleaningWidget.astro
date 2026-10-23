@@ -1,0 +1,25 @@
+---
+/**
+ * How an error message is cleaned before it is stored: the raw message from
+ * the page, then the version Kobbe keeps.
+ */
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <span class="text-foreground text-sm font-medium">Before it is stored</span>
+  <span class="text-muted-foreground mt-0.5 text-xs">Personal data replaced</span>
+  <div class="mt-5 flex flex-col gap-2 text-xs">
+    <div class="bg-muted-surface flex flex-col gap-1 rounded-md p-3">
+      <span class="text-muted-foreground">From the page</span>
+      <span class="text-foreground break-all">
+        No account for anna@mail.com, order 48213977, /cart?ref=x
+      </span>
+    </div>
+    <div class="bg-muted-surface flex flex-col gap-1 rounded-md p-3">
+      <span class="text-muted-foreground">Stored</span>
+      <span class="text-foreground font-medium break-all">
+        No account for [email], order [number], /cart
+      </span>
+    </div>
+  </div>
+</div>

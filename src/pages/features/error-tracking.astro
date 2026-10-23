@@ -1,0 +1,123 @@
+---
+/**
+ * Feature page for JavaScript error tracking on the 12 column grid: the hero
+ * with three widget tiles for the errors card, the conversion comparison,
+ * and message cleaning, then what the tracker records and how volume is
+ * capped. Every claim maps to /docs/error-tracking.
+ */
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
+import Text from "@/components/foundations/elements/Text.astro";
+import GridHero from "@/components/sections/GridHero.astro";
+import ErrorCleaningWidget from "@/components/widgets/ErrorCleaningWidget.astro";
+import ErrorConversionWidget from "@/components/widgets/ErrorConversionWidget.astro";
+import ErrorGroupsWidget from "@/components/widgets/ErrorGroupsWidget.astro";
+import { Button } from "@/components/ui/button";
+
+const features = [
+  {
+    lead: "Grouped, with where they happen",
+    body: "Identical errors are grouped, with the file and line, the page and browser where they happen most, and how many visitors hit them.",
+    widget: ErrorGroupsWidget,
+  },
+  {
+    lead: "See what an error costs",
+    body: "With conversions set up, Kobbe compares the conversion rate of visitors who hit an error with those who did not.",
+    widget: ErrorConversionWidget,
+  },
+  {
+    lead: "Cleaned before it is stored",
+    body: "Emails, long numbers, and query strings are replaced in every message, and nothing is tied to a visitor.",
+    widget: ErrorCleaningWidget,
+  },
+];
+
+const recorded = [
+  "Uncaught errors",
+  "Unhandled promise rejections",
+  "File and line",
+  "Page, browser, and country",
+  "At most 5 errors per page load",
+  "Repeats on a page sent once",
+  "One batched request",
+  "Empty third-party errors dropped",
+];
+---
+
+<BaseLayout
+  title="JavaScript error tracking: find the errors that cost you sales"
+  description="Kobbe records the JavaScript errors your visitors run into, groups them with the file, page, and browser, and shows whether they hurt conversions. No cookies, no extra tool."
+  jsonLdBreadcrumbs={[
+    { name: "Features", item: "/features" },
+    { name: "JavaScript error tracking", item: "/features/error-tracking" },
+  ]}
+>
+  <GridHero
+    lead="JavaScript error tracking,"
+    title="next to the traffic it affects."
+    heading="Errors your visitors run into"
+    subtitle="Find out about a broken checkout before your customers tell you. Kobbe records JavaScript errors on your site and shows them on the Performance page, beside your Web Vitals."
+  >
+    <div class="mt-8 flex flex-wrap gap-2">
+      <Button
+        label="How it works"
+        href="#how-it-works"
+        variant="muted"
+        arrow
+      />
+      <Button
+        label="Read the docs"
+        href="/docs/error-tracking"
+        variant="ghost"
+        arrow
+      />
+    </div>
+    <ul
+      slot="full"
+      id="how-it-works"
+      class="grid scroll-mt-24 gap-x-8 gap-y-12 md:grid-cols-3 lg:col-span-full lg:grid-cols-subgrid"
+      role="list"
+    >
+      {
+        features.map((feature) => (
+          <li class="lg:col-span-4">
+            <div class="bg-muted-surface flex h-96 items-center justify-center rounded-lg p-6">
+              <feature.widget />
+            </div>
+            <Text tag="h3" variant="textBase" class="mt-6 font-medium">
+              {feature.lead}
+            </Text>
+            <Text tag="p" variant="textSM" class="text-muted-foreground mt-1 max-w-sm text-pretty">
+              {feature.body}
+            </Text>
+          </li>
+        ))
+      }
+    </ul>
+  </GridHero>
+
+  <section>
+    <SectionGrid lead="What gets recorded," title="and the caps that keep usage predictable." class="py-24">
+      <div class="flex flex-col gap-2">
+        <Text tag="h2" variant="displayMD" class="font-medium tracking-tight leading-tight text-pretty lg:text-balance">
+          A noisy bug can't eat your quota
+        </Text>
+        <Text tag="p" variant="textBase" class="text-muted-foreground max-w-md leading-relaxed text-pretty">
+          Each error counts as one event. Turn it on in Site settings →
+          Installation → Tracking options. It needs the full tracker and a
+          paid plan.
+        </Text>
+      </div>
+      <ul class="mt-6 grid gap-x-8 sm:grid-cols-2" role="list">
+        {
+          recorded.map((item) => (
+            <li class="border-border text-foreground border-t py-4 text-base font-medium">
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </SectionGrid>
+  </section>
+</BaseLayout>
