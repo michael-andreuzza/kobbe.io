@@ -102,6 +102,8 @@ export function SiteMobileMenu({ className, children }: SiteMobileMenuProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={close}
+                    data-kobbe-event="Live demo"
+                    data-kobbe-event-source="mobile-menu"
                     className="text-surface flex items-center gap-1 py-1 text-sm font-medium transition-opacity hover:opacity-70"
                   >
                     Live demo
@@ -247,7 +249,9 @@ export function SiteMobileMenu({ className, children }: SiteMobileMenuProps) {
             label="Start free"
             variant="solid"
             size="xs"
-            data-kobbe-event="Nav - start trial"
+            data-nav-cta=""
+            data-kobbe-event="Start trial"
+            data-kobbe-event-source="nav"
           />
         </div>
       </div>

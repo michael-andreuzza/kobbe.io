@@ -65,7 +65,9 @@ export function PricingPlansPanel({
           size="lg"
           block
           arrow
-          data-kobbe-event={`Simplified pricing - ${startingTier.events} ${period}`}
+          data-kobbe-event="Start trial"
+          data-kobbe-event-source="pricing"
+          data-kobbe-event-plan={`${startingTier.events} ${period}`}
         />
         <p className="text-muted-foreground mt-4 text-xs text-balance">
           No card required. {formatTierTrialPriceNote(startingTier, period)}.

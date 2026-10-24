@@ -98,7 +98,9 @@ export function PricingVolumeTable({
                       label="Start trial"
                       variant="solid"
                       size="xs"
-                      data-kobbe-event={`Pricing table - ${tier.events} ${period}`}
+                      data-kobbe-event="Start trial"
+                      data-kobbe-event-source="pricing-table"
+                      data-kobbe-event-plan={`${tier.events} ${period}`}
                     />
                   </td>
                 </tr>

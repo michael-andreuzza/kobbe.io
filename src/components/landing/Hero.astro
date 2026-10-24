@@ -2,6 +2,9 @@
 import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
 import Text from "@/components/foundations/elements/Text.astro";
 import HeroFrieze from "@/components/landing/HeroFrieze.astro";
+import { pricingTrialDays } from "@/components/sections/pricing/pricing-tiers";
+import { Button } from "@/components/ui/button";
+import { APP_DEMO_URL, APP_SIGNUP_URL } from "@/lib/site-mega-menu";
 ---
 
 {/*
@@ -33,6 +36,24 @@ import HeroFrieze from "@/components/landing/HeroFrieze.astro";
         traffic. No cookies, no banners. One clear dashboard.
       </Text>
     </div>
+    <div class="flex flex-wrap gap-2" data-hero-buttons>
+      <Button
+        label={`Start free for ${pricingTrialDays} days`}
+        href={APP_SIGNUP_URL}
+        variant="solid"
+        arrow
+        data-kobbe-event="Start trial"
+        data-kobbe-event-source="hero"
+      />
+      <Button
+        label="Live demo"
+        href={`${APP_DEMO_URL}?range=30d`}
+        variant="muted"
+        arrow
+        data-kobbe-event="Live demo"
+        data-kobbe-event-source="hero"
+      />
+    </div>
   </SectionGrid>
 
   {/*
@@ -47,6 +68,32 @@ import HeroFrieze from "@/components/landing/HeroFrieze.astro";
     <HeroFrieze />
   </div>
 </section>
+
+{/* Hide the nav's Start free and Live demo before first paint; the script
+    below brings them back once the hero buttons scroll out of view. */}
+<script is:inline>
+  document.documentElement.dataset.heroCta = "visible";
+</script>
+
+<script>
+  let observer: IntersectionObserver | null = null;
+
+  function watchHeroCta() {
+    observer?.disconnect();
+    const cta = document.querySelector("[data-hero-buttons]");
+    if (!cta) return;
+    observer = new IntersectionObserver(([entry]) => {
+      document.documentElement.dataset.heroCta = entry.isIntersecting
+        ? "visible"
+        : "hidden";
+    });
+    observer.observe(cta);
+  }
+
+  document.addEventListener("astro:page-load", watchHeroCta);
+  document.addEventListener("astro:before-swap", () => observer?.disconnect());
+  watchHeroCta();
+</script>
 
 <style is:global>
   @supports (animation-timeline: scroll()) {

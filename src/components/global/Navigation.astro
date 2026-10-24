@@ -166,6 +166,9 @@ const menuColumns: MenuSection[] = [
       <a
         href={DEMO_URL}
         class="text-foreground px-1.5 py-1.5 font-medium transition-opacity hover:opacity-70"
+        data-nav-cta
+        data-kobbe-event="Live demo"
+        data-kobbe-event-source="nav"
       >
         Live demo
       </a>
@@ -178,6 +181,9 @@ const menuColumns: MenuSection[] = [
       <a
         href={APP_SIGNUP_URL}
         class="bg-dark-background text-surface hover:bg-dark-background/85 rounded-md px-3 py-1.5 font-medium transition-colors"
+        data-nav-cta
+        data-kobbe-event="Start trial"
+        data-kobbe-event-source="nav"
       >
         Start free for 15 days
       </a>
@@ -194,6 +200,43 @@ const menuColumns: MenuSection[] = [
     </SiteMobileMenu>
   </Wrapper>
 </header>
+
+<style is:global>
+  /* On the homepage the hero carries these buttons; they join the nav
+     once the hero's copies scroll away. Other pages never set the flag. */
+  [data-nav-cta] {
+    max-width: 14rem;
+    overflow: hidden;
+    white-space: nowrap;
+    transition:
+      max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      padding 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      margin 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.3s ease 0.1s,
+      visibility 0s;
+  }
+  /* Collapsed items still sit in the pill's flex gap; the negative margin
+     cancels it so the pill matches its two-link width exactly. */
+  html[data-hero-cta="visible"] [data-nav-cta] {
+    max-width: 0;
+    padding-inline: 0;
+    margin-inline-start: -0.25rem;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      padding 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      margin 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.15s ease,
+      visibility 0s 0.35s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-nav-cta],
+    html[data-hero-cta="visible"] [data-nav-cta] {
+      transition: none;
+    }
+  }
+</style>
 
 <script>
   // Mega menu behavior: toggle on click, close on outside click, Escape,
