@@ -11,6 +11,10 @@ import ScreenshotPanel from "@/components/sections/ScreenshotPanel.astro";
 import featureOverview from "@/images/assets/feature-overview.png";
 import featureRevenue from "@/images/assets/feature-revenue.png";
 import featureRealtime from "@/images/assets/feature-realtime.png";
+import spotRobot from "@/images/illustrations/spot-robot.webp";
+import spotCrabCoin from "@/images/illustrations/spot-crab-coin.webp";
+import spotSeal from "@/images/illustrations/spot-seal-cookie-body.webp";
+import spotSealCookie from "@/images/illustrations/spot-seal-cookie-treat.webp";
 
 const features = [
   {
@@ -23,6 +27,7 @@ const features = [
     image: featureOverview,
     imageAlt:
       "The Kobbe overview dashboard: visitor KPIs, a traffic trend chart, top pages, and top sources",
+    spot: { src: spotRobot, class: "right-10 w-8 sm:w-11" },
   },
   {
     label: "Revenue attribution,",
@@ -34,6 +39,7 @@ const features = [
     image: featureRevenue,
     imageAlt:
       "The Kobbe revenue page: gross, net, and attributed revenue with a per-page attribution breakdown",
+    spot: { src: spotCrabCoin, class: "left-8 w-14 sm:w-18" },
   },
   {
     label: "Cookieless analytics,",
@@ -45,6 +51,7 @@ const features = [
     image: featureRealtime,
     imageAlt:
       "The Kobbe realtime page: online visitors shown as anonymous dots on a neutral globe map",
+    spot: { src: spotSeal, wobble: spotSealCookie, class: "left-8 w-16 sm:w-20" },
   },
 ];
 ---
@@ -67,7 +74,7 @@ const features = [
             </Text>
             <ArrowLink label={feature.linkLabel} href={feature.href} class="mt-8" />
           </div>
-          <ScreenshotPanel slot="full" src={feature.image} alt={feature.imageAlt} />
+          <ScreenshotPanel slot="full" src={feature.image} alt={feature.imageAlt} spot={feature.spot} />
         </SectionGrid>
       </section>
     ))
