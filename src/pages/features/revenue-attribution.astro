@@ -39,12 +39,13 @@ const providers: { label: string; slug: string; file?: string }[] = [
   { label: "WooCommerce", slug: "woocommerce", file: "woo" },
   { label: "Gumroad", slug: "gumroad" },
   { label: "Chargebee", slug: "chargebee" },
+  { label: "Razorpay", slug: "razorpay" },
 ];
 
 const features = [
   {
     lead: "Connect your checkout",
-    body: "Stripe, Polar, Paddle, Shopify, and nine more send each payment to Kobbe through a webhook.",
+    body: "Stripe, Polar, Paddle, Shopify, and ten more send each payment to Kobbe through a webhook.",
     widget: RevenueProvidersWidget,
   },
   {
@@ -62,7 +63,7 @@ const features = [
 
 <BaseLayout
   title="Revenue attribution: see what every page earns"
-  description="Connect Stripe, Polar, Paddle, Shopify, or nine more providers, and Kobbe traces each sale back to the page, source, and campaign that brought it in."
+  description="Connect Stripe, Polar, Paddle, Shopify, or ten more providers, and Kobbe traces each sale back to the page, source, and campaign that brought it in."
   jsonLdBreadcrumbs={[
     { name: "Features", item: "/features" },
     { name: "Revenue attribution", item: "/features/revenue-attribution" },
@@ -77,10 +78,9 @@ const features = [
     <ul class="flex flex-wrap gap-5" aria-label="Works with">
       {
         providers.map((provider) => (
-          <li>
+          <li class="group relative">
             <a
               href={`/docs/revenue-attribution-${provider.slug}`}
-              title={provider.label}
               aria-label={provider.label}
               class="block transition-opacity hover:opacity-70"
             >
@@ -91,6 +91,12 @@ const features = [
                 height={24}
               />
             </a>
+            <span
+              aria-hidden="true"
+              class="pointer-events-none absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 rounded-sm bg-foreground px-2 py-1 text-xs font-medium whitespace-nowrap text-background opacity-0 transition-opacity group-hover:opacity-100 group-has-focus-visible:opacity-100"
+            >
+              {provider.label}
+            </span>
           </li>
         ))
       }

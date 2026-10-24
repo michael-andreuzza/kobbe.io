@@ -21,6 +21,9 @@ Imports write **daily rollup data** into Kobbe. That means KPIs, charts, and bre
 - For PostHog, use your Project ID and a personal API key with Query Read. See [Import from PostHog](/docs/import-from-posthog).
 - For Cloudflare Web Analytics, use your Account ID and an API token with Account Analytics Read. See [Import from Cloudflare Web Analytics](/docs/import-from-cloudflare-web-analytics).
 - For Pirsch, use the ID and secret of an oAuth client. See [Import from Pirsch](/docs/import-from-pirsch).
+- For Rybbit, use your Site ID and an API key. See [Import from Rybbit](/docs/import-from-rybbit).
+- For Vercel Web Analytics, use your project name and an access token. See [Import from Vercel Web Analytics](/docs/import-from-vercel).
+- For Ahrefs Web Analytics, use your Project ID and an API key. See [Import from Ahrefs Web Analytics](/docs/import-from-ahrefs).
 - Import on the **same site** where you will collect new Kobbe traffic.
 - Pick a merge mode so you do not overwrite days Kobbe already has.
 - Keep ZIP uploads under **25 MB**. If your export is larger, split it into shorter date ranges.

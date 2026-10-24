@@ -58,6 +58,7 @@ Add Kobbe’s generated webhook URL to your provider, then paste the provider si
 - Shopify uses the `X-Shopify-Hmac-Sha256` header.
 - WooCommerce uses the `X-WC-Webhook-Signature` header.
 - Chargebee uses HTTP basic authentication with the password you set.
+- Razorpay uses the `X-Razorpay-Signature` header.
 - Gumroad pings are unsigned, so Kobbe confirms each sale through the Gumroad API with your access token.
 
 Kobbe rejects webhooks when the signing secret is missing, wrong, or outside the replay window.
@@ -93,3 +94,4 @@ If your checkout ends on a thank-you page, add it under **Settings → Exclusion
 - [WooCommerce revenue attribution](/docs/revenue-attribution-woocommerce)
 - [Gumroad revenue attribution](/docs/revenue-attribution-gumroad)
 - [Chargebee revenue attribution](/docs/revenue-attribution-chargebee)
+- [Razorpay revenue attribution](/docs/revenue-attribution-razorpay)

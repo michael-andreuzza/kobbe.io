@@ -34,6 +34,9 @@ const sources: { label: string; slug: string; file?: string }[] = [
   { label: "PostHog", slug: "posthog" },
   { label: "Cloudflare", slug: "cloudflare-web-analytics", file: "cloudflare" },
   { label: "Pirsch", slug: "pirsch" },
+  { label: "Rybbit", slug: "rybbit" },
+  { label: "Vercel", slug: "vercel" },
+  { label: "Ahrefs", slug: "ahrefs" },
 ];
 
 const features = [
@@ -80,7 +83,7 @@ const lists = [
 
 <BaseLayout
   title="Import your analytics: bring your Google Analytics, Plausible, Matomo, and other history"
-  description="Move your history from Google Analytics, Plausible, PostHog, Fathom, Umami, Matomo, Cloudflare, Pirsch, Simple Analytics, or DataFast into Kobbe. Old traffic sits next to new data, and live days are never overwritten."
+  description="Move your history from Google Analytics, Plausible, PostHog, Fathom, Umami, Matomo, Cloudflare, Vercel, Rybbit, Ahrefs, Pirsch, Simple Analytics, or DataFast into Kobbe. Old traffic sits next to new data, and live days are never overwritten."
   jsonLdBreadcrumbs={[
     { name: "Features", item: "/features" },
     { name: "Import", item: "/features/import" },
@@ -88,17 +91,16 @@ const lists = [
 >
   <GridHero
     lead="Data import,"
-    title="from ten analytics tools, with your history intact."
+    title="from 13 analytics tools, with your history intact."
     heading="Switch without losing history"
     subtitle="Bring your traffic from Google Analytics, Plausible, Matomo, Fathom, and more, and see it next to everything Kobbe collects from day one."
   >
     <ul class="flex flex-wrap gap-5" aria-label="Import from">
       {
         sources.map((source) => (
-          <li>
+          <li class="group relative">
             <a
               href={`/docs/import-from-${source.slug}`}
-              title={source.label}
               aria-label={source.label}
               class="block transition-opacity hover:opacity-70"
             >
@@ -109,6 +111,12 @@ const lists = [
                 height={24}
               />
             </a>
+            <span
+              aria-hidden="true"
+              class="pointer-events-none absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 rounded-sm bg-foreground px-2 py-1 text-xs font-medium whitespace-nowrap text-background opacity-0 transition-opacity group-hover:opacity-100 group-has-focus-visible:opacity-100"
+            >
+              {source.label}
+            </span>
           </li>
         ))
       }

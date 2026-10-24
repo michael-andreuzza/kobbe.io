@@ -13,6 +13,10 @@ import mollieLogo from "@/images/brands/mollie.svg";
 import nextjsLogo from "@/images/brands/nextjs.svg";
 import paddleLogo from "@/images/brands/paddle.svg";
 import pirschLogo from "@/images/brands/pirsch.svg";
+import ahrefsLogo from "@/images/brands/ahrefs.svg";
+import razorpayLogo from "@/images/brands/razorpay.svg";
+import rybbitLogo from "@/images/brands/rybbit.svg";
+import vercelLogo from "@/images/brands/vercel.svg";
 import plausibleLogo from "@/images/brands/plausible.svg";
 import polarLogo from "@/images/brands/polar.svg";
 import posthogLogo from "@/images/brands/posthog.svg";
@@ -93,6 +97,7 @@ export const siteMegaMenuGuideGroups: MegaMenuGuideGroup[] = [
       { id: "revenue-woocommerce", href: "/docs/revenue-attribution-woocommerce", label: "WooCommerce", logo: { src: wooLogo.src, alt: "WooCommerce logo" } },
       { id: "revenue-gumroad", href: "/docs/revenue-attribution-gumroad", label: "Gumroad", logo: { src: gumroadLogo.src, alt: "Gumroad logo" } },
       { id: "revenue-chargebee", href: "/docs/revenue-attribution-chargebee", label: "Chargebee", logo: { src: chargebeeLogo.src, alt: "Chargebee logo" } },
+      { id: "revenue-razorpay", href: "/docs/revenue-attribution-razorpay", label: "Razorpay", logo: { src: razorpayLogo.src, alt: "Razorpay logo" } },
     ]),
   },
   {
@@ -110,6 +115,9 @@ export const siteMegaMenuGuideGroups: MegaMenuGuideGroup[] = [
       { id: "import-posthog", href: "/docs/import-from-posthog", label: "PostHog", logo: { src: posthogLogo.src, alt: "PostHog logo" } },
       { id: "import-cloudflare", href: "/docs/import-from-cloudflare-web-analytics", label: "Cloudflare", logo: { src: cloudflareLogo.src, alt: "Cloudflare logo" } },
       { id: "import-pirsch", href: "/docs/import-from-pirsch", label: "Pirsch", logo: { src: pirschLogo.src, alt: "Pirsch logo" } },
+      { id: "import-rybbit", href: "/docs/import-from-rybbit", label: "Rybbit", logo: { src: rybbitLogo.src, alt: "Rybbit logo" } },
+      { id: "import-vercel", href: "/docs/import-from-vercel", label: "Vercel", logo: { src: vercelLogo.src, alt: "Vercel logo" } },
+      { id: "import-ahrefs", href: "/docs/import-from-ahrefs", label: "Ahrefs", logo: { src: ahrefsLogo.src, alt: "Ahrefs logo" } },
     ]),
   },
 ];

@@ -113,7 +113,7 @@ export function formatTierDataRetentionLabel(tierKey: PricingTierKey): string {
 export const simplifiedPricingFeatures = [
   "Revenue attribution",
   "AI agents, MCP and CLI",
-  "Import from 10 tools",
+  "Import from 13 tools",
   "Bot filtering",
   "Funnels",
   "Conversions",
