@@ -7,46 +7,55 @@ import SectionGrid from "@/components/foundations/containers/SectionGrid.astro";
 import Text from "@/components/foundations/elements/Text.astro";
 
 /**
- * Everything else on the 12 column grid: a two column list in the right 8
- * columns under the heading, each item a hairline and a title, linking to
- * its feature page, or the docs when it has none. The full catalog lives on
+ * Everything else: a full width three column list below the 12 column
+ * heading, each item a hairline, a title, and a one-line description, linking
+ * to its feature page, or the docs when it has none. The full catalog lives on
  * /features.
  */
 const listRows = [
   {
     title: "Realtime visitors",
+    description: "Who is on your site right now, and from where.",
     href: "/docs/realtime-visitors",
   },
   {
     title: "Funnels",
+    description: "See where visitors continue or drop off.",
     href: "/features/funnels",
   },
   {
     title: "Core Web Vitals",
+    description: "Real-user speed by page, device, and country.",
     href: "/docs/performance-web-vitals",
   },
   {
     title: "Search Console",
+    description: "The queries and rankings that bring people in.",
     href: "/docs/search-console",
   },
   {
     title: "Error tracking",
+    description: "JavaScript errors that cost you conversions.",
     href: "/features/error-tracking",
   },
   {
     title: "Traffic alerts",
+    description: "An email when traffic spikes or drops.",
     href: "/docs/traffic-alerts",
   },
   {
     title: "Shared dashboards",
+    description: "Read-only links for clients and teammates.",
     href: "/docs/shared-dashboards",
   },
   {
     title: "Data import",
+    description: "Your history from Google Analytics and 12 more.",
     href: "/features/import",
   },
   {
     title: "AI agents and CLI",
+    description: "Ask Cursor or Claude about your traffic.",
     href: "/features/ai-agents",
   },
 ];
@@ -68,18 +77,19 @@ const listRows = [
       </Text>
       <ArrowLink label="See all features" href="/features" class="mt-8" />
     </div>
-    <ul class="mt-6 grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3" role="list">
+    <ul slot="full" class="col-span-full grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3" role="list">
       {
         listRows.map((row) => (
           <li class="border-border border-t py-4">
             <a href={row.href} class="group flex items-center justify-between gap-4">
-              <Text
-                tag="h3"
-                variant="textBase"
-                class="text-foreground font-medium transition-transform duration-300 group-hover:translate-x-2"
-              >
-                {row.title}
-              </Text>
+              <div class="transition-transform duration-300 group-hover:translate-x-2">
+                <Text tag="h3" variant="textBase" class="text-foreground font-medium">
+                  {row.title}
+                </Text>
+                <Text tag="p" variant="textSM" class="text-muted-foreground mt-1 text-pretty">
+                  {row.description}
+                </Text>
+              </div>
               <HugeiconsIcon
                 icon={ArrowDownRight01Icon}
                 size={16}
