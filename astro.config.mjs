@@ -13,8 +13,14 @@ const REMOVED_CHANGELOG_REDIRECTS = [
   ["/changelog/hobby-tier", "/changelog/pricing-v4-and-retention"],
 ];
 
+const REMOVED_PAGE_REDIRECTS = [["/wallpapers", "/"]];
+
 const redirects = Object.fromEntries(
-  [...STANDALONE_DOC_REDIRECTS, ...REMOVED_CHANGELOG_REDIRECTS].map(
+  [
+    ...STANDALONE_DOC_REDIRECTS,
+    ...REMOVED_CHANGELOG_REDIRECTS,
+    ...REMOVED_PAGE_REDIRECTS,
+  ].map(
     ([source, destination]) => [source, { status: 301, destination }],
   ),
 );
