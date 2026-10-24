@@ -20,7 +20,7 @@ rows:
     kobbe: "Yes"
     competitor: "No"
   - feature: "Payment integrations"
-    kobbe: "10 native"
+    kobbe: "14 native"
     competitor: "No"
   - feature: "Core Web Vitals"
     kobbe: "Yes"

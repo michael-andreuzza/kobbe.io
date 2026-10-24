@@ -11,7 +11,7 @@ rows:
     kobbe: "3 years"
     competitor: "Reports forever, raw data 24 months on Cloud"
   - feature: "Payment integrations"
-    kobbe: "10 native"
+    kobbe: "14 native"
     competitor: "Manual ecommerce setup, WooCommerce"
   - feature: "Funnels"
     kobbe: "Yes"

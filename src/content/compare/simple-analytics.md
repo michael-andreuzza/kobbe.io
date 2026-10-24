@@ -8,7 +8,7 @@ rows:
     kobbe: "None"
     competitor: "None"
   - feature: "Payment integrations"
-    kobbe: "10 native"
+    kobbe: "14 native"
     competitor: "None"
   - feature: "Funnels"
     kobbe: "Yes"

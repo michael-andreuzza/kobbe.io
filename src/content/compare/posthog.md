@@ -11,7 +11,7 @@ rows:
     kobbe: "3 years"
     competitor: "Up to 7 years"
   - feature: "Payment integrations"
-    kobbe: "10 native"
+    kobbe: "14 native"
     competitor: "Stripe, through its data warehouse"
   - feature: "Funnels"
     kobbe: "Yes"

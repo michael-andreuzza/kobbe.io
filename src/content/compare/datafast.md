@@ -14,7 +14,7 @@ rows:
     kobbe: "3 years"
     competitor: "3 years"
   - feature: "Payment integrations"
-    kobbe: "10 native"
+    kobbe: "14 native"
     competitor: "7 native"
   - feature: "Funnels"
     kobbe: "Yes"

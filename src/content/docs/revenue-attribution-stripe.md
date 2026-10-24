@@ -44,7 +44,16 @@ const attributionId =
 const metadata = attributionId ? { kobbe_attribution_id: attributionId } : {};
 ```
 
-For Payment Links, add the same metadata when you create or update the link, or append it from your server before redirecting to Stripe.
+## Payment Links, buy buttons, and pricing tables
+
+No code needed. The tracker adds the attribution ID to every `buy.stripe.com` link on the page as `client_reference_id`, and sets `client-reference-id` on Stripe buy buttons and pricing tables. Links that already carry your own `client_reference_id` are left alone.
+
+If your Payment Links use a custom domain, append the ID yourself:
+
+```js
+const link = new URL("https://pay.example.com/b/abc123");
+if (attributionId) link.searchParams.set("client_reference_id", attributionId);
+```
 
 ## Webhook
 
