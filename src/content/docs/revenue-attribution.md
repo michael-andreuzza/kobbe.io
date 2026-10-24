@@ -43,6 +43,8 @@ const metadata = attributionId ? { kobbe_attribution_id: attributionId } : {};
 
 Provider pages show whether this belongs in your checkout flow. Some hosted checkout flows do not expose a place for customers to add metadata manually.
 
+The ID only lasts for one browser tab. For trials, in-app upgrades, and other purchases that happen in a later session, save it with the account at signup: see [Attribute sales that happen later](/docs/revenue-attribution-later-purchases).
+
 ## Webhooks
 
 Add Kobbe’s generated webhook URL to your provider, then paste the provider signing secret back into Kobbe. Production webhooks are signature-verified before Kobbe records revenue:
@@ -80,6 +82,7 @@ If your checkout ends on a thank-you page, add it under **Settings → Exclusion
 ## Related docs
 
 - [Revenue page](/docs/revenue)
+- [Attribute sales that happen later](/docs/revenue-attribution-later-purchases)
 - [Revenue on the dashboard](/docs/dashboard-stats-revenue)
 - [Polar revenue attribution](/docs/revenue-attribution-polar)
 - [Stripe revenue attribution](/docs/revenue-attribution-stripe)
