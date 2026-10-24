@@ -140,6 +140,22 @@ const sprites = manifest.sprites.map((s) => {
     animation-delay: var(--delay);
     will-change: transform;
   }
+  /* Scroll parallax: the flyer rises ahead of the quay. `translate` stacks
+     with the drift `transform`, so the two animations do not fight. */
+  @supports (animation-timeline: scroll()) {
+    .flyer {
+      animation:
+        drift var(--dur) linear var(--delay) infinite,
+        flyer-rise linear both;
+      animation-timeline: auto, scroll(root);
+      animation-range: normal, 0 80svh;
+    }
+  }
+  @keyframes flyer-rise {
+    to {
+      translate: 0 -4rem;
+    }
+  }
   .walker .sprite-inner {
     animation: step var(--bob) ease-in-out infinite alternate;
   }

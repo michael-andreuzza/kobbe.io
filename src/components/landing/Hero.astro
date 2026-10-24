@@ -14,7 +14,7 @@ import HeroFrieze from "@/components/landing/HeroFrieze.astro";
   <SectionGrid
     lead="For founders and small teams,"
     title="see who visits, what they read, and what it earns."
-    class="pt-16 lg:pt-24"
+    class="hero-statement pt-16 lg:pt-24"
   >
     <div class="flex flex-col gap-2">
       <Text
@@ -47,3 +47,22 @@ import HeroFrieze from "@/components/landing/HeroFrieze.astro";
     <HeroFrieze />
   </div>
 </section>
+
+<style is:global>
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-statement {
+        animation: hero-statement-lag linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 80svh;
+      }
+    }
+  }
+
+  @keyframes hero-statement-lag {
+    to {
+      translate: 0 6rem;
+      opacity: 0.5;
+    }
+  }
+</style>
