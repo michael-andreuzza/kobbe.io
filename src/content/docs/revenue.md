@@ -90,7 +90,9 @@ When no paid events exist for the range, cards stay empty instead of showing mis
 
 ## Multi-currency
 
-If more than one currency appears in the range, Kobbe avoids mixing amounts and shows a clear message instead of combined totals.
+Kobbe records every sale in the currency your provider charged, with no conversion, so amounts always match your provider exactly. Any currency works, including ones without cents like JPY.
+
+When a range contains sales in more than one currency, a currency picker appears in the toolbar. The page reports one currency at a time, starting with the one that earned the most, and every number on it (totals, attribution, breakdowns, products, and refunds) follows the selected currency. The choice is saved in the URL, so you can bookmark or share it.
 
 ## Related docs
 
