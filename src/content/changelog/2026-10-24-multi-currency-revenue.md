@@ -1,6 +1,6 @@
 ---
 title: Revenue in every currency you sell in
-date: 2026-10-25
+date: 2026-10-24
 description: Sites that sell in more than one currency now get full revenue reports, one currency at a time, with no conversion.
 ---
 
