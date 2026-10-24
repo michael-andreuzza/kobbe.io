@@ -27,7 +27,7 @@ export function PricingPlansPanel({
   const trialCtaLabel = `Start free for ${pricingTrialDays} days`;
 
   return (
-    <div className={cn("flex min-w-0 flex-col", className)}>
+    <div className={cn("flex min-w-0 flex-1 flex-col", className)}>
       <BillingPeriodToggle
         period={period}
         onPeriodChange={setPeriod}
@@ -57,13 +57,14 @@ export function PricingPlansPanel({
         ))}
       </ul>
 
-      <div className="mt-6">
+      <div className="mt-auto pt-6">
         <Button
           href={signupHref}
           label={trialCtaLabel}
           variant="solid"
           size="lg"
           block
+          arrow
           data-kobbe-event={`Simplified pricing - ${startingTier.events} ${period}`}
         />
         <p className="text-muted-foreground mt-4 text-xs text-balance">
