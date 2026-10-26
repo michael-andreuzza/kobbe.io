@@ -16,6 +16,7 @@ import ScreenshotPanel from "@/components/sections/ScreenshotPanel.astro";
 import RevenueJourneyWidget from "@/components/widgets/RevenueJourneyWidget.astro";
 import RevenueProvidersWidget from "@/components/widgets/RevenueProvidersWidget.astro";
 import RevenueRefundsWidget from "@/components/widgets/RevenueRefundsWidget.astro";
+import SalePingWidget from "@/components/widgets/SalePingWidget.astro";
 import { Button } from "@/components/ui/button";
 import revenuePage from "@/images/features/revenue-page.png";
 import revenueMode from "@/images/features/revenue-mode.png";
@@ -163,6 +164,23 @@ const features = [
         src={revenueMode}
         alt="The Kobbe dashboard ranked by revenue: pages and referrers sorted by what they earned, each with its visitor count"
       />
+    </SectionGrid>
+  </section>
+
+  <section>
+    <SectionGrid lead="Sale pings," title="every sale in Slack or Discord." class="py-24">
+      <div class="flex flex-col gap-2">
+        <Text tag="h2" variant="displayMD" class="font-medium tracking-tight leading-tight text-pretty lg:text-balance">
+          Hear about every sale
+        </Text>
+        <Text tag="p" variant="textBase" class="text-muted-foreground max-w-md leading-relaxed text-pretty">
+          Paste a Slack or Discord webhook, and each new sale posts to your
+          channel with its source and the pages the buyer saw.
+        </Text>
+      </div>
+      <div slot="full" class="bg-muted-surface flex h-96 items-center justify-center rounded-lg p-6 lg:col-span-full">
+        <SalePingWidget />
+      </div>
     </SectionGrid>
   </section>
 </BaseLayout>

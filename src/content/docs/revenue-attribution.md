@@ -83,6 +83,7 @@ If your checkout ends on a thank-you page, add it under **Settings → Exclusion
 
 - [Revenue page](/docs/revenue)
 - [Attribute sales that happen later](/docs/revenue-attribution-later-purchases)
+- [Sale pings in Slack or Discord](/docs/sale-pings)
 - [Revenue on the dashboard](/docs/dashboard-stats-revenue)
 - [Polar revenue attribution](/docs/revenue-attribution-polar)
 - [Stripe revenue attribution](/docs/revenue-attribution-stripe)

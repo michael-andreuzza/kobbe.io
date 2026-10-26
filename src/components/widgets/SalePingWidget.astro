@@ -1,0 +1,33 @@
+---
+/**
+ * A sale ping as it lands in Slack or Discord: the amount and product, then
+ * the source and pages from the visit that led to the sale.
+ */
+const lines = [
+  { label: "Source", value: "google.com" },
+  { label: "Landing page", value: "/features" },
+  { label: "Last page", value: "/pricing" },
+];
+---
+
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
+  <div class="flex items-center justify-between gap-4 text-xs">
+    <span class="text-foreground font-medium">Kobbe</span>
+    <span class="text-muted-foreground">#sales, just now</span>
+  </div>
+  <span class="text-muted-foreground mt-4 text-xs">New sale on kobbe.io</span>
+  <span class="text-foreground mt-1 text-2xl font-medium tracking-tight tabular-nums">
+    $49
+  </span>
+  <span class="text-muted-foreground mt-0.5 text-xs">Kobbe Pro</span>
+  <ul class="bg-muted-surface mt-5 flex flex-col gap-2 rounded-md p-3 text-xs">
+    {
+      lines.map((line) => (
+        <li class="flex items-center justify-between gap-4">
+          <span class="text-muted-foreground shrink-0">{line.label}</span>
+          <span class="text-foreground truncate font-medium">{line.value}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>
