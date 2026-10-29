@@ -1,6 +1,6 @@
 ---
 title: Filter your visits
-description: Ignore your own traffic and filter events by path, host, IP, or country before they count.
+description: Ignore your own traffic and filter events by path, host, referrer, IP, or country before they count.
 order: 30
 category: Tracking
 navLabel: Filter your visits
@@ -48,6 +48,14 @@ Paths are matched against the same normalized path Kobbe stores for events: **pa
 Hostnames are compared in lowercase. You can enter `example.com` without `https://`; Kobbe normalizes full URLs to their hostname if you paste one. `example.com` and `www.example.com` match each other automatically, so you do not need to add both.
 
 Use hostname rules when you use [first-party collect](/docs/first-party-collect) or a [custom collect endpoint](/docs/script-options): the tracker sends the **page** hostname on the visitor's site so filters still work.
+
+## Referrer rules
+
+Drop visits that arrive from a specific site, such as a spam domain that keeps showing up in your sources. Enter the domain, e.g. `spam-site.com`. A full URL or a `www.` host is saved as the bare domain.
+
+A referrer rule matches the domain and all of its subdomains: `spam-site.com` also blocks `www.spam-site.com` and `blog.spam-site.com`, but not `notspam-site.com`. Visits with no referrer never match.
+
+Kobbe already drops [known referrer spam](/docs/bot-filtering) for every site. Use a referrer rule for a domain that only hits your site.
 
 ## Country rules
 
