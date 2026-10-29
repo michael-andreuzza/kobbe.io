@@ -1,8 +1,8 @@
 ---
 title: "Kobbe vs Umami"
-description: "Both are cookieless web analytics with funnels and Web Vitals. Umami is open source and lets you pick a region. Kobbe adds native revenue attribution and AI agents that can make changes."
+description: "Both are cookieless web analytics with funnels, Web Vitals, revenue, and Search Console. Umami is open source and lets you pick a region. Kobbe covers more payment providers in real time and has AI agents that can make changes."
 competitor: "Umami Cloud"
-lastChecked: 2026-10-21
+lastChecked: 2026-10-29
 rows:
   - feature: "Cookies"
     kobbe: "None"
@@ -11,8 +11,8 @@ rows:
     kobbe: "3 years"
     competitor: "2 years"
   - feature: "Payment integrations"
-    kobbe: "14 native"
-    competitor: "Manual setup"
+    kobbe: "14 native, real time"
+    competitor: "6 native, synced hourly"
   - feature: "Funnels"
     kobbe: "Yes"
     competitor: "Yes"
@@ -21,7 +21,7 @@ rows:
     competitor: "Yes"
   - feature: "Search Console"
     kobbe: "Yes"
-    competitor: "No"
+    competitor: "Yes"
   - feature: "Official MCP server"
     kobbe: "Read and write"
     competitor: "Read only"
@@ -47,8 +47,8 @@ rows:
 
 ## Where Kobbe is the better pick
 
-- You want revenue from Stripe, Polar, Paddle, or Shopify tied to each page, without writing revenue events.
-- You want Search Console data next to your traffic.
+- You sell through Shopify, Mollie, RevenueCat, Gumroad, or another provider Umami doesn't cover, out of 14 supported.
+- You want each sale tied to its page the moment it's paid, not on the next hourly sync.
 - You want AI agents that can also set up goals and funnels, not just read your stats.
 
 ## Switching from Umami
