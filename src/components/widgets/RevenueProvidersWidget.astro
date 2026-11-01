@@ -1,9 +1,11 @@
 ---
 /**
- * Revenue sources in site settings: two payment providers connected through
- * their webhooks, one more ready to connect.
+ * A miniature of the Revenue attribution settings: Stripe picked as the
+ * payment provider, its webhook URL, and the signing secret marked active.
  */
 import type { ImageMetadata } from "astro";
+import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 import BrandLogo from "@/components/foundations/BrandLogo.astro";
 
@@ -11,42 +13,42 @@ const logos = import.meta.glob<{ default: ImageMetadata }>(
   "/src/images/brands/*.svg",
   { eager: true },
 );
-const logo = (file: string) => logos[`/src/images/brands/${file}`]!.default;
-
-const providers = [
-  { label: "Stripe", file: "stripe.svg", connected: true },
-  { label: "Polar", file: "polar.svg", connected: true },
-  { label: "Paddle", file: "paddle.svg", connected: false },
-];
+const stripe = logos["/src/images/brands/stripe.svg"]!.default;
 ---
 
-<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
-  <span class="text-foreground text-sm font-medium">Revenue sources</span>
-  <span class="text-muted-foreground mt-0.5 text-xs">Payment webhooks</span>
-  <ul class="mt-5 flex flex-col gap-1">
-    {
-      providers.map((provider) => (
-        <li
-          class:list={[
-            "flex items-center gap-3 rounded-md p-2.5",
-            provider.connected && "bg-muted-surface",
-          ]}
-        >
-          <BrandLogo
-            src={logo(provider.file).src}
-            alt=""
-            class="size-5 rounded-sm object-contain"
-            width={20}
-            height={20}
-          />
-          <span class="text-foreground text-sm font-medium">
-            {provider.label}
-          </span>
-          <span class="text-muted-foreground ml-auto text-xs">
-            {provider.connected ? "Connected" : "Connect"}
-          </span>
-        </li>
-      ))
-    }
-  </ul>
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg">
+  <div class="border-border/60 border-b px-4 pt-3.5 pb-3">
+    <span class="text-foreground text-sm font-medium">Revenue attribution</span>
+  </div>
+  <div class="flex flex-col px-4 py-3.5 text-xs">
+    <span class="text-foreground font-medium">Payment provider</span>
+    <span
+      class="border-border text-foreground mt-2 flex h-8 items-center gap-2 rounded-md border px-2.5 shadow-xs"
+    >
+      <BrandLogo
+        src={stripe.src}
+        alt=""
+        class="size-4 rounded-sm object-contain"
+        width={16}
+        height={16}
+      />
+      Stripe
+      <HugeiconsIcon
+        icon={ArrowDown01Icon}
+        size={12}
+        strokeWidth={1.8}
+        className="text-muted-foreground ml-auto"
+      />
+    </span>
+    <span class="text-foreground mt-4 font-medium">Webhook URL</span>
+    <span
+      class="bg-muted-surface text-muted-foreground mt-2 truncate rounded-md px-2.5 py-2"
+    >
+      app.kobbe.io/api/revenue/7c1e9a4b-52d0-4f8e-a1b3
+    </span>
+    <div class="border-border/60 mt-3 flex items-center border-t pt-2.5">
+      <span class="text-foreground flex-1 font-medium">Signing secret</span>
+      <span class="text-success font-medium">Active</span>
+    </div>
+  </div>
 </div>

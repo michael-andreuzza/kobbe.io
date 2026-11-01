@@ -1,6 +1,6 @@
 ---
 /**
- * The dashboard's JavaScript errors card in miniature: errors grouped by
+ * A miniature of the dashboard's JavaScript errors card: errors grouped by
  * message and file, with where they happen most, visitors, and count.
  */
 const errors = [
@@ -25,26 +25,40 @@ const errors = [
 ];
 ---
 
-<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
-  <span class="text-foreground text-sm font-medium">JavaScript errors</span>
-  <span class="text-muted-foreground mt-0.5 text-xs">64 visitors hit an error, last 7 days</span>
-  <div class="text-muted-foreground mt-5 grid grid-cols-[1fr_auto_auto] gap-x-3 text-xs">
-    <span>Error</span>
-    <span class="text-right">Visitors</span>
-    <span class="text-right">Count</span>
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg">
+  <div class="border-border/60 border-b px-4 pt-3.5 pb-3">
+    <span class="text-foreground block text-sm font-medium">
+      JavaScript errors
+    </span>
+    <span class="text-muted-foreground mt-0.5 block text-xs">
+      64 visitors hit an error, last 7 days
+    </span>
   </div>
-  <ul class="mt-2 flex flex-col gap-2">
-    {
-      errors.map((error) => (
-        <li class="bg-muted-surface grid grid-cols-[1fr_auto_auto] items-start gap-x-3 rounded-md p-3 text-xs">
-          <span class="flex min-w-0 flex-col">
-            <span class="text-foreground truncate font-medium">{error.message}</span>
-            <span class="text-muted-foreground truncate">{error.detail}</span>
-          </span>
-          <span class="text-foreground text-right font-medium">{error.visitors}</span>
-          <span class="text-muted-foreground text-right">{error.count}</span>
-        </li>
-      ))
-    }
-  </ul>
+  <div class="px-4 pt-3 pb-4 text-xs">
+    <div class="text-muted-foreground flex gap-3 pb-2">
+      <span class="flex-1">Error</span>
+      <span class="w-12 text-right">Visitors</span>
+      <span class="w-9 text-right">Count</span>
+    </div>
+    <ul>
+      {
+        errors.map((error) => (
+          <li class="border-border/60 flex items-start gap-3 border-t py-2">
+            <span class="flex min-w-0 flex-1 flex-col">
+              <span class="text-foreground truncate font-medium">
+                {error.message}
+              </span>
+              <span class="text-muted-foreground truncate">{error.detail}</span>
+            </span>
+            <span class="text-foreground w-12 text-right tabular-nums">
+              {error.visitors}
+            </span>
+            <span class="text-foreground w-9 text-right tabular-nums">
+              {error.count}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
 </div>

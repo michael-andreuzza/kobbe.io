@@ -1,41 +1,64 @@
 ---
 /**
- * An agent creating a funnel through the Kobbe MCP: the request, then the
- * created funnel with its two steps.
+ * An agent creating a funnel through the Kobbe MCP: the request, the
+ * create_funnel tool call, then the created funnel with its two steps.
  */
-import { Tick02Icon } from "@hugeicons/core-free-icons";
+import {
+  MouseLeftClick01Icon,
+  RouteIcon,
+  Tick02Icon,
+} from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 const steps = [
-  { label: "/pricing", kind: "Pageview" },
-  { label: "Signup", kind: "Event" },
+  { label: "/pricing", icon: RouteIcon },
+  { label: "Signup", icon: MouseLeftClick01Icon },
 ];
 ---
 
-<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
-  <div class="bg-muted-surface rounded-md p-3 text-sm">
-    <p class="text-foreground font-medium">You</p>
-    <p class="text-muted-foreground mt-0.5 text-xs text-balance">
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg">
+  <div
+    class="border-border/60 flex items-center justify-between border-b px-4 pt-3.5 pb-3"
+  >
+    <span class="text-foreground text-sm font-medium">Chat</span>
+    <span class="text-muted-foreground flex items-center gap-1.5 text-xs">
+      <span class="bg-success size-1.5 rounded-full"></span>
+      kobbe mcp
+    </span>
+  </div>
+  <div class="flex flex-col gap-3 px-4 py-3.5 text-xs">
+    <p class="bg-muted-surface text-foreground self-end rounded-lg px-3 py-2">
       Create a funnel from /pricing to the Signup event.
     </p>
+    <p class="text-muted-foreground flex items-center gap-2">
+      <HugeiconsIcon
+        icon={Tick02Icon}
+        size={13}
+        strokeWidth={2}
+        className="text-success"
+      />
+      Ran <span class="text-foreground font-medium">create_funnel</span>
+    </p>
+    <div>
+      <p class="text-foreground text-sm font-medium">Funnel created.</p>
+      <ol class="mt-2 flex flex-col gap-2">
+        {
+          steps.map((step, index) => (
+            <li class="border-border/70 flex items-center gap-2 rounded-lg border px-2.5 py-2">
+              <span class="text-muted-foreground w-3 tabular-nums">
+                {index + 1}
+              </span>
+              <HugeiconsIcon
+                icon={step.icon}
+                size={14}
+                strokeWidth={1.8}
+                className="text-muted-foreground"
+              />
+              <span class="text-foreground">{step.label}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
   </div>
-  <p class="text-foreground mt-5 flex items-center gap-2 text-sm font-medium">
-    <span
-      class="bg-foreground text-background flex size-5 shrink-0 items-center justify-center rounded-full"
-    >
-      <HugeiconsIcon icon={Tick02Icon} size={12} strokeWidth={2.2} />
-    </span>
-    Funnel created
-  </p>
-  <ol class="mt-4 flex flex-col gap-2 text-xs">
-    {
-      steps.map((step, index) => (
-        <li class="flex items-center gap-3">
-          <span class="text-muted-foreground tabular-nums">{index + 1}</span>
-          <span class="text-foreground font-medium">{step.label}</span>
-          <span class="text-muted-foreground ml-auto">{step.kind}</span>
-        </li>
-      ))
-    }
-  </ol>
 </div>

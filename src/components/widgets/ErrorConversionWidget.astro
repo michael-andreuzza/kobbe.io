@@ -1,28 +1,42 @@
 ---
 /**
- * The JavaScript errors card once conversions are set up: its description
- * compares the conversion rate of visitors who hit an error with everyone
- * else, the same sentence the dashboard shows.
+ * A miniature of the JavaScript errors card once conversions are set up: its
+ * description compares the conversion rate of visitors who hit an error with
+ * everyone else, the same sentence the dashboard shows.
  */
-const stats = [
-  { label: "Hit an error", value: "1.2%" },
-  { label: "Everyone else", value: "4.8%" },
+const errors = [
+  { message: "Cannot read properties of undefined", visitors: "41" },
+  { message: "Failed to fetch", visitors: "17" },
 ];
 ---
 
-<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
-  <span class="text-foreground text-sm font-medium">JavaScript errors</span>
-  <span class="text-muted-foreground mt-0.5 text-xs">
-    Visitors who hit an error converted at 1.2%, vs 4.8% for everyone else
-  </span>
-  <dl class="mt-5 grid grid-cols-2 gap-2 text-xs">
-    {
-      stats.map((stat) => (
-        <div class="bg-muted-surface flex flex-col rounded-md p-3">
-          <dt class="text-muted-foreground">{stat.label}</dt>
-          <dd class="text-foreground mt-0.5 text-sm font-medium">{stat.value}</dd>
-        </div>
-      ))
-    }
-  </dl>
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg">
+  <div class="border-border/60 border-b px-4 pt-3.5 pb-3">
+    <span class="text-foreground block text-sm font-medium">
+      JavaScript errors
+    </span>
+    <span class="text-muted-foreground mt-0.5 block text-xs">
+      Visitors who hit an error converted at 1.2%, vs 4.8% for everyone else
+    </span>
+  </div>
+  <div class="px-4 pt-3 pb-4 text-xs">
+    <div class="text-muted-foreground flex gap-3 pb-2">
+      <span class="flex-1">Error</span>
+      <span class="w-12 text-right">Visitors</span>
+    </div>
+    <ul>
+      {
+        errors.map((error) => (
+          <li class="border-border/60 flex items-center gap-3 border-t py-2">
+            <span class="text-foreground min-w-0 flex-1 truncate font-medium">
+              {error.message}
+            </span>
+            <span class="text-foreground w-12 text-right tabular-nums">
+              {error.visitors}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
 </div>

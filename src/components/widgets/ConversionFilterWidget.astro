@@ -1,7 +1,8 @@
 ---
 /**
- * The dashboard narrowed to one conversion: the selected goal on top, then
- * the numbers for only the visitors who triggered it.
+ * A miniature of the dashboard narrowed to one conversion: the top bar's
+ * conversion filter set to Form submit, then the numbers for only the
+ * visitors who triggered it.
  */
 import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -13,25 +14,31 @@ const stats = [
 ];
 ---
 
-<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg p-5">
-  <span class="text-muted-foreground text-xs">Conversion</span>
-  <span
-    class="bg-muted-surface text-foreground mt-2 flex items-center justify-between rounded-md p-3 text-sm font-medium"
+<div class="bg-background shadow-panel-lifted flex w-72 flex-col rounded-lg">
+  <div
+    class="border-border/60 flex items-center justify-between border-b px-4 py-2.5"
   >
-    Form submit
-    <HugeiconsIcon
-      icon={ArrowDown01Icon}
-      size={14}
-      strokeWidth={2}
-      className="text-muted-foreground"
-    />
-  </span>
-  <dl class="mt-5 grid grid-cols-3 gap-2 text-xs">
+    <span class="text-foreground text-sm font-medium">kobbe.io</span>
+    <span
+      class="border-border text-foreground flex h-7 items-center gap-1.5 rounded-md border px-2.5 text-xs font-medium shadow-xs"
+    >
+      Form submit
+      <HugeiconsIcon
+        icon={ArrowDown01Icon}
+        size={12}
+        strokeWidth={1.8}
+        className="text-muted-foreground"
+      />
+    </span>
+  </div>
+  <dl class="grid grid-cols-3 gap-2 px-4 py-3.5 text-xs">
     {
       stats.map((stat) => (
         <div class="flex flex-col">
           <dt class="text-muted-foreground">{stat.label}</dt>
-          <dd class="text-foreground mt-0.5 font-medium">{stat.value}</dd>
+          <dd class="text-foreground mt-0.5 text-sm font-medium">
+            {stat.value}
+          </dd>
         </div>
       ))
     }
