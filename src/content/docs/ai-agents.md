@@ -64,9 +64,11 @@ MCP tools include:
 | `get_next_actions`  | Ask Kobbe for suggested follow-up work.                                |
 | `create_site`       | Create a new site when the token has write access.                     |
 | `update_site`       | Update site details when the token has write access.                   |
-| `rotate_site_token` | Rotate a site tracker token.                                           |
+| `rotate_site_token` | Rotate a site tracker token. Off unless enabled, see below.            |
 | `delete_site`       | Delete a site with dangerous write access and confirmation.            |
 | `reset_site_stats`  | Reset analytics data with dangerous write access and confirmation.     |
+
+`rotate_site_token`, `delete_site`, and `reset_site_stats` are off by default in MCP mode, so text inside your analytics data (page paths, referrers, event names) can never trigger them. To turn them on, add `"env": { "KOBBE_MCP_ALLOW_DESTRUCTIVE": "1" }` to the Kobbe server entry in your MCP client.
 
 ## Token scopes
 
@@ -78,7 +80,7 @@ Scopes:
 | ---------------- | -------------------------------------------------------------- |
 | `sites:read`     | List and inspect sites.                                        |
 | `analytics:read` | Read overview, time-series, pages, sources, breakdowns, custom events, goals, funnels, campaigns, setup health, and next actions. |
-| `revenue:read`   | Read revenue totals and attribution health.                    |
+| `revenue:read`   | Read revenue totals and attribution health, including revenue in overview, setup health, and next actions. |
 | `sites:write`    | Create or update sites, goals, and funnels.                    |
 | `tokens:write`   | Rotate tracker tokens.                                         |
 | `danger:write`   | Delete sites or reset analytics data.                          |
@@ -91,6 +93,7 @@ Kobbe API tokens are management credentials. Treat them like passwords.
 - Revoke tokens when an agent, machine, or project no longer needs access.
 - Use the smallest scope set that works.
 - Destructive actions still require typed confirmation, even when the token has `danger:write`.
+- New tokens leave `tokens:write` and `danger:write` unticked. Only add them for agents that need them.
 - Site tracker tokens are separate from API tokens. A tracker token can send analytics events, but it cannot manage a workspace.
 
 ## Good prompts

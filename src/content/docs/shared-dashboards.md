@@ -43,6 +43,8 @@ Shared links show the site overview dashboard only:
 - KPI strip and traffic chart for the selected date range
 - Pages, sources, locations, devices, and custom event breakdowns
 
+Revenue and Google Search Console terms are hidden by default. Turn on **Show revenue** or **Show search terms** in the Public dashboard settings to include them. Regenerating the link keeps these choices.
+
 Settings, billing, token management, exports, exclusions, realtime, and funnel editing are never available from a shared link.
 
 ## Managing access
@@ -52,6 +54,8 @@ Settings, billing, token management, exports, exclusions, realtime, and funnel e
 | **Regenerate** | Create a new URL and invalidate the old one.   |
 | **Save**       | Update when the current link expires.          |
 | **Password**   | Require a password before the dashboard opens. |
+| **Show revenue** | Include revenue totals and the revenue chart line. |
+| **Show search terms** | Include the Google Search Console terms card. |
 | **Revoke**     | Disable public access entirely.                |
 
 ## Security
