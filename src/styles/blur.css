@@ -43,6 +43,7 @@
 .progressive-blur-bottom > div {
   position: absolute;
   inset: 0;
+  border-radius: inherit;
 }
 
 /* Stacked backdrop blurs with staggered gradient masks: each layer only
