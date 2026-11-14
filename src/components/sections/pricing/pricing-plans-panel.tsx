@@ -44,7 +44,7 @@ export function PricingPlansPanel({
             )}
           >
             <span className="text-foreground text-sm font-medium">
-              {tier.events} events
+              {tier.events} events/mo
             </span>
             <PricingPriceDisplay
               period={period}
