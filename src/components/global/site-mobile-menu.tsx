@@ -34,7 +34,7 @@ const docsPageLinks = siteNavLinks.filter(
 
 /**
  * Mobile navigation, mirroring the desktop pills: a brand pill (logo chip +
- * Menu trigger) on the left and a Sign in / Start free pill on the right.
+ * Menu trigger) on the left and a Pricing / Sign in / Start free pill on the right.
  * The Menu trigger opens a full-height dark sheet with the same sections as
  * the desktop mega menu: product, docs pages, and the platform guide grids,
  * plus the Pricing and Live demo links from the desktop nav pill.
@@ -239,8 +239,14 @@ export function SiteMobileMenu({ className, children }: SiteMobileMenuProps) {
 
         <div className="bg-muted-surface flex items-center gap-1 rounded-lg p-1 text-sm">
           <a
-            href={APP_SIGNIN_URL}
+            href="/#pricing"
             className="text-foreground py-1.5 pr-1.5 pl-2.5 font-medium transition-opacity hover:opacity-70"
+          >
+            Pricing
+          </a>
+          <a
+            href={APP_SIGNIN_URL}
+            className="text-foreground px-1.5 py-1.5 font-medium transition-opacity hover:opacity-70"
           >
             Sign in
           </a>

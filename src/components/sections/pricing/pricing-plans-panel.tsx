@@ -34,7 +34,11 @@ export function PricingPlansPanel({
         className="shrink-0"
       />
 
-      <ul className="mt-6 list-none" role="list">
+      <div className="text-muted-foreground mt-6 flex justify-between gap-4 text-xs">
+        <span>Events per month</span>
+        <span>{period === "yearly" ? "Billed yearly" : "Billed monthly"}</span>
+      </div>
+      <ul className="mt-2 list-none" role="list">
         {pricingTiers.map((tier, i) => (
           <li
             key={tier.key}
@@ -43,8 +47,9 @@ export function PricingPlansPanel({
               i > 0 && "border-t",
             )}
           >
-            <span className="text-foreground text-sm font-medium">
-              {tier.events} events/mo
+            <span className="text-foreground text-base font-medium sm:text-lg">
+              {tier.events}
+              <span className="sr-only"> events per month</span>
             </span>
             <PricingPriceDisplay
               period={period}
