@@ -2,6 +2,7 @@ export type BillingPeriod = "monthly" | "yearly";
 
 export type PricingTierKey =
   | "events_100k"
+  | "events_250k"
   | "events_500k"
   | "events_1m"
   | "events_3m"
@@ -29,6 +30,14 @@ export const pricingTiers = [
     monthly: 9,
     yearlyMonthly: 8,
     yearly: 90,
+  },
+  {
+    key: "events_250k",
+    events: "250K",
+    eventsCount: 250_000,
+    monthly: 12,
+    yearlyMonthly: 10,
+    yearly: 120,
   },
   {
     key: "events_500k",
@@ -95,6 +104,7 @@ export const PRICING_DATA_RETENTION_YEARS = 3;
 /** Per-tier retention labels (uniform today; keyed for future tiering). */
 export const TIER_DATA_RETENTION_YEARS = {
   events_100k: PRICING_DATA_RETENTION_YEARS,
+  events_250k: PRICING_DATA_RETENTION_YEARS,
   events_500k: PRICING_DATA_RETENTION_YEARS,
   events_1m: PRICING_DATA_RETENTION_YEARS,
   events_3m: PRICING_DATA_RETENTION_YEARS,

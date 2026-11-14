@@ -18,7 +18,7 @@ The only thing that changes as you move the slider is the monthly event cap. Eve
 
 Paid plans include up to 30 websites per workspace.
 
-The slider steps through 100K, 500K, 1M, 3M, 5M, and 10M monthly events so you can upgrade gradually.
+The slider steps through 100K, 250K, 500K, 1M, 3M, 5M, and 10M monthly events so you can upgrade gradually.
 
 Yearly billing saves 2 months compared to paying monthly at every tier. Need more than 10 million monthly events? Email support and we can help you pick the right setup.
 
